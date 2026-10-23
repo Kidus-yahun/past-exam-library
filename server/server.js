@@ -425,6 +425,62 @@ app.delete('/api/exams/:id', authenticateToken, requireAdmin, (req, res) => {
 });
 
 /* ========================================================
+   INTERACTIVE PRACTICE QUESTIONS ROUTES
+======================================================== */
+
+// Get practice questions with filters
+app.get('/api/practice', (req, res) => {
+    try {
+        const { grade, subject, semester, examType, search } = req.query;
+        const questions = db.getQuestions({ grade, subject, semester, examType, search });
+        res.json({ success: true, count: questions.length, questions });
+    } catch (err) {
+        res.status(500).json({ success: false, message: err.message });
+    }
+});
+
+// Add a practice question (Admin only)
+app.post('/api/practice/questions', authenticateToken, requireAdmin, (req, res) => {
+    try {
+        const { grade, subject, semester, examType, question, options, correctAnswer, explanation, points } = req.body;
+
+        if (!grade || !subject || !question || !options || options.length < 2) {
+            return res.status(400).json({ success: false, message: 'Grade, subject, question, and at least 2 options are required' });
+        }
+
+        const newQ = db.addQuestion({
+            grade,
+            subject,
+            semester,
+            examType,
+            question,
+            options,
+            correctAnswer: parseInt(correctAnswer) || 0,
+            explanation,
+            points: parseInt(points) || 1
+        });
+
+        res.status(201).json({ success: true, message: 'Question created successfully', question: newQ });
+    } catch (err) {
+        res.status(500).json({ success: false, message: err.message });
+    }
+});
+
+// Delete a practice question (Admin only)
+app.delete('/api/practice/questions/:id', authenticateToken, requireAdmin, (req, res) => {
+    try {
+        const { id } = req.params;
+        const deleted = db.deleteQuestion(id);
+        if (!deleted) {
+            return res.status(404).json({ success: false, message: 'Question not found' });
+        }
+        res.json({ success: true, message: 'Question deleted successfully', question: deleted });
+    } catch (err) {
+        res.status(500).json({ success: false, message: err.message });
+    }
+});
+
+/* ========================================================
    ADMIN METRICS ROUTE
 ======================================================== */
 app.get('/api/stats', authenticateToken, requireAdmin, (req, res) => {

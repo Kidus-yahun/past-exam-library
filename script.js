@@ -435,6 +435,13 @@ async function showAdminDashboard() {
                         <div class="stat-label">Registered Users</div>
                     </div>
                 </div>
+                <div class="stat-card">
+                    <div class="stat-icon">🎯</div>
+                    <div>
+                        <div class="stat-value" id="stat-questions">...</div>
+                        <div class="stat-label">Practice Questions</div>
+                    </div>
+                </div>
             </div>
 
             <!-- Dashboard Navigation Tabs -->
@@ -442,6 +449,10 @@ async function showAdminDashboard() {
                 <button class="admin-tab ${activeTab === 'exams' ? 'active' : ''}" 
                         onclick="switchAdminTab('exams')">
                     📄 Manage Exam Papers
+                </button>
+                <button class="admin-tab ${activeTab === 'questions' ? 'active' : ''}" 
+                        onclick="switchAdminTab('questions')">
+                    🎯 Practice Questions
                 </button>
                 <button class="admin-tab ${activeTab === 'categories' ? 'active' : ''}" 
                         onclick="switchAdminTab('categories')">
@@ -466,6 +477,8 @@ async function showAdminDashboard() {
     // Render active tab content
     if (activeTab === 'exams') {
         renderAdminExamsTab();
+    } else if (activeTab === 'questions') {
+        renderAdminQuestionsTab();
     } else if (activeTab === 'categories') {
         renderAdminCategoriesTab();
     } else if (activeTab === 'overview') {
@@ -490,6 +503,9 @@ async function loadAdminStats() {
             document.getElementById('stat-grades').textContent = s.totalGrades;
             document.getElementById('stat-subjects').textContent = s.totalSubjects;
             document.getElementById('stat-users').textContent = s.totalUsers;
+            if (document.getElementById('stat-questions')) {
+                document.getElementById('stat-questions').textContent = s.totalQuestions || 0;
+            }
         }
     } catch (e) {
         console.warn('Failed to load stats', e);
@@ -1081,6 +1097,308 @@ async function handleDeleteSubject(gradeId, subjectName) {
     }
 }
 
+/* 2B.2: Manage Practice Questions Tab */
+async function renderAdminQuestionsTab() {
+    const container = document.getElementById('admin-tab-content');
+    container.innerHTML = `
+        <div class="admin-section">
+            <div class="section-top">
+                <h3>Interactive Practice Questions</h3>
+                <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                    <select id="admin-q-grade" onchange="filterAdminQuestions()" class="btn-secondary" style="padding: 8px 12px;">
+                        <option value="">All Grades</option>
+                        ${state.categories.grades.map(g => `<option value="${g.id}">${g.name}</option>`).join('')}
+                    </select>
+
+                    <input type="text" id="admin-q-search" oninput="filterAdminQuestions()" 
+                           placeholder="Search questions or subject..." 
+                           class="btn-secondary" style="padding: 8px 12px; width: 220px;">
+                    
+                    <button class="btn-primary" onclick="openAddQuestionModal()" style="width: auto; padding: 8px 14px;">
+                        + Add Question
+                    </button>
+                </div>
+            </div>
+
+            <div id="admin-questions-table-container">
+                <p style="color: var(--text-muted); padding: 20px 0;">Loading questions...</p>
+            </div>
+        </div>
+    `;
+
+    loadAdminQuestionsList();
+}
+
+let cachedQuestions = [];
+
+async function loadAdminQuestionsList() {
+    const tableContainer = document.getElementById('admin-questions-table-container');
+    try {
+        const res = await fetch('/api/practice');
+        const data = await res.json();
+        cachedQuestions = data.questions || [];
+        renderQuestionsTable(cachedQuestions);
+    } catch (err) {
+        tableContainer.innerHTML = `<p style="color: var(--accent-rose);">Failed to load questions: ${err.message}</p>`;
+    }
+}
+
+function filterAdminQuestions() {
+    const grade = document.getElementById('admin-q-grade')?.value || '';
+    const qSearch = (document.getElementById('admin-q-search')?.value || '').toLowerCase();
+
+    let filtered = cachedQuestions;
+    if (grade) filtered = filtered.filter(q => q.grade === grade);
+    if (qSearch) {
+        filtered = filtered.filter(q => 
+            q.question.toLowerCase().includes(qSearch) || 
+            q.subject.toLowerCase().includes(qSearch)
+        );
+    }
+    renderQuestionsTable(filtered);
+}
+
+function renderQuestionsTable(questions) {
+    const container = document.getElementById('admin-questions-table-container');
+    if (!container) return;
+
+    if (questions.length === 0) {
+        container.innerHTML = `
+            <div style="text-align: center; padding: 40px 20px; color: var(--text-muted);">
+                <div style="font-size: 36px; margin-bottom: 10px;">🎯</div>
+                <h4>No practice questions found</h4>
+                <p>Click "+ Add Question" to create your first interactive multiple-choice question.</p>
+            </div>
+        `;
+        return;
+    }
+
+    const letters = ['A', 'B', 'C', 'D'];
+
+    container.innerHTML = `
+        <div class="table-container">
+            <table class="custom-table">
+                <thead>
+                    <tr>
+                        <th>Question</th>
+                        <th>Grade</th>
+                        <th>Subject</th>
+                        <th>Options</th>
+                        <th>Correct</th>
+                        <th style="text-align: right;">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    ${questions.map(q => `
+                        <tr>
+                            <td style="max-width: 320px;">
+                                <strong>${q.question}</strong>
+                                ${q.explanation ? `<div style="font-size: 12px; color: var(--text-dim); margin-top: 4px;">💡 ${q.explanation.substring(0, 70)}...</div>` : ''}
+                            </td>
+                            <td><span class="badge badge-blue">${q.grade}</span></td>
+                            <td><span class="badge badge-green">${q.subject}</span></td>
+                            <td>${(q.options || []).length} Options</td>
+                            <td><span class="badge badge-amber">${letters[q.correctAnswer] || (q.correctAnswer + 1)}</span></td>
+                            <td style="text-align: right;">
+                                <button class="btn-icon danger" onclick="confirmDeleteQuestion('${q.id}', '${escapeQuotes(q.question.substring(0, 40))}')" title="Delete Question">
+                                    🗑️
+                                </button>
+                            </td>
+                        </tr>
+                    `).join('')}
+                </tbody>
+            </table>
+        </div>
+    `;
+}
+
+function openAddQuestionModal() {
+    const grades = state.categories.grades;
+    const defaultGrade = grades[0]?.id || 'Grade12';
+    const gradeSubjects = state.categories.subjects[defaultGrade] || [];
+
+    const bodyHtml = `
+        <form id="add-question-form" onsubmit="handleAddQuestion(event)">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
+                <div class="auth-form-group">
+                    <label>Grade *</label>
+                    <select id="new-q-grade" onchange="updateQuestionModalSubjects()" required>
+                        ${grades.map(g => `<option value="${g.id}">${g.name}</option>`).join('')}
+                    </select>
+                </div>
+
+                <div class="auth-form-group">
+                    <label>Subject *</label>
+                    <select id="new-q-subject" required>
+                        ${gradeSubjects.map(s => `<option value="${s}">${s}</option>`).join('')}
+                    </select>
+                </div>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
+                <div class="auth-form-group">
+                    <label>Semester</label>
+                    <select id="new-q-semester">
+                        <option value="Semester1">Semester 1</option>
+                        <option value="Semester2">Semester 2</option>
+                        <option value="Pretest">Pre-test</option>
+                        <option value="Model">Model Exam</option>
+                    </select>
+                </div>
+
+                <div class="auth-form-group">
+                    <label>Exam Type</label>
+                    <select id="new-q-examtype">
+                        <option value="Final">Final</option>
+                        <option value="Mid1">Mid 1</option>
+                        <option value="Mid2">Mid 2</option>
+                        <option value="Pretest">Pre-test</option>
+                        <option value="Model">Model</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="auth-form-group">
+                <label>Question Text *</label>
+                <textarea id="new-q-text" required placeholder="Enter the examination question problem statement..." 
+                          style="width: 100%; padding: 12px; border-radius: var(--radius-sm); border: 1px solid var(--border-glass); background: rgba(11, 16, 31, 0.7); color: #ffffff; min-height: 80px; font-family: inherit; font-size: 14px;"></textarea>
+            </div>
+
+            <div class="auth-form-group">
+                <label>Multiple Choice Options *</label>
+                <div style="display: flex; flex-direction: column; gap: 8px;">
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <span style="width: 25px; font-weight: bold; color: #a5b4fc;">A:</span>
+                        <input type="text" id="new-q-opt-0" required placeholder="Option A text">
+                        <input type="radio" name="new-q-correct" value="0" checked title="Mark as correct">
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <span style="width: 25px; font-weight: bold; color: #a5b4fc;">B:</span>
+                        <input type="text" id="new-q-opt-1" required placeholder="Option B text">
+                        <input type="radio" name="new-q-correct" value="1" title="Mark as correct">
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <span style="width: 25px; font-weight: bold; color: #a5b4fc;">C:</span>
+                        <input type="text" id="new-q-opt-2" required placeholder="Option C text">
+                        <input type="radio" name="new-q-correct" value="2" title="Mark as correct">
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <span style="width: 25px; font-weight: bold; color: #a5b4fc;">D:</span>
+                        <input type="text" id="new-q-opt-3" required placeholder="Option D text">
+                        <input type="radio" name="new-q-correct" value="3" title="Mark as correct">
+                    </div>
+                </div>
+                <p style="font-size: 12px; color: var(--text-dim); margin-top: 6px;">Select the radio button beside the correct answer.</p>
+            </div>
+
+            <div class="auth-form-group">
+                <label>Explanation & Solution Hint</label>
+                <textarea id="new-q-explanation" placeholder="Provide step-by-step reasoning or formula breakdown shown during review..." 
+                          style="width: 100%; padding: 10px; border-radius: var(--radius-sm); border: 1px solid var(--border-glass); background: rgba(11, 16, 31, 0.7); color: #ffffff; min-height: 60px; font-family: inherit; font-size: 13.5px;"></textarea>
+            </div>
+
+            <button type="submit" class="btn-primary" id="btn-save-question">
+                Save & Publish Practice Question →
+            </button>
+        </form>
+    `;
+
+    showModal('Add Interactive Practice Question', bodyHtml);
+}
+
+function updateQuestionModalSubjects() {
+    const gradeSelect = document.getElementById('new-q-grade');
+    const subSelect = document.getElementById('new-q-subject');
+    if (!gradeSelect || !subSelect) return;
+
+    const subjects = state.categories.subjects[gradeSelect.value] || [];
+    subSelect.innerHTML = subjects.map(s => `<option value="${s}">${s}</option>`).join('');
+}
+
+async function handleAddQuestion(e) {
+    e.preventDefault();
+    const btn = document.getElementById('btn-save-question');
+    btn.disabled = true;
+    btn.innerHTML = 'Saving question...';
+
+    const grade = document.getElementById('new-q-grade').value;
+    const subject = document.getElementById('new-q-subject').value;
+    const semester = document.getElementById('new-q-semester').value;
+    const examType = document.getElementById('new-q-examtype').value;
+    const question = document.getElementById('new-q-text').value.trim();
+    const options = [
+        document.getElementById('new-q-opt-0').value.trim(),
+        document.getElementById('new-q-opt-1').value.trim(),
+        document.getElementById('new-q-opt-2').value.trim(),
+        document.getElementById('new-q-opt-3').value.trim()
+    ];
+    const correctRadio = document.querySelector('input[name="new-q-correct"]:checked');
+    const correctAnswer = parseInt(correctRadio ? correctRadio.value : 0);
+    const explanation = document.getElementById('new-q-explanation').value.trim();
+
+    try {
+        const res = await fetch('/api/practice/questions', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${state.token}`
+            },
+            body: JSON.stringify({
+                grade, subject, semester, examType, question, options, correctAnswer, explanation, points: 1
+            })
+        });
+        const data = await res.json();
+        if (res.ok && data.success) {
+            showToast('Practice question added successfully!', 'success');
+            closeModal();
+            loadAdminStats();
+            loadAdminQuestionsList();
+        } else {
+            showToast(data.message || 'Failed to add question', 'error');
+            btn.disabled = false;
+            btn.innerHTML = 'Save & Publish Practice Question →';
+        }
+    } catch (err) {
+        showToast('Error saving question: ' + err.message, 'error');
+        btn.disabled = false;
+        btn.innerHTML = 'Save & Publish Practice Question →';
+    }
+}
+
+function confirmDeleteQuestion(id, title) {
+    const bodyHtml = `
+        <p>Are you sure you want to delete this practice question?</p>
+        <div style="margin: 14px 0; padding: 12px; background: rgba(239, 68, 68, 0.2); border-radius: 8px; color: #fca5a5; font-size: 14px;">
+            ${title}...
+        </div>
+    `;
+    const footerHtml = `
+        <button class="btn-secondary" onclick="closeModal()">Cancel</button>
+        <button class="btn-primary" style="background: var(--accent-rose);" onclick="deleteQuestion('${id}')">Yes, Delete Question</button>
+    `;
+    showModal('Delete Question', bodyHtml, footerHtml);
+}
+
+async function deleteQuestion(id) {
+    try {
+        const res = await fetch(`/api/practice/questions/${id}`, {
+            method: 'DELETE',
+            headers: { 'Authorization': `Bearer ${state.token}` }
+        });
+        const data = await res.json();
+        if (res.ok && data.success) {
+            showToast('Question deleted', 'success');
+            closeModal();
+            loadAdminStats();
+            loadAdminQuestionsList();
+        } else {
+            showToast(data.message || 'Delete failed', 'error');
+        }
+    } catch (e) {
+        showToast('Error deleting question', 'error');
+    }
+}
+
 /* 2C: System Overview Tab */
 function renderAdminOverviewTab() {
     const container = document.getElementById('admin-tab-content');
@@ -1384,6 +1702,14 @@ function showNationalExamCategory(category) {
     `;
 }
 
+let selectedHubMode = 'practice';
+
+function setHubMode(mode) {
+    selectedHubMode = mode;
+    document.getElementById('mode-opt-practice')?.classList.toggle('active', mode === 'practice');
+    document.getElementById('mode-opt-timed')?.classList.toggle('active', mode === 'timed');
+}
+
 async function openSubjectExam(grade, semester, examType, subject) {
     let filePath = '';
     let examTitle = `${grade} ${subject} ${examType}`;
@@ -1399,6 +1725,14 @@ async function openSubjectExam(grade, semester, examType, subject) {
         console.warn('Fallback to standard path convention', e);
     }
 
+    if (!filePath) {
+        if (examType === "Pretest" || examType === "Model") {
+            filePath = `/exams/${grade}/${examType}/${subject}.pdf`;
+        } else {
+            filePath = `/exams/${grade}/${semester}/${examType}/${subject}.pdf`;
+        }
+    }
+
     const backFn = () => {
         if (semester === 'Pretest' || semester === 'Model') {
             showNationalExamCategory(semester);
@@ -1407,12 +1741,540 @@ async function openSubjectExam(grade, semester, examType, subject) {
         }
     };
 
-    if (!filePath) {
-        renderExamNotFound(examTitle, `${grade} • ${semester} • ${examType}`, grade, semester, examType, subject, backFn);
+    // Open Dual Exam Hub: Interactive Practice Mode + Official PDF & Download!
+    showExamHub(grade, semester, examType, subject, filePath, examTitle, backFn);
+}
+
+async function showExamHub(grade, semester, examType, subject, filePath, examTitle, backFn) {
+    window._lastBackFn = backFn;
+
+    let questionCount = 0;
+    try {
+        const res = await fetch(`/api/practice?grade=${grade}&subject=${encodeURIComponent(subject)}`);
+        const data = await res.json();
+        questionCount = (data.questions || []).length;
+    } catch (e) {}
+
+    app.innerHTML = `
+        <button class="back-button" onclick="window._lastBackFn ? window._lastBackFn() : showLibraryHome()">
+            ← Back to subjects
+        </button>
+
+        <div class="page-title">
+            <h2>${subject}</h2>
+            <p>${grade} • ${semester} • ${examType}</p>
+        </div>
+
+        <div class="exam-hub-grid">
+            <!-- Left Card: Interactive Practice -->
+            <div class="hub-card hub-card-featured">
+                <span class="hub-badge hub-badge-interactive">✨ Interactive Testing</span>
+                <h3 style="font-size: 24px; color: #ffffff; margin-bottom: 8px;">Online Practice Mode</h3>
+                <p style="color: var(--text-muted); font-size: 14.5px; line-height: 1.6;">
+                    Practice real examination questions interactively on the site with instant feedback and score reports.
+                </p>
+
+                <div class="mode-selector">
+                    <div class="mode-option ${selectedHubMode === 'practice' ? 'active' : ''}" id="mode-opt-practice" onclick="setHubMode('practice')">
+                        <div class="mode-radio"></div>
+                        <div>
+                            <div style="font-weight: 700; color: #ffffff; font-size: 15px;">⚡ Instant Practice Mode</div>
+                            <div style="font-size: 12.5px; color: var(--text-muted); margin-top: 2px;">
+                                Check answers immediately after each question with detailed explanations.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mode-option ${selectedHubMode === 'timed' ? 'active' : ''}" id="mode-opt-timed" onclick="setHubMode('timed')">
+                        <div class="mode-radio"></div>
+                        <div>
+                            <div style="font-weight: 700; color: #ffffff; font-size: 15px;">⏱️ Timed Exam Simulation</div>
+                            <div style="font-size: 12.5px; color: var(--text-muted); margin-top: 2px;">
+                                Real test conditions with live countdown timer and verified final score report.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="display: flex; align-items: center; justify-content: space-between; margin-top: auto; padding-top: 18px; border-top: 1px solid var(--border-glass);">
+                    <span style="font-size: 13px; color: #c084fc; font-weight: 600;">
+                        📚 ${questionCount > 0 ? `${questionCount} Interactive Questions Available` : 'Interactive Question Bank'}
+                    </span>
+                    <button class="btn-primary" style="width: auto; padding: 12px 24px;" 
+                            onclick="startPracticeSession('${grade}', '${semester}', '${examType}', '${escapeQuotes(subject)}', selectedHubMode, '${escapeQuotes(examTitle)}', '${filePath}', window._lastBackFn)">
+                        Start Practicing Now →
+                    </button>
+                </div>
+            </div>
+
+            <!-- Right Card: PDF Download & Preview -->
+            <div class="hub-card">
+                <span class="hub-badge hub-badge-pdf">📄 Original Paper</span>
+                <h3 style="font-size: 22px; color: #ffffff; margin-bottom: 8px;">Exam Document (PDF)</h3>
+                <p style="color: var(--text-muted); font-size: 14px; line-height: 1.6; margin-bottom: 24px;">
+                    Download the official past paper for offline study, or preview the complete document online.
+                </p>
+
+                <div style="display: flex; flex-direction: column; gap: 12px; margin-top: auto;">
+                    <a href="${filePath}" target="_blank" download class="btn-primary" style="text-decoration: none; text-align: center;">
+                        ⬇️ Download Official PDF Paper
+                    </a>
+                    <button class="btn-secondary" style="justify-content: center; padding: 12px;" 
+                            onclick="renderExamViewer('${escapeQuotes(examTitle)}', '${grade} • ${semester} • ${examType}', '${filePath}', () => showExamHub('${grade}', '${semester}', '${examType}', '${escapeQuotes(subject)}', '${filePath}', '${escapeQuotes(examTitle)}', window._lastBackFn))">
+                        👁️ Preview PDF Document
+                    </button>
+                </div>
+            </div>
+        </div>
+    `;
+}
+
+let currentQuiz = {
+    grade: '',
+    semester: '',
+    examType: '',
+    subject: '',
+    mode: 'practice',
+    examTitle: '',
+    filePath: '',
+    backFn: null,
+    questions: [],
+    currentIndex: 0,
+    answers: {},
+    checked: {},
+    flagged: {},
+    startTime: null,
+    timeRemaining: 1200,
+    timerInterval: null
+};
+
+async function startPracticeSession(grade, semester, examType, subject, mode, examTitle, filePath, backFn) {
+    if (currentQuiz.timerInterval) clearInterval(currentQuiz.timerInterval);
+
+    showToast('Loading practice questions...', 'info');
+
+    let questions = [];
+    try {
+        let res = await fetch(`/api/practice?grade=${grade}&subject=${encodeURIComponent(subject)}&examType=${examType}`);
+        let data = await res.json();
+        questions = data.questions || [];
+
+        if (questions.length === 0) {
+            res = await fetch(`/api/practice?grade=${grade}&subject=${encodeURIComponent(subject)}`);
+            data = await res.json();
+            questions = data.questions || [];
+        }
+
+        if (questions.length === 0) {
+            res = await fetch(`/api/practice?subject=${encodeURIComponent(subject)}`);
+            data = await res.json();
+            questions = data.questions || [];
+        }
+    } catch (e) {
+        console.warn('Practice fetch error', e);
+    }
+
+    if (questions.length === 0) {
+        showToast('No interactive questions added yet for this subject. Opening PDF document.', 'info');
+        renderExamViewer(examTitle, `${grade} • ${semester} • ${examType}`, filePath, backFn);
         return;
     }
 
-    renderExamViewer(examTitle, `${grade} • ${semester} • ${examType}`, filePath, backFn);
+    currentQuiz = {
+        grade,
+        semester,
+        examType,
+        subject,
+        mode: mode || 'practice',
+        examTitle,
+        filePath,
+        backFn,
+        questions,
+        currentIndex: 0,
+        answers: {},
+        checked: {},
+        flagged: {},
+        startTime: Date.now(),
+        timeRemaining: Math.max(questions.length * 90, 600),
+        timerInterval: null
+    };
+
+    if (currentQuiz.mode === 'timed') {
+        currentQuiz.timerInterval = setInterval(() => {
+            currentQuiz.timeRemaining--;
+            updateTimerDisplay();
+            if (currentQuiz.timeRemaining <= 0) {
+                clearInterval(currentQuiz.timerInterval);
+                showToast('Time is up! Submitting exam...', 'info');
+                finishQuiz();
+            }
+        }, 1000);
+    }
+
+    renderQuizScreen();
+}
+
+function renderQuizScreen() {
+    const q = currentQuiz.questions[currentQuiz.currentIndex];
+    const total = currentQuiz.questions.length;
+    const progress = Math.round(((currentQuiz.currentIndex + 1) / total) * 100);
+    const selected = currentQuiz.answers[q.id];
+    const isChecked = currentQuiz.checked[q.id];
+    const isFlagged = currentQuiz.flagged[q.id];
+    const isTimed = currentQuiz.mode === 'timed';
+
+    const letters = ['A', 'B', 'C', 'D', 'E', 'F'];
+
+    app.innerHTML = `
+        <div class="quiz-runner-container">
+            <!-- Top Action & Progress Bar -->
+            <div class="quiz-top-bar">
+                <div style="display: flex; align-items: center; gap: 12px;">
+                    <button class="btn-secondary" style="padding: 7px 12px; font-size: 13px;" onclick="confirmExitQuiz()">
+                        ← Exit
+                    </button>
+                    <div>
+                        <strong style="color: #ffffff; font-size: 15px;">${currentQuiz.subject}</strong>
+                        <span style="font-size: 12px; color: var(--text-muted); margin-left: 6px;">(${currentQuiz.grade} • ${currentQuiz.examType})</span>
+                    </div>
+                </div>
+
+                <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+                    ${isTimed ? `
+                        <div class="quiz-timer-pill" id="quiz-timer-display">
+                            ⏱️ ${formatTime(currentQuiz.timeRemaining)}
+                        </div>
+                    ` : `
+                        <span class="hub-badge hub-badge-interactive" style="margin: 0;">⚡ Practice Mode</span>
+                    `}
+
+                    <a href="${currentQuiz.filePath}" target="_blank" download class="btn-secondary" style="padding: 7px 12px; font-size: 13px;" title="Download PDF">
+                        ⬇️ PDF
+                    </a>
+
+                    ${isTimed ? `
+                        <button class="btn-secondary" style="padding: 7px 12px; font-size: 13px; color: ${isFlagged ? '#f59e0b' : 'var(--text-muted)'};" onclick="toggleQuizFlag('${q.id}')">
+                            ${isFlagged ? '🚩 Flagged' : '🏳️ Flag'}
+                        </button>
+                        <button class="btn-primary" style="width: auto; padding: 7px 16px; font-size: 13px;" onclick="confirmSubmitTimedExam()">
+                            Submit Exam
+                        </button>
+                    ` : ''}
+                </div>
+            </div>
+
+            <div class="quiz-progress-track">
+                <div class="quiz-progress-bar" style="width: ${progress}%;"></div>
+            </div>
+
+            <!-- Question Card -->
+            <div class="quiz-card">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
+                    <span class="question-number-badge">Question ${currentQuiz.currentIndex + 1} of ${total}</span>
+                    <span style="font-size: 13px; color: var(--text-dim);">${q.points || 1} Point${(q.points || 1) > 1 ? 's' : ''}</span>
+                </div>
+
+                <div class="question-text">
+                    ${q.question}
+                </div>
+
+                <div class="options-grid">
+                    ${q.options.map((opt, idx) => {
+                        let optClass = 'option-btn';
+                        if (selected === idx) optClass += ' selected';
+                        if (isChecked) {
+                            if (idx === q.correctAnswer) optClass += ' correct';
+                            else if (selected === idx) optClass += ' incorrect';
+                        }
+
+                        return `
+                            <button type="button" class="${optClass}" onclick="selectQuizOption('${q.id}', ${idx})" ${isChecked ? 'disabled' : ''}>
+                                <div class="option-letter">${letters[idx] || (idx + 1)}</div>
+                                <span>${opt}</span>
+                            </button>
+                        `;
+                    }).join('')}
+                </div>
+
+                <!-- Explanation Box in Practice Mode -->
+                ${isChecked ? `
+                    <div class="explanation-box">
+                        <div class="explanation-title">
+                            ${selected === q.correctAnswer ? '🎉 Correct Answer!' : '💡 Explanation'}
+                        </div>
+                        <div class="explanation-text">
+                            ${q.explanation || 'The correct option is ' + letters[q.correctAnswer] + ': ' + q.options[q.correctAnswer]}
+                        </div>
+                    </div>
+                ` : ''}
+
+                <!-- Bottom Question Navigation Buttons -->
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 32px; padding-top: 20px; border-top: 1px solid var(--border-glass);">
+                    <button class="btn-secondary" onclick="prevQuizQuestion()" ${currentQuiz.currentIndex === 0 ? 'disabled style="opacity: 0.4;"' : ''}>
+                        ← Previous
+                    </button>
+
+                    <div style="display: flex; gap: 10px;">
+                        ${!isTimed && !isChecked ? `
+                            <button class="btn-primary" style="width: auto; padding: 10px 22px;" onclick="checkCurrentAnswer('${q.id}')" ${selected === undefined ? 'disabled style="opacity: 0.5;"' : ''}>
+                                Check Answer ✓
+                            </button>
+                        ` : ''}
+
+                        ${currentQuiz.currentIndex < total - 1 ? `
+                            <button class="btn-primary" style="width: auto; padding: 10px 22px;" onclick="nextQuizQuestion()">
+                                Next Question →
+                            </button>
+                        ` : `
+                            <button class="btn-primary" style="width: auto; padding: 10px 22px; background: linear-gradient(135deg, #059669, #10b981);" onclick="finishQuiz()">
+                                View Results & Score 🏆
+                            </button>
+                        `}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question Palette in Timed Mode -->
+            ${isTimed ? `
+                <div class="admin-section" style="padding: 20px 26px;">
+                    <div style="font-size: 13px; font-weight: 700; color: #cbd5e1; margin-bottom: 10px;">Question Navigator</div>
+                    <div class="question-palette-grid">
+                        ${currentQuiz.questions.map((ques, idx) => {
+                            let pClass = 'palette-btn';
+                            if (idx === currentQuiz.currentIndex) pClass += ' current';
+                            else if (currentQuiz.answers[ques.id] !== undefined) pClass += ' answered';
+                            else if (currentQuiz.flagged[ques.id]) pClass += ' flagged';
+
+                            return `
+                                <button class="${pClass}" onclick="jumpQuizQuestion(${idx})">
+                                    ${idx + 1}
+                                </button>
+                            `;
+                        }).join('')}
+                    </div>
+                </div>
+            ` : ''}
+        </div>
+    `;
+}
+
+function selectQuizOption(qId, index) {
+    if (currentQuiz.checked[qId]) return;
+    currentQuiz.answers[qId] = index;
+    renderQuizScreen();
+}
+
+function checkCurrentAnswer(qId) {
+    currentQuiz.checked[qId] = true;
+    renderQuizScreen();
+}
+
+function nextQuizQuestion() {
+    if (currentQuiz.currentIndex < currentQuiz.questions.length - 1) {
+        currentQuiz.currentIndex++;
+        renderQuizScreen();
+    }
+}
+
+function prevQuizQuestion() {
+    if (currentQuiz.currentIndex > 0) {
+        currentQuiz.currentIndex--;
+        renderQuizScreen();
+    }
+}
+
+function jumpQuizQuestion(index) {
+    currentQuiz.currentIndex = index;
+    renderQuizScreen();
+}
+
+function toggleQuizFlag(qId) {
+    currentQuiz.flagged[qId] = !currentQuiz.flagged[qId];
+    renderQuizScreen();
+}
+
+function confirmSubmitTimedExam() {
+    const answeredCount = Object.keys(currentQuiz.answers).length;
+    const total = currentQuiz.questions.length;
+    const bodyHtml = `
+        <p>You have answered <strong>${answeredCount}</strong> of <strong>${total}</strong> questions.</p>
+        ${answeredCount < total ? `<p style="color: #f59e0b; margin-top: 8px; font-size: 13px;">⚠️ You have ${total - answeredCount} unanswered questions.</p>` : ''}
+        <p style="margin-top: 10px;">Are you ready to submit your exam and receive your verified score?</p>
+    `;
+    const footerHtml = `
+        <button class="btn-secondary" onclick="closeModal()">Keep Practicing</button>
+        <button class="btn-primary" onclick="closeModal(); finishQuiz();">Yes, Submit Exam</button>
+    `;
+    showModal('Submit Examination', bodyHtml, footerHtml);
+}
+
+function confirmExitQuiz() {
+    const bodyHtml = `
+        <p>Are you sure you want to leave this practice session?</p>
+        <p style="color: var(--text-muted); font-size: 13px; margin-top: 8px;">Your current test progress will be lost.</p>
+    `;
+    const footerHtml = `
+        <button class="btn-secondary" onclick="closeModal()">Stay in Test</button>
+        <button class="btn-primary" style="background: var(--accent-rose);" onclick="closeModal(); if (currentQuiz.timerInterval) clearInterval(currentQuiz.timerInterval); currentQuiz.backFn ? currentQuiz.backFn() : showLibraryHome();">
+            Exit Session
+        </button>
+    `;
+    showModal('Exit Practice Session', bodyHtml, footerHtml);
+}
+
+function formatTime(seconds) {
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+}
+
+function updateTimerDisplay() {
+    const el = document.getElementById('quiz-timer-display');
+    if (el) {
+        el.innerHTML = `⏱️ ${formatTime(currentQuiz.timeRemaining)}`;
+        if (currentQuiz.timeRemaining < 120) {
+            el.classList.add('urgent');
+        }
+    }
+}
+
+function finishQuiz() {
+    if (currentQuiz.timerInterval) clearInterval(currentQuiz.timerInterval);
+
+    let correctCount = 0;
+    let totalPoints = 0;
+    let earnedPoints = 0;
+
+    currentQuiz.questions.forEach(q => {
+        const pts = q.points || 1;
+        totalPoints += pts;
+        if (currentQuiz.answers[q.id] === q.correctAnswer) {
+            correctCount++;
+            earnedPoints += pts;
+        }
+    });
+
+    const percent = Math.round((earnedPoints / (totalPoints || 1)) * 100);
+    const timeSpentSeconds = Math.round((Date.now() - currentQuiz.startTime) / 1000);
+
+    let verdict = '🎉 Excellent Job!';
+    if (percent >= 90) verdict = '🏆 Outstanding Mastery! Distinction!';
+    else if (percent >= 75) verdict = '🌟 Great Performance! High Pass!';
+    else if (percent >= 50) verdict = '👍 Good Effort! Passing Grade.';
+    else verdict = '📚 Keep Practicing! Review key concepts below.';
+
+    app.innerHTML = `
+        <div class="results-card">
+            <div style="font-size: 40px; margin-bottom: 8px;">🎓</div>
+            <h2 style="font-family: 'Outfit', sans-serif; font-size: 32px; color: #ffffff; margin-bottom: 6px;">Practice Completed!</h2>
+            <p style="color: var(--text-muted); font-size: 15px;">${currentQuiz.subject} • ${currentQuiz.grade} • ${currentQuiz.examType}</p>
+
+            <div class="score-circle-wrapper" style="margin-top: 24px;">
+                <div class="score-percentage">${percent}%</div>
+                <div class="score-fraction">${correctCount} of ${currentQuiz.questions.length} Correct</div>
+            </div>
+
+            <h3 style="color: #e9d5ff; font-size: 20px; font-weight: 700; margin-bottom: 20px;">${verdict}</h3>
+
+            <div class="results-stats-row">
+                <div class="results-stat-box">
+                    <div class="results-stat-val" style="color: #34d399;">${correctCount}</div>
+                    <div class="results-stat-lbl">Correct Answers</div>
+                </div>
+                <div class="results-stat-box">
+                    <div class="results-stat-val" style="color: #f87171;">${currentQuiz.questions.length - correctCount}</div>
+                    <div class="results-stat-lbl">Incorrect Answers</div>
+                </div>
+                <div class="results-stat-box">
+                    <div class="results-stat-val" style="color: #a5b4fc;">${formatTime(timeSpentSeconds)}</div>
+                    <div class="results-stat-lbl">Time Spent</div>
+                </div>
+            </div>
+
+            <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-top: 28px;">
+                <button class="btn-primary" style="width: auto; padding: 12px 24px;" onclick="reviewQuizAnswers()">
+                    📖 Review All Questions & Explanations
+                </button>
+                <button class="btn-secondary" onclick="startPracticeSession('${currentQuiz.grade}', '${currentQuiz.semester}', '${currentQuiz.examType}', '${escapeQuotes(currentQuiz.subject)}', '${currentQuiz.mode}', '${escapeQuotes(currentQuiz.examTitle)}', '${currentQuiz.filePath}', currentQuiz.backFn)">
+                    🔄 Retake Practice Test
+                </button>
+                <a href="${currentQuiz.filePath}" target="_blank" download class="btn-secondary" style="text-decoration: none;">
+                    ⬇️ Download Official PDF
+                </a>
+                <button class="btn-secondary" onclick="currentQuiz.backFn ? currentQuiz.backFn() : showLibraryHome()">
+                    🏠 Back to Library
+                </button>
+            </div>
+        </div>
+    `;
+}
+
+function reviewQuizAnswers() {
+    const letters = ['A', 'B', 'C', 'D', 'E', 'F'];
+
+    app.innerHTML = `
+        <div class="quiz-runner-container">
+            <div class="quiz-top-bar">
+                <div>
+                    <h3 style="color: #ffffff; font-size: 18px;">Question Review & Explanations</h3>
+                    <p style="color: var(--text-muted); font-size: 13px;">${currentQuiz.subject} • ${currentQuiz.grade}</p>
+                </div>
+                <button class="btn-primary" style="width: auto; padding: 8px 18px;" onclick="finishQuiz()">
+                    ← Back to Scorecard
+                </button>
+            </div>
+
+            <div style="display: flex; flex-direction: column; gap: 20px;">
+                ${currentQuiz.questions.map((q, qIdx) => {
+                    const selected = currentQuiz.answers[q.id];
+                    const isCorrect = selected === q.correctAnswer;
+
+                    return `
+                        <div class="quiz-card" style="padding: 26px;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                                <span class="question-number-badge">Question ${qIdx + 1}</span>
+                                <span class="badge ${isCorrect ? 'badge-green' : 'badge-amber'}">
+                                    ${isCorrect ? '✓ Correct (+1 pt)' : '✕ Incorrect (0 pts)'}
+                                </span>
+                            </div>
+
+                            <div style="font-size: 17px; font-weight: 700; color: #ffffff; margin-bottom: 18px;">
+                                ${q.question}
+                            </div>
+
+                            <div class="options-grid">
+                                ${q.options.map((opt, oIdx) => {
+                                    let optClass = 'option-btn';
+                                    if (oIdx === q.correctAnswer) optClass += ' correct';
+                                    else if (selected === oIdx) optClass += ' incorrect';
+
+                                    return `
+                                        <div class="${optClass}" style="cursor: default;">
+                                            <div class="option-letter">${letters[oIdx]}</div>
+                                            <span>${opt}</span>
+                                            ${oIdx === q.correctAnswer ? '<span style="margin-left: auto; color: #34d399; font-weight: 700;">✓ Correct</span>' : ''}
+                                            ${selected === oIdx && oIdx !== q.correctAnswer ? '<span style="margin-left: auto; color: #f87171; font-weight: 700;">Your Choice</span>' : ''}
+                                        </div>
+                                    `;
+                                }).join('')}
+                            </div>
+
+                            <div class="explanation-box">
+                                <div class="explanation-title">Explanation</div>
+                                <div class="explanation-text">${q.explanation || 'No explanation provided.'}</div>
+                            </div>
+                        </div>
+                    `;
+                }).join('')}
+            </div>
+
+            <div style="text-align: center; margin-top: 20px;">
+                <button class="btn-primary" style="width: auto; padding: 12px 28px;" onclick="finishQuiz()">
+                    Back to Scorecard →
+                </button>
+            </div>
+        </div>
+    `;
 }
 
 function renderExamNotFound(title, subtitle, grade, semester, examType, subject, onBackFn) {
@@ -1449,7 +2311,7 @@ async function openExamById(examId) {
         const data = await res.json();
         const exam = (data.exams || []).find(e => e.id === examId);
         if (exam) {
-            renderExamViewer(exam.title, `${exam.grade} • ${exam.semester} • ${exam.examType}`, exam.fileUrl, () => {
+            showExamHub(exam.grade, exam.semester, exam.examType, exam.subject, exam.fileUrl, exam.title, () => {
                 showLibraryHome();
             });
         }
@@ -1475,12 +2337,15 @@ function renderExamViewer(title, subtitle, fileUrl, onBackFn) {
                 <div class="exam-viewer-title">
                     <div class="subject-icon">📄</div>
                     <div>
-                        <h3 style="font-size: 18px; color: var(--navy-900); font-weight: 700;">${title}</h3>
+                        <h3 style="font-size: 18px; color: #ffffff; font-weight: 700;">${title}</h3>
                         <p style="font-size: 13px; color: var(--text-muted);">${subtitle}</p>
                     </div>
                 </div>
 
                 <div class="exam-viewer-actions">
+                    <button class="btn-primary" style="width: auto; padding: 8px 16px; font-size: 13px;" onclick="window._lastBackFn ? window._lastBackFn() : showLibraryHome()">
+                        🎯 Practice Questions
+                    </button>
                     <a href="${fileUrl}" target="_blank" download class="btn-secondary">
                         ⬇️ Download PDF
                     </a>

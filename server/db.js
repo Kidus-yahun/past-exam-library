@@ -315,12 +315,76 @@ class Database {
         return exam;
     }
 
+    // Interactive Question operations
+    getQuestions(filters = {}) {
+        if (!this.data.questions) this.data.questions = [];
+        let results = [...this.data.questions];
+        if (filters.grade) {
+            results = results.filter(q => q.grade && q.grade.toLowerCase() === filters.grade.toLowerCase());
+        }
+        if (filters.subject) {
+            const normSub = filters.subject.toLowerCase().replace(/\s+/g, '');
+            results = results.filter(q => q.subject && q.subject.toLowerCase().replace(/\s+/g, '') === normSub);
+        }
+        if (filters.semester) {
+            results = results.filter(q => q.semester && q.semester.toLowerCase() === filters.semester.toLowerCase());
+        }
+        if (filters.examType) {
+            results = results.filter(q => q.examType && q.examType.toLowerCase() === filters.examType.toLowerCase());
+        }
+        if (filters.search) {
+            const s = filters.search.toLowerCase().trim();
+            results = results.filter(q => 
+                (q.question && q.question.toLowerCase().includes(s)) ||
+                (q.subject && q.subject.toLowerCase().includes(s)) ||
+                (q.grade && q.grade.toLowerCase().includes(s))
+            );
+        }
+        return results;
+    }
+
+    getQuestionById(id) {
+        if (!this.data.questions) return null;
+        return this.data.questions.find(q => q.id === id);
+    }
+
+    addQuestion(qData) {
+        if (!this.data.questions) this.data.questions = [];
+        const newQuestion = {
+            id: 'q_' + Date.now() + '_' + Math.random().toString(36).substr(2, 5),
+            grade: qData.grade,
+            subject: qData.subject,
+            semester: qData.semester || 'Semester1',
+            examType: qData.examType || 'Final',
+            question: qData.question,
+            options: qData.options || [],
+            correctAnswer: typeof qData.correctAnswer === 'number' ? qData.correctAnswer : parseInt(qData.correctAnswer || 0),
+            explanation: qData.explanation || '',
+            points: qData.points || 1,
+            createdAt: new Date().toISOString()
+        };
+        this.data.questions.unshift(newQuestion);
+        this.save();
+        return newQuestion;
+    }
+
+    deleteQuestion(id) {
+        if (!this.data.questions) return false;
+        const index = this.data.questions.findIndex(q => q.id === id);
+        if (index === -1) return false;
+        const removed = this.data.questions.splice(index, 1)[0];
+        this.save();
+        return removed;
+    }
+
     getStats() {
+        if (!this.data.questions) this.data.questions = [];
         return {
             totalExams: this.data.exams.length,
             totalGrades: this.data.categories.grades.length,
             totalUsers: this.data.users.length,
-            totalSubjects: Object.values(this.data.categories.subjects).reduce((acc, curr) => acc + curr.length, 0)
+            totalSubjects: Object.values(this.data.categories.subjects).reduce((acc, curr) => acc + curr.length, 0),
+            totalQuestions: this.data.questions.length
         };
     }
 }

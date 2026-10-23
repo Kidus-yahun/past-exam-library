@@ -2042,5 +2042,398 @@
       "uploadedBy": "academic-portal",
       "createdAt": "2026-10-23T15:15:16.763Z"
     }
+  ],
+  "questions": [
+    {
+      "id": "q_math_g12_1",
+      "grade": "Grade12",
+      "subject": "Mathematics",
+      "semester": "Pretest",
+      "examType": "Pretest",
+      "question": "What is the derivative of f(x) = ln(x² + 4) with respect to x?",
+      "options": [
+        "2x / (x² + 4)",
+        "1 / (x² + 4)",
+        "2 / (x² + 4)",
+        "x / (x² + 4)"
+      ],
+      "correctAnswer": 0,
+      "explanation": "Using the chain rule: d/dx[ln(u)] = (1/u) * u'. Here u = x² + 4, so u' = 2x. Thus f'(x) = 2x / (x² + 4).",
+      "points": 1
+    },
+    {
+      "id": "q_math_g12_2",
+      "grade": "Grade12",
+      "subject": "Mathematics",
+      "semester": "Pretest",
+      "examType": "Pretest",
+      "question": "Evaluate the definite integral: ∫ from 0 to 2 of (3x² - 2x + 1) dx.",
+      "options": [
+        "6",
+        "8",
+        "10",
+        "12"
+      ],
+      "correctAnswer": 0,
+      "explanation": "The antiderivative is F(x) = x³ - x² + x. Evaluating from 0 to 2: F(2) = (2)³ - (2)² + 2 = 8 - 4 + 2 = 6. F(0) = 0. So F(2) - F(0) = 6.",
+      "points": 1
+    },
+    {
+      "id": "q_math_g12_3",
+      "grade": "Grade12",
+      "subject": "Mathematics",
+      "semester": "Model",
+      "examType": "Model",
+      "question": "Which of the following is the limit of (sin 3x) / x as x approaches 0?",
+      "options": [
+        "0",
+        "1",
+        "3",
+        "Undefined"
+      ],
+      "correctAnswer": 2,
+      "explanation": "lim (x->0) [sin(kx) / x] = k. With k = 3, the limit is equal to 3.",
+      "points": 1
+    },
+    {
+      "id": "q_math_g12_4",
+      "grade": "Grade12",
+      "subject": "Mathematics",
+      "semester": "Model",
+      "examType": "Model",
+      "question": "If vector A = 3i - 4j and vector B = 2i + 5j, what is the dot product A · B?",
+      "options": [
+        "-14",
+        "14",
+        "-26",
+        "26"
+      ],
+      "correctAnswer": 0,
+      "explanation": "A · B = (Ax * Bx) + (Ay * By) = (3)(2) + (-4)(5) = 6 - 20 = -14.",
+      "points": 1
+    },
+    {
+      "id": "q_phys_g12_1",
+      "grade": "Grade12",
+      "subject": "Physics",
+      "semester": "Pretest",
+      "examType": "Pretest",
+      "question": "An object of mass 2 kg moves in a horizontal circular path of radius 0.5 m at a constant speed of 4 m/s. What is the centripetal force acting on the object?",
+      "options": [
+        "16 N",
+        "32 N",
+        "64 N",
+        "8 N"
+      ],
+      "correctAnswer": 2,
+      "explanation": "Fc = m * v² / r = (2 kg) * (4 m/s)² / (0.5 m) = 2 * 16 / 0.5 = 64 N.",
+      "points": 1
+    },
+    {
+      "id": "q_phys_g12_2",
+      "grade": "Grade12",
+      "subject": "Physics",
+      "semester": "Model",
+      "examType": "Model",
+      "question": "According to Faraday's law of electromagnetic induction, the induced electromotive force (emf) is proportional to:",
+      "options": [
+        "The magnetic flux through the circuit",
+        "The rate of change of magnetic flux",
+        "The resistance of the circuit",
+        "The speed of light in vacuum"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Faraday's Law states that ε = -dΦB/dt. The induced emf is directly proportional to the time rate of change of magnetic flux.",
+      "points": 1
+    },
+    {
+      "id": "q_chem_g12_1",
+      "grade": "Grade12",
+      "subject": "Chemistry",
+      "semester": "Pretest",
+      "examType": "Pretest",
+      "question": "What is the pH of a 0.001 M solution of Hydrochloric acid (HCl)?",
+      "options": [
+        "1",
+        "2",
+        "3",
+        "4"
+      ],
+      "correctAnswer": 2,
+      "explanation": "HCl is a strong acid, fully dissociated into [H⁺] = 0.001 M = 10⁻³ M. pH = -log[H⁺] = -log(10⁻³) = 3.",
+      "points": 1
+    },
+    {
+      "id": "q_chem_g12_2",
+      "grade": "Grade12",
+      "subject": "Chemistry",
+      "semester": "Model",
+      "examType": "Model",
+      "question": "Which of the following functional groups characterizes an ester?",
+      "options": [
+        "-COOH",
+        "-COOR",
+        "-CHO",
+        "-OH"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Esters are characterized by the -COOR alkoxycarbonyl functional group (carboxylic acid derivative).",
+      "points": 1
+    },
+    {
+      "id": "q_bio_g12_1",
+      "grade": "Grade12",
+      "subject": "Biology",
+      "semester": "Pretest",
+      "examType": "Pretest",
+      "question": "During cellular respiration, which stage produces the highest amount of ATP molecules per glucose molecule?",
+      "options": [
+        "Glycolysis",
+        "Krebs Cycle (Citric Acid Cycle)",
+        "Oxidative Phosphorylation (Electron Transport Chain)",
+        "Fermentation"
+      ],
+      "correctAnswer": 2,
+      "explanation": "Oxidative phosphorylation generates approximately 28 to 34 ATP molecules via chemiosmosis and ATP synthase, far exceeding Glycolysis (2 ATP) and the Krebs Cycle (2 ATP).",
+      "points": 1
+    },
+    {
+      "id": "q_bio_g12_2",
+      "grade": "Grade12",
+      "subject": "Biology",
+      "semester": "Model",
+      "examType": "Model",
+      "question": "In molecular genetics, which enzyme is responsible for unwinding the DNA double helix during replication?",
+      "options": [
+        "DNA Polymerase",
+        "DNA Ligase",
+        "DNA Helicase",
+        "RNA Primase"
+      ],
+      "correctAnswer": 2,
+      "explanation": "Helicase breaks the hydrogen bonds between base pairs, unwinding the double helix to form the replication fork.",
+      "points": 1
+    },
+    {
+      "id": "q_apt_g12_1",
+      "grade": "Grade12",
+      "subject": "Aptitude",
+      "semester": "Pretest",
+      "examType": "Pretest",
+      "question": "Find the next number in the sequence: 3, 7, 15, 31, 63, ?",
+      "options": [
+        "95",
+        "127",
+        "126",
+        "129"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Each term is generated by (previous number * 2) + 1: (3*2)+1=7, (7*2)+1=15, (15*2)+1=31, (31*2)+1=63, (63*2)+1 = 127.",
+      "points": 1
+    },
+    {
+      "id": "q_apt_g12_2",
+      "grade": "Grade12",
+      "subject": "Aptitude",
+      "semester": "Model",
+      "examType": "Model",
+      "question": "If all Zips are Zaps, and some Zaps are Zops, which statement must logically follow?",
+      "options": [
+        "All Zips are Zops",
+        "Some Zips may be Zops",
+        "No Zips are Zops",
+        "All Zops are Zips"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Since all Zips are inside Zaps, and only some Zaps are Zops, Zips and Zops may or may not overlap. Thus, \"Some Zips may be Zops\" is the valid deduction.",
+      "points": 1
+    },
+    {
+      "id": "q_eng_g12_1",
+      "grade": "Grade12",
+      "subject": "English",
+      "semester": "Pretest",
+      "examType": "Pretest",
+      "question": "Choose the correct word to complete the sentence: \"If she _______ harder, she would have passed the examination with distinction.\"",
+      "options": [
+        "studied",
+        "had studied",
+        "has studied",
+        "would study"
+      ],
+      "correctAnswer": 1,
+      "explanation": "This is a Third Conditional sentence referring to an impossible past condition: If + Past Perfect (had studied) ... would have + past participle.",
+      "points": 1
+    },
+    {
+      "id": "q_eng_g12_2",
+      "grade": "Grade12",
+      "subject": "English",
+      "semester": "Model",
+      "examType": "Model",
+      "question": "Identify the figure of speech in: \"The autumn leaves danced across the pavement.\"",
+      "options": [
+        "Simile",
+        "Metaphor",
+        "Personification",
+        "Hyperbole"
+      ],
+      "correctAnswer": 2,
+      "explanation": "Personification attributes human qualities or actions (dancing) to non-human objects (autumn leaves).",
+      "points": 1
+    },
+    {
+      "id": "q_math_g11_1",
+      "grade": "Grade11",
+      "subject": "Mathematics",
+      "semester": "Semester1",
+      "examType": "Final",
+      "question": "What is the sum of the first 10 terms of an arithmetic progression whose first term is 4 and common difference is 3?",
+      "options": [
+        "175",
+        "165",
+        "155",
+        "185"
+      ],
+      "correctAnswer": 0,
+      "explanation": "Sn = (n/2) * [2a + (n-1)d]. S10 = (10/2) * [2(4) + (9)(3)] = 5 * [8 + 27] = 5 * 35 = 175.",
+      "points": 1
+    },
+    {
+      "id": "q_math_g11_2",
+      "grade": "Grade11",
+      "subject": "Mathematics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "If log₁₀(x) + log₁₀(x - 3) = 1, what is the value of x?",
+      "options": [
+        "5",
+        "-2",
+        "2",
+        "10"
+      ],
+      "correctAnswer": 0,
+      "explanation": "log₁₀(x(x - 3)) = 1 => x² - 3x = 10 => x² - 3x - 10 = 0 => (x - 5)(x + 2) = 0. Since log argument must be positive, x = 5.",
+      "points": 1
+    },
+    {
+      "id": "q_it_g11_1",
+      "grade": "Grade11",
+      "subject": "IT",
+      "semester": "Semester1",
+      "examType": "Final",
+      "question": "Which network topology connects every computer to a central device called a switch or hub?",
+      "options": [
+        "Bus Topology",
+        "Star Topology",
+        "Ring Topology",
+        "Mesh Topology"
+      ],
+      "correctAnswer": 1,
+      "explanation": "In a Star topology, all nodes are individually connected to a central connection point (such as a switch or hub).",
+      "points": 1
+    },
+    {
+      "id": "q_web_g11_1",
+      "grade": "Grade11",
+      "subject": "WEB",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Which HTML5 element is used to specify a footer for a document or section?",
+      "options": [
+        "<bottom>",
+        "<footer>",
+        "<section-footer>",
+        "<foot>"
+      ],
+      "correctAnswer": 1,
+      "explanation": "The <footer> element represents a footer for its nearest sectioning content or document root.",
+      "points": 1
+    },
+    {
+      "id": "q_math_g10_1",
+      "grade": "Grade10",
+      "subject": "Mathematics",
+      "semester": "Semester1",
+      "examType": "Final",
+      "question": "What are the roots of the quadratic equation 2x² - 5x + 2 = 0?",
+      "options": [
+        "x = 2 and x = 1/2",
+        "x = -2 and x = -1/2",
+        "x = 1 and x = 4",
+        "x = 3 and x = 2"
+      ],
+      "correctAnswer": 0,
+      "explanation": "Factoring: (2x - 1)(x - 2) = 0. Setting each factor to 0 gives x = 1/2 or x = 2.",
+      "points": 1
+    },
+    {
+      "id": "q_bio_g10_1",
+      "grade": "Grade10",
+      "subject": "Biology",
+      "semester": "Semester1",
+      "examType": "Final",
+      "question": "Which cellular organelle is known as the powerhouse of the cell due to its role in ATP generation?",
+      "options": [
+        "Ribosome",
+        "Endoplasmic Reticulum",
+        "Mitochondria",
+        "Golgi Apparatus"
+      ],
+      "correctAnswer": 2,
+      "explanation": "Mitochondria are the primary sites of ATP synthesis via cellular aerobic respiration.",
+      "points": 1
+    },
+    {
+      "id": "q_hist_g10_1",
+      "grade": "Grade10",
+      "subject": "History",
+      "semester": "Semester1",
+      "examType": "Final",
+      "question": "The Battle of Adwa, in which Ethiopian forces decisively defeated the Italian colonial army, took place in which year?",
+      "options": [
+        "1886",
+        "1896",
+        "1936",
+        "1872"
+      ],
+      "correctAnswer": 1,
+      "explanation": "The historic Battle of Adwa was fought on March 1, 1896, under Emperor Menelik II and Empress Taytu Betul.",
+      "points": 1
+    },
+    {
+      "id": "q_math_g9_1",
+      "grade": "Grade9",
+      "subject": "Mathematics",
+      "semester": "Semester1",
+      "examType": "Final",
+      "question": "If 3(2x - 4) = 18, what is the value of x?",
+      "options": [
+        "3",
+        "5",
+        "6",
+        "7"
+      ],
+      "correctAnswer": 1,
+      "explanation": "3(2x - 4) = 18 => 2x - 4 = 6 => 2x = 10 => x = 5.",
+      "points": 1
+    },
+    {
+      "id": "q_phys_g9_1",
+      "grade": "Grade9",
+      "subject": "Physics",
+      "semester": "Semester1",
+      "examType": "Final",
+      "question": "What is the SI unit of electric current?",
+      "options": [
+        "Volt (V)",
+        "Ohm (Ω)",
+        "Ampere (A)",
+        "Coulomb (C)"
+      ],
+      "correctAnswer": 2,
+      "explanation": "The SI base unit of electric current is the Ampere (A).",
+      "points": 1
+    }
   ]
 }
