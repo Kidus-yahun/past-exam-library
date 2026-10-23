@@ -2045,6 +2045,2439 @@
   ],
   "questions": [
     {
+      "id": "q_g9_chem_real_01",
+      "examId": "exam_126",
+      "grade": "Grade9",
+      "subject": "Chemistry",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "True or False: Chemistry does not study the energy changes associated with chemical reactions.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "correctAnswer": 1,
+      "explanation": "False. Chemistry is the study of matter, its properties, how substances combine or separate, and the energy changes that accompany chemical reactions.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_chem_real_02",
+      "examId": "exam_126",
+      "grade": "Grade9",
+      "subject": "Chemistry",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "True or False: Analytical chemistry is only concerned with producing chemicals, not analyzing them.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "correctAnswer": 1,
+      "explanation": "False. Analytical chemistry is specifically focused on identifying, separating, and quantifying the chemical components of natural and artificial materials.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_chem_real_03",
+      "examId": "exam_126",
+      "grade": "Grade9",
+      "subject": "Chemistry",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "True or False: Industrial processes such as brewing, soap making, and dye production rely on chemical principles.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "correctAnswer": 0,
+      "explanation": "True. Fermentation in brewing, saponification in soap making, and chemical synthesis of dyes are all direct applications of chemical principles.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_chem_real_04",
+      "examId": "exam_126",
+      "grade": "Grade9",
+      "subject": "Chemistry",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "True or False: All measurements in chemistry must include a number and a unit.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "correctAnswer": 0,
+      "explanation": "True. A physical quantity without a unit is meaningless in scientific measurements (e.g., stating a mass is \"5\" has no meaning without grams, kilograms, etc.).",
+      "points": 1
+    },
+    {
+      "id": "q_g9_chem_real_05",
+      "examId": "exam_126",
+      "grade": "Grade9",
+      "subject": "Chemistry",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "The primary focus of chemistry is the study of:",
+      "options": [
+        "Living organisms and their functions",
+        "The motion and forces affecting objects",
+        "The composition, structure, properties, and changes of matter",
+        "The history and evolution of the universe"
+      ],
+      "correctAnswer": 2,
+      "explanation": "Option C is the fundamental definition of chemistry taught in Grade 9: the branch of natural science dealing with the composition, structure, properties, and reactions of matter.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_chem_real_06",
+      "examId": "exam_126",
+      "grade": "Grade9",
+      "subject": "Chemistry",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Which of the following best describes the \"matter\" that chemists study?",
+      "options": [
+        "Only the substances that can be seen and touched",
+        "Any substance that has mass and takes up space",
+        "Only the elements found on the Periodic Table",
+        "Only complex compounds, such as plastics and medicines"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Matter is scientifically defined as anything that possesses mass and occupies physical space (volume).",
+      "points": 1
+    },
+    {
+      "id": "q_g9_chem_real_07",
+      "examId": "exam_126",
+      "grade": "Grade9",
+      "subject": "Chemistry",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "A chemist who is studying the rate at which a chemical reaction occurs is working in the branch of chemistry known as:",
+      "options": [
+        "Analytical chemistry",
+        "Inorganic chemistry",
+        "Physical chemistry",
+        "Bio chemistry"
+      ],
+      "correctAnswer": 2,
+      "explanation": "Chemical kinetics and reaction rates, along with thermodynamics and quantum mechanics, belong directly to Physical Chemistry.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_chem_real_08",
+      "examId": "exam_126",
+      "grade": "Grade9",
+      "subject": "Chemistry",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "The process of observing a substance and determining its components and their relative amounts is primarily the focus of which branch of chemistry?",
+      "options": [
+        "Physical chemistry",
+        "Analytical chemistry",
+        "Organic chemistry",
+        "Bio chemistry"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Analytical chemistry specializes in qualitative analysis (what is present) and quantitative analysis (how much is present).",
+      "points": 1
+    },
+    {
+      "id": "q_g9_chem_real_09",
+      "examId": "exam_126",
+      "grade": "Grade9",
+      "subject": "Chemistry",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "A researcher is studying a newly discovered compound containing only carbon and hydrogen atoms. This falls under the branch of chemistry called:",
+      "options": [
+        "Inorganic chemistry",
+        "Biochemistry",
+        "Organic chemistry",
+        "Analytical chemistry"
+      ],
+      "correctAnswer": 2,
+      "explanation": "Organic chemistry is dedicated specifically to carbon-containing compounds, especially hydrocarbons.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_chem_real_10",
+      "examId": "exam_126",
+      "grade": "Grade9",
+      "subject": "Chemistry",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "In industrial production, chemistry plays a critical role in converting raw materials into useful products such as:",
+      "options": [
+        "Solar panels, wind turbines, and hydropower stations",
+        "Plastics, medicines, and fertilizers",
+        "Computer software, mobile apps, and video games",
+        "Books, newspapers, and magazines"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Chemical industries synthesize polymers (plastics), pharmaceuticals (medicines), and agrochemicals (fertilizers) from petroleum and mineral raw materials.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_chem_real_11",
+      "examId": "exam_126",
+      "grade": "Grade9",
+      "subject": "Chemistry",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "In agriculture, chemistry is primarily used to:",
+      "options": [
+        "Create new types of soil",
+        "Develop fertilizers and pesticides that increase crop yield",
+        "Build farming machinery",
+        "Control weather conditions"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Agricultural chemistry provides chemical fertilizers (like urea and DAP) and pesticides/herbicides to optimize crop production.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_chem_real_12",
+      "examId": "exam_126",
+      "grade": "Grade9",
+      "subject": "Chemistry",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Petrochemical industries rely on chemistry mainly to:",
+      "options": [
+        "Grow crude oil naturally",
+        "Refine crude oil into fuels and useful chemical products",
+        "Remove all carbon from fuels",
+        "Convert metals into plastics"
+      ],
+      "correctAnswer": 1,
+      "explanation": "The petrochemical industry uses fractional distillation and catalytic cracking to refine crude petroleum into fuels, lubricants, and polymer precursors.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_chem_real_13",
+      "examId": "exam_126",
+      "grade": "Grade9",
+      "subject": "Chemistry",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Which of the following best defines the chemical industry?",
+      "options": [
+        "The industry that produces machines and mechanical tools",
+        "The industry that extracts minerals from the earth",
+        "The industry that converts raw materials into useful products through chemical processes",
+        "The industry that provides banking and financial services"
+      ],
+      "correctAnswer": 2,
+      "explanation": "A chemical industry uses chemical reactions and transformations to manufacture finished commercial goods from basic raw substances.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_chem_real_14",
+      "examId": "exam_126",
+      "grade": "Grade9",
+      "subject": "Chemistry",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Which of the following is NOT a major sector of the chemical industry?",
+      "options": [
+        "Petrochemical industry",
+        "Pharmaceutical industry",
+        "Textile chemical processing",
+        "Automobile repair industry"
+      ],
+      "correctAnswer": 3,
+      "explanation": "Automobile repair is a service and mechanical maintenance sector, not a manufacturing branch of the chemical industry.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_chem_real_15",
+      "examId": "exam_126",
+      "grade": "Grade9",
+      "subject": "Chemistry",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Which of the following is an example of a chemical product?",
+      "options": [
+        "Crude oil directly from the ground",
+        "Water from a river",
+        "Plastic made from polymerization of ethene",
+        "Wood cut from a tree"
+      ],
+      "correctAnswer": 2,
+      "explanation": "Polyethylene plastic is an engineered synthetic product produced through the chemical polymerization reaction of ethene monomers.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_chem_real_16",
+      "examId": "exam_126",
+      "grade": "Grade9",
+      "subject": "Chemistry",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "The composition of matter refers to:",
+      "options": [
+        "The physical appearance of matter",
+        "The types and proportions of atoms or elements that make up a substance",
+        "The amount of energy matter contains",
+        "The temperature of matter"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Composition describes the elemental identity and relative proportions of the atoms that constitute a substance.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_chem_real_17",
+      "examId": "exam_126",
+      "grade": "Grade9",
+      "subject": "Chemistry",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Which of the following is not a basic physical quantity?",
+      "options": [
+        "Mass",
+        "Length",
+        "Temperature",
+        "Concentration"
+      ],
+      "correctAnswer": 3,
+      "explanation": "Concentration (e.g. mol/L) is a derived quantity, whereas mass (kg), length (m), and thermodynamic temperature (K) are base SI quantities.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_chem_real_18",
+      "examId": "exam_126",
+      "grade": "Grade9",
+      "subject": "Chemistry",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Temperature in the SI system is measured in:",
+      "options": [
+        "Celsius (°C)",
+        "Fahrenheit (°F)",
+        "Kelvin (K)",
+        "Joule (J)"
+      ],
+      "correctAnswer": 2,
+      "explanation": "The Kelvin (K) is the official SI base unit of thermodynamic temperature.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_chem_real_19",
+      "examId": "exam_126",
+      "grade": "Grade9",
+      "subject": "Chemistry",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Which of the following quantities measures the space occupied by matter?",
+      "options": [
+        "Density",
+        "Volume",
+        "Mass",
+        "Pressure"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Volume is the physical measure of the three-dimensional space occupied by matter.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_chem_real_20",
+      "examId": "exam_126",
+      "grade": "Grade9",
+      "subject": "Chemistry",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Which of the following is a derived physical quantity in chemistry?",
+      "options": [
+        "Time",
+        "Mass",
+        "Density",
+        "Amount of substance"
+      ],
+      "correctAnswer": 2,
+      "explanation": "Density is derived from mass divided by volume (kg/m³), whereas time, mass, and amount of substance are base SI quantities.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_chem_real_21",
+      "examId": "exam_126",
+      "grade": "Grade9",
+      "subject": "Chemistry",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "A chemist measures 2.5 mol of oxygen gas. The term mole refers to:",
+      "options": [
+        "The mass of oxygen gas",
+        "The number of particles present",
+        "The temperature of oxygen",
+        "The pressure of the gas"
+      ],
+      "correctAnswer": 1,
+      "explanation": "The mole is the SI unit for amount of substance and represents a specific count of elementary entities (Avogadro's number, 6.022 × 10²³ particles).",
+      "points": 1
+    },
+    {
+      "id": "q_g9_chem_real_22",
+      "examId": "exam_126",
+      "grade": "Grade9",
+      "subject": "Chemistry",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Temperature is a measure of:",
+      "options": [
+        "The total energy of a system",
+        "The average kinetic energy of particles in a substance",
+        "The potential energy of atoms",
+        "The size of molecules"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Temperature is directly proportional to the average translational kinetic energy of the atoms or molecules in a substance.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_chem_real_23",
+      "examId": "exam_126",
+      "grade": "Grade9",
+      "subject": "Chemistry",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Which statement about the Kelvin scale is true?",
+      "options": [
+        "It is based on the freezing and boiling points of water",
+        "It has negative temperature values",
+        "It begins at absolute zero where all molecular motion stops",
+        "It is used only in meteorology"
+      ],
+      "correctAnswer": 2,
+      "explanation": "The Kelvin absolute temperature scale starts at 0 K (absolute zero, -273.15 °C), where classical molecular thermal motion ceases.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_chem_real_24",
+      "examId": "exam_126",
+      "grade": "Grade9",
+      "subject": "Chemistry",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Convert 0 °C to Fahrenheit.",
+      "options": [
+        "32 °F",
+        "0 °F",
+        "100 °F",
+        "-32 °F"
+      ],
+      "correctAnswer": 0,
+      "explanation": "Using the conversion formula °F = (°C × 9/5) + 32: (0 × 9/5) + 32 = 32 °F.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_chem_real_25",
+      "examId": "exam_126",
+      "grade": "Grade9",
+      "subject": "Chemistry",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "If a sample of gas is heated from 27 °C to 327 °C, by how many Kelvin does the temperature increase?",
+      "options": [
+        "100 K",
+        "200 K",
+        "300 K",
+        "600 K"
+      ],
+      "correctAnswer": 2,
+      "explanation": "Because a change of 1 °C is equal to a change of 1 K, the temperature increase is 327 - 27 = 300 K (or (327 + 273.15) - (27 + 273.15) = 300 K).",
+      "points": 1
+    },
+    {
+      "id": "q_g9_chem_real_26",
+      "examId": "exam_126",
+      "grade": "Grade9",
+      "subject": "Chemistry",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "At what temperature are Celsius and Fahrenheit numerical values equal?",
+      "options": [
+        "0 °C",
+        "-32 °C",
+        "-40 °C",
+        "40 °C"
+      ],
+      "correctAnswer": 2,
+      "explanation": "Setting F = C in F = 1.8C + 32 gives C = 1.8C + 32 -> -0.8C = 32 -> C = -40 °C (-40 °C = -40 °F).",
+      "points": 1
+    },
+    {
+      "id": "q_g9_eng_real_01",
+      "examId": "exam_129",
+      "grade": "Grade9",
+      "subject": "English",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "[Reading: \"Child Inventors\"] Which statement is FALSE according to the passage?",
+      "options": [
+        "Chester Greenwood invented ear protectors.",
+        "Frank Epperson invented the Popsicle.",
+        "Albert Sadacca invented the flat-bottomed paper bag.",
+        "Louis Braille invented a system of writing."
+      ],
+      "correctAnswer": 2,
+      "explanation": "The passage states that Margaret E. Knight invented the flat-bottomed paper bag, whereas 15-year-old Albert Sadacca invented Christmas tree lights.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_eng_real_02",
+      "examId": "exam_129",
+      "grade": "Grade9",
+      "subject": "English",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "[Reading: \"Child Inventors\"] Which of the following happened FIRST in order of time?",
+      "options": [
+        "Braille was invented (1819-1824)",
+        "Christmas tree lights were invented (1917)",
+        "The flat-bottomed paper bag was invented (1868)",
+        "The popsicle was invented (1905)"
+      ],
+      "correctAnswer": 0,
+      "explanation": "Louis Braille attended the school for blind children in 1819 and created Braille by age 15 (around 1824), before the other inventions listed.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_eng_real_03",
+      "examId": "exam_129",
+      "grade": "Grade9",
+      "subject": "English",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "[Reading: \"Child Inventors\"] According to the text, why did Louis Braille want to invent a new system of writing?",
+      "options": [
+        "So he could help the military write secret codes",
+        "So he could communicate with his friends more easily",
+        "So he could graduate from his school",
+        "So he could write messages in the middle of the night"
+      ],
+      "correctAnswer": 1,
+      "explanation": "The passage explicitly notes: \"Braille sought a better way to communicate with his classmates. He wanted to write freely, without needing special equipment.\"",
+      "points": 1
+    },
+    {
+      "id": "q_g9_eng_real_04",
+      "examId": "exam_129",
+      "grade": "Grade9",
+      "subject": "English",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "[Reading: \"Child Inventors\"] Which best describes how 11-year old Frank Epperson invented the Popsicle?",
+      "options": [
+        "He tested many different formulas before finding success",
+        "He used an old family recipe, in his family for generations",
+        "He consulted with scientists and doctors to find his idea",
+        "He created it by accident when he forgot his cup of lemonade on the porch overnight"
+      ],
+      "correctAnswer": 3,
+      "explanation": "The text states Frank went to bed and forgot his cup of lemonade on the porch; freezing temperatures overnight accidentally turned it into the first frozen popsicle.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_eng_real_05",
+      "examId": "exam_129",
+      "grade": "Grade9",
+      "subject": "English",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "[Reading: \"Child Inventors\"] Which event caused 15-year old Albert Sadacca to invent safe Christmas tree lights?",
+      "options": [
+        "He saw a factory worker get injured",
+        "He left his lemonade on the porch",
+        "A candle in a Christmas tree started a tragic fire",
+        "He was ice skating and his ears got cold"
+      ],
+      "correctAnswer": 2,
+      "explanation": "The passage states: \"Someone was hanging candles from a Christmas tree, as was common at that time. This started a tragic fire. Sadacca's parents sold electric lighting... Young Albert thought to adapt these lights for use on Christmas trees.\"",
+      "points": 1
+    },
+    {
+      "id": "q_g9_eng_real_06",
+      "examId": "exam_129",
+      "grade": "Grade9",
+      "subject": "English",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "[Reading: \"Child Inventors\"] Which statement about Chester Greenwood is FALSE?",
+      "options": [
+        "He helped to employ people in his town for 60 years",
+        "His grandma helped him with his invention by sewing fur tufts to wire loops",
+        "He patented the concept of the Popsicle",
+        "He was ice skating when he had his big idea"
+      ],
+      "correctAnswer": 2,
+      "explanation": "Chester Greenwood invented and patented ear protectors (earmuffs), not the Popsicle (which was invented by Frank Epperson).",
+      "points": 1
+    },
+    {
+      "id": "q_g9_eng_real_07",
+      "examId": "exam_129",
+      "grade": "Grade9",
+      "subject": "English",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "[Reading: \"Child Inventors\"] What caused Margaret E. Knight to invent at the age of 12?",
+      "options": [
+        "She left her lemonade on the porch",
+        "She wanted to better communicate with friends",
+        "A candle in a tree started a fire",
+        "She saw a loom worker get injured at a textile mill"
+      ],
+      "correctAnswer": 3,
+      "explanation": "The text explains: \"A loom malfunctioned and injured a worker. She thought she could make the machines safer. She invented an effective system.\"",
+      "points": 1
+    },
+    {
+      "id": "q_g9_eng_real_08",
+      "examId": "exam_129",
+      "grade": "Grade9",
+      "subject": "English",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "[Reading: \"Child Inventors\"] With which statement would the author of this text most likely DISAGREE?",
+      "options": [
+        "All important discoveries happen in science labs",
+        "People with disabilities have invented amazing things",
+        "Women have changed the world through invention",
+        "Children have made important discoveries"
+      ],
+      "correctAnswer": 0,
+      "explanation": "The entire essay refutes the myth that inventions only come from \"old men in white lab coats and smoky beakers,\" showing young children invented great things outdoors or at home.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_eng_real_09",
+      "examId": "exam_129",
+      "grade": "Grade9",
+      "subject": "English",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "[Reading: \"Child Inventors\"] Which central lesson can readers learn from this text?",
+      "options": [
+        "Age and experience are necessary to do important things",
+        "Anybody, no matter how young, can change the world",
+        "Kids should leave grown-up problems to the grown-ups",
+        "Everything important has already been invented"
+      ],
+      "correctAnswer": 1,
+      "explanation": "The author states: \"the truth is that everyone has the power to change the world\" regardless of their young age.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_eng_real_10",
+      "examId": "exam_129",
+      "grade": "Grade9",
+      "subject": "English",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "[Reading: \"Child Inventors\"] Which advice would the author MOST LIKELY give to young people?",
+      "options": [
+        "All the problems in the world have already been solved",
+        "Children should do what they are told and not ask questions",
+        "Remain curious and think of ways to solve problems",
+        "Only adults are smart enough to change the world"
+      ],
+      "correctAnswer": 2,
+      "explanation": "The author encourages youth curiosity, creative problem-solving, and confidence in making meaningful innovations.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_eng_real_11",
+      "examId": "exam_129",
+      "grade": "Grade9",
+      "subject": "English",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Teacher: _________________________________________?\nYou: In December.",
+      "options": [
+        "How do you celebrate your holiday",
+        "What do you do in your holiday",
+        "When do you celebrate your holiday",
+        "How often do you celebrate your holiday"
+      ],
+      "correctAnswer": 2,
+      "explanation": "\"In December\" is an adverbial of time, so the appropriate question word is \"When\".",
+      "points": 1
+    },
+    {
+      "id": "q_g9_eng_real_12",
+      "examId": "exam_129",
+      "grade": "Grade9",
+      "subject": "English",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "We haven't done our project work _____________, but I hope we will finish it next week.",
+      "options": [
+        "still",
+        "now",
+        "yesterday",
+        "yet"
+      ],
+      "correctAnswer": 3,
+      "explanation": "\"Yet\" is used at the end of negative present perfect sentences to express an action expected to happen.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_eng_real_13",
+      "examId": "exam_129",
+      "grade": "Grade9",
+      "subject": "English",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "The medication has some nasty side effects. ____________, I started to feel quite unwell.",
+      "options": [
+        "Because",
+        "However",
+        "Therefore",
+        "First"
+      ],
+      "correctAnswer": 2,
+      "explanation": "\"Therefore\" is a transitional adverb expressing result/consequence connecting the side effects to feeling unwell.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_eng_real_14",
+      "examId": "exam_129",
+      "grade": "Grade9",
+      "subject": "English",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "A: I am sure the views are amazing.\nB: Yes, they're great. You have never been there, _____________?",
+      "options": [
+        "haven't you",
+        "aren't you",
+        "have you",
+        "do you"
+      ],
+      "correctAnswer": 2,
+      "explanation": "Because \"never\" gives the statement a negative meaning, the question tag must be affirmative: \"have you?\".",
+      "points": 1
+    },
+    {
+      "id": "q_g9_eng_real_15",
+      "examId": "exam_129",
+      "grade": "Grade9",
+      "subject": "English",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "We often go out for dinner on weekends, _____________?",
+      "options": [
+        "don't we",
+        "aren't we",
+        "haven't we",
+        "doesn't we"
+      ],
+      "correctAnswer": 0,
+      "explanation": "The main clause uses present simple with \"we\" (\"go\"), so the corresponding negative tag is \"don't we?\".",
+      "points": 1
+    },
+    {
+      "id": "q_g9_eng_real_16",
+      "examId": "exam_129",
+      "grade": "Grade9",
+      "subject": "English",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Choose the correct adverbial order: It has been raining _____________________________.",
+      "options": [
+        "all day long / outside / heavily",
+        "heavily / all day long / outside",
+        "outside / heavily / all day long",
+        "heavily / outside / all day long"
+      ],
+      "correctAnswer": 3,
+      "explanation": "The natural royal order of adverbials in English is Manner (\"heavily\"), Place (\"outside\"), and Time (\"all day long\").",
+      "points": 1
+    },
+    {
+      "id": "q_g9_eng_real_17",
+      "examId": "exam_129",
+      "grade": "Grade9",
+      "subject": "English",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Teacher: Do you mind helping me once?\nStudent: _________________. Don't worry.",
+      "options": [
+        "No, I don't",
+        "Yes, I do",
+        "No, I haven't",
+        "Yes, I will"
+      ],
+      "correctAnswer": 0,
+      "explanation": "When replying to \"Do you mind...?\", \"No, I don't\" means \"I do not mind at all / I am glad to help\".",
+      "points": 1
+    },
+    {
+      "id": "q_g9_eng_real_18",
+      "examId": "exam_129",
+      "grade": "Grade9",
+      "subject": "English",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "\"He is always coming late.\" In communicative English, this sentence indicates:",
+      "options": [
+        "happiness",
+        "annoyance",
+        "everyday absence",
+        "none of them"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Present continuous with \"always\" (\"is always coming late\") is an idiomatic grammatical device to express irritation or annoyance with a repeated habit.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_eng_real_19",
+      "examId": "exam_129",
+      "grade": "Grade9",
+      "subject": "English",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "The dogs over there are _____________ a lot of noise.",
+      "options": [
+        "doing",
+        "making",
+        "having",
+        "taking"
+      ],
+      "correctAnswer": 1,
+      "explanation": "In English collocation, the correct verb used with \"noise\" is \"make\" -> \"making a lot of noise\".",
+      "points": 1
+    },
+    {
+      "id": "q_g9_eng_real_20",
+      "examId": "exam_129",
+      "grade": "Grade9",
+      "subject": "English",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Where is the most preferable position of the frequency adverb \"often\" in the sentence below?\n\"I (1) get headaches (2) when it is (3) very sunny (4).\"",
+      "options": [
+        "Position 1",
+        "Position 2",
+        "Position 3",
+        "Position 4"
+      ],
+      "correctAnswer": 0,
+      "explanation": "Adverbs of frequency normally precede the main verb: \"I often get headaches...\". Thus position 1 is preferred.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_eng_real_21",
+      "examId": "exam_129",
+      "grade": "Grade9",
+      "subject": "English",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Who _____________ the car during the accident last night?",
+      "options": [
+        "drove",
+        "had driven",
+        "was driving",
+        "have driving"
+      ],
+      "correctAnswer": 0,
+      "explanation": "For a finished event at a specified past time (\"last night\"), the simple past \"drove\" is standard.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_eng_real_22",
+      "examId": "exam_129",
+      "grade": "Grade9",
+      "subject": "English",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "He wanted to repair our washing machine that _____________ a few days before.",
+      "options": [
+        "breaks",
+        "was breaking",
+        "have broken",
+        "had broken"
+      ],
+      "correctAnswer": 3,
+      "explanation": "The breaking of the machine occurred prior to the past action of wanting to repair it, requiring the past perfect \"had broken\".",
+      "points": 1
+    },
+    {
+      "id": "q_g9_eng_real_23",
+      "examId": "exam_129",
+      "grade": "Grade9",
+      "subject": "English",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Which sentence is incorrectly punctuated?",
+      "options": [
+        "What are you doing next weekend?",
+        "\"Go away\" he said!",
+        "The girl's father sat in a corner.",
+        "Can you tell me why I was upset?"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Option B is missing punctuation inside the direct speech quotation marks (it should be: '\"Go away,\" he said!' or '\"Go away!\" he said.').",
+      "points": 1
+    },
+    {
+      "id": "q_g9_eng_real_24",
+      "examId": "exam_129",
+      "grade": "Grade9",
+      "subject": "English",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "\"The girls want to leave now; otherwise, they might miss their favorite show.\" What type of adverb is \"now\"?",
+      "options": [
+        "manner",
+        "frequency",
+        "time",
+        "place"
+      ],
+      "correctAnswer": 2,
+      "explanation": "\"Now\" answers the question \"when?\" and is an adverb of time.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_eng_real_25",
+      "examId": "exam_129",
+      "grade": "Grade9",
+      "subject": "English",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Dawit: _____________ think of taking a break?\nNardos: I was just about to say that. Let's go.",
+      "options": [
+        "How do you",
+        "What do you",
+        "Would you like to",
+        "When do you"
+      ],
+      "correctAnswer": 1,
+      "explanation": "The common English phrase for asking someone's opinion on an idea is \"What do you think of...?\".",
+      "points": 1
+    },
+    {
+      "id": "q_g9_eng_real_26",
+      "examId": "exam_129",
+      "grade": "Grade9",
+      "subject": "English",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Bemnet is my best friend. I _____________ him at school, and we _____________ friends for 5 years.",
+      "options": [
+        "met / were",
+        "have met / have been",
+        "met / had been",
+        "met / have been"
+      ],
+      "correctAnswer": 1,
+      "explanation": "As confirmed on the school answer key, the combination \"have met / have been\" indicates enduring friendship continuing into the present.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_eng_real_27",
+      "examId": "exam_129",
+      "grade": "Grade9",
+      "subject": "English",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Dawit: You look tired. You are out of breath.\nNardos: Yes, I _____________ for almost twenty minutes.",
+      "options": [
+        "have run",
+        "was running",
+        "have been running",
+        "will run"
+      ],
+      "correctAnswer": 2,
+      "explanation": "Present perfect continuous (\"have been running\") emphasizes a continuous past activity with visible direct results in the present.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_eng_real_28",
+      "examId": "exam_129",
+      "grade": "Grade9",
+      "subject": "English",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "I saw the accident and phoned the police _____________.",
+      "options": [
+        "hardly",
+        "suddenly",
+        "immediately",
+        "unfortunately"
+      ],
+      "correctAnswer": 2,
+      "explanation": "\"Immediately\" means without any delay, fitting the urgency of calling police after witnessing an accident.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_eng_real_29",
+      "examId": "exam_129",
+      "grade": "Grade9",
+      "subject": "English",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "My friend together with his sister _____________ working hard to be successful.",
+      "options": [
+        "are",
+        "is",
+        "do",
+        "have"
+      ],
+      "correctAnswer": 1,
+      "explanation": "When a subject is joined with expressions like \"together with\" or \"as well as\", the verb agrees with the principal subject (\"My friend\", 3rd person singular -> \"is\").",
+      "points": 1
+    },
+    {
+      "id": "q_g9_eng_real_30",
+      "examId": "exam_129",
+      "grade": "Grade9",
+      "subject": "English",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Choose the appropriate transitional sequence:\n\"_____________ we should consider students' academic background. _____________, it is important to know what they really need. _____________, we should look at their age level.\"",
+      "options": [
+        "First / Besides / Generally",
+        "Prior to / Next / Finally",
+        "First / Next / To begin with",
+        "First / Next / Finally"
+      ],
+      "correctAnswer": 3,
+      "explanation": "The standard logical three-step enumerative transition sequence is \"First\", \"Next\", and \"Finally\".",
+      "points": 1
+    },
+    {
+      "id": "q_g9_math_real_01",
+      "examId": "exam_134",
+      "grade": "Grade9",
+      "subject": "Mathematics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "True or False: A set is a collection of well-defined objects or elements.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "correctAnswer": 0,
+      "explanation": "True. By mathematical definition, a set is a collection of well-defined objects such that it is clear whether any given object belongs to the set or not.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_math_real_02",
+      "examId": "exam_134",
+      "grade": "Grade9",
+      "subject": "Mathematics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "True or False: A set which does not contain any element is called a void (or empty) set.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "correctAnswer": 0,
+      "explanation": "True. A set with no elements is called a void, null, or empty set, denoted by ∅ or {}.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_math_real_03",
+      "examId": "exam_134",
+      "grade": "Grade9",
+      "subject": "Mathematics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "True or False: A set which consists of a definite (countable) number of elements is called a finite set.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "correctAnswer": 0,
+      "explanation": "True. If the elements of a set can be counted and the counting process terminates at a natural number n, the set is finite.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_math_real_04",
+      "examId": "exam_134",
+      "grade": "Grade9",
+      "subject": "Mathematics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "True or False: Two sets A and B are said to be equal if and only if they have exactly the same or identical elements.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "correctAnswer": 0,
+      "explanation": "True. By the axiom of extensionality, A = B if and only if every element of A is in B and every element of B is in A.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_math_real_05",
+      "examId": "exam_134",
+      "grade": "Grade9",
+      "subject": "Mathematics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "True or False: If A ⊆ B and A ≠ B, then A is called the proper subset of set B.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "correctAnswer": 0,
+      "explanation": "True. A proper subset A ⊂ B means A is contained in B but B has at least one element not present in A.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_math_real_06",
+      "examId": "exam_134",
+      "grade": "Grade9",
+      "subject": "Mathematics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "True or False: Two sets A and B are disjoint if A ∩ B = ∅.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "correctAnswer": 0,
+      "explanation": "True. Disjoint sets share no common elements, meaning their intersection is the empty set.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_math_real_07",
+      "examId": "exam_134",
+      "grade": "Grade9",
+      "subject": "Mathematics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "True or False: A fraction a/b is said to be in simplest (lowest) form if a and b are relatively prime or GCF(a, b) = 1.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "correctAnswer": 0,
+      "explanation": "True. When the greatest common factor of the numerator and denominator is 1, the fraction cannot be simplified further.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_math_real_08",
+      "examId": "exam_134",
+      "grade": "Grade9",
+      "subject": "Mathematics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "True or False: Every natural number can be expressed as a product of primes and this factorization is unique.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "correctAnswer": 1,
+      "explanation": "False. The number 1 is a natural number but has no prime factors (the Fundamental Theorem of Arithmetic applies to integers greater than 1).",
+      "points": 1
+    },
+    {
+      "id": "q_g9_math_real_09",
+      "examId": "exam_134",
+      "grade": "Grade9",
+      "subject": "Mathematics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "True or False: If a is a rational number and b is an irrational number, then ab is always a rational number.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "correctAnswer": 1,
+      "explanation": "False. For example, 2 × √3 = 2√3 which is irrational (the only exception where ab is rational is when a = 0).",
+      "points": 1
+    },
+    {
+      "id": "q_g9_math_real_10",
+      "examId": "exam_134",
+      "grade": "Grade9",
+      "subject": "Mathematics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "True or False: For two positive integers a and b in the division lemma (a = bq + r), we say a is divisible by b if the remainder r is zero.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "correctAnswer": 0,
+      "explanation": "True. If remainder r = 0, then a = bq, meaning b divides a completely without remainder.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_math_real_11",
+      "examId": "exam_134",
+      "grade": "Grade9",
+      "subject": "Mathematics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "True or False: If a is a natural number then it is either prime or composite.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "correctAnswer": 1,
+      "explanation": "False. 1 is a natural number, but 1 is neither prime nor composite.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_math_real_12",
+      "examId": "exam_134",
+      "grade": "Grade9",
+      "subject": "Mathematics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Given universal set U = {1, 2, 3, 4, 5, 6, 7, 8, 9}, A = {2, 5, 7, 9}, and B = {2, 3, 5, 7, 8}. Find A' ∩ B'.",
+      "options": [
+        "{ }",
+        "{1, 4, 6}",
+        "{1, 3, 8, 9}",
+        "{2, 5, 7}"
+      ],
+      "correctAnswer": 1,
+      "explanation": "By De Morgan's Law, A' ∩ B' = (A ∪ B)'. Here A ∪ B = {2, 3, 5, 7, 8, 9}. Its complement in U is {1, 4, 6}.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_math_real_13",
+      "examId": "exam_134",
+      "grade": "Grade9",
+      "subject": "Mathematics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Find GCF(12, 18) × LCM(12, 18).",
+      "options": [
+        "216",
+        "200",
+        "36",
+        "108"
+      ],
+      "correctAnswer": 0,
+      "explanation": "For any two positive numbers, GCF(a, b) × LCM(a, b) = a × b. Therefore, 12 × 18 = 216.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_math_real_14",
+      "examId": "exam_134",
+      "grade": "Grade9",
+      "subject": "Mathematics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "In a bookstore there are 125 different books to be distributed to 9 students. If the store shares these books equally, how many books will each student receive and how many books will be left?",
+      "options": [
+        "8 & 13",
+        "9 & 13",
+        "8 & 9",
+        "13 & 8"
+      ],
+      "correctAnswer": 3,
+      "explanation": "125 ÷ 9 = 13 with remainder 8. Each student receives 13 books, and 8 books are left over.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_math_real_15",
+      "examId": "exam_134",
+      "grade": "Grade9",
+      "subject": "Mathematics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Which of the following are well-defined sets?\nA: Collection of students in your class\nB: Collection of beautiful girls in your class\nC: Collection of consonants of the English alphabet\nD: The collection of kind students in your school",
+      "options": [
+        "A only",
+        "B & D",
+        "C only",
+        "A & C",
+        "All of them"
+      ],
+      "correctAnswer": 3,
+      "explanation": "Sets A and C have objective criteria (\"students registered in class\", \"letters other than vowels\"). Words like \"beautiful\" or \"kind\" are subjective opinions and not well-defined.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_math_real_16",
+      "examId": "exam_134",
+      "grade": "Grade9",
+      "subject": "Mathematics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Suppose that A is the set of positive even numbers. Which of the following is true?",
+      "options": [
+        "4 ∈ A",
+        "5 ∈ A",
+        "-2 ∈ A",
+        "0 ∈ A"
+      ],
+      "correctAnswer": 0,
+      "explanation": "A = {2, 4, 6, 8, ...}. 4 is a positive even number, so 4 ∈ A. -2 is negative, 0 is neither positive nor negative, and 5 is odd.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_math_real_17",
+      "examId": "exam_134",
+      "grade": "Grade9",
+      "subject": "Mathematics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Which of the following is an infinite set?",
+      "options": [
+        "A = {x | x ∈ ℝ and 5 < x < 6}",
+        "B = {0}",
+        "C is the set of odd natural numbers divisible by 2",
+        "D = { }"
+      ],
+      "correctAnswer": 0,
+      "explanation": "Between any two real numbers 5 and 6, there are infinitely many real numbers. B has 1 element, C is empty (0 elements), and D is empty.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_math_real_18",
+      "examId": "exam_134",
+      "grade": "Grade9",
+      "subject": "Mathematics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Which of the following statements is false?",
+      "options": [
+        "Any set is a subset of itself",
+        "Empty set is a subset of every set",
+        "For any set A, A is not a proper subset of itself",
+        "The number of proper subsets of set A with n elements is 2n - 1"
+      ],
+      "correctAnswer": 3,
+      "explanation": "The formula for the number of proper subsets is 2ⁿ - 1 (exponential), not 2n - 1.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_math_real_19",
+      "examId": "exam_134",
+      "grade": "Grade9",
+      "subject": "Mathematics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Which of the following set identities is false?",
+      "options": [
+        "(A ∪ B)' = A' ∩ B'",
+        "(A ∩ B)' = A' ∪ B'",
+        "∅ ∪ A = ∅",
+        "U ∩ A = A"
+      ],
+      "correctAnswer": 2,
+      "explanation": "∅ ∪ A = A (the union of any set with the empty set is the set itself, not ∅).",
+      "points": 1
+    },
+    {
+      "id": "q_g9_math_real_20",
+      "examId": "exam_134",
+      "grade": "Grade9",
+      "subject": "Mathematics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "For any two sets A and B, which of the following is false?",
+      "options": [
+        "(A')' = A",
+        "A ⊆ B ⇔ B' ⊆ A'",
+        "A - B = A ∩ B'",
+        "A Δ B = (A \\ B) ∩ (B \\ A)"
+      ],
+      "correctAnswer": 3,
+      "explanation": "The symmetric difference is defined as A Δ B = (A \\ B) ∪ (B \\ A), with a UNION, not intersection (their intersection is always ∅).",
+      "points": 1
+    },
+    {
+      "id": "q_g9_math_real_21",
+      "examId": "exam_134",
+      "grade": "Grade9",
+      "subject": "Mathematics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Given A = {0, 2, 3, 4, 5} and B = {0, 1, 2, 3, 5, 7, 9}. Find the symmetric difference A Δ B.",
+      "options": [
+        "{0, 1, 3}",
+        "{1, 4, 7, 9}",
+        "empty set",
+        "{0, 2, 3, 5}"
+      ],
+      "correctAnswer": 1,
+      "explanation": "A \\ B = {4}, B \\ A = {1, 7, 9}. Their union is A Δ B = {1, 4, 7, 9}.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_math_real_22",
+      "examId": "exam_134",
+      "grade": "Grade9",
+      "subject": "Mathematics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "If the number of elements of set A is 7 and the number of elements of set B is 4, then the number of elements in Cartesian product A × B is:",
+      "options": [
+        "24",
+        "25",
+        "28",
+        "11"
+      ],
+      "correctAnswer": 2,
+      "explanation": "n(A × B) = n(A) × n(B) = 7 × 4 = 28.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_math_real_23",
+      "examId": "exam_134",
+      "grade": "Grade9",
+      "subject": "Mathematics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "For any two sets A and B, which of the following is false?",
+      "options": [
+        "n(A ∪ B) = n(A) + n(B) - n(A ∩ B)",
+        "n(A') = n(U) - n(A)",
+        "n(A \\ B) = n(A) - n(B)",
+        "n(A Δ B) = n(A) + n(B) - 2n(A ∩ B)"
+      ],
+      "correctAnswer": 2,
+      "explanation": "The correct identity is n(A \\ B) = n(A) - n(A ∩ B), not n(A) - n(B).",
+      "points": 1
+    },
+    {
+      "id": "q_g9_math_real_24",
+      "examId": "exam_134",
+      "grade": "Grade9",
+      "subject": "Mathematics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Consider universal set U = {1, 2, 3 ... 14}, A = {2, 3, 5, 7, 11}, and B = {2, 4, 8, 9, 10, 11}. Which statement is true?",
+      "options": [
+        "(A ∪ B)' = {1, 4, 6, 12, 13, 14}",
+        "A ∩ B = A' ∪ B'",
+        "A Δ B = (A ∩ B)'",
+        "A \\ B = {3, 5, 7}"
+      ],
+      "correctAnswer": 3,
+      "explanation": "A \\ B removes elements of B ({2, 11}) from A, leaving exactly {3, 5, 7}.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_math_real_25",
+      "examId": "exam_134",
+      "grade": "Grade9",
+      "subject": "Mathematics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Find the greatest common factor (GCF) of 180, 270, and 1,080 using prime factorization.",
+      "options": [
+        "30",
+        "45",
+        "90",
+        "180"
+      ],
+      "correctAnswer": 2,
+      "explanation": "180 = 2² × 3² × 5; 270 = 2 × 3³ × 5; 1080 = 2³ × 3³ × 5. Lowest common powers: 2¹ × 3² × 5¹ = 2 × 9 × 5 = 90.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_math_real_26",
+      "examId": "exam_134",
+      "grade": "Grade9",
+      "subject": "Mathematics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Given that 77,9x2 is a 5-digit number where x is the tens digit. If this number is divisible by 6, what are all possible values of x?",
+      "options": [
+        "1, 4, 7",
+        "2, 5, 8",
+        "0, 3, 6, 9",
+        "2, 4, 6"
+      ],
+      "correctAnswer": 1,
+      "explanation": "For divisibility by 6, the number must be even (last digit 2 is even) and divisible by 3. Sum of digits: 7 + 7 + 9 + x + 2 = 25 + x. For (25 + x) to be divisible by 3, x can be 2 (27), 5 (30), or 8 (33).",
+      "points": 1
+    },
+    {
+      "id": "q_g9_bio_real_01",
+      "examId": "exam_125",
+      "grade": "Grade9",
+      "subject": "Biology",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "True or False: Dichotomous keys are useful for taxonomists to classify unfamiliar organisms.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "correctAnswer": 0,
+      "explanation": "True. A dichotomous key presents paired alternative statements to guide the step-by-step identification of organisms.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_bio_real_02",
+      "examId": "exam_125",
+      "grade": "Grade9",
+      "subject": "Biology",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "True or False: Biology is related to chemistry and physics during studying the process of photosynthesis.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "correctAnswer": 0,
+      "explanation": "True. Photosynthesis involves light energy absorption (physics) and chemical reactions converting CO2 and water into glucose (chemistry).",
+      "points": 1
+    },
+    {
+      "id": "q_g9_bio_real_03",
+      "examId": "exam_125",
+      "grade": "Grade9",
+      "subject": "Biology",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "True or False: The correct way of handling/carrying a microscope is holding it with one hand only.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "correctAnswer": 1,
+      "explanation": "False. A microscope must always be carried with two hands: one grasping the arm and the other supporting the base.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_bio_real_04",
+      "examId": "exam_125",
+      "grade": "Grade9",
+      "subject": "Biology",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "True or False: It is permissible to taste and sniff chemicals in laboratory rooms.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "correctAnswer": 1,
+      "explanation": "False. In laboratory safety, tasting chemicals is strictly forbidden, and smelling should only be done cautiously by wafting.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_bio_real_05",
+      "examId": "exam_125",
+      "grade": "Grade9",
+      "subject": "Biology",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "True or False: In symbiotic association between fungi and termites, fungi supply extracellular hydrolytic enzymes to break down cellulose.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "correctAnswer": 0,
+      "explanation": "True. Termites cultivate fungus combs, and fungal cellulase enzymes break down indigestible plant cellulose for termite nutrition.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_bio_real_06",
+      "examId": "exam_125",
+      "grade": "Grade9",
+      "subject": "Biology",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Which part of the optical microscope is used to move the mechanical stage rapidly for initial focusing?",
+      "options": [
+        "Fine adjustment knob",
+        "Coarse adjustment knob",
+        "Condenser",
+        "Diaphragm"
+      ],
+      "correctAnswer": 1,
+      "explanation": "The coarse adjustment knob moves the stage in large increments to bring the specimen quickly into approximate focus.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_bio_real_07",
+      "examId": "exam_125",
+      "grade": "Grade9",
+      "subject": "Biology",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Which part of the microscope moves the stage slowly to produce a sharp, crisp focus?",
+      "options": [
+        "Fine adjustment knob",
+        "Coarse adjustment knob",
+        "Ocular lens",
+        "Stage clips"
+      ],
+      "correctAnswer": 0,
+      "explanation": "The fine adjustment knob provides precision micro-movements of the stage to achieve exact optical clarity.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_bio_real_08",
+      "examId": "exam_125",
+      "grade": "Grade9",
+      "subject": "Biology",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Which component of a microscope controls the intensity and amount of light reaching the specimen?",
+      "options": [
+        "Diaphragm",
+        "Condenser",
+        "Coarse knob",
+        "Nosepiece"
+      ],
+      "correctAnswer": 0,
+      "explanation": "The iris diaphragm regulates the diameter of the light cone passing through the specimen slide.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_bio_real_09",
+      "examId": "exam_125",
+      "grade": "Grade9",
+      "subject": "Biology",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Which microscope part collects and focuses light rays from the illuminator onto the specimen?",
+      "options": [
+        "Condenser",
+        "Diaphragm",
+        "Objective lens",
+        "Mirror"
+      ],
+      "correctAnswer": 0,
+      "explanation": "The sub-stage condenser lens concentrates and focuses the light beam onto the slide plane.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_bio_real_10",
+      "examId": "exam_125",
+      "grade": "Grade9",
+      "subject": "Biology",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Which apparatus is used in laboratories to provide high-pressure steam for complete sterilization?",
+      "options": [
+        "Autoclave",
+        "Pressure cooker",
+        "Incubator",
+        "Hot oven"
+      ],
+      "correctAnswer": 0,
+      "explanation": "An autoclave uses pressurized saturated steam at 121 °C to kill all microbial life and bacterial endospores.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_bio_real_11",
+      "examId": "exam_125",
+      "grade": "Grade9",
+      "subject": "Biology",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "The ancient Greek philosopher who divided animals into two groups (those with red blood and those without) was:",
+      "options": [
+        "Whittaker",
+        "T.O. Diener",
+        "Aristotle",
+        "W.M. Stanley"
+      ],
+      "correctAnswer": 2,
+      "explanation": "Aristotle created the earliest classical animal taxonomy, classifying animals into Enaima (with red blood) and Anaima (without red blood).",
+      "points": 1
+    },
+    {
+      "id": "q_g9_bio_real_12",
+      "examId": "exam_125",
+      "grade": "Grade9",
+      "subject": "Biology",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "The criteria used in R.H. Whittaker's five-kingdom classification system include:",
+      "options": [
+        "Cell structure (prokaryotic vs. eukaryotic)",
+        "Mode of nutrition and reproduction",
+        "Phylogenetic evolutionary relationships",
+        "All of these"
+      ],
+      "correctAnswer": 3,
+      "explanation": "Whittaker (1969) built the five kingdoms (Monera, Protista, Fungi, Plantae, Animalia) using cellular complexity, nutrition mode, and evolutionary relationships.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_bio_real_13",
+      "examId": "exam_125",
+      "grade": "Grade9",
+      "subject": "Biology",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Which of the following biological groups are included within Whittaker's five kingdoms?",
+      "options": [
+        "Viruses",
+        "Bacteria",
+        "Lichens",
+        "Bacteria and Algae"
+      ],
+      "correctAnswer": 3,
+      "explanation": "Bacteria belong to Kingdom Monera, and unicellular/multicellular algae belong to Protista and Plantae. Viruses and lichens are excluded from Whittaker's kingdoms.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_bio_real_14",
+      "examId": "exam_125",
+      "grade": "Grade9",
+      "subject": "Biology",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "The naturalist who developed binomial nomenclature and authored \"Systema Naturae\" is:",
+      "options": [
+        "Carolus Linnaeus",
+        "Aristotle",
+        "Charles Darwin",
+        "Jean-Baptiste Lamarck"
+      ],
+      "correctAnswer": 0,
+      "explanation": "Carolus Linnaeus established formal binomial nomenclature (Genus + specific epithet) in his 1735 book \"Systema Naturae\".",
+      "points": 1
+    },
+    {
+      "id": "q_g9_bio_real_15",
+      "examId": "exam_125",
+      "grade": "Grade9",
+      "subject": "Biology",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "What primary method of asexual reproduction is used by yeast?",
+      "options": [
+        "Sexual spore formation",
+        "Budding",
+        "Regeneration",
+        "Conjugation"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Saccharomyces cerevisiae (yeast) reproduces asexually through asymmetrical budding, where a new daughter cell pinches off from the parent.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_bio_real_16",
+      "examId": "exam_125",
+      "grade": "Grade9",
+      "subject": "Biology",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Protists are ecologically vital because they:",
+      "options": [
+        "Produce oxygen via phytoplankton photosynthesis",
+        "Support marine and freshwater food chains",
+        "Recycle organic nutrients in aquatic habitats",
+        "All of the above"
+      ],
+      "correctAnswer": 3,
+      "explanation": "Protists carry out immense oceanic primary productivity, oxygen generation, nutrient cycling, and sustain aquatic food webs.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_bio_real_17",
+      "examId": "exam_125",
+      "grade": "Grade9",
+      "subject": "Biology",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Fungi are indispensable to global ecosystems primarily because they function as:",
+      "options": [
+        "Producers",
+        "Regulators",
+        "Decomposers (saprotrophs)",
+        "Controllers"
+      ],
+      "correctAnswer": 2,
+      "explanation": "Fungi secrete exoenzymes that decompose complex organic detritus (cellulose and lignin), recycling mineral nutrients back to soil.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_bio_real_18",
+      "examId": "exam_125",
+      "grade": "Grade9",
+      "subject": "Biology",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Which statement is true regarding a well-designed controlled experiment?",
+      "options": [
+        "Demonstrates cause-and-effect relationships",
+        "Isolates one independent variable while measuring a dependent variable",
+        "Keeps all other environmental variables strictly controlled",
+        "All are true expressions"
+      ],
+      "correctAnswer": 3,
+      "explanation": "A scientific controlled experiment maintains constant experimental parameters to isolate the exact effect of the independent variable on the dependent variable.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_bio_real_19",
+      "examId": "exam_125",
+      "grade": "Grade9",
+      "subject": "Biology",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Which of the following is an example of a non-hyphal (unicellular) fungus?",
+      "options": [
+        "Yeast",
+        "Mucor",
+        "Rhizopus",
+        "Mushroom"
+      ],
+      "correctAnswer": 0,
+      "explanation": "Yeast is uniquely unicellular and does not produce true multicellular filamentous hyphae like molds (Mucor, Rhizopus) or mushrooms.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_bio_real_20",
+      "examId": "exam_125",
+      "grade": "Grade9",
+      "subject": "Biology",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Which of the following cellular structures are used as locomotive appendages in unicellular organisms?",
+      "options": [
+        "Flagella",
+        "Cilia",
+        "Pseudopodia",
+        "All of the above"
+      ],
+      "correctAnswer": 3,
+      "explanation": "Euglena moves by flagella, Paramecium uses cilia, and Amoeba moves using amoeboid cytoplasmic extensions called pseudopodia.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_bio_real_21",
+      "examId": "exam_125",
+      "grade": "Grade9",
+      "subject": "Biology",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Which of the following protists is free-living and does NOT cause human infectious disease?",
+      "options": [
+        "Amoeba (Entamoeba)",
+        "Paramecium",
+        "Plasmodium",
+        "Giardia"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Paramecium is a harmless, free-living ciliated pond protist. Plasmodium causes malaria, Giardia causes giardiasis, and Entamoeba causes amoebic dysentery.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_bio_real_22",
+      "examId": "exam_125",
+      "grade": "Grade9",
+      "subject": "Biology",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Which method of asexual reproduction is characteristic of Paramecium?",
+      "options": [
+        "Budding",
+        "Sporulation",
+        "Binary fission",
+        "Multiple fission"
+      ],
+      "correctAnswer": 2,
+      "explanation": "Paramecium divides asexually via transverse binary fission, producing two identical daughter ciliate cells.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_bio_real_23",
+      "examId": "exam_125",
+      "grade": "Grade9",
+      "subject": "Biology",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Which of the following is NOT a difference between fungi and animals?",
+      "options": [
+        "Fungi have chitinous cell walls whereas animals lack cell walls",
+        "Fungi are heterotrophs while animals are autotrophs",
+        "Fungi are absorptive heterotrophs while animals are ingestive heterotrophs",
+        "Fungi are non-motile while animals are motile"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Both fungi and animals are heterotrophs (neither are autotrophs). Stating animals are not heterotrophic is false.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_bio_real_24",
+      "examId": "exam_125",
+      "grade": "Grade9",
+      "subject": "Biology",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Fungi resemble animals because they are:",
+      "options": [
+        "Heterotrophs (store glycogen, non-photosynthetic)",
+        "Heterosporous",
+        "Chemoautotrophs",
+        "Photoautotrophs"
+      ],
+      "correctAnswer": 0,
+      "explanation": "Fungi share phylogenetic kinship with animals as heterotrophs that store carbohydrates as glycogen rather than starch.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_bio_real_25",
+      "examId": "exam_125",
+      "grade": "Grade9",
+      "subject": "Biology",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "All of the following are asexual modes of reproduction in fungi EXCEPT:",
+      "options": [
+        "Budding",
+        "Sporulation",
+        "Fragmentation",
+        "Conjugation"
+      ],
+      "correctAnswer": 3,
+      "explanation": "Conjugation is a sexual process involving nuclear exchange and genetic recombination, whereas budding, sporulation, and fragmentation are asexual.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_bio_real_26",
+      "examId": "exam_125",
+      "grade": "Grade9",
+      "subject": "Biology",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "The vegetative body of multicellular fungi (mycelium) is composed of microscopic tubular branched filaments called:",
+      "options": [
+        "Hyphae",
+        "Sporangium",
+        "Rhizoids",
+        "Spores"
+      ],
+      "correctAnswer": 0,
+      "explanation": "Hyphae are the thread-like fungal filaments that weave together to constitute the fungal mycelium.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_bio_real_27",
+      "examId": "exam_125",
+      "grade": "Grade9",
+      "subject": "Biology",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Protozoan protists are traditionally classified into classes primarily according to:",
+      "options": [
+        "How they obtain nutrients",
+        "How they grow",
+        "Their mechanism of locomotion (cilia, flagella, pseudopodia)",
+        "How they reproduce"
+      ],
+      "correctAnswer": 2,
+      "explanation": "Protozoa are systematically grouped by their mode of movement: flagellates, ciliates, amoeboids (pseudopodia), and non-motile sporozoans.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_bio_real_28",
+      "examId": "exam_125",
+      "grade": "Grade9",
+      "subject": "Biology",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Which of the following Archaebacteria can thrive in aerobic, hypersaline environments?",
+      "options": [
+        "Halophiles",
+        "Methanogens",
+        "Thermoacidophiles",
+        "Cyanobacteria"
+      ],
+      "correctAnswer": 0,
+      "explanation": "Extremely halophilic Archaea (Halophiles) live in extreme salt lakes and require high NaCl concentrations, carrying out aerobic respiration.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_bio_real_29",
+      "examId": "exam_125",
+      "grade": "Grade9",
+      "subject": "Biology",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "During binary fission, which statement accurately describes the resulting daughter cells?",
+      "options": [
+        "They have half as many chromosomes as the parent cell",
+        "They have double the chromosome number",
+        "They have the same chromosome count as the parent but initial smaller cell volume",
+        "They contain no genetic material"
+      ],
+      "correctAnswer": 2,
+      "explanation": "Binary fission produces two genetically identical daughter cells with the exact full parental complement of chromosomes, which then grow in size.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_bio_real_30",
+      "examId": "exam_125",
+      "grade": "Grade9",
+      "subject": "Biology",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Which pair correctly matches the organism with its cell wall chemical composition?",
+      "options": [
+        "Cyanobacteria — Peptidoglycan cell wall",
+        "Cyanophyta — Cellulose cell wall",
+        "Yeast — Chitin & glucan cell wall",
+        "All of the above are correct"
+      ],
+      "correctAnswer": 3,
+      "explanation": "All three pairings accurately depict the respective cell wall biochemical constituents.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_phys_real_01",
+      "examId": "exam_135",
+      "grade": "Grade9",
+      "subject": "Physics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "True or False: Feresula is a traditional unit to measure time.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "correctAnswer": 1,
+      "explanation": "False. In Ethiopian traditional measurement, the \"Feresula\" is an indigenous unit of mass (equal to approximately 17 kg), not time.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_phys_real_02",
+      "examId": "exam_135",
+      "grade": "Grade9",
+      "subject": "Physics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "True or False: The number 1.020 has four significant figures.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "correctAnswer": 0,
+      "explanation": "True. The '1' and '2' are non-zero, the zero between them is captive, and the trailing zero after the decimal point is significant, totaling 4 significant figures.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_phys_real_03",
+      "examId": "exam_135",
+      "grade": "Grade9",
+      "subject": "Physics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "True or False: The number 1,000,000 is denoted by the metric prefix mega.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "correctAnswer": 0,
+      "explanation": "True. The SI prefix \"mega\" (M) denotes a multiplier factor of 10⁶ = 1,000,000.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_phys_real_04",
+      "examId": "exam_135",
+      "grade": "Grade9",
+      "subject": "Physics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "True or False: Zeros between non-zero digits are significant.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "correctAnswer": 0,
+      "explanation": "True. By standard significant figure rules, captive zeros (zeros between two non-zero digits) are always significant.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_phys_real_05",
+      "examId": "exam_135",
+      "grade": "Grade9",
+      "subject": "Physics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "True or False: Leading zeros are significant if the number has a decimal point.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "correctAnswer": 1,
+      "explanation": "False. Leading zeros (such as the zeros in 0.005) merely show the position of the decimal point and are never significant.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_phys_real_06",
+      "examId": "exam_135",
+      "grade": "Grade9",
+      "subject": "Physics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "True or False: In addition, the rules for significant figures are the same as in division.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "correctAnswer": 1,
+      "explanation": "False. In addition/subtraction, precision is determined by the fewest decimal places; in multiplication/division, precision is determined by the fewest significant figures.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_phys_real_07",
+      "examId": "exam_135",
+      "grade": "Grade9",
+      "subject": "Physics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Which of the following is a fundamental physical quantity?",
+      "options": [
+        "Area",
+        "Volume",
+        "Time",
+        "Density"
+      ],
+      "correctAnswer": 2,
+      "explanation": "Time (measured in seconds) is one of the seven SI fundamental/base physical quantities. Area, volume, and density are derived.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_phys_real_08",
+      "examId": "exam_135",
+      "grade": "Grade9",
+      "subject": "Physics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "When adding or subtracting significant figures, the result should have the same number with:",
+      "options": [
+        "the most decimal places",
+        "the fewest significant figures",
+        "the fewest decimal places",
+        "the most significant figures"
+      ],
+      "correctAnswer": 2,
+      "explanation": "The result of addition or subtraction must be rounded to match the value with the fewest decimal places (least decimal precision).",
+      "points": 1
+    },
+    {
+      "id": "q_g9_phys_real_09",
+      "examId": "exam_135",
+      "grade": "Grade9",
+      "subject": "Physics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "The prefix \"Nano\" represents:",
+      "options": [
+        "10⁻⁶",
+        "10⁶",
+        "10⁹",
+        "10⁻⁹"
+      ],
+      "correctAnswer": 3,
+      "explanation": "The metric prefix nano- corresponds to 10⁻⁹. Micro- is 10⁻⁶ and giga- is 10⁹.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_phys_real_10",
+      "examId": "exam_135",
+      "grade": "Grade9",
+      "subject": "Physics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Which one of the following innovations was contributed by Sir Isaac Newton?",
+      "options": [
+        "universal law of gravitation",
+        "Calculus",
+        "optics & laws of motion",
+        "All of the above"
+      ],
+      "correctAnswer": 3,
+      "explanation": "Isaac Newton made foundational discoveries in universal gravitation, classical mechanics (laws of motion), calculus, and optics (prism dispersion).",
+      "points": 1
+    },
+    {
+      "id": "q_g9_phys_real_11",
+      "examId": "exam_135",
+      "grade": "Grade9",
+      "subject": "Physics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Which one of the following numbers has the greatest number of significant figures?",
+      "options": [
+        "0.020",
+        "2000",
+        "0.001",
+        "50000"
+      ],
+      "correctAnswer": 0,
+      "explanation": "0.020 has 2 significant figures (the '2' and trailing '0'). 2000 has 1, 0.001 has 1, and 50000 has 1.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_phys_real_12",
+      "examId": "exam_135",
+      "grade": "Grade9",
+      "subject": "Physics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "The number 25.373 rounded to 3 significant figures is:",
+      "options": [
+        "25.30",
+        "25",
+        "25.3",
+        "25.4"
+      ],
+      "correctAnswer": 3,
+      "explanation": "The first three significant figures are 2, 5, and 3. The following digit is 7 (≥ 5), so 3 rounds up to 4, giving 25.4.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_phys_real_13",
+      "examId": "exam_135",
+      "grade": "Grade9",
+      "subject": "Physics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Multiply 500 × 2.4 and report with the correct number of significant figures:",
+      "options": [
+        "872",
+        "8700",
+        "2000.0",
+        "1000"
+      ],
+      "correctAnswer": 3,
+      "explanation": "500 has 1 significant figure, and 2.4 has 2. 500 × 2.4 = 1200, which rounds to 1 significant figure as 1000.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_phys_real_14",
+      "examId": "exam_135",
+      "grade": "Grade9",
+      "subject": "Physics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Subtract 35.25 - 34 and report with the correct number of significant figures:",
+      "options": [
+        "1.25",
+        "1.5",
+        "1",
+        "2"
+      ],
+      "correctAnswer": 2,
+      "explanation": "35.25 has 2 decimal places and 34 has 0 decimal places. 35.25 - 34 = 1.25, rounded to 0 decimal places gives 1.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_phys_real_15",
+      "examId": "exam_135",
+      "grade": "Grade9",
+      "subject": "Physics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Which one of the following is NOT equivalent to 1 hour?",
+      "options": [
+        "60 minutes",
+        "3600 seconds",
+        "0.24 day",
+        "None of the above"
+      ],
+      "correctAnswer": 2,
+      "explanation": "0.24 day equals 0.24 × 24 = 5.76 hours, which is not equivalent to 1 hour.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_phys_real_16",
+      "examId": "exam_135",
+      "grade": "Grade9",
+      "subject": "Physics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "One metric ton is equivalent to which of the following?",
+      "options": [
+        "1000 kg",
+        "10 quintal",
+        "1,000,000 g",
+        "All of the above"
+      ],
+      "correctAnswer": 3,
+      "explanation": "1 metric ton = 1,000 kg = 10 quintals (1 quintal = 100 kg) = 1,000,000 grams. All expressions are equivalent.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_phys_real_17",
+      "examId": "exam_135",
+      "grade": "Grade9",
+      "subject": "Physics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Which physicist explained the photoelectric effect in 1905, establishing light quanta?",
+      "options": [
+        "Albert Einstein",
+        "Isaac Newton",
+        "James Prescott Joule",
+        "Michael Faraday"
+      ],
+      "correctAnswer": 0,
+      "explanation": "Albert Einstein won the 1921 Nobel Prize in Physics for his theoretical explanation of the photoelectric effect.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_phys_real_18",
+      "examId": "exam_135",
+      "grade": "Grade9",
+      "subject": "Physics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Which scientist experimentally determined the mechanical equivalent of heat?",
+      "options": [
+        "James Prescott Joule",
+        "Marie Curie",
+        "Michael Faraday",
+        "Albert Einstein"
+      ],
+      "correctAnswer": 0,
+      "explanation": "James Prescott Joule showed the equivalence of mechanical work and thermal energy, giving his name to the SI unit of energy (Joule).",
+      "points": 1
+    },
+    {
+      "id": "q_g9_phys_real_19",
+      "examId": "exam_135",
+      "grade": "Grade9",
+      "subject": "Physics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Which pioneering scientist discovered radium and polonium, winning two Nobel Prizes?",
+      "options": [
+        "Marie Curie",
+        "Isaac Newton",
+        "Michael Faraday",
+        "James Prescott Joule"
+      ],
+      "correctAnswer": 0,
+      "explanation": "Marie Curie discovered the radioactive elements radium and polonium.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_phys_real_20",
+      "examId": "exam_135",
+      "grade": "Grade9",
+      "subject": "Physics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Which scientist discovered electromagnetic induction and formulated laws governing magnetic flux and induced EMF?",
+      "options": [
+        "Michael Faraday",
+        "Isaac Newton",
+        "Albert Einstein",
+        "Marie Curie"
+      ],
+      "correctAnswer": 0,
+      "explanation": "Michael Faraday discovered electromagnetic induction in 1831.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_phys_real_21",
+      "examId": "exam_135",
+      "grade": "Grade9",
+      "subject": "Physics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Which branch of physics deals with the study of motion and forces?",
+      "options": [
+        "Optics",
+        "Electromagnetism",
+        "Mechanics",
+        "Acoustics"
+      ],
+      "correctAnswer": 2,
+      "explanation": "Mechanics is the foundation branch of physics studying motion, forces, momentum, and energy.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_phys_real_22",
+      "examId": "exam_135",
+      "grade": "Grade9",
+      "subject": "Physics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Which branch of physics studies the behavior of heat, work, and temperature?",
+      "options": [
+        "Thermodynamics",
+        "Mechanics",
+        "Nuclear physics",
+        "Astrophysics"
+      ],
+      "correctAnswer": 0,
+      "explanation": "Thermodynamics governs heat transfer, thermodynamic laws, work, and entropy.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_phys_real_23",
+      "examId": "exam_135",
+      "grade": "Grade9",
+      "subject": "Physics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Which branch of physics deals with electric and magnetic fields and their interactions?",
+      "options": [
+        "Electromagnetism",
+        "Acoustics",
+        "Optics",
+        "Astrophysics"
+      ],
+      "correctAnswer": 0,
+      "explanation": "Electromagnetism encompasses electrostatics, magnetostatics, circuits, and electromagnetic waves.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_phys_real_24",
+      "examId": "exam_135",
+      "grade": "Grade9",
+      "subject": "Physics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Which branch of physics is concerned with the generation, propagation, and detection of sound waves?",
+      "options": [
+        "Acoustics",
+        "Optics",
+        "Nuclear physics",
+        "Mechanics"
+      ],
+      "correctAnswer": 0,
+      "explanation": "Acoustics is the physical study of mechanical sound and vibration waves in various media.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_phys_real_25",
+      "examId": "exam_135",
+      "grade": "Grade9",
+      "subject": "Physics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Which branch of physics studies the behavior, properties, and transmission of light?",
+      "options": [
+        "Optics",
+        "Thermodynamics",
+        "Acoustics",
+        "Mechanics"
+      ],
+      "correctAnswer": 0,
+      "explanation": "Optics studies reflection, refraction, lenses, diffraction, and properties of light.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_phys_real_26",
+      "examId": "exam_135",
+      "grade": "Grade9",
+      "subject": "Physics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "How many significant figures are in the measurement 30.250 m?",
+      "options": [
+        "2",
+        "3",
+        "4",
+        "5"
+      ],
+      "correctAnswer": 3,
+      "explanation": "30.250 has five significant figures (the '3', captive '0', '2', '5', and trailing '0' in decimal).",
+      "points": 1
+    },
+    {
       "id": "q_math_g12_1",
       "grade": "Grade12",
       "subject": "Mathematics",
@@ -2436,278 +4869,6 @@
       "points": 1
     },
     {
-      "id": "q_g9_phys_01",
-      "grade": "Grade9",
-      "subject": "Physics",
-      "semester": "Semester1",
-      "examType": "Mid1",
-      "question": "Which of the following is a fundamental physical quantity?",
-      "options": [
-        "Area",
-        "Volume",
-        "Time",
-        "Density"
-      ],
-      "correctAnswer": 2,
-      "explanation": "Time is one of the seven base/fundamental SI physical quantities (along with mass, length, temperature, electric current, luminous intensity, and amount of substance). Area, volume, and density are derived quantities.",
-      "points": 1
-    },
-    {
-      "id": "q_g9_phys_02",
-      "grade": "Grade9",
-      "subject": "Physics",
-      "semester": "Semester1",
-      "examType": "Mid1",
-      "question": "When adding or subtracting numbers with significant figures, the final result should have the same number of:",
-      "options": [
-        "The most decimal places",
-        "The fewest significant figures",
-        "The fewest decimal places",
-        "The most significant figures"
-      ],
-      "correctAnswer": 2,
-      "explanation": "In addition and subtraction, the answer cannot be more precise than the least precise measurement, meaning it must have the same number of decimal places as the value with the fewest decimal places.",
-      "points": 1
-    },
-    {
-      "id": "q_g9_phys_03",
-      "grade": "Grade9",
-      "subject": "Physics",
-      "semester": "Semester1",
-      "examType": "Mid1",
-      "question": "The metric prefix \"nano\" represents which factor?",
-      "options": [
-        "10⁻⁶",
-        "10⁶",
-        "10⁹",
-        "10⁻⁹"
-      ],
-      "correctAnswer": 3,
-      "explanation": "The prefix \"nano\" (symbol n) represents a factor of 10⁻⁹ (one billionth). Micro is 10⁻⁶, and giga is 10⁹.",
-      "points": 1
-    },
-    {
-      "id": "q_g9_phys_04",
-      "grade": "Grade9",
-      "subject": "Physics",
-      "semester": "Semester1",
-      "examType": "Mid1",
-      "question": "Which scientific breakthrough was contributed by Sir Isaac Newton?",
-      "options": [
-        "Universal law of gravitation",
-        "Calculus",
-        "Optics & laws of motion",
-        "All of the above"
-      ],
-      "correctAnswer": 3,
-      "explanation": "Sir Isaac Newton made groundbreaking contributions to the universal law of gravitation, the three laws of motion, calculus, and optics (corpuscular theory of light and prism dispersion).",
-      "points": 1
-    },
-    {
-      "id": "q_g9_phys_05",
-      "grade": "Grade9",
-      "subject": "Physics",
-      "semester": "Semester1",
-      "examType": "Mid1",
-      "question": "Which of the following numbers has the greatest number of significant figures?",
-      "options": [
-        "0.020",
-        "2000",
-        "0.001",
-        "50000"
-      ],
-      "correctAnswer": 0,
-      "explanation": "0.020 has two significant figures (the 2 and trailing 0 after decimal). 2000 has 1 (without decimal point), 0.001 has 1 (leading zeros never count), and 50000 has 1.",
-      "points": 1
-    },
-    {
-      "id": "q_g9_phys_06",
-      "grade": "Grade9",
-      "subject": "Physics",
-      "semester": "Semester1",
-      "examType": "Mid1",
-      "question": "The number 25.373 rounded to 3 significant figures is:",
-      "options": [
-        "25.30",
-        "25",
-        "25.3",
-        "25.4"
-      ],
-      "correctAnswer": 3,
-      "explanation": "Looking at 25.373: the first three significant digits are 2, 5, and 3. The fourth digit is 7 (≥ 5), so we round the 3 up to 4, giving 25.4.",
-      "points": 1
-    },
-    {
-      "id": "q_g9_phys_07",
-      "grade": "Grade9",
-      "subject": "Physics",
-      "semester": "Semester1",
-      "examType": "Mid1",
-      "question": "Multiply 500 × 2.4 and report the result with the correct number of significant figures:",
-      "options": [
-        "872",
-        "8700",
-        "2000.0",
-        "1000"
-      ],
-      "correctAnswer": 3,
-      "explanation": "500 has 1 significant figure and 2.4 has 2. In multiplication, the product must retain the fewest significant figures (1 sig fig). 500 × 2.4 = 1200, which rounds to 1000 (1 sig fig).",
-      "points": 1
-    },
-    {
-      "id": "q_g9_phys_08",
-      "grade": "Grade9",
-      "subject": "Physics",
-      "semester": "Semester1",
-      "examType": "Mid1",
-      "question": "Subtract 35.25 - 34 and report the answer with the correct number of significant figures:",
-      "options": [
-        "1.25",
-        "1.5",
-        "1",
-        "2"
-      ],
-      "correctAnswer": 2,
-      "explanation": "35.25 has 2 decimal places, while 34 has 0 decimal places. The result 1.25 must be rounded to 0 decimal places (the fewest decimal places), yielding 1.",
-      "points": 1
-    },
-    {
-      "id": "q_g9_phys_09",
-      "grade": "Grade9",
-      "subject": "Physics",
-      "semester": "Semester1",
-      "examType": "Mid1",
-      "question": "Which of the following is NOT equivalent to 1 hour?",
-      "options": [
-        "60 minutes",
-        "3600 seconds",
-        "0.24 day",
-        "None of the above"
-      ],
-      "correctAnswer": 2,
-      "explanation": "One day has 24 hours. 0.24 day equals 0.24 × 24 = 5.76 hours, which is NOT equal to 1 hour (1 hour is approximately 0.0417 day).",
-      "points": 1
-    },
-    {
-      "id": "q_g9_phys_10",
-      "grade": "Grade9",
-      "subject": "Physics",
-      "semester": "Semester1",
-      "examType": "Mid1",
-      "question": "One metric ton is equivalent to which of the following?",
-      "options": [
-        "1,000 kg",
-        "10 quintals",
-        "1,000,000 g",
-        "All of the above"
-      ],
-      "correctAnswer": 3,
-      "explanation": "1 metric ton = 1,000 kg = 10 quintals (1 quintal = 100 kg) = 1,000,000 grams. All options are equivalent.",
-      "points": 1
-    },
-    {
-      "id": "q_g9_phys_11",
-      "grade": "Grade9",
-      "subject": "Physics",
-      "semester": "Semester1",
-      "examType": "Mid1",
-      "question": "Which branch of physics deals with the study of motion and forces?",
-      "options": [
-        "Acoustics",
-        "Mechanics",
-        "Electromagnetism",
-        "Thermodynamics"
-      ],
-      "correctAnswer": 1,
-      "explanation": "Mechanics is the branch of physics concerned with the relationships between force, matter, and motion among physical objects.",
-      "points": 1
-    },
-    {
-      "id": "q_g9_phys_12",
-      "grade": "Grade9",
-      "subject": "Physics",
-      "semester": "Semester1",
-      "examType": "Mid1",
-      "question": "Which branch of physics studies the behavior of heat, work, and temperature?",
-      "options": [
-        "Thermodynamics",
-        "Optics",
-        "Astrophysics",
-        "Nuclear physics"
-      ],
-      "correctAnswer": 0,
-      "explanation": "Thermodynamics is the branch of physical science that deals with the relations between heat and other forms of energy.",
-      "points": 1
-    },
-    {
-      "id": "q_g9_phys_13",
-      "grade": "Grade9",
-      "subject": "Physics",
-      "semester": "Semester1",
-      "examType": "Mid1",
-      "question": "Which branch of physics is concerned with the properties and propagation of light?",
-      "options": [
-        "Acoustics",
-        "Optics",
-        "Fluid dynamics",
-        "Electrodynamics"
-      ],
-      "correctAnswer": 1,
-      "explanation": "Optics is the branch of physics that studies the behavior and properties of light, including its interactions with matter and the construction of instruments that use or detect it.",
-      "points": 1
-    },
-    {
-      "id": "q_g9_phys_14",
-      "grade": "Grade9",
-      "subject": "Physics",
-      "semester": "Semester1",
-      "examType": "Mid1",
-      "question": "Which physicist formulated the laws of electromagnetic induction?",
-      "options": [
-        "Michael Faraday",
-        "Albert Einstein",
-        "James Prescott Joule",
-        "Marie Curie"
-      ],
-      "correctAnswer": 0,
-      "explanation": "Michael Faraday discovered electromagnetic induction in 1831, showing that a changing magnetic field induces an electromotive force (EMF) in a conductor.",
-      "points": 1
-    },
-    {
-      "id": "q_g9_phys_15",
-      "grade": "Grade9",
-      "subject": "Physics",
-      "semester": "Semester1",
-      "examType": "Mid1",
-      "question": "The traditional Ethiopian unit of mass called \"Feresula\" corresponds approximately to:",
-      "options": [
-        "1 kg",
-        "17 kg",
-        "50 kg",
-        "100 kg"
-      ],
-      "correctAnswer": 1,
-      "explanation": "In Ethiopian traditional commerce (especially for coffee and agricultural produce), 1 Feresula is approximately equal to 17 kilograms.",
-      "points": 1
-    },
-    {
-      "id": "q_g9_phys_16",
-      "grade": "Grade9",
-      "subject": "Physics",
-      "semester": "Semester1",
-      "examType": "Mid1",
-      "question": "How many significant figures are present in the measurement 30.250 m?",
-      "options": [
-        "2",
-        "3",
-        "4",
-        "5"
-      ],
-      "correctAnswer": 3,
-      "explanation": "All non-zero digits are significant, the zero between non-zeros is significant, and the trailing zero in a decimal number is significant. Thus, 30.250 has 5 significant figures.",
-      "points": 1
-    },
-    {
       "id": "q_g9_phys_17",
       "grade": "Grade9",
       "subject": "Physics",
@@ -2776,261 +4937,6 @@
       "points": 1
     },
     {
-      "id": "q_g9_bio_01",
-      "grade": "Grade9",
-      "subject": "Biology",
-      "semester": "Semester1",
-      "examType": "Mid1",
-      "question": "Which laboratory apparatus is used to provide pressurized steam for sterilizing instruments?",
-      "options": [
-        "Autoclave",
-        "Incubator",
-        "Hot air oven",
-        "Desiccator"
-      ],
-      "correctAnswer": 0,
-      "explanation": "An autoclave utilizes high-pressure saturated steam at approximately 121°C for 15-20 minutes to achieve complete sterilization of microbiological tools and glassware.",
-      "points": 1
-    },
-    {
-      "id": "q_g9_bio_02",
-      "grade": "Grade9",
-      "subject": "Biology",
-      "semester": "Semester1",
-      "examType": "Mid1",
-      "question": "Who divided animals into two broad groups: those with red blood and those without red blood?",
-      "options": [
-        "Robert Whittaker",
-        "Aristotle",
-        "Carolus Linnaeus",
-        "Antonie van Leeuwenhoek"
-      ],
-      "correctAnswer": 1,
-      "explanation": "Aristotle, the ancient Greek philosopher, classified animals into Enaima (animals with red blood, vertebrates) and Anaima (animals without red blood, invertebrates).",
-      "points": 1
-    },
-    {
-      "id": "q_g9_bio_03",
-      "grade": "Grade9",
-      "subject": "Biology",
-      "semester": "Semester1",
-      "examType": "Mid1",
-      "question": "The criteria used in Whittaker's five-kingdom classification system include:",
-      "options": [
-        "Cell structure (prokaryotic vs eukaryotic)",
-        "Mode of nutrition",
-        "Phylogenetic relationships",
-        "All of the above"
-      ],
-      "correctAnswer": 3,
-      "explanation": "Whittaker's five-kingdom classification (Monera, Protista, Fungi, Plantae, Animalia) was based on cell complexity, body organization, mode of nutrition, and phylogenetic evolutionary links.",
-      "points": 1
-    },
-    {
-      "id": "q_g9_bio_04",
-      "grade": "Grade9",
-      "subject": "Biology",
-      "semester": "Semester1",
-      "examType": "Mid1",
-      "question": "Which organisms are included in Whittaker's five kingdoms?",
-      "options": [
-        "Viruses and Prions",
-        "Bacteria and Algae",
-        "Lichens and Bacteriophages",
-        "Viroids only"
-      ],
-      "correctAnswer": 1,
-      "explanation": "Bacteria belong to Kingdom Monera, and unicellular algae belong to Kingdom Protista. Viruses, viroids, and prions are acellular and are not included in Whittaker's kingdoms.",
-      "points": 1
-    },
-    {
-      "id": "q_g9_bio_05",
-      "grade": "Grade9",
-      "subject": "Biology",
-      "semester": "Semester1",
-      "examType": "Mid1",
-      "question": "Who was the creator of binomial nomenclature and the author of \"Systema Naturae\"?",
-      "options": [
-        "Carolus Linnaeus",
-        "Charles Darwin",
-        "Gregor Mendel",
-        "Jean-Baptiste Lamarck"
-      ],
-      "correctAnswer": 0,
-      "explanation": "Carolus Linnaeus developed the formal system of naming species of living things by giving each a name composed of two parts (Genus and species) in his work Systema Naturae.",
-      "points": 1
-    },
-    {
-      "id": "q_g9_bio_06",
-      "grade": "Grade9",
-      "subject": "Biology",
-      "semester": "Semester1",
-      "examType": "Mid1",
-      "question": "What type of asexual reproduction is characteristically used by yeast cells?",
-      "options": [
-        "Binary fission",
-        "Budding",
-        "Regeneration",
-        "Conjugation"
-      ],
-      "correctAnswer": 1,
-      "explanation": "Yeasts primarily reproduce asexually by budding, where a small daughter outgrowth forms on the parent cell, receives a replicated nucleus, and eventually separates.",
-      "points": 1
-    },
-    {
-      "id": "q_g9_bio_07",
-      "grade": "Grade9",
-      "subject": "Biology",
-      "semester": "Semester1",
-      "examType": "Mid1",
-      "question": "Protists are ecologically vital because they:",
-      "options": [
-        "Produce atmospheric oxygen via photosynthesis",
-        "Support aquatic food chains",
-        "Recycle nutrients as decomposers",
-        "All of the above"
-      ],
-      "correctAnswer": 3,
-      "explanation": "Phytoplankton and protists generate a massive portion of global oxygen, form the foundational trophic level in marine/freshwater food webs, and assist in nutrient cycling.",
-      "points": 1
-    },
-    {
-      "id": "q_g9_bio_08",
-      "grade": "Grade9",
-      "subject": "Biology",
-      "semester": "Semester1",
-      "examType": "Mid1",
-      "question": "Fungi are critical components of an ecosystem because their primary ecological role is as:",
-      "options": [
-        "Primary producers",
-        "Decomposers",
-        "Top carnivores",
-        "Nitrogen-fixing symbionts only"
-      ],
-      "correctAnswer": 1,
-      "explanation": "Fungi are primary saprotrophic decomposers that secrete extracellular digestive enzymes to break down complex dead organic matter into basic nutrients.",
-      "points": 1
-    },
-    {
-      "id": "q_g9_bio_09",
-      "grade": "Grade9",
-      "subject": "Biology",
-      "semester": "Semester1",
-      "examType": "Mid1",
-      "question": "Which of the following is an example of a non-hyphal, unicellular fungus?",
-      "options": [
-        "Yeast",
-        "Mucor",
-        "Rhizopus",
-        "Mushroom (Agaricus)"
-      ],
-      "correctAnswer": 0,
-      "explanation": "Yeast (such as Saccharomyces cerevisiae) is a unicellular, non-hyphal fungus, unlike filamentous molds like Mucor and Rhizopus.",
-      "points": 1
-    },
-    {
-      "id": "q_g9_bio_10",
-      "grade": "Grade9",
-      "subject": "Biology",
-      "semester": "Semester1",
-      "examType": "Mid1",
-      "question": "Which of the following cellular structures are used for locomotion in microorganisms?",
-      "options": [
-        "Flagella",
-        "Cilia",
-        "Pseudopodia",
-        "All of the above"
-      ],
-      "correctAnswer": 3,
-      "explanation": "Microorganisms use flagella (e.g., Euglena), cilia (e.g., Paramecium), or pseudopodia (e.g., Amoeba) for locomotion.",
-      "points": 1
-    },
-    {
-      "id": "q_g9_bio_11",
-      "grade": "Grade9",
-      "subject": "Biology",
-      "semester": "Semester1",
-      "examType": "Mid1",
-      "question": "Which of the following protists is a free-living, non-pathogenic organism?",
-      "options": [
-        "Paramecium",
-        "Plasmodium",
-        "Giardia",
-        "Entamoeba histolytica"
-      ],
-      "correctAnswer": 0,
-      "explanation": "Paramecium is a free-living ciliate in ponds and fresh waters. Plasmodium causes malaria, and Giardia causes giardiasis.",
-      "points": 1
-    },
-    {
-      "id": "q_g9_bio_12",
-      "grade": "Grade9",
-      "subject": "Biology",
-      "semester": "Semester1",
-      "examType": "Mid1",
-      "question": "The individual thread-like filaments that compose the mycelium of a fungus are called:",
-      "options": [
-        "Hyphae",
-        "Spores",
-        "Rhizoids",
-        "Sporangia"
-      ],
-      "correctAnswer": 0,
-      "explanation": "Hyphae (singular: hypha) are long branching filamentous structures that together form the vegetative mycelium of fungi.",
-      "points": 1
-    },
-    {
-      "id": "q_g9_bio_13",
-      "grade": "Grade9",
-      "subject": "Biology",
-      "semester": "Semester1",
-      "examType": "Mid1",
-      "question": "Which of the following is an endemic plant of immense cultural and agricultural importance in Ethiopia?",
-      "options": [
-        "Ensete ventricosum (Enset)",
-        "Zea mays (Maize)",
-        "Triticum aestivum (Wheat)",
-        "Oryza sativa (Rice)"
-      ],
-      "correctAnswer": 0,
-      "explanation": "Ensete ventricosum (false banana or Enset) is endemic and indigenous to Ethiopia, serving as a staple food security crop for millions in southern Ethiopia.",
-      "points": 1
-    },
-    {
-      "id": "q_g9_bio_14",
-      "grade": "Grade9",
-      "subject": "Biology",
-      "semester": "Semester1",
-      "examType": "Mid1",
-      "question": "Which endangered wild mammal is strictly endemic to the Semien Mountains of Ethiopia?",
-      "options": [
-        "Walia Ibex (Capra walie)",
-        "Bengal Tiger",
-        "Spotted Hyena",
-        "African Lion"
-      ],
-      "correctAnswer": 0,
-      "explanation": "The Walia Ibex (Capra walie) is a critically unique mountain goat species endemic exclusively to the Semien Mountains of Ethiopia.",
-      "points": 1
-    },
-    {
-      "id": "q_g9_bio_15",
-      "grade": "Grade9",
-      "subject": "Biology",
-      "semester": "Semester1",
-      "examType": "Mid1",
-      "question": "On an optical light microscope, which component controls the amount of light reaching the specimen?",
-      "options": [
-        "Diaphragm",
-        "Coarse adjustment knob",
-        "Stage clips",
-        "Ocular lens"
-      ],
-      "correctAnswer": 0,
-      "explanation": "The iris diaphragm (located beneath the stage) regulates the cone of light that reaches the specimen, adjusting brightness and contrast.",
-      "points": 1
-    },
-    {
       "id": "q_g9_bio_16",
       "grade": "Grade9",
       "subject": "Biology",
@@ -3079,108 +4985,6 @@
       ],
       "correctAnswer": 0,
       "explanation": "Arteries transport blood under high pressure away from the heart to bodily tissues. The systemic arteries carry oxygenated blood.",
-      "points": 1
-    },
-    {
-      "id": "q_g9_chem_01",
-      "grade": "Grade9",
-      "subject": "Chemistry",
-      "semester": "Semester1",
-      "examType": "Mid1",
-      "question": "Who proposed the atomic theory stating that matter is made of indivisible, indestructible particles called atoms?",
-      "options": [
-        "John Dalton",
-        "J.J. Thomson",
-        "Ernest Rutherford",
-        "Niels Bohr"
-      ],
-      "correctAnswer": 0,
-      "explanation": "John Dalton formulated the modern atomic theory in 1803, stating that all matter is composed of tiny indivisible particles called atoms.",
-      "points": 1
-    },
-    {
-      "id": "q_g9_chem_02",
-      "grade": "Grade9",
-      "subject": "Chemistry",
-      "semester": "Semester1",
-      "examType": "Mid1",
-      "question": "Which subatomic particle carries a negative electric charge?",
-      "options": [
-        "Electron",
-        "Proton",
-        "Neutron",
-        "Positron"
-      ],
-      "correctAnswer": 0,
-      "explanation": "Electrons carry a negative charge (-1.602 × 10⁻¹⁹ C) and orbit the nucleus. Protons are positive and neutrons are neutral.",
-      "points": 1
-    },
-    {
-      "id": "q_g9_chem_03",
-      "grade": "Grade9",
-      "subject": "Chemistry",
-      "semester": "Semester1",
-      "examType": "Mid1",
-      "question": "The atomic number (Z) of a neutral atom is equal to the number of:",
-      "options": [
-        "Protons in the nucleus",
-        "Neutrons in the nucleus",
-        "Protons plus neutrons",
-        "Valence electrons only"
-      ],
-      "correctAnswer": 0,
-      "explanation": "The atomic number (Z) uniquely identifies an element and equals the number of protons in the nucleus of an atom.",
-      "points": 1
-    },
-    {
-      "id": "q_g9_chem_04",
-      "grade": "Grade9",
-      "subject": "Chemistry",
-      "semester": "Semester1",
-      "examType": "Mid1",
-      "question": "What is the mass number (A) of an atom with 6 protons and 8 neutrons?",
-      "options": [
-        "6",
-        "8",
-        "14",
-        "48"
-      ],
-      "correctAnswer": 2,
-      "explanation": "Mass number A = Protons + Neutrons = 6 + 8 = 14 (Carbon-14 isotope).",
-      "points": 1
-    },
-    {
-      "id": "q_g9_chem_05",
-      "grade": "Grade9",
-      "subject": "Chemistry",
-      "semester": "Semester1",
-      "examType": "Mid1",
-      "question": "Elements located in Group 1 (IA) of the modern periodic table are known as:",
-      "options": [
-        "Alkali metals",
-        "Alkaline earth metals",
-        "Halogens",
-        "Noble gases"
-      ],
-      "correctAnswer": 0,
-      "explanation": "Group 1 elements (Li, Na, K, Rb, Cs, Fr) are alkali metals. Group 2 are alkaline earth metals, Group 17 are halogens, and Group 18 are noble gases.",
-      "points": 1
-    },
-    {
-      "id": "q_g9_chem_06",
-      "grade": "Grade9",
-      "subject": "Chemistry",
-      "semester": "Semester1",
-      "examType": "Mid1",
-      "question": "Which type of chemical bond is formed by the complete transfer of electrons from a metal to a non-metal?",
-      "options": [
-        "Ionic bond",
-        "Covalent bond",
-        "Metallic bond",
-        "Hydrogen bond"
-      ],
-      "correctAnswer": 0,
-      "explanation": "An ionic bond is formed by the electrostatic attraction between oppositely charged ions created when electrons transfer from a metal to a non-metal.",
       "points": 1
     },
     {
@@ -3252,74 +5056,6 @@
       "points": 1
     },
     {
-      "id": "q_g9_math_01",
-      "grade": "Grade9",
-      "subject": "Mathematics",
-      "semester": "Semester1",
-      "examType": "Mid1",
-      "question": "If set A = {1, 2, 3, 4} and set B = {3, 4, 5, 6}, what is A ∩ B (the intersection)?",
-      "options": [
-        "{1, 2, 5, 6}",
-        "{3, 4}",
-        "{1, 2, 3, 4, 5, 6}",
-        "∅"
-      ],
-      "correctAnswer": 1,
-      "explanation": "The intersection A ∩ B consists of elements that belong to both set A and set B: {3, 4}.",
-      "points": 1
-    },
-    {
-      "id": "q_g9_math_02",
-      "grade": "Grade9",
-      "subject": "Mathematics",
-      "semester": "Semester1",
-      "examType": "Mid1",
-      "question": "Solve the linear equation for x: 3(2x - 4) = 18.",
-      "options": [
-        "3",
-        "5",
-        "6",
-        "10"
-      ],
-      "correctAnswer": 1,
-      "explanation": "Expand: 6x - 12 = 18. Add 12: 6x = 30. Divide by 6: x = 5.",
-      "points": 1
-    },
-    {
-      "id": "q_g9_math_03",
-      "grade": "Grade9",
-      "subject": "Mathematics",
-      "semester": "Semester1",
-      "examType": "Mid1",
-      "question": "Which of the following numbers is an irrational number?",
-      "options": [
-        "0.75",
-        "√16",
-        "√7",
-        "2/3"
-      ],
-      "correctAnswer": 2,
-      "explanation": "√7 cannot be expressed as a fraction of two integers and has a non-terminating, non-repeating decimal expansion, making it irrational. √16 = 4, which is rational.",
-      "points": 1
-    },
-    {
-      "id": "q_g9_math_04",
-      "grade": "Grade9",
-      "subject": "Mathematics",
-      "semester": "Semester1",
-      "examType": "Mid1",
-      "question": "What is the slope (m) of the line passing through points (2, 3) and (6, 11)?",
-      "options": [
-        "2",
-        "4",
-        "8",
-        "1/2"
-      ],
-      "correctAnswer": 0,
-      "explanation": "Slope m = (y₂ - y₁) / (x₂ - x₁) = (11 - 3) / (6 - 2) = 8 / 4 = 2.",
-      "points": 1
-    },
-    {
       "id": "q_g9_math_05",
       "grade": "Grade9",
       "subject": "Mathematics",
@@ -3385,57 +5121,6 @@
       ],
       "correctAnswer": 2,
       "explanation": "2⁻³ = 1 / 2³ = 1 / 8.",
-      "points": 1
-    },
-    {
-      "id": "q_g9_eng_01",
-      "grade": "Grade9",
-      "subject": "English",
-      "semester": "Semester1",
-      "examType": "Mid1",
-      "question": "Choose the correct verb tense: \"By the time the teacher entered, the students ______ their homework.\"",
-      "options": [
-        "have finished",
-        "had finished",
-        "finish",
-        "are finishing"
-      ],
-      "correctAnswer": 1,
-      "explanation": "Past perfect tense (\"had finished\") is used to denote an action completed before another past event (\"teacher entered\").",
-      "points": 1
-    },
-    {
-      "id": "q_g9_eng_02",
-      "grade": "Grade9",
-      "subject": "English",
-      "semester": "Semester1",
-      "examType": "Mid1",
-      "question": "Choose the correct pronoun: \"The scientist ______ discovered the vaccine won a Nobel Prize.\"",
-      "options": [
-        "which",
-        "who",
-        "whom",
-        "whose"
-      ],
-      "correctAnswer": 1,
-      "explanation": "\"Who\" is the subject relative pronoun referring to people (\"the scientist\").",
-      "points": 1
-    },
-    {
-      "id": "q_g9_eng_03",
-      "grade": "Grade9",
-      "subject": "English",
-      "semester": "Semester1",
-      "examType": "Mid1",
-      "question": "Identify the passive voice for: \"The librarian sorted the new books yesterday.\"",
-      "options": [
-        "The new books were sorted by the librarian yesterday.",
-        "The librarian had been sorted by the books.",
-        "The new books are being sorted.",
-        "Yesterday the librarian sorted books."
-      ],
-      "correctAnswer": 0,
-      "explanation": "In passive voice with simple past: Subject + was/were + past participle + by agent (\"The new books were sorted by the librarian yesterday\").",
       "points": 1
     },
     {
@@ -4612,57 +6297,6 @@
       "points": 1
     },
     {
-      "id": "q_g9_chem_11",
-      "grade": "Grade9",
-      "subject": "Chemistry",
-      "semester": "Semester1",
-      "examType": "Mid1",
-      "question": "Which laboratory apparatus is most suitable for accurately measuring a specific volume of liquid?",
-      "options": [
-        "Beaker",
-        "Graduated cylinder",
-        "Test tube",
-        "Evaporating dish"
-      ],
-      "correctAnswer": 1,
-      "explanation": "A graduated cylinder (or volumetric pipette) is marked with precise calibration lines, making it far more accurate for volume measurement than a beaker.",
-      "points": 1
-    },
-    {
-      "id": "q_g9_chem_12",
-      "grade": "Grade9",
-      "subject": "Chemistry",
-      "semester": "Semester1",
-      "examType": "Mid1",
-      "question": "What type of mixture is salt dissolved completely in water?",
-      "options": [
-        "Heterogeneous mixture",
-        "Homogeneous mixture (solution)",
-        "Suspension",
-        "Colloid"
-      ],
-      "correctAnswer": 1,
-      "explanation": "When salt dissolves in water, it forms a homogeneous solution with uniform composition and properties throughout.",
-      "points": 1
-    },
-    {
-      "id": "q_g9_chem_13",
-      "grade": "Grade9",
-      "subject": "Chemistry",
-      "semester": "Semester1",
-      "examType": "Mid1",
-      "question": "Which scientist discovered the electron using the cathode ray tube experiment?",
-      "options": [
-        "Ernest Rutherford",
-        "J.J. Thomson",
-        "James Chadwick",
-        "John Dalton"
-      ],
-      "correctAnswer": 1,
-      "explanation": "J.J. Thomson discovered the electron in 1897 through his cathode ray deflection experiments, later proposing the \"plum pudding\" atomic model.",
-      "points": 1
-    },
-    {
       "id": "q_g9_chem_14",
       "grade": "Grade9",
       "subject": "Chemistry",
@@ -4697,40 +6331,6 @@
       "points": 1
     },
     {
-      "id": "q_g9_math_09",
-      "grade": "Grade9",
-      "subject": "Mathematics",
-      "semester": "Semester1",
-      "examType": "Mid1",
-      "question": "What is the solution set of the linear inequality 2x - 5 < 7?",
-      "options": [
-        "x < 6",
-        "x > 6",
-        "x < 1",
-        "x > 1"
-      ],
-      "correctAnswer": 0,
-      "explanation": "Add 5 to both sides: 2x < 12. Divide by 2: x < 6.",
-      "points": 1
-    },
-    {
-      "id": "q_g9_math_10",
-      "grade": "Grade9",
-      "subject": "Mathematics",
-      "semester": "Semester1",
-      "examType": "Mid1",
-      "question": "What is the distance between points P(1, 2) and Q(4, 6) in the Cartesian plane?",
-      "options": [
-        "3",
-        "4",
-        "5",
-        "7"
-      ],
-      "correctAnswer": 2,
-      "explanation": "Distance formula: d = √[(4 - 1)² + (6 - 2)²] = √[3² + 4²] = √[9 + 16] = √25 = 5.",
-      "points": 1
-    },
-    {
       "id": "q_g9_math_11",
       "grade": "Grade9",
       "subject": "Mathematics",
@@ -4762,40 +6362,6 @@
       ],
       "correctAnswer": 1,
       "explanation": "Area = (b₁ + b₂) / 2 × h = (8 + 12) / 2 × 5 = 20 / 2 × 5 = 10 × 5 = 50 cm².",
-      "points": 1
-    },
-    {
-      "id": "q_g9_eng_06",
-      "grade": "Grade9",
-      "subject": "English",
-      "semester": "Semester1",
-      "examType": "Mid1",
-      "question": "Choose the correct modal verb: \"You ______ wear a helmet while riding a motorbike; it is required by law.\"",
-      "options": [
-        "might",
-        "must",
-        "can",
-        "may"
-      ],
-      "correctAnswer": 1,
-      "explanation": "\"Must\" indicates legal obligation or mandatory necessity.",
-      "points": 1
-    },
-    {
-      "id": "q_g9_eng_07",
-      "grade": "Grade9",
-      "subject": "English",
-      "semester": "Semester1",
-      "examType": "Mid1",
-      "question": "Identify the antonym of the word \"Abundant\":",
-      "options": [
-        "Plentiful",
-        "Scarce",
-        "Generous",
-        "Vast"
-      ],
-      "correctAnswer": 1,
-      "explanation": "\"Abundant\" means existing in large quantities; its antonym is \"scarce\" (limited or rare).",
       "points": 1
     },
     {

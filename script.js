@@ -1826,9 +1826,17 @@ async function showExamHub(grade, semester, examType, subject, filePath, examTit
 
     let questionCount = 0;
     try {
-        const res = await fetch(`/api/practice?grade=${grade}&subject=${encodeURIComponent(subject)}`);
+        let qUrl = `/api/practice?grade=${grade}&subject=${encodeURIComponent(subject)}`;
+        if (semester && semester !== 'All') qUrl += `&semester=${encodeURIComponent(semester)}`;
+        if (examType && examType !== 'All') qUrl += `&examType=${encodeURIComponent(examType)}`;
+        const res = await fetch(qUrl);
         const data = await res.json();
         questionCount = (data.questions || []).length;
+        if (questionCount === 0) {
+            const resFallback = await fetch(`/api/practice?grade=${grade}&subject=${encodeURIComponent(subject)}`);
+            const dataFallback = await resFallback.json();
+            questionCount = (dataFallback.questions || []).length;
+        }
     } catch (e) {}
 
     app.innerHTML = `
@@ -1931,35 +1939,29 @@ async function startPracticeSession(grade, semester, examType, subject, mode, ex
 
     let questions = [];
     try {
-        // 1. Fetch exact match (grade + subject + examType)
-        let res = await fetch(`/api/practice?grade=${grade}&subject=${encodeURIComponent(subject)}&examType=${examType}`);
+        let qUrl = `/api/practice?grade=${grade}&subject=${encodeURIComponent(subject)}`;
+        if (semester && semester !== 'All' && semester !== 'Practice Bank') {
+            qUrl += `&semester=${encodeURIComponent(semester)}`;
+        }
+        if (examType && examType !== 'All') {
+            qUrl += `&examType=${encodeURIComponent(examType)}`;
+        }
+        let res = await fetch(qUrl);
         let data = await res.json();
         questions = data.questions || [];
 
-        // 2. If fewer than 15 questions, aggregate from that grade & subject so students get a full practice session
-        if (questions.length < 15) {
+        // If no questions found for this specific exam, check general grade pool
+        if (questions.length === 0) {
             let resGrade = await fetch(`/api/practice?grade=${grade}&subject=${encodeURIComponent(subject)}`);
             let dataGrade = await resGrade.json();
-            const existingIds = new Set(questions.map(q => q.id));
-            (dataGrade.questions || []).forEach(q => {
-                if (!existingIds.has(q.id)) {
-                    existingIds.add(q.id);
-                    questions.push(q);
-                }
-            });
+            questions = dataGrade.questions || [];
         }
 
-        // 3. If still fewer than 10 questions, pull from general subject pool across other grades
-        if (questions.length < 10 && examType !== 'All') {
+        // If still no questions found and practicing general bank, check overall subject pool
+        if (questions.length === 0 && (examType === 'All' || !examType)) {
             let resSub = await fetch(`/api/practice?subject=${encodeURIComponent(subject)}`);
             let dataSub = await resSub.json();
-            const existingIds = new Set(questions.map(q => q.id));
-            (dataSub.questions || []).forEach(q => {
-                if (!existingIds.has(q.id)) {
-                    existingIds.add(q.id);
-                    questions.push(q);
-                }
-            });
+            questions = dataSub.questions || [];
         }
     } catch (e) {
         console.warn('Practice fetch error', e);

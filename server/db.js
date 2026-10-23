@@ -334,6 +334,9 @@ class Database {
     getQuestions(filters = {}) {
         if (!this.data.questions) this.data.questions = [];
         let results = [...this.data.questions];
+        if (filters.examId) {
+            results = results.filter(q => q.examId && q.examId.toLowerCase() === filters.examId.toLowerCase());
+        }
         if (filters.grade) {
             results = results.filter(q => q.grade && q.grade.toLowerCase() === filters.grade.toLowerCase());
         }
