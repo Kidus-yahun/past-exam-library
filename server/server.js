@@ -59,65 +59,109 @@ app.use(express.urlencoded({ extended: true }));
 // Serve static assets
 app.use('/uploads', express.static(path.join(ROOT_DIR, 'uploads')));
 
-// Proxy & serve exam papers directly without exposing external usernames or domains
+// Cache directory for high-speed PDF delivery
+const PDF_CACHE_DIR = path.join(IS_VERCEL ? '/tmp' : ROOT_DIR, 'exam_cache');
+try {
+    if (!fs.existsSync(PDF_CACHE_DIR)) {
+        fs.mkdirSync(PDF_CACHE_DIR, { recursive: true });
+    }
+} catch (e) {
+    console.warn('Could not create PDF cache dir:', e.message);
+}
+
+// Proxy & serve exam papers directly with edge CDN acceleration, range support & disk cache
 app.use('/exams', (req, res, next) => {
     const relPath = decodeURIComponent(req.path.replace(/^\//, ''));
     const localFile = path.join(ROOT_DIR, 'exams', relPath);
 
     if (fs.existsSync(localFile)) {
-        return res.sendFile(localFile);
+        return res.sendFile(localFile, { dotfiles: 'allow', acceptRanges: true, maxAge: '7d' });
     }
 
-    // Proxy stream directly from upstream repository
-    const encodedSegments = relPath.split('/').map(seg => encodeURIComponent(seg)).join('/');
-    const remoteUrl = `https://raw.githubusercontent.com/soliyana-dev/past-exam-library/main/exams/${encodedSegments}`;
+    const safeCacheKey = relPath.replace(/[^a-zA-Z0-9._-]/g, '_');
+    const cachedFile = path.join(PDF_CACHE_DIR, safeCacheKey);
 
-    function fetchAndPipe(url, retryAlt = true) {
-        https.get(url, (upstreamRes) => {
-            if (upstreamRes.statusCode === 200) {
+    if (fs.existsSync(cachedFile)) {
+        return res.sendFile(cachedFile, { dotfiles: 'allow', acceptRanges: true, maxAge: '7d' });
+    }
+
+    // High-speed CDN proxy with jsDelivr edge CDN + raw fallback
+    const encodedSegments = relPath.split('/').map(seg => encodeURIComponent(seg)).join('/');
+    const jsDelivrUrl = `https://cdn.jsdelivr.net/gh/soliyana-dev/past-exam-library@main/exams/${encodedSegments}`;
+    const rawGithubUrl = `https://raw.githubusercontent.com/soliyana-dev/past-exam-library/main/exams/${encodedSegments}`;
+
+    const headers = {};
+    if (req.headers.range) {
+        headers['range'] = req.headers.range;
+    }
+
+    function fetchAndPipe(urls, idx = 0) {
+        if (idx >= urls.length) return next();
+        const currentUrl = urls[idx];
+
+        https.get(currentUrl, { headers }, (upstreamRes) => {
+            if (upstreamRes.statusCode === 200 || upstreamRes.statusCode === 206) {
+                res.status(upstreamRes.statusCode);
                 res.setHeader('Content-Type', 'application/pdf');
+                res.setHeader('Accept-Ranges', 'bytes');
+                res.setHeader('Cache-Control', 'public, max-age=604800, s-maxage=86400');
+                if (upstreamRes.headers['content-range']) {
+                    res.setHeader('Content-Range', upstreamRes.headers['content-range']);
+                }
                 if (upstreamRes.headers['content-length']) {
                     res.setHeader('Content-Length', upstreamRes.headers['content-length']);
                 }
-                res.setHeader('Cache-Control', 'public, max-age=86400');
+
+                // If full document and not already cached, write to cache asynchronously
+                if (upstreamRes.statusCode === 200 && !req.headers.range) {
+                    try {
+                        const tempCache = cachedFile + '.tmp_' + Date.now();
+                        const writeStream = fs.createWriteStream(tempCache);
+                        upstreamRes.pipe(writeStream);
+                        writeStream.on('finish', () => {
+                            try { fs.renameSync(tempCache, cachedFile); } catch (e) {}
+                        });
+                        writeStream.on('error', () => {
+                            try { if (fs.existsSync(tempCache)) fs.unlinkSync(tempCache); } catch (e) {}
+                        });
+                    } catch (e) {}
+                }
+
                 return upstreamRes.pipe(res);
             }
 
-            if (retryAlt) {
-                const candidates = [];
-                if (url.includes('/Pretest/')) candidates.push(url.replace('/Pretest/', '/pretest/'));
-                if (url.includes('/pretest/')) candidates.push(url.replace('/pretest/', '/Pretest/'));
-                if (url.includes('Citizen%20ship')) candidates.push(url.replace('Citizen%20ship', 'Citizenship'));
-                if (url.includes('Citizenship')) candidates.push(url.replace('Citizenship', 'Citizen%20ship'));
-                if (url.includes('HP.pdf')) candidates.push(url.replace('HP.pdf', 'Hp.pdf'));
-                if (url.includes('Hp.pdf')) candidates.push(url.replace('Hp.pdf', 'HP.pdf'));
-
-                const tryCandidate = (index) => {
-                    if (index >= candidates.length) return next();
-                    https.get(candidates[index], (cRes) => {
-                        if (cRes.statusCode === 200) {
-                            res.setHeader('Content-Type', 'application/pdf');
-                            if (cRes.headers['content-length']) {
-                                res.setHeader('Content-Length', cRes.headers['content-length']);
-                            }
-                            res.setHeader('Cache-Control', 'public, max-age=86400');
-                            return cRes.pipe(res);
-                        }
-                        tryCandidate(index + 1);
-                    }).on('error', () => tryCandidate(index + 1));
-                };
-
-                return tryCandidate(0);
-            }
-
-            next();
-        }).on('error', (err) => {
-            console.error('Error proxying exam paper:', err);
-            next();
-        });
+            // If not found or error, try next candidate
+            fetchAndPipe(urls, idx + 1);
+        }).on('error', () => fetchAndPipe(urls, idx + 1));
     }
 
-    fetchAndPipe(remoteUrl);
+    const candidateUrls = [jsDelivrUrl, rawGithubUrl];
+    if (encodedSegments.includes('/Pretest/')) {
+        candidateUrls.push(jsDelivrUrl.replace('/Pretest/', '/pretest/'));
+        candidateUrls.push(rawGithubUrl.replace('/Pretest/', '/pretest/'));
+    }
+    if (encodedSegments.includes('/pretest/')) {
+        candidateUrls.push(jsDelivrUrl.replace('/pretest/', '/Pretest/'));
+        candidateUrls.push(rawGithubUrl.replace('/pretest/', '/Pretest/'));
+    }
+    if (encodedSegments.includes('Citizen%20ship')) {
+        candidateUrls.push(jsDelivrUrl.replace('Citizen%20ship', 'Citizenship'));
+        candidateUrls.push(rawGithubUrl.replace('Citizen%20ship', 'Citizenship'));
+    }
+    if (encodedSegments.includes('Citizenship')) {
+        candidateUrls.push(jsDelivrUrl.replace('Citizenship', 'Citizen%20ship'));
+        candidateUrls.push(rawGithubUrl.replace('Citizenship', 'Citizen%20ship'));
+    }
+    if (encodedSegments.includes('HP.pdf')) {
+        candidateUrls.push(jsDelivrUrl.replace('HP.pdf', 'Hp.pdf'));
+        candidateUrls.push(rawGithubUrl.replace('HP.pdf', 'Hp.pdf'));
+    }
+    if (encodedSegments.includes('Hp.pdf')) {
+        candidateUrls.push(jsDelivrUrl.replace('Hp.pdf', 'HP.pdf'));
+        candidateUrls.push(rawGithubUrl.replace('Hp.pdf', 'HP.pdf'));
+    }
+
+    fetchAndPipe(candidateUrls, 0);
 });
 
 app.use(express.static(ROOT_DIR));

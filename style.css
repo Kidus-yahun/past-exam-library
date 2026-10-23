@@ -1203,6 +1203,142 @@ main {
     background: #0f172a;
 }
 
+/* Fast Canvas PDF Reader Styles */
+.pdf-reader-subbar {
+    padding: 10px 20px;
+    background: rgba(10, 15, 29, 0.98);
+    border-bottom: 1px solid var(--border-glass);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.pdf-control-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.pdf-btn-ctrl {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid var(--border-glass);
+    color: #ffffff;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.pdf-btn-ctrl:hover:not(:disabled) {
+    background: rgba(99, 102, 241, 0.25);
+    border-color: rgba(129, 140, 248, 0.5);
+    transform: translateY(-1px);
+}
+
+.pdf-btn-ctrl:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+.pdf-page-indicator {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-muted);
+    padding: 4px 8px;
+    background: rgba(255, 255, 255, 0.04);
+    border-radius: 6px;
+}
+
+.pdf-page-indicator strong {
+    color: #ffffff;
+}
+
+.pdf-mode-pill {
+    padding: 5px 12px;
+    border-radius: var(--radius-full);
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    border: 1px solid transparent;
+    transition: all 0.2s;
+}
+
+.pdf-mode-pill.active {
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.3), rgba(168, 85, 247, 0.3));
+    color: #c7d2fe;
+    border-color: rgba(129, 140, 248, 0.5);
+}
+
+.pdf-mode-pill:not(.active) {
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--text-muted);
+}
+
+.pdf-mode-pill:not(.active):hover {
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.pdf-canvas-container {
+    width: 100%;
+    min-height: 720px;
+    max-height: 82vh;
+    overflow-y: auto;
+    overflow-x: auto;
+    background: #090d16;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+    position: relative;
+}
+
+.pdf-page-canvas {
+    display: block;
+    box-shadow: 0 12px 36px rgba(0, 0, 0, 0.6);
+    border-radius: 4px;
+    background: #ffffff;
+    max-width: 100%;
+    height: auto;
+    transition: transform 0.2s ease;
+}
+
+.pdf-loading-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 80px 24px;
+    text-align: center;
+    gap: 16px;
+    width: 100%;
+}
+
+.pdf-progress-track {
+    width: 280px;
+    height: 8px;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 4px;
+    overflow: hidden;
+    position: relative;
+}
+
+.pdf-progress-fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, #6366f1, #a855f7);
+    border-radius: 4px;
+    transition: width 0.2s ease;
+}
+
 /* Notice for un-uploaded paper */
 .exam-message {
     background: var(--bg-card);

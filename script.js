@@ -2415,8 +2415,24 @@ function previewExamDoc(examId) {
     openExamById(examId);
 }
 
+// PDF Reader State
+let pdfViewerState = {
+    doc: null,
+    pageNum: 1,
+    pageCount: 0,
+    scale: 1.2,
+    viewMode: 'canvas', // 'canvas' or 'native'
+    fileUrl: '',
+    title: ''
+};
+
 function renderExamViewer(title, subtitle, fileUrl, onBackFn) {
     window._lastBackFn = onBackFn;
+    pdfViewerState.fileUrl = fileUrl;
+    pdfViewerState.title = title;
+    pdfViewerState.pageNum = 1;
+    pdfViewerState.doc = null;
+    pdfViewerState.viewMode = (window.pdfjsLib) ? 'canvas' : 'native';
 
     app.innerHTML = `
         <button class="back-button" onclick="window._lastBackFn ? window._lastBackFn() : showLibraryHome()">
@@ -2437,23 +2453,215 @@ function renderExamViewer(title, subtitle, fileUrl, onBackFn) {
                     <button class="btn-primary" style="width: auto; padding: 8px 16px; font-size: 13px;" onclick="window._lastBackFn ? window._lastBackFn() : showLibraryHome()">
                         🎯 Practice Questions
                     </button>
-                    <a href="${fileUrl}" target="_blank" download class="btn-secondary">
+                    <a href="${fileUrl}" target="_blank" download class="btn-secondary" title="Download for offline study">
                         ⬇️ Download PDF
                     </a>
-                    <a href="${fileUrl}" target="_blank" class="btn-secondary">
+                    <a href="${fileUrl}" target="_blank" class="btn-secondary" title="Open in raw browser tab">
                         ⤢ Open in New Tab
                     </a>
                 </div>
             </div>
 
-            <iframe 
-                src="${fileUrl}" 
-                class="exam-iframe" 
-                title="${title}"
-                onerror="this.parentElement.innerHTML='<div style=\\'padding: 40px; text-align: center;\\'>Could not preview PDF. <a href=\\'${fileUrl}\\' target=\\'_blank\\'>Click here to download</a>.</div>'">
-            </iframe>
+            <!-- Fast Reader Sub-bar -->
+            <div class="pdf-reader-subbar" id="pdf-reader-subbar">
+                <div class="pdf-control-group">
+                    <button class="pdf-btn-ctrl" id="pdf-prev-btn" onclick="changePdfPage(-1)">
+                        ◀ Prev
+                    </button>
+                    <span class="pdf-page-indicator" id="pdf-page-indicator">
+                        Page <strong id="pdf-current-page">1</strong> / <span id="pdf-total-pages">-</span>
+                    </span>
+                    <button class="pdf-btn-ctrl" id="pdf-next-btn" onclick="changePdfPage(1)">
+                        Next ▶
+                    </button>
+                </div>
+
+                <div class="pdf-control-group">
+                    <button class="pdf-btn-ctrl" onclick="zoomPdf(-0.2)" title="Zoom Out">🔍 -</button>
+                    <span class="pdf-page-indicator" id="pdf-zoom-level">120%</span>
+                    <button class="pdf-btn-ctrl" onclick="zoomPdf(0.2)" title="Zoom In">🔍 +</button>
+                    <button class="pdf-btn-ctrl" onclick="resetPdfZoom()" title="Fit Width">Fit</button>
+                </div>
+
+                <div class="pdf-control-group">
+                    <button class="pdf-mode-pill ${pdfViewerState.viewMode === 'canvas' ? 'active' : ''}" id="btn-mode-canvas" onclick="switchPdfViewMode('canvas')">
+                        ⚡ Fast Reader
+                    </button>
+                    <button class="pdf-mode-pill ${pdfViewerState.viewMode === 'native' ? 'active' : ''}" id="btn-mode-native" onclick="switchPdfViewMode('native')">
+                        📄 Native Viewer
+                    </button>
+                </div>
+            </div>
+
+            <!-- Viewport container -->
+            <div id="pdf-viewer-viewport" style="position: relative; width: 100%;">
+                <div id="pdf-canvas-area" class="pdf-canvas-container" style="${pdfViewerState.viewMode === 'native' ? 'display: none;' : ''}">
+                    <div class="pdf-loading-card" id="pdf-loading-card">
+                        <div class="hub-icon-circle" style="animation: pulse 1.5s infinite; font-size: 32px; width: 64px; height: 64px;">⚡</div>
+                        <h4 style="color: #ffffff; font-size: 16px;">Loading Examination Paper...</h4>
+                        <div class="pdf-progress-track">
+                            <div class="pdf-progress-fill" id="pdf-progress-bar"></div>
+                        </div>
+                        <p style="color: var(--text-muted); font-size: 13px;" id="pdf-loading-status">Streaming document via accelerated edge CDN...</p>
+                    </div>
+                </div>
+
+                <div id="pdf-native-area" style="${pdfViewerState.viewMode === 'canvas' ? 'display: none;' : ''}">
+                    <iframe 
+                        src="${fileUrl}" 
+                        class="exam-iframe" 
+                        title="${title}">
+                    </iframe>
+                </div>
+            </div>
         </div>
     `;
+
+    if (pdfViewerState.viewMode === 'canvas') {
+        loadPdfDocument(fileUrl);
+    }
+}
+
+async function loadPdfDocument(fileUrl) {
+    if (!window.pdfjsLib) {
+        console.warn('PDF.js not available, falling back to native iframe');
+        switchPdfViewMode('native');
+        return;
+    }
+
+    try {
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+    } catch (e) {}
+
+    const progressBar = document.getElementById('pdf-progress-bar');
+    const loadingStatus = document.getElementById('pdf-loading-status');
+    const loadingCard = document.getElementById('pdf-loading-card');
+
+    try {
+        const loadingTask = pdfjsLib.getDocument({
+            url: fileUrl,
+            cMapUrl: 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/cmaps/',
+            cMapPacked: true
+        });
+
+        loadingTask.onProgress = function(progress) {
+            if (progress.total > 0 && progressBar) {
+                const percent = Math.min(Math.round((progress.loaded / progress.total) * 100), 99);
+                progressBar.style.width = percent + '%';
+                if (loadingStatus) loadingStatus.textContent = `Streaming document: ${percent}%...`;
+            }
+        };
+
+        const pdfDoc = await loadingTask.promise;
+        pdfViewerState.doc = pdfDoc;
+        pdfViewerState.pageCount = pdfDoc.numPages;
+
+        const totalPagesEl = document.getElementById('pdf-total-pages');
+        if (totalPagesEl) totalPagesEl.textContent = pdfDoc.numPages;
+
+        if (loadingCard) loadingCard.style.display = 'none';
+
+        // Render initial page
+        await renderCurrentPdfPage();
+    } catch (err) {
+        console.warn('Fast canvas render fallback:', err);
+        switchPdfViewMode('native');
+    }
+}
+
+async function renderCurrentPdfPage() {
+    if (!pdfViewerState.doc) return;
+    const canvasArea = document.getElementById('pdf-canvas-area');
+    if (!canvasArea) return;
+
+    // Remove previous rendered canvases
+    const oldCanvases = canvasArea.querySelectorAll('canvas');
+    oldCanvases.forEach(c => c.remove());
+
+    try {
+        const page = await pdfViewerState.doc.getPage(pdfViewerState.pageNum);
+        const viewport = page.getViewport({ scale: pdfViewerState.scale });
+
+        const canvas = document.createElement('canvas');
+        canvas.className = 'pdf-page-canvas';
+        const context = canvas.getContext('2d');
+
+        const outputScale = window.devicePixelRatio || 1;
+        canvas.width = Math.floor(viewport.width * outputScale);
+        canvas.height = Math.floor(viewport.height * outputScale);
+        canvas.style.width = Math.floor(viewport.width) + 'px';
+        canvas.style.height = Math.floor(viewport.height) + 'px';
+
+        const transform = outputScale !== 1 ? [outputScale, 0, 0, outputScale, 0, 0] : null;
+
+        canvasArea.appendChild(canvas);
+
+        const renderContext = {
+            canvasContext: context,
+            transform: transform,
+            viewport: viewport
+        };
+
+        await page.render(renderContext).promise;
+
+        const currEl = document.getElementById('pdf-current-page');
+        if (currEl) currEl.textContent = pdfViewerState.pageNum;
+
+        const prevBtn = document.getElementById('pdf-prev-btn');
+        const nextBtn = document.getElementById('pdf-next-btn');
+        if (prevBtn) prevBtn.disabled = (pdfViewerState.pageNum <= 1);
+        if (nextBtn) nextBtn.disabled = (pdfViewerState.pageNum >= pdfViewerState.pageCount);
+
+        const zoomEl = document.getElementById('pdf-zoom-level');
+        if (zoomEl) zoomEl.textContent = Math.round(pdfViewerState.scale * 100) + '%';
+    } catch (err) {
+        console.warn('Page render error:', err);
+    }
+}
+
+function changePdfPage(delta) {
+    if (!pdfViewerState.doc) return;
+    const next = pdfViewerState.pageNum + delta;
+    if (next >= 1 && next <= pdfViewerState.pageCount) {
+        pdfViewerState.pageNum = next;
+        renderCurrentPdfPage();
+        const canvasArea = document.getElementById('pdf-canvas-area');
+        if (canvasArea) canvasArea.scrollTop = 0;
+    }
+}
+
+function zoomPdf(delta) {
+    const next = Math.max(0.6, Math.min(2.5, pdfViewerState.scale + delta));
+    pdfViewerState.scale = Math.round(next * 10) / 10;
+    renderCurrentPdfPage();
+}
+
+function resetPdfZoom() {
+    pdfViewerState.scale = 1.2;
+    renderCurrentPdfPage();
+}
+
+function switchPdfViewMode(mode) {
+    pdfViewerState.viewMode = mode;
+    const canvasArea = document.getElementById('pdf-canvas-area');
+    const nativeArea = document.getElementById('pdf-native-area');
+    const btnCanvas = document.getElementById('btn-mode-canvas');
+    const btnNative = document.getElementById('btn-mode-native');
+
+    if (mode === 'canvas') {
+        if (canvasArea) canvasArea.style.display = 'flex';
+        if (nativeArea) nativeArea.style.display = 'none';
+        if (btnCanvas) btnCanvas.classList.add('active');
+        if (btnNative) btnNative.classList.remove('active');
+        if (!pdfViewerState.doc) {
+            loadPdfDocument(pdfViewerState.fileUrl);
+        }
+    } else {
+        if (canvasArea) canvasArea.style.display = 'none';
+        if (nativeArea) nativeArea.style.display = 'block';
+        if (btnCanvas) btnCanvas.classList.remove('active');
+        if (btnNative) btnNative.classList.add('active');
+    }
 }
 
 // Start the application
