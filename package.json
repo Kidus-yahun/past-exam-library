@@ -1,0 +1,22 @@
+{
+  "name": "modest-raman",
+  "version": "1.0.0",
+  "description": "An accessible, student-led learning resource that organizes past examination papers by grade, semester, exam type, and subject—helping students find the resources they need to prepare with confidence.",
+  "main": "script.js",
+  "scripts": {
+    "start": "node server/server.js",
+    "dev": "node --watch server/server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "bcryptjs": "^3.0.3",
+    "cors": "^2.8.6",
+    "express": "^5.3.0",
+    "jsonwebtoken": "^9.0.3",
+    "multer": "^2.5.0"
+  }
+}

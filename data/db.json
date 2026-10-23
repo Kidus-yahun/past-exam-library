@@ -1,0 +1,300 @@
+{
+  "users": [
+    {
+      "id": "u_admin",
+      "username": "admin",
+      "email": "admin@pastexamlibrary.org",
+      "passwordHash": "$2b$10$xfl7fqwOtExB0XgFQa1BS.S7CEok8b0xMYSzt5HA1pHekzPdWUtmi",
+      "role": "admin",
+      "fullName": "System Administrator",
+      "createdAt": "2026-10-23T15:03:05.399Z"
+    },
+    {
+      "id": "u_student",
+      "username": "student",
+      "email": "student@pastexamlibrary.org",
+      "passwordHash": "$2b$10$xfl7fqwOtExB0XgFQa1BS.d71o0gP6dB00KlrhImFuGnSnqkVm1LS",
+      "role": "student",
+      "fullName": "Demo Student",
+      "createdAt": "2026-10-23T15:03:05.399Z"
+    }
+  ],
+  "categories": {
+    "grades": [
+      {
+        "id": "Grade9",
+        "name": "Grade 9",
+        "number": "09",
+        "description": "Past examinations for Grade 9"
+      },
+      {
+        "id": "Grade10",
+        "name": "Grade 10",
+        "number": "10",
+        "description": "Past examinations for Grade 10"
+      },
+      {
+        "id": "Grade11",
+        "name": "Grade 11",
+        "number": "11",
+        "description": "Past examinations for Grade 11"
+      },
+      {
+        "id": "Grade12",
+        "name": "Grade 12",
+        "number": "12",
+        "description": "Past examinations for Grade 12"
+      }
+    ],
+    "semesters": [
+      {
+        "id": "Semester1",
+        "name": "Semester 1",
+        "description": "Mid 1, Mid 2 and Final"
+      },
+      {
+        "id": "Semester2",
+        "name": "Semester 2",
+        "description": "Mid 1, Mid 2 and Final"
+      }
+    ],
+    "examTypes": [
+      {
+        "id": "Mid1",
+        "name": "Mid 1",
+        "code": "M1",
+        "description": "First midterm examination"
+      },
+      {
+        "id": "Mid2",
+        "name": "Mid 2",
+        "code": "M2",
+        "description": "Second midterm examination"
+      },
+      {
+        "id": "Final",
+        "name": "Final",
+        "code": "F",
+        "description": "Final examination"
+      },
+      {
+        "id": "Pretest",
+        "name": "Pre-test",
+        "code": "P",
+        "description": "National pre-test examination"
+      },
+      {
+        "id": "Model",
+        "name": "Model Exam",
+        "code": "M",
+        "description": "National model examination"
+      }
+    ],
+    "subjects": {
+      "Grade9": [
+        "Amharic",
+        "English",
+        "Mathematics",
+        "Physics",
+        "Chemistry",
+        "Biology",
+        "History",
+        "Geography",
+        "Economics",
+        "IT",
+        "Citizenship",
+        "HP"
+      ],
+      "Grade10": [
+        "Amharic",
+        "English",
+        "Mathematics",
+        "Physics",
+        "Chemistry",
+        "Biology",
+        "History",
+        "Geography",
+        "Economics",
+        "IT",
+        "Citizenship",
+        "HP"
+      ],
+      "Grade11": [
+        "Amharic",
+        "English",
+        "Mathematics",
+        "Physics",
+        "Chemistry",
+        "Biology",
+        "Agriculture",
+        "IT",
+        "WEB"
+      ],
+      "Grade12": [
+        "Amharic",
+        "English",
+        "Mathematics",
+        "Physics",
+        "Chemistry",
+        "Biology",
+        "Agriculture",
+        "IT",
+        "Aptitude"
+      ]
+    },
+    "grade12NationalSubjects": [
+      "English",
+      "Mathematics",
+      "Aptitude",
+      "Physics",
+      "Chemistry",
+      "Biology"
+    ]
+  },
+  "exams": [
+    {
+      "id": "exam_1",
+      "title": "Grade 12 Pre-test English",
+      "grade": "Grade12",
+      "semester": "Pretest",
+      "examType": "Pretest",
+      "subject": "English",
+      "year": "2024",
+      "fileUrl": "exams/Grade12/Pretest/English.pdf",
+      "uploadedBy": "system",
+      "createdAt": "2026-10-23T15:03:05.398Z"
+    },
+    {
+      "id": "exam_2",
+      "title": "Grade 12 Model English",
+      "grade": "Grade12",
+      "semester": "Model",
+      "examType": "Model",
+      "subject": "English",
+      "year": "2024",
+      "fileUrl": "exams/Grade12/Model/English.pdf",
+      "uploadedBy": "system",
+      "createdAt": "2026-10-23T15:03:05.399Z"
+    },
+    {
+      "id": "exam_3",
+      "title": "Grade 12 Pre-test Mathematics",
+      "grade": "Grade12",
+      "semester": "Pretest",
+      "examType": "Pretest",
+      "subject": "Mathematics",
+      "year": "2024",
+      "fileUrl": "exams/Grade12/Pretest/Mathematics.pdf",
+      "uploadedBy": "system",
+      "createdAt": "2026-10-23T15:03:05.399Z"
+    },
+    {
+      "id": "exam_4",
+      "title": "Grade 12 Model Mathematics",
+      "grade": "Grade12",
+      "semester": "Model",
+      "examType": "Model",
+      "subject": "Mathematics",
+      "year": "2024",
+      "fileUrl": "exams/Grade12/Model/Mathematics.pdf",
+      "uploadedBy": "system",
+      "createdAt": "2026-10-23T15:03:05.399Z"
+    },
+    {
+      "id": "exam_5",
+      "title": "Grade 12 Pre-test Aptitude",
+      "grade": "Grade12",
+      "semester": "Pretest",
+      "examType": "Pretest",
+      "subject": "Aptitude",
+      "year": "2024",
+      "fileUrl": "exams/Grade12/Pretest/Aptitude.pdf",
+      "uploadedBy": "system",
+      "createdAt": "2026-10-23T15:03:05.399Z"
+    },
+    {
+      "id": "exam_6",
+      "title": "Grade 12 Model Aptitude",
+      "grade": "Grade12",
+      "semester": "Model",
+      "examType": "Model",
+      "subject": "Aptitude",
+      "year": "2024",
+      "fileUrl": "exams/Grade12/Model/Aptitude.pdf",
+      "uploadedBy": "system",
+      "createdAt": "2026-10-23T15:03:05.399Z"
+    },
+    {
+      "id": "exam_7",
+      "title": "Grade 12 Pre-test Physics",
+      "grade": "Grade12",
+      "semester": "Pretest",
+      "examType": "Pretest",
+      "subject": "Physics",
+      "year": "2024",
+      "fileUrl": "exams/Grade12/Pretest/Physics.pdf",
+      "uploadedBy": "system",
+      "createdAt": "2026-10-23T15:03:05.399Z"
+    },
+    {
+      "id": "exam_8",
+      "title": "Grade 12 Model Physics",
+      "grade": "Grade12",
+      "semester": "Model",
+      "examType": "Model",
+      "subject": "Physics",
+      "year": "2024",
+      "fileUrl": "exams/Grade12/Model/Physics.pdf",
+      "uploadedBy": "system",
+      "createdAt": "2026-10-23T15:03:05.399Z"
+    },
+    {
+      "id": "exam_9",
+      "title": "Grade 12 Pre-test Chemistry",
+      "grade": "Grade12",
+      "semester": "Pretest",
+      "examType": "Pretest",
+      "subject": "Chemistry",
+      "year": "2024",
+      "fileUrl": "exams/Grade12/Pretest/Chemistry.pdf",
+      "uploadedBy": "system",
+      "createdAt": "2026-10-23T15:03:05.399Z"
+    },
+    {
+      "id": "exam_10",
+      "title": "Grade 12 Model Chemistry",
+      "grade": "Grade12",
+      "semester": "Model",
+      "examType": "Model",
+      "subject": "Chemistry",
+      "year": "2024",
+      "fileUrl": "exams/Grade12/Model/Chemistry.pdf",
+      "uploadedBy": "system",
+      "createdAt": "2026-10-23T15:03:05.399Z"
+    },
+    {
+      "id": "exam_11",
+      "title": "Grade 12 Pre-test Biology",
+      "grade": "Grade12",
+      "semester": "Pretest",
+      "examType": "Pretest",
+      "subject": "Biology",
+      "year": "2024",
+      "fileUrl": "exams/Grade12/Pretest/Biology.pdf",
+      "uploadedBy": "system",
+      "createdAt": "2026-10-23T15:03:05.399Z"
+    },
+    {
+      "id": "exam_12",
+      "title": "Grade 12 Model Biology",
+      "grade": "Grade12",
+      "semester": "Model",
+      "examType": "Model",
+      "subject": "Biology",
+      "year": "2024",
+      "fileUrl": "exams/Grade12/Model/Biology.pdf",
+      "uploadedBy": "system",
+      "createdAt": "2026-10-23T15:03:05.399Z"
+    }
+  ]
+}
