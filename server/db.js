@@ -2,15 +2,25 @@ const fs = require('fs');
 const path = require('path');
 const bcrypt = require('bcryptjs');
 
+let bundledSeedData;
+try {
+    bundledSeedData = require('../data/db.json');
+} catch (e) {
+    bundledSeedData = null;
+}
+
 const DATA_DIR = path.join(__dirname, '..', 'data');
-const SEED_FILE = path.join(DATA_DIR, 'db.json');
-const IS_VERCEL = !!process.env.VERCEL;
+const IS_VERCEL = !!(process.env.VERCEL || process.env.NOW_REGION);
 const RUNTIME_DIR = IS_VERCEL ? '/tmp' : DATA_DIR;
 const DB_FILE = path.join(RUNTIME_DIR, 'db.json');
 
-// Ensure data directory exists
-if (!fs.existsSync(RUNTIME_DIR)) {
-    fs.mkdirSync(RUNTIME_DIR, { recursive: true });
+// Ensure data directory exists safely
+try {
+    if (!fs.existsSync(RUNTIME_DIR)) {
+        fs.mkdirSync(RUNTIME_DIR, { recursive: true });
+    }
+} catch (e) {
+    console.warn('Could not create runtime directory:', e.message);
 }
 
 // Initial seed data
@@ -129,9 +139,8 @@ class Database {
     load() {
         try {
             if (!fs.existsSync(DB_FILE)) {
-                if (fs.existsSync(SEED_FILE)) {
-                    const raw = fs.readFileSync(SEED_FILE, 'utf8');
-                    this.data = JSON.parse(raw);
+                if (bundledSeedData) {
+                    this.data = JSON.parse(JSON.stringify(bundledSeedData));
                 } else {
                     this.data = getInitialData();
                 }
@@ -141,8 +150,8 @@ class Database {
                 this.data = JSON.parse(raw);
             }
         } catch (err) {
-            console.error('Failed to load database, using fallback data:', err);
-            this.data = getInitialData();
+            console.warn('Failed to read db file, using seed data:', err.message);
+            this.data = bundledSeedData ? JSON.parse(JSON.stringify(bundledSeedData)) : getInitialData();
             this.save();
         }
     }
@@ -153,7 +162,7 @@ class Database {
             fs.writeFileSync(tempFile, JSON.stringify(this.data, null, 2), 'utf8');
             fs.renameSync(tempFile, DB_FILE);
         } catch (err) {
-            console.error('Failed to save database:', err);
+            console.warn('Could not write to disk (continuing in-memory):', err.message);
         }
     }
 

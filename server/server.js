@@ -13,10 +13,15 @@ const PORT = process.env.PORT || 3000;
 const JWT_SECRET = process.env.JWT_SECRET || 'past_exam_library_super_secret_jwt_key_2026';
 
 // Directories setup
+const IS_VERCEL = !!(process.env.VERCEL || process.env.NOW_REGION);
 const ROOT_DIR = path.join(__dirname, '..');
-const UPLOADS_DIR = path.join(ROOT_DIR, 'uploads', 'exams');
-if (!fs.existsSync(UPLOADS_DIR)) {
-    fs.mkdirSync(UPLOADS_DIR, { recursive: true });
+const UPLOADS_DIR = IS_VERCEL ? path.join('/tmp', 'uploads', 'exams') : path.join(ROOT_DIR, 'uploads', 'exams');
+try {
+    if (!fs.existsSync(UPLOADS_DIR)) {
+        fs.mkdirSync(UPLOADS_DIR, { recursive: true });
+    }
+} catch (e) {
+    console.warn('Could not initialize uploads directory:', e.message);
 }
 
 // Multer storage for uploaded PDFs
@@ -427,8 +432,8 @@ app.use((req, res, next) => {
 // Export app for serverless platforms (Vercel)
 module.exports = app;
 
-// Start server if run standalone
-if (!process.env.VERCEL) {
+// Start server only when executed directly (standalone)
+if (require.main === module) {
     app.listen(PORT, () => {
         console.log(`===============================================`);
         console.log(`🚀 Past Exam Library Server running on port ${PORT}`);
