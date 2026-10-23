@@ -1855,20 +1855,35 @@ async function startPracticeSession(grade, semester, examType, subject, mode, ex
 
     let questions = [];
     try {
+        // 1. Fetch exact match (grade + subject + examType)
         let res = await fetch(`/api/practice?grade=${grade}&subject=${encodeURIComponent(subject)}&examType=${examType}`);
         let data = await res.json();
         questions = data.questions || [];
 
-        if (questions.length === 0) {
-            res = await fetch(`/api/practice?grade=${grade}&subject=${encodeURIComponent(subject)}`);
-            data = await res.json();
-            questions = data.questions || [];
+        // 2. If fewer than 15 questions, aggregate from that grade & subject so students get a full practice session
+        if (questions.length < 15) {
+            let resGrade = await fetch(`/api/practice?grade=${grade}&subject=${encodeURIComponent(subject)}`);
+            let dataGrade = await resGrade.json();
+            const existingIds = new Set(questions.map(q => q.id));
+            (dataGrade.questions || []).forEach(q => {
+                if (!existingIds.has(q.id)) {
+                    existingIds.add(q.id);
+                    questions.push(q);
+                }
+            });
         }
 
-        if (questions.length === 0) {
-            res = await fetch(`/api/practice?subject=${encodeURIComponent(subject)}`);
-            data = await res.json();
-            questions = data.questions || [];
+        // 3. If still fewer than 10 questions, pull from general subject pool across other grades
+        if (questions.length < 10) {
+            let resSub = await fetch(`/api/practice?subject=${encodeURIComponent(subject)}`);
+            let dataSub = await resSub.json();
+            const existingIds = new Set(questions.map(q => q.id));
+            (dataSub.questions || []).forEach(q => {
+                if (!existingIds.has(q.id)) {
+                    existingIds.add(q.id);
+                    questions.push(q);
+                }
+            });
         }
     } catch (e) {
         console.warn('Practice fetch error', e);

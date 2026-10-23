@@ -149,6 +149,21 @@ class Database {
                 const raw = fs.readFileSync(DB_FILE, 'utf8');
                 this.data = JSON.parse(raw);
             }
+
+            // Sync with bundled questions to ensure newly deployed question banks are always available
+            if (bundledSeedData && bundledSeedData.questions && Array.isArray(bundledSeedData.questions)) {
+                if (!this.data.questions) this.data.questions = [];
+                const existing = new Set(this.data.questions.map(q => q.id));
+                let updated = false;
+                bundledSeedData.questions.forEach(q => {
+                    if (!existing.has(q.id)) {
+                        this.data.questions.push(q);
+                        existing.add(q.id);
+                        updated = true;
+                    }
+                });
+                if (updated) this.save();
+            }
         } catch (err) {
             console.warn('Failed to read db file, using seed data:', err.message);
             this.data = bundledSeedData ? JSON.parse(JSON.stringify(bundledSeedData)) : getInitialData();

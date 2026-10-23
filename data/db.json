@@ -2434,6 +2434,3015 @@
       "correctAnswer": 2,
       "explanation": "The SI base unit of electric current is the Ampere (A).",
       "points": 1
+    },
+    {
+      "id": "q_g9_phys_01",
+      "grade": "Grade9",
+      "subject": "Physics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Which of the following is a fundamental physical quantity?",
+      "options": [
+        "Area",
+        "Volume",
+        "Time",
+        "Density"
+      ],
+      "correctAnswer": 2,
+      "explanation": "Time is one of the seven base/fundamental SI physical quantities (along with mass, length, temperature, electric current, luminous intensity, and amount of substance). Area, volume, and density are derived quantities.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_phys_02",
+      "grade": "Grade9",
+      "subject": "Physics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "When adding or subtracting numbers with significant figures, the final result should have the same number of:",
+      "options": [
+        "The most decimal places",
+        "The fewest significant figures",
+        "The fewest decimal places",
+        "The most significant figures"
+      ],
+      "correctAnswer": 2,
+      "explanation": "In addition and subtraction, the answer cannot be more precise than the least precise measurement, meaning it must have the same number of decimal places as the value with the fewest decimal places.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_phys_03",
+      "grade": "Grade9",
+      "subject": "Physics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "The metric prefix \"nano\" represents which factor?",
+      "options": [
+        "10⁻⁶",
+        "10⁶",
+        "10⁹",
+        "10⁻⁹"
+      ],
+      "correctAnswer": 3,
+      "explanation": "The prefix \"nano\" (symbol n) represents a factor of 10⁻⁹ (one billionth). Micro is 10⁻⁶, and giga is 10⁹.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_phys_04",
+      "grade": "Grade9",
+      "subject": "Physics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Which scientific breakthrough was contributed by Sir Isaac Newton?",
+      "options": [
+        "Universal law of gravitation",
+        "Calculus",
+        "Optics & laws of motion",
+        "All of the above"
+      ],
+      "correctAnswer": 3,
+      "explanation": "Sir Isaac Newton made groundbreaking contributions to the universal law of gravitation, the three laws of motion, calculus, and optics (corpuscular theory of light and prism dispersion).",
+      "points": 1
+    },
+    {
+      "id": "q_g9_phys_05",
+      "grade": "Grade9",
+      "subject": "Physics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Which of the following numbers has the greatest number of significant figures?",
+      "options": [
+        "0.020",
+        "2000",
+        "0.001",
+        "50000"
+      ],
+      "correctAnswer": 0,
+      "explanation": "0.020 has two significant figures (the 2 and trailing 0 after decimal). 2000 has 1 (without decimal point), 0.001 has 1 (leading zeros never count), and 50000 has 1.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_phys_06",
+      "grade": "Grade9",
+      "subject": "Physics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "The number 25.373 rounded to 3 significant figures is:",
+      "options": [
+        "25.30",
+        "25",
+        "25.3",
+        "25.4"
+      ],
+      "correctAnswer": 3,
+      "explanation": "Looking at 25.373: the first three significant digits are 2, 5, and 3. The fourth digit is 7 (≥ 5), so we round the 3 up to 4, giving 25.4.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_phys_07",
+      "grade": "Grade9",
+      "subject": "Physics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Multiply 500 × 2.4 and report the result with the correct number of significant figures:",
+      "options": [
+        "872",
+        "8700",
+        "2000.0",
+        "1000"
+      ],
+      "correctAnswer": 3,
+      "explanation": "500 has 1 significant figure and 2.4 has 2. In multiplication, the product must retain the fewest significant figures (1 sig fig). 500 × 2.4 = 1200, which rounds to 1000 (1 sig fig).",
+      "points": 1
+    },
+    {
+      "id": "q_g9_phys_08",
+      "grade": "Grade9",
+      "subject": "Physics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Subtract 35.25 - 34 and report the answer with the correct number of significant figures:",
+      "options": [
+        "1.25",
+        "1.5",
+        "1",
+        "2"
+      ],
+      "correctAnswer": 2,
+      "explanation": "35.25 has 2 decimal places, while 34 has 0 decimal places. The result 1.25 must be rounded to 0 decimal places (the fewest decimal places), yielding 1.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_phys_09",
+      "grade": "Grade9",
+      "subject": "Physics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Which of the following is NOT equivalent to 1 hour?",
+      "options": [
+        "60 minutes",
+        "3600 seconds",
+        "0.24 day",
+        "None of the above"
+      ],
+      "correctAnswer": 2,
+      "explanation": "One day has 24 hours. 0.24 day equals 0.24 × 24 = 5.76 hours, which is NOT equal to 1 hour (1 hour is approximately 0.0417 day).",
+      "points": 1
+    },
+    {
+      "id": "q_g9_phys_10",
+      "grade": "Grade9",
+      "subject": "Physics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "One metric ton is equivalent to which of the following?",
+      "options": [
+        "1,000 kg",
+        "10 quintals",
+        "1,000,000 g",
+        "All of the above"
+      ],
+      "correctAnswer": 3,
+      "explanation": "1 metric ton = 1,000 kg = 10 quintals (1 quintal = 100 kg) = 1,000,000 grams. All options are equivalent.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_phys_11",
+      "grade": "Grade9",
+      "subject": "Physics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Which branch of physics deals with the study of motion and forces?",
+      "options": [
+        "Acoustics",
+        "Mechanics",
+        "Electromagnetism",
+        "Thermodynamics"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Mechanics is the branch of physics concerned with the relationships between force, matter, and motion among physical objects.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_phys_12",
+      "grade": "Grade9",
+      "subject": "Physics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Which branch of physics studies the behavior of heat, work, and temperature?",
+      "options": [
+        "Thermodynamics",
+        "Optics",
+        "Astrophysics",
+        "Nuclear physics"
+      ],
+      "correctAnswer": 0,
+      "explanation": "Thermodynamics is the branch of physical science that deals with the relations between heat and other forms of energy.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_phys_13",
+      "grade": "Grade9",
+      "subject": "Physics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Which branch of physics is concerned with the properties and propagation of light?",
+      "options": [
+        "Acoustics",
+        "Optics",
+        "Fluid dynamics",
+        "Electrodynamics"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Optics is the branch of physics that studies the behavior and properties of light, including its interactions with matter and the construction of instruments that use or detect it.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_phys_14",
+      "grade": "Grade9",
+      "subject": "Physics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Which physicist formulated the laws of electromagnetic induction?",
+      "options": [
+        "Michael Faraday",
+        "Albert Einstein",
+        "James Prescott Joule",
+        "Marie Curie"
+      ],
+      "correctAnswer": 0,
+      "explanation": "Michael Faraday discovered electromagnetic induction in 1831, showing that a changing magnetic field induces an electromotive force (EMF) in a conductor.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_phys_15",
+      "grade": "Grade9",
+      "subject": "Physics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "The traditional Ethiopian unit of mass called \"Feresula\" corresponds approximately to:",
+      "options": [
+        "1 kg",
+        "17 kg",
+        "50 kg",
+        "100 kg"
+      ],
+      "correctAnswer": 1,
+      "explanation": "In Ethiopian traditional commerce (especially for coffee and agricultural produce), 1 Feresula is approximately equal to 17 kilograms.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_phys_16",
+      "grade": "Grade9",
+      "subject": "Physics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "How many significant figures are present in the measurement 30.250 m?",
+      "options": [
+        "2",
+        "3",
+        "4",
+        "5"
+      ],
+      "correctAnswer": 3,
+      "explanation": "All non-zero digits are significant, the zero between non-zeros is significant, and the trailing zero in a decimal number is significant. Thus, 30.250 has 5 significant figures.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_phys_17",
+      "grade": "Grade9",
+      "subject": "Physics",
+      "semester": "Semester1",
+      "examType": "Final",
+      "question": "What is the SI unit of electric current?",
+      "options": [
+        "Volt (V)",
+        "Ampere (A)",
+        "Ohm (Ω)",
+        "Coulomb (C)"
+      ],
+      "correctAnswer": 1,
+      "explanation": "The Ampere (A) is the SI base unit of electric current. The Volt is potential difference, Ohm is resistance, and Coulomb is electric charge.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_phys_18",
+      "grade": "Grade9",
+      "subject": "Physics",
+      "semester": "Semester1",
+      "examType": "Final",
+      "question": "A vehicle travels 150 meters in 5 seconds. What is its average speed?",
+      "options": [
+        "15 m/s",
+        "25 m/s",
+        "30 m/s",
+        "750 m/s"
+      ],
+      "correctAnswer": 2,
+      "explanation": "Average speed = distance / time = 150 m / 5 s = 30 m/s.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_phys_19",
+      "grade": "Grade9",
+      "subject": "Physics",
+      "semester": "Semester1",
+      "examType": "Final",
+      "question": "Which of Newton's laws states that an object at rest will remain at rest unless acted upon by a net external force?",
+      "options": [
+        "First Law (Law of Inertia)",
+        "Second Law (F = ma)",
+        "Third Law (Action-Reaction)",
+        "Universal Law of Gravitation"
+      ],
+      "correctAnswer": 0,
+      "explanation": "Newton's First Law of Motion, also known as the Law of Inertia, states that an object continues in its state of rest or uniform velocity unless acted upon by a resultant external force.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_phys_20",
+      "grade": "Grade9",
+      "subject": "Physics",
+      "semester": "Semester1",
+      "examType": "Final",
+      "question": "What is the weight of a 50 kg student on Earth where acceleration due to gravity g ≈ 9.8 m/s²?",
+      "options": [
+        "5.1 N",
+        "50 N",
+        "490 N",
+        "980 N"
+      ],
+      "correctAnswer": 2,
+      "explanation": "Weight W = m × g = 50 kg × 9.8 m/s² = 490 N.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_bio_01",
+      "grade": "Grade9",
+      "subject": "Biology",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Which laboratory apparatus is used to provide pressurized steam for sterilizing instruments?",
+      "options": [
+        "Autoclave",
+        "Incubator",
+        "Hot air oven",
+        "Desiccator"
+      ],
+      "correctAnswer": 0,
+      "explanation": "An autoclave utilizes high-pressure saturated steam at approximately 121°C for 15-20 minutes to achieve complete sterilization of microbiological tools and glassware.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_bio_02",
+      "grade": "Grade9",
+      "subject": "Biology",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Who divided animals into two broad groups: those with red blood and those without red blood?",
+      "options": [
+        "Robert Whittaker",
+        "Aristotle",
+        "Carolus Linnaeus",
+        "Antonie van Leeuwenhoek"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Aristotle, the ancient Greek philosopher, classified animals into Enaima (animals with red blood, vertebrates) and Anaima (animals without red blood, invertebrates).",
+      "points": 1
+    },
+    {
+      "id": "q_g9_bio_03",
+      "grade": "Grade9",
+      "subject": "Biology",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "The criteria used in Whittaker's five-kingdom classification system include:",
+      "options": [
+        "Cell structure (prokaryotic vs eukaryotic)",
+        "Mode of nutrition",
+        "Phylogenetic relationships",
+        "All of the above"
+      ],
+      "correctAnswer": 3,
+      "explanation": "Whittaker's five-kingdom classification (Monera, Protista, Fungi, Plantae, Animalia) was based on cell complexity, body organization, mode of nutrition, and phylogenetic evolutionary links.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_bio_04",
+      "grade": "Grade9",
+      "subject": "Biology",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Which organisms are included in Whittaker's five kingdoms?",
+      "options": [
+        "Viruses and Prions",
+        "Bacteria and Algae",
+        "Lichens and Bacteriophages",
+        "Viroids only"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Bacteria belong to Kingdom Monera, and unicellular algae belong to Kingdom Protista. Viruses, viroids, and prions are acellular and are not included in Whittaker's kingdoms.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_bio_05",
+      "grade": "Grade9",
+      "subject": "Biology",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Who was the creator of binomial nomenclature and the author of \"Systema Naturae\"?",
+      "options": [
+        "Carolus Linnaeus",
+        "Charles Darwin",
+        "Gregor Mendel",
+        "Jean-Baptiste Lamarck"
+      ],
+      "correctAnswer": 0,
+      "explanation": "Carolus Linnaeus developed the formal system of naming species of living things by giving each a name composed of two parts (Genus and species) in his work Systema Naturae.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_bio_06",
+      "grade": "Grade9",
+      "subject": "Biology",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "What type of asexual reproduction is characteristically used by yeast cells?",
+      "options": [
+        "Binary fission",
+        "Budding",
+        "Regeneration",
+        "Conjugation"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Yeasts primarily reproduce asexually by budding, where a small daughter outgrowth forms on the parent cell, receives a replicated nucleus, and eventually separates.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_bio_07",
+      "grade": "Grade9",
+      "subject": "Biology",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Protists are ecologically vital because they:",
+      "options": [
+        "Produce atmospheric oxygen via photosynthesis",
+        "Support aquatic food chains",
+        "Recycle nutrients as decomposers",
+        "All of the above"
+      ],
+      "correctAnswer": 3,
+      "explanation": "Phytoplankton and protists generate a massive portion of global oxygen, form the foundational trophic level in marine/freshwater food webs, and assist in nutrient cycling.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_bio_08",
+      "grade": "Grade9",
+      "subject": "Biology",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Fungi are critical components of an ecosystem because their primary ecological role is as:",
+      "options": [
+        "Primary producers",
+        "Decomposers",
+        "Top carnivores",
+        "Nitrogen-fixing symbionts only"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Fungi are primary saprotrophic decomposers that secrete extracellular digestive enzymes to break down complex dead organic matter into basic nutrients.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_bio_09",
+      "grade": "Grade9",
+      "subject": "Biology",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Which of the following is an example of a non-hyphal, unicellular fungus?",
+      "options": [
+        "Yeast",
+        "Mucor",
+        "Rhizopus",
+        "Mushroom (Agaricus)"
+      ],
+      "correctAnswer": 0,
+      "explanation": "Yeast (such as Saccharomyces cerevisiae) is a unicellular, non-hyphal fungus, unlike filamentous molds like Mucor and Rhizopus.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_bio_10",
+      "grade": "Grade9",
+      "subject": "Biology",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Which of the following cellular structures are used for locomotion in microorganisms?",
+      "options": [
+        "Flagella",
+        "Cilia",
+        "Pseudopodia",
+        "All of the above"
+      ],
+      "correctAnswer": 3,
+      "explanation": "Microorganisms use flagella (e.g., Euglena), cilia (e.g., Paramecium), or pseudopodia (e.g., Amoeba) for locomotion.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_bio_11",
+      "grade": "Grade9",
+      "subject": "Biology",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Which of the following protists is a free-living, non-pathogenic organism?",
+      "options": [
+        "Paramecium",
+        "Plasmodium",
+        "Giardia",
+        "Entamoeba histolytica"
+      ],
+      "correctAnswer": 0,
+      "explanation": "Paramecium is a free-living ciliate in ponds and fresh waters. Plasmodium causes malaria, and Giardia causes giardiasis.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_bio_12",
+      "grade": "Grade9",
+      "subject": "Biology",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "The individual thread-like filaments that compose the mycelium of a fungus are called:",
+      "options": [
+        "Hyphae",
+        "Spores",
+        "Rhizoids",
+        "Sporangia"
+      ],
+      "correctAnswer": 0,
+      "explanation": "Hyphae (singular: hypha) are long branching filamentous structures that together form the vegetative mycelium of fungi.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_bio_13",
+      "grade": "Grade9",
+      "subject": "Biology",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Which of the following is an endemic plant of immense cultural and agricultural importance in Ethiopia?",
+      "options": [
+        "Ensete ventricosum (Enset)",
+        "Zea mays (Maize)",
+        "Triticum aestivum (Wheat)",
+        "Oryza sativa (Rice)"
+      ],
+      "correctAnswer": 0,
+      "explanation": "Ensete ventricosum (false banana or Enset) is endemic and indigenous to Ethiopia, serving as a staple food security crop for millions in southern Ethiopia.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_bio_14",
+      "grade": "Grade9",
+      "subject": "Biology",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Which endangered wild mammal is strictly endemic to the Semien Mountains of Ethiopia?",
+      "options": [
+        "Walia Ibex (Capra walie)",
+        "Bengal Tiger",
+        "Spotted Hyena",
+        "African Lion"
+      ],
+      "correctAnswer": 0,
+      "explanation": "The Walia Ibex (Capra walie) is a critically unique mountain goat species endemic exclusively to the Semien Mountains of Ethiopia.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_bio_15",
+      "grade": "Grade9",
+      "subject": "Biology",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "On an optical light microscope, which component controls the amount of light reaching the specimen?",
+      "options": [
+        "Diaphragm",
+        "Coarse adjustment knob",
+        "Stage clips",
+        "Ocular lens"
+      ],
+      "correctAnswer": 0,
+      "explanation": "The iris diaphragm (located beneath the stage) regulates the cone of light that reaches the specimen, adjusting brightness and contrast.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_bio_16",
+      "grade": "Grade9",
+      "subject": "Biology",
+      "semester": "Semester1",
+      "examType": "Final",
+      "question": "Which organelle is often referred to as the powerhouse of the eukaryotic cell?",
+      "options": [
+        "Mitochondria",
+        "Ribosome",
+        "Endoplasmic reticulum",
+        "Golgi apparatus"
+      ],
+      "correctAnswer": 0,
+      "explanation": "Mitochondria generate the majority of cellular adenosine triphosphate (ATP) through aerobic cellular respiration.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_bio_17",
+      "grade": "Grade9",
+      "subject": "Biology",
+      "semester": "Semester1",
+      "examType": "Final",
+      "question": "Plant cell walls are primarily composed of which complex carbohydrate?",
+      "options": [
+        "Cellulose",
+        "Chitin",
+        "Glycogen",
+        "Peptidoglycan"
+      ],
+      "correctAnswer": 0,
+      "explanation": "Plant cell walls are made of cellulose. Fungal cell walls are made of chitin, and bacterial cell walls are made of peptidoglycan.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_bio_18",
+      "grade": "Grade9",
+      "subject": "Biology",
+      "semester": "Semester1",
+      "examType": "Final",
+      "question": "Which blood vessels carry oxygenated blood away from the heart to the rest of the body?",
+      "options": [
+        "Arteries",
+        "Veins",
+        "Venules",
+        "Lymphatic vessels"
+      ],
+      "correctAnswer": 0,
+      "explanation": "Arteries transport blood under high pressure away from the heart to bodily tissues. The systemic arteries carry oxygenated blood.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_chem_01",
+      "grade": "Grade9",
+      "subject": "Chemistry",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Who proposed the atomic theory stating that matter is made of indivisible, indestructible particles called atoms?",
+      "options": [
+        "John Dalton",
+        "J.J. Thomson",
+        "Ernest Rutherford",
+        "Niels Bohr"
+      ],
+      "correctAnswer": 0,
+      "explanation": "John Dalton formulated the modern atomic theory in 1803, stating that all matter is composed of tiny indivisible particles called atoms.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_chem_02",
+      "grade": "Grade9",
+      "subject": "Chemistry",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Which subatomic particle carries a negative electric charge?",
+      "options": [
+        "Electron",
+        "Proton",
+        "Neutron",
+        "Positron"
+      ],
+      "correctAnswer": 0,
+      "explanation": "Electrons carry a negative charge (-1.602 × 10⁻¹⁹ C) and orbit the nucleus. Protons are positive and neutrons are neutral.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_chem_03",
+      "grade": "Grade9",
+      "subject": "Chemistry",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "The atomic number (Z) of a neutral atom is equal to the number of:",
+      "options": [
+        "Protons in the nucleus",
+        "Neutrons in the nucleus",
+        "Protons plus neutrons",
+        "Valence electrons only"
+      ],
+      "correctAnswer": 0,
+      "explanation": "The atomic number (Z) uniquely identifies an element and equals the number of protons in the nucleus of an atom.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_chem_04",
+      "grade": "Grade9",
+      "subject": "Chemistry",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "What is the mass number (A) of an atom with 6 protons and 8 neutrons?",
+      "options": [
+        "6",
+        "8",
+        "14",
+        "48"
+      ],
+      "correctAnswer": 2,
+      "explanation": "Mass number A = Protons + Neutrons = 6 + 8 = 14 (Carbon-14 isotope).",
+      "points": 1
+    },
+    {
+      "id": "q_g9_chem_05",
+      "grade": "Grade9",
+      "subject": "Chemistry",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Elements located in Group 1 (IA) of the modern periodic table are known as:",
+      "options": [
+        "Alkali metals",
+        "Alkaline earth metals",
+        "Halogens",
+        "Noble gases"
+      ],
+      "correctAnswer": 0,
+      "explanation": "Group 1 elements (Li, Na, K, Rb, Cs, Fr) are alkali metals. Group 2 are alkaline earth metals, Group 17 are halogens, and Group 18 are noble gases.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_chem_06",
+      "grade": "Grade9",
+      "subject": "Chemistry",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Which type of chemical bond is formed by the complete transfer of electrons from a metal to a non-metal?",
+      "options": [
+        "Ionic bond",
+        "Covalent bond",
+        "Metallic bond",
+        "Hydrogen bond"
+      ],
+      "correctAnswer": 0,
+      "explanation": "An ionic bond is formed by the electrostatic attraction between oppositely charged ions created when electrons transfer from a metal to a non-metal.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_chem_07",
+      "grade": "Grade9",
+      "subject": "Chemistry",
+      "semester": "Semester1",
+      "examType": "Final",
+      "question": "What is the correct chemical formula for aluminum sulfate?",
+      "options": [
+        "AlSO₄",
+        "Al₂(SO₄)₃",
+        "Al₃(SO₄)₂",
+        "Al(SO₄)₂"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Aluminum has a +3 oxidation state (Al³⁺) and sulfate is SO₄²⁻. Crossing charges yields Al₂(SO₄)₃.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_chem_08",
+      "grade": "Grade9",
+      "subject": "Chemistry",
+      "semester": "Semester1",
+      "examType": "Final",
+      "question": "When balancing the equation: N₂ + _ H₂ → 2 NH₃, what is the stoichiometric coefficient for H₂?",
+      "options": [
+        "1",
+        "2",
+        "3",
+        "4"
+      ],
+      "correctAnswer": 2,
+      "explanation": "There are 2 × 3 = 6 hydrogen atoms on the product side. Therefore, 3 H₂ molecules are required: N₂ + 3 H₂ → 2 NH₃.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_chem_09",
+      "grade": "Grade9",
+      "subject": "Chemistry",
+      "semester": "Semester1",
+      "examType": "Final",
+      "question": "A solution with a pH value of 3 is classified as:",
+      "options": [
+        "Strongly basic",
+        "Neutral",
+        "Acidic",
+        "Weakly alkaline"
+      ],
+      "correctAnswer": 2,
+      "explanation": "On the pH scale: pH 7 is neutral, pH < 7 is acidic, and pH > 7 is basic. A pH of 3 is distinctly acidic.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_chem_10",
+      "grade": "Grade9",
+      "subject": "Chemistry",
+      "semester": "Semester1",
+      "examType": "Final",
+      "question": "Which of the following is an example of a chemical change?",
+      "options": [
+        "Melting of ice",
+        "Rusting of iron",
+        "Dissolving sugar in water",
+        "Boiling water into steam"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Rusting of iron involves a chemical reaction with oxygen and moisture to form iron oxide (rust), creating new substances.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_math_01",
+      "grade": "Grade9",
+      "subject": "Mathematics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "If set A = {1, 2, 3, 4} and set B = {3, 4, 5, 6}, what is A ∩ B (the intersection)?",
+      "options": [
+        "{1, 2, 5, 6}",
+        "{3, 4}",
+        "{1, 2, 3, 4, 5, 6}",
+        "∅"
+      ],
+      "correctAnswer": 1,
+      "explanation": "The intersection A ∩ B consists of elements that belong to both set A and set B: {3, 4}.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_math_02",
+      "grade": "Grade9",
+      "subject": "Mathematics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Solve the linear equation for x: 3(2x - 4) = 18.",
+      "options": [
+        "3",
+        "5",
+        "6",
+        "10"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Expand: 6x - 12 = 18. Add 12: 6x = 30. Divide by 6: x = 5.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_math_03",
+      "grade": "Grade9",
+      "subject": "Mathematics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Which of the following numbers is an irrational number?",
+      "options": [
+        "0.75",
+        "√16",
+        "√7",
+        "2/3"
+      ],
+      "correctAnswer": 2,
+      "explanation": "√7 cannot be expressed as a fraction of two integers and has a non-terminating, non-repeating decimal expansion, making it irrational. √16 = 4, which is rational.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_math_04",
+      "grade": "Grade9",
+      "subject": "Mathematics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "What is the slope (m) of the line passing through points (2, 3) and (6, 11)?",
+      "options": [
+        "2",
+        "4",
+        "8",
+        "1/2"
+      ],
+      "correctAnswer": 0,
+      "explanation": "Slope m = (y₂ - y₁) / (x₂ - x₁) = (11 - 3) / (6 - 2) = 8 / 4 = 2.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_math_05",
+      "grade": "Grade9",
+      "subject": "Mathematics",
+      "semester": "Semester1",
+      "examType": "Final",
+      "question": "What is the sum of the interior angles of a pentagon (5-sided polygon)?",
+      "options": [
+        "360°",
+        "540°",
+        "720°",
+        "900°"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Sum of interior angles = (n - 2) × 180°. For n = 5: (5 - 2) × 180° = 3 × 180° = 540°.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_math_06",
+      "grade": "Grade9",
+      "subject": "Mathematics",
+      "semester": "Semester1",
+      "examType": "Final",
+      "question": "In a right-angled triangle, if legs are a = 6 cm and b = 8 cm, what is the hypotenuse c?",
+      "options": [
+        "10 cm",
+        "12 cm",
+        "14 cm",
+        "100 cm"
+      ],
+      "correctAnswer": 0,
+      "explanation": "By the Pythagorean theorem: c² = a² + b² = 6² + 8² = 36 + 64 = 100. c = √100 = 10 cm.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_math_07",
+      "grade": "Grade9",
+      "subject": "Mathematics",
+      "semester": "Semester1",
+      "examType": "Final",
+      "question": "Find the median of the data set: 12, 5, 8, 20, 15.",
+      "options": [
+        "8",
+        "12",
+        "14",
+        "15"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Sort data in ascending order: 5, 8, 12, 15, 20. The middle value is 12.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_math_08",
+      "grade": "Grade9",
+      "subject": "Mathematics",
+      "semester": "Semester1",
+      "examType": "Final",
+      "question": "What is the value of 2⁻³?",
+      "options": [
+        "-6",
+        "-8",
+        "1/8",
+        "1/6"
+      ],
+      "correctAnswer": 2,
+      "explanation": "2⁻³ = 1 / 2³ = 1 / 8.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_eng_01",
+      "grade": "Grade9",
+      "subject": "English",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Choose the correct verb tense: \"By the time the teacher entered, the students ______ their homework.\"",
+      "options": [
+        "have finished",
+        "had finished",
+        "finish",
+        "are finishing"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Past perfect tense (\"had finished\") is used to denote an action completed before another past event (\"teacher entered\").",
+      "points": 1
+    },
+    {
+      "id": "q_g9_eng_02",
+      "grade": "Grade9",
+      "subject": "English",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Choose the correct pronoun: \"The scientist ______ discovered the vaccine won a Nobel Prize.\"",
+      "options": [
+        "which",
+        "who",
+        "whom",
+        "whose"
+      ],
+      "correctAnswer": 1,
+      "explanation": "\"Who\" is the subject relative pronoun referring to people (\"the scientist\").",
+      "points": 1
+    },
+    {
+      "id": "q_g9_eng_03",
+      "grade": "Grade9",
+      "subject": "English",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Identify the passive voice for: \"The librarian sorted the new books yesterday.\"",
+      "options": [
+        "The new books were sorted by the librarian yesterday.",
+        "The librarian had been sorted by the books.",
+        "The new books are being sorted.",
+        "Yesterday the librarian sorted books."
+      ],
+      "correctAnswer": 0,
+      "explanation": "In passive voice with simple past: Subject + was/were + past participle + by agent (\"The new books were sorted by the librarian yesterday\").",
+      "points": 1
+    },
+    {
+      "id": "q_g9_eng_04",
+      "grade": "Grade9",
+      "subject": "English",
+      "semester": "Semester1",
+      "examType": "Final",
+      "question": "Select the appropriate conditional sentence: \"If it ______ tomorrow, we will postpone the football match.\"",
+      "options": [
+        "rains",
+        "will rain",
+        "rained",
+        "would rain"
+      ],
+      "correctAnswer": 0,
+      "explanation": "First conditional structure: If + present simple (\"rains\"), will + base verb (\"will postpone\").",
+      "points": 1
+    },
+    {
+      "id": "q_g9_eng_05",
+      "grade": "Grade9",
+      "subject": "English",
+      "semester": "Semester1",
+      "examType": "Final",
+      "question": "What is the synonym of the word \"Diligent\"?",
+      "options": [
+        "Lazy",
+        "Hardworking",
+        "Careless",
+        "Arrogant"
+      ],
+      "correctAnswer": 1,
+      "explanation": "\"Diligent\" means showing care and conscientiousness in one's work or duties; hardworking.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_it_01",
+      "grade": "Grade9",
+      "subject": "IT",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Which component is known as the \"brain\" of the computer that carries out arithmetic and logical instructions?",
+      "options": [
+        "Central Processing Unit (CPU)",
+        "Random Access Memory (RAM)",
+        "Hard Disk Drive",
+        "Motherboard"
+      ],
+      "correctAnswer": 0,
+      "explanation": "The CPU (Central Processing Unit) performs the fetch-decode-execute cycle and executes program instructions.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_it_02",
+      "grade": "Grade9",
+      "subject": "IT",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Which type of memory is volatile, losing its contents when the power is turned off?",
+      "options": [
+        "ROM (Read Only Memory)",
+        "RAM (Random Access Memory)",
+        "Flash Drive",
+        "Hard Disk Drive"
+      ],
+      "correctAnswer": 1,
+      "explanation": "RAM is volatile primary memory. When the computer loses power, all data stored in RAM is lost.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_it_03",
+      "grade": "Grade9",
+      "subject": "IT",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "How many bits make up one byte of digital data?",
+      "options": [
+        "4",
+        "8",
+        "16",
+        "32"
+      ],
+      "correctAnswer": 1,
+      "explanation": "One byte consists of exactly 8 bits. A nibble consists of 4 bits.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_it_04",
+      "grade": "Grade9",
+      "subject": "IT",
+      "semester": "Semester1",
+      "examType": "Final",
+      "question": "Which network type connects computers within a localized geographic area such as a school laboratory or office building?",
+      "options": [
+        "LAN (Local Area Network)",
+        "WAN (Wide Area Network)",
+        "MAN (Metropolitan Area Network)",
+        "Internet"
+      ],
+      "correctAnswer": 0,
+      "explanation": "A LAN (Local Area Network) spans a small physical area like a classroom, office, or building.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_it_05",
+      "grade": "Grade9",
+      "subject": "IT",
+      "semester": "Semester1",
+      "examType": "Final",
+      "question": "What does HTTP stand for in web technology?",
+      "options": [
+        "Hypertext Transfer Protocol",
+        "High Technical Transfer Program",
+        "Hyperlink Transmission Path",
+        "Hybrid Terminal Test Protocol"
+      ],
+      "correctAnswer": 0,
+      "explanation": "HTTP stands for Hypertext Transfer Protocol, the foundational protocol used for transmitting web pages over the Internet.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_hist_01",
+      "grade": "Grade9",
+      "subject": "History",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Where was the famous fossil of Australopithecus afarensis (\"Lucy\" or \"Dinkinesh\") discovered in Ethiopia in 1974?",
+      "options": [
+        "Hadar (Awash Valley)",
+        "Omo Kibish",
+        "Melka Kunture",
+        "Tiwi Valley"
+      ],
+      "correctAnswer": 0,
+      "explanation": "Lucy (Dinkinesh) was discovered at Hadar in the Awash Valley of the Afar depression by Donald Johanson in 1974.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_hist_02",
+      "grade": "Grade9",
+      "subject": "History",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "During the reign of which Aksumite King did Christianity become the official state religion in the 4th century AD?",
+      "options": [
+        "King Ezana",
+        "King Kaleb",
+        "King Armah",
+        "Emperor Gebre Mesqel"
+      ],
+      "correctAnswer": 0,
+      "explanation": "King Ezana of Aksum converted to Christianity around 330–340 AD under the guidance of Saint Frumentius (Abba Selama).",
+      "points": 1
+    },
+    {
+      "id": "q_g9_hist_03",
+      "grade": "Grade9",
+      "subject": "History",
+      "semester": "Semester1",
+      "examType": "Final",
+      "question": "The historic Battle of Adwa, where Ethiopian forces defeated the Italian colonial army, took place on:",
+      "options": [
+        "March 1, 1896",
+        "October 24, 1935",
+        "May 5, 1941",
+        "December 13, 1960"
+      ],
+      "correctAnswer": 0,
+      "explanation": "The Battle of Adwa was fought on March 1, 1896 (Yekatit 23, 1888 E.C.), preserving Ethiopia's national sovereignty.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_geog_01",
+      "grade": "Grade9",
+      "subject": "Geography",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "The traditional Ethiopian agro-climatic zone situated between 1,500 and 2,300 meters above sea level with moderate temperatures is called:",
+      "options": [
+        "Kolla",
+        "Weyna Dega",
+        "Dega",
+        "Bereha"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Weyna Dega (sub-tropical zone) lies between 1500m and 2300m elevation, featuring temperate conditions ideal for agriculture and human settlement.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_geog_02",
+      "grade": "Grade9",
+      "subject": "Geography",
+      "semester": "Semester1",
+      "examType": "Final",
+      "question": "Which prominent geological feature bisects the Ethiopian highlands into northwestern and southeastern massifs?",
+      "options": [
+        "Great East African Rift Valley",
+        "Simien Mountains",
+        "Bale Mountains",
+        "Danakil Depression"
+      ],
+      "correctAnswer": 0,
+      "explanation": "The Great East African Rift Valley cuts diagonally across Ethiopia from northeast to southwest, dividing the Ethiopian highlands.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_cit_01",
+      "grade": "Grade9",
+      "subject": "Citizen ship",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Which branch of government is responsible for making laws in a constitutional democracy?",
+      "options": [
+        "The Legislature (Parliament)",
+        "The Executive",
+        "The Judiciary",
+        "The Police Service"
+      ],
+      "correctAnswer": 0,
+      "explanation": "The Legislature (such as the House of Peoples' Representatives in Ethiopia) has the constitutional authority to debate, enact, and amend legislation.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_cit_02",
+      "grade": "Grade9",
+      "subject": "Citizen ship",
+      "semester": "Semester1",
+      "examType": "Final",
+      "question": "Which peaceful conflict resolution method involves a neutral third party facilitating dialogue without imposing a binding decision?",
+      "options": [
+        "Mediation",
+        "Arbitration",
+        "Litigation",
+        "Warfare"
+      ],
+      "correctAnswer": 0,
+      "explanation": "Mediation involves an impartial mediator who facilitates constructive dialogue and helps conflicting parties reach a mutually agreeable voluntary settlement.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_econ_01",
+      "grade": "Grade9",
+      "subject": "Economics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "What is the fundamental economic problem that faces all societies?",
+      "options": [
+        "Scarcity (unlimited wants vs limited resources)",
+        "Excessive taxation",
+        "Hyperinflation",
+        "Trade surpluses"
+      ],
+      "correctAnswer": 0,
+      "explanation": "Scarcity is the fundamental economic problem: human wants are virtually unlimited, while productive resources to satisfy them are finite.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_econ_02",
+      "grade": "Grade9",
+      "subject": "Economics",
+      "semester": "Semester1",
+      "examType": "Final",
+      "question": "The value of the next best alternative given up when a decision is made is known as:",
+      "options": [
+        "Opportunity cost",
+        "Marginal cost",
+        "Sunk cost",
+        "Variable cost"
+      ],
+      "correctAnswer": 0,
+      "explanation": "Opportunity cost represents the benefits an individual, investor, or business misses out on when choosing one alternative over another.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_hp_01",
+      "grade": "Grade9",
+      "subject": "HP",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "What does the acronym R.I.C.E. stand for in sports first aid for sprains and soft-tissue injuries?",
+      "options": [
+        "Rest, Ice, Compression, Elevation",
+        "Run, Incline, Cool, Exercise",
+        "Rescue, Isolate, Calm, Emergency",
+        "Relief, Injection, Cast, Examination"
+      ],
+      "correctAnswer": 0,
+      "explanation": "R.I.C.E. is the standard first-aid treatment protocol for acute soft tissue and ligament injuries: Rest, Ice, Compression, and Elevation.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_amh_01",
+      "grade": "Grade9",
+      "subject": "Amharic",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "በአማርኛ ሰዋሰው ውስጥ የአንድን ነገር፣ ቦታ ወይም ሰው ስም የሚገልጸው የቃል ክፍል ምን ይባላል?",
+      "options": [
+        "ስም",
+        "ግሥ",
+        "ቅጽል",
+        "መስተዋድድ"
+      ],
+      "correctAnswer": 0,
+      "explanation": "ስም የማንኛውም ሰው፣ ቦታ፣ እንስሳ ወይም ረቂቅ ነገር መጠሪያ ሆኖ የሚያገለግል የቋንቋ ክፍል ነው።",
+      "points": 1
+    },
+    {
+      "id": "q_g10_phys_01",
+      "grade": "Grade10",
+      "subject": "Physics",
+      "semester": "Semester1",
+      "examType": "Final",
+      "question": "According to Newton's Second Law of Motion, what happens to acceleration when net force is doubled and mass remains constant?",
+      "options": [
+        "Acceleration is halved",
+        "Acceleration is doubled",
+        "Acceleration remains unchanged",
+        "Acceleration quadruples"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Since a = F / m, acceleration is directly proportional to net force. Doubling the net force doubles the acceleration.",
+      "points": 1
+    },
+    {
+      "id": "q_g10_phys_02",
+      "grade": "Grade10",
+      "subject": "Physics",
+      "semester": "Semester1",
+      "examType": "Final",
+      "question": "A worker does 1200 Joules of work lifting a crate in 6 seconds. What is the power exerted?",
+      "options": [
+        "7200 W",
+        "200 W",
+        "120 W",
+        "20 W"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Power = Work / time = 1200 J / 6 s = 200 Watts (W).",
+      "points": 1
+    },
+    {
+      "id": "q_g10_phys_03",
+      "grade": "Grade10",
+      "subject": "Physics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "What type of wave is a sound wave in air?",
+      "options": [
+        "Transverse wave",
+        "Longitudinal mechanical wave",
+        "Electromagnetic wave",
+        "Surface wave"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Sound waves travel through gases and liquids as longitudinal mechanical waves composed of alternating compressions and rarefactions.",
+      "points": 1
+    },
+    {
+      "id": "q_g10_phys_04",
+      "grade": "Grade10",
+      "subject": "Physics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Coulomb's Law states that the electrostatic force between two point charges is inversely proportional to the:",
+      "options": [
+        "Distance between them",
+        "Square of the distance between them",
+        "Product of the charges",
+        "Sum of the charges"
+      ],
+      "correctAnswer": 1,
+      "explanation": "F = k·|q₁·q₂| / r². The electrostatic force is inversely proportional to the square of the distance (r²) between the charges.",
+      "points": 1
+    },
+    {
+      "id": "q_g10_phys_05",
+      "grade": "Grade10",
+      "subject": "Physics",
+      "semester": "Semester1",
+      "examType": "Final",
+      "question": "What phenomenon causes a pencil submerged in a glass of water to appear bent at the surface?",
+      "options": [
+        "Refraction",
+        "Total internal reflection",
+        "Diffraction",
+        "Polarization"
+      ],
+      "correctAnswer": 0,
+      "explanation": "Refraction is the bending of light waves as they pass obliquely from one transparent optical medium (water) into another (air) of differing optical density.",
+      "points": 1
+    },
+    {
+      "id": "q_g10_chem_01",
+      "grade": "Grade10",
+      "subject": "Chemistry",
+      "semester": "Semester1",
+      "examType": "Final",
+      "question": "Which gas law states that at constant temperature, the volume of a fixed mass of gas is inversely proportional to its pressure?",
+      "options": [
+        "Charles's Law",
+        "Boyle's Law",
+        "Gay-Lussac's Law",
+        "Avogadro's Law"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Boyle's Law states that P₁V₁ = P₂V₂ at constant temperature.",
+      "points": 1
+    },
+    {
+      "id": "q_g10_chem_02",
+      "grade": "Grade10",
+      "subject": "Chemistry",
+      "semester": "Semester1",
+      "examType": "Final",
+      "question": "What is the molar mass of Calcium Carbonate (CaCO₃)? [Atomic masses: Ca=40, C=12, O=16]",
+      "options": [
+        "68 g/mol",
+        "84 g/mol",
+        "100 g/mol",
+        "120 g/mol"
+      ],
+      "correctAnswer": 2,
+      "explanation": "Molar mass = 40 + 12 + (3 × 16) = 52 + 48 = 100 g/mol.",
+      "points": 1
+    },
+    {
+      "id": "q_g10_chem_03",
+      "grade": "Grade10",
+      "subject": "Chemistry",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Which organic family of hydrocarbons contains only single carbon-carbon covalent bonds and follows formula CnH₂n+₂?",
+      "options": [
+        "Alkanes",
+        "Alkenes",
+        "Alkynes",
+        "Arenes"
+      ],
+      "correctAnswer": 0,
+      "explanation": "Alkanes are saturated aliphatic hydrocarbons possessing only single C-C bonds with general formula CnH₂n+₂.",
+      "points": 1
+    },
+    {
+      "id": "q_g10_chem_04",
+      "grade": "Grade10",
+      "subject": "Chemistry",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Across a period in the periodic table from left to right, electronegativity generally:",
+      "options": [
+        "Decreases",
+        "Increases",
+        "Remains unchanged",
+        "Drops to zero"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Across a period, nuclear charge increases while valence electrons are added to the same shell, pulling electrons more strongly and increasing electronegativity.",
+      "points": 1
+    },
+    {
+      "id": "q_g10_bio_01",
+      "grade": "Grade10",
+      "subject": "Biology",
+      "semester": "Semester1",
+      "examType": "Final",
+      "question": "Which phase of mitosis is characterized by sister chromatids separating and moving to opposite poles of the cell?",
+      "options": [
+        "Prophase",
+        "Metaphase",
+        "Anaphase",
+        "Telophase"
+      ],
+      "correctAnswer": 2,
+      "explanation": "During anaphase, the centromeres split and sister chromatids are pulled apart by spindle fibers toward opposite poles.",
+      "points": 1
+    },
+    {
+      "id": "q_g10_bio_02",
+      "grade": "Grade10",
+      "subject": "Biology",
+      "semester": "Semester1",
+      "examType": "Final",
+      "question": "In Mendel's monohybrid cross of pea plants (Bb × Bb), what is the expected phenotypic ratio of dominant to recessive traits?",
+      "options": [
+        "1:1",
+        "2:1",
+        "3:1",
+        "9:3:3:1"
+      ],
+      "correctAnswer": 2,
+      "explanation": "A heterozygous Bb × Bb cross yields genotypes 1 BB : 2 Bb : 1 bb, resulting in a 3:1 dominant to recessive phenotypic ratio.",
+      "points": 1
+    },
+    {
+      "id": "q_g10_bio_03",
+      "grade": "Grade10",
+      "subject": "Biology",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Which blood vessels possess one-way valves to prevent backflow of blood as it returns to the heart?",
+      "options": [
+        "Arteries",
+        "Capillaries",
+        "Veins",
+        "Arterioles"
+      ],
+      "correctAnswer": 2,
+      "explanation": "Veins contain pocket valves that ensure one-way flow of blood against gravity toward the heart.",
+      "points": 1
+    },
+    {
+      "id": "q_g10_math_01",
+      "grade": "Grade10",
+      "subject": "Mathematics",
+      "semester": "Semester1",
+      "examType": "Final",
+      "question": "What are the roots of the quadratic equation x² - 5x + 6 = 0?",
+      "options": [
+        "x = -2, -3",
+        "x = 2, 3",
+        "x = 1, 6",
+        "x = -1, -6"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Factoring: (x - 2)(x - 3) = 0, which yields roots x = 2 and x = 3.",
+      "points": 1
+    },
+    {
+      "id": "q_g10_math_02",
+      "grade": "Grade10",
+      "subject": "Mathematics",
+      "semester": "Semester1",
+      "examType": "Final",
+      "question": "What is the exact value of sin(30°)?",
+      "options": [
+        "1/2",
+        "√3/2",
+        "√2/2",
+        "1"
+      ],
+      "correctAnswer": 0,
+      "explanation": "In trigonometry, sin(30°) = 1/2.",
+      "points": 1
+    },
+    {
+      "id": "q_g10_math_03",
+      "grade": "Grade10",
+      "subject": "Mathematics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "If two fair six-sided dice are rolled, what is the probability of rolling a sum equal to 7?",
+      "options": [
+        "1/12",
+        "1/6",
+        "5/36",
+        "7/36"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Combinations summing to 7: (1,6), (2,5), (3,4), (4,3), (5,2), (6,1) = 6 outcomes out of 36 total. P = 6/36 = 1/6.",
+      "points": 1
+    },
+    {
+      "id": "q_g10_eng_01",
+      "grade": "Grade10",
+      "subject": "English",
+      "semester": "Semester1",
+      "examType": "Final",
+      "question": "Identify the correct reported speech: She said, \"I have lived in Addis Ababa for five years.\"",
+      "options": [
+        "She said that she had lived in Addis Ababa for five years.",
+        "She said that she has lived in Addis Ababa.",
+        "She said she lives in Addis Ababa.",
+        "She told she was living in Addis Ababa."
+      ],
+      "correctAnswer": 0,
+      "explanation": "In indirect reported speech, present perfect (\"have lived\") shifts back into past perfect (\"had lived\").",
+      "points": 1
+    },
+    {
+      "id": "q_g10_hist_01",
+      "grade": "Grade10",
+      "subject": "History",
+      "semester": "Semester1",
+      "examType": "Final",
+      "question": "Which historic Ethiopian ruler constructed the iconic eleven monolithic rock-hewn churches in Roha (Lalibela)?",
+      "options": [
+        "King Lalibela",
+        "Emperor Tewodros II",
+        "Emperor Menelik II",
+        "King Ezana"
+      ],
+      "correctAnswer": 0,
+      "explanation": "King Gebre Mesqel Lalibela of the Zagwe Dynasty ordered the creation of the 11 rock-hewn monolithic churches in the 12th–13th centuries.",
+      "points": 1
+    },
+    {
+      "id": "q_g10_geog_01",
+      "grade": "Grade10",
+      "subject": "Geography",
+      "semester": "Semester1",
+      "examType": "Final",
+      "question": "Which river is the longest river in Ethiopia and is known internationally as the Blue Nile upon entering Sudan?",
+      "options": [
+        "Awash River",
+        "Abay River",
+        "Omo River",
+        "Wabe Shebelle River"
+      ],
+      "correctAnswer": 1,
+      "explanation": "The Abay River originates at Lake Tana and flows into Sudan, where it converges with the White Nile at Khartoum.",
+      "points": 1
+    },
+    {
+      "id": "q_g10_econ_01",
+      "grade": "Grade10",
+      "subject": "Economics",
+      "semester": "Semester1",
+      "examType": "Final",
+      "question": "A market structure characterized by a single seller supplying a unique product with no close substitutes is a:",
+      "options": [
+        "Perfect competition",
+        "Monopoly",
+        "Oligopoly",
+        "Monopolistic competition"
+      ],
+      "correctAnswer": 1,
+      "explanation": "A monopoly is a market structure dominated by a solitary firm that exerts substantial market power over price.",
+      "points": 1
+    },
+    {
+      "id": "q_g10_it_01",
+      "grade": "Grade10",
+      "subject": "IT",
+      "semester": "Semester1",
+      "examType": "Final",
+      "question": "Which database query language is universally used to create, read, update, and delete relational data?",
+      "options": [
+        "HTML",
+        "CSS",
+        "SQL (Structured Query Language)",
+        "JSON"
+      ],
+      "correctAnswer": 2,
+      "explanation": "SQL (Structured Query Language) is the standard language designed for managing data held in relational database management systems.",
+      "points": 1
+    },
+    {
+      "id": "q_g10_cit_01",
+      "grade": "Grade10",
+      "subject": "Citizen ship",
+      "semester": "Semester1",
+      "examType": "Final",
+      "question": "The principle where governmental authority is divided between a central national government and regional states is called:",
+      "options": [
+        "Unitary system",
+        "Federalism",
+        "Monarchy",
+        "Anarchy"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Federalism divides sovereign power constitutionally between a central federal government and regional constituent state units.",
+      "points": 1
+    },
+    {
+      "id": "q_g11_phys_01",
+      "grade": "Grade11",
+      "subject": "Physics",
+      "semester": "Semester1",
+      "examType": "Final",
+      "question": "What is the scalar (dot) product of vectors A = 2i + 3j and B = 4i - 2j?",
+      "options": [
+        "2",
+        "8",
+        "14",
+        "-6"
+      ],
+      "correctAnswer": 0,
+      "explanation": "A · B = (Ax · Bx) + (Ay · By) = (2 × 4) + (3 × -2) = 8 - 6 = 2.",
+      "points": 1
+    },
+    {
+      "id": "q_g11_phys_02",
+      "grade": "Grade11",
+      "subject": "Physics",
+      "semester": "Semester1",
+      "examType": "Final",
+      "question": "In projectile motion without air resistance, the horizontal component of velocity:",
+      "options": [
+        "Increases continuously",
+        "Remains constant throughout flight",
+        "Decreases to zero at peak",
+        "Reverses direction"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Because gravity acts only downward along the vertical axis, horizontal acceleration is zero (ax = 0), keeping vx constant.",
+      "points": 1
+    },
+    {
+      "id": "q_g11_phys_03",
+      "grade": "Grade11",
+      "subject": "Physics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "According to Bernoulli's principle for fluid flow, where the velocity of a moving fluid increases, its internal pressure:",
+      "options": [
+        "Increases",
+        "Decreases",
+        "Remains unchanged",
+        "Becomes infinite"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Bernoulli's principle states that an increase in fluid speed occurs simultaneously with a decrease in static pressure.",
+      "points": 1
+    },
+    {
+      "id": "q_g11_chem_01",
+      "grade": "Grade11",
+      "subject": "Chemistry",
+      "semester": "Semester1",
+      "examType": "Final",
+      "question": "What is the electronic geometry and bond angle of methane (CH₄) according to VSEPR theory?",
+      "options": [
+        "Trigonal planar (120°)",
+        "Linear (180°)",
+        "Tetrahedral (109.5°)",
+        "Octahedral (90°)"
+      ],
+      "correctAnswer": 2,
+      "explanation": "Methane has 4 bonding pairs and 0 lone pairs on carbon, adopting a tetrahedral geometry with 109.5° bond angles.",
+      "points": 1
+    },
+    {
+      "id": "q_g11_chem_02",
+      "grade": "Grade11",
+      "subject": "Chemistry",
+      "semester": "Semester1",
+      "examType": "Final",
+      "question": "According to Le Chatelier's Principle, what happens to the exothermic equilibrium N₂(g) + 3H₂(g) ⇌ 2NH₃(g) + Heat when temperature is increased?",
+      "options": [
+        "Shifts to the right (more NH₃)",
+        "Shifts to the left (more reactants)",
+        "Equilibrium constant increases",
+        "No change occurs"
+      ],
+      "correctAnswer": 1,
+      "explanation": "In an exothermic reaction, heat acts as a product. Adding heat causes the system to shift toward the endothermic backward direction (left).",
+      "points": 1
+    },
+    {
+      "id": "q_g11_bio_01",
+      "grade": "Grade11",
+      "subject": "Biology",
+      "semester": "Semester1",
+      "examType": "Final",
+      "question": "Which metabolic pathway occurs in the cytoplasm and breaks down one molecule of glucose into two pyruvate molecules?",
+      "options": [
+        "Glycolysis",
+        "Krebs Cycle",
+        "Oxidative phosphorylation",
+        "Calvin cycle"
+      ],
+      "correctAnswer": 0,
+      "explanation": "Glycolysis is the anaerobic initial stage of cellular respiration that takes place in the cytosol, yielding 2 pyruvate, 2 ATP, and 2 NADH.",
+      "points": 1
+    },
+    {
+      "id": "q_g11_bio_02",
+      "grade": "Grade11",
+      "subject": "Biology",
+      "semester": "Semester1",
+      "examType": "Final",
+      "question": "What are the primary vascular tissues responsible for transporting water and dissolved mineral ions upward from roots in plants?",
+      "options": [
+        "Phloem",
+        "Xylem",
+        "Cortex",
+        "Cambium"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Xylem vessels transport water and dissolved minerals un-directionally upward from the roots to stems and leaves.",
+      "points": 1
+    },
+    {
+      "id": "q_g11_math_01",
+      "grade": "Grade11",
+      "subject": "Mathematics",
+      "semester": "Semester1",
+      "examType": "Final",
+      "question": "What is the sum of the first 10 terms of an arithmetic progression with first term a₁ = 3 and common difference d = 4?",
+      "options": [
+        "180",
+        "210",
+        "240",
+        "420"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Sn = (n/2)[2a + (n - 1)d] = (10/2)[2(3) + 9(4)] = 5[6 + 36] = 5[42] = 210.",
+      "points": 1
+    },
+    {
+      "id": "q_g11_math_02",
+      "grade": "Grade11",
+      "subject": "Mathematics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Solve for x: log₁₀(x) + log₁₀(x - 3) = 1.",
+      "options": [
+        "x = 5",
+        "x = -2",
+        "x = 2",
+        "x = 10"
+      ],
+      "correctAnswer": 0,
+      "explanation": "log₁₀[x(x - 3)] = 1 => x² - 3x = 10 => x² - 3x - 10 = 0 => (x - 5)(x + 2) = 0. Since log argument must be positive, x = 5.",
+      "points": 1
+    },
+    {
+      "id": "q_g11_it_01",
+      "grade": "Grade11",
+      "subject": "IT",
+      "semester": "Semester1",
+      "examType": "Final",
+      "question": "Which network topology connects every computer to a single central device such as a hub or switch?",
+      "options": [
+        "Bus topology",
+        "Star topology",
+        "Ring topology",
+        "Mesh topology"
+      ],
+      "correctAnswer": 1,
+      "explanation": "In a star topology, each network host is connected to a central hub or switch with a point-to-point connection.",
+      "points": 1
+    },
+    {
+      "id": "q_g11_web_01",
+      "grade": "Grade11",
+      "subject": "WEB",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Which HTML5 semantic element is used to encapsulate self-contained standalone content such as a blog post or news story?",
+      "options": [
+        "<article>",
+        "<section>",
+        "<div>",
+        "<header>"
+      ],
+      "correctAnswer": 0,
+      "explanation": "The <article> tag specifies independent, self-contained content intended to be independently distributable.",
+      "points": 1
+    },
+    {
+      "id": "q_g11_agri_01",
+      "grade": "Grade11",
+      "subject": "Agriculture",
+      "semester": "Semester1",
+      "examType": "Final",
+      "question": "Which soil conservation practice involves plowing and planting across a slope along elevation contour lines to slow runoff?",
+      "options": [
+        "Contour farming",
+        "Deforestation",
+        "Overgrazing",
+        "Monoculture"
+      ],
+      "correctAnswer": 0,
+      "explanation": "Contour farming involves plowing along equal elevation contours, creating small ridges that capture runoff and prevent soil erosion.",
+      "points": 1
+    },
+    {
+      "id": "q_g12_math_01",
+      "grade": "Grade12",
+      "subject": "Mathematics",
+      "semester": "Pretest",
+      "examType": "Pretest",
+      "question": "What is the derivative of f(x) = ln(x² + 4)?",
+      "options": [
+        "2x / (x² + 4)",
+        "1 / (x² + 4)",
+        "2 / (x² + 4)",
+        "x / (x² + 4)"
+      ],
+      "correctAnswer": 0,
+      "explanation": "Using the chain rule: d/dx[ln(u)] = (1/u) · u'. Here u = x² + 4, u' = 2x. Thus f'(x) = 2x / (x² + 4).",
+      "points": 1
+    },
+    {
+      "id": "q_g12_math_02",
+      "grade": "Grade12",
+      "subject": "Mathematics",
+      "semester": "Pretest",
+      "examType": "Pretest",
+      "question": "Evaluate the definite integral: ∫ from 0 to 2 of (3x² + 2x) dx.",
+      "options": [
+        "8",
+        "12",
+        "14",
+        "16"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Antiderivative: [x³ + x²] from 0 to 2 = (2³ + 2²) - (0) = 8 + 4 = 12.",
+      "points": 1
+    },
+    {
+      "id": "q_g12_math_03",
+      "grade": "Grade12",
+      "subject": "Mathematics",
+      "semester": "Model",
+      "examType": "Model",
+      "question": "Evaluate the limit: lim (x → 0) [sin(5x) / x].",
+      "options": [
+        "0",
+        "1",
+        "5",
+        "Does not exist"
+      ],
+      "correctAnswer": 2,
+      "explanation": "Using the standard limit lim(θ → 0)[sin(kθ)/θ] = k, we have lim(x → 0)[sin(5x)/x] = 5.",
+      "points": 1
+    },
+    {
+      "id": "q_g12_math_04",
+      "grade": "Grade12",
+      "subject": "Mathematics",
+      "semester": "Model",
+      "examType": "Model",
+      "question": "If vector A = 3i - 4j, what is the magnitude ||A||?",
+      "options": [
+        "1",
+        "5",
+        "7",
+        "25"
+      ],
+      "correctAnswer": 1,
+      "explanation": "||A|| = √(3² + (-4)²) = √(9 + 16) = √25 = 5.",
+      "points": 1
+    },
+    {
+      "id": "q_g12_phys_01",
+      "grade": "Grade12",
+      "subject": "Physics",
+      "semester": "Pretest",
+      "examType": "Pretest",
+      "question": "An object of mass 2 kg moves in a horizontal circular path of radius 0.5 m with a constant speed of 4 m/s. What is the centripetal force?",
+      "options": [
+        "16 N",
+        "32 N",
+        "64 N",
+        "8 N"
+      ],
+      "correctAnswer": 2,
+      "explanation": "Centripetal force Fc = (m · v²) / r = (2 · 4²) / 0.5 = (2 · 16) / 0.5 = 32 / 0.5 = 64 N.",
+      "points": 1
+    },
+    {
+      "id": "q_g12_phys_02",
+      "grade": "Grade12",
+      "subject": "Physics",
+      "semester": "Model",
+      "examType": "Model",
+      "question": "In the photoelectric effect, increasing the frequency of the incident light above the threshold frequency increases the:",
+      "options": [
+        "Number of emitted photoelectrons",
+        "Maximum kinetic energy of emitted photoelectrons",
+        "Stopping potential to zero",
+        "Work function of the metal"
+      ],
+      "correctAnswer": 1,
+      "explanation": "According to Einstein's equation KEmax = hf - Φ, increasing frequency (f) increases the maximum kinetic energy of emitted photoelectrons.",
+      "points": 1
+    },
+    {
+      "id": "q_g12_phys_03",
+      "grade": "Grade12",
+      "subject": "Physics",
+      "semester": "Model",
+      "examType": "Model",
+      "question": "Two parallel wires carry currents in the same direction. What force do they exert on each other?",
+      "options": [
+        "Attractive magnetic force",
+        "Repulsive magnetic force",
+        "Zero force",
+        "Electrostatic repulsive force only"
+      ],
+      "correctAnswer": 0,
+      "explanation": "By Ampère's force law and the right-hand rule, parallel conductors carrying currents in the same direction attract each other.",
+      "points": 1
+    },
+    {
+      "id": "q_g12_chem_01",
+      "grade": "Grade12",
+      "subject": "Chemistry",
+      "semester": "Pretest",
+      "examType": "Pretest",
+      "question": "What is the pH of a 0.001 M solution of Hydrochloric acid (HCl)?",
+      "options": [
+        "1",
+        "2",
+        "3",
+        "11"
+      ],
+      "correctAnswer": 2,
+      "explanation": "HCl is a strong monoprotic acid, so [H⁺] = 0.001 M = 10⁻³ M. pH = -log₁₀[H⁺] = -log₁₀(10⁻³) = 3.",
+      "points": 1
+    },
+    {
+      "id": "q_g12_chem_02",
+      "grade": "Grade12",
+      "subject": "Chemistry",
+      "semester": "Model",
+      "examType": "Model",
+      "question": "Which functional group characterizes carboxylic acids?",
+      "options": [
+        "-OH (Hydroxyl)",
+        "-CHO (Aldehyde)",
+        "-COOH (Carboxyl)",
+        "-CO- (Carbonyl)"
+      ],
+      "correctAnswer": 2,
+      "explanation": "Carboxylic acids are defined by the carboxyl functional group (-COOH), consisting of a carbonyl group bonded to a hydroxyl group.",
+      "points": 1
+    },
+    {
+      "id": "q_g12_chem_03",
+      "grade": "Grade12",
+      "subject": "Chemistry",
+      "semester": "Model",
+      "examType": "Model",
+      "question": "In an electrochemical galvanic cell, oxidation occurs at the:",
+      "options": [
+        "Anode",
+        "Cathode",
+        "Salt bridge",
+        "Voltmeter"
+      ],
+      "correctAnswer": 0,
+      "explanation": "Remember \"An Ox and Red Cat\": Oxidation always occurs at the Anode, while reduction occurs at the Cathode.",
+      "points": 1
+    },
+    {
+      "id": "q_g12_bio_01",
+      "grade": "Grade12",
+      "subject": "Biology",
+      "semester": "Pretest",
+      "examType": "Pretest",
+      "question": "During cellular respiration, in which stage is the majority of ATP generated via oxidative phosphorylation?",
+      "options": [
+        "Glycolysis",
+        "Krebs Cycle (Citric Acid Cycle)",
+        "Electron Transport Chain",
+        "Fermentation"
+      ],
+      "correctAnswer": 2,
+      "explanation": "The Electron Transport Chain and ATP synthase generate approximately 28–34 ATP molecules per glucose through chemiosmosis.",
+      "points": 1
+    },
+    {
+      "id": "q_g12_bio_02",
+      "grade": "Grade12",
+      "subject": "Biology",
+      "semester": "Model",
+      "examType": "Model",
+      "question": "Which enzyme unzips and unwinds the DNA double helix during DNA replication?",
+      "options": [
+        "DNA Helicase",
+        "DNA Polymerase",
+        "DNA Ligase",
+        "RNA Primase"
+      ],
+      "correctAnswer": 0,
+      "explanation": "DNA Helicase breaks the hydrogen bonds between complementary base pairs to unwind and separate DNA strands at the replication fork.",
+      "points": 1
+    },
+    {
+      "id": "q_g12_apt_01",
+      "grade": "Grade12",
+      "subject": "Aptitude",
+      "semester": "Pretest",
+      "examType": "Pretest",
+      "question": "Find the next number in the sequence: 3, 7, 15, 31, 63, ?",
+      "options": [
+        "95",
+        "125",
+        "127",
+        "129"
+      ],
+      "correctAnswer": 2,
+      "explanation": "Each term is calculated by (Previous term × 2) + 1: (63 × 2) + 1 = 126 + 1 = 127.",
+      "points": 1
+    },
+    {
+      "id": "q_g12_apt_02",
+      "grade": "Grade12",
+      "subject": "Aptitude",
+      "semester": "Model",
+      "examType": "Model",
+      "question": "If all Zips are Zaps, and some Zaps are Zops, which statement is DEFINITELY true?",
+      "options": [
+        "All Zips are Zops",
+        "Some Zips are Zops",
+        "Some Zaps are Zips",
+        "No Zips are Zops"
+      ],
+      "correctAnswer": 2,
+      "explanation": "Because all Zips are Zaps, the set of Zips is a non-empty subset of Zaps; therefore, it is certain that some Zaps are Zips.",
+      "points": 1
+    },
+    {
+      "id": "q_g12_apt_03",
+      "grade": "Grade12",
+      "subject": "Aptitude",
+      "semester": "Model",
+      "examType": "Model",
+      "question": "A train 120 meters long travels at a speed of 60 km/h. How many seconds will it take to pass a telegraph post?",
+      "options": [
+        "5.4 seconds",
+        "7.2 seconds",
+        "8.0 seconds",
+        "12.0 seconds"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Speed = 60 km/h = 60 × (5/18) m/s = 50/3 m/s. Time = Distance / Speed = 120 / (50/3) = (120 × 3) / 50 = 360 / 50 = 7.2 seconds.",
+      "points": 1
+    },
+    {
+      "id": "q_g12_apt_04",
+      "grade": "Grade12",
+      "subject": "Aptitude",
+      "semester": "Pretest",
+      "examType": "Pretest",
+      "question": "Complete the analogy: EPIDEMIOLOGY is to DISEASE as SEISMOLOGY is to:",
+      "options": [
+        "Stars",
+        "Earthquakes",
+        "Fossils",
+        "Weather"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Epidemiology is the scientific study of diseases; seismology is the scientific study of earthquakes.",
+      "points": 1
+    },
+    {
+      "id": "q_g12_eng_01",
+      "grade": "Grade12",
+      "subject": "English",
+      "semester": "Pretest",
+      "examType": "Pretest",
+      "question": "Choose the correct word: \"The minister's argument was so ______ that even his fiercest critics were convinced.\"",
+      "options": [
+        "cogent",
+        "equivocal",
+        "spurious",
+        "tenuous"
+      ],
+      "correctAnswer": 0,
+      "explanation": "\"Cogent\" means clear, logical, and convincing.",
+      "points": 1
+    },
+    {
+      "id": "q_g12_eng_02",
+      "grade": "Grade12",
+      "subject": "English",
+      "semester": "Model",
+      "examType": "Model",
+      "question": "Identify the figure of speech in: \"The angry storm pounded against the trembling wooden cabin.\"",
+      "options": [
+        "Simile",
+        "Personification",
+        "Hyperbole",
+        "Irony"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Personification attributes human qualities (anger, pounding, trembling) to inanimate things (storm, cabin).",
+      "points": 1
+    },
+    {
+      "id": "q_g9_chem_11",
+      "grade": "Grade9",
+      "subject": "Chemistry",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Which laboratory apparatus is most suitable for accurately measuring a specific volume of liquid?",
+      "options": [
+        "Beaker",
+        "Graduated cylinder",
+        "Test tube",
+        "Evaporating dish"
+      ],
+      "correctAnswer": 1,
+      "explanation": "A graduated cylinder (or volumetric pipette) is marked with precise calibration lines, making it far more accurate for volume measurement than a beaker.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_chem_12",
+      "grade": "Grade9",
+      "subject": "Chemistry",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "What type of mixture is salt dissolved completely in water?",
+      "options": [
+        "Heterogeneous mixture",
+        "Homogeneous mixture (solution)",
+        "Suspension",
+        "Colloid"
+      ],
+      "correctAnswer": 1,
+      "explanation": "When salt dissolves in water, it forms a homogeneous solution with uniform composition and properties throughout.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_chem_13",
+      "grade": "Grade9",
+      "subject": "Chemistry",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Which scientist discovered the electron using the cathode ray tube experiment?",
+      "options": [
+        "Ernest Rutherford",
+        "J.J. Thomson",
+        "James Chadwick",
+        "John Dalton"
+      ],
+      "correctAnswer": 1,
+      "explanation": "J.J. Thomson discovered the electron in 1897 through his cathode ray deflection experiments, later proposing the \"plum pudding\" atomic model.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_chem_14",
+      "grade": "Grade9",
+      "subject": "Chemistry",
+      "semester": "Semester1",
+      "examType": "Final",
+      "question": "What is the common name for the compound sodium bicarbonate (NaHCO₃)?",
+      "options": [
+        "Table salt",
+        "Baking soda",
+        "Caustic soda",
+        "Washing soda"
+      ],
+      "correctAnswer": 1,
+      "explanation": "NaHCO₃ is sodium bicarbonate, commonly known as baking soda. Table salt is NaCl, and caustic soda is NaOH.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_chem_15",
+      "grade": "Grade9",
+      "subject": "Chemistry",
+      "semester": "Semester1",
+      "examType": "Final",
+      "question": "Which gas turns moist red litmus paper blue, indicating its basic nature?",
+      "options": [
+        "Sulfur dioxide (SO₂)",
+        "Carbon dioxide (CO₂)",
+        "Ammonia (NH₃)",
+        "Hydrogen chloride (HCl)"
+      ],
+      "correctAnswer": 2,
+      "explanation": "Ammonia (NH₃) is an alkaline gas that reacts with moisture to form ammonium hydroxide, turning red litmus paper blue.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_math_09",
+      "grade": "Grade9",
+      "subject": "Mathematics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "What is the solution set of the linear inequality 2x - 5 < 7?",
+      "options": [
+        "x < 6",
+        "x > 6",
+        "x < 1",
+        "x > 1"
+      ],
+      "correctAnswer": 0,
+      "explanation": "Add 5 to both sides: 2x < 12. Divide by 2: x < 6.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_math_10",
+      "grade": "Grade9",
+      "subject": "Mathematics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "What is the distance between points P(1, 2) and Q(4, 6) in the Cartesian plane?",
+      "options": [
+        "3",
+        "4",
+        "5",
+        "7"
+      ],
+      "correctAnswer": 2,
+      "explanation": "Distance formula: d = √[(4 - 1)² + (6 - 2)²] = √[3² + 4²] = √[9 + 16] = √25 = 5.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_math_11",
+      "grade": "Grade9",
+      "subject": "Mathematics",
+      "semester": "Semester1",
+      "examType": "Final",
+      "question": "If the radius of a circle is 7 cm, what is its circumference? (Use π ≈ 22/7)",
+      "options": [
+        "22 cm",
+        "44 cm",
+        "88 cm",
+        "154 cm"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Circumference C = 2πr = 2 × (22/7) × 7 = 44 cm.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_math_12",
+      "grade": "Grade9",
+      "subject": "Mathematics",
+      "semester": "Semester1",
+      "examType": "Final",
+      "question": "What is the area of a trapezoid with parallel bases b₁ = 8 cm, b₂ = 12 cm, and height h = 5 cm?",
+      "options": [
+        "40 cm²",
+        "50 cm²",
+        "60 cm²",
+        "100 cm²"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Area = (b₁ + b₂) / 2 × h = (8 + 12) / 2 × 5 = 20 / 2 × 5 = 10 × 5 = 50 cm².",
+      "points": 1
+    },
+    {
+      "id": "q_g9_eng_06",
+      "grade": "Grade9",
+      "subject": "English",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Choose the correct modal verb: \"You ______ wear a helmet while riding a motorbike; it is required by law.\"",
+      "options": [
+        "might",
+        "must",
+        "can",
+        "may"
+      ],
+      "correctAnswer": 1,
+      "explanation": "\"Must\" indicates legal obligation or mandatory necessity.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_eng_07",
+      "grade": "Grade9",
+      "subject": "English",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Identify the antonym of the word \"Abundant\":",
+      "options": [
+        "Plentiful",
+        "Scarce",
+        "Generous",
+        "Vast"
+      ],
+      "correctAnswer": 1,
+      "explanation": "\"Abundant\" means existing in large quantities; its antonym is \"scarce\" (limited or rare).",
+      "points": 1
+    },
+    {
+      "id": "q_g9_eng_08",
+      "grade": "Grade9",
+      "subject": "English",
+      "semester": "Semester1",
+      "examType": "Final",
+      "question": "Complete the sentence: \"Neither my brother nor my sisters ______ attending the ceremony.\"",
+      "options": [
+        "is",
+        "are",
+        "was",
+        "has"
+      ],
+      "correctAnswer": 1,
+      "explanation": "With \"neither... nor\", the verb agrees with the closer subject (\"sisters\" is plural, so \"are\").",
+      "points": 1
+    },
+    {
+      "id": "q_g9_hist_04",
+      "grade": "Grade9",
+      "subject": "History",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Which ancient port city on the Red Sea served as the chief international trading port of the Aksumite Kingdom?",
+      "options": [
+        "Adulis",
+        "Massawa",
+        "Zeila",
+        "Berbera"
+      ],
+      "correctAnswer": 0,
+      "explanation": "Adulis was the major commercial seaport of the Kingdom of Aksum, connecting inland trade routes with Greco-Roman, Arab, and Indian merchants.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_hist_05",
+      "grade": "Grade9",
+      "subject": "History",
+      "semester": "Semester1",
+      "examType": "Final",
+      "question": "Who was the courageous Ethiopian empress who played an instrumental military and diplomatic role during the Battle of Adwa in 1896?",
+      "options": [
+        "Empress Taytu Betul",
+        "Empress Zewditu",
+        "Queen of Sheba",
+        "Empress Mentewab"
+      ],
+      "correctAnswer": 0,
+      "explanation": "Empress Taytu Betul commanded her own strategic battalion and devised the plan to cut off the Italian water supply at Enda Yesus (Mekelle).",
+      "points": 1
+    },
+    {
+      "id": "q_g9_geog_03",
+      "grade": "Grade9",
+      "subject": "Geography",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Lines of latitude run horizontally around the globe and measure angular distance north or south of the:",
+      "options": [
+        "Equator",
+        "Prime Meridian",
+        "Tropic of Capricorn",
+        "International Date Line"
+      ],
+      "correctAnswer": 0,
+      "explanation": "The Equator (0° latitude) is the baseline reference from which latitude is measured north and south to the poles.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_geog_04",
+      "grade": "Grade9",
+      "subject": "Geography",
+      "semester": "Semester1",
+      "examType": "Final",
+      "question": "Which lake is the largest lake in Ethiopia and the hydrological source of the Blue Nile River?",
+      "options": [
+        "Lake Tana",
+        "Lake Abaya",
+        "Lake Hawassa",
+        "Lake Chamo"
+      ],
+      "correctAnswer": 0,
+      "explanation": "Lake Tana, located in the northwestern highlands of Amhara Region, is Ethiopia's largest lake and the source of the Blue Nile (Abay).",
+      "points": 1
+    },
+    {
+      "id": "q_g9_cit_03",
+      "grade": "Grade9",
+      "subject": "Citizen ship",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Which constitutional principle asserts that all governmental powers originate from the will of the citizens?",
+      "options": [
+        "Popular sovereignty",
+        "Authoritarianism",
+        "Oligarchy",
+        "Totalitarianism"
+      ],
+      "correctAnswer": 0,
+      "explanation": "Popular sovereignty means the authority of a state and its government are created and sustained by the consent of its people through elected representatives.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_cit_04",
+      "grade": "Grade9",
+      "subject": "Citizen ship",
+      "semester": "Semester1",
+      "examType": "Final",
+      "question": "Which fundamental human right cannot be suspended even during a state of emergency?",
+      "options": [
+        "Right to life and freedom from torture",
+        "Freedom of movement",
+        "Freedom of assembly",
+        "Right to strike"
+      ],
+      "correctAnswer": 0,
+      "explanation": "Non-derogable human rights, including the right to life and protection from torture and cruel punishment, cannot be suspended under any circumstance.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_econ_03",
+      "grade": "Grade9",
+      "subject": "Economics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "What occurs in a free market when the quantity demanded of a product exceeds the quantity supplied at the current price?",
+      "options": [
+        "Shortage (excess demand)",
+        "Surplus (excess supply)",
+        "Market equilibrium",
+        "Deflation"
+      ],
+      "correctAnswer": 0,
+      "explanation": "When quantity demanded exceeds quantity supplied at the prevailing price, a shortage occurs, putting upward pressure on price.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_econ_04",
+      "grade": "Grade9",
+      "subject": "Economics",
+      "semester": "Semester1",
+      "examType": "Final",
+      "question": "Which factor of production is compensated with payment in the form of \"wages\"?",
+      "options": [
+        "Land",
+        "Labor",
+        "Capital",
+        "Entrepreneurship"
+      ],
+      "correctAnswer": 1,
+      "explanation": "The reward for labor is wages; for land is rent; for capital is interest; and for entrepreneurship is profit.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_hp_02",
+      "grade": "Grade9",
+      "subject": "HP",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Which component of physical fitness refers to the ability of the heart and lungs to supply oxygen to working muscles during sustained exercise?",
+      "options": [
+        "Cardiorespiratory endurance",
+        "Muscular flexibility",
+        "Reaction time",
+        "Agility"
+      ],
+      "correctAnswer": 0,
+      "explanation": "Cardiorespiratory endurance is the capacity of the cardiovascular and respiratory systems to deliver oxygen to tissues during continuous physical exertion.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_hp_03",
+      "grade": "Grade9",
+      "subject": "HP",
+      "semester": "Semester1",
+      "examType": "Final",
+      "question": "In athletics, which of the following is categorized as a field event rather than a track event?",
+      "options": [
+        "Long Jump",
+        "100m Sprint",
+        "400m Hurdles",
+        "4 × 100m Relay"
+      ],
+      "correctAnswer": 0,
+      "explanation": "Long jump is a jumping field event. Sprints, hurdles, and relays are running track events.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_amh_02",
+      "grade": "Grade9",
+      "subject": "Amharic",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "«ድር ቢያብር አንበሳ ያስር» የሚለው የአማርኛ ምሳሌያዊ አነጋገር የሚያስተምረው ዋና ቁምነገር ምንድን ነው?",
+      "options": [
+        "የህብረትና የአንድነትን ጥንካሬ",
+        "የእንስሳትን አያያዝ",
+        "የፍጥነት አስፈላጊነትን",
+        "የብቸኝነትን ጥቅም"
+      ],
+      "correctAnswer": 0,
+      "explanation": "«ድር ቢያብር አንበሳ ያስር» ህዝቦች በተባበሩና በአንድነት በቆሙ ጊዜ የማይፈታ ችግር እንደሌለና የህብረትን ሃይል ያሳያል።",
+      "points": 1
+    },
+    {
+      "id": "q_g10_phys_06",
+      "grade": "Grade10",
+      "subject": "Physics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "An electric iron is connected to a 220 V outlet and draws a current of 5 A. What is the electrical resistance of the iron?",
+      "options": [
+        "44 Ω",
+        "1100 Ω",
+        "22 Ω",
+        "0.022 Ω"
+      ],
+      "correctAnswer": 0,
+      "explanation": "Using Ohm's Law: R = V / I = 220 V / 5 A = 44 Ohms (Ω).",
+      "points": 1
+    },
+    {
+      "id": "q_g10_phys_07",
+      "grade": "Grade10",
+      "subject": "Physics",
+      "semester": "Semester1",
+      "examType": "Final",
+      "question": "Which simple machine is defined as a rigid bar that pivots on a fixed point called a fulcrum?",
+      "options": [
+        "Lever",
+        "Pulley",
+        "Inclined plane",
+        "Wedge"
+      ],
+      "correctAnswer": 0,
+      "explanation": "A lever is a simple machine consisting of a rigid beam and a fulcrum about which it rotates.",
+      "points": 1
+    },
+    {
+      "id": "q_g10_phys_08",
+      "grade": "Grade10",
+      "subject": "Physics",
+      "semester": "Semester1",
+      "examType": "Final",
+      "question": "What type of optical mirror is commonly used as a passenger-side rearview mirror in vehicles to provide a wider field of view?",
+      "options": [
+        "Convex mirror",
+        "Concave mirror",
+        "Plane mirror",
+        "Parabolic reflector"
+      ],
+      "correctAnswer": 0,
+      "explanation": "Convex mirrors always form diminished, upright, virtual images, allowing drivers to see a broader field of view behind them.",
+      "points": 1
+    },
+    {
+      "id": "q_g10_chem_05",
+      "grade": "Grade10",
+      "subject": "Chemistry",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "What is the oxidation number of sulfur in sulfuric acid (H₂SO₄)?",
+      "options": [
+        "+2",
+        "+4",
+        "+6",
+        "-2"
+      ],
+      "correctAnswer": 2,
+      "explanation": "In H₂SO₄: (2 × +1) + S + (4 × -2) = 0 => 2 + S - 8 = 0 => S = +6.",
+      "points": 1
+    },
+    {
+      "id": "q_g10_chem_06",
+      "grade": "Grade10",
+      "subject": "Chemistry",
+      "semester": "Semester1",
+      "examType": "Final",
+      "question": "Which family of organic compounds has the general functional group -OH (hydroxyl)?",
+      "options": [
+        "Alcohols",
+        "Carboxylic acids",
+        "Aldehydes",
+        "Esters"
+      ],
+      "correctAnswer": 0,
+      "explanation": "Alcohols (such as ethanol, C₂H₅OH) contain the hydroxyl functional group (-OH) bonded to a saturated carbon.",
+      "points": 1
+    },
+    {
+      "id": "q_g10_bio_04",
+      "grade": "Grade10",
+      "subject": "Biology",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Which blood type is considered the universal recipient in the ABO blood group system?",
+      "options": [
+        "Type O-",
+        "Type A+",
+        "Type B+",
+        "Type AB+"
+      ],
+      "correctAnswer": 3,
+      "explanation": "Individuals with Type AB+ blood have both A and B antigens on their red blood cells and neither anti-A nor anti-B antibodies, allowing them to receive blood of any ABO/Rh type.",
+      "points": 1
+    },
+    {
+      "id": "q_g10_bio_05",
+      "grade": "Grade10",
+      "subject": "Biology",
+      "semester": "Semester1",
+      "examType": "Final",
+      "question": "In human digestion, which organ produces bile that is stored in the gallbladder and emulsifies dietary fats?",
+      "options": [
+        "Stomach",
+        "Liver",
+        "Pancreas",
+        "Small intestine"
+      ],
+      "correctAnswer": 1,
+      "explanation": "The liver synthesizes bile salts that break large fat globules into small droplets (emulsification) to increase surface area for pancreatic lipase.",
+      "points": 1
+    },
+    {
+      "id": "q_g10_math_04",
+      "grade": "Grade10",
+      "subject": "Mathematics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "What is the discriminant of the quadratic equation 2x² - 4x + 2 = 0?",
+      "options": [
+        "0",
+        "16",
+        "-16",
+        "32"
+      ],
+      "correctAnswer": 0,
+      "explanation": "Discriminant Δ = b² - 4ac = (-4)² - 4(2)(2) = 16 - 16 = 0 (indicating exactly one real repeated root).",
+      "points": 1
+    },
+    {
+      "id": "q_g10_math_05",
+      "grade": "Grade10",
+      "subject": "Mathematics",
+      "semester": "Semester1",
+      "examType": "Final",
+      "question": "What is the value of cos(60°)?",
+      "options": [
+        "1/2",
+        "√3/2",
+        "√2/2",
+        "0"
+      ],
+      "correctAnswer": 0,
+      "explanation": "From standard trigonometric ratios, cos(60°) = 1/2.",
+      "points": 1
+    },
+    {
+      "id": "q_g10_eng_02",
+      "grade": "Grade10",
+      "subject": "English",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Choose the correct preposition: \"The Ethiopian national team succeeded ______ winning the CECAFA Cup.\"",
+      "options": [
+        "in",
+        "on",
+        "at",
+        "with"
+      ],
+      "correctAnswer": 0,
+      "explanation": "The verb \"succeed\" collocates with the preposition \"in\" followed by a gerund (\"succeeded in winning\").",
+      "points": 1
+    },
+    {
+      "id": "q_g10_hist_02",
+      "grade": "Grade10",
+      "subject": "History",
+      "semester": "Semester1",
+      "examType": "Final",
+      "question": "Which Ethiopian monarch began the process of modern state centralization and reunification during the mid-19th century?",
+      "options": [
+        "Emperor Tewodros II",
+        "Emperor Yohannes IV",
+        "Emperor Menelik II",
+        "Emperor Haile Selassie I"
+      ],
+      "correctAnswer": 0,
+      "explanation": "Emperor Tewodros II (Kassa Hailu), crowned in 1855, ended the Zemene Mesafint (Era of Princes) and initiated modernization.",
+      "points": 1
+    },
+    {
+      "id": "q_g10_geog_02",
+      "grade": "Grade10",
+      "subject": "Geography",
+      "semester": "Semester1",
+      "examType": "Final",
+      "question": "The low-lying arid depression in northern Ethiopia that is one of the hottest and lowest inhabited places on Earth is:",
+      "options": [
+        "Danakil Depression (Afar)",
+        "Ogaden Basin",
+        "Bale Mountains",
+        "Gambella Plain"
+      ],
+      "correctAnswer": 0,
+      "explanation": "The Danakil Depression lies over 120 meters below sea level in the Afar triangle, renowned for its extreme temperatures, active volcanoes, and salt pans.",
+      "points": 1
+    },
+    {
+      "id": "q_g10_econ_02",
+      "grade": "Grade10",
+      "subject": "Economics",
+      "semester": "Semester1",
+      "examType": "Final",
+      "question": "Gross Domestic Product (GDP) measures the total monetary market value of:",
+      "options": [
+        "All final goods and services produced within a country in a year",
+        "All imported goods sold in local markets",
+        "Total personal savings in commercial banks",
+        "Total tax revenues collected by the state"
+      ],
+      "correctAnswer": 0,
+      "explanation": "GDP is the total market value of all officially recognized final goods and services produced within a nation's borders during a specific period.",
+      "points": 1
+    },
+    {
+      "id": "q_g10_it_02",
+      "grade": "Grade10",
+      "subject": "IT",
+      "semester": "Semester1",
+      "examType": "Final",
+      "question": "Which malicious software disguised as legitimate software creates a backdoor into an infected system?",
+      "options": [
+        "Trojan Horse",
+        "Worm",
+        "Adware",
+        "Cookie"
+      ],
+      "correctAnswer": 0,
+      "explanation": "A Trojan horse disguises itself as genuine software to deceive users into executing it, thereby compromising system security.",
+      "points": 1
+    },
+    {
+      "id": "q_g10_hp_01",
+      "grade": "Grade10",
+      "subject": "Hp",
+      "semester": "Semester1",
+      "examType": "Final",
+      "question": "How many players per team are on the court simultaneously during an official basketball match?",
+      "options": [
+        "5 players",
+        "6 players",
+        "7 players",
+        "11 players"
+      ],
+      "correctAnswer": 0,
+      "explanation": "Official FIBA and NBA basketball matches are played with 5 players per team on the court at any one time.",
+      "points": 1
+    },
+    {
+      "id": "q_g10_amh_01",
+      "grade": "Grade10",
+      "subject": "Amharic",
+      "semester": "Semester1",
+      "examType": "Final",
+      "question": "በአማርኛ ስነ-ጽሁፍ ውስጥ ባለቅኔው ወይም ደራሲው የቃላትን ድምጽና ምት በመጠቀም ስሜቱን የሚገልጽበት ጥበባዊ ጽሁፍ ምን ይባላል?",
+      "options": [
+        "ግጥም",
+        "ልቦለድ",
+        "ተውኔት",
+        "ድርሰት"
+      ],
+      "correctAnswer": 0,
+      "explanation": "ግጥም በዜማ፣ በስንኝና በቤት አመታት ተዋቅሮ ሃሳብንና ጥልቅ ስሜትን በተጨመቀ ቋንቋ የሚያስተላልፍ ጥበባዊ ስራ ነው።",
+      "points": 1
+    },
+    {
+      "id": "q_g11_agri_02",
+      "grade": "Grade11",
+      "subject": "Agriculture",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Which macronutrient is primarily responsible for vigorous leafy green vegetative growth in crops?",
+      "options": [
+        "Nitrogen (N)",
+        "Phosphorus (P)",
+        "Potassium (K)",
+        "Calcium (Ca)"
+      ],
+      "correctAnswer": 0,
+      "explanation": "Nitrogen is a major constituent of chlorophyll and amino acids, stimulating rapid stem and foliage growth in crops.",
+      "points": 1
+    },
+    {
+      "id": "q_g12_agri_01",
+      "grade": "Grade12",
+      "subject": "Agriculture",
+      "semester": "Pretest",
+      "examType": "Pretest",
+      "question": "The practice of growing two or more different crops simultaneously on the same plot of land is termed:",
+      "options": [
+        "Intercropping",
+        "Monoculture",
+        "Fallow farming",
+        "Hydroponics"
+      ],
+      "correctAnswer": 0,
+      "explanation": "Intercropping involves cultivating multiple crops in proximity to maximize spatial efficiency, suppress weeds, and reduce pest vulnerability.",
+      "points": 1
+    },
+    {
+      "id": "q_g11_web_02",
+      "grade": "Grade11",
+      "subject": "WEB",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Which CSS layout model provides a one-dimensional system designed for aligning items in rows or columns?",
+      "options": [
+        "Flexbox (Flexible Box Layout)",
+        "CSS Grid",
+        "Float layout",
+        "Table layout"
+      ],
+      "correctAnswer": 0,
+      "explanation": "Flexbox is a 1D layout model optimized for distributing space and aligning items along a single axis (either row or column).",
+      "points": 1
+    },
+    {
+      "id": "q_g12_it_01",
+      "grade": "Grade12",
+      "subject": "IT",
+      "semester": "Pretest",
+      "examType": "Pretest",
+      "question": "Which protocol ensures secure, encrypted communication between a web client browser and a web server?",
+      "options": [
+        "HTTPS (using TLS/SSL)",
+        "HTTP",
+        "FTP",
+        "Telnet"
+      ],
+      "correctAnswer": 0,
+      "explanation": "HTTPS (Hypertext Transfer Protocol Secure) encrypts bidirectional communications using Transport Layer Security (TLS).",
+      "points": 1
+    },
+    {
+      "id": "q_g12_apt_05",
+      "grade": "Grade12",
+      "subject": "Aptitude",
+      "semester": "Pretest",
+      "examType": "Pretest",
+      "question": "If 5 workers can dig a trench in 12 days, how many days will it take 15 workers working at the same pace?",
+      "options": [
+        "3 days",
+        "4 days",
+        "6 days",
+        "36 days"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Man-days is constant: 5 workers × 12 days = 60 man-days. With 15 workers: 60 / 15 = 4 days.",
+      "points": 1
+    },
+    {
+      "id": "q_g12_apt_06",
+      "grade": "Grade12",
+      "subject": "Aptitude",
+      "semester": "Model",
+      "examType": "Model",
+      "question": "Pointing to a photograph of a boy, Dawit said: \"He is the son of the only son of my mother.\" How is Dawit related to the boy?",
+      "options": [
+        "Brother",
+        "Father",
+        "Uncle",
+        "Grandfather"
+      ],
+      "correctAnswer": 1,
+      "explanation": "The \"only son of my mother\" is Dawit himself. Therefore, the boy is the son of Dawit, making Dawit the boy's father.",
+      "points": 1
+    },
+    {
+      "id": "q_g12_phys_04",
+      "grade": "Grade12",
+      "subject": "Physics",
+      "semester": "Pretest",
+      "examType": "Pretest",
+      "question": "What is the de Broglie wavelength of a particle with momentum p?",
+      "options": [
+        "λ = h / p",
+        "λ = h · p",
+        "λ = p / h",
+        "λ = h / p²"
+      ],
+      "correctAnswer": 0,
+      "explanation": "Louis de Broglie proposed that matter exhibits wave-particle duality with wavelength given by λ = h / p, where h is Planck's constant.",
+      "points": 1
+    },
+    {
+      "id": "q_g12_chem_04",
+      "grade": "Grade12",
+      "subject": "Chemistry",
+      "semester": "Pretest",
+      "examType": "Pretest",
+      "question": "Which industrial chemical process combines atmospheric nitrogen and hydrogen gas under high pressure and catalyst to synthesize ammonia?",
+      "options": [
+        "Haber-Bosch Process",
+        "Contact Process",
+        "Ostwald Process",
+        "Hall-Héroult Process"
+      ],
+      "correctAnswer": 0,
+      "explanation": "The Haber-Bosch process synthesizes NH₃ from N₂ and H₂ gas over an iron catalyst at elevated temperature and pressure.",
+      "points": 1
+    },
+    {
+      "id": "q_g12_bio_03",
+      "grade": "Grade12",
+      "subject": "Biology",
+      "semester": "Pretest",
+      "examType": "Pretest",
+      "question": "In the genetic code, which codon serves as the universal START codon for protein translation and codes for methionine?",
+      "options": [
+        "AUG",
+        "UAA",
+        "UAG",
+        "UGA"
+      ],
+      "correctAnswer": 0,
+      "explanation": "AUG is the universal start codon in messenger RNA, signaling the ribosome to begin translation with methionine.",
+      "points": 1
+    },
+    {
+      "id": "q_g12_math_05",
+      "grade": "Grade12",
+      "subject": "Mathematics",
+      "semester": "Model",
+      "examType": "Model",
+      "question": "What is the area bounded by the curve y = x² and the x-axis from x = 0 to x = 3?",
+      "options": [
+        "3",
+        "6",
+        "9",
+        "27"
+      ],
+      "correctAnswer": 2,
+      "explanation": "Area = ∫₀³ x² dx = [x³ / 3]₀³ = (3³ / 3) - 0 = 27 / 3 = 9.",
+      "points": 1
     }
   ]
 }
