@@ -224,20 +224,6 @@ function logout(notify = true) {
     setView('login');
 }
 
-function continueAsGuest() {
-    state.user = {
-        id: 'u_guest_' + Date.now(),
-        username: 'Guest_Student',
-        role: 'student',
-        fullName: 'Guest Student'
-    };
-    state.token = 'guest_token';
-    localStorage.setItem('pel_user', JSON.stringify(state.user));
-    localStorage.setItem('pel_token', state.token);
-    showToast('Welcome, Guest Student!', 'success');
-    setView('library');
-}
-
 /* ========================================================
    1. LOGIN & REGISTER VIEW (FIRST PAGE)
 ======================================================== */
@@ -307,36 +293,14 @@ function showLoginView(activeTab = 'signin') {
                     </form>
                 `}
 
-                <div class="demo-credentials-box">
-                    <div class="demo-title">Quick Demo Logins</div>
-                    <div class="demo-buttons">
-                        <button type="button" class="demo-btn" onclick="prefillLogin('admin', 'admin123')">
-                            🔑 Admin Demo (admin)
-                        </button>
-                        <button type="button" class="demo-btn" onclick="prefillLogin('student', 'student123')">
-                            📖 Student Demo (student)
-                        </button>
-                        <button type="button" class="demo-btn" onclick="continueAsGuest()">
-                            👤 Continue as Guest
-                        </button>
-                    </div>
+                <div style="margin-top: 24px; padding-top: 18px; border-top: 1px solid var(--border-color); text-align: center;">
+                    <p style="font-size: 13px; color: var(--text-muted); font-weight: 500;">
+                        Catholic School Academic Resource Portal
+                    </p>
                 </div>
             </div>
         </div>
     `;
-}
-
-function prefillLogin(username, password) {
-    showLoginView('signin');
-    setTimeout(() => {
-        const uInput = document.getElementById('login-username');
-        const pInput = document.getElementById('login-password');
-        if (uInput && pInput) {
-            uInput.value = username;
-            pInput.value = password;
-            showToast(`Filled credentials for ${username}`, 'info');
-        }
-    }, 50);
 }
 
 async function handleSignIn(e) {
@@ -1426,7 +1390,7 @@ async function openSubjectExam(grade, semester, examType, subject) {
     let examTitle = `${subject} (${examType})`;
 
     try {
-        const res = await fetch(`/api/exams?grade=${grade}&semester=${semester}&subject=${encodeURIComponent(subject)}`);
+        const res = await fetch(`/api/exams?grade=${grade}&semester=${semester}&examType=${examType}&subject=${encodeURIComponent(subject)}`);
         const data = await res.json();
         if (data.exams && data.exams.length > 0) {
             filePath = data.exams[0].fileUrl;
@@ -1438,9 +1402,9 @@ async function openSubjectExam(grade, semester, examType, subject) {
 
     if (!filePath) {
         if (examType === "Pretest" || examType === "Model") {
-            filePath = `exams/${grade}/${examType}/${subject}.pdf`;
+            filePath = `/exams/${grade}/${examType}/${subject}.pdf`;
         } else {
-            filePath = `exams/${grade}/${semester}/${examType}/${subject}.pdf`;
+            filePath = `/exams/${grade}/${semester}/${examType}/${subject}.pdf`;
         }
     }
 

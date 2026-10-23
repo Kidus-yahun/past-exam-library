@@ -253,17 +253,30 @@ class Database {
     // Exam operations
     getExams(filters = {}) {
         let results = [...this.data.exams];
-        if (filters.grade) results = results.filter(e => e.grade === filters.grade);
-        if (filters.semester) results = results.filter(e => e.semester === filters.semester);
-        if (filters.examType) results = results.filter(e => e.examType === filters.examType);
-        if (filters.subject) results = results.filter(e => e.subject === filters.subject);
+        if (filters.grade) {
+            const g = filters.grade.toLowerCase();
+            results = results.filter(e => e.grade && e.grade.toLowerCase() === g);
+        }
+        if (filters.semester) {
+            const sem = filters.semester.toLowerCase();
+            results = results.filter(e => e.semester && e.semester.toLowerCase() === sem);
+        }
+        if (filters.examType) {
+            const et = filters.examType.toLowerCase();
+            results = results.filter(e => e.examType && e.examType.toLowerCase() === et);
+        }
+        if (filters.subject) {
+            const normSub = filters.subject.toLowerCase().replace(/\s+/g, '');
+            results = results.filter(e => e.subject && e.subject.toLowerCase().replace(/\s+/g, '') === normSub);
+        }
         if (filters.search) {
-            const q = filters.search.toLowerCase();
+            const q = filters.search.toLowerCase().trim();
             results = results.filter(e => 
                 (e.title && e.title.toLowerCase().includes(q)) ||
                 (e.subject && e.subject.toLowerCase().includes(q)) ||
                 (e.grade && e.grade.toLowerCase().includes(q)) ||
-                (e.examType && e.examType.toLowerCase().includes(q))
+                (e.examType && e.examType.toLowerCase().includes(q)) ||
+                (e.semester && e.semester.toLowerCase().includes(q))
             );
         }
         return results;

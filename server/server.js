@@ -84,15 +84,30 @@ app.use('/exams', (req, res, next) => {
             }
 
             if (retryAlt) {
-                let altUrl = null;
-                if (url.includes('/Pretest/')) {
-                    altUrl = url.replace('/Pretest/', '/pretest/');
-                } else if (url.includes('/pretest/')) {
-                    altUrl = url.replace('/pretest/', '/Pretest/');
-                }
-                if (altUrl) {
-                    return fetchAndPipe(altUrl, false);
-                }
+                const candidates = [];
+                if (url.includes('/Pretest/')) candidates.push(url.replace('/Pretest/', '/pretest/'));
+                if (url.includes('/pretest/')) candidates.push(url.replace('/pretest/', '/Pretest/'));
+                if (url.includes('Citizen%20ship')) candidates.push(url.replace('Citizen%20ship', 'Citizenship'));
+                if (url.includes('Citizenship')) candidates.push(url.replace('Citizenship', 'Citizen%20ship'));
+                if (url.includes('HP.pdf')) candidates.push(url.replace('HP.pdf', 'Hp.pdf'));
+                if (url.includes('Hp.pdf')) candidates.push(url.replace('Hp.pdf', 'HP.pdf'));
+
+                const tryCandidate = (index) => {
+                    if (index >= candidates.length) return next();
+                    https.get(candidates[index], (cRes) => {
+                        if (cRes.statusCode === 200) {
+                            res.setHeader('Content-Type', 'application/pdf');
+                            if (cRes.headers['content-length']) {
+                                res.setHeader('Content-Length', cRes.headers['content-length']);
+                            }
+                            res.setHeader('Cache-Control', 'public, max-age=86400');
+                            return cRes.pipe(res);
+                        }
+                        tryCandidate(index + 1);
+                    }).on('error', () => tryCandidate(index + 1));
+                };
+
+                return tryCandidate(0);
             }
 
             next();
