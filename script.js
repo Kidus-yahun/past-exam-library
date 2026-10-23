@@ -1385,9 +1385,8 @@ function showNationalExamCategory(category) {
 }
 
 async function openSubjectExam(grade, semester, examType, subject) {
-    // Check if an uploaded exam matches this criteria in database
     let filePath = '';
-    let examTitle = `${subject} (${examType})`;
+    let examTitle = `${grade} ${subject} ${examType}`;
 
     try {
         const res = await fetch(`/api/exams?grade=${grade}&semester=${semester}&examType=${examType}&subject=${encodeURIComponent(subject)}`);
@@ -1400,21 +1399,48 @@ async function openSubjectExam(grade, semester, examType, subject) {
         console.warn('Fallback to standard path convention', e);
     }
 
-    if (!filePath) {
-        if (examType === "Pretest" || examType === "Model") {
-            filePath = `/exams/${grade}/${examType}/${subject}.pdf`;
-        } else {
-            filePath = `/exams/${grade}/${semester}/${examType}/${subject}.pdf`;
-        }
-    }
-
-    renderExamViewer(examTitle, `${grade} • ${semester} • ${examType}`, filePath, () => {
+    const backFn = () => {
         if (semester === 'Pretest' || semester === 'Model') {
             showNationalExamCategory(semester);
         } else {
             showExamType(grade, semester, examType);
         }
-    });
+    };
+
+    if (!filePath) {
+        renderExamNotFound(examTitle, `${grade} • ${semester} • ${examType}`, grade, semester, examType, subject, backFn);
+        return;
+    }
+
+    renderExamViewer(examTitle, `${grade} • ${semester} • ${examType}`, filePath, backFn);
+}
+
+function renderExamNotFound(title, subtitle, grade, semester, examType, subject, onBackFn) {
+    window._lastBackFn = onBackFn;
+    const isAdmin = state.user && state.user.role === 'admin';
+
+    app.innerHTML = `
+        <button class="back-button" onclick="window._lastBackFn ? window._lastBackFn() : showLibraryHome()">
+            ← Back to papers
+        </button>
+
+        <div class="exam-message" style="margin-top: 10px;">
+            <div style="font-size: 36px; margin-bottom: 12px;">📁</div>
+            <h3 style="font-size: 22px; color: var(--navy-900); margin-bottom: 8px;">Paper Not Uploaded Yet</h3>
+            <p style="margin-bottom: 16px; color: var(--text-muted);">
+                The examination paper for <strong>${title}</strong> (${subtitle}) has not been uploaded to the school repository yet.
+            </p>
+            ${isAdmin ? `
+                <button class="btn-primary" style="width: auto; padding: 10px 18px;" onclick="openAddExamModal()">
+                    + Upload This Paper in Admin Dashboard
+                </button>
+            ` : `
+                <p style="font-size: 13px; color: var(--text-light);">
+                    Please check back later or notify your teacher or school administrator.
+                </p>
+            `}
+        </div>
+    `;
 }
 
 async function openExamById(examId) {
