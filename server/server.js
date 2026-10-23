@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const path = require('path');
 const fs = require('fs');
+const https = require('https');
 const multer = require('multer');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
@@ -52,7 +53,53 @@ app.use(express.urlencoded({ extended: true }));
 
 // Serve static assets
 app.use('/uploads', express.static(path.join(ROOT_DIR, 'uploads')));
-app.use('/exams', express.static(path.join(ROOT_DIR, 'exams')));
+
+// Proxy & serve exam papers directly without exposing external usernames or domains
+app.use('/exams', (req, res, next) => {
+    const relPath = decodeURIComponent(req.path.replace(/^\//, ''));
+    const localFile = path.join(ROOT_DIR, 'exams', relPath);
+
+    if (fs.existsSync(localFile)) {
+        return res.sendFile(localFile);
+    }
+
+    // Proxy stream directly from upstream repository
+    const encodedSegments = relPath.split('/').map(seg => encodeURIComponent(seg)).join('/');
+    const remoteUrl = `https://raw.githubusercontent.com/soliyana-dev/past-exam-library/main/exams/${encodedSegments}`;
+
+    function fetchAndPipe(url, retryAlt = true) {
+        https.get(url, (upstreamRes) => {
+            if (upstreamRes.statusCode === 200) {
+                res.setHeader('Content-Type', 'application/pdf');
+                if (upstreamRes.headers['content-length']) {
+                    res.setHeader('Content-Length', upstreamRes.headers['content-length']);
+                }
+                res.setHeader('Cache-Control', 'public, max-age=86400');
+                return upstreamRes.pipe(res);
+            }
+
+            if (retryAlt) {
+                let altUrl = null;
+                if (url.includes('/Pretest/')) {
+                    altUrl = url.replace('/Pretest/', '/pretest/');
+                } else if (url.includes('/pretest/')) {
+                    altUrl = url.replace('/pretest/', '/Pretest/');
+                }
+                if (altUrl) {
+                    return fetchAndPipe(altUrl, false);
+                }
+            }
+
+            next();
+        }).on('error', (err) => {
+            console.error('Error proxying exam paper:', err);
+            next();
+        });
+    }
+
+    fetchAndPipe(remoteUrl);
+});
+
 app.use(express.static(ROOT_DIR));
 
 // Auth Helpers
@@ -377,10 +424,15 @@ app.use((req, res, next) => {
     next();
 });
 
-// Start server
-app.listen(PORT, () => {
-    console.log(`===============================================`);
-    console.log(`🚀 Past Exam Library Server running on port ${PORT}`);
-    console.log(`🔗 Local URL: http://localhost:${PORT}`);
-    console.log(`===============================================`);
-});
+// Export app for serverless platforms (Vercel)
+module.exports = app;
+
+// Start server if run standalone
+if (!process.env.VERCEL) {
+    app.listen(PORT, () => {
+        console.log(`===============================================`);
+        console.log(`🚀 Past Exam Library Server running on port ${PORT}`);
+        console.log(`🔗 Local URL: http://localhost:${PORT}`);
+        console.log(`===============================================`);
+    });
+}

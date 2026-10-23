@@ -3,11 +3,14 @@ const path = require('path');
 const bcrypt = require('bcryptjs');
 
 const DATA_DIR = path.join(__dirname, '..', 'data');
-const DB_FILE = path.join(DATA_DIR, 'db.json');
+const SEED_FILE = path.join(DATA_DIR, 'db.json');
+const IS_VERCEL = !!process.env.VERCEL;
+const RUNTIME_DIR = IS_VERCEL ? '/tmp' : DATA_DIR;
+const DB_FILE = path.join(RUNTIME_DIR, 'db.json');
 
 // Ensure data directory exists
-if (!fs.existsSync(DATA_DIR)) {
-    fs.mkdirSync(DATA_DIR, { recursive: true });
+if (!fs.existsSync(RUNTIME_DIR)) {
+    fs.mkdirSync(RUNTIME_DIR, { recursive: true });
 }
 
 // Initial seed data
@@ -126,7 +129,12 @@ class Database {
     load() {
         try {
             if (!fs.existsSync(DB_FILE)) {
-                this.data = getInitialData();
+                if (fs.existsSync(SEED_FILE)) {
+                    const raw = fs.readFileSync(SEED_FILE, 'utf8');
+                    this.data = JSON.parse(raw);
+                } else {
+                    this.data = getInitialData();
+                }
                 this.save();
             } else {
                 const raw = fs.readFileSync(DB_FILE, 'utf8');
