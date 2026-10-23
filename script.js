@@ -1467,6 +1467,10 @@ function showLibraryHome() {
                 <p>Choose a grade to browse its past examinations.</p>
             </div>
 
+            <button class="btn-secondary" style="margin-bottom: 18px;" onclick="showPracticeGradeCatalog()">
+                🎯 Browse practice questions by grade and subject
+            </button>
+
             <div class="card-grid">
                 ${grades.map(g => `
                     <div class="card" onclick="showGrade('${g.id}')">
@@ -1479,6 +1483,78 @@ function showLibraryHome() {
                     </div>
                 `).join('')}
             </div>
+        </div>
+    `;
+}
+
+async function showPracticeGradeCatalog() {
+    const grades = state.categories.grades || [];
+    let countsByGrade = {};
+    try {
+        const response = await fetch('/api/practice');
+        const data = await response.json();
+        (data.questions || []).forEach(question => {
+            countsByGrade[question.grade] = (countsByGrade[question.grade] || 0) + 1;
+        });
+    } catch (error) {
+        console.warn('Could not load practice question counts', error);
+    }
+
+    app.innerHTML = `
+        <button class="back-button" onclick="showLibraryHome()">← Back to grades</button>
+        <div class="page-title">
+            <h2>Practice question bank</h2>
+            <p>Choose a grade, then a subject to practice questions from that category.</p>
+        </div>
+        <div class="card-grid">
+            ${grades.map(grade => `
+                <button class="card" style="text-align: left; color: inherit; font: inherit;" onclick="showPracticeSubjectCatalog('${grade.id}')">
+                    <div class="card-number">${grade.number || grade.id.replace(/\D/g, '') || '00'}</div>
+                    <div class="card-info">
+                        <h3>${grade.name}</h3>
+                        <p>${countsByGrade[grade.id] || 0} practice questions</p>
+                    </div>
+                    <div class="arrow">→</div>
+                </button>
+            `).join('')}
+        </div>
+    `;
+}
+
+async function showPracticeSubjectCatalog(gradeId) {
+    const grade = (state.categories.grades || []).find(item => item.id === gradeId);
+    const subjects = (state.categories.subjects || {})[gradeId] || [];
+    let countsBySubject = {};
+    try {
+        const response = await fetch(`/api/practice?grade=${encodeURIComponent(gradeId)}`);
+        const data = await response.json();
+        (data.questions || []).forEach(question => {
+            countsBySubject[question.subject] = (countsBySubject[question.subject] || 0) + 1;
+        });
+    } catch (error) {
+        console.warn('Could not load subject practice question counts', error);
+    }
+
+    app.innerHTML = `
+        <button class="back-button" onclick="showPracticeGradeCatalog()">← Back to grades</button>
+        <div class="page-title">
+            <h2>${grade ? grade.name : gradeId} practice</h2>
+            <p>Select a subject to see its available practice questions.</p>
+        </div>
+        <div class="card-grid">
+            ${subjects.map(subject => {
+                const count = countsBySubject[subject] || 0;
+                return `
+                    <button class="card subject-card" style="text-align: left; color: inherit; font: inherit; ${count ? '' : 'opacity: .55;'}" ${count ? `onclick="startPracticeSession('${gradeId}', 'Practice Bank', 'All', '${escapeQuotes(subject)}', 'practice', '${escapeQuotes(`${grade ? grade.name : gradeId} ${subject} Practice`)}', '', showPracticeGradeCatalog)"` : 'disabled'}>
+                        <div class="subject-icon">🎯</div>
+                        <div class="card-info">
+                            <h3>${subject}</h3>
+                            <p>${count} ${count === 1 ? 'question' : 'questions'}</p>
+                        </div>
+                        <div class="arrow">${count ? '→' : '—'}</div>
+                    </button>
+                `;
+            }).join('')}
         </div>
     `;
 }
@@ -1874,7 +1950,7 @@ async function startPracticeSession(grade, semester, examType, subject, mode, ex
         }
 
         // 3. If still fewer than 10 questions, pull from general subject pool across other grades
-        if (questions.length < 10) {
+        if (questions.length < 10 && examType !== 'All') {
             let resSub = await fetch(`/api/practice?subject=${encodeURIComponent(subject)}`);
             let dataSub = await resSub.json();
             const existingIds = new Set(questions.map(q => q.id));
