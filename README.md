@@ -96,6 +96,6 @@ An accessible, student-led learning resource that organizes past examination pap
 ---
 
 ## 👥 Contributors & Credits
-- **Original Project**: Created by **Soliyana Tewodros** & **Nahom Temesgen**
+- **Created by**: **Soliyana Tewodros**, **Nahom Temesgen** & **Kidus Yahunsew**
 - **Repository**: [https://github.com/soliyana-dev/past-exam-library](https://github.com/soliyana-dev/past-exam-library)
 - Built for students, by students.
