@@ -1566,7 +1566,28 @@ main {
     box-shadow: 0 0 0 3px rgba(170, 145, 236, .1);
 }
 
-.search-icon { font-size: 23px; color: #aaa3ba; }
+.search-icon { font-size: 0; color: #aaa3ba; }
+.search-icon::before {
+    content: '';
+    position: absolute;
+    top: -7px;
+    left: -4px;
+    width: 10px;
+    height: 10px;
+    border: 1.5px solid currentColor;
+    border-radius: 50%;
+}
+.search-icon::after {
+    content: '';
+    position: absolute;
+    top: 4px;
+    left: 8px;
+    width: 6px;
+    height: 1.5px;
+    transform: rotate(45deg);
+    transform-origin: left center;
+    background: currentColor;
+}
 .search-input:focus + .search-icon { color: #c1a8f2; }
 
 .page-title { margin-bottom: 18px; }

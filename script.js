@@ -1136,7 +1136,7 @@ function showLibraryHome() {
         <!-- Search Bar -->
         <div class="search-container">
             <div class="search-input-wrapper">
-                <span class="search-icon" aria-hidden="true">⌕</span>
+                <span class="search-icon" aria-hidden="true"></span>
                 <input type="text" id="library-search" class="search-input" 
                        placeholder="Search any exam paper (e.g. Mathematics, Biology, Final, Pre-test)..."
                        oninput="handleLibrarySearch(this.value)">
