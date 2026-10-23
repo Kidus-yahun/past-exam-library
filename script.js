@@ -183,7 +183,7 @@ function renderHeader() {
     if (!state.user) {
         headerNav.innerHTML = `
             <button class="nav-btn active" onclick="setView('login')">
-                🔐 Sign In / Register
+                Sign in / Register
             </button>
         `;
         return;
@@ -195,22 +195,22 @@ function renderHeader() {
 
     headerNav.innerHTML = `
         <div class="user-badge">
-            <span>👤 ${state.user.username}</span>
+            <span>${state.user.username}</span>
             <span class="role-pill ${isAdmin ? 'admin' : ''}">${state.user.role}</span>
         </div>
 
         <button class="nav-btn ${isLibraryActive ? 'active' : ''}" onclick="setView('library')">
-            📚 Exam Library
+            Exam library
         </button>
 
         ${isAdmin ? `
             <button class="nav-btn ${isAdminActive ? 'active' : ''}" onclick="setView('admin')">
-                ⚙️ Admin Dashboard
+                Admin dashboard
             </button>
         ` : ''}
 
         <button class="nav-btn" onclick="logout()" title="Sign Out">
-            🚪 Logout
+            Sign out
         </button>
     `;
 }
@@ -233,9 +233,9 @@ function showLoginView(activeTab = 'signin') {
         <div class="auth-wrapper">
             <div class="auth-card">
                 <div class="auth-header">
-                    <div class="auth-icon">🎓</div>
+                    <div class="auth-icon" aria-hidden="true"><span>PE</span></div>
                     <h2>Past Exam Library</h2>
-                    <p>Sign in to access past exams or manage academic resources</p>
+                    <p>A student-run collection of past examination papers.</p>
                 </div>
 
                 <div class="auth-tabs">
@@ -253,12 +253,12 @@ function showLoginView(activeTab = 'signin') {
                     <form id="signin-form" onsubmit="handleSignIn(event)">
                         <div class="auth-form-group">
                             <label>Username</label>
-                            <input type="text" id="login-username" required placeholder="Enter username (e.g. admin or student)" autofocus>
+                            <input type="text" id="login-username" autocomplete="username" required placeholder="Your username" autofocus>
                         </div>
 
                         <div class="auth-form-group">
                             <label>Password</label>
-                            <input type="password" id="login-password" required placeholder="••••••••">
+                            <input type="password" id="login-password" autocomplete="current-password" required placeholder="Your password">
                         </div>
 
                         <button type="submit" class="btn-primary" id="btn-login-submit">
@@ -284,7 +284,7 @@ function showLoginView(activeTab = 'signin') {
 
                         <div class="auth-form-group">
                             <label>Password</label>
-                            <input type="password" id="reg-password" required placeholder="Create a password (min 6 characters)">
+                            <input type="password" id="reg-password" autocomplete="new-password" required placeholder="At least 6 characters">
                         </div>
 
                         <button type="submit" class="btn-primary" id="btn-reg-submit">
@@ -295,7 +295,7 @@ function showLoginView(activeTab = 'signin') {
 
                 <div style="margin-top: 24px; padding-top: 18px; border-top: 1px solid var(--border-color); text-align: center;">
                     <p style="font-size: 13px; color: var(--text-muted); font-weight: 500;">
-                        Catholic School Academic Resource Portal
+                        Past Exam Library · Shared by students, for students
                     </p>
                 </div>
             </div>
@@ -1123,20 +1123,20 @@ function showLibraryHome() {
 
     app.innerHTML = `
         <section class="hero">
-            <p class="label">ACADEMIC RESOURCE</p>
+            <p class="label">A student-run archive</p>
             <h1>
-                Past exams,<br>
-                <span>organized.</span>
+                A good place to<br>
+                <span>start studying.</span>
             </h1>
             <p class="description">
-                Find past examination papers by grade, semester, exam type and subject.
+                Browse past papers by grade, semester and subject, and get straight to studying.
             </p>
         </section>
 
         <!-- Search Bar -->
         <div class="search-container">
             <div class="search-input-wrapper">
-                <span class="search-icon">🔍</span>
+                <span class="search-icon" aria-hidden="true">⌕</span>
                 <input type="text" id="library-search" class="search-input" 
                        placeholder="Search any exam paper (e.g. Mathematics, Biology, Final, Pre-test)..."
                        oninput="handleLibrarySearch(this.value)">

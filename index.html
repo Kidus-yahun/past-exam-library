@@ -5,28 +5,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Past Exam Library & Admin Portal</title>
+    <title>Past Exam Library — Student Resource</title>
+    <meta name="description" content="A student-run archive of past examination papers, organized by grade, semester, and subject.">
+    <meta name="theme-color" content="#10121b">
 
     <link rel="stylesheet" href="style.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
 
 <body>
-    <!-- Ambient Animated Mesh Glow Background -->
-    <div class="ambient-glow-wrapper" aria-hidden="true">
-        <div class="glow-orb orb-1"></div>
-        <div class="glow-orb orb-2"></div>
-        <div class="glow-orb orb-3"></div>
-    </div>
-
     <header id="site-header">
         <div class="header-left">
-            <div class="logo" onclick="navigateToHome()" style="cursor: pointer;">
-                PastExam<span class="logo-accent">Library</span>
+            <div class="logo" onclick="navigateToHome()" onkeydown="if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); navigateToHome(); }" role="button" tabindex="0" aria-label="Past Exam Library home">
+                <span class="brand-mark" aria-hidden="true">P</span>
+                <span>Past Exam <span class="logo-accent">Library</span></span>
             </div>
-            <div class="header-tagline">Academic Resource Portal</div>
+            <div class="header-tagline">A student-run archive</div>
         </div>
 
         <div id="header-nav" class="header-nav">
@@ -48,13 +41,13 @@
     <footer>
         <div class="footer-content">
             <div>
-                <strong>Past Exam Library</strong> • Student Resource & Examination Portal
+                <strong>Past Exam Library</strong><span>Student resource & examination papers</span>
             </div>
             <div>
                 Created by Soliyana Tewodros, Nahom Temesgen & Kidus Yahunsew
             </div>
             <div>
-                Built for students, by students.
+                Made for the next class, by the last one.
             </div>
         </div>
     </footer>
