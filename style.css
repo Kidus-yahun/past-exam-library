@@ -1570,7 +1570,12 @@ footer {
 html { min-width: 320px; }
 
 body {
-    background: var(--bg-page);
+    background-color: var(--bg-page);
+    background-image:
+        linear-gradient(rgba(193, 168, 242, .035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(193, 168, 242, .035) 1px, transparent 1px);
+    background-size: 36px 36px;
+    background-attachment: fixed;
     color: var(--text-main);
     font-family: Inter, "Segoe UI", -apple-system, BlinkMacSystemFont, sans-serif;
     letter-spacing: 0;
