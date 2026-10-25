@@ -39,10 +39,86 @@ const modalContainer = document.getElementById('modal-container');
 const toastContainer = document.getElementById('toast-container');
 
 /* ========================================================
+   PWA & OFFLINE SERVICE WORKER MANAGEMENT
+======================================================== */
+window._deferredPwaPrompt = null;
+window._wasOffline = false;
+
+window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    window._deferredPwaPrompt = e;
+    const btn = document.getElementById('pwa-install-btn');
+    if (btn) btn.style.display = 'inline-flex';
+});
+
+window.addEventListener('appinstalled', () => {
+    window._deferredPwaPrompt = null;
+    const btn = document.getElementById('pwa-install-btn');
+    if (btn) btn.style.display = 'none';
+    showToast('Past Exam Library app installed! You can now study offline.', 'success');
+});
+
+function promptPwaInstall() {
+    if (window._deferredPwaPrompt) {
+        window._deferredPwaPrompt.prompt();
+        window._deferredPwaPrompt.userChoice.then((choiceResult) => {
+            if (choiceResult.outcome === 'accepted') {
+                showToast('Installing Exam Library app...', 'info');
+            }
+            window._deferredPwaPrompt = null;
+            const btn = document.getElementById('pwa-install-btn');
+            if (btn) btn.style.display = 'none';
+        });
+    } else {
+        showToast('To install: Tap your browser menu (⋮ or Share) and select "Add to Home screen"', 'info');
+    }
+}
+
+function updateNetworkStatus() {
+    const isOnline = navigator.onLine;
+    const pills = document.querySelectorAll('.offline-pill');
+    pills.forEach(pill => {
+        if (isOnline) {
+            pill.classList.remove('offline');
+            pill.innerHTML = '<span class="status-dot"></span> Online';
+            pill.title = 'Connected to school exam archive';
+        } else {
+            pill.classList.add('offline');
+            pill.innerHTML = '<span class="status-dot"></span> Offline';
+            pill.title = 'Practicing with cached exam papers';
+        }
+    });
+
+    if (!isOnline) {
+        showToast('Offline Mode: Practicing from cached exam papers & questions', 'info');
+    } else if (window._wasOffline) {
+        showToast('Back Online: Exam library synchronized', 'success');
+    }
+    window._wasOffline = !isOnline;
+}
+
+window.addEventListener('online', updateNetworkStatus);
+window.addEventListener('offline', updateNetworkStatus);
+
+/* ========================================================
    INITIALIZATION & API HELPERS
 ======================================================== */
 
 async function initApp() {
+    // Register Service Worker for offline & low-data caching
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('/sw.js').then((reg) => {
+                console.log('[PWA] Service Worker registered with scope:', reg.scope);
+                // Pre-cache authentic Grade 9 questions in the background
+                if (navigator.onLine) {
+                    fetch('/api/practice?grade=Grade9').catch(() => {});
+                }
+            }).catch((err) => {
+                console.warn('[PWA] Service Worker registration failed:', err);
+            });
+        });
+    }
     // Check saved session
     const savedToken = localStorage.getItem('pel_token');
     const savedUser = localStorage.getItem('pel_user');
@@ -180,8 +256,21 @@ modalContainer.addEventListener('click', (e) => {
 ======================================================== */
 
 function renderHeader() {
+    const isOnline = navigator.onLine;
+    const pwaControls = `
+        <div class="pwa-nav-container">
+            <span class="offline-pill ${isOnline ? '' : 'offline'}" title="${isOnline ? 'Connected to school archive' : 'Practicing with cached exam papers'}">
+                <span class="status-dot"></span> ${isOnline ? 'Online' : 'Offline'}
+            </span>
+            <button id="pwa-install-btn" class="pwa-install-btn" style="display: ${window._deferredPwaPrompt ? 'inline-flex' : 'none'};" onclick="promptPwaInstall()">
+                📲 Install App
+            </button>
+        </div>
+    `;
+
     if (!state.user) {
         headerNav.innerHTML = `
+            ${pwaControls}
             <button class="nav-btn active" onclick="setView('login')">
                 Sign in / Register
             </button>
@@ -194,6 +283,7 @@ function renderHeader() {
     const isAdminActive = state.currentView === 'admin';
 
     headerNav.innerHTML = `
+        ${pwaControls}
         <div class="user-badge">
             <span>${state.user.username}</span>
             <span class="role-pill ${isAdmin ? 'admin' : ''}">${state.user.role}</span>

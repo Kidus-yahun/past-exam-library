@@ -164,6 +164,14 @@ app.use('/exams', (req, res, next) => {
     fetchAndPipe(candidateUrls, 0);
 });
 
+// Service Worker route with root scope & no-cache header
+app.get('/sw.js', (req, res) => {
+    res.setHeader('Service-Worker-Allowed', '/');
+    res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+    res.setHeader('Content-Type', 'application/javascript; charset=utf-8');
+    res.sendFile(path.join(ROOT_DIR, 'sw.js'));
+});
+
 app.use(express.static(ROOT_DIR));
 
 // Auth Helpers
