@@ -150,19 +150,10 @@ class Database {
                 this.data = JSON.parse(raw);
             }
 
-            // Sync with bundled questions to ensure newly deployed question banks are always available
+            // Sync with bundled questions: ONLY keep genuine authentic questions matching bundledSeedData
             if (bundledSeedData && bundledSeedData.questions && Array.isArray(bundledSeedData.questions)) {
-                if (!this.data.questions) this.data.questions = [];
-                const existing = new Set(this.data.questions.map(q => q.id));
-                let updated = false;
-                bundledSeedData.questions.forEach(q => {
-                    if (!existing.has(q.id)) {
-                        this.data.questions.push(q);
-                        existing.add(q.id);
-                        updated = true;
-                    }
-                });
-                if (updated) this.save();
+                this.data.questions = bundledSeedData.questions;
+                this.save();
             }
         } catch (err) {
             console.warn('Failed to read db file, using seed data:', err.message);

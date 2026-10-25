@@ -4478,2536 +4478,2855 @@
       "points": 1
     },
     {
-      "id": "q_math_g12_1",
-      "grade": "Grade12",
-      "subject": "Mathematics",
-      "semester": "Pretest",
-      "examType": "Pretest",
-      "question": "What is the derivative of f(x) = ln(x² + 4) with respect to x?",
-      "options": [
-        "2x / (x² + 4)",
-        "1 / (x² + 4)",
-        "2 / (x² + 4)",
-        "x / (x² + 4)"
-      ],
-      "correctAnswer": 0,
-      "explanation": "Using the chain rule: d/dx[ln(u)] = (1/u) * u'. Here u = x² + 4, so u' = 2x. Thus f'(x) = 2x / (x² + 4).",
-      "points": 1
-    },
-    {
-      "id": "q_math_g12_2",
-      "grade": "Grade12",
-      "subject": "Mathematics",
-      "semester": "Pretest",
-      "examType": "Pretest",
-      "question": "Evaluate the definite integral: ∫ from 0 to 2 of (3x² - 2x + 1) dx.",
-      "options": [
-        "6",
-        "8",
-        "10",
-        "12"
-      ],
-      "correctAnswer": 0,
-      "explanation": "The antiderivative is F(x) = x³ - x² + x. Evaluating from 0 to 2: F(2) = (2)³ - (2)² + 2 = 8 - 4 + 2 = 6. F(0) = 0. So F(2) - F(0) = 6.",
-      "points": 1
-    },
-    {
-      "id": "q_math_g12_3",
-      "grade": "Grade12",
-      "subject": "Mathematics",
-      "semester": "Model",
-      "examType": "Model",
-      "question": "Which of the following is the limit of (sin 3x) / x as x approaches 0?",
-      "options": [
-        "0",
-        "1",
-        "3",
-        "Undefined"
-      ],
-      "correctAnswer": 2,
-      "explanation": "lim (x->0) [sin(kx) / x] = k. With k = 3, the limit is equal to 3.",
-      "points": 1
-    },
-    {
-      "id": "q_math_g12_4",
-      "grade": "Grade12",
-      "subject": "Mathematics",
-      "semester": "Model",
-      "examType": "Model",
-      "question": "If vector A = 3i - 4j and vector B = 2i + 5j, what is the dot product A · B?",
-      "options": [
-        "-14",
-        "14",
-        "-26",
-        "26"
-      ],
-      "correctAnswer": 0,
-      "explanation": "A · B = (Ax * Bx) + (Ay * By) = (3)(2) + (-4)(5) = 6 - 20 = -14.",
-      "points": 1
-    },
-    {
-      "id": "q_phys_g12_1",
-      "grade": "Grade12",
-      "subject": "Physics",
-      "semester": "Pretest",
-      "examType": "Pretest",
-      "question": "An object of mass 2 kg moves in a horizontal circular path of radius 0.5 m at a constant speed of 4 m/s. What is the centripetal force acting on the object?",
-      "options": [
-        "16 N",
-        "32 N",
-        "64 N",
-        "8 N"
-      ],
-      "correctAnswer": 2,
-      "explanation": "Fc = m * v² / r = (2 kg) * (4 m/s)² / (0.5 m) = 2 * 16 / 0.5 = 64 N.",
-      "points": 1
-    },
-    {
-      "id": "q_phys_g12_2",
-      "grade": "Grade12",
-      "subject": "Physics",
-      "semester": "Model",
-      "examType": "Model",
-      "question": "According to Faraday's law of electromagnetic induction, the induced electromotive force (emf) is proportional to:",
-      "options": [
-        "The magnetic flux through the circuit",
-        "The rate of change of magnetic flux",
-        "The resistance of the circuit",
-        "The speed of light in vacuum"
-      ],
-      "correctAnswer": 1,
-      "explanation": "Faraday's Law states that ε = -dΦB/dt. The induced emf is directly proportional to the time rate of change of magnetic flux.",
-      "points": 1
-    },
-    {
-      "id": "q_chem_g12_1",
-      "grade": "Grade12",
-      "subject": "Chemistry",
-      "semester": "Pretest",
-      "examType": "Pretest",
-      "question": "What is the pH of a 0.001 M solution of Hydrochloric acid (HCl)?",
-      "options": [
-        "1",
-        "2",
-        "3",
-        "4"
-      ],
-      "correctAnswer": 2,
-      "explanation": "HCl is a strong acid, fully dissociated into [H⁺] = 0.001 M = 10⁻³ M. pH = -log[H⁺] = -log(10⁻³) = 3.",
-      "points": 1
-    },
-    {
-      "id": "q_chem_g12_2",
-      "grade": "Grade12",
-      "subject": "Chemistry",
-      "semester": "Model",
-      "examType": "Model",
-      "question": "Which of the following functional groups characterizes an ester?",
-      "options": [
-        "-COOH",
-        "-COOR",
-        "-CHO",
-        "-OH"
-      ],
-      "correctAnswer": 1,
-      "explanation": "Esters are characterized by the -COOR alkoxycarbonyl functional group (carboxylic acid derivative).",
-      "points": 1
-    },
-    {
-      "id": "q_bio_g12_1",
-      "grade": "Grade12",
-      "subject": "Biology",
-      "semester": "Pretest",
-      "examType": "Pretest",
-      "question": "During cellular respiration, which stage produces the highest amount of ATP molecules per glucose molecule?",
-      "options": [
-        "Glycolysis",
-        "Krebs Cycle (Citric Acid Cycle)",
-        "Oxidative Phosphorylation (Electron Transport Chain)",
-        "Fermentation"
-      ],
-      "correctAnswer": 2,
-      "explanation": "Oxidative phosphorylation generates approximately 28 to 34 ATP molecules via chemiosmosis and ATP synthase, far exceeding Glycolysis (2 ATP) and the Krebs Cycle (2 ATP).",
-      "points": 1
-    },
-    {
-      "id": "q_bio_g12_2",
-      "grade": "Grade12",
-      "subject": "Biology",
-      "semester": "Model",
-      "examType": "Model",
-      "question": "In molecular genetics, which enzyme is responsible for unwinding the DNA double helix during replication?",
-      "options": [
-        "DNA Polymerase",
-        "DNA Ligase",
-        "DNA Helicase",
-        "RNA Primase"
-      ],
-      "correctAnswer": 2,
-      "explanation": "Helicase breaks the hydrogen bonds between base pairs, unwinding the double helix to form the replication fork.",
-      "points": 1
-    },
-    {
-      "id": "q_apt_g12_1",
-      "grade": "Grade12",
-      "subject": "Aptitude",
-      "semester": "Pretest",
-      "examType": "Pretest",
-      "question": "Find the next number in the sequence: 3, 7, 15, 31, 63, ?",
-      "options": [
-        "95",
-        "127",
-        "126",
-        "129"
-      ],
-      "correctAnswer": 1,
-      "explanation": "Each term is generated by (previous number * 2) + 1: (3*2)+1=7, (7*2)+1=15, (15*2)+1=31, (31*2)+1=63, (63*2)+1 = 127.",
-      "points": 1
-    },
-    {
-      "id": "q_apt_g12_2",
-      "grade": "Grade12",
-      "subject": "Aptitude",
-      "semester": "Model",
-      "examType": "Model",
-      "question": "If all Zips are Zaps, and some Zaps are Zops, which statement must logically follow?",
-      "options": [
-        "All Zips are Zops",
-        "Some Zips may be Zops",
-        "No Zips are Zops",
-        "All Zops are Zips"
-      ],
-      "correctAnswer": 1,
-      "explanation": "Since all Zips are inside Zaps, and only some Zaps are Zops, Zips and Zops may or may not overlap. Thus, \"Some Zips may be Zops\" is the valid deduction.",
-      "points": 1
-    },
-    {
-      "id": "q_eng_g12_1",
-      "grade": "Grade12",
-      "subject": "English",
-      "semester": "Pretest",
-      "examType": "Pretest",
-      "question": "Choose the correct word to complete the sentence: \"If she _______ harder, she would have passed the examination with distinction.\"",
-      "options": [
-        "studied",
-        "had studied",
-        "has studied",
-        "would study"
-      ],
-      "correctAnswer": 1,
-      "explanation": "This is a Third Conditional sentence referring to an impossible past condition: If + Past Perfect (had studied) ... would have + past participle.",
-      "points": 1
-    },
-    {
-      "id": "q_eng_g12_2",
-      "grade": "Grade12",
-      "subject": "English",
-      "semester": "Model",
-      "examType": "Model",
-      "question": "Identify the figure of speech in: \"The autumn leaves danced across the pavement.\"",
-      "options": [
-        "Simile",
-        "Metaphor",
-        "Personification",
-        "Hyperbole"
-      ],
-      "correctAnswer": 2,
-      "explanation": "Personification attributes human qualities or actions (dancing) to non-human objects (autumn leaves).",
-      "points": 1
-    },
-    {
-      "id": "q_math_g11_1",
-      "grade": "Grade11",
-      "subject": "Mathematics",
-      "semester": "Semester1",
-      "examType": "Final",
-      "question": "What is the sum of the first 10 terms of an arithmetic progression whose first term is 4 and common difference is 3?",
-      "options": [
-        "175",
-        "165",
-        "155",
-        "185"
-      ],
-      "correctAnswer": 0,
-      "explanation": "Sn = (n/2) * [2a + (n-1)d]. S10 = (10/2) * [2(4) + (9)(3)] = 5 * [8 + 27] = 5 * 35 = 175.",
-      "points": 1
-    },
-    {
-      "id": "q_math_g11_2",
-      "grade": "Grade11",
-      "subject": "Mathematics",
-      "semester": "Semester1",
-      "examType": "Mid1",
-      "question": "If log₁₀(x) + log₁₀(x - 3) = 1, what is the value of x?",
-      "options": [
-        "5",
-        "-2",
-        "2",
-        "10"
-      ],
-      "correctAnswer": 0,
-      "explanation": "log₁₀(x(x - 3)) = 1 => x² - 3x = 10 => x² - 3x - 10 = 0 => (x - 5)(x + 2) = 0. Since log argument must be positive, x = 5.",
-      "points": 1
-    },
-    {
-      "id": "q_it_g11_1",
-      "grade": "Grade11",
-      "subject": "IT",
-      "semester": "Semester1",
-      "examType": "Final",
-      "question": "Which network topology connects every computer to a central device called a switch or hub?",
-      "options": [
-        "Bus Topology",
-        "Star Topology",
-        "Ring Topology",
-        "Mesh Topology"
-      ],
-      "correctAnswer": 1,
-      "explanation": "In a Star topology, all nodes are individually connected to a central connection point (such as a switch or hub).",
-      "points": 1
-    },
-    {
-      "id": "q_web_g11_1",
-      "grade": "Grade11",
-      "subject": "WEB",
-      "semester": "Semester1",
-      "examType": "Mid1",
-      "question": "Which HTML5 element is used to specify a footer for a document or section?",
-      "options": [
-        "<bottom>",
-        "<footer>",
-        "<section-footer>",
-        "<foot>"
-      ],
-      "correctAnswer": 1,
-      "explanation": "The <footer> element represents a footer for its nearest sectioning content or document root.",
-      "points": 1
-    },
-    {
-      "id": "q_math_g10_1",
-      "grade": "Grade10",
-      "subject": "Mathematics",
-      "semester": "Semester1",
-      "examType": "Final",
-      "question": "What are the roots of the quadratic equation 2x² - 5x + 2 = 0?",
-      "options": [
-        "x = 2 and x = 1/2",
-        "x = -2 and x = -1/2",
-        "x = 1 and x = 4",
-        "x = 3 and x = 2"
-      ],
-      "correctAnswer": 0,
-      "explanation": "Factoring: (2x - 1)(x - 2) = 0. Setting each factor to 0 gives x = 1/2 or x = 2.",
-      "points": 1
-    },
-    {
-      "id": "q_bio_g10_1",
-      "grade": "Grade10",
-      "subject": "Biology",
-      "semester": "Semester1",
-      "examType": "Final",
-      "question": "Which cellular organelle is known as the powerhouse of the cell due to its role in ATP generation?",
-      "options": [
-        "Ribosome",
-        "Endoplasmic Reticulum",
-        "Mitochondria",
-        "Golgi Apparatus"
-      ],
-      "correctAnswer": 2,
-      "explanation": "Mitochondria are the primary sites of ATP synthesis via cellular aerobic respiration.",
-      "points": 1
-    },
-    {
-      "id": "q_hist_g10_1",
-      "grade": "Grade10",
-      "subject": "History",
-      "semester": "Semester1",
-      "examType": "Final",
-      "question": "The Battle of Adwa, in which Ethiopian forces decisively defeated the Italian colonial army, took place in which year?",
-      "options": [
-        "1886",
-        "1896",
-        "1936",
-        "1872"
-      ],
-      "correctAnswer": 1,
-      "explanation": "The historic Battle of Adwa was fought on March 1, 1896, under Emperor Menelik II and Empress Taytu Betul.",
-      "points": 1
-    },
-    {
-      "id": "q_math_g9_1",
-      "grade": "Grade9",
-      "subject": "Mathematics",
-      "semester": "Semester1",
-      "examType": "Final",
-      "question": "If 3(2x - 4) = 18, what is the value of x?",
-      "options": [
-        "3",
-        "5",
-        "6",
-        "7"
-      ],
-      "correctAnswer": 1,
-      "explanation": "3(2x - 4) = 18 => 2x - 4 = 6 => 2x = 10 => x = 5.",
-      "points": 1
-    },
-    {
-      "id": "q_phys_g9_1",
-      "grade": "Grade9",
-      "subject": "Physics",
-      "semester": "Semester1",
-      "examType": "Final",
-      "question": "What is the SI unit of electric current?",
-      "options": [
-        "Volt (V)",
-        "Ohm (Ω)",
-        "Ampere (A)",
-        "Coulomb (C)"
-      ],
-      "correctAnswer": 2,
-      "explanation": "The SI base unit of electric current is the Ampere (A).",
-      "points": 1
-    },
-    {
-      "id": "q_g9_phys_17",
-      "grade": "Grade9",
-      "subject": "Physics",
-      "semester": "Semester1",
-      "examType": "Final",
-      "question": "What is the SI unit of electric current?",
-      "options": [
-        "Volt (V)",
-        "Ampere (A)",
-        "Ohm (Ω)",
-        "Coulomb (C)"
-      ],
-      "correctAnswer": 1,
-      "explanation": "The Ampere (A) is the SI base unit of electric current. The Volt is potential difference, Ohm is resistance, and Coulomb is electric charge.",
-      "points": 1
-    },
-    {
-      "id": "q_g9_phys_18",
-      "grade": "Grade9",
-      "subject": "Physics",
-      "semester": "Semester1",
-      "examType": "Final",
-      "question": "A vehicle travels 150 meters in 5 seconds. What is its average speed?",
-      "options": [
-        "15 m/s",
-        "25 m/s",
-        "30 m/s",
-        "750 m/s"
-      ],
-      "correctAnswer": 2,
-      "explanation": "Average speed = distance / time = 150 m / 5 s = 30 m/s.",
-      "points": 1
-    },
-    {
-      "id": "q_g9_phys_19",
-      "grade": "Grade9",
-      "subject": "Physics",
-      "semester": "Semester1",
-      "examType": "Final",
-      "question": "Which of Newton's laws states that an object at rest will remain at rest unless acted upon by a net external force?",
-      "options": [
-        "First Law (Law of Inertia)",
-        "Second Law (F = ma)",
-        "Third Law (Action-Reaction)",
-        "Universal Law of Gravitation"
-      ],
-      "correctAnswer": 0,
-      "explanation": "Newton's First Law of Motion, also known as the Law of Inertia, states that an object continues in its state of rest or uniform velocity unless acted upon by a resultant external force.",
-      "points": 1
-    },
-    {
-      "id": "q_g9_phys_20",
-      "grade": "Grade9",
-      "subject": "Physics",
-      "semester": "Semester1",
-      "examType": "Final",
-      "question": "What is the weight of a 50 kg student on Earth where acceleration due to gravity g ≈ 9.8 m/s²?",
-      "options": [
-        "5.1 N",
-        "50 N",
-        "490 N",
-        "980 N"
-      ],
-      "correctAnswer": 2,
-      "explanation": "Weight W = m × g = 50 kg × 9.8 m/s² = 490 N.",
-      "points": 1
-    },
-    {
-      "id": "q_g9_bio_16",
-      "grade": "Grade9",
-      "subject": "Biology",
-      "semester": "Semester1",
-      "examType": "Final",
-      "question": "Which organelle is often referred to as the powerhouse of the eukaryotic cell?",
-      "options": [
-        "Mitochondria",
-        "Ribosome",
-        "Endoplasmic reticulum",
-        "Golgi apparatus"
-      ],
-      "correctAnswer": 0,
-      "explanation": "Mitochondria generate the majority of cellular adenosine triphosphate (ATP) through aerobic cellular respiration.",
-      "points": 1
-    },
-    {
-      "id": "q_g9_bio_17",
-      "grade": "Grade9",
-      "subject": "Biology",
-      "semester": "Semester1",
-      "examType": "Final",
-      "question": "Plant cell walls are primarily composed of which complex carbohydrate?",
-      "options": [
-        "Cellulose",
-        "Chitin",
-        "Glycogen",
-        "Peptidoglycan"
-      ],
-      "correctAnswer": 0,
-      "explanation": "Plant cell walls are made of cellulose. Fungal cell walls are made of chitin, and bacterial cell walls are made of peptidoglycan.",
-      "points": 1
-    },
-    {
-      "id": "q_g9_bio_18",
-      "grade": "Grade9",
-      "subject": "Biology",
-      "semester": "Semester1",
-      "examType": "Final",
-      "question": "Which blood vessels carry oxygenated blood away from the heart to the rest of the body?",
-      "options": [
-        "Arteries",
-        "Veins",
-        "Venules",
-        "Lymphatic vessels"
-      ],
-      "correctAnswer": 0,
-      "explanation": "Arteries transport blood under high pressure away from the heart to bodily tissues. The systemic arteries carry oxygenated blood.",
-      "points": 1
-    },
-    {
-      "id": "q_g9_chem_07",
-      "grade": "Grade9",
-      "subject": "Chemistry",
-      "semester": "Semester1",
-      "examType": "Final",
-      "question": "What is the correct chemical formula for aluminum sulfate?",
-      "options": [
-        "AlSO₄",
-        "Al₂(SO₄)₃",
-        "Al₃(SO₄)₂",
-        "Al(SO₄)₂"
-      ],
-      "correctAnswer": 1,
-      "explanation": "Aluminum has a +3 oxidation state (Al³⁺) and sulfate is SO₄²⁻. Crossing charges yields Al₂(SO₄)₃.",
-      "points": 1
-    },
-    {
-      "id": "q_g9_chem_08",
-      "grade": "Grade9",
-      "subject": "Chemistry",
-      "semester": "Semester1",
-      "examType": "Final",
-      "question": "When balancing the equation: N₂ + _ H₂ → 2 NH₃, what is the stoichiometric coefficient for H₂?",
-      "options": [
-        "1",
-        "2",
-        "3",
-        "4"
-      ],
-      "correctAnswer": 2,
-      "explanation": "There are 2 × 3 = 6 hydrogen atoms on the product side. Therefore, 3 H₂ molecules are required: N₂ + 3 H₂ → 2 NH₃.",
-      "points": 1
-    },
-    {
-      "id": "q_g9_chem_09",
-      "grade": "Grade9",
-      "subject": "Chemistry",
-      "semester": "Semester1",
-      "examType": "Final",
-      "question": "A solution with a pH value of 3 is classified as:",
-      "options": [
-        "Strongly basic",
-        "Neutral",
-        "Acidic",
-        "Weakly alkaline"
-      ],
-      "correctAnswer": 2,
-      "explanation": "On the pH scale: pH 7 is neutral, pH < 7 is acidic, and pH > 7 is basic. A pH of 3 is distinctly acidic.",
-      "points": 1
-    },
-    {
-      "id": "q_g9_chem_10",
-      "grade": "Grade9",
-      "subject": "Chemistry",
-      "semester": "Semester1",
-      "examType": "Final",
-      "question": "Which of the following is an example of a chemical change?",
-      "options": [
-        "Melting of ice",
-        "Rusting of iron",
-        "Dissolving sugar in water",
-        "Boiling water into steam"
-      ],
-      "correctAnswer": 1,
-      "explanation": "Rusting of iron involves a chemical reaction with oxygen and moisture to form iron oxide (rust), creating new substances.",
-      "points": 1
-    },
-    {
-      "id": "q_g9_math_05",
-      "grade": "Grade9",
-      "subject": "Mathematics",
-      "semester": "Semester1",
-      "examType": "Final",
-      "question": "What is the sum of the interior angles of a pentagon (5-sided polygon)?",
-      "options": [
-        "360°",
-        "540°",
-        "720°",
-        "900°"
-      ],
-      "correctAnswer": 1,
-      "explanation": "Sum of interior angles = (n - 2) × 180°. For n = 5: (5 - 2) × 180° = 3 × 180° = 540°.",
-      "points": 1
-    },
-    {
-      "id": "q_g9_math_06",
-      "grade": "Grade9",
-      "subject": "Mathematics",
-      "semester": "Semester1",
-      "examType": "Final",
-      "question": "In a right-angled triangle, if legs are a = 6 cm and b = 8 cm, what is the hypotenuse c?",
-      "options": [
-        "10 cm",
-        "12 cm",
-        "14 cm",
-        "100 cm"
-      ],
-      "correctAnswer": 0,
-      "explanation": "By the Pythagorean theorem: c² = a² + b² = 6² + 8² = 36 + 64 = 100. c = √100 = 10 cm.",
-      "points": 1
-    },
-    {
-      "id": "q_g9_math_07",
-      "grade": "Grade9",
-      "subject": "Mathematics",
-      "semester": "Semester1",
-      "examType": "Final",
-      "question": "Find the median of the data set: 12, 5, 8, 20, 15.",
-      "options": [
-        "8",
-        "12",
-        "14",
-        "15"
-      ],
-      "correctAnswer": 1,
-      "explanation": "Sort data in ascending order: 5, 8, 12, 15, 20. The middle value is 12.",
-      "points": 1
-    },
-    {
-      "id": "q_g9_math_08",
-      "grade": "Grade9",
-      "subject": "Mathematics",
-      "semester": "Semester1",
-      "examType": "Final",
-      "question": "What is the value of 2⁻³?",
-      "options": [
-        "-6",
-        "-8",
-        "1/8",
-        "1/6"
-      ],
-      "correctAnswer": 2,
-      "explanation": "2⁻³ = 1 / 2³ = 1 / 8.",
-      "points": 1
-    },
-    {
-      "id": "q_g9_eng_04",
-      "grade": "Grade9",
-      "subject": "English",
-      "semester": "Semester1",
-      "examType": "Final",
-      "question": "Select the appropriate conditional sentence: \"If it ______ tomorrow, we will postpone the football match.\"",
-      "options": [
-        "rains",
-        "will rain",
-        "rained",
-        "would rain"
-      ],
-      "correctAnswer": 0,
-      "explanation": "First conditional structure: If + present simple (\"rains\"), will + base verb (\"will postpone\").",
-      "points": 1
-    },
-    {
-      "id": "q_g9_eng_05",
-      "grade": "Grade9",
-      "subject": "English",
-      "semester": "Semester1",
-      "examType": "Final",
-      "question": "What is the synonym of the word \"Diligent\"?",
-      "options": [
-        "Lazy",
-        "Hardworking",
-        "Careless",
-        "Arrogant"
-      ],
-      "correctAnswer": 1,
-      "explanation": "\"Diligent\" means showing care and conscientiousness in one's work or duties; hardworking.",
-      "points": 1
-    },
-    {
-      "id": "q_g9_it_01",
-      "grade": "Grade9",
-      "subject": "IT",
-      "semester": "Semester1",
-      "examType": "Mid1",
-      "question": "Which component is known as the \"brain\" of the computer that carries out arithmetic and logical instructions?",
-      "options": [
-        "Central Processing Unit (CPU)",
-        "Random Access Memory (RAM)",
-        "Hard Disk Drive",
-        "Motherboard"
-      ],
-      "correctAnswer": 0,
-      "explanation": "The CPU (Central Processing Unit) performs the fetch-decode-execute cycle and executes program instructions.",
-      "points": 1
-    },
-    {
-      "id": "q_g9_it_02",
-      "grade": "Grade9",
-      "subject": "IT",
-      "semester": "Semester1",
-      "examType": "Mid1",
-      "question": "Which type of memory is volatile, losing its contents when the power is turned off?",
-      "options": [
-        "ROM (Read Only Memory)",
-        "RAM (Random Access Memory)",
-        "Flash Drive",
-        "Hard Disk Drive"
-      ],
-      "correctAnswer": 1,
-      "explanation": "RAM is volatile primary memory. When the computer loses power, all data stored in RAM is lost.",
-      "points": 1
-    },
-    {
-      "id": "q_g9_it_03",
-      "grade": "Grade9",
-      "subject": "IT",
-      "semester": "Semester1",
-      "examType": "Mid1",
-      "question": "How many bits make up one byte of digital data?",
-      "options": [
-        "4",
-        "8",
-        "16",
-        "32"
-      ],
-      "correctAnswer": 1,
-      "explanation": "One byte consists of exactly 8 bits. A nibble consists of 4 bits.",
-      "points": 1
-    },
-    {
-      "id": "q_g9_it_04",
-      "grade": "Grade9",
-      "subject": "IT",
-      "semester": "Semester1",
-      "examType": "Final",
-      "question": "Which network type connects computers within a localized geographic area such as a school laboratory or office building?",
-      "options": [
-        "LAN (Local Area Network)",
-        "WAN (Wide Area Network)",
-        "MAN (Metropolitan Area Network)",
-        "Internet"
-      ],
-      "correctAnswer": 0,
-      "explanation": "A LAN (Local Area Network) spans a small physical area like a classroom, office, or building.",
-      "points": 1
-    },
-    {
-      "id": "q_g9_it_05",
-      "grade": "Grade9",
-      "subject": "IT",
-      "semester": "Semester1",
-      "examType": "Final",
-      "question": "What does HTTP stand for in web technology?",
-      "options": [
-        "Hypertext Transfer Protocol",
-        "High Technical Transfer Program",
-        "Hyperlink Transmission Path",
-        "Hybrid Terminal Test Protocol"
-      ],
-      "correctAnswer": 0,
-      "explanation": "HTTP stands for Hypertext Transfer Protocol, the foundational protocol used for transmitting web pages over the Internet.",
-      "points": 1
-    },
-    {
-      "id": "q_g9_hist_01",
+      "id": "q_g9_hist_real_01",
+      "examId": "exam_132",
       "grade": "Grade9",
       "subject": "History",
       "semester": "Semester1",
       "examType": "Mid1",
-      "question": "Where was the famous fossil of Australopithecus afarensis (\"Lucy\" or \"Dinkinesh\") discovered in Ethiopia in 1974?",
+      "question": "True or False: Prehistory refers to the period after the invention of writing.",
       "options": [
-        "Hadar (Awash Valley)",
-        "Omo Kibish",
-        "Melka Kunture",
-        "Tiwi Valley"
+        "True",
+        "False"
       ],
-      "correctAnswer": 0,
-      "explanation": "Lucy (Dinkinesh) was discovered at Hadar in the Awash Valley of the Afar depression by Donald Johanson in 1974.",
+      "correctAnswer": 1,
+      "explanation": "False. Prehistory specifically refers to the period before writing was invented. The period after the invention of writing is recorded history.",
       "points": 1
     },
     {
-      "id": "q_g9_hist_02",
+      "id": "q_g9_hist_real_02",
+      "examId": "exam_132",
       "grade": "Grade9",
       "subject": "History",
       "semester": "Semester1",
       "examType": "Mid1",
-      "question": "During the reign of which Aksumite King did Christianity become the official state religion in the 4th century AD?",
+      "question": "True or False: The Greek word Istoria means \"inquiry\" or \"an account of one's inquiries.\"",
       "options": [
-        "King Ezana",
-        "King Kaleb",
-        "King Armah",
-        "Emperor Gebre Mesqel"
+        "True",
+        "False"
       ],
       "correctAnswer": 0,
-      "explanation": "King Ezana of Aksum converted to Christianity around 330–340 AD under the guidance of Saint Frumentius (Abba Selama).",
+      "explanation": "True. The English word history originates from the ancient Greek word \"istoria\" (inquiry, knowledge acquired by investigation).",
       "points": 1
     },
     {
-      "id": "q_g9_hist_03",
-      "grade": "Grade9",
-      "subject": "History",
-      "semester": "Semester1",
-      "examType": "Final",
-      "question": "The historic Battle of Adwa, where Ethiopian forces defeated the Italian colonial army, took place on:",
-      "options": [
-        "March 1, 1896",
-        "October 24, 1935",
-        "May 5, 1941",
-        "December 13, 1960"
-      ],
-      "correctAnswer": 0,
-      "explanation": "The Battle of Adwa was fought on March 1, 1896 (Yekatit 23, 1888 E.C.), preserving Ethiopia's national sovereignty.",
-      "points": 1
-    },
-    {
-      "id": "q_g9_geog_01",
-      "grade": "Grade9",
-      "subject": "Geography",
-      "semester": "Semester1",
-      "examType": "Mid1",
-      "question": "The traditional Ethiopian agro-climatic zone situated between 1,500 and 2,300 meters above sea level with moderate temperatures is called:",
-      "options": [
-        "Kolla",
-        "Weyna Dega",
-        "Dega",
-        "Bereha"
-      ],
-      "correctAnswer": 1,
-      "explanation": "Weyna Dega (sub-tropical zone) lies between 1500m and 2300m elevation, featuring temperate conditions ideal for agriculture and human settlement.",
-      "points": 1
-    },
-    {
-      "id": "q_g9_geog_02",
-      "grade": "Grade9",
-      "subject": "Geography",
-      "semester": "Semester1",
-      "examType": "Final",
-      "question": "Which prominent geological feature bisects the Ethiopian highlands into northwestern and southeastern massifs?",
-      "options": [
-        "Great East African Rift Valley",
-        "Simien Mountains",
-        "Bale Mountains",
-        "Danakil Depression"
-      ],
-      "correctAnswer": 0,
-      "explanation": "The Great East African Rift Valley cuts diagonally across Ethiopia from northeast to southwest, dividing the Ethiopian highlands.",
-      "points": 1
-    },
-    {
-      "id": "q_g9_cit_01",
-      "grade": "Grade9",
-      "subject": "Citizenship",
-      "semester": "Semester1",
-      "examType": "Mid1",
-      "question": "Which branch of government is responsible for making laws in a constitutional democracy?",
-      "options": [
-        "The Legislature (Parliament)",
-        "The Executive",
-        "The Judiciary",
-        "The Police Service"
-      ],
-      "correctAnswer": 0,
-      "explanation": "The Legislature (such as the House of Peoples' Representatives in Ethiopia) has the constitutional authority to debate, enact, and amend legislation.",
-      "points": 1
-    },
-    {
-      "id": "q_g9_cit_02",
-      "grade": "Grade9",
-      "subject": "Citizenship",
-      "semester": "Semester1",
-      "examType": "Final",
-      "question": "Which peaceful conflict resolution method involves a neutral third party facilitating dialogue without imposing a binding decision?",
-      "options": [
-        "Mediation",
-        "Arbitration",
-        "Litigation",
-        "Warfare"
-      ],
-      "correctAnswer": 0,
-      "explanation": "Mediation involves an impartial mediator who facilitates constructive dialogue and helps conflicting parties reach a mutually agreeable voluntary settlement.",
-      "points": 1
-    },
-    {
-      "id": "q_g9_econ_01",
-      "grade": "Grade9",
-      "subject": "Economics",
-      "semester": "Semester1",
-      "examType": "Mid1",
-      "question": "What is the fundamental economic problem that faces all societies?",
-      "options": [
-        "Scarcity (unlimited wants vs limited resources)",
-        "Excessive taxation",
-        "Hyperinflation",
-        "Trade surpluses"
-      ],
-      "correctAnswer": 0,
-      "explanation": "Scarcity is the fundamental economic problem: human wants are virtually unlimited, while productive resources to satisfy them are finite.",
-      "points": 1
-    },
-    {
-      "id": "q_g9_econ_02",
-      "grade": "Grade9",
-      "subject": "Economics",
-      "semester": "Semester1",
-      "examType": "Final",
-      "question": "The value of the next best alternative given up when a decision is made is known as:",
-      "options": [
-        "Opportunity cost",
-        "Marginal cost",
-        "Sunk cost",
-        "Variable cost"
-      ],
-      "correctAnswer": 0,
-      "explanation": "Opportunity cost represents the benefits an individual, investor, or business misses out on when choosing one alternative over another.",
-      "points": 1
-    },
-    {
-      "id": "q_g9_hp_01",
-      "grade": "Grade9",
-      "subject": "HP",
-      "semester": "Semester1",
-      "examType": "Mid1",
-      "question": "What does the acronym R.I.C.E. stand for in sports first aid for sprains and soft-tissue injuries?",
-      "options": [
-        "Rest, Ice, Compression, Elevation",
-        "Run, Incline, Cool, Exercise",
-        "Rescue, Isolate, Calm, Emergency",
-        "Relief, Injection, Cast, Examination"
-      ],
-      "correctAnswer": 0,
-      "explanation": "R.I.C.E. is the standard first-aid treatment protocol for acute soft tissue and ligament injuries: Rest, Ice, Compression, and Elevation.",
-      "points": 1
-    },
-    {
-      "id": "q_g9_amh_01",
-      "grade": "Grade9",
-      "subject": "Amharic",
-      "semester": "Semester1",
-      "examType": "Mid1",
-      "question": "በአማርኛ ሰዋሰው ውስጥ የአንድን ነገር፣ ቦታ ወይም ሰው ስም የሚገልጸው የቃል ክፍል ምን ይባላል?",
-      "options": [
-        "ስም",
-        "ግሥ",
-        "ቅጽል",
-        "መስተዋድድ"
-      ],
-      "correctAnswer": 0,
-      "explanation": "ስም የማንኛውም ሰው፣ ቦታ፣ እንስሳ ወይም ረቂቅ ነገር መጠሪያ ሆኖ የሚያገለግል የቋንቋ ክፍል ነው።",
-      "points": 1
-    },
-    {
-      "id": "q_g10_phys_01",
-      "grade": "Grade10",
-      "subject": "Physics",
-      "semester": "Semester1",
-      "examType": "Final",
-      "question": "According to Newton's Second Law of Motion, what happens to acceleration when net force is doubled and mass remains constant?",
-      "options": [
-        "Acceleration is halved",
-        "Acceleration is doubled",
-        "Acceleration remains unchanged",
-        "Acceleration quadruples"
-      ],
-      "correctAnswer": 1,
-      "explanation": "Since a = F / m, acceleration is directly proportional to net force. Doubling the net force doubles the acceleration.",
-      "points": 1
-    },
-    {
-      "id": "q_g10_phys_02",
-      "grade": "Grade10",
-      "subject": "Physics",
-      "semester": "Semester1",
-      "examType": "Final",
-      "question": "A worker does 1200 Joules of work lifting a crate in 6 seconds. What is the power exerted?",
-      "options": [
-        "7200 W",
-        "200 W",
-        "120 W",
-        "20 W"
-      ],
-      "correctAnswer": 1,
-      "explanation": "Power = Work / time = 1200 J / 6 s = 200 Watts (W).",
-      "points": 1
-    },
-    {
-      "id": "q_g10_phys_03",
-      "grade": "Grade10",
-      "subject": "Physics",
-      "semester": "Semester1",
-      "examType": "Mid1",
-      "question": "What type of wave is a sound wave in air?",
-      "options": [
-        "Transverse wave",
-        "Longitudinal mechanical wave",
-        "Electromagnetic wave",
-        "Surface wave"
-      ],
-      "correctAnswer": 1,
-      "explanation": "Sound waves travel through gases and liquids as longitudinal mechanical waves composed of alternating compressions and rarefactions.",
-      "points": 1
-    },
-    {
-      "id": "q_g10_phys_04",
-      "grade": "Grade10",
-      "subject": "Physics",
-      "semester": "Semester1",
-      "examType": "Mid1",
-      "question": "Coulomb's Law states that the electrostatic force between two point charges is inversely proportional to the:",
-      "options": [
-        "Distance between them",
-        "Square of the distance between them",
-        "Product of the charges",
-        "Sum of the charges"
-      ],
-      "correctAnswer": 1,
-      "explanation": "F = k·|q₁·q₂| / r². The electrostatic force is inversely proportional to the square of the distance (r²) between the charges.",
-      "points": 1
-    },
-    {
-      "id": "q_g10_phys_05",
-      "grade": "Grade10",
-      "subject": "Physics",
-      "semester": "Semester1",
-      "examType": "Final",
-      "question": "What phenomenon causes a pencil submerged in a glass of water to appear bent at the surface?",
-      "options": [
-        "Refraction",
-        "Total internal reflection",
-        "Diffraction",
-        "Polarization"
-      ],
-      "correctAnswer": 0,
-      "explanation": "Refraction is the bending of light waves as they pass obliquely from one transparent optical medium (water) into another (air) of differing optical density.",
-      "points": 1
-    },
-    {
-      "id": "q_g10_chem_01",
-      "grade": "Grade10",
-      "subject": "Chemistry",
-      "semester": "Semester1",
-      "examType": "Final",
-      "question": "Which gas law states that at constant temperature, the volume of a fixed mass of gas is inversely proportional to its pressure?",
-      "options": [
-        "Charles's Law",
-        "Boyle's Law",
-        "Gay-Lussac's Law",
-        "Avogadro's Law"
-      ],
-      "correctAnswer": 1,
-      "explanation": "Boyle's Law states that P₁V₁ = P₂V₂ at constant temperature.",
-      "points": 1
-    },
-    {
-      "id": "q_g10_chem_02",
-      "grade": "Grade10",
-      "subject": "Chemistry",
-      "semester": "Semester1",
-      "examType": "Final",
-      "question": "What is the molar mass of Calcium Carbonate (CaCO₃)? [Atomic masses: Ca=40, C=12, O=16]",
-      "options": [
-        "68 g/mol",
-        "84 g/mol",
-        "100 g/mol",
-        "120 g/mol"
-      ],
-      "correctAnswer": 2,
-      "explanation": "Molar mass = 40 + 12 + (3 × 16) = 52 + 48 = 100 g/mol.",
-      "points": 1
-    },
-    {
-      "id": "q_g10_chem_03",
-      "grade": "Grade10",
-      "subject": "Chemistry",
-      "semester": "Semester1",
-      "examType": "Mid1",
-      "question": "Which organic family of hydrocarbons contains only single carbon-carbon covalent bonds and follows formula CnH₂n+₂?",
-      "options": [
-        "Alkanes",
-        "Alkenes",
-        "Alkynes",
-        "Arenes"
-      ],
-      "correctAnswer": 0,
-      "explanation": "Alkanes are saturated aliphatic hydrocarbons possessing only single C-C bonds with general formula CnH₂n+₂.",
-      "points": 1
-    },
-    {
-      "id": "q_g10_chem_04",
-      "grade": "Grade10",
-      "subject": "Chemistry",
-      "semester": "Semester1",
-      "examType": "Mid1",
-      "question": "Across a period in the periodic table from left to right, electronegativity generally:",
-      "options": [
-        "Decreases",
-        "Increases",
-        "Remains unchanged",
-        "Drops to zero"
-      ],
-      "correctAnswer": 1,
-      "explanation": "Across a period, nuclear charge increases while valence electrons are added to the same shell, pulling electrons more strongly and increasing electronegativity.",
-      "points": 1
-    },
-    {
-      "id": "q_g10_bio_01",
-      "grade": "Grade10",
-      "subject": "Biology",
-      "semester": "Semester1",
-      "examType": "Final",
-      "question": "Which phase of mitosis is characterized by sister chromatids separating and moving to opposite poles of the cell?",
-      "options": [
-        "Prophase",
-        "Metaphase",
-        "Anaphase",
-        "Telophase"
-      ],
-      "correctAnswer": 2,
-      "explanation": "During anaphase, the centromeres split and sister chromatids are pulled apart by spindle fibers toward opposite poles.",
-      "points": 1
-    },
-    {
-      "id": "q_g10_bio_02",
-      "grade": "Grade10",
-      "subject": "Biology",
-      "semester": "Semester1",
-      "examType": "Final",
-      "question": "In Mendel's monohybrid cross of pea plants (Bb × Bb), what is the expected phenotypic ratio of dominant to recessive traits?",
-      "options": [
-        "1:1",
-        "2:1",
-        "3:1",
-        "9:3:3:1"
-      ],
-      "correctAnswer": 2,
-      "explanation": "A heterozygous Bb × Bb cross yields genotypes 1 BB : 2 Bb : 1 bb, resulting in a 3:1 dominant to recessive phenotypic ratio.",
-      "points": 1
-    },
-    {
-      "id": "q_g10_bio_03",
-      "grade": "Grade10",
-      "subject": "Biology",
-      "semester": "Semester1",
-      "examType": "Mid1",
-      "question": "Which blood vessels possess one-way valves to prevent backflow of blood as it returns to the heart?",
-      "options": [
-        "Arteries",
-        "Capillaries",
-        "Veins",
-        "Arterioles"
-      ],
-      "correctAnswer": 2,
-      "explanation": "Veins contain pocket valves that ensure one-way flow of blood against gravity toward the heart.",
-      "points": 1
-    },
-    {
-      "id": "q_g10_math_01",
-      "grade": "Grade10",
-      "subject": "Mathematics",
-      "semester": "Semester1",
-      "examType": "Final",
-      "question": "What are the roots of the quadratic equation x² - 5x + 6 = 0?",
-      "options": [
-        "x = -2, -3",
-        "x = 2, 3",
-        "x = 1, 6",
-        "x = -1, -6"
-      ],
-      "correctAnswer": 1,
-      "explanation": "Factoring: (x - 2)(x - 3) = 0, which yields roots x = 2 and x = 3.",
-      "points": 1
-    },
-    {
-      "id": "q_g10_math_02",
-      "grade": "Grade10",
-      "subject": "Mathematics",
-      "semester": "Semester1",
-      "examType": "Final",
-      "question": "What is the exact value of sin(30°)?",
-      "options": [
-        "1/2",
-        "√3/2",
-        "√2/2",
-        "1"
-      ],
-      "correctAnswer": 0,
-      "explanation": "In trigonometry, sin(30°) = 1/2.",
-      "points": 1
-    },
-    {
-      "id": "q_g10_math_03",
-      "grade": "Grade10",
-      "subject": "Mathematics",
-      "semester": "Semester1",
-      "examType": "Mid1",
-      "question": "If two fair six-sided dice are rolled, what is the probability of rolling a sum equal to 7?",
-      "options": [
-        "1/12",
-        "1/6",
-        "5/36",
-        "7/36"
-      ],
-      "correctAnswer": 1,
-      "explanation": "Combinations summing to 7: (1,6), (2,5), (3,4), (4,3), (5,2), (6,1) = 6 outcomes out of 36 total. P = 6/36 = 1/6.",
-      "points": 1
-    },
-    {
-      "id": "q_g10_eng_01",
-      "grade": "Grade10",
-      "subject": "English",
-      "semester": "Semester1",
-      "examType": "Final",
-      "question": "Identify the correct reported speech: She said, \"I have lived in Addis Ababa for five years.\"",
-      "options": [
-        "She said that she had lived in Addis Ababa for five years.",
-        "She said that she has lived in Addis Ababa.",
-        "She said she lives in Addis Ababa.",
-        "She told she was living in Addis Ababa."
-      ],
-      "correctAnswer": 0,
-      "explanation": "In indirect reported speech, present perfect (\"have lived\") shifts back into past perfect (\"had lived\").",
-      "points": 1
-    },
-    {
-      "id": "q_g10_hist_01",
-      "grade": "Grade10",
-      "subject": "History",
-      "semester": "Semester1",
-      "examType": "Final",
-      "question": "Which historic Ethiopian ruler constructed the iconic eleven monolithic rock-hewn churches in Roha (Lalibela)?",
-      "options": [
-        "King Lalibela",
-        "Emperor Tewodros II",
-        "Emperor Menelik II",
-        "King Ezana"
-      ],
-      "correctAnswer": 0,
-      "explanation": "King Gebre Mesqel Lalibela of the Zagwe Dynasty ordered the creation of the 11 rock-hewn monolithic churches in the 12th–13th centuries.",
-      "points": 1
-    },
-    {
-      "id": "q_g10_geog_01",
-      "grade": "Grade10",
-      "subject": "Geography",
-      "semester": "Semester1",
-      "examType": "Final",
-      "question": "Which river is the longest river in Ethiopia and is known internationally as the Blue Nile upon entering Sudan?",
-      "options": [
-        "Awash River",
-        "Abay River",
-        "Omo River",
-        "Wabe Shebelle River"
-      ],
-      "correctAnswer": 1,
-      "explanation": "The Abay River originates at Lake Tana and flows into Sudan, where it converges with the White Nile at Khartoum.",
-      "points": 1
-    },
-    {
-      "id": "q_g10_econ_01",
-      "grade": "Grade10",
-      "subject": "Economics",
-      "semester": "Semester1",
-      "examType": "Final",
-      "question": "A market structure characterized by a single seller supplying a unique product with no close substitutes is a:",
-      "options": [
-        "Perfect competition",
-        "Monopoly",
-        "Oligopoly",
-        "Monopolistic competition"
-      ],
-      "correctAnswer": 1,
-      "explanation": "A monopoly is a market structure dominated by a solitary firm that exerts substantial market power over price.",
-      "points": 1
-    },
-    {
-      "id": "q_g10_it_01",
-      "grade": "Grade10",
-      "subject": "IT",
-      "semester": "Semester1",
-      "examType": "Final",
-      "question": "Which database query language is universally used to create, read, update, and delete relational data?",
-      "options": [
-        "HTML",
-        "CSS",
-        "SQL (Structured Query Language)",
-        "JSON"
-      ],
-      "correctAnswer": 2,
-      "explanation": "SQL (Structured Query Language) is the standard language designed for managing data held in relational database management systems.",
-      "points": 1
-    },
-    {
-      "id": "q_g10_cit_01",
-      "grade": "Grade10",
-      "subject": "Citizenship",
-      "semester": "Semester1",
-      "examType": "Final",
-      "question": "The principle where governmental authority is divided between a central national government and regional states is called:",
-      "options": [
-        "Unitary system",
-        "Federalism",
-        "Monarchy",
-        "Anarchy"
-      ],
-      "correctAnswer": 1,
-      "explanation": "Federalism divides sovereign power constitutionally between a central federal government and regional constituent state units.",
-      "points": 1
-    },
-    {
-      "id": "q_g11_phys_01",
-      "grade": "Grade11",
-      "subject": "Physics",
-      "semester": "Semester1",
-      "examType": "Final",
-      "question": "What is the scalar (dot) product of vectors A = 2i + 3j and B = 4i - 2j?",
-      "options": [
-        "2",
-        "8",
-        "14",
-        "-6"
-      ],
-      "correctAnswer": 0,
-      "explanation": "A · B = (Ax · Bx) + (Ay · By) = (2 × 4) + (3 × -2) = 8 - 6 = 2.",
-      "points": 1
-    },
-    {
-      "id": "q_g11_phys_02",
-      "grade": "Grade11",
-      "subject": "Physics",
-      "semester": "Semester1",
-      "examType": "Final",
-      "question": "In projectile motion without air resistance, the horizontal component of velocity:",
-      "options": [
-        "Increases continuously",
-        "Remains constant throughout flight",
-        "Decreases to zero at peak",
-        "Reverses direction"
-      ],
-      "correctAnswer": 1,
-      "explanation": "Because gravity acts only downward along the vertical axis, horizontal acceleration is zero (ax = 0), keeping vx constant.",
-      "points": 1
-    },
-    {
-      "id": "q_g11_phys_03",
-      "grade": "Grade11",
-      "subject": "Physics",
-      "semester": "Semester1",
-      "examType": "Mid1",
-      "question": "According to Bernoulli's principle for fluid flow, where the velocity of a moving fluid increases, its internal pressure:",
-      "options": [
-        "Increases",
-        "Decreases",
-        "Remains unchanged",
-        "Becomes infinite"
-      ],
-      "correctAnswer": 1,
-      "explanation": "Bernoulli's principle states that an increase in fluid speed occurs simultaneously with a decrease in static pressure.",
-      "points": 1
-    },
-    {
-      "id": "q_g11_chem_01",
-      "grade": "Grade11",
-      "subject": "Chemistry",
-      "semester": "Semester1",
-      "examType": "Final",
-      "question": "What is the electronic geometry and bond angle of methane (CH₄) according to VSEPR theory?",
-      "options": [
-        "Trigonal planar (120°)",
-        "Linear (180°)",
-        "Tetrahedral (109.5°)",
-        "Octahedral (90°)"
-      ],
-      "correctAnswer": 2,
-      "explanation": "Methane has 4 bonding pairs and 0 lone pairs on carbon, adopting a tetrahedral geometry with 109.5° bond angles.",
-      "points": 1
-    },
-    {
-      "id": "q_g11_chem_02",
-      "grade": "Grade11",
-      "subject": "Chemistry",
-      "semester": "Semester1",
-      "examType": "Final",
-      "question": "According to Le Chatelier's Principle, what happens to the exothermic equilibrium N₂(g) + 3H₂(g) ⇌ 2NH₃(g) + Heat when temperature is increased?",
-      "options": [
-        "Shifts to the right (more NH₃)",
-        "Shifts to the left (more reactants)",
-        "Equilibrium constant increases",
-        "No change occurs"
-      ],
-      "correctAnswer": 1,
-      "explanation": "In an exothermic reaction, heat acts as a product. Adding heat causes the system to shift toward the endothermic backward direction (left).",
-      "points": 1
-    },
-    {
-      "id": "q_g11_bio_01",
-      "grade": "Grade11",
-      "subject": "Biology",
-      "semester": "Semester1",
-      "examType": "Final",
-      "question": "Which metabolic pathway occurs in the cytoplasm and breaks down one molecule of glucose into two pyruvate molecules?",
-      "options": [
-        "Glycolysis",
-        "Krebs Cycle",
-        "Oxidative phosphorylation",
-        "Calvin cycle"
-      ],
-      "correctAnswer": 0,
-      "explanation": "Glycolysis is the anaerobic initial stage of cellular respiration that takes place in the cytosol, yielding 2 pyruvate, 2 ATP, and 2 NADH.",
-      "points": 1
-    },
-    {
-      "id": "q_g11_bio_02",
-      "grade": "Grade11",
-      "subject": "Biology",
-      "semester": "Semester1",
-      "examType": "Final",
-      "question": "What are the primary vascular tissues responsible for transporting water and dissolved mineral ions upward from roots in plants?",
-      "options": [
-        "Phloem",
-        "Xylem",
-        "Cortex",
-        "Cambium"
-      ],
-      "correctAnswer": 1,
-      "explanation": "Xylem vessels transport water and dissolved minerals un-directionally upward from the roots to stems and leaves.",
-      "points": 1
-    },
-    {
-      "id": "q_g11_math_01",
-      "grade": "Grade11",
-      "subject": "Mathematics",
-      "semester": "Semester1",
-      "examType": "Final",
-      "question": "What is the sum of the first 10 terms of an arithmetic progression with first term a₁ = 3 and common difference d = 4?",
-      "options": [
-        "180",
-        "210",
-        "240",
-        "420"
-      ],
-      "correctAnswer": 1,
-      "explanation": "Sn = (n/2)[2a + (n - 1)d] = (10/2)[2(3) + 9(4)] = 5[6 + 36] = 5[42] = 210.",
-      "points": 1
-    },
-    {
-      "id": "q_g11_math_02",
-      "grade": "Grade11",
-      "subject": "Mathematics",
-      "semester": "Semester1",
-      "examType": "Mid1",
-      "question": "Solve for x: log₁₀(x) + log₁₀(x - 3) = 1.",
-      "options": [
-        "x = 5",
-        "x = -2",
-        "x = 2",
-        "x = 10"
-      ],
-      "correctAnswer": 0,
-      "explanation": "log₁₀[x(x - 3)] = 1 => x² - 3x = 10 => x² - 3x - 10 = 0 => (x - 5)(x + 2) = 0. Since log argument must be positive, x = 5.",
-      "points": 1
-    },
-    {
-      "id": "q_g11_it_01",
-      "grade": "Grade11",
-      "subject": "IT",
-      "semester": "Semester1",
-      "examType": "Final",
-      "question": "Which network topology connects every computer to a single central device such as a hub or switch?",
-      "options": [
-        "Bus topology",
-        "Star topology",
-        "Ring topology",
-        "Mesh topology"
-      ],
-      "correctAnswer": 1,
-      "explanation": "In a star topology, each network host is connected to a central hub or switch with a point-to-point connection.",
-      "points": 1
-    },
-    {
-      "id": "q_g11_web_01",
-      "grade": "Grade11",
-      "subject": "WEB",
-      "semester": "Semester1",
-      "examType": "Mid1",
-      "question": "Which HTML5 semantic element is used to encapsulate self-contained standalone content such as a blog post or news story?",
-      "options": [
-        "<article>",
-        "<section>",
-        "<div>",
-        "<header>"
-      ],
-      "correctAnswer": 0,
-      "explanation": "The <article> tag specifies independent, self-contained content intended to be independently distributable.",
-      "points": 1
-    },
-    {
-      "id": "q_g11_agri_01",
-      "grade": "Grade11",
-      "subject": "Agriculture",
-      "semester": "Semester1",
-      "examType": "Final",
-      "question": "Which soil conservation practice involves plowing and planting across a slope along elevation contour lines to slow runoff?",
-      "options": [
-        "Contour farming",
-        "Deforestation",
-        "Overgrazing",
-        "Monoculture"
-      ],
-      "correctAnswer": 0,
-      "explanation": "Contour farming involves plowing along equal elevation contours, creating small ridges that capture runoff and prevent soil erosion.",
-      "points": 1
-    },
-    {
-      "id": "q_g12_math_01",
-      "grade": "Grade12",
-      "subject": "Mathematics",
-      "semester": "Pretest",
-      "examType": "Pretest",
-      "question": "What is the derivative of f(x) = ln(x² + 4)?",
-      "options": [
-        "2x / (x² + 4)",
-        "1 / (x² + 4)",
-        "2 / (x² + 4)",
-        "x / (x² + 4)"
-      ],
-      "correctAnswer": 0,
-      "explanation": "Using the chain rule: d/dx[ln(u)] = (1/u) · u'. Here u = x² + 4, u' = 2x. Thus f'(x) = 2x / (x² + 4).",
-      "points": 1
-    },
-    {
-      "id": "q_g12_math_02",
-      "grade": "Grade12",
-      "subject": "Mathematics",
-      "semester": "Pretest",
-      "examType": "Pretest",
-      "question": "Evaluate the definite integral: ∫ from 0 to 2 of (3x² + 2x) dx.",
-      "options": [
-        "8",
-        "12",
-        "14",
-        "16"
-      ],
-      "correctAnswer": 1,
-      "explanation": "Antiderivative: [x³ + x²] from 0 to 2 = (2³ + 2²) - (0) = 8 + 4 = 12.",
-      "points": 1
-    },
-    {
-      "id": "q_g12_math_03",
-      "grade": "Grade12",
-      "subject": "Mathematics",
-      "semester": "Model",
-      "examType": "Model",
-      "question": "Evaluate the limit: lim (x → 0) [sin(5x) / x].",
-      "options": [
-        "0",
-        "1",
-        "5",
-        "Does not exist"
-      ],
-      "correctAnswer": 2,
-      "explanation": "Using the standard limit lim(θ → 0)[sin(kθ)/θ] = k, we have lim(x → 0)[sin(5x)/x] = 5.",
-      "points": 1
-    },
-    {
-      "id": "q_g12_math_04",
-      "grade": "Grade12",
-      "subject": "Mathematics",
-      "semester": "Model",
-      "examType": "Model",
-      "question": "If vector A = 3i - 4j, what is the magnitude ||A||?",
-      "options": [
-        "1",
-        "5",
-        "7",
-        "25"
-      ],
-      "correctAnswer": 1,
-      "explanation": "||A|| = √(3² + (-4)²) = √(9 + 16) = √25 = 5.",
-      "points": 1
-    },
-    {
-      "id": "q_g12_phys_01",
-      "grade": "Grade12",
-      "subject": "Physics",
-      "semester": "Pretest",
-      "examType": "Pretest",
-      "question": "An object of mass 2 kg moves in a horizontal circular path of radius 0.5 m with a constant speed of 4 m/s. What is the centripetal force?",
-      "options": [
-        "16 N",
-        "32 N",
-        "64 N",
-        "8 N"
-      ],
-      "correctAnswer": 2,
-      "explanation": "Centripetal force Fc = (m · v²) / r = (2 · 4²) / 0.5 = (2 · 16) / 0.5 = 32 / 0.5 = 64 N.",
-      "points": 1
-    },
-    {
-      "id": "q_g12_phys_02",
-      "grade": "Grade12",
-      "subject": "Physics",
-      "semester": "Model",
-      "examType": "Model",
-      "question": "In the photoelectric effect, increasing the frequency of the incident light above the threshold frequency increases the:",
-      "options": [
-        "Number of emitted photoelectrons",
-        "Maximum kinetic energy of emitted photoelectrons",
-        "Stopping potential to zero",
-        "Work function of the metal"
-      ],
-      "correctAnswer": 1,
-      "explanation": "According to Einstein's equation KEmax = hf - Φ, increasing frequency (f) increases the maximum kinetic energy of emitted photoelectrons.",
-      "points": 1
-    },
-    {
-      "id": "q_g12_phys_03",
-      "grade": "Grade12",
-      "subject": "Physics",
-      "semester": "Model",
-      "examType": "Model",
-      "question": "Two parallel wires carry currents in the same direction. What force do they exert on each other?",
-      "options": [
-        "Attractive magnetic force",
-        "Repulsive magnetic force",
-        "Zero force",
-        "Electrostatic repulsive force only"
-      ],
-      "correctAnswer": 0,
-      "explanation": "By Ampère's force law and the right-hand rule, parallel conductors carrying currents in the same direction attract each other.",
-      "points": 1
-    },
-    {
-      "id": "q_g12_chem_01",
-      "grade": "Grade12",
-      "subject": "Chemistry",
-      "semester": "Pretest",
-      "examType": "Pretest",
-      "question": "What is the pH of a 0.001 M solution of Hydrochloric acid (HCl)?",
-      "options": [
-        "1",
-        "2",
-        "3",
-        "11"
-      ],
-      "correctAnswer": 2,
-      "explanation": "HCl is a strong monoprotic acid, so [H⁺] = 0.001 M = 10⁻³ M. pH = -log₁₀[H⁺] = -log₁₀(10⁻³) = 3.",
-      "points": 1
-    },
-    {
-      "id": "q_g12_chem_02",
-      "grade": "Grade12",
-      "subject": "Chemistry",
-      "semester": "Model",
-      "examType": "Model",
-      "question": "Which functional group characterizes carboxylic acids?",
-      "options": [
-        "-OH (Hydroxyl)",
-        "-CHO (Aldehyde)",
-        "-COOH (Carboxyl)",
-        "-CO- (Carbonyl)"
-      ],
-      "correctAnswer": 2,
-      "explanation": "Carboxylic acids are defined by the carboxyl functional group (-COOH), consisting of a carbonyl group bonded to a hydroxyl group.",
-      "points": 1
-    },
-    {
-      "id": "q_g12_chem_03",
-      "grade": "Grade12",
-      "subject": "Chemistry",
-      "semester": "Model",
-      "examType": "Model",
-      "question": "In an electrochemical galvanic cell, oxidation occurs at the:",
-      "options": [
-        "Anode",
-        "Cathode",
-        "Salt bridge",
-        "Voltmeter"
-      ],
-      "correctAnswer": 0,
-      "explanation": "Remember \"An Ox and Red Cat\": Oxidation always occurs at the Anode, while reduction occurs at the Cathode.",
-      "points": 1
-    },
-    {
-      "id": "q_g12_bio_01",
-      "grade": "Grade12",
-      "subject": "Biology",
-      "semester": "Pretest",
-      "examType": "Pretest",
-      "question": "During cellular respiration, in which stage is the majority of ATP generated via oxidative phosphorylation?",
-      "options": [
-        "Glycolysis",
-        "Krebs Cycle (Citric Acid Cycle)",
-        "Electron Transport Chain",
-        "Fermentation"
-      ],
-      "correctAnswer": 2,
-      "explanation": "The Electron Transport Chain and ATP synthase generate approximately 28–34 ATP molecules per glucose through chemiosmosis.",
-      "points": 1
-    },
-    {
-      "id": "q_g12_bio_02",
-      "grade": "Grade12",
-      "subject": "Biology",
-      "semester": "Model",
-      "examType": "Model",
-      "question": "Which enzyme unzips and unwinds the DNA double helix during DNA replication?",
-      "options": [
-        "DNA Helicase",
-        "DNA Polymerase",
-        "DNA Ligase",
-        "RNA Primase"
-      ],
-      "correctAnswer": 0,
-      "explanation": "DNA Helicase breaks the hydrogen bonds between complementary base pairs to unwind and separate DNA strands at the replication fork.",
-      "points": 1
-    },
-    {
-      "id": "q_g12_apt_01",
-      "grade": "Grade12",
-      "subject": "Aptitude",
-      "semester": "Pretest",
-      "examType": "Pretest",
-      "question": "Find the next number in the sequence: 3, 7, 15, 31, 63, ?",
-      "options": [
-        "95",
-        "125",
-        "127",
-        "129"
-      ],
-      "correctAnswer": 2,
-      "explanation": "Each term is calculated by (Previous term × 2) + 1: (63 × 2) + 1 = 126 + 1 = 127.",
-      "points": 1
-    },
-    {
-      "id": "q_g12_apt_02",
-      "grade": "Grade12",
-      "subject": "Aptitude",
-      "semester": "Model",
-      "examType": "Model",
-      "question": "If all Zips are Zaps, and some Zaps are Zops, which statement is DEFINITELY true?",
-      "options": [
-        "All Zips are Zops",
-        "Some Zips are Zops",
-        "Some Zaps are Zips",
-        "No Zips are Zops"
-      ],
-      "correctAnswer": 2,
-      "explanation": "Because all Zips are Zaps, the set of Zips is a non-empty subset of Zaps; therefore, it is certain that some Zaps are Zips.",
-      "points": 1
-    },
-    {
-      "id": "q_g12_apt_03",
-      "grade": "Grade12",
-      "subject": "Aptitude",
-      "semester": "Model",
-      "examType": "Model",
-      "question": "A train 120 meters long travels at a speed of 60 km/h. How many seconds will it take to pass a telegraph post?",
-      "options": [
-        "5.4 seconds",
-        "7.2 seconds",
-        "8.0 seconds",
-        "12.0 seconds"
-      ],
-      "correctAnswer": 1,
-      "explanation": "Speed = 60 km/h = 60 × (5/18) m/s = 50/3 m/s. Time = Distance / Speed = 120 / (50/3) = (120 × 3) / 50 = 360 / 50 = 7.2 seconds.",
-      "points": 1
-    },
-    {
-      "id": "q_g12_apt_04",
-      "grade": "Grade12",
-      "subject": "Aptitude",
-      "semester": "Pretest",
-      "examType": "Pretest",
-      "question": "Complete the analogy: EPIDEMIOLOGY is to DISEASE as SEISMOLOGY is to:",
-      "options": [
-        "Stars",
-        "Earthquakes",
-        "Fossils",
-        "Weather"
-      ],
-      "correctAnswer": 1,
-      "explanation": "Epidemiology is the scientific study of diseases; seismology is the scientific study of earthquakes.",
-      "points": 1
-    },
-    {
-      "id": "q_g12_eng_01",
-      "grade": "Grade12",
-      "subject": "English",
-      "semester": "Pretest",
-      "examType": "Pretest",
-      "question": "Choose the correct word: \"The minister's argument was so ______ that even his fiercest critics were convinced.\"",
-      "options": [
-        "cogent",
-        "equivocal",
-        "spurious",
-        "tenuous"
-      ],
-      "correctAnswer": 0,
-      "explanation": "\"Cogent\" means clear, logical, and convincing.",
-      "points": 1
-    },
-    {
-      "id": "q_g12_eng_02",
-      "grade": "Grade12",
-      "subject": "English",
-      "semester": "Model",
-      "examType": "Model",
-      "question": "Identify the figure of speech in: \"The angry storm pounded against the trembling wooden cabin.\"",
-      "options": [
-        "Simile",
-        "Personification",
-        "Hyperbole",
-        "Irony"
-      ],
-      "correctAnswer": 1,
-      "explanation": "Personification attributes human qualities (anger, pounding, trembling) to inanimate things (storm, cabin).",
-      "points": 1
-    },
-    {
-      "id": "q_g9_chem_14",
-      "grade": "Grade9",
-      "subject": "Chemistry",
-      "semester": "Semester1",
-      "examType": "Final",
-      "question": "What is the common name for the compound sodium bicarbonate (NaHCO₃)?",
-      "options": [
-        "Table salt",
-        "Baking soda",
-        "Caustic soda",
-        "Washing soda"
-      ],
-      "correctAnswer": 1,
-      "explanation": "NaHCO₃ is sodium bicarbonate, commonly known as baking soda. Table salt is NaCl, and caustic soda is NaOH.",
-      "points": 1
-    },
-    {
-      "id": "q_g9_chem_15",
-      "grade": "Grade9",
-      "subject": "Chemistry",
-      "semester": "Semester1",
-      "examType": "Final",
-      "question": "Which gas turns moist red litmus paper blue, indicating its basic nature?",
-      "options": [
-        "Sulfur dioxide (SO₂)",
-        "Carbon dioxide (CO₂)",
-        "Ammonia (NH₃)",
-        "Hydrogen chloride (HCl)"
-      ],
-      "correctAnswer": 2,
-      "explanation": "Ammonia (NH₃) is an alkaline gas that reacts with moisture to form ammonium hydroxide, turning red litmus paper blue.",
-      "points": 1
-    },
-    {
-      "id": "q_g9_math_11",
-      "grade": "Grade9",
-      "subject": "Mathematics",
-      "semester": "Semester1",
-      "examType": "Final",
-      "question": "If the radius of a circle is 7 cm, what is its circumference? (Use π ≈ 22/7)",
-      "options": [
-        "22 cm",
-        "44 cm",
-        "88 cm",
-        "154 cm"
-      ],
-      "correctAnswer": 1,
-      "explanation": "Circumference C = 2πr = 2 × (22/7) × 7 = 44 cm.",
-      "points": 1
-    },
-    {
-      "id": "q_g9_math_12",
-      "grade": "Grade9",
-      "subject": "Mathematics",
-      "semester": "Semester1",
-      "examType": "Final",
-      "question": "What is the area of a trapezoid with parallel bases b₁ = 8 cm, b₂ = 12 cm, and height h = 5 cm?",
-      "options": [
-        "40 cm²",
-        "50 cm²",
-        "60 cm²",
-        "100 cm²"
-      ],
-      "correctAnswer": 1,
-      "explanation": "Area = (b₁ + b₂) / 2 × h = (8 + 12) / 2 × 5 = 20 / 2 × 5 = 10 × 5 = 50 cm².",
-      "points": 1
-    },
-    {
-      "id": "q_g9_eng_08",
-      "grade": "Grade9",
-      "subject": "English",
-      "semester": "Semester1",
-      "examType": "Final",
-      "question": "Complete the sentence: \"Neither my brother nor my sisters ______ attending the ceremony.\"",
-      "options": [
-        "is",
-        "are",
-        "was",
-        "has"
-      ],
-      "correctAnswer": 1,
-      "explanation": "With \"neither... nor\", the verb agrees with the closer subject (\"sisters\" is plural, so \"are\").",
-      "points": 1
-    },
-    {
-      "id": "q_g9_hist_04",
+      "id": "q_g9_hist_real_03",
+      "examId": "exam_132",
       "grade": "Grade9",
       "subject": "History",
       "semester": "Semester1",
       "examType": "Mid1",
-      "question": "Which ancient port city on the Red Sea served as the chief international trading port of the Aksumite Kingdom?",
+      "question": "True or False: One of the key aims of history is to help us understand the present.",
       "options": [
-        "Adulis",
-        "Massawa",
-        "Zeila",
-        "Berbera"
+        "True",
+        "False"
       ],
       "correctAnswer": 0,
-      "explanation": "Adulis was the major commercial seaport of the Kingdom of Aksum, connecting inland trade routes with Greco-Roman, Arab, and Indian merchants.",
+      "explanation": "True. Studying past events, trends, and cause-effect relationships provides essential context for understanding contemporary societies and institutions.",
       "points": 1
     },
     {
-      "id": "q_g9_hist_05",
+      "id": "q_g9_hist_real_04",
+      "examId": "exam_132",
       "grade": "Grade9",
       "subject": "History",
       "semester": "Semester1",
-      "examType": "Final",
-      "question": "Who was the courageous Ethiopian empress who played an instrumental military and diplomatic role during the Battle of Adwa in 1896?",
-      "options": [
-        "Empress Taytu Betul",
-        "Empress Zewditu",
-        "Queen of Sheba",
-        "Empress Mentewab"
-      ],
-      "correctAnswer": 0,
-      "explanation": "Empress Taytu Betul commanded her own strategic battalion and devised the plan to cut off the Italian water supply at Enda Yesus (Mekelle).",
-      "points": 1
-    },
-    {
-      "id": "q_g9_geog_03",
-      "grade": "Grade9",
-      "subject": "Geography",
-      "semester": "Semester1",
       "examType": "Mid1",
-      "question": "Lines of latitude run horizontally around the globe and measure angular distance north or south of the:",
+      "question": "True or False: Oral sources never need to be verified because they are always accurate.",
       "options": [
-        "Equator",
-        "Prime Meridian",
-        "Tropic of Capricorn",
-        "International Date Line"
-      ],
-      "correctAnswer": 0,
-      "explanation": "The Equator (0° latitude) is the baseline reference from which latitude is measured north and south to the poles.",
-      "points": 1
-    },
-    {
-      "id": "q_g9_geog_04",
-      "grade": "Grade9",
-      "subject": "Geography",
-      "semester": "Semester1",
-      "examType": "Final",
-      "question": "Which lake is the largest lake in Ethiopia and the hydrological source of the Blue Nile River?",
-      "options": [
-        "Lake Tana",
-        "Lake Abaya",
-        "Lake Hawassa",
-        "Lake Chamo"
-      ],
-      "correctAnswer": 0,
-      "explanation": "Lake Tana, located in the northwestern highlands of Amhara Region, is Ethiopia's largest lake and the source of the Blue Nile (Abay).",
-      "points": 1
-    },
-    {
-      "id": "q_g9_cit_03",
-      "grade": "Grade9",
-      "subject": "Citizenship",
-      "semester": "Semester1",
-      "examType": "Mid1",
-      "question": "Which constitutional principle asserts that all governmental powers originate from the will of the citizens?",
-      "options": [
-        "Popular sovereignty",
-        "Authoritarianism",
-        "Oligarchy",
-        "Totalitarianism"
-      ],
-      "correctAnswer": 0,
-      "explanation": "Popular sovereignty means the authority of a state and its government are created and sustained by the consent of its people through elected representatives.",
-      "points": 1
-    },
-    {
-      "id": "q_g9_cit_04",
-      "grade": "Grade9",
-      "subject": "Citizenship",
-      "semester": "Semester1",
-      "examType": "Final",
-      "question": "Which fundamental human right cannot be suspended even during a state of emergency?",
-      "options": [
-        "Right to life and freedom from torture",
-        "Freedom of movement",
-        "Freedom of assembly",
-        "Right to strike"
-      ],
-      "correctAnswer": 0,
-      "explanation": "Non-derogable human rights, including the right to life and protection from torture and cruel punishment, cannot be suspended under any circumstance.",
-      "points": 1
-    },
-    {
-      "id": "q_g9_econ_03",
-      "grade": "Grade9",
-      "subject": "Economics",
-      "semester": "Semester1",
-      "examType": "Mid1",
-      "question": "What occurs in a free market when the quantity demanded of a product exceeds the quantity supplied at the current price?",
-      "options": [
-        "Shortage (excess demand)",
-        "Surplus (excess supply)",
-        "Market equilibrium",
-        "Deflation"
-      ],
-      "correctAnswer": 0,
-      "explanation": "When quantity demanded exceeds quantity supplied at the prevailing price, a shortage occurs, putting upward pressure on price.",
-      "points": 1
-    },
-    {
-      "id": "q_g9_econ_04",
-      "grade": "Grade9",
-      "subject": "Economics",
-      "semester": "Semester1",
-      "examType": "Final",
-      "question": "Which factor of production is compensated with payment in the form of \"wages\"?",
-      "options": [
-        "Land",
-        "Labor",
-        "Capital",
-        "Entrepreneurship"
+        "True",
+        "False"
       ],
       "correctAnswer": 1,
-      "explanation": "The reward for labor is wages; for land is rent; for capital is interest; and for entrepreneurship is profit.",
+      "explanation": "False. Oral traditions can be distorted by human memory, bias, and selective transmission over generations; historians must rigorously cross-check and verify oral sources.",
       "points": 1
     },
     {
-      "id": "q_g9_hp_02",
+      "id": "q_g9_hist_real_05",
+      "examId": "exam_132",
       "grade": "Grade9",
-      "subject": "HP",
+      "subject": "History",
       "semester": "Semester1",
       "examType": "Mid1",
-      "question": "Which component of physical fitness refers to the ability of the heart and lungs to supply oxygen to working muscles during sustained exercise?",
+      "question": "True or False: In Ethiopian historiography, history became an academic discipline in the 1960s.",
       "options": [
-        "Cardiorespiratory endurance",
-        "Muscular flexibility",
-        "Reaction time",
-        "Agility"
+        "True",
+        "False"
       ],
       "correctAnswer": 0,
-      "explanation": "Cardiorespiratory endurance is the capacity of the cardiovascular and respiratory systems to deliver oxygen to tissues during continuous physical exertion.",
+      "explanation": "True. Professional academic historiography in Ethiopia was established in the 1960s with the foundation of the Department of History and Institute of Ethiopian Studies at Haile Selassie I University (now Addis Ababa University).",
       "points": 1
     },
     {
-      "id": "q_g9_hp_03",
+      "id": "q_g9_hist_real_06",
+      "examId": "exam_132",
       "grade": "Grade9",
-      "subject": "HP",
+      "subject": "History",
       "semester": "Semester1",
-      "examType": "Final",
-      "question": "In athletics, which of the following is categorized as a field event rather than a track event?",
+      "examType": "Mid1",
+      "question": "Which hominid species is known as \"The upright man\"?",
       "options": [
-        "Long Jump",
-        "100m Sprint",
-        "400m Hurdles",
-        "4 × 100m Relay"
+        "Homo habilis",
+        "Homo erectus",
+        "Homo sapiens",
+        "Australopithecus afarensis"
       ],
-      "correctAnswer": 0,
-      "explanation": "Long jump is a jumping field event. Sprints, hurdles, and relays are running track events.",
+      "correctAnswer": 1,
+      "explanation": "Homo erectus literally translates to \"upright man\" because it was the first hominid known to walk fully upright and migrate out of Africa.",
       "points": 1
     },
     {
-      "id": "q_g9_amh_02",
+      "id": "q_g9_hist_real_07",
+      "examId": "exam_132",
       "grade": "Grade9",
-      "subject": "Amharic",
+      "subject": "History",
       "semester": "Semester1",
       "examType": "Mid1",
-      "question": "«ድር ቢያብር አንበሳ ያስር» የሚለው የአማርኛ ምሳሌያዊ አነጋገር የሚያስተምረው ዋና ቁምነገር ምንድን ነው?",
+      "question": "Which species is classified as \"The wise man\" and encompasses all modern humans?",
       "options": [
-        "የህብረትና የአንድነትን ጥንካሬ",
-        "የእንስሳትን አያያዝ",
-        "የፍጥነት አስፈላጊነትን",
-        "የብቸኝነትን ጥቅም"
-      ],
-      "correctAnswer": 0,
-      "explanation": "«ድር ቢያብር አንበሳ ያስር» ህዝቦች በተባበሩና በአንድነት በቆሙ ጊዜ የማይፈታ ችግር እንደሌለና የህብረትን ሃይል ያሳያል።",
-      "points": 1
-    },
-    {
-      "id": "q_g10_phys_06",
-      "grade": "Grade10",
-      "subject": "Physics",
-      "semester": "Semester1",
-      "examType": "Mid1",
-      "question": "An electric iron is connected to a 220 V outlet and draws a current of 5 A. What is the electrical resistance of the iron?",
-      "options": [
-        "44 Ω",
-        "1100 Ω",
-        "22 Ω",
-        "0.022 Ω"
-      ],
-      "correctAnswer": 0,
-      "explanation": "Using Ohm's Law: R = V / I = 220 V / 5 A = 44 Ohms (Ω).",
-      "points": 1
-    },
-    {
-      "id": "q_g10_phys_07",
-      "grade": "Grade10",
-      "subject": "Physics",
-      "semester": "Semester1",
-      "examType": "Final",
-      "question": "Which simple machine is defined as a rigid bar that pivots on a fixed point called a fulcrum?",
-      "options": [
-        "Lever",
-        "Pulley",
-        "Inclined plane",
-        "Wedge"
-      ],
-      "correctAnswer": 0,
-      "explanation": "A lever is a simple machine consisting of a rigid beam and a fulcrum about which it rotates.",
-      "points": 1
-    },
-    {
-      "id": "q_g10_phys_08",
-      "grade": "Grade10",
-      "subject": "Physics",
-      "semester": "Semester1",
-      "examType": "Final",
-      "question": "What type of optical mirror is commonly used as a passenger-side rearview mirror in vehicles to provide a wider field of view?",
-      "options": [
-        "Convex mirror",
-        "Concave mirror",
-        "Plane mirror",
-        "Parabolic reflector"
-      ],
-      "correctAnswer": 0,
-      "explanation": "Convex mirrors always form diminished, upright, virtual images, allowing drivers to see a broader field of view behind them.",
-      "points": 1
-    },
-    {
-      "id": "q_g10_chem_05",
-      "grade": "Grade10",
-      "subject": "Chemistry",
-      "semester": "Semester1",
-      "examType": "Mid1",
-      "question": "What is the oxidation number of sulfur in sulfuric acid (H₂SO₄)?",
-      "options": [
-        "+2",
-        "+4",
-        "+6",
-        "-2"
+        "Homo habilis",
+        "Homo erectus",
+        "Homo sapiens",
+        "Ardipithecus ramidus"
       ],
       "correctAnswer": 2,
-      "explanation": "In H₂SO₄: (2 × +1) + S + (4 × -2) = 0 => 2 + S - 8 = 0 => S = +6.",
+      "explanation": "Homo sapiens translates from Latin as \"wise man\" or \"knowing man\".",
       "points": 1
     },
     {
-      "id": "q_g10_chem_06",
-      "grade": "Grade10",
-      "subject": "Chemistry",
-      "semester": "Semester1",
-      "examType": "Final",
-      "question": "Which family of organic compounds has the general functional group -OH (hydroxyl)?",
-      "options": [
-        "Alcohols",
-        "Carboxylic acids",
-        "Aldehydes",
-        "Esters"
-      ],
-      "correctAnswer": 0,
-      "explanation": "Alcohols (such as ethanol, C₂H₅OH) contain the hydroxyl functional group (-OH) bonded to a saturated carbon.",
-      "points": 1
-    },
-    {
-      "id": "q_g10_bio_04",
-      "grade": "Grade10",
-      "subject": "Biology",
+      "id": "q_g9_hist_real_08",
+      "examId": "exam_132",
+      "grade": "Grade9",
+      "subject": "History",
       "semester": "Semester1",
       "examType": "Mid1",
-      "question": "Which blood type is considered the universal recipient in the ABO blood group system?",
+      "question": "Which of the following historical items serves as a primary archaeological source?",
       "options": [
-        "Type O-",
-        "Type A+",
-        "Type B+",
-        "Type AB+"
+        "Monument",
+        "Modern textbook",
+        "Historical novel",
+        "Encyclopedia article"
+      ],
+      "correctAnswer": 0,
+      "explanation": "Monuments, coins, inscriptions, and fossils are physical primary sources created during the time period under study.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_hist_real_09",
+      "examId": "exam_132",
+      "grade": "Grade9",
+      "subject": "History",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Which of the following is classified as a secondary source of history?",
+      "options": [
+        "Eyewitness letter",
+        "History books",
+        "Ancient temple inscription",
+        "Original treaty document"
+      ],
+      "correctAnswer": 1,
+      "explanation": "History books are secondary sources because they analyze, synthesize, and interpret primary sources after the events took place.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_hist_real_10",
+      "examId": "exam_132",
+      "grade": "Grade9",
+      "subject": "History",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Which early human ancestor is known as \"The handy man\" due to its use of stone tools?",
+      "options": [
+        "Homo habilis",
+        "Homo erectus",
+        "Homo sapiens",
+        "Australopithecus"
+      ],
+      "correctAnswer": 0,
+      "explanation": "Homo habilis was named \"the handy man\" by Louis Leakey because fossils were found directly alongside Oldowan stone tools.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_hist_real_11",
+      "examId": "exam_132",
+      "grade": "Grade9",
+      "subject": "History",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Which of the following is a secondary source of history?",
+      "options": [
+        "History textbook.",
+        "Ancient coin.",
+        "Eyewitness diary.",
+        "Court record."
+      ],
+      "correctAnswer": 0,
+      "explanation": "A history textbook is written by researchers who compile and analyze primary sources, making it a secondary source.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_hist_real_12",
+      "examId": "exam_132",
+      "grade": "Grade9",
+      "subject": "History",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Which area of human life is not a direct concern of early history?",
+      "options": [
+        "Politics.",
+        "Music preferences.",
+        "Shelter.",
+        "Food."
+      ],
+      "correctAnswer": 1,
+      "explanation": "Early human survival and social organisation focused on food gathering/production, shelter, and political organization; individual music preferences are not a direct concern of early history.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_hist_real_13",
+      "examId": "exam_132",
+      "grade": "Grade9",
+      "subject": "History",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Which of the following is a primary source of history?",
+      "options": [
+        "A modern textbook.",
+        "A historical drama.",
+        "A newspaper article from 2020 about World War II.",
+        "A letter written during World War I."
       ],
       "correctAnswer": 3,
-      "explanation": "Individuals with Type AB+ blood have both A and B antigens on their red blood cells and neither anti-A nor anti-B antibodies, allowing them to receive blood of any ABO/Rh type.",
+      "explanation": "A letter written during World War I is a direct firsthand primary source from someone living through the event.",
       "points": 1
     },
     {
-      "id": "q_g10_bio_05",
-      "grade": "Grade10",
-      "subject": "Biology",
-      "semester": "Semester1",
-      "examType": "Final",
-      "question": "In human digestion, which organ produces bile that is stored in the gallbladder and emulsifies dietary fats?",
-      "options": [
-        "Stomach",
-        "Liver",
-        "Pancreas",
-        "Small intestine"
-      ],
-      "correctAnswer": 1,
-      "explanation": "The liver synthesizes bile salts that break large fat globules into small droplets (emulsification) to increase surface area for pancreatic lipase.",
-      "points": 1
-    },
-    {
-      "id": "q_g10_math_04",
-      "grade": "Grade10",
-      "subject": "Mathematics",
-      "semester": "Semester1",
-      "examType": "Mid1",
-      "question": "What is the discriminant of the quadratic equation 2x² - 4x + 2 = 0?",
-      "options": [
-        "0",
-        "16",
-        "-16",
-        "32"
-      ],
-      "correctAnswer": 0,
-      "explanation": "Discriminant Δ = b² - 4ac = (-4)² - 4(2)(2) = 16 - 16 = 0 (indicating exactly one real repeated root).",
-      "points": 1
-    },
-    {
-      "id": "q_g10_math_05",
-      "grade": "Grade10",
-      "subject": "Mathematics",
-      "semester": "Semester1",
-      "examType": "Final",
-      "question": "What is the value of cos(60°)?",
-      "options": [
-        "1/2",
-        "√3/2",
-        "√2/2",
-        "0"
-      ],
-      "correctAnswer": 0,
-      "explanation": "From standard trigonometric ratios, cos(60°) = 1/2.",
-      "points": 1
-    },
-    {
-      "id": "q_g10_eng_02",
-      "grade": "Grade10",
-      "subject": "English",
-      "semester": "Semester1",
-      "examType": "Mid1",
-      "question": "Choose the correct preposition: \"The Ethiopian national team succeeded ______ winning the CECAFA Cup.\"",
-      "options": [
-        "in",
-        "on",
-        "at",
-        "with"
-      ],
-      "correctAnswer": 0,
-      "explanation": "The verb \"succeed\" collocates with the preposition \"in\" followed by a gerund (\"succeeded in winning\").",
-      "points": 1
-    },
-    {
-      "id": "q_g10_hist_02",
-      "grade": "Grade10",
+      "id": "q_g9_hist_real_14",
+      "examId": "exam_132",
+      "grade": "Grade9",
       "subject": "History",
       "semester": "Semester1",
-      "examType": "Final",
-      "question": "Which Ethiopian monarch began the process of modern state centralization and reunification during the mid-19th century?",
-      "options": [
-        "Emperor Tewodros II",
-        "Emperor Yohannes IV",
-        "Emperor Menelik II",
-        "Emperor Haile Selassie I"
-      ],
-      "correctAnswer": 0,
-      "explanation": "Emperor Tewodros II (Kassa Hailu), crowned in 1855, ended the Zemene Mesafint (Era of Princes) and initiated modernization.",
-      "points": 1
-    },
-    {
-      "id": "q_g10_geog_02",
-      "grade": "Grade10",
-      "subject": "Geography",
-      "semester": "Semester1",
-      "examType": "Final",
-      "question": "The low-lying arid depression in northern Ethiopia that is one of the hottest and lowest inhabited places on Earth is:",
-      "options": [
-        "Danakil Depression (Afar)",
-        "Ogaden Basin",
-        "Bale Mountains",
-        "Gambella Plain"
-      ],
-      "correctAnswer": 0,
-      "explanation": "The Danakil Depression lies over 120 meters below sea level in the Afar triangle, renowned for its extreme temperatures, active volcanoes, and salt pans.",
-      "points": 1
-    },
-    {
-      "id": "q_g10_econ_02",
-      "grade": "Grade10",
-      "subject": "Economics",
-      "semester": "Semester1",
-      "examType": "Final",
-      "question": "Gross Domestic Product (GDP) measures the total monetary market value of:",
-      "options": [
-        "All final goods and services produced within a country in a year",
-        "All imported goods sold in local markets",
-        "Total personal savings in commercial banks",
-        "Total tax revenues collected by the state"
-      ],
-      "correctAnswer": 0,
-      "explanation": "GDP is the total market value of all officially recognized final goods and services produced within a nation's borders during a specific period.",
-      "points": 1
-    },
-    {
-      "id": "q_g10_it_02",
-      "grade": "Grade10",
-      "subject": "IT",
-      "semester": "Semester1",
-      "examType": "Final",
-      "question": "Which malicious software disguised as legitimate software creates a backdoor into an infected system?",
-      "options": [
-        "Trojan Horse",
-        "Worm",
-        "Adware",
-        "Cookie"
-      ],
-      "correctAnswer": 0,
-      "explanation": "A Trojan horse disguises itself as genuine software to deceive users into executing it, thereby compromising system security.",
-      "points": 1
-    },
-    {
-      "id": "q_g10_hp_01",
-      "grade": "Grade10",
-      "subject": "HP",
-      "semester": "Semester1",
-      "examType": "Final",
-      "question": "How many players per team are on the court simultaneously during an official basketball match?",
-      "options": [
-        "5 players",
-        "6 players",
-        "7 players",
-        "11 players"
-      ],
-      "correctAnswer": 0,
-      "explanation": "Official FIBA and NBA basketball matches are played with 5 players per team on the court at any one time.",
-      "points": 1
-    },
-    {
-      "id": "q_g10_amh_01",
-      "grade": "Grade10",
-      "subject": "Amharic",
-      "semester": "Semester1",
-      "examType": "Final",
-      "question": "በአማርኛ ስነ-ጽሁፍ ውስጥ ባለቅኔው ወይም ደራሲው የቃላትን ድምጽና ምት በመጠቀም ስሜቱን የሚገልጽበት ጥበባዊ ጽሁፍ ምን ይባላል?",
-      "options": [
-        "ግጥም",
-        "ልቦለድ",
-        "ተውኔት",
-        "ድርሰት"
-      ],
-      "correctAnswer": 0,
-      "explanation": "ግጥም በዜማ፣ በስንኝና በቤት አመታት ተዋቅሮ ሃሳብንና ጥልቅ ስሜትን በተጨመቀ ቋንቋ የሚያስተላልፍ ጥበባዊ ስራ ነው።",
-      "points": 1
-    },
-    {
-      "id": "q_g11_agri_02",
-      "grade": "Grade11",
-      "subject": "Agriculture",
-      "semester": "Semester1",
       "examType": "Mid1",
-      "question": "Which macronutrient is primarily responsible for vigorous leafy green vegetative growth in crops?",
+      "question": "All modern humans belong to the species of _______",
       "options": [
-        "Nitrogen (N)",
-        "Phosphorus (P)",
-        "Potassium (K)",
-        "Calcium (Ca)"
-      ],
-      "correctAnswer": 0,
-      "explanation": "Nitrogen is a major constituent of chlorophyll and amino acids, stimulating rapid stem and foliage growth in crops.",
-      "points": 1
-    },
-    {
-      "id": "q_g12_agri_01",
-      "grade": "Grade12",
-      "subject": "Agriculture",
-      "semester": "Pretest",
-      "examType": "Pretest",
-      "question": "The practice of growing two or more different crops simultaneously on the same plot of land is termed:",
-      "options": [
-        "Intercropping",
-        "Monoculture",
-        "Fallow farming",
-        "Hydroponics"
-      ],
-      "correctAnswer": 0,
-      "explanation": "Intercropping involves cultivating multiple crops in proximity to maximize spatial efficiency, suppress weeds, and reduce pest vulnerability.",
-      "points": 1
-    },
-    {
-      "id": "q_g11_web_02",
-      "grade": "Grade11",
-      "subject": "WEB",
-      "semester": "Semester1",
-      "examType": "Mid1",
-      "question": "Which CSS layout model provides a one-dimensional system designed for aligning items in rows or columns?",
-      "options": [
-        "Flexbox (Flexible Box Layout)",
-        "CSS Grid",
-        "Float layout",
-        "Table layout"
-      ],
-      "correctAnswer": 0,
-      "explanation": "Flexbox is a 1D layout model optimized for distributing space and aligning items along a single axis (either row or column).",
-      "points": 1
-    },
-    {
-      "id": "q_g12_it_01",
-      "grade": "Grade12",
-      "subject": "IT",
-      "semester": "Pretest",
-      "examType": "Pretest",
-      "question": "Which protocol ensures secure, encrypted communication between a web client browser and a web server?",
-      "options": [
-        "HTTPS (using TLS/SSL)",
-        "HTTP",
-        "FTP",
-        "Telnet"
-      ],
-      "correctAnswer": 0,
-      "explanation": "HTTPS (Hypertext Transfer Protocol Secure) encrypts bidirectional communications using Transport Layer Security (TLS).",
-      "points": 1
-    },
-    {
-      "id": "q_g12_apt_05",
-      "grade": "Grade12",
-      "subject": "Aptitude",
-      "semester": "Pretest",
-      "examType": "Pretest",
-      "question": "If 5 workers can dig a trench in 12 days, how many days will it take 15 workers working at the same pace?",
-      "options": [
-        "3 days",
-        "4 days",
-        "6 days",
-        "36 days"
-      ],
-      "correctAnswer": 1,
-      "explanation": "Man-days is constant: 5 workers × 12 days = 60 man-days. With 15 workers: 60 / 15 = 4 days.",
-      "points": 1
-    },
-    {
-      "id": "q_g12_apt_06",
-      "grade": "Grade12",
-      "subject": "Aptitude",
-      "semester": "Model",
-      "examType": "Model",
-      "question": "Pointing to a photograph of a boy, Dawit said: \"He is the son of the only son of my mother.\" How is Dawit related to the boy?",
-      "options": [
-        "Brother",
-        "Father",
-        "Uncle",
-        "Grandfather"
-      ],
-      "correctAnswer": 1,
-      "explanation": "The \"only son of my mother\" is Dawit himself. Therefore, the boy is the son of Dawit, making Dawit the boy's father.",
-      "points": 1
-    },
-    {
-      "id": "q_g12_phys_04",
-      "grade": "Grade12",
-      "subject": "Physics",
-      "semester": "Pretest",
-      "examType": "Pretest",
-      "question": "What is the de Broglie wavelength of a particle with momentum p?",
-      "options": [
-        "λ = h / p",
-        "λ = h · p",
-        "λ = p / h",
-        "λ = h / p²"
-      ],
-      "correctAnswer": 0,
-      "explanation": "Louis de Broglie proposed that matter exhibits wave-particle duality with wavelength given by λ = h / p, where h is Planck's constant.",
-      "points": 1
-    },
-    {
-      "id": "q_g12_chem_04",
-      "grade": "Grade12",
-      "subject": "Chemistry",
-      "semester": "Pretest",
-      "examType": "Pretest",
-      "question": "Which industrial chemical process combines atmospheric nitrogen and hydrogen gas under high pressure and catalyst to synthesize ammonia?",
-      "options": [
-        "Haber-Bosch Process",
-        "Contact Process",
-        "Ostwald Process",
-        "Hall-Héroult Process"
-      ],
-      "correctAnswer": 0,
-      "explanation": "The Haber-Bosch process synthesizes NH₃ from N₂ and H₂ gas over an iron catalyst at elevated temperature and pressure.",
-      "points": 1
-    },
-    {
-      "id": "q_g12_bio_03",
-      "grade": "Grade12",
-      "subject": "Biology",
-      "semester": "Pretest",
-      "examType": "Pretest",
-      "question": "In the genetic code, which codon serves as the universal START codon for protein translation and codes for methionine?",
-      "options": [
-        "AUG",
-        "UAA",
-        "UAG",
-        "UGA"
-      ],
-      "correctAnswer": 0,
-      "explanation": "AUG is the universal start codon in messenger RNA, signaling the ribosome to begin translation with methionine.",
-      "points": 1
-    },
-    {
-      "id": "q_g12_math_05",
-      "grade": "Grade12",
-      "subject": "Mathematics",
-      "semester": "Model",
-      "examType": "Model",
-      "question": "What is the area bounded by the curve y = x² and the x-axis from x = 0 to x = 3?",
-      "options": [
-        "3",
-        "6",
-        "9",
-        "27"
+        "Homo erectus.",
+        "Australopithecus.",
+        "Homo sapiens.",
+        "Homo habilis."
       ],
       "correctAnswer": 2,
-      "explanation": "Area = ∫₀³ x² dx = [x³ / 3]₀³ = (3³ / 3) - 0 = 27 / 3 = 9.",
+      "explanation": "All modern humans belong strictly to the species Homo sapiens.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_hist_real_15",
+      "examId": "exam_132",
+      "grade": "Grade9",
+      "subject": "History",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "The term history comes from the Greek word Istoria, which means _______",
+      "options": [
+        "Inquiry.",
+        "Discovery.",
+        "War.",
+        "Writing."
+      ],
+      "correctAnswer": 0,
+      "explanation": "The ancient Greek term \"istoria\" means inquiry, investigation, or learning through inquiry.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_hist_real_16",
+      "examId": "exam_132",
+      "grade": "Grade9",
+      "subject": "History",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Thucydides is best known for _______",
+      "options": [
+        "Writing legends.",
+        "Using astrology in history.",
+        "Promoting factual and critical historical writing.",
+        "Creating the Ethiopian calendar."
+      ],
+      "correctAnswer": 2,
+      "explanation": "The Greek historian Thucydides is celebrated for applying rigorous critical standards, factual evidence, and rejecting supernatural causes in his History of the Peloponnesian War.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_hist_real_17",
+      "examId": "exam_132",
+      "grade": "Grade9",
+      "subject": "History",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Before using historical sources, historians must _______",
+      "options": [
+        "Translate them.",
+        "Burn copies.",
+        "Decorate them.",
+        "Critically evaluate their authenticity."
+      ],
+      "correctAnswer": 3,
+      "explanation": "Historical methodology requires internal and external criticism to evaluate the authenticity and reliability of sources.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_hist_real_18",
+      "examId": "exam_132",
+      "grade": "Grade9",
+      "subject": "History",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Which of the following is a major aim of studying history?",
+      "options": [
+        "To prove myths.",
+        "To entertain.",
+        "To predict natural disasters.",
+        "To understand the present and plan for the future."
+      ],
+      "correctAnswer": 3,
+      "explanation": "History aims to illuminate how past decisions shaped modern conditions so societies can plan wisely for the future.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_hist_real_19",
+      "examId": "exam_132",
+      "grade": "Grade9",
+      "subject": "History",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "In the Paleolithic Age, people primarily practice _______",
+      "options": [
+        "Farmed land.",
+        "Hunted and gathered food.",
+        "Built pyramids.",
+        "Traded coins."
+      ],
+      "correctAnswer": 1,
+      "explanation": "During the Paleolithic (Old Stone Age), humans lived in nomadic bands relying on hunting game and foraging/gathering wild edible plants.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_hist_real_20",
+      "examId": "exam_132",
+      "grade": "Grade9",
+      "subject": "History",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Which of the following is the term for identifying when a historical event happened?",
+      "options": [
+        "Mapping.",
+        "Forecasting.",
+        "Dating.",
+        "Excavating."
+      ],
+      "correctAnswer": 2,
+      "explanation": "Dating (both relative dating and absolute scientific dating like Carbon-14) determines chronological time in history and archaeology.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_hist_real_21",
+      "examId": "exam_132",
+      "grade": "Grade9",
+      "subject": "History",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "What does prehistory refer to?",
+      "options": [
+        "The time after written records.",
+        "The study of space and time.",
+        "The history of kings.",
+        "The time before writing was invented."
+      ],
+      "correctAnswer": 3,
+      "explanation": "Prehistory encompasses all of human existence prior to the invention of written documentation.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_hist_real_22",
+      "examId": "exam_132",
+      "grade": "Grade9",
+      "subject": "History",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Neolithic developments in Ethiopia included _______",
+      "options": [
+        "Use of bronze weapons.",
+        "Discovery of writing.",
+        "Domestication of plants like teff.",
+        "Construction of castles."
+      ],
+      "correctAnswer": 2,
+      "explanation": "The Ethiopian region is recognized as a major Vavilov centre of plant domestication, cultivating indigenous crops like teff, enset, and coffee during the Neolithic era.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_hist_real_23",
+      "examId": "exam_132",
+      "grade": "Grade9",
+      "subject": "History",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Who is known as the Father of History?",
+      "options": [
+        "Aristotle.",
+        "Herodotus.",
+        "Plato.",
+        "Socrates."
+      ],
+      "correctAnswer": 1,
+      "explanation": "Herodotus of Halicarnassus was first titled \"The Father of History\" by Cicero for his systematic collection and inquiry of the Greco-Persian wars.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_hist_real_24",
+      "examId": "exam_132",
+      "grade": "Grade9",
+      "subject": "History",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Leopold Von Ranke is famous for:",
+      "options": [
+        "Creating oral traditions.",
+        "Writing fiction.",
+        "Introducing scientific methods to historical writing.",
+        "Writing about the Stone Age."
+      ],
+      "correctAnswer": 2,
+      "explanation": "Ranke transformed modern history into a scientific discipline focused on primary archival documents and objective depiction of \"wie es eigentlich gewesen\" (how it actually happened).",
+      "points": 1
+    },
+    {
+      "id": "q_g9_hist_real_25",
+      "examId": "exam_132",
+      "grade": "Grade9",
+      "subject": "History",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "A period of 1,000 years is known as _______",
+      "options": [
+        "Millennium.",
+        "Decade.",
+        "Century.",
+        "Era."
+      ],
+      "correctAnswer": 0,
+      "explanation": "A millennium represents 1,000 years (a decade is 10 years, a century is 100 years).",
+      "points": 1
+    },
+    {
+      "id": "q_g9_hist_real_26",
+      "examId": "exam_132",
+      "grade": "Grade9",
+      "subject": "History",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "The Islamic calendar starts counting time from _______",
+      "options": [
+        "Birth of Muhammad.",
+        "Migration to Medina.",
+        "Death of Muhammad.",
+        "First Quranic revelation."
+      ],
+      "correctAnswer": 1,
+      "explanation": "The Hijri calendar begins in 622 CE when Prophet Muhammad migrated from Mecca to Medina (the Hijrah).",
+      "points": 1
+    },
+    {
+      "id": "q_g9_hist_real_27",
+      "examId": "exam_132",
+      "grade": "Grade9",
+      "subject": "History",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "The famous fossil \"Lucy\" belongs to the species of _______",
+      "options": [
+        "Homo sapiens.",
+        "Ardipithecus ramidus.",
+        "Australopithecus afarensis.",
+        "Homo erectus."
+      ],
+      "correctAnswer": 2,
+      "explanation": "Lucy (Dinkinesh), unearthed in Hadar (Afar, Ethiopia) by Donald Johanson in 1974, is an Australopithecus afarensis dated to ~3.2 million years ago.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_hist_real_28",
+      "examId": "exam_132",
+      "grade": "Grade9",
+      "subject": "History",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "The Neolithic Revolution refers to _______",
+      "options": [
+        "The invention of the wheel.",
+        "The use of bronze.",
+        "The shift from hunting to farming.",
+        "The beginning of writing."
+      ],
+      "correctAnswer": 2,
+      "explanation": "The Neolithic Revolution was the monumental transition of human societies from mobile hunting and gathering to settled agriculture and animal husbandry.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_hist_real_29",
+      "examId": "exam_132",
+      "grade": "Grade9",
+      "subject": "History",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "The tool inventions like the hoe and wheel belong to the:",
+      "options": [
+        "Paleolithic.",
+        "Mesolithic.",
+        "Iron Age.",
+        "Neolithic."
+      ],
+      "correctAnswer": 3,
+      "explanation": "Ground stone axes, hoes for tilling soil, pottery, and wheeled carts emerged during the Neolithic revolution.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_hist_real_30",
+      "examId": "exam_132",
+      "grade": "Grade9",
+      "subject": "History",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "According to the agricultural theory, the state developed as a result of:",
+      "options": [
+        "Military conquest.",
+        "Surplus from farming.",
+        "Increased hunting.",
+        "Gold mining."
+      ],
+      "correctAnswer": 1,
+      "explanation": "Agricultural food surplus enabled population growth, occupational specialization, trade, social stratification, and centralized administrative state structures.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_cit_real_01",
+      "examId": "exam_127",
+      "grade": "Grade9",
+      "subject": "Citizenship",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "True or False: Ethics is the same as morality, and the terms can be used interchangeably.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "correctAnswer": 1,
+      "explanation": "False. While related, morality generally refers to personal or cultural beliefs about right and wrong, whereas ethics is the systematic, philosophical study and principles governing conduct.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_cit_real_02",
+      "examId": "exam_127",
+      "grade": "Grade9",
+      "subject": "Citizenship",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "True or False: A person with integrity always aligns their actions with their words.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "correctAnswer": 0,
+      "explanation": "True. Integrity means honesty, consistency, and having high moral principles where actions faithfully correspond to verbal commitments.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_cit_real_03",
+      "examId": "exam_127",
+      "grade": "Grade9",
+      "subject": "Citizenship",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "True or False: Ethics only deals with personal feelings and opinions, not real-life actions.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "correctAnswer": 1,
+      "explanation": "False. Ethics is profoundly concerned with real-life actions, human relationships, societal rules, and institutional behavior.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_cit_real_04",
+      "examId": "exam_127",
+      "grade": "Grade9",
+      "subject": "Citizenship",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "True or False: One of the key values of ethics is disobedience to the law when it feels inconvenient.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "correctAnswer": 1,
+      "explanation": "False. Respect for the rule of law and civic responsibility are core values of citizenship and ethics.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_cit_real_05",
+      "examId": "exam_127",
+      "grade": "Grade9",
+      "subject": "Citizenship",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "True or False: Respect means treating others with dignity, regardless of differences in background.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "correctAnswer": 0,
+      "explanation": "True. Mutual respect recognizes the universal dignity and human rights of all individuals without discrimination.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_cit_real_06",
+      "examId": "exam_127",
+      "grade": "Grade9",
+      "subject": "Citizenship",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "True or False: Concern for others excludes people with disabilities, as they require separate laws.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "correctAnswer": 1,
+      "explanation": "False. Inclusive citizenship emphasizes compassion, equal opportunities, protection, and concern for persons with disabilities.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_cit_real_07",
+      "examId": "exam_127",
+      "grade": "Grade9",
+      "subject": "Citizenship",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "True or False: Promise-keeping is a part of integrity that strengthens trust and relationships.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "correctAnswer": 0,
+      "explanation": "True. Honoring promises and commitments establishes credibility and creates social trust.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_cit_real_08",
+      "examId": "exam_127",
+      "grade": "Grade9",
+      "subject": "Citizenship",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Match: Which ethical value describes \"Being honest, reliable, and morally upright\"?",
+      "options": [
+        "Obeying the law",
+        "Integrity",
+        "Loyalty",
+        "Excellence"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Integrity denotes wholeness of moral character, truthfulness, and upholding ethical standards.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_cit_real_09",
+      "examId": "exam_127",
+      "grade": "Grade9",
+      "subject": "Citizenship",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Match: Which civic duty involves \"Following rules and upholding justice\"?",
+      "options": [
+        "Obeying the law",
+        "Loyalty",
+        "Trustworthiness",
+        "Excellence"
+      ],
+      "correctAnswer": 0,
+      "explanation": "Obeying the law means adhering to established legal frameworks and respecting constitutional order.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_cit_real_10",
+      "examId": "exam_127",
+      "grade": "Grade9",
+      "subject": "Citizenship",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Match: Which term corresponds to \"Being honest and dependable in relationships\"?",
+      "options": [
+        "Trustworthiness",
+        "Excellence",
+        "Loyalty",
+        "Integrity"
+      ],
+      "correctAnswer": 0,
+      "explanation": "Trustworthiness is the quality of inspiring confidence through honesty, dependability, and faithfulness.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_cit_real_11",
+      "examId": "exam_127",
+      "grade": "Grade9",
+      "subject": "Citizenship",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Match: Which term is defined as \"Being faithful to individuals, society, and country\"?",
+      "options": [
+        "Excellence",
+        "Loyalty",
+        "Trustworthiness",
+        "Obeying the law"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Loyalty involves unswerving allegiance, duty, and faithfulness to community and country.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_cit_real_12",
+      "examId": "exam_127",
+      "grade": "Grade9",
+      "subject": "Citizenship",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Match: Which quality entails \"Striving for quality and constant self-improvement\"?",
+      "options": [
+        "Loyalty",
+        "Trustworthiness",
+        "Excellence",
+        "Integrity"
+      ],
+      "correctAnswer": 2,
+      "explanation": "Commitment to excellence means striving to achieve the highest possible standard in studies, work, and personal growth.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_cit_real_13",
+      "examId": "exam_127",
+      "grade": "Grade9",
+      "subject": "Citizenship",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "A society with ethical citizens is characterized by _______",
+      "options": [
+        "Corruption and injustice.",
+        "Division and mistrust.",
+        "Sustainable peace, unity, and rule of law.",
+        "Violence and disorder."
+      ],
+      "correctAnswer": 2,
+      "explanation": "Ethical citizenship fosters rule of law, mutual harmony, social trust, and lasting peace.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_cit_real_14",
+      "examId": "exam_127",
+      "grade": "Grade9",
+      "subject": "Citizenship",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Theoretical ethics is mainly concerned with _______",
+      "options": [
+        "How to apply laws.",
+        "Business rules.",
+        "Emotional intelligence.",
+        "The origin and nature of moral judgments."
+      ],
+      "correctAnswer": 3,
+      "explanation": "Meta-ethics / theoretical ethics explores fundamental philosophical questions regarding the origins, nature, and meaning of moral values.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_cit_real_15",
+      "examId": "exam_127",
+      "grade": "Grade9",
+      "subject": "Citizenship",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Commitment to excellence requires to _______",
+      "options": [
+        "Avoiding hard work.",
+        "Dependence on others.",
+        "Dedication, perseverance, and self-improvement.",
+        "Ignoring personal growth."
+      ],
+      "correctAnswer": 2,
+      "explanation": "Excellence requires diligent hard work, dedication, resilience, and steady personal development.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_cit_real_16",
+      "examId": "exam_127",
+      "grade": "Grade9",
+      "subject": "Citizenship",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "What we learn from Ethics?",
+      "options": [
+        "Compete aggressively.",
+        "Ignore community needs.",
+        "Focus only on personal benefit.",
+        "Act in morally sound ways and avoid unethical actions."
+      ],
+      "correctAnswer": 3,
+      "explanation": "Ethics guides moral behavior, encouraging good conduct and prevention of harmful or corrupt actions.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_cit_real_17",
+      "examId": "exam_127",
+      "grade": "Grade9",
+      "subject": "Citizenship",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "What does it mean respect for humanity?",
+      "options": [
+        "Supporting only people of similar background.",
+        "Focusing only on oneself.",
+        "Treating all people equally regardless of differences.",
+        "Avoiding interaction with others."
+      ],
+      "correctAnswer": 2,
+      "explanation": "Respect for humanity requires honoring the universal dignity of all persons regardless of ethnicity, religion, or social class.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_cit_real_18",
+      "examId": "exam_127",
+      "grade": "Grade9",
+      "subject": "Citizenship",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "The term ethics originates from the Greek word ethos, which means:",
+      "options": [
+        "Customs, habits, or character.",
+        "Religion and belief.",
+        "Justice and fairness.",
+        "Law and order."
+      ],
+      "correctAnswer": 0,
+      "explanation": "The word ethics derives from the ancient Greek \"ethos\", meaning custom, disposition, habit, or character.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_cit_real_19",
+      "examId": "exam_127",
+      "grade": "Grade9",
+      "subject": "Citizenship",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Being free from addiction is considered an attribute of _______",
+      "options": [
+        "Hardworking nature.",
+        "Intellectual ability.",
+        "Social responsibility.",
+        "True integrity."
+      ],
+      "correctAnswer": 3,
+      "explanation": "Maintaining physical, mental, and moral self-control and freedom from destructive addictions reflects personal integrity and responsible self-care.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_cit_real_20",
+      "examId": "exam_127",
+      "grade": "Grade9",
+      "subject": "Citizenship",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Ethical values serve as:",
+      "options": [
+        "Legal restrictions.",
+        "Social traditions.",
+        "Guiding principles to distinguish right from wrong.",
+        "Religious commandments."
+      ],
+      "correctAnswer": 2,
+      "explanation": "Ethical values act as moral compasses that guide human choices, distinguishing right from wrong.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_cit_real_21",
+      "examId": "exam_127",
+      "grade": "Grade9",
+      "subject": "Citizenship",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Which of the following is not listed as a key ethical value?",
+      "options": [
+        "Laziness.",
+        "Honesty.",
+        "Integrity.",
+        "Fairness."
+      ],
+      "correctAnswer": 0,
+      "explanation": "Laziness is a vice and negative habit, not an ethical value.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_cit_real_22",
+      "examId": "exam_127",
+      "grade": "Grade9",
+      "subject": "Citizenship",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "What is the meaning of Integrity?",
+      "options": [
+        "Following all traditions blindly.",
+        "Staying true to moral principles in both private and public life.",
+        "Seeking personal success at any cost.",
+        "Being influenced by others' opinions."
+      ],
+      "correctAnswer": 1,
+      "explanation": "Integrity is the practice of consistently adhering to ethical and moral principles, whether in public scrutiny or in private.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_cit_real_23",
+      "examId": "exam_127",
+      "grade": "Grade9",
+      "subject": "Citizenship",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Ethics mainly deals with:",
+      "options": [
+        "Political systems.",
+        "Economic theories.",
+        "Religious rituals.",
+        "Moral principles and values guiding human behavior."
+      ],
+      "correctAnswer": 3,
+      "explanation": "Ethics is the branch of philosophy concerning moral guidelines and rules governing human conduct.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_cit_real_24",
+      "examId": "exam_127",
+      "grade": "Grade9",
+      "subject": "Citizenship",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "A person with integrity is characterized by:",
+      "options": [
+        "Dishonesty and inconsistency.",
+        "Selfishness and jealousy.",
+        "Honesty, trustworthiness, and consistency.",
+        "Laziness and irresponsibility."
+      ],
+      "correctAnswer": 2,
+      "explanation": "Honesty, consistency, dependability, and ethical steadfastness are hallmarks of integrity.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_cit_real_25",
+      "examId": "exam_127",
+      "grade": "Grade9",
+      "subject": "Citizenship",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Ethical values are essential for citizens. Why? B/c",
+      "options": [
+        "Increase personal wealth.",
+        "Encourage lawlessness.",
+        "Promote individualism.",
+        "Build a peaceful, just, and harmonious society."
+      ],
+      "correctAnswer": 3,
+      "explanation": "Ethical citizens create the bedrock of justice, security, mutual trust, and national solidarity.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_cit_real_26",
+      "examId": "exam_127",
+      "grade": "Grade9",
+      "subject": "Citizenship",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Practical ethics focuses on:",
+      "options": [
+        "Writing moral laws.",
+        "Understanding cultural values.",
+        "Conducting philosophical research only.",
+        "Applying moral principles in real-life situations."
+      ],
+      "correctAnswer": 3,
+      "explanation": "Applied (practical) ethics examines how moral theory is applied to real-world dilemmas in medicine, business, environment, and social life.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_cit_real_27",
+      "examId": "exam_127",
+      "grade": "Grade9",
+      "subject": "Citizenship",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Abiding by the law ensures:",
+      "options": [
+        "Fairness, justice, and order.",
+        "Weak moral values.",
+        "Social disorder.",
+        "Ignorance of ethics."
+      ],
+      "correctAnswer": 0,
+      "explanation": "Lawfulness guarantees public safety, social order, equality before the law, and civil protection.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_cit_real_28",
+      "examId": "exam_127",
+      "grade": "Grade9",
+      "subject": "Citizenship",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Without ethical guidelines, society would _______",
+      "options": [
+        "Be more productive.",
+        "Have fewer conflicts.",
+        "Be difficult to navigate responsibly.",
+        "Improve its moral standards naturally."
+      ],
+      "correctAnswer": 2,
+      "explanation": "Without moral boundaries, lawlessness, exploitation, and social breakdown make civilized life impossible.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_cit_real_29",
+      "examId": "exam_127",
+      "grade": "Grade9",
+      "subject": "Citizenship",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Ethics is important in daily life because it helps us:",
+      "options": [
+        "Control others.",
+        "Earn more wealth.",
+        "Follow traditions without questioning.",
+        "Decide what is acceptable and unacceptable behavior."
+      ],
+      "correctAnswer": 3,
+      "explanation": "Ethics helps individuals make responsible daily choices between right and wrong.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_cit_real_30",
+      "examId": "exam_127",
+      "grade": "Grade9",
+      "subject": "Citizenship",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Promise-keeping as an ethical value strengthens:",
+      "options": [
+        "Relationships and trust.",
+        "Competition and rivalry.",
+        "Individual wealth.",
+        "Social conflict."
+      ],
+      "correctAnswer": 0,
+      "explanation": "Fulfilling commitments creates mutual dependability and bonds of social trust.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_econ_real_01",
+      "examId": "exam_128",
+      "grade": "Grade9",
+      "subject": "Economics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "True or False: Microeconomics deals with individual consumers and firms.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "correctAnswer": 0,
+      "explanation": "True. Microeconomics examines the economic decision-making of individual agents such as single consumers, households, and business firms.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_econ_real_02",
+      "examId": "exam_128",
+      "grade": "Grade9",
+      "subject": "Economics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "True or False: Normative economics is value-free and objective.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "correctAnswer": 1,
+      "explanation": "False. Positive economics is factual and value-free. Normative economics deals with what \"ought to be\" and is based on subjective value judgments.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_econ_real_03",
+      "examId": "exam_128",
+      "grade": "Grade9",
+      "subject": "Economics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "True or False: Households are the buyers of factors of production.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "correctAnswer": 1,
+      "explanation": "False. In the circular flow of income, households own and sell factors of production (land, labor, capital) while business firms are the buyers.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_econ_real_04",
+      "examId": "exam_128",
+      "grade": "Grade9",
+      "subject": "Economics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "True or False: In a command economy, all production is controlled by private firms.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "correctAnswer": 1,
+      "explanation": "False. In a command (socialist) economy, economic decisions and production are controlled by the central government, not private firms.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_econ_real_05",
+      "examId": "exam_128",
+      "grade": "Grade9",
+      "subject": "Economics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "True or False: Capitalism allows private ownership and competition.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "correctAnswer": 0,
+      "explanation": "True. A capitalist market economy is based on private ownership of property, freedom of enterprise, and competitive markets.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_econ_real_06",
+      "examId": "exam_128",
+      "grade": "Grade9",
+      "subject": "Economics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "True or False: Deductive and inductive methods compete with each other.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "correctAnswer": 1,
+      "explanation": "False. Deductive and inductive methods are complementary approaches in economic analysis, often used together to form and test theories.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_econ_real_07",
+      "examId": "exam_128",
+      "grade": "Grade9",
+      "subject": "Economics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "The basic economic problem arises because:",
+      "options": [
+        "Resources are unlimited",
+        "Human wants are limited",
+        "Resources are scarce but wants are unlimited",
+        "Governments mismanage"
+      ],
+      "correctAnswer": 2,
+      "explanation": "Scarcity is the fundamental economic problem: society has limited productive resources to satisfy unlimited human needs and desires.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_econ_real_08",
+      "examId": "exam_128",
+      "grade": "Grade9",
+      "subject": "Economics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Opportunity cost refers to:",
+      "options": [
+        "The monetary cost of goods",
+        "The next best alternative foregone",
+        "Total production cost",
+        "The accounting profit"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Opportunity cost is the value of the next best alternative that is given up when a choice is made.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_econ_real_09",
+      "examId": "exam_128",
+      "grade": "Grade9",
+      "subject": "Economics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Which point on a PPF (Production Possibility Frontier) is unattainable?",
+      "options": [
+        "Inside the curve",
+        "On the curve",
+        "Outside the curve",
+        "None"
+      ],
+      "correctAnswer": 2,
+      "explanation": "Points outside the PPF curve represent combinations that cannot be produced with the current resources and technology.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_econ_real_10",
+      "examId": "exam_128",
+      "grade": "Grade9",
+      "subject": "Economics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "\"How to produce goods?\" is also called:",
+      "options": [
+        "Problem of allocation",
+        "Problem of choice of technique",
+        "Problem of distribution",
+        "Problem of consumption"
+      ],
+      "correctAnswer": 1,
+      "explanation": "\"How to produce?\" deals with choosing the method or technique of production, such as labor-intensive versus capital-intensive techniques.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_econ_real_11",
+      "examId": "exam_128",
+      "grade": "Grade9",
+      "subject": "Economics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Which is a characteristic of a mixed economy?",
+      "options": [
+        "Collective ownership only",
+        "Private ownership only",
+        "Co-existence of private and public sectors",
+        "No government planning"
+      ],
+      "correctAnswer": 2,
+      "explanation": "A mixed economic system combines elements of private enterprise with public government intervention.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_econ_real_12",
+      "examId": "exam_128",
+      "grade": "Grade9",
+      "subject": "Economics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "The deductive method proceeds from:",
+      "options": [
+        "Specific to general",
+        "Facts to hypothesis",
+        "General to specific",
+        "Data to theory"
+      ],
+      "correctAnswer": 2,
+      "explanation": "Deductive reasoning moves from general principles and assumptions to specific logical conclusions.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_econ_real_13",
+      "examId": "exam_128",
+      "grade": "Grade9",
+      "subject": "Economics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Which of the following is a feature of normative economics?",
+      "options": [
+        "It deals with facts",
+        "It includes value judgments",
+        "It focuses only on data",
+        "It ignores ethics"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Normative statements express opinions and value judgments regarding what policies ought to be implemented.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_econ_real_14",
+      "examId": "exam_128",
+      "grade": "Grade9",
+      "subject": "Economics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Among the following, which one is a scarce resource?",
+      "options": [
+        "Oxygen in atmosphere",
+        "Land",
+        "Sunlight",
+        "Ambient air"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Land is an economic resource with a limited supply and positive price, unlike ambient air or sunlight.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_econ_real_15",
+      "examId": "exam_128",
+      "grade": "Grade9",
+      "subject": "Economics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Which of the following is correct?",
+      "options": [
+        "Any disagreement on normative economics can be resolved through fact",
+        "Economic growth can be one concern of microeconomics",
+        "Inductive reasoning analyze from specific to general",
+        "All of the above"
+      ],
+      "correctAnswer": 2,
+      "explanation": "Inductive reasoning begins with specific empirical observations and facts to formulate general principles.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_econ_real_16",
+      "examId": "exam_128",
+      "grade": "Grade9",
+      "subject": "Economics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Which of the following statements would best describe firms?",
+      "options": [
+        "They are owners of factor resources",
+        "They mix factor resources and change it into one final output",
+        "They impose taxes on households",
+        "They are buyers of final output"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Firms combine factors of production (labor, raw materials, capital) to produce finished goods and services.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_econ_real_17",
+      "examId": "exam_128",
+      "grade": "Grade9",
+      "subject": "Economics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Given a country's production combinations: Combination C (20 Machines, 100 Food) and Combination D (30 Machines, 0 Food). What is the total opportunity cost in food when moving from C to D to produce 10 extra machines?",
+      "options": [
+        "50 units of food",
+        "100 units of food",
+        "150 units of food",
+        "200 units of food"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Moving from C (100 food) to D (0 food) requires giving up 100 - 0 = 100 units of food.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_econ_real_18",
+      "examId": "exam_128",
+      "grade": "Grade9",
+      "subject": "Economics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "When moving from combination C (20 Machines, 100 Food) to D (30 Machines, 0 Food), what is the per-unit opportunity cost of producing each additional machine?",
+      "options": [
+        "0.1 units of food",
+        "5 units of food",
+        "10 units of food",
+        "20 units of food"
+      ],
+      "correctAnswer": 2,
+      "explanation": "Per-unit opportunity cost = Sacrificed Food / Gained Machines = (100 - 0) / (30 - 20) = 100 / 10 = 10 units of food per machine.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_it_real_01",
+      "examId": "exam_133",
+      "grade": "Grade9",
+      "subject": "IT",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "True or False: Save allows you to update a previously saved file with new content.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "correctAnswer": 0,
+      "explanation": "True. The Save command writes updates and modifications directly to the existing file path without prompting for a new filename.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_it_real_02",
+      "examId": "exam_133",
+      "grade": "Grade9",
+      "subject": "IT",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "True or False: Renaming a file does not remove its content.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "correctAnswer": 0,
+      "explanation": "True. Renaming simply modifies the file identifier in the directory index while the data bytes remain intact.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_it_real_03",
+      "examId": "exam_133",
+      "grade": "Grade9",
+      "subject": "IT",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "True or False: Windows does not allow handling multiple files.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "correctAnswer": 1,
+      "explanation": "False. Operating systems like Windows support multi-file selection (using Ctrl/Shift), batch renaming, moving, and deleting.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_it_real_04",
+      "examId": "exam_133",
+      "grade": "Grade9",
+      "subject": "IT",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "True or False: A folder is also called a directory.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "correctAnswer": 0,
+      "explanation": "True. Directory is the file system term, while folder is the graphical user interface term; both represent storage containers.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_it_real_05",
+      "examId": "exam_133",
+      "grade": "Grade9",
+      "subject": "IT",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "True or False: A storage drive can be fixed and removable.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "correctAnswer": 0,
+      "explanation": "True. Internal hard disk/SSD drives are fixed, while USB flash drives and external hard drives are removable.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_it_real_06",
+      "examId": "exam_133",
+      "grade": "Grade9",
+      "subject": "IT",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "True or False: Each file in a computer has unique icons.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "correctAnswer": 1,
+      "explanation": "False. Files sharing the same file extension (.docx, .pdf, .txt) share the same default application icon.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_it_real_07",
+      "examId": "exam_133",
+      "grade": "Grade9",
+      "subject": "IT",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "True or False: Software cannot be shared over the network.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "correctAnswer": 1,
+      "explanation": "False. Software, web applications, and network licenses are routinely shared and accessed across local networks and the internet.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_it_real_08",
+      "examId": "exam_133",
+      "grade": "Grade9",
+      "subject": "IT",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "True or False: MAN covers the area of a city and can contain multiple WANs.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "correctAnswer": 1,
+      "explanation": "False. A Wide Area Network (WAN) spans countries and continents; a Metropolitan Area Network (MAN) covers a city and cannot contain WANs.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_it_real_09",
+      "examId": "exam_133",
+      "grade": "Grade9",
+      "subject": "IT",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Which type of icon can take you to another place or open a file quickly?",
+      "options": [
+        "File",
+        "Folder",
+        "Application",
+        "None of the above (Shortcut)"
+      ],
+      "correctAnswer": 3,
+      "explanation": "A shortcut icon (indicated by a small arrow) links directly to a file, folder, or application elsewhere on the drive.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_it_real_10",
+      "examId": "exam_133",
+      "grade": "Grade9",
+      "subject": "IT",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "_______ displays information about a selected folder and its contents.",
+      "options": [
+        "Ribbon",
+        "Address bar",
+        "Status Bar",
+        "None"
+      ],
+      "correctAnswer": 2,
+      "explanation": "The Status Bar at the bottom of the window displays item count, selected count, and size information.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_it_real_11",
+      "examId": "exam_133",
+      "grade": "Grade9",
+      "subject": "IT",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "_______ is used to enable you to perform layout, formatting and sharing tasks.",
+      "options": [
+        "Ribbon",
+        "Status Bar",
+        "Address bar",
+        "None"
+      ],
+      "correctAnswer": 0,
+      "explanation": "The Ribbon toolbar organizes tools into tabs (Home, Insert, Layout) for editing, formatting, and operations.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_it_real_12",
+      "examId": "exam_133",
+      "grade": "Grade9",
+      "subject": "IT",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "_______ means locating a file among a set of files.",
+      "options": [
+        "Deleting",
+        "Searching",
+        "Opening",
+        "Creating"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Searching allows the user to find files by typing their name, extension, or keywords in the search bar.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_it_real_13",
+      "examId": "exam_133",
+      "grade": "Grade9",
+      "subject": "IT",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Which one of the following is not used to move files?",
+      "options": [
+        "Cut and paste",
+        "Move to Folder command",
+        "Drag-and-drop",
+        "None (All are valid methods)"
+      ],
+      "correctAnswer": 3,
+      "explanation": "Cut and paste, Drag-and-drop, and the \"Move to\" menu command are all standard techniques to move files.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_it_real_14",
+      "examId": "exam_133",
+      "grade": "Grade9",
+      "subject": "IT",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "In a computer, a file can be _______",
+      "options": [
+        "Document",
+        "Application",
+        "Video",
+        "All of the above"
+      ],
+      "correctAnswer": 3,
+      "explanation": "Computer files store documents, executable programs, video, audio, images, and other digital data.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_it_real_15",
+      "examId": "exam_133",
+      "grade": "Grade9",
+      "subject": "IT",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Which one of the following devices is used to select the appropriate path within a network?",
+      "options": [
+        "Repeater",
+        "Switch",
+        "Router",
+        "All"
+      ],
+      "correctAnswer": 2,
+      "explanation": "A Router inspects destination IP addresses and determines the optimal routing path between different network segments.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_it_real_16",
+      "examId": "exam_133",
+      "grade": "Grade9",
+      "subject": "IT",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "The network system that spans states, countries or the whole world is _______",
+      "options": [
+        "MAN",
+        "LAN",
+        "PAN",
+        "None (WAN)"
+      ],
+      "correctAnswer": 3,
+      "explanation": "A Wide Area Network (WAN) connects computers over large geographical areas such as countries and continents.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_it_real_17",
+      "examId": "exam_133",
+      "grade": "Grade9",
+      "subject": "IT",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "A network system within a single building or school campus is _______",
+      "options": [
+        "LAN",
+        "MAN",
+        "WAN",
+        "None"
+      ],
+      "correctAnswer": 0,
+      "explanation": "A Local Area Network (LAN) covers a small geographic area such as an office, home, or school campus.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_it_real_18",
+      "examId": "exam_133",
+      "grade": "Grade9",
+      "subject": "IT",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Which device accepts a weak signal, then boosts it to its original strength and forwards it to the next network segment?",
+      "options": [
+        "Switch",
+        "NIC",
+        "Router",
+        "None of the above (Repeater)"
+      ],
+      "correctAnswer": 3,
+      "explanation": "A Repeater amplifies and regenerates attenuated signals to extend network transmission distances.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_it_real_19",
+      "examId": "exam_133",
+      "grade": "Grade9",
+      "subject": "IT",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Which one of the following is an optical disk drive?",
+      "options": [
+        "CD drives",
+        "DVD drive",
+        "A and B",
+        "USB drives"
+      ],
+      "correctAnswer": 2,
+      "explanation": "Both CD and DVD drives use laser optics to read and write data on circular discs.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_it_real_20",
+      "examId": "exam_133",
+      "grade": "Grade9",
+      "subject": "IT",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "_______ is a hardware storage unit of a computer which stores files and folders.",
+      "options": [
+        "NIC",
+        "Drive",
+        "Driver",
+        "None"
+      ],
+      "correctAnswer": 1,
+      "explanation": "A storage Drive (such as C: drive, SSD, HDD) holds files, folders, and operating system data.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_it_real_21",
+      "examId": "exam_133",
+      "grade": "Grade9",
+      "subject": "IT",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Which one of the following is not an image editing software?",
+      "options": [
+        "Microsoft Paint and Paint 3D",
+        "GIMP",
+        "Adobe Photoshop",
+        "None (All are image editors)"
+      ],
+      "correctAnswer": 3,
+      "explanation": "Paint, GIMP, and Photoshop are all widely recognized bitmap/raster image editing programs.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_it_real_22",
+      "examId": "exam_133",
+      "grade": "Grade9",
+      "subject": "IT",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Which one of the following is found under Quick Access in File Explorer?",
+      "options": [
+        "Desktop",
+        "Documents",
+        "Pictures",
+        "All of the above"
+      ],
+      "correctAnswer": 3,
+      "explanation": "Quick Access pins frequently accessed folders including Desktop, Documents, Downloads, and Pictures.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_it_real_23",
+      "examId": "exam_133",
+      "grade": "Grade9",
+      "subject": "IT",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "A short-range wireless network created by Bluetooth is known as _______",
+      "options": [
+        "WAN",
+        "MAN",
+        "PAN",
+        "None"
+      ],
+      "correctAnswer": 2,
+      "explanation": "A Personal Area Network (PAN) covers personal devices within a short radius (~10 meters), commonly using Bluetooth.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_it_real_24",
+      "examId": "exam_133",
+      "grade": "Grade9",
+      "subject": "IT",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Suppose a bank wants to connect three of its branches in a given city, which type of network solves the problem?",
+      "options": [
+        "WAN",
+        "MAN",
+        "PAN",
+        "LAN"
+      ],
+      "correctAnswer": 1,
+      "explanation": "A Metropolitan Area Network (MAN) is designed to connect facilities and branch offices across an entire city.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_it_real_25",
+      "examId": "exam_133",
+      "grade": "Grade9",
+      "subject": "IT",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Match: Which component is described as \"Used to manage files and folders\"?",
+      "options": [
+        "Computer",
+        "File Explorer",
+        "Navigation pane",
+        "Protocols"
+      ],
+      "correctAnswer": 1,
+      "explanation": "File Explorer (formerly Windows Explorer) provides the graphical user interface for managing files and folders.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_it_real_26",
+      "examId": "exam_133",
+      "grade": "Grade9",
+      "subject": "IT",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Match: In a network architecture, a workstation or personal computer acts as an:",
+      "options": [
+        "End Device",
+        "Intermediary Device",
+        "Protocol",
+        "Transmission medium"
+      ],
+      "correctAnswer": 0,
+      "explanation": "End devices (hosts, PCs, smartphones) form the source and destination of data messages across a network.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_it_real_27",
+      "examId": "exam_133",
+      "grade": "Grade9",
+      "subject": "IT",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Match: What interface area lets you \"View your computer's file and folder structure\"?",
+      "options": [
+        "Ribbon",
+        "Status Bar",
+        "Navigation pane",
+        "Title bar"
+      ],
+      "correctAnswer": 2,
+      "explanation": "The Navigation pane on the left side of File Explorer shows the hierarchical folder tree and drives.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_it_real_28",
+      "examId": "exam_133",
+      "grade": "Grade9",
+      "subject": "IT",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Match: A Network Interface Card (NIC) is classified as an:",
+      "options": [
+        "End Device",
+        "Intermediary Device",
+        "File system",
+        "Application software"
+      ],
+      "correctAnswer": 1,
+      "explanation": "The NIC provides physical connectivity and network interface intermediation.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_it_real_29",
+      "examId": "exam_133",
+      "grade": "Grade9",
+      "subject": "IT",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Match: What is defined as a \"Collection of data or information stored under a name\"?",
+      "options": [
+        "Folder",
+        "File",
+        "Drive",
+        "Protocol"
+      ],
+      "correctAnswer": 1,
+      "explanation": "A file is a named collection of related data stored on computer storage.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_it_real_30",
+      "examId": "exam_133",
+      "grade": "Grade9",
+      "subject": "IT",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Match: What represents a \"Set of rules to guide communications across a network\"?",
+      "options": [
+        "Protocols",
+        "Topology",
+        "Navigation",
+        "Operating System"
+      ],
+      "correctAnswer": 0,
+      "explanation": "Protocols (such as TCP/IP, HTTP) define standard rules and formats for exchanging data over networks.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_geog_real_01",
+      "examId": "exam_130",
+      "grade": "Grade9",
+      "subject": "Geography",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Match: Which prominent mountain peak belongs to The Plateau of Tigray?",
+      "options": [
+        "Mount Ras Dashen",
+        "Mount Ambalage",
+        "Mount Abbuye Meda",
+        "Gamo-Konso Highlands"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Mount Ambalage is located in the northern plateau of Tigray.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_geog_real_02",
+      "examId": "exam_130",
+      "grade": "Grade9",
+      "subject": "Geography",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Match: Which highest Ethiopian mountain is situated in The North Central Massif?",
+      "options": [
+        "Mount Ras Dashen",
+        "Mount Batu",
+        "Mount Ambalage",
+        "Mount Guna"
+      ],
+      "correctAnswer": 0,
+      "explanation": "Mount Ras Dashen (4,550m in the Simien Mountains) belongs to the North Central Massifs.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_geog_real_03",
+      "examId": "exam_130",
+      "grade": "Grade9",
+      "subject": "Geography",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Match: Which peak is located on The Plateau of Shewa?",
+      "options": [
+        "Mount Abbuye Meda",
+        "Mount Ras Dashen",
+        "Mount Ambalage",
+        "Gamo-Konso"
+      ],
+      "correctAnswer": 0,
+      "explanation": "Mount Abbuye Meda (4,012m) is situated in the Shewan plateau.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_geog_real_04",
+      "examId": "exam_130",
+      "grade": "Grade9",
+      "subject": "Geography",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Match: Which highlands are located in The Southwestern Highlands of Ethiopia?",
+      "options": [
+        "Gamo-Konso Highlands",
+        "Simien Massif",
+        "Tigray Plateau",
+        "Hararghe Massif"
+      ],
+      "correctAnswer": 0,
+      "explanation": "The Gamo-Konso highlands form part of the rugged southwestern Ethiopian highlands.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_geog_real_05",
+      "examId": "exam_130",
+      "grade": "Grade9",
+      "subject": "Geography",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Match: The Mesozoic geological era is characterized biologically by:",
+      "options": [
+        "Predominance of invertebrates",
+        "Predominance of reptiles and dinosaurs",
+        "Evolution of humans",
+        "Origin of simple bacteria"
+      ],
+      "correctAnswer": 1,
+      "explanation": "The Mesozoic era (Age of Reptiles) was dominated by reptiles and dinosaurs.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_geog_real_06",
+      "examId": "exam_130",
+      "grade": "Grade9",
+      "subject": "Geography",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Match: The Paleozoic geological era is characterized biologically by:",
+      "options": [
+        "Predominance of invertebrates",
+        "Predominance of reptiles",
+        "Domination of mammals",
+        "Rise of modern birds"
+      ],
+      "correctAnswer": 0,
+      "explanation": "The Paleozoic era witnessed the explosion and predominance of marine invertebrates, fish, and early amphibians.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_geog_real_07",
+      "examId": "exam_130",
+      "grade": "Grade9",
+      "subject": "Geography",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Which of the following elements of geographical study is related to Demography?",
+      "options": [
+        "Geomorphology",
+        "Climatology",
+        "Population",
+        "Biogeography"
+      ],
+      "correctAnswer": 2,
+      "explanation": "Demography is the scientific statistical study of human populations, including births, deaths, growth, and migration.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_geog_real_08",
+      "examId": "exam_130",
+      "grade": "Grade9",
+      "subject": "Geography",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Which sub-division of the lowlands of Ethiopia is found in the northwestern part of the country?",
+      "options": [
+        "The Omo-Ghibe Lowlands",
+        "The Erkele-Ogaden Lowlands",
+        "The Borena Lowlands",
+        "The Tekeze-Angereb Lowlands"
+      ],
+      "correctAnswer": 3,
+      "explanation": "The Tekeze and Angereb lowlands border northwestern Ethiopia and Sudan.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_geog_real_09",
+      "examId": "exam_130",
+      "grade": "Grade9",
+      "subject": "Geography",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Which physiographic division of Ethiopia is highly affected by volcanic eruptions and earthquakes?",
+      "options": [
+        "Highlands",
+        "Lowlands",
+        "Rift Valley",
+        "Plateau"
+      ],
+      "correctAnswer": 2,
+      "explanation": "The Ethiopian Rift Valley is a tectonically active fault zone marked by geothermal activity, active volcanoes, and seismic tremors.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_geog_real_10",
+      "examId": "exam_130",
+      "grade": "Grade9",
+      "subject": "Geography",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "_______ and _______ are the highest and lowest places in Ethiopia respectively.",
+      "options": [
+        "Batu and Tendaho",
+        "Ras Dashen and Dallol",
+        "Ras Dashen and Qatta",
+        "Batu and Ogaden"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Ras Dashen is Ethiopia's highest point (4,550 m above sea level), and the Dallol depression in Afar is the lowest (-125 m below sea level).",
+      "points": 1
+    },
+    {
+      "id": "q_g9_geog_real_11",
+      "examId": "exam_130",
+      "grade": "Grade9",
+      "subject": "Geography",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Which one of the following combinations of mountains and highlands of Ethiopia is NOT CORRECT?",
+      "options": [
+        "Gara muleta -> The Plateau of Tigray",
+        "Assimba -> The Bale Massif",
+        "Abbuye Meda -> The Plateau of Shewa",
+        "Kolo -> The North Central Massif"
+      ],
+      "correctAnswer": 0,
+      "explanation": "Gara Muleta is located in the Hararghe (Eastern) Highlands, not the Tigray Plateau.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_geog_real_12",
+      "examId": "exam_130",
+      "grade": "Grade9",
+      "subject": "Geography",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Which plateau serves as a watershed between the Awash and Abay river basins?",
+      "options": [
+        "Mt of Tigray",
+        "Mt of Southwestern",
+        "Mt of Shewa",
+        "Mt of Central massifs"
+      ],
+      "correctAnswer": 2,
+      "explanation": "The Shewan plateau forms the drainage divide separating the westward-flowing Abay (Blue Nile) from the rift-ward Awash basin.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_geog_real_13",
+      "examId": "exam_130",
+      "grade": "Grade9",
+      "subject": "Geography",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "The Great East African Rift Valley extends from _______ to _______",
+      "options": [
+        "China to Mozambique",
+        "Syria to Chewbahir",
+        "Turkey to Tanzania",
+        "Syria to Mozambique"
+      ],
+      "correctAnswer": 3,
+      "explanation": "The system extends approximately 6,000 kilometers from the Jordan Valley and Syria in the north down to Mozambique in southeastern Africa.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_geog_real_14",
+      "examId": "exam_130",
+      "grade": "Grade9",
+      "subject": "Geography",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Geologically, which area is the most unstable part of Ethiopia?",
+      "options": [
+        "The north western highland",
+        "The rift valley",
+        "The north central massifs",
+        "The Abay gorge"
+      ],
+      "correctAnswer": 1,
+      "explanation": "The Rift Valley floor sits directly above crustal spreading centres, making it the most tectonically unstable region in Ethiopia.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_geog_real_15",
+      "examId": "exam_130",
+      "grade": "Grade9",
+      "subject": "Geography",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Which part of the Geosphere is termed as the rock (solid) layer of the earth?",
+      "options": [
+        "Biosphere",
+        "Atmosphere",
+        "Lithosphere",
+        "Hydrosphere"
+      ],
+      "correctAnswer": 2,
+      "explanation": "The lithosphere is the solid, rocky outer layer of the Earth consisting of the crust and uppermost mantle.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_geog_real_16",
+      "examId": "exam_130",
+      "grade": "Grade9",
+      "subject": "Geography",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Dinosaurs disappeared from the earth during the:",
+      "options": [
+        "Early of Mesozoic",
+        "End of Mesozoic",
+        "Early of Cenozoic",
+        "End of Paleozoic"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Dinosaurs went extinct at the Cretaceous-Paleogene extinction boundary at the end of the Mesozoic era (~66 million years ago).",
+      "points": 1
+    },
+    {
+      "id": "q_g9_geog_real_17",
+      "examId": "exam_130",
+      "grade": "Grade9",
+      "subject": "Geography",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Series trapping lava and extensive volcanic eruptions were common in Ethiopia during the:",
+      "options": [
+        "Mesozoic era",
+        "Precambrian era",
+        "Cenozoic era",
+        "Paleozoic era"
+      ],
+      "correctAnswer": 0,
+      "explanation": "During the Cenozoic era, massive flood basalt volcanism poured out the Trappean series forming the highland plateaus.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_geog_real_18",
+      "examId": "exam_130",
+      "grade": "Grade9",
+      "subject": "Geography",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Which of the following is not an endogenic (internal) force?",
+      "options": [
+        "Volcanism",
+        "Faulting",
+        "Erosion",
+        "Folding"
+      ],
+      "correctAnswer": 2,
+      "explanation": "Erosion is an exogenic (external weathering/denudation) process driven by water, wind, and gravity.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_geog_real_19",
+      "examId": "exam_130",
+      "grade": "Grade9",
+      "subject": "Geography",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Upper sandstone of Ethiopia was deposited during the _______ period.",
+      "options": [
+        "Triassic",
+        "Cretaceous",
+        "Jurassic",
+        "Quaternary"
+      ],
+      "correctAnswer": 1,
+      "explanation": "During the Cretaceous marine regression, the Upper Sandstone formation was deposited.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_geog_real_20",
+      "examId": "exam_130",
+      "grade": "Grade9",
+      "subject": "Geography",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "The extreme point that lies at the westernmost tip of Ethiopia is:",
+      "options": [
+        "Ogaden",
+        "Akobo",
+        "Moyale",
+        "Badime"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Akobo in the Gambella region is Ethiopia's westernmost geographical extreme point.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_geog_real_21",
+      "examId": "exam_130",
+      "grade": "Grade9",
+      "subject": "Geography",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Which neighboring country shares the longest boundary line with Ethiopia?",
+      "options": [
+        "Eritrea",
+        "Djibouti",
+        "Somalia",
+        "Sudan"
+      ],
+      "correctAnswer": 2,
+      "explanation": "Somalia shares the longest international land border with Ethiopia (~1,600 km).",
+      "points": 1
+    },
+    {
+      "id": "q_g9_geog_real_22",
+      "examId": "exam_130",
+      "grade": "Grade9",
+      "subject": "Geography",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "The most overlying Mesozoic rock layer in Ethiopia is:",
+      "options": [
+        "Hintalo limestone",
+        "Upper sandstone",
+        "Adigrat sandstone",
+        "Basement complex"
+      ],
+      "correctAnswer": 1,
+      "explanation": "In the Mesozoic stratigraphic column of Ethiopia, Upper Sandstone sits at the top, deposited as the Mesozoic sea retreated.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_geog_real_23",
+      "examId": "exam_130",
+      "grade": "Grade9",
+      "subject": "Geography",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Among the following fields of physical geography, which one studies the forces that change land forms?",
+      "options": [
+        "Geomorphology",
+        "Soil geography",
+        "Climatology",
+        "Ocean geography"
+      ],
+      "correctAnswer": 0,
+      "explanation": "Geomorphology is the study of the physical features of the Earth's surface and their relation to its geological structures and forces.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_geog_real_24",
+      "examId": "exam_130",
+      "grade": "Grade9",
+      "subject": "Geography",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "The present land forms of Ethiopia mainly resulted from the geologic events of:",
+      "options": [
+        "The Paleozoic era",
+        "The Precambrian era",
+        "Tertiary and quaternary periods",
+        "The Jurassic and Triassic periods"
+      ],
+      "correctAnswer": 2,
+      "explanation": "Tertiary uplift, faulting, rifting, and Quaternary deposition created modern Ethiopian relief and topography.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_geog_real_25",
+      "examId": "exam_130",
+      "grade": "Grade9",
+      "subject": "Geography",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Which areas of the following highlands of Ethiopia are the wettest?",
+      "options": [
+        "The Bale massifs",
+        "The Shewan plateaus",
+        "The south western highlands",
+        "The North central massifs"
+      ],
+      "correctAnswer": 2,
+      "explanation": "The Southwestern highlands (around Kaffa and Illubabor) receive the highest annual rainfall in Ethiopia (over 2,200 mm).",
+      "points": 1
+    },
+    {
+      "id": "q_g9_geog_real_26",
+      "examId": "exam_130",
+      "grade": "Grade9",
+      "subject": "Geography",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "What makes Ethiopia \"the roof of North-Eastern\" Africa?",
+      "options": [
+        "Its compact shape",
+        "Its large proportion of highlands",
+        "Its large proportion of Arable land",
+        "Its large proportion of rivers"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Over 50% of all African land above 2,000 meters elevation is found in Ethiopia, earning it the title \"the roof of Northeast Africa\".",
+      "points": 1
+    },
+    {
+      "id": "q_g9_geog_real_27",
+      "examId": "exam_130",
+      "grade": "Grade9",
+      "subject": "Geography",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "As Adigrat sandstone is to Triassic period, then Hintalo limestone is to:",
+      "options": [
+        "Quaternary period",
+        "Cretaceous period",
+        "Tertiary period",
+        "Jurassic period"
+      ],
+      "correctAnswer": 3,
+      "explanation": "Adigrat sandstone was deposited during the Triassic transgression, followed by Hintalo limestone during maximum Jurassic inundation.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_geog_real_28",
+      "examId": "exam_130",
+      "grade": "Grade9",
+      "subject": "Geography",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Which geological era is known as an era of amphibians?",
+      "options": [
+        "Cenozoic",
+        "Mesozoic",
+        "Paleozoic",
+        "Precambrian"
+      ],
+      "correctAnswer": 2,
+      "explanation": "The late Paleozoic era (Carboniferous period) is renowned as the Age of Amphibians.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_geog_real_29",
+      "examId": "exam_130",
+      "grade": "Grade9",
+      "subject": "Geography",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "One can associate the Cenozoic era in Ethiopia with the formation of extensive:",
+      "options": [
+        "Metamorphic rock",
+        "Sedimentary rock",
+        "Changed rock",
+        "Igneous rock"
+      ],
+      "correctAnswer": 3,
+      "explanation": "Massive Cenozoic volcanic trap series produced vast basaltic and rhyolitic igneous formations.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_geog_real_30",
+      "examId": "exam_130",
+      "grade": "Grade9",
+      "subject": "Geography",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "The plateau of Tigray is separated from the plateaus of Eritrea by the:",
+      "options": [
+        "Abbay River",
+        "Mereb River",
+        "Genale River",
+        "Tekeze River"
+      ],
+      "correctAnswer": 1,
+      "explanation": "The Mereb (Gash) River forms the natural boundary separating the Tigray Plateau from the Eritrean highlands.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_geog_real_31",
+      "examId": "exam_130",
+      "grade": "Grade9",
+      "subject": "Geography",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Which of the following statements is correct about the Great East African Rift Valley?",
+      "options": [
+        "It extends from Syria to Mozambique.",
+        "It is formed as a result of folding.",
+        "It is the second largest in the world.",
+        "All Ethiopia lakes are found in the rift-Valley."
+      ],
+      "correctAnswer": 0,
+      "explanation": "The Great Rift Valley system extends across ~6,000 km from Syria to Mozambique.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_hp_real_01",
+      "examId": "exam_131",
+      "grade": "Grade9",
+      "subject": "HP",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "True or False: Nutrition is a chemical substance in our food.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "correctAnswer": 0,
+      "explanation": "True. Nutrients are chemical compounds in food that provide energy, structural materials, and regulating agents.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_hp_real_02",
+      "examId": "exam_131",
+      "grade": "Grade9",
+      "subject": "HP",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "True or False: Health is an optimal state of health and wellbeing.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "correctAnswer": 1,
+      "explanation": "False. Health is defined by WHO as a state of complete physical, mental, and social well-being, not merely an optimal state or absence of disease.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_hp_real_03",
+      "examId": "exam_131",
+      "grade": "Grade9",
+      "subject": "HP",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "True or False: Physical exercise is any body movement produced by skeletal muscles that result in energy expenditure.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "correctAnswer": 1,
+      "explanation": "False. Any bodily movement resulting in energy expenditure is physical activity; physical exercise is a subcategory that is planned, structured, and repetitive.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_hp_real_04",
+      "examId": "exam_131",
+      "grade": "Grade9",
+      "subject": "HP",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "True or False: Reaction time is the ability to develop the gap between message receiving and responding or taking action.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "correctAnswer": 0,
+      "explanation": "True. Reaction time measures the time elapsed between receiving a sensory stimulus and executing a muscular response.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_hp_real_05",
+      "examId": "exam_131",
+      "grade": "Grade9",
+      "subject": "HP",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "True or False: Our level of physical fitness performance is not constant.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "correctAnswer": 0,
+      "explanation": "True. Physical fitness fluctuates with training intensity, rest, nutrition, aging, and detraining.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_hp_real_06",
+      "examId": "exam_131",
+      "grade": "Grade9",
+      "subject": "HP",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "True or False: Muscle type is a factor that affects physical fitness performance.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "correctAnswer": 0,
+      "explanation": "True. The ratio of slow-twitch (Type I endurance) to fast-twitch (Type II power/speed) muscle fibers directly influences athletic performance.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_hp_real_07",
+      "examId": "exam_131",
+      "grade": "Grade9",
+      "subject": "HP",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Who benefits from organizing a sporting event in one kebele, woreda, city or nation?",
+      "options": [
+        "Hotel owners",
+        "Transport owner",
+        "Marketers",
+        "All of the above"
+      ],
+      "correctAnswer": 3,
+      "explanation": "Sport events stimulate the local economy, benefiting hospitality, public transport, retail marketers, and communities.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_hp_real_08",
+      "examId": "exam_131",
+      "grade": "Grade9",
+      "subject": "HP",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Who is benefited from gender equality in sports and society?",
+      "options": [
+        "Female",
+        "Males",
+        "Nation",
+        "All of the above"
+      ],
+      "correctAnswer": 3,
+      "explanation": "Gender equality empowers women, improves family welfare, increases economic productivity, and strengthens the entire nation.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_hp_real_09",
+      "examId": "exam_131",
+      "grade": "Grade9",
+      "subject": "HP",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Which one of the following is not the result of technology in sport?",
+      "options": [
+        "Video Assistant Referee (VAR)",
+        "Sport wear fabrics",
+        "Facilities and training equipment",
+        "Fans"
+      ],
+      "correctAnswer": 3,
+      "explanation": "Fans are spectators and supporters; VAR, specialized sportswear, and fitness facilities are technological innovations.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_hp_real_10",
+      "examId": "exam_131",
+      "grade": "Grade9",
+      "subject": "HP",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Why do some athletes take prohibited performance-enhancing drugs?",
+      "options": [
+        "For performance enhancement",
+        "For recreational use",
+        "For treating unverified medical conditions",
+        "All of the above"
+      ],
+      "correctAnswer": 3,
+      "explanation": "Doping violations arise from illicit attempts to enhance performance, recreational drug use, or misuse of prescription medications.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_hp_real_11",
+      "examId": "exam_131",
+      "grade": "Grade9",
+      "subject": "HP",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "What is not an accurate mechanism to determine our true level of physical fitness?",
+      "options": [
+        "By looking at external posture alone",
+        "By resting heart rate",
+        "By calculating body mass index",
+        "All of the above"
+      ],
+      "correctAnswer": 0,
+      "explanation": "External appearance or posture alone does not accurately measure cardiovascular endurance, VO2 max, or internal aerobic capacity.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_hp_real_12",
+      "examId": "exam_131",
+      "grade": "Grade9",
+      "subject": "HP",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Which physical fitness component tends to naturally decline directly with increasing age if not specifically trained?",
+      "options": [
+        "Flexibility",
+        "Strength",
+        "Power",
+        "Endurance"
+      ],
+      "correctAnswer": 0,
+      "explanation": "Joint flexibility and muscle elasticity progressively decline with age without regular stretching routines.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_hp_real_13",
+      "examId": "exam_131",
+      "grade": "Grade9",
+      "subject": "HP",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "According to the caloric density per gram, which list is arranged in ascending order?",
+      "options": [
+        "Fat - protein - carbohydrate",
+        "Carbohydrate - fat - protein",
+        "Carbohydrate (4 kcal) - protein (4 kcal) - fat (9 kcal)",
+        "Fat - carbohydrate - protein"
+      ],
+      "correctAnswer": 2,
+      "explanation": "Carbohydrates and proteins yield 4 kcal/gram, while dietary fats yield 9 kcal/gram.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_hp_real_14",
+      "examId": "exam_131",
+      "grade": "Grade9",
+      "subject": "HP",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Which one of the following is true about physical fitness?",
+      "options": [
+        "When the level of physical fitness is improved, the resting heart rate decreases.",
+        "Our level of physical fitness does not vary from one person to another.",
+        "When you are fit, your energy intake is decreased.",
+        "When you are detraining, your performance remains constant."
+      ],
+      "correctAnswer": 0,
+      "explanation": "A lower resting heart rate (bradycardia of the trained athlete) indicates superior cardiovascular efficiency and increased stroke volume.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_hp_real_15",
+      "examId": "exam_131",
+      "grade": "Grade9",
+      "subject": "HP",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Body Mass Index (BMI) is calculated as the ratio of a person's weight (in kg) to his or her:",
+      "options": [
+        "Age",
+        "Height squared (in m²)",
+        "Body fat percentage",
+        "Lean tissue mass"
+      ],
+      "correctAnswer": 1,
+      "explanation": "BMI formula is weight in kilograms divided by the square of height in meters (kg/m²).",
+      "points": 1
+    },
+    {
+      "id": "q_g9_hp_real_16",
+      "examId": "exam_131",
+      "grade": "Grade9",
+      "subject": "HP",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Which statement best describes comprehensive physical fitness?",
+      "options": [
+        "The ability to involve in one specific type of sport event",
+        "The ability to develop a single motor skill",
+        "The ability to perform without effectively and efficiently through our daily life span",
+        "None of the above"
+      ],
+      "correctAnswer": 3,
+      "explanation": "Physical fitness is the ability to carry out daily tasks with vigor and alertness, without undue fatigue, and with ample energy to enjoy leisure and meet unforeseen emergencies.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_hp_real_17",
+      "examId": "exam_131",
+      "grade": "Grade9",
+      "subject": "HP",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "All of the following are skill-related components of physical fitness EXCEPT:",
+      "options": [
+        "Agility",
+        "Speed",
+        "Power",
+        "Flexibility"
+      ],
+      "correctAnswer": 3,
+      "explanation": "Flexibility is a health-related fitness component (along with cardiovascular endurance, muscular strength, muscular endurance, and body composition).",
+      "points": 1
+    },
+    {
+      "id": "q_g9_hp_real_18",
+      "examId": "exam_131",
+      "grade": "Grade9",
+      "subject": "HP",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "In 1 g of fat and 1 g of protein, how many total calories (kcal) are found together?",
+      "options": [
+        "9 kcal",
+        "4 kcal",
+        "10 kcal",
+        "13 kcal"
+      ],
+      "correctAnswer": 3,
+      "explanation": "1 gram of fat = 9 kcal, and 1 gram of protein = 4 kcal; together they contain 9 + 4 = 13 kcal.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_hp_real_19",
+      "examId": "exam_131",
+      "grade": "Grade9",
+      "subject": "HP",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Which pair represents health-related physical fitness components?",
+      "options": [
+        "Agility and Reaction Time",
+        "Speed and Coordination",
+        "Flexibility and Cardiovascular Endurance",
+        "Balance and Power"
+      ],
+      "correctAnswer": 2,
+      "explanation": "Flexibility, cardiovascular endurance, muscular strength, and body composition are health-related physical fitness components.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_hp_real_20",
+      "examId": "exam_131",
+      "grade": "Grade9",
+      "subject": "HP",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "What are the three primary energy-yielding macronutrients in human food?",
+      "options": [
+        "Vitamins, Minerals, and Water",
+        "Carbohydrates, Proteins, and Fats",
+        "Calcium, Iron, and Sodium",
+        "Fiber, Amino Acids, and Enzymes"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Carbohydrates, proteins, and lipids (fats) are the primary dietary energy sources.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_hp_real_21",
+      "examId": "exam_131",
+      "grade": "Grade9",
+      "subject": "HP",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "If a student has a weight of 100 kg and a height of 2 meters, what is their BMI?",
+      "options": [
+        "20 kg/m²",
+        "25 kg/m²",
+        "30 kg/m²",
+        "50 kg/m²"
+      ],
+      "correctAnswer": 1,
+      "explanation": "BMI = Weight / (Height)² = 100 / (2 × 2) = 100 / 4 = 25 kg/m².",
+      "points": 1
+    },
+    {
+      "id": "q_g9_hp_real_22",
+      "examId": "exam_131",
+      "grade": "Grade9",
+      "subject": "HP",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "If a balanced dietary plan consists of 1,000 g of food daily and allocates 30% to healthy fats, how many grams of fat should be consumed?",
+      "options": [
+        "150 g",
+        "200 g",
+        "300 g",
+        "400 g"
+      ],
+      "correctAnswer": 2,
+      "explanation": "30% of 1,000 g = (30 / 100) × 1,000 = 300 g.",
+      "points": 1
+    },
+    {
+      "id": "q_g9_hp_real_23",
+      "examId": "exam_131",
+      "grade": "Grade9",
+      "subject": "HP",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "If the same 1,000 g dietary plan allocates 57% to carbohydrates, how many grams of carbohydrates should be consumed?",
+      "options": [
+        "450 g",
+        "500 g",
+        "570 g",
+        "600 g"
+      ],
+      "correctAnswer": 2,
+      "explanation": "57% of 1,000 g = (57 / 100) × 1,000 = 570 g.",
       "points": 1
     }
   ]

@@ -1539,17 +1539,17 @@ async function showPracticeSubjectCatalog(gradeId) {
         <button class="back-button" onclick="showPracticeGradeCatalog()">← Back to grades</button>
         <div class="page-title">
             <h2>${grade ? grade.name : gradeId} practice</h2>
-            <p>Select a subject to see its available practice questions.</p>
+            <p>Select a subject to practice authentic school examination questions.</p>
         </div>
         <div class="card-grid">
             ${subjects.map(subject => {
                 const count = countsBySubject[subject] || 0;
                 return `
-                    <button class="card subject-card" style="text-align: left; color: inherit; font: inherit; ${count ? '' : 'opacity: .55;'}" ${count ? `onclick="startPracticeSession('${gradeId}', 'Practice Bank', 'All', '${escapeQuotes(subject)}', 'practice', '${escapeQuotes(`${grade ? grade.name : gradeId} ${subject} Practice`)}', '', showPracticeGradeCatalog)"` : 'disabled'}>
+                    <button class="card subject-card" style="text-align: left; color: inherit; font: inherit; ${count ? '' : 'opacity: .55;'}" ${count ? `onclick="startPracticeSession('${gradeId}', 'Practice Bank', 'All', '${escapeQuotes(subject)}', 'practice', '${escapeQuotes(`${grade ? grade.name : gradeId} ${subject} Practice`)}', '', () => showPracticeSubjectCatalog('${gradeId}'))"` : 'disabled'}>
                         <div class="subject-icon">🎯</div>
                         <div class="card-info">
                             <h3>${subject}</h3>
-                            <p>${count} ${count === 1 ? 'question' : 'questions'}</p>
+                            <p>${count > 0 ? `${count} authentic questions` : 'In transcription (PDF available)'}</p>
                         </div>
                         <div class="arrow">${count ? '→' : '—'}</div>
                     </button>
@@ -1832,11 +1832,6 @@ async function showExamHub(grade, semester, examType, subject, filePath, examTit
         const res = await fetch(qUrl);
         const data = await res.json();
         questionCount = (data.questions || []).length;
-        if (questionCount === 0) {
-            const resFallback = await fetch(`/api/practice?grade=${grade}&subject=${encodeURIComponent(subject)}`);
-            const dataFallback = await resFallback.json();
-            questionCount = (dataFallback.questions || []).length;
-        }
     } catch (e) {}
 
     app.innerHTML = `
@@ -1851,44 +1846,67 @@ async function showExamHub(grade, semester, examType, subject, filePath, examTit
 
         <div class="exam-hub-grid">
             <!-- Left Card: Interactive Practice -->
-            <div class="hub-card hub-card-featured">
-                <span class="hub-badge hub-badge-interactive">✨ Interactive Testing</span>
-                <h3 style="font-size: 24px; color: #ffffff; margin-bottom: 8px;">Online Practice Mode</h3>
-                <p style="color: var(--text-muted); font-size: 14.5px; line-height: 1.6;">
-                    Practice real examination questions interactively on the site with instant feedback and score reports.
-                </p>
+            <div class="hub-card ${questionCount > 0 ? 'hub-card-featured' : ''}" style="${questionCount === 0 ? 'border: 1px dashed var(--border-glass);' : ''}">
+                ${questionCount > 0 ? `
+                    <span class="hub-badge hub-badge-interactive">✨ 100% Authentic Paper Questions</span>
+                    <h3 style="font-size: 24px; color: #ffffff; margin-bottom: 8px;">Online Practice Mode</h3>
+                    <p style="color: var(--text-muted); font-size: 14.5px; line-height: 1.6;">
+                        Practice real examination questions transcribed directly from the physical school paper with instant feedback and score reports.
+                    </p>
 
-                <div class="mode-selector">
-                    <div class="mode-option ${selectedHubMode === 'practice' ? 'active' : ''}" id="mode-opt-practice" onclick="setHubMode('practice')">
-                        <div class="mode-radio"></div>
-                        <div>
-                            <div style="font-weight: 700; color: #ffffff; font-size: 15px;">⚡ Instant Practice Mode</div>
-                            <div style="font-size: 12.5px; color: var(--text-muted); margin-top: 2px;">
-                                Check answers immediately after each question with detailed explanations.
+                    <div class="mode-selector">
+                        <div class="mode-option ${selectedHubMode === 'practice' ? 'active' : ''}" id="mode-opt-practice" onclick="setHubMode('practice')">
+                            <div class="mode-radio"></div>
+                            <div>
+                                <div style="font-weight: 700; color: #ffffff; font-size: 15px;">⚡ Instant Practice Mode</div>
+                                <div style="font-size: 12.5px; color: var(--text-muted); margin-top: 2px;">
+                                    Check answers immediately after each question with detailed explanations.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mode-option ${selectedHubMode === 'timed' ? 'active' : ''}" id="mode-opt-timed" onclick="setHubMode('timed')">
+                            <div class="mode-radio"></div>
+                            <div>
+                                <div style="font-weight: 700; color: #ffffff; font-size: 15px;">⏱️ Timed Exam Simulation</div>
+                                <div style="font-size: 12.5px; color: var(--text-muted); margin-top: 2px;">
+                                    Real test conditions with live countdown timer and verified final score report.
+                                </div>
                             </div>
                         </div>
                     </div>
 
-                    <div class="mode-option ${selectedHubMode === 'timed' ? 'active' : ''}" id="mode-opt-timed" onclick="setHubMode('timed')">
-                        <div class="mode-radio"></div>
-                        <div>
-                            <div style="font-weight: 700; color: #ffffff; font-size: 15px;">⏱️ Timed Exam Simulation</div>
-                            <div style="font-size: 12.5px; color: var(--text-muted); margin-top: 2px;">
-                                Real test conditions with live countdown timer and verified final score report.
-                            </div>
+                    <div style="display: flex; align-items: center; justify-content: space-between; margin-top: auto; padding-top: 18px; border-top: 1px solid var(--border-glass);">
+                        <span style="font-size: 13px; color: #c084fc; font-weight: 600;">
+                            📚 ${questionCount} Authentic Questions Transcribed
+                        </span>
+                        <button class="btn-primary" style="width: auto; padding: 12px 24px;" 
+                                onclick="startPracticeSession('${grade}', '${semester}', '${examType}', '${escapeQuotes(subject)}', selectedHubMode, '${escapeQuotes(examTitle)}', '${filePath}', window._lastBackFn)">
+                            Start Practicing Now (${questionCount} Qs) →
+                        </button>
+                    </div>
+                ` : `
+                    <span class="hub-badge" style="background: rgba(148, 163, 184, 0.15); color: #94a3b8; border: 1px solid rgba(148, 163, 184, 0.25);">📋 Archive Paper</span>
+                    <h3 style="font-size: 22px; color: #ffffff; margin-bottom: 8px;">Interactive Mode In Transcription</h3>
+                    <p style="color: var(--text-muted); font-size: 14px; line-height: 1.6; margin-bottom: 16px;">
+                        To maintain strict 100% exam fidelity, questions for this paper are being transcribed directly from school physical archives. No AI-generated or synthetic questions are published.
+                    </p>
+                    <div style="background: rgba(99, 102, 241, 0.08); border: 1px solid rgba(99, 102, 241, 0.2); border-radius: 12px; padding: 14px; margin-bottom: 20px;">
+                        <div style="font-weight: 600; color: #a5b4fc; font-size: 13.5px; margin-bottom: 4px;">📖 Official PDF Ready for Study</div>
+                        <div style="font-size: 12.5px; color: var(--text-muted); line-height: 1.5;">
+                            You can view the full scanned exam paper with questions and diagrams using our high-speed viewer on the right.
                         </div>
                     </div>
-                </div>
-
-                <div style="display: flex; align-items: center; justify-content: space-between; margin-top: auto; padding-top: 18px; border-top: 1px solid var(--border-glass);">
-                    <span style="font-size: 13px; color: #c084fc; font-weight: 600;">
-                        📚 ${questionCount > 0 ? `${questionCount} Interactive Questions Available` : 'Interactive Question Bank'}
-                    </span>
-                    <button class="btn-primary" style="width: auto; padding: 12px 24px;" 
-                            onclick="startPracticeSession('${grade}', '${semester}', '${examType}', '${escapeQuotes(subject)}', selectedHubMode, '${escapeQuotes(examTitle)}', '${filePath}', window._lastBackFn)">
-                        Start Practicing Now →
-                    </button>
-                </div>
+                    <div style="display: flex; align-items: center; justify-content: space-between; margin-top: auto; padding-top: 18px; border-top: 1px solid var(--border-glass);">
+                        <span style="font-size: 12.5px; color: #94a3b8;">
+                            🔒 Strict Paper Fidelity Policy
+                        </span>
+                        <button class="btn-secondary" style="width: auto; padding: 10px 20px;" 
+                                onclick="renderExamViewer('${escapeQuotes(examTitle)}', '${grade} • ${semester} • ${examType}', '${filePath}', () => showExamHub('${grade}', '${semester}', '${examType}', '${escapeQuotes(subject)}', '${filePath}', '${escapeQuotes(examTitle)}', window._lastBackFn))">
+                            View Official Exam PDF →
+                        </button>
+                    </div>
+                `}
             </div>
 
             <!-- Right Card: PDF Download & Preview -->
@@ -1949,26 +1967,12 @@ async function startPracticeSession(grade, semester, examType, subject, mode, ex
         let res = await fetch(qUrl);
         let data = await res.json();
         questions = data.questions || [];
-
-        // If no questions found for this specific exam, check general grade pool
-        if (questions.length === 0) {
-            let resGrade = await fetch(`/api/practice?grade=${grade}&subject=${encodeURIComponent(subject)}`);
-            let dataGrade = await resGrade.json();
-            questions = dataGrade.questions || [];
-        }
-
-        // If still no questions found and practicing general bank, check overall subject pool
-        if (questions.length === 0 && (examType === 'All' || !examType)) {
-            let resSub = await fetch(`/api/practice?subject=${encodeURIComponent(subject)}`);
-            let dataSub = await resSub.json();
-            questions = dataSub.questions || [];
-        }
     } catch (e) {
         console.warn('Practice fetch error', e);
     }
 
     if (questions.length === 0) {
-        showToast('No interactive questions added yet for this subject. Opening PDF document.', 'info');
+        showToast('Interactive questions for this paper are currently in transcription. Opening official PDF.', 'info');
         renderExamViewer(examTitle, `${grade} • ${semester} • ${examType}`, filePath, backFn);
         return;
     }
