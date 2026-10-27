@@ -1,7 +1,7 @@
 // sw.js - Service Worker for Past Exam Library (Blessed G/Michael Catholic Secondary School)
 // Provides 100% offline practice, low-data caching, and fast PDF study access
 
-const CACHE_VERSION = 'v1.1.0';
+const CACHE_VERSION = 'v1.2.0';
 const STATIC_CACHE = `past-exam-static-${CACHE_VERSION}`;
 const API_CACHE = `past-exam-api-${CACHE_VERSION}`;
 const PDF_CACHE = `past-exam-pdf-${CACHE_VERSION}`;

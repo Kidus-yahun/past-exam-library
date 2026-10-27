@@ -110,9 +110,26 @@ async function initApp() {
         window.addEventListener('load', () => {
             navigator.serviceWorker.register('/sw.js').then((reg) => {
                 console.log('[PWA] Service Worker registered with scope:', reg.scope);
-                // Pre-cache authentic Grade 9 questions in the background
+                // Pre-cache authentic exam questions across all grades for seamless offline practice
                 if (navigator.onLine) {
-                    fetch('/api/practice?grade=Grade9').catch(() => {});
+                    ['Grade9', 'Grade10', 'Grade11', 'Grade12'].forEach(g => {
+                        fetch(`/api/practice?grade=${g}`).catch(() => {});
+                    });
+                    fetch('/api/practice').then(r => r.json()).then(d => {
+                        if (d && d.questions && d.questions.length > 0) {
+                            try {
+                                localStorage.setItem('pel_offline_questions', JSON.stringify(d.questions));
+                            } catch(e) {}
+                        }
+                    }).catch(() => {});
+                    fetch('/api/categories').then(r => r.json()).then(d => {
+                        if (d && d.categories) {
+                            try {
+                                localStorage.setItem('pel_offline_categories', JSON.stringify(d.categories));
+                            } catch(e) {}
+                        }
+                    }).catch(() => {});
+                    fetch('/api/exams').catch(() => {});
                 }
             }).catch((err) => {
                 console.warn('[PWA] Service Worker registration failed:', err);
@@ -165,12 +182,21 @@ async function fetchCategories() {
         if (res.ok) {
             const data = await res.json();
             state.categories = data.categories;
-            if (state.categories.grades.length > 0 && !state.admin.selectedGradeForSubjects) {
+            try {
+                localStorage.setItem('pel_offline_categories', JSON.stringify(data.categories));
+            } catch(e) {}
+            if (state.categories.grades && state.categories.grades.length > 0 && !state.admin.selectedGradeForSubjects) {
                 state.admin.selectedGradeForSubjects = state.categories.grades[0].id;
             }
         }
     } catch (err) {
-        console.error('Failed to fetch categories:', err);
+        console.warn('Network failed to fetch categories, attempting offline fallback:', err);
+        try {
+            const cachedCat = localStorage.getItem('pel_offline_categories');
+            if (cachedCat) {
+                state.categories = JSON.parse(cachedCat);
+            }
+        } catch(e) {}
     }
 }
 
@@ -1587,7 +1613,19 @@ async function showPracticeGradeCatalog() {
             countsByGrade[question.grade] = (countsByGrade[question.grade] || 0) + 1;
         });
     } catch (error) {
-        console.warn('Could not load practice question counts', error);
+        console.warn('Could not load practice question counts online, checking offline cache', error);
+    }
+
+    if (Object.keys(countsByGrade).length === 0) {
+        try {
+            const raw = localStorage.getItem('pel_offline_questions');
+            if (raw) {
+                const questions = JSON.parse(raw);
+                questions.forEach(q => {
+                    countsByGrade[q.grade] = (countsByGrade[q.grade] || 0) + 1;
+                });
+            }
+        } catch (e) {}
     }
 
     app.innerHTML = `
@@ -1622,6 +1660,20 @@ async function showPracticeSubjectCatalog(gradeId) {
             countsBySubject[question.subject] = (countsBySubject[question.subject] || 0) + 1;
         });
     } catch (error) {
+        console.warn('Could not load subject practice question counts online, checking offline cache', error);
+    }
+
+    if (Object.keys(countsBySubject).length === 0) {
+        try {
+            const raw = localStorage.getItem('pel_offline_questions');
+            if (raw) {
+                const questions = JSON.parse(raw);
+                questions.filter(q => q.grade === gradeId).forEach(q => {
+                    countsBySubject[q.subject] = (countsBySubject[q.subject] || 0) + 1;
+                });
+            }
+        } catch (e) {}
+    }
         console.warn('Could not load subject practice question counts', error);
     }
 
@@ -1924,6 +1976,21 @@ async function showExamHub(grade, semester, examType, subject, filePath, examTit
         questionCount = (data.questions || []).length;
     } catch (e) {}
 
+    if (questionCount === 0) {
+        try {
+            const raw = localStorage.getItem('pel_offline_questions');
+            if (raw) {
+                const allOffline = JSON.parse(raw);
+                const matched = allOffline.filter(q => {
+                    if (q.grade !== grade) return false;
+                    if (subject && q.subject !== subject) return false;
+                    return true;
+                });
+                questionCount = matched.length;
+            }
+        } catch(e) {}
+    }
+
     app.innerHTML = `
         <button class="back-button" onclick="window._lastBackFn ? window._lastBackFn() : showLibraryHome()">
             ← Back to subjects
@@ -2058,7 +2125,21 @@ async function startPracticeSession(grade, semester, examType, subject, mode, ex
         let data = await res.json();
         questions = data.questions || [];
     } catch (e) {
-        console.warn('Practice fetch error', e);
+        console.warn('Practice fetch error online, checking offline cache', e);
+    }
+
+    if (questions.length === 0) {
+        try {
+            const raw = localStorage.getItem('pel_offline_questions');
+            if (raw) {
+                const allOffline = JSON.parse(raw);
+                questions = allOffline.filter(q => {
+                    if (q.grade !== grade) return false;
+                    if (subject && q.subject !== subject) return false;
+                    return true;
+                });
+            }
+        } catch(e) {}
     }
 
     if (questions.length === 0) {
