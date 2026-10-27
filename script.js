@@ -1674,8 +1674,6 @@ async function showPracticeSubjectCatalog(gradeId) {
             }
         } catch (e) {}
     }
-        console.warn('Could not load subject practice question counts', error);
-    }
 
     app.innerHTML = `
         <button class="back-button" onclick="showPracticeGradeCatalog()">← Back to grades</button>
@@ -2051,17 +2049,16 @@ async function showExamHub(grade, semester, examType, subject, filePath, examTit
                     <div style="background: rgba(99, 102, 241, 0.08); border: 1px solid rgba(99, 102, 241, 0.2); border-radius: 12px; padding: 14px; margin-bottom: 20px;">
                         <div style="font-weight: 600; color: #a5b4fc; font-size: 13.5px; margin-bottom: 4px;">📖 Official PDF Ready for Study</div>
                         <div style="font-size: 12.5px; color: var(--text-muted); line-height: 1.5;">
-                            You can view the full scanned exam paper with questions and diagrams using our high-speed viewer on the right.
+                            You can view the full scanned exam paper with questions and diagrams using the Exam Document preview below.
                         </div>
                     </div>
                     <div style="display: flex; align-items: center; justify-content: space-between; margin-top: auto; padding-top: 18px; border-top: 1px solid var(--border-glass);">
                         <span style="font-size: 12.5px; color: #94a3b8;">
                             🔒 Strict Paper Fidelity Policy
                         </span>
-                        <button class="btn-secondary" style="width: auto; padding: 10px 20px;" 
-                                onclick="renderExamViewer('${escapeQuotes(examTitle)}', '${grade} • ${semester} • ${examType}', '${filePath}', () => showExamHub('${grade}', '${semester}', '${examType}', '${escapeQuotes(subject)}', '${filePath}', '${escapeQuotes(examTitle)}', window._lastBackFn))">
-                            View Official Exam PDF →
-                        </button>
+                        <span style="font-size: 12.5px; color: #818cf8; font-weight: 600;">
+                            See Document Options ↓
+                        </span>
                     </div>
                 `}
             </div>
@@ -2714,22 +2711,42 @@ async function loadPdfDocument(fileUrl) {
     const loadingStatus = document.getElementById('pdf-loading-status');
     const loadingCard = document.getElementById('pdf-loading-card');
 
+    const urlsToTry = [fileUrl];
+    if (fileUrl.startsWith('/exams/')) {
+        urlsToTry.push(`https://cdn.jsdelivr.net/gh/soliyana-dev/past-exam-library@main${fileUrl}`);
+    }
+
+    let pdfDoc = null;
+    for (const testUrl of urlsToTry) {
+        try {
+            const loadingTask = pdfjsLib.getDocument({
+                url: testUrl,
+                cMapUrl: 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/cmaps/',
+                cMapPacked: true
+            });
+
+            loadingTask.onProgress = function(progress) {
+                if (progress.total > 0 && progressBar) {
+                    const percent = Math.min(Math.round((progress.loaded / progress.total) * 100), 99);
+                    progressBar.style.width = percent + '%';
+                    if (loadingStatus) loadingStatus.textContent = `Streaming document: ${percent}%...`;
+                }
+            };
+
+            pdfDoc = await loadingTask.promise;
+            if (pdfDoc) break;
+        } catch (err) {
+            console.warn(`Fast canvas render attempt failed for ${testUrl}:`, err);
+        }
+    }
+
+    if (!pdfDoc) {
+        console.warn('Fast canvas render failed across all sources, switching to native iframe viewer');
+        switchPdfViewMode('native');
+        return;
+    }
+
     try {
-        const loadingTask = pdfjsLib.getDocument({
-            url: fileUrl,
-            cMapUrl: 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/cmaps/',
-            cMapPacked: true
-        });
-
-        loadingTask.onProgress = function(progress) {
-            if (progress.total > 0 && progressBar) {
-                const percent = Math.min(Math.round((progress.loaded / progress.total) * 100), 99);
-                progressBar.style.width = percent + '%';
-                if (loadingStatus) loadingStatus.textContent = `Streaming document: ${percent}%...`;
-            }
-        };
-
-        const pdfDoc = await loadingTask.promise;
         pdfViewerState.doc = pdfDoc;
         pdfViewerState.pageCount = pdfDoc.numPages;
 
@@ -2741,7 +2758,7 @@ async function loadPdfDocument(fileUrl) {
         // Render initial page
         await renderCurrentPdfPage();
     } catch (err) {
-        console.warn('Fast canvas render fallback:', err);
+        console.warn('Fast canvas render error:', err);
         switchPdfViewMode('native');
     }
 }
