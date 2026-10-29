@@ -113,6 +113,7 @@ async function logActivity(type, data = {}) {
         const payload = {
             type,
             username: state.user ? state.user.username : 'student',
+            fullName: state.user ? (state.user.fullName || state.user.username) : 'Student',
             role: state.user ? state.user.role : 'student',
             userId: state.user ? state.user.id : null,
             ...data
@@ -337,12 +338,17 @@ function renderHeader() {
     const isAdmin = state.user.role === 'admin';
     const isLibraryActive = state.currentView === 'library';
     const isAdminActive = state.currentView === 'admin';
+    const displayName = state.user.fullName || state.user.username || 'Student';
+    const userInitial = displayName.trim().charAt(0).toUpperCase() || 'S';
 
     headerNav.innerHTML = `
         ${pwaControls}
-        <div class="user-badge">
-            <span>${state.user.username}</span>
-            <span class="role-pill ${isAdmin ? 'admin' : ''}">${state.user.role}</span>
+        <div class="user-badge" onclick="openProfileModal()" style="cursor: pointer; display: flex; align-items: center; gap: 8px;" title="Registered Name: ${escapeQuotes(displayName)} (Click to view or edit)">
+            <div class="activity-user-avatar" style="width: 28px; height: 28px; font-size: 12px; margin-right: 2px;">${userInitial}</div>
+            <div style="display: flex; flex-direction: column; text-align: left; line-height: 1.2;">
+                <span class="user-name" style="font-weight: 700; color: #ffffff; font-size: 13.5px;">${displayName}</span>
+                <span class="role-pill ${isAdmin ? 'admin' : ''}" style="font-size: 9.5px; padding: 1px 6px; align-self: flex-start;">${isAdmin ? 'Admin' : 'Student'}</span>
+            </div>
         </div>
 
         <button class="nav-btn ${isLibraryActive ? 'active' : ''}" onclick="setView('library')">
@@ -359,6 +365,100 @@ function renderHeader() {
             Sign out
         </button>
     `;
+}
+
+function openProfileModal() {
+    if (!state.user) return;
+    const currentFullName = state.user.fullName || '';
+    const currentUsername = state.user.username || '';
+    const currentRole = state.user.role === 'admin' ? 'Administrator' : 'Student';
+    const email = state.user.email || 'Not provided';
+    const initial = (currentFullName || currentUsername || 'S').trim().charAt(0).toUpperCase();
+
+    const bodyHtml = `
+        <div style="text-align: center; margin-bottom: 20px;">
+            <div class="activity-user-avatar" style="width: 56px; height: 56px; font-size: 22px; margin: 0 auto 12px; box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);">
+                ${initial}
+            </div>
+            <h4 style="margin: 0; color: #ffffff; font-size: 17px;">${currentFullName || currentUsername}</h4>
+            <div style="margin-top: 5px; display: flex; justify-content: center; gap: 8px; align-items: center;">
+                <span style="font-size: 12px; color: var(--text-muted);">@${currentUsername}</span>
+                <span class="role-pill ${state.user.role === 'admin' ? 'admin' : ''}" style="font-size: 10px; padding: 2px 7px;">${currentRole}</span>
+            </div>
+        </div>
+
+        <form id="profile-edit-form" onsubmit="saveProfileName(event)">
+            <div class="auth-form-group">
+                <label>Student Full Name (Registered Name) *</label>
+                <input type="text" id="profile-fullname" required value="${escapeQuotes(currentFullName)}" placeholder="e.g. Kidist Solomon" autofocus>
+                <p style="font-size: 12px; color: var(--text-muted); margin-top: 5px;">
+                    This registered name appears on the top navigation bar, exam progress, and in the teacher & admin activity logs.
+                </p>
+            </div>
+
+            <div class="auth-form-group">
+                <label>Account Username</label>
+                <input type="text" value="${escapeQuotes(currentUsername)}" disabled style="opacity: 0.6; cursor: not-allowed;">
+            </div>
+
+            <div class="auth-form-group">
+                <label>Account Email</label>
+                <input type="text" value="${escapeQuotes(email)}" disabled style="opacity: 0.6; cursor: not-allowed;">
+            </div>
+
+            <div style="display: flex; gap: 10px; margin-top: 20px;">
+                <button type="button" class="btn-secondary" onclick="closeModal()" style="flex: 1;">Cancel</button>
+                <button type="submit" class="btn-primary" id="btn-save-profile" style="flex: 2;">Save Registered Name</button>
+            </div>
+        </form>
+    `;
+    showModal('Student Profile & Registered Name', bodyHtml);
+}
+
+async function saveProfileName(e) {
+    e.preventDefault();
+    const btn = document.getElementById('btn-save-profile');
+    const newFullName = document.getElementById('profile-fullname').value.trim();
+    if (!newFullName) {
+        showToast('Please enter your registered name', 'warning');
+        return;
+    }
+
+    if (btn) {
+        btn.disabled = true;
+        btn.textContent = 'Saving...';
+    }
+
+    try {
+        const res = await fetch('/api/auth/profile', {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${state.token}`
+            },
+            body: JSON.stringify({ fullName: newFullName })
+        });
+        const data = await res.json();
+        if (res.ok && data.success) {
+            state.user.fullName = newFullName;
+            localStorage.setItem('pel_user', JSON.stringify(state.user));
+            renderHeader();
+            closeModal();
+            showToast('Registered name updated successfully!', 'success');
+        } else {
+            showToast(data.message || 'Failed to update registered name', 'error');
+            if (btn) {
+                btn.disabled = false;
+                btn.textContent = 'Save Registered Name';
+            }
+        }
+    } catch (err) {
+        showToast('Network error while saving registered name', 'error');
+        if (btn) {
+            btn.disabled = false;
+            btn.textContent = 'Save Registered Name';
+        }
+    }
 }
 
 function logout(notify = true) {
@@ -414,8 +514,8 @@ function showLoginView(activeTab = 'signin') {
                 ` : `
                     <form id="register-form" onsubmit="handleRegister(event)">
                         <div class="auth-form-group">
-                            <label>Full Name</label>
-                            <input type="text" id="reg-fullname" placeholder="John Doe">
+                            <label>Student Full Name (First & Last Name) *</label>
+                            <input type="text" id="reg-fullname" required placeholder="e.g. Kidist Solomon">
                         </div>
 
                         <div class="auth-form-group">
@@ -1664,7 +1764,7 @@ function renderAdminActivityTab() {
 
                 <div style="flex: 2; min-width: 240px;">
                     <input type="text" id="activity-filter-search" class="admin-input" style="margin: 0; padding: 8px 14px; width: 100%;" 
-                           placeholder="Search student username, paper, or subject..." value="${escapeQuotes(f.search)}" oninput="debounceActivitySearch()">
+                           placeholder="Search registered student name, username, paper, or subject..." value="${escapeQuotes(f.search)}" oninput="debounceActivitySearch()">
                 </div>
             </div>
 
@@ -1753,7 +1853,8 @@ function renderActivityTable(logs) {
                     ${logs.map(log => {
                         const timeStr = formatRelativeTime(log.timestamp);
                         const fullDateStr = new Date(log.timestamp).toLocaleString();
-                        const initial = (log.username || 'S').charAt(0).toUpperCase();
+                        const displayName = log.fullName || log.username || 'Student';
+                        const initial = displayName.trim().charAt(0).toUpperCase() || 'S';
 
                         let actionBadge = '';
                         if (log.type === 'login') {
@@ -1812,10 +1913,15 @@ function renderActivityTable(logs) {
                                 </td>
                                 <td>
                                     <div class="activity-user-cell">
-                                        <div class="activity-user-avatar">${initial}</div>
+                                        <div class="activity-user-avatar" title="${escapeQuotes(displayName)}">${initial}</div>
                                         <div>
-                                            <div style="font-weight: 700; color: #ffffff; font-size: 13.5px;">${log.username}</div>
-                                            <span class="role-pill ${log.role === 'admin' ? 'admin' : ''}" style="font-size: 10px; padding: 2px 6px;">${log.role}</span>
+                                            <div style="font-weight: 700; color: #ffffff; font-size: 13.5px;" title="${log.username ? `@${log.username}` : ''}">
+                                                ${escapeQuotes(displayName)}
+                                            </div>
+                                            <div style="display: flex; gap: 6px; align-items: center; margin-top: 2px;">
+                                                ${log.username && log.username !== displayName ? `<span style="font-size: 11px; color: var(--text-muted);">@${escapeQuotes(log.username)}</span>` : ''}
+                                                <span class="role-pill ${log.role === 'admin' ? 'admin' : ''}" style="font-size: 9.5px; padding: 1px 6px;">${log.role === 'admin' ? 'Admin' : 'Student'}</span>
+                                            </div>
                                         </div>
                                     </div>
                                 </td>

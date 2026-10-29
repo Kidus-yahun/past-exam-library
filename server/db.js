@@ -206,6 +206,15 @@ class Database {
         return this.data.users.map(({ passwordHash, ...safeUser }) => safeUser);
     }
 
+    updateUserProfile(id, updateData) {
+        const user = this.data.users.find(u => u.id === id);
+        if (!user) return null;
+        if (updateData.fullName) user.fullName = updateData.fullName.trim();
+        if (updateData.email) user.email = updateData.email.trim();
+        this.save();
+        return user;
+    }
+
     // Category operations
     getCategories() {
         return this.data.categories;
@@ -402,6 +411,7 @@ class Database {
             type: logData.type, // 'login', 'download', 'preview', 'practice'
             userId: logData.userId || null,
             username: logData.username || 'student',
+            fullName: logData.fullName || logData.username || 'Student',
             role: logData.role || 'student',
             grade: logData.grade || null,
             subject: logData.subject || null,
@@ -439,7 +449,10 @@ class Database {
         }
         if (filters.username) {
             const u = filters.username.toLowerCase().trim();
-            logs = logs.filter(l => l.username && l.username.toLowerCase().includes(u));
+            logs = logs.filter(l => 
+                (l.username && l.username.toLowerCase().includes(u)) ||
+                (l.fullName && l.fullName.toLowerCase().includes(u))
+            );
         }
         if (filters.grade && filters.grade !== 'all') {
             logs = logs.filter(l => l.grade === filters.grade);
@@ -451,6 +464,7 @@ class Database {
         if (filters.search) {
             const q = filters.search.toLowerCase().trim();
             logs = logs.filter(l =>
+                (l.fullName && l.fullName.toLowerCase().includes(q)) ||
                 (l.username && l.username.toLowerCase().includes(q)) ||
                 (l.subject && l.subject.toLowerCase().includes(q)) ||
                 (l.examTitle && l.examTitle.toLowerCase().includes(q)) ||
@@ -484,15 +498,15 @@ class Database {
         // Group by user
         const userMap = {};
         logs.forEach(l => {
-            const name = l.username || 'Anonymous';
-            if (!userMap[name]) {
-                userMap[name] = { username: name, role: l.role || 'student', logins: 0, downloads: 0, practices: 0, lastActive: l.timestamp };
+            const displayName = l.fullName || l.username || 'Anonymous';
+            if (!userMap[displayName]) {
+                userMap[displayName] = { fullName: displayName, username: l.username, role: l.role || 'student', logins: 0, downloads: 0, practices: 0, lastActive: l.timestamp };
             }
-            if (l.type === 'login') userMap[name].logins++;
-            if (l.type === 'download' || l.type === 'preview') userMap[name].downloads++;
-            if (l.type === 'practice') userMap[name].practices++;
-            if (new Date(l.timestamp) > new Date(userMap[name].lastActive)) {
-                userMap[name].lastActive = l.timestamp;
+            if (l.type === 'login') userMap[displayName].logins++;
+            if (l.type === 'download' || l.type === 'preview') userMap[displayName].downloads++;
+            if (l.type === 'practice') userMap[displayName].practices++;
+            if (new Date(l.timestamp) > new Date(userMap[displayName].lastActive)) {
+                userMap[displayName].lastActive = l.timestamp;
             }
         });
 

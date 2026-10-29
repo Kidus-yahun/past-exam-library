@@ -318,12 +318,53 @@ app.post('/api/auth/register', (req, res) => {
     }
 });
 
-// Verify Current Token
+// Verify Current Token & Return Latest User Data
 app.get('/api/auth/me', authenticateToken, (req, res) => {
+    const user = db.findUserById(req.user.id);
+    if (user) {
+        return res.json({
+            success: true,
+            user: {
+                id: user.id,
+                username: user.username,
+                email: user.email,
+                role: user.role,
+                fullName: user.fullName || user.username
+            }
+        });
+    }
     res.json({
         success: true,
         user: req.user
     });
+});
+
+// Update Student / User Profile (e.g. Registered Full Name)
+app.put('/api/auth/profile', authenticateToken, (req, res) => {
+    try {
+        const { fullName, email } = req.body;
+        if (!fullName || !fullName.trim()) {
+            return res.status(400).json({ success: false, message: 'Full name cannot be empty' });
+        }
+        const updated = db.updateUserProfile(req.user.id, { fullName: fullName.trim(), email });
+        if (!updated) {
+            return res.status(404).json({ success: false, message: 'User not found' });
+        }
+        res.json({
+            success: true,
+            message: 'Profile updated successfully',
+            user: {
+                id: updated.id,
+                username: updated.username,
+                email: updated.email,
+                role: updated.role,
+                fullName: updated.fullName
+            }
+        });
+    } catch (err) {
+        console.error('Update profile error:', err);
+        res.status(500).json({ success: false, message: err.message });
+    }
 });
 
 /* ========================================================
@@ -561,7 +602,8 @@ app.post('/api/activity/log', (req, res) => {
         const token = authHeader && authHeader.split(' ')[1];
         if (token) {
             try {
-                authUser = jwt.verify(token, JWT_SECRET);
+                const decoded = jwt.verify(token, JWT_SECRET);
+                authUser = db.findUserById(decoded.id) || decoded;
             } catch (e) {}
         }
 
@@ -586,6 +628,7 @@ app.post('/api/activity/log', (req, res) => {
         }
 
         const username = authUser ? authUser.username : (req.body.username || 'student');
+        const fullName = authUser ? (authUser.fullName || authUser.username) : (req.body.fullName || req.body.username || 'Student');
         const role = authUser ? authUser.role : (req.body.role || 'student');
         const userId = authUser ? authUser.id : (req.body.userId || null);
 
@@ -593,6 +636,7 @@ app.post('/api/activity/log', (req, res) => {
             type,
             userId,
             username,
+            fullName,
             role,
             grade,
             subject,
