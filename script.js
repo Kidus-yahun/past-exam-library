@@ -44,6 +44,67 @@ const modalContainer = document.getElementById('modal-container');
 const toastContainer = document.getElementById('toast-container');
 
 /* ========================================================
+   AESTHETIC VECTOR ICON REGISTRY (NO EMOJIS)
+======================================================== */
+const UI_ICONS = {
+    key: '<path d="M21 2l-2 2m-1.5 1.5L14 9l-1.5-1.5-1.4 1.4 1.4 1.4-2.1 2.1a6.5 6.5 0 1 1-2.8-2.8l7.9-7.9 1.5 1.5 1.5-1.5L21 2z"/>',
+    download: '<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>',
+    target: '<circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/>',
+    trendingUp: '<polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/>',
+    chart: '<line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/>',
+    fileText: '<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><line x1="10" y1="9" x2="8" y2="9"/>',
+    graduation: '<path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/>',
+    book: '<path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>',
+    bookOpen: '<path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>',
+    users: '<path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>',
+    user: '<path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>',
+    activity: '<polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>',
+    bolt: '<polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>',
+    clock: '<circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>',
+    eye: '<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>',
+    trash: '<polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>',
+    refresh: '<polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/>',
+    export: '<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/>',
+    clipboard: '<path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/>',
+    folder: '<path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>',
+    search: '<circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>',
+    zoomIn: '<circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/>',
+    zoomOut: '<circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="8" y1="11" x2="14" y2="11"/>',
+    sparkles: '<path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3L12 3z"/>',
+    award: '<circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/>',
+    trophy: '<path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2z"/>',
+    star: '<polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>',
+    checkCircle: '<path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/>',
+    check: '<polyline points="20 6 9 17 4 12"/>',
+    lightbulb: '<line x1="9" y1="18" x2="15" y2="18"/><line x1="10" y1="22" x2="14" y2="22"/><path d="M15.09 14c.18-.98.65-1.74 1.41-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .23 2.23 1.5 3.5.76.76 1.23 1.52 1.41 2.5"/>',
+    shieldCheck: '<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/>',
+    flag: '<path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/>',
+    layers: '<polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/>',
+    grid: '<rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/>',
+    home: '<path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>',
+    smartphone: '<rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/>',
+    monitor: '<rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/>',
+    alertTriangle: '<path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>'
+};
+
+function uiIcon(name, size = 18, extraClass = '', strokeWidth = 2) {
+    const iconPath = UI_ICONS[name] || UI_ICONS.fileText;
+    return `<svg class="ui-icon ${extraClass}" width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="${strokeWidth}" stroke-linecap="round" stroke-linejoin="round" style="display: inline-block; vertical-align: middle; flex-shrink: 0;" aria-hidden="true">${iconPath}</svg>`;
+}
+
+function uiEmptyState(iconName, title, message) {
+    return `
+        <div class="empty-state-aesthetic">
+            <div class="empty-state-icon-wrap">
+                ${uiIcon(iconName, 30)}
+            </div>
+            <h4 class="empty-state-title">${title}</h4>
+            <p class="empty-state-text">${message}</p>
+        </div>
+    `;
+}
+
+/* ========================================================
    PWA & OFFLINE SERVICE WORKER MANAGEMENT
 ======================================================== */
 window._deferredPwaPrompt = null;
@@ -268,8 +329,8 @@ function navigateToHome() {
 function showToast(message, type = 'info') {
     const toast = document.createElement('div');
     toast.className = `toast ${type}`;
-    const icon = type === 'success' ? '✓' : (type === 'error' ? '✕' : 'ℹ');
-    toast.innerHTML = `<span>${icon}</span> <span>${message}</span>`;
+    const iconSvg = type === 'success' ? uiIcon('checkCircle', 15) : (type === 'error' ? uiIcon('alertTriangle', 15) : uiIcon('sparkles', 15));
+    toast.innerHTML = `<span style="display: inline-flex; align-items: center;">${iconSvg}</span> <span>${message}</span>`;
     toastContainer.appendChild(toast);
 
     setTimeout(() => {
@@ -319,8 +380,8 @@ function renderHeader() {
             <span class="offline-pill ${isOnline ? '' : 'offline'}" title="${isOnline ? 'Connected to school archive' : 'Practicing with cached exam papers'}">
                 <span class="status-dot"></span> ${isOnline ? 'Online' : 'Offline'}
             </span>
-            <button id="pwa-install-btn" class="pwa-install-btn" style="display: ${window._deferredPwaPrompt ? 'inline-flex' : 'none'};" onclick="promptPwaInstall()">
-                📲 Install App
+            <button id="pwa-install-btn" class="pwa-install-btn" style="display: ${window._deferredPwaPrompt ? 'inline-flex' : 'none'}; align-items: center; gap: 6px;" onclick="promptPwaInstall()">
+                ${uiIcon('download', 14)} Install App
             </button>
         </div>
     `;
@@ -654,35 +715,35 @@ async function showAdminDashboard() {
             <!-- Stats Bar -->
             <div id="admin-stats-container" class="stats-grid">
                 <div class="stat-card">
-                    <div class="stat-icon">📄</div>
+                    <div class="stat-icon" style="background: rgba(99, 102, 241, 0.15); color: #818cf8;">${uiIcon('fileText', 22)}</div>
                     <div>
                         <div class="stat-value" id="stat-exams">...</div>
                         <div class="stat-label">Total Exam Papers</div>
                     </div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-icon">🎓</div>
+                    <div class="stat-icon" style="background: rgba(168, 85, 247, 0.15); color: #c084fc;">${uiIcon('graduation', 22)}</div>
                     <div>
                         <div class="stat-value" id="stat-grades">...</div>
                         <div class="stat-label">Grades & Categories</div>
                     </div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-icon">📚</div>
+                    <div class="stat-icon" style="background: rgba(59, 130, 246, 0.15); color: #60a5fa;">${uiIcon('book', 22)}</div>
                     <div>
                         <div class="stat-value" id="stat-subjects">...</div>
                         <div class="stat-label">Total Subjects</div>
                     </div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-icon">👥</div>
+                    <div class="stat-icon" style="background: rgba(16, 185, 129, 0.15); color: #34d399;">${uiIcon('users', 22)}</div>
                     <div>
                         <div class="stat-value" id="stat-users">...</div>
-                        <div class="stat-label">Registered Users</div>
+                        <div class="stat-label">Registered Students</div>
                     </div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-icon">🎯</div>
+                    <div class="stat-icon" style="background: rgba(245, 158, 11, 0.15); color: #fbbf24;">${uiIcon('target', 22)}</div>
                     <div>
                         <div class="stat-value" id="stat-questions">...</div>
                         <div class="stat-label">Practice Questions</div>
@@ -694,23 +755,23 @@ async function showAdminDashboard() {
             <div class="admin-tabs">
                 <button class="admin-tab ${activeTab === 'exams' ? 'active' : ''}" 
                         onclick="switchAdminTab('exams')">
-                    📄 Manage Exam Papers
+                    ${uiIcon('fileText', 15)} Manage Exam Papers
                 </button>
                 <button class="admin-tab ${activeTab === 'questions' ? 'active' : ''}" 
                         onclick="switchAdminTab('questions')">
-                    🎯 Practice Questions
+                    ${uiIcon('target', 15)} Practice Questions
                 </button>
                 <button class="admin-tab ${activeTab === 'activity' ? 'active' : ''}" 
                         onclick="switchAdminTab('activity')">
-                    ⚡ Activity & Student Logs
+                    ${uiIcon('activity', 15)} Activity & Student Logs
                 </button>
                 <button class="admin-tab ${activeTab === 'categories' ? 'active' : ''}" 
                         onclick="switchAdminTab('categories')">
-                    🗂️ Categories & Subjects
+                    ${uiIcon('layers', 15)} Categories & Subjects
                 </button>
                 <button class="admin-tab ${activeTab === 'overview' ? 'active' : ''}" 
                         onclick="switchAdminTab('overview')">
-                    📊 System Overview
+                    ${uiIcon('chart', 15)} System Overview
                 </button>
             </div>
 
@@ -833,13 +894,7 @@ function renderExamsTable(exams) {
     if (!container) return;
 
     if (exams.length === 0) {
-        container.innerHTML = `
-            <div style="text-align: center; padding: 40px 20px; color: var(--text-muted);">
-                <div style="font-size: 36px; margin-bottom: 10px;">📄</div>
-                <h4>No exam papers found</h4>
-                <p>Click the "+ Upload Paper" button to add your first examination paper.</p>
-            </div>
-        `;
+        container.innerHTML = uiEmptyState('fileText', 'No exam papers found', 'Click the "+ Upload Paper" button to add your first examination paper.');
         return;
     }
 
@@ -871,14 +926,14 @@ function renderExamsTable(exams) {
                             <td><span style="font-size: 12px; color: var(--text-muted);">${exam.uploadedBy || 'admin'}</span></td>
                             <td style="text-align: right;">
                                 <div class="table-actions" style="justify-content: flex-end;">
-                                    <button class="btn-icon" onclick="previewExamDoc('${exam.id}')" title="Preview PDF">
-                                        👁️ View
+                                    <button class="btn-icon" onclick="previewExamDoc('${exam.id}')" title="Preview PDF" style="display: inline-flex; align-items: center; gap: 5px;">
+                                        ${uiIcon('eye', 13)} View
                                     </button>
-                                    <a href="${exam.fileUrl}" target="_blank" download class="btn-icon" title="Download">
-                                        ⬇️
+                                    <a href="${exam.fileUrl}" target="_blank" download class="btn-icon" title="Download PDF" style="display: inline-flex; align-items: center; justify-content: center;">
+                                        ${uiIcon('download', 14)}
                                     </a>
-                                    <button class="btn-icon danger" onclick="confirmDeleteExam('${exam.id}', '${escapeQuotes(exam.title)}')" title="Delete">
-                                        🗑️
+                                    <button class="btn-icon danger" onclick="confirmDeleteExam('${exam.id}', '${escapeQuotes(exam.title)}')" title="Delete" style="display: inline-flex; align-items: center; justify-content: center;">
+                                        ${uiIcon('trash', 14)}
                                     </button>
                                 </div>
                             </td>
@@ -960,7 +1015,7 @@ function openAddExamModal() {
             <div class="auth-form-group">
                 <label>Upload PDF Document *</label>
                 <div class="file-dropzone" onclick="document.getElementById('new-exam-file').click()">
-                    <div class="file-dropzone-icon">📄</div>
+                    <div class="file-dropzone-icon" style="color: #818cf8; margin-bottom: 8px;">${uiIcon('fileText', 34)}</div>
                     <strong id="dropzone-label">Click to select or drop PDF file</strong>
                     <p>Supported format: .pdf (Max size: 50MB)</p>
                     <input type="file" id="new-exam-file" accept=".pdf,application/pdf" style="display: none;" onchange="handleFileSelect(event)">
@@ -1142,8 +1197,8 @@ function renderAdminCategoriesTab() {
                                 <h4 style="font-size: 16px; color: var(--navy-900);">${g.name}</h4>
                                 <p style="font-size: 12px; color: var(--text-muted);">${(state.categories.subjects[g.id] || []).length} subjects</p>
                             </div>
-                            <button class="btn-icon danger" onclick="confirmDeleteGrade('${g.id}', '${g.name}')" title="Delete Grade">
-                                🗑️
+                            <button class="btn-icon danger" onclick="confirmDeleteGrade('${g.id}', '${g.name}')" title="Delete Grade" style="display: inline-flex; align-items: center; justify-content: center;">
+                                ${uiIcon('trash', 14)}
                             </button>
                         </div>
                     `).join('')}
@@ -1178,7 +1233,7 @@ function renderAdminCategoriesTab() {
                     <div class="tag-cloud">
                         ${currentSubjects.map(sub => `
                             <div class="tag-item">
-                                <span>📄 ${sub}</span>
+                                <span style="display: inline-flex; align-items: center; gap: 5px;">${uiIcon('fileText', 13)} ${sub}</span>
                                 <button type="button" class="tag-remove" onclick="handleDeleteSubject('${selectedGrade}', '${escapeQuotes(sub)}')" title="Remove subject">&times;</button>
                             </div>
                         `).join('')}
@@ -1260,8 +1315,8 @@ async function handleAddGrade(e) {
 function confirmDeleteGrade(gradeId, gradeName) {
     const bodyHtml = `
         <p>Are you sure you want to delete <strong>${gradeName}</strong>?</p>
-        <p style="margin-top: 10px; color: var(--danger); font-size: 13px;">
-            ⚠️ This will also remove all subjects and examination papers associated with ${gradeName}!
+        <p style="margin-top: 10px; color: var(--danger); font-size: 13px; display: flex; align-items: center; gap: 6px;">
+            ${uiIcon('alertTriangle', 14)} This will also remove all subjects and examination papers associated with ${gradeName}!
         </p>
     `;
     const footerHtml = `
@@ -1415,13 +1470,7 @@ function renderQuestionsTable(questions) {
     if (!container) return;
 
     if (questions.length === 0) {
-        container.innerHTML = `
-            <div style="text-align: center; padding: 40px 20px; color: var(--text-muted);">
-                <div style="font-size: 36px; margin-bottom: 10px;">🎯</div>
-                <h4>No practice questions found</h4>
-                <p>Click "+ Add Question" to create your first interactive multiple-choice question.</p>
-            </div>
-        `;
+        container.innerHTML = uiEmptyState('target', 'No practice questions found', 'Click "+ Add Question" to create your first interactive multiple-choice question.');
         return;
     }
 
@@ -1445,15 +1494,15 @@ function renderQuestionsTable(questions) {
                         <tr>
                             <td style="max-width: 320px;">
                                 <strong>${q.question}</strong>
-                                ${q.explanation ? `<div style="font-size: 12px; color: var(--text-dim); margin-top: 4px;">💡 ${q.explanation.substring(0, 70)}...</div>` : ''}
+                                ${q.explanation ? `<div style="font-size: 12px; color: var(--text-dim); margin-top: 4px; display: flex; align-items: center; gap: 4px;">${uiIcon('lightbulb', 13)} ${q.explanation.substring(0, 70)}...</div>` : ''}
                             </td>
                             <td><span class="badge badge-blue">${q.grade}</span></td>
                             <td><span class="badge badge-green">${q.subject}</span></td>
                             <td>${(q.options || []).length} Options</td>
                             <td><span class="badge badge-amber">${letters[q.correctAnswer] || (q.correctAnswer + 1)}</span></td>
                             <td style="text-align: right;">
-                                <button class="btn-icon danger" onclick="confirmDeleteQuestion('${q.id}', '${escapeQuotes(q.question.substring(0, 40))}')" title="Delete Question">
-                                    🗑️
+                                <button class="btn-icon danger" onclick="confirmDeleteQuestion('${q.id}', '${escapeQuotes(q.question.substring(0, 40))}')" title="Delete Question" style="display: inline-flex; align-items: center; justify-content: center;">
+                                    ${uiIcon('trash', 14)}
                                 </button>
                             </td>
                         </tr>
@@ -1698,11 +1747,11 @@ function renderAdminActivityTab() {
                     </p>
                 </div>
                 <div style="display: flex; gap: 10px; align-items: center;">
-                    <button class="btn-secondary" style="padding: 8px 16px; font-size: 13px; display: inline-flex; align-items: center; gap: 6px;" onclick="loadActivityStatsAndLogs()">
-                        🔄 Refresh Feed
+                    <button class="btn-secondary" style="padding: 8px 16px; font-size: 13px; display: inline-flex; align-items: center; gap: 7px;" onclick="loadActivityStatsAndLogs()">
+                        ${uiIcon('refresh', 14)} Refresh Feed
                     </button>
-                    <button class="btn-secondary" style="padding: 8px 16px; font-size: 13px; display: inline-flex; align-items: center; gap: 6px;" onclick="exportActivityLogsCsv()">
-                        📥 Export CSV
+                    <button class="btn-secondary" style="padding: 8px 16px; font-size: 13px; display: inline-flex; align-items: center; gap: 7px;" onclick="exportActivityLogsCsv()">
+                        ${uiIcon('export', 14)} Export CSV
                     </button>
                 </div>
             </div>
@@ -1710,28 +1759,28 @@ function renderAdminActivityTab() {
             <!-- Live KPI Metric Cards -->
             <div id="activity-metrics-container" class="stats-grid" style="grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); margin-bottom: 24px;">
                 <div class="stat-card" style="border-left: 4px solid #3b82f6;">
-                    <div class="stat-icon" style="background: rgba(59, 130, 246, 0.15); color: #60a5fa;">🔑</div>
+                    <div class="stat-icon" style="background: rgba(59, 130, 246, 0.15); color: #60a5fa;">${uiIcon('key', 22)}</div>
                     <div>
                         <div class="stat-value" id="act-metric-logins">...</div>
                         <div class="stat-label">Total Student Logins</div>
                     </div>
                 </div>
                 <div class="stat-card" style="border-left: 4px solid #10b981;">
-                    <div class="stat-icon" style="background: rgba(16, 185, 129, 0.15); color: #34d399;">⬇️</div>
+                    <div class="stat-icon" style="background: rgba(16, 185, 129, 0.15); color: #34d399;">${uiIcon('download', 22)}</div>
                     <div>
                         <div class="stat-value" id="act-metric-downloads">...</div>
                         <div class="stat-label">PDF Papers Downloaded</div>
                     </div>
                 </div>
                 <div class="stat-card" style="border-left: 4px solid #8b5cf6;">
-                    <div class="stat-icon" style="background: rgba(139, 92, 246, 0.15); color: #c084fc;">🎯</div>
+                    <div class="stat-icon" style="background: rgba(139, 92, 246, 0.15); color: #c084fc;">${uiIcon('target', 22)}</div>
                     <div>
                         <div class="stat-value" id="act-metric-practices">...</div>
                         <div class="stat-label">Practice Tests Taken</div>
                     </div>
                 </div>
                 <div class="stat-card" style="border-left: 4px solid #f59e0b;">
-                    <div class="stat-icon" style="background: rgba(245, 158, 11, 0.15); color: #fbbf24;">📈</div>
+                    <div class="stat-icon" style="background: rgba(245, 158, 11, 0.15); color: #fbbf24;">${uiIcon('trendingUp', 22)}</div>
                     <div>
                         <div class="stat-value" id="act-metric-avgscore">...</div>
                         <div class="stat-label">Average Practice Score</div>
@@ -1745,9 +1794,9 @@ function renderAdminActivityTab() {
                     <span style="font-size: 13.5px; color: var(--text-muted); font-weight: 600;">Activity:</span>
                     <select id="activity-filter-type" class="admin-select" style="margin: 0; padding: 8px 12px; width: 100%;" onchange="handleActivityFilterChange()">
                         <option value="all" ${f.type === 'all' ? 'selected' : ''}>All Events (Logins, Downloads, Practice)</option>
-                        <option value="login" ${f.type === 'login' ? 'selected' : ''}>🔑 Logins Only</option>
-                        <option value="download" ${f.type === 'download' ? 'selected' : ''}>⬇️ PDF Downloads Only</option>
-                        <option value="practice" ${f.type === 'practice' ? 'selected' : ''}>🎯 Practice Tests Only</option>
+                        <option value="login" ${f.type === 'login' ? 'selected' : ''}>Logins Only</option>
+                        <option value="download" ${f.type === 'download' ? 'selected' : ''}>PDF Downloads Only</option>
+                        <option value="practice" ${f.type === 'practice' ? 'selected' : ''}>Practice Tests Only</option>
                     </select>
                 </div>
 
@@ -1827,13 +1876,7 @@ function renderActivityTable(logs) {
     if (!container) return;
 
     if (logs.length === 0) {
-        container.innerHTML = `
-            <div style="text-align: center; padding: 48px 20px; background: rgba(255, 255, 255, 0.02); border: 1px dashed var(--border-glass); border-radius: 12px;">
-                <div style="font-size: 36px; margin-bottom: 10px;">📋</div>
-                <h4 style="color: #ffffff; margin-bottom: 6px;">No activity logs found</h4>
-                <p style="color: var(--text-muted); font-size: 14px;">No matching records found for the selected filters. Activity will appear here when students sign in, download papers, or take practice exams.</p>
-            </div>
-        `;
+        container.innerHTML = uiEmptyState('clipboard', 'No activity logs found', 'No matching records found for the selected filters. Activity will appear here when students sign in, download papers, or take practice exams.');
         return;
     }
 
@@ -1858,13 +1901,13 @@ function renderActivityTable(logs) {
 
                         let actionBadge = '';
                         if (log.type === 'login') {
-                            actionBadge = `<span class="act-badge act-badge-login">🔑 Login</span>`;
+                            actionBadge = `<span class="act-badge act-badge-login">${uiIcon('key', 12)} Login</span>`;
                         } else if (log.type === 'download') {
-                            actionBadge = `<span class="act-badge act-badge-download">⬇️ Download</span>`;
+                            actionBadge = `<span class="act-badge act-badge-download">${uiIcon('download', 12)} Download</span>`;
                         } else if (log.type === 'preview') {
-                            actionBadge = `<span class="act-badge act-badge-preview">👁️ Preview</span>`;
+                            actionBadge = `<span class="act-badge act-badge-preview">${uiIcon('eye', 12)} Preview</span>`;
                         } else if (log.type === 'practice') {
-                            actionBadge = `<span class="act-badge act-badge-practice">🎯 Practice</span>`;
+                            actionBadge = `<span class="act-badge act-badge-practice">${uiIcon('target', 12)} Practice</span>`;
                         }
 
                         let detailsHtml = '';
@@ -1879,8 +1922,8 @@ function renderActivityTable(logs) {
                                         <span class="score-badge ${scoreClass}">
                                             Score: ${log.score !== null ? log.score : '-'}/${log.totalQuestions || '-'} (${log.percentage !== null ? `${log.percentage}%` : '-'})
                                         </span>
-                                        <span style="font-size: 12px; color: var(--text-muted);">
-                                            ${log.mode === 'timed' ? '⏱️ Timed Mode' : '⚡ Instant Practice'}
+                                        <span style="font-size: 12px; color: var(--text-muted); display: inline-flex; align-items: center; gap: 4px;">
+                                            ${log.mode === 'timed' ? `${uiIcon('clock', 12)} Timed Mode` : `${uiIcon('bolt', 12)} Instant Practice`}
                                         </span>
                                         ${log.durationSeconds ? `<span style="font-size: 12px; color: var(--text-muted);">• ${formatTime(log.durationSeconds)}</span>` : ''}
                                     </div>
@@ -2008,13 +2051,15 @@ function formatRelativeTime(isoString) {
 }
 
 function formatUserAgent(ua) {
-    if (!ua) return 'Web Browser';
-    if (ua.includes('Mobile') || ua.includes('Android') || ua.includes('iPhone')) return '📱 Mobile';
-    if (ua.includes('Chrome')) return '💻 Chrome';
-    if (ua.includes('Firefox')) return '💻 Firefox';
-    if (ua.includes('Safari')) return '💻 Safari';
-    if (ua.includes('Edge')) return '💻 Edge';
-    return '💻 Desktop';
+    if (!ua) return `<span style="display: inline-flex; align-items: center; gap: 4px;">${uiIcon('monitor', 12)} Web</span>`;
+    if (ua.includes('Mobile') || ua.includes('Android') || ua.includes('iPhone')) {
+        return `<span style="display: inline-flex; align-items: center; gap: 4px;">${uiIcon('smartphone', 12)} Mobile</span>`;
+    }
+    if (ua.includes('Chrome')) return `<span style="display: inline-flex; align-items: center; gap: 4px;">${uiIcon('monitor', 12)} Chrome</span>`;
+    if (ua.includes('Firefox')) return `<span style="display: inline-flex; align-items: center; gap: 4px;">${uiIcon('monitor', 12)} Firefox</span>`;
+    if (ua.includes('Safari')) return `<span style="display: inline-flex; align-items: center; gap: 4px;">${uiIcon('monitor', 12)} Safari</span>`;
+    if (ua.includes('Edge')) return `<span style="display: inline-flex; align-items: center; gap: 4px;">${uiIcon('monitor', 12)} Edge</span>`;
+    return `<span style="display: inline-flex; align-items: center; gap: 4px;">${uiIcon('monitor', 12)} Desktop</span>`;
 }
 
 /* ========================================================
@@ -2058,8 +2103,8 @@ function showLibraryHome() {
                 <p>Choose a grade to browse its past examinations.</p>
             </div>
 
-            <button class="btn-secondary" style="margin-bottom: 18px;" onclick="showPracticeGradeCatalog()">
-                🎯 Browse practice questions by grade and subject
+            <button class="btn-secondary" style="margin-bottom: 18px; display: inline-flex; align-items: center; gap: 8px;" onclick="showPracticeGradeCatalog()">
+                ${uiIcon('target', 15)} Browse practice questions by grade and subject
             </button>
 
             <div class="card-grid">
@@ -2161,7 +2206,7 @@ async function showPracticeSubjectCatalog(gradeId) {
                 const count = countsBySubject[subject] || 0;
                 return `
                     <button class="card subject-card" style="text-align: left; color: inherit; font: inherit; ${count ? '' : 'opacity: .55;'}" ${count ? `onclick="startPracticeSession('${gradeId}', 'Practice Bank', 'All', '${escapeQuotes(subject)}', 'practice', '${escapeQuotes(`${grade ? grade.name : gradeId} ${subject} Practice`)}', '', () => showPracticeSubjectCatalog('${gradeId}'))"` : 'disabled'}>
-                        <div class="subject-icon">🎯</div>
+                        <div class="subject-icon" style="color: #c084fc;">${uiIcon('target', 20)}</div>
                         <div class="card-info">
                             <h3>${subject}</h3>
                             <p>${count > 0 ? `${count} authentic questions` : 'In transcription (PDF available)'}</p>
@@ -2193,13 +2238,7 @@ async function handleLibrarySearch(query) {
         const results = data.exams || [];
 
         if (results.length === 0) {
-            container.innerHTML = `
-                <div style="text-align: center; padding: 40px 20px; color: var(--text-muted);">
-                    <div style="font-size: 36px; margin-bottom: 10px;">🔍</div>
-                    <h3>No examination papers found for "${trimmed}"</h3>
-                    <p>Try searching for a different subject or grade.</p>
-                </div>
-            `;
+            container.innerHTML = uiEmptyState('search', `No examination papers found for "${escapeQuotes(trimmed)}"`, 'Try searching for a different subject, grade or exam title.');
             return;
         }
 
@@ -2212,7 +2251,7 @@ async function handleLibrarySearch(query) {
             <div class="card-grid">
                 ${results.map(exam => `
                     <div class="card subject-card" onclick="openExamById('${exam.id}')">
-                        <div class="subject-icon">📄</div>
+                        <div class="subject-icon" style="color: #818cf8;">${uiIcon('fileText', 20)}</div>
                         <div class="card-info">
                             <h3>${exam.title}</h3>
                             <p>${exam.grade} • ${exam.semester} • ${exam.subject}</p>
@@ -2350,7 +2389,7 @@ function showExamType(gradeId, semester, examType) {
         <div class="card-grid">
             ${subjects.map(subject => `
                 <div class="card subject-card" onclick="openSubjectExam('${gradeId}', '${semester}', '${examType}', '${escapeQuotes(subject)}')">
-                    <div class="subject-icon">📄</div>
+                    <div class="subject-icon" style="color: #818cf8;">${uiIcon('fileText', 20)}</div>
                     <div class="card-info">
                         <h3>${subject}</h3>
                         <p>View exam paper</p>
@@ -2381,7 +2420,7 @@ function showNationalExamCategory(category) {
         <div class="card-grid">
             ${subjects.map(subject => `
                 <div class="card subject-card" onclick="openSubjectExam('Grade12', '${category}', '${category}', '${escapeQuotes(subject)}')">
-                    <div class="subject-icon">📄</div>
+                    <div class="subject-icon" style="color: #818cf8;">${uiIcon('fileText', 20)}</div>
                     <div class="card-info">
                         <h3>${subject}</h3>
                         <p>View exam paper</p>
@@ -2478,7 +2517,9 @@ async function showExamHub(grade, semester, examType, subject, filePath, examTit
             <!-- Left Card: Interactive Practice -->
             <div class="hub-card ${questionCount > 0 ? 'hub-card-featured' : ''}" style="${questionCount === 0 ? 'border: 1px dashed var(--border-glass);' : ''}">
                 ${questionCount > 0 ? `
-                    <span class="hub-badge hub-badge-interactive">✨ 100% Authentic Paper Questions</span>
+                    <span class="hub-badge hub-badge-interactive" style="display: inline-flex; align-items: center; gap: 6px;">
+                        ${uiIcon('sparkles', 13)} 100% Authentic Paper Questions
+                    </span>
                     <h3 style="font-size: 24px; color: #ffffff; margin-bottom: 8px;">Online Practice Mode</h3>
                     <p style="color: var(--text-muted); font-size: 14.5px; line-height: 1.6;">
                         Practice real examination questions transcribed directly from the physical school paper with instant feedback and score reports.
@@ -2488,7 +2529,9 @@ async function showExamHub(grade, semester, examType, subject, filePath, examTit
                         <div class="mode-option ${selectedHubMode === 'practice' ? 'active' : ''}" id="mode-opt-practice" onclick="setHubMode('practice')">
                             <div class="mode-radio"></div>
                             <div>
-                                <div style="font-weight: 700; color: #ffffff; font-size: 15px;">⚡ Instant Practice Mode</div>
+                                <div style="font-weight: 700; color: #ffffff; font-size: 15px; display: flex; align-items: center; gap: 6px;">
+                                    ${uiIcon('bolt', 16, 'text-accent')} Instant Practice Mode
+                                </div>
                                 <div style="font-size: 12.5px; color: var(--text-muted); margin-top: 2px;">
                                     Check answers immediately after each question with detailed explanations.
                                 </div>
@@ -2498,7 +2541,9 @@ async function showExamHub(grade, semester, examType, subject, filePath, examTit
                         <div class="mode-option ${selectedHubMode === 'timed' ? 'active' : ''}" id="mode-opt-timed" onclick="setHubMode('timed')">
                             <div class="mode-radio"></div>
                             <div>
-                                <div style="font-weight: 700; color: #ffffff; font-size: 15px;">⏱️ Timed Exam Simulation</div>
+                                <div style="font-weight: 700; color: #ffffff; font-size: 15px; display: flex; align-items: center; gap: 6px;">
+                                    ${uiIcon('clock', 16, 'text-accent')} Timed Exam Simulation
+                                </div>
                                 <div style="font-size: 12.5px; color: var(--text-muted); margin-top: 2px;">
                                     Real test conditions with live countdown timer and verified final score report.
                                 </div>
@@ -2507,8 +2552,8 @@ async function showExamHub(grade, semester, examType, subject, filePath, examTit
                     </div>
 
                     <div style="display: flex; align-items: center; justify-content: space-between; margin-top: auto; padding-top: 18px; border-top: 1px solid var(--border-glass);">
-                        <span style="font-size: 13px; color: #c084fc; font-weight: 600;">
-                            📚 ${questionCount} Authentic Questions Transcribed
+                        <span style="font-size: 13px; color: #c084fc; font-weight: 600; display: inline-flex; align-items: center; gap: 6px;">
+                            ${uiIcon('bookOpen', 15)} ${questionCount} Authentic Questions Transcribed
                         </span>
                         <button class="btn-primary" style="width: auto; padding: 12px 24px;" 
                                 onclick="startPracticeSession('${grade}', '${semester}', '${examType}', '${escapeQuotes(subject)}', selectedHubMode, '${escapeQuotes(examTitle)}', '${filePath}', window._lastBackFn)">
@@ -2516,20 +2561,24 @@ async function showExamHub(grade, semester, examType, subject, filePath, examTit
                         </button>
                     </div>
                 ` : `
-                    <span class="hub-badge" style="background: rgba(148, 163, 184, 0.15); color: #94a3b8; border: 1px solid rgba(148, 163, 184, 0.25);">📋 Archive Paper</span>
+                    <span class="hub-badge" style="background: rgba(148, 163, 184, 0.15); color: #94a3b8; border: 1px solid rgba(148, 163, 184, 0.25); display: inline-flex; align-items: center; gap: 5px;">
+                        ${uiIcon('clipboard', 12)} Archive Paper
+                    </span>
                     <h3 style="font-size: 22px; color: #ffffff; margin-bottom: 8px;">Interactive Mode In Transcription</h3>
                     <p style="color: var(--text-muted); font-size: 14px; line-height: 1.6; margin-bottom: 16px;">
                         To maintain strict 100% exam fidelity, questions for this paper are being transcribed directly from school physical archives. No AI-generated or synthetic questions are published.
                     </p>
                     <div style="background: rgba(99, 102, 241, 0.08); border: 1px solid rgba(99, 102, 241, 0.2); border-radius: 12px; padding: 14px; margin-bottom: 20px;">
-                        <div style="font-weight: 600; color: #a5b4fc; font-size: 13.5px; margin-bottom: 4px;">📖 Official PDF Ready for Study</div>
+                        <div style="font-weight: 600; color: #a5b4fc; font-size: 13.5px; margin-bottom: 4px; display: flex; align-items: center; gap: 6px;">
+                            ${uiIcon('fileText', 14)} Official PDF Ready for Study
+                        </div>
                         <div style="font-size: 12.5px; color: var(--text-muted); line-height: 1.5;">
                             You can view the full scanned exam paper with questions and diagrams using the Exam Document preview below.
                         </div>
                     </div>
                     <div style="display: flex; align-items: center; justify-content: space-between; margin-top: auto; padding-top: 18px; border-top: 1px solid var(--border-glass);">
-                        <span style="font-size: 12.5px; color: #94a3b8;">
-                            🔒 Strict Paper Fidelity Policy
+                        <span style="font-size: 12.5px; color: #94a3b8; display: inline-flex; align-items: center; gap: 5px;">
+                            ${uiIcon('shieldCheck', 14)} Strict Paper Fidelity Policy
                         </span>
                         <span style="font-size: 12.5px; color: #818cf8; font-weight: 600;">
                             See Document Options ↓
@@ -2540,20 +2589,22 @@ async function showExamHub(grade, semester, examType, subject, filePath, examTit
 
             <!-- Right Card: PDF Download & Preview -->
             <div class="hub-card">
-                <span class="hub-badge hub-badge-pdf">📄 Original Paper</span>
+                <span class="hub-badge hub-badge-pdf" style="display: inline-flex; align-items: center; gap: 5px;">
+                    ${uiIcon('fileText', 12)} Original Paper
+                </span>
                 <h3 style="font-size: 22px; color: #ffffff; margin-bottom: 8px;">Exam Document (PDF)</h3>
                 <p style="color: var(--text-muted); font-size: 14px; line-height: 1.6; margin-bottom: 24px;">
                     Download the official past paper for offline study, or preview the complete document online.
                 </p>
 
                 <div style="display: flex; flex-direction: column; gap: 12px; margin-top: auto;">
-                    <a href="${filePath}" target="_blank" download class="btn-primary" style="text-decoration: none; text-align: center;" 
+                    <a href="${filePath}" target="_blank" download class="btn-primary" style="text-decoration: none; text-align: center; display: inline-flex; align-items: center; justify-content: center; gap: 8px;" 
                        onclick="logActivity('download', { grade: '${grade}', subject: '${escapeQuotes(subject)}', semester: '${semester}', examType: '${examType}', examTitle: '${escapeQuotes(examTitle)}', filePath: '${filePath}', details: 'Downloaded official examination PDF' })">
-                        ⬇️ Download Official PDF Paper
+                        ${uiIcon('download', 15)} Download Official PDF Paper
                     </a>
-                    <button class="btn-secondary" style="justify-content: center; padding: 12px;" 
+                    <button class="btn-secondary" style="justify-content: center; padding: 12px; display: inline-flex; align-items: center; gap: 8px;" 
                             onclick="logActivity('preview', { grade: '${grade}', subject: '${escapeQuotes(subject)}', semester: '${semester}', examType: '${examType}', examTitle: '${escapeQuotes(examTitle)}', filePath: '${filePath}', details: 'Previewed exam PDF online' }); renderExamViewer('${escapeQuotes(examTitle)}', '${grade} • ${semester} • ${examType}', '${filePath}', () => showExamHub('${grade}', '${semester}', '${examType}', '${escapeQuotes(subject)}', '${filePath}', '${escapeQuotes(examTitle)}', window._lastBackFn))">
-                        👁️ Preview PDF Document
+                        ${uiIcon('eye', 15)} Preview PDF Document
                     </button>
                 </div>
             </div>
@@ -2682,20 +2733,22 @@ function renderQuizScreen() {
 
                 <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
                     ${isTimed ? `
-                        <div class="quiz-timer-pill" id="quiz-timer-display">
-                            ⏱️ ${formatTime(currentQuiz.timeRemaining)}
+                        <div class="quiz-timer-pill" id="quiz-timer-display" style="display: inline-flex; align-items: center; gap: 6px;">
+                            ${uiIcon('clock', 13)} ${formatTime(currentQuiz.timeRemaining)}
                         </div>
                     ` : `
-                        <span class="hub-badge hub-badge-interactive" style="margin: 0;">⚡ Practice Mode</span>
+                        <span class="hub-badge hub-badge-interactive" style="margin: 0; display: inline-flex; align-items: center; gap: 5px;">
+                            ${uiIcon('bolt', 13)} Practice Mode
+                        </span>
                     `}
 
-                    <a href="${currentQuiz.filePath}" target="_blank" download class="btn-secondary" style="padding: 7px 12px; font-size: 13px;" title="Download PDF">
-                        ⬇️ PDF
+                    <a href="${currentQuiz.filePath}" target="_blank" download class="btn-secondary" style="padding: 7px 12px; font-size: 13px; display: inline-flex; align-items: center; gap: 5px;" title="Download PDF">
+                        ${uiIcon('download', 13)} PDF
                     </a>
 
                     ${isTimed ? `
-                        <button class="btn-secondary" style="padding: 7px 12px; font-size: 13px; color: ${isFlagged ? '#f59e0b' : 'var(--text-muted)'};" onclick="toggleQuizFlag('${q.id}')">
-                            ${isFlagged ? '🚩 Flagged' : '🏳️ Flag'}
+                        <button class="btn-secondary" style="padding: 7px 12px; font-size: 13px; color: ${isFlagged ? '#f59e0b' : 'var(--text-muted)'}; display: inline-flex; align-items: center; gap: 5px;" onclick="toggleQuizFlag('${q.id}')">
+                            ${uiIcon('flag', 13)} ${isFlagged ? 'Flagged' : 'Flag'}
                         </button>
                         <button class="btn-primary" style="width: auto; padding: 7px 16px; font-size: 13px;" onclick="confirmSubmitTimedExam()">
                             Submit Exam
@@ -2740,8 +2793,8 @@ function renderQuizScreen() {
                 <!-- Explanation Box in Practice Mode -->
                 ${isChecked ? `
                     <div class="explanation-box">
-                        <div class="explanation-title">
-                            ${selected === q.correctAnswer ? '🎉 Correct Answer!' : '💡 Explanation'}
+                        <div class="explanation-title" style="display: flex; align-items: center; gap: 7px;">
+                            ${selected === q.correctAnswer ? `${uiIcon('checkCircle', 16)} Correct Answer!` : `${uiIcon('lightbulb', 16)} Explanation`}
                         </div>
                         <div class="explanation-text">
                             ${q.explanation || 'The correct option is ' + letters[q.correctAnswer] + ': ' + q.options[q.correctAnswer]}
@@ -2757,8 +2810,8 @@ function renderQuizScreen() {
 
                     <div style="display: flex; gap: 10px;">
                         ${!isTimed && !isChecked ? `
-                            <button class="btn-primary" style="width: auto; padding: 10px 22px;" onclick="checkCurrentAnswer('${q.id}')" ${selected === undefined ? 'disabled style="opacity: 0.5;"' : ''}>
-                                Check Answer ✓
+                            <button class="btn-primary" style="width: auto; padding: 10px 22px; display: inline-flex; align-items: center; gap: 6px;" onclick="checkCurrentAnswer('${q.id}')" ${selected === undefined ? 'disabled style="opacity: 0.5;"' : ''}>
+                                Check Answer ${uiIcon('check', 14)}
                             </button>
                         ` : ''}
 
@@ -2767,8 +2820,8 @@ function renderQuizScreen() {
                                 Next Question →
                             </button>
                         ` : `
-                            <button class="btn-primary" style="width: auto; padding: 10px 22px; background: linear-gradient(135deg, #059669, #10b981);" onclick="finishQuiz()">
-                                View Results & Score 🏆
+                            <button class="btn-primary" style="width: auto; padding: 10px 22px; background: linear-gradient(135deg, #059669, #10b981); display: inline-flex; align-items: center; gap: 8px;" onclick="finishQuiz()">
+                                View Results & Score ${uiIcon('trophy', 16)}
                             </button>
                         `}
                     </div>
@@ -2839,7 +2892,7 @@ function confirmSubmitTimedExam() {
     const total = currentQuiz.questions.length;
     const bodyHtml = `
         <p>You have answered <strong>${answeredCount}</strong> of <strong>${total}</strong> questions.</p>
-        ${answeredCount < total ? `<p style="color: #f59e0b; margin-top: 8px; font-size: 13px;">⚠️ You have ${total - answeredCount} unanswered questions.</p>` : ''}
+        ${answeredCount < total ? `<p style="color: #f59e0b; margin-top: 8px; font-size: 13px; display: flex; align-items: center; gap: 6px;">${uiIcon('alertTriangle', 14)} You have ${total - answeredCount} unanswered questions.</p>` : ''}
         <p style="margin-top: 10px;">Are you ready to submit your exam and receive your verified score?</p>
     `;
     const footerHtml = `
@@ -2872,7 +2925,7 @@ function formatTime(seconds) {
 function updateTimerDisplay() {
     const el = document.getElementById('quiz-timer-display');
     if (el) {
-        el.innerHTML = `⏱️ ${formatTime(currentQuiz.timeRemaining)}`;
+        el.innerHTML = `${uiIcon('clock', 13)} ${formatTime(currentQuiz.timeRemaining)}`;
         if (currentQuiz.timeRemaining < 120) {
             el.classList.add('urgent');
         }
@@ -2914,15 +2967,17 @@ function finishQuiz() {
         details: `Scored ${correctCount}/${currentQuiz.questions.length} (${percent}%) in ${formatTime(timeSpentSeconds)}`
     });
 
-    let verdict = '🎉 Excellent Job!';
-    if (percent >= 90) verdict = '🏆 Outstanding Mastery! Distinction!';
-    else if (percent >= 75) verdict = '🌟 Great Performance! High Pass!';
-    else if (percent >= 50) verdict = '👍 Good Effort! Passing Grade.';
-    else verdict = '📚 Keep Practicing! Review key concepts below.';
+    let verdict = `<span style="display: inline-flex; align-items: center; gap: 8px;">${uiIcon('sparkles', 20)} Excellent Job!</span>`;
+    if (percent >= 90) verdict = `<span style="display: inline-flex; align-items: center; gap: 8px;">${uiIcon('trophy', 20)} Outstanding Mastery! Distinction!</span>`;
+    else if (percent >= 75) verdict = `<span style="display: inline-flex; align-items: center; gap: 8px;">${uiIcon('star', 20)} Great Performance! High Pass!</span>`;
+    else if (percent >= 50) verdict = `<span style="display: inline-flex; align-items: center; gap: 8px;">${uiIcon('checkCircle', 20)} Good Effort! Passing Grade.</span>`;
+    else verdict = `<span style="display: inline-flex; align-items: center; gap: 8px;">${uiIcon('bookOpen', 20)} Keep Practicing! Review key concepts below.</span>`;
 
     app.innerHTML = `
         <div class="results-card">
-            <div style="font-size: 40px; margin-bottom: 8px;">🎓</div>
+            <div class="empty-state-icon-wrap" style="width: 72px; height: 72px; margin: 0 auto 16px; background: rgba(99, 102, 241, 0.15); color: #a5b4fc; border-color: rgba(99, 102, 241, 0.35);">
+                ${uiIcon('graduation', 36)}
+            </div>
             <h2 style="font-family: 'Outfit', sans-serif; font-size: 32px; color: #ffffff; margin-bottom: 6px;">Practice Completed!</h2>
             <p style="color: var(--text-muted); font-size: 15px;">${currentQuiz.subject} • ${currentQuiz.grade} • ${currentQuiz.examType}</p>
 
@@ -2949,18 +3004,18 @@ function finishQuiz() {
             </div>
 
             <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-top: 28px;">
-                <button class="btn-primary" style="width: auto; padding: 12px 24px;" onclick="reviewQuizAnswers()">
-                    📖 Review All Questions & Explanations
+                <button class="btn-primary" style="width: auto; padding: 12px 24px; display: inline-flex; align-items: center; gap: 8px;" onclick="reviewQuizAnswers()">
+                    ${uiIcon('bookOpen', 15)} Review Questions & Explanations
                 </button>
-                <button class="btn-secondary" onclick="startPracticeSession('${currentQuiz.grade}', '${currentQuiz.semester}', '${currentQuiz.examType}', '${escapeQuotes(currentQuiz.subject)}', '${currentQuiz.mode}', '${escapeQuotes(currentQuiz.examTitle)}', '${currentQuiz.filePath}', currentQuiz.backFn)">
-                    🔄 Retake Practice Test
+                <button class="btn-secondary" style="display: inline-flex; align-items: center; gap: 7px;" onclick="startPracticeSession('${currentQuiz.grade}', '${currentQuiz.semester}', '${currentQuiz.examType}', '${escapeQuotes(currentQuiz.subject)}', '${currentQuiz.mode}', '${escapeQuotes(currentQuiz.examTitle)}', '${currentQuiz.filePath}', currentQuiz.backFn)">
+                    ${uiIcon('refresh', 14)} Retake Practice Test
                 </button>
-                <a href="${currentQuiz.filePath}" target="_blank" download class="btn-secondary" style="text-decoration: none;"
+                <a href="${currentQuiz.filePath}" target="_blank" download class="btn-secondary" style="text-decoration: none; display: inline-flex; align-items: center; gap: 7px;"
                    onclick="logActivity('download', { grade: '${currentQuiz.grade}', subject: '${escapeQuotes(currentQuiz.subject)}', semester: '${currentQuiz.semester}', examType: '${currentQuiz.examType}', examTitle: '${escapeQuotes(currentQuiz.examTitle)}', filePath: '${currentQuiz.filePath}', details: 'Downloaded official PDF paper from quiz results' })">
-                    ⬇️ Download Official PDF
+                    ${uiIcon('download', 14)} Download Official PDF
                 </a>
-                <button class="btn-secondary" onclick="currentQuiz.backFn ? currentQuiz.backFn() : showLibraryHome()">
-                    🏠 Back to Library
+                <button class="btn-secondary" style="display: inline-flex; align-items: center; gap: 7px;" onclick="currentQuiz.backFn ? currentQuiz.backFn() : showLibraryHome()">
+                    ${uiIcon('home', 14)} Back to Library
                 </button>
             </div>
         </div>
@@ -2991,8 +3046,8 @@ function reviewQuizAnswers() {
                         <div class="quiz-card" style="padding: 26px;">
                             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
                                 <span class="question-number-badge">Question ${qIdx + 1}</span>
-                                <span class="badge ${isCorrect ? 'badge-green' : 'badge-amber'}">
-                                    ${isCorrect ? '✓ Correct (+1 pt)' : '✕ Incorrect (0 pts)'}
+                                <span class="badge ${isCorrect ? 'badge-green' : 'badge-amber'}" style="display: inline-flex; align-items: center; gap: 4px;">
+                                    ${isCorrect ? `${uiIcon('check', 12)} Correct (+1 pt)` : `${uiIcon('x', 12)} Incorrect (0 pts)`}
                                 </span>
                             </div>
 
@@ -3010,7 +3065,7 @@ function reviewQuizAnswers() {
                                         <div class="${optClass}" style="cursor: default;">
                                             <div class="option-letter">${letters[oIdx]}</div>
                                             <span>${opt}</span>
-                                            ${oIdx === q.correctAnswer ? '<span style="margin-left: auto; color: #34d399; font-weight: 700;">✓ Correct</span>' : ''}
+                                            ${oIdx === q.correctAnswer ? `<span style="margin-left: auto; color: #34d399; font-weight: 700; display: inline-flex; align-items: center; gap: 4px;">${uiIcon('check', 12)} Correct</span>` : ''}
                                             ${selected === oIdx && oIdx !== q.correctAnswer ? '<span style="margin-left: auto; color: #f87171; font-weight: 700;">Your Choice</span>' : ''}
                                         </div>
                                     `;
@@ -3045,7 +3100,9 @@ function renderExamNotFound(title, subtitle, grade, semester, examType, subject,
         </button>
 
         <div class="exam-message" style="margin-top: 10px;">
-            <div style="font-size: 36px; margin-bottom: 12px;">📁</div>
+            <div class="empty-state-icon-wrap" style="width: 64px; height: 64px; margin: 0 auto 14px; background: rgba(99, 102, 241, 0.12); color: #818cf8; border-color: rgba(99, 102, 241, 0.3);">
+                ${uiIcon('folder', 30)}
+            </div>
             <h3 style="font-size: 22px; color: var(--navy-900); margin-bottom: 8px;">Paper Not Uploaded Yet</h3>
             <p style="margin-bottom: 16px; color: var(--text-muted);">
                 The examination paper for <strong>${title}</strong> (${subtitle}) has not been uploaded to the school repository yet.
@@ -3109,7 +3166,7 @@ function renderExamViewer(title, subtitle, fileUrl, onBackFn) {
         <div class="exam-viewer-container">
             <div class="exam-viewer-toolbar">
                 <div class="exam-viewer-title">
-                    <div class="subject-icon">📄</div>
+                    <div class="subject-icon" style="color: #818cf8;">${uiIcon('fileText', 20)}</div>
                     <div>
                         <h3 style="font-size: 18px; color: #ffffff; font-weight: 700;">${title}</h3>
                         <p style="font-size: 13px; color: var(--text-muted);">${subtitle}</p>
@@ -3117,11 +3174,11 @@ function renderExamViewer(title, subtitle, fileUrl, onBackFn) {
                 </div>
 
                 <div class="exam-viewer-actions">
-                    <button class="btn-primary" style="width: auto; padding: 8px 16px; font-size: 13px;" onclick="window._lastBackFn ? window._lastBackFn() : showLibraryHome()">
-                        🎯 Practice Questions
+                    <button class="btn-primary" style="width: auto; padding: 8px 16px; font-size: 13px; display: inline-flex; align-items: center; gap: 6px;" onclick="window._lastBackFn ? window._lastBackFn() : showLibraryHome()">
+                        ${uiIcon('target', 14)} Practice Questions
                     </button>
-                    <a href="${fileUrl}" target="_blank" download class="btn-secondary" title="Download for offline study">
-                        ⬇️ Download PDF
+                    <a href="${fileUrl}" target="_blank" download class="btn-secondary" style="display: inline-flex; align-items: center; gap: 6px;" title="Download for offline study">
+                        ${uiIcon('download', 14)} Download PDF
                     </a>
                     <a href="${fileUrl}" target="_blank" class="btn-secondary" title="Open in raw browser tab">
                         ⤢ Open in New Tab
@@ -3144,18 +3201,18 @@ function renderExamViewer(title, subtitle, fileUrl, onBackFn) {
                 </div>
 
                 <div class="pdf-control-group">
-                    <button class="pdf-btn-ctrl" onclick="zoomPdf(-0.2)" title="Zoom Out">🔍 -</button>
+                    <button class="pdf-btn-ctrl" onclick="zoomPdf(-0.2)" title="Zoom Out" style="display: inline-flex; align-items: center;">${uiIcon('zoomOut', 13)}</button>
                     <span class="pdf-page-indicator" id="pdf-zoom-level">120%</span>
-                    <button class="pdf-btn-ctrl" onclick="zoomPdf(0.2)" title="Zoom In">🔍 +</button>
+                    <button class="pdf-btn-ctrl" onclick="zoomPdf(0.2)" title="Zoom In" style="display: inline-flex; align-items: center;">${uiIcon('zoomIn', 13)}</button>
                     <button class="pdf-btn-ctrl" onclick="resetPdfZoom()" title="Fit Width">Fit</button>
                 </div>
 
                 <div class="pdf-control-group">
-                    <button class="pdf-mode-pill ${pdfViewerState.viewMode === 'canvas' ? 'active' : ''}" id="btn-mode-canvas" onclick="switchPdfViewMode('canvas')">
-                        ⚡ Fast Reader
+                    <button class="pdf-mode-pill ${pdfViewerState.viewMode === 'canvas' ? 'active' : ''}" id="btn-mode-canvas" onclick="switchPdfViewMode('canvas')" style="display: inline-flex; align-items: center; gap: 5px;">
+                        ${uiIcon('bolt', 12)} Fast Reader
                     </button>
-                    <button class="pdf-mode-pill ${pdfViewerState.viewMode === 'native' ? 'active' : ''}" id="btn-mode-native" onclick="switchPdfViewMode('native')">
-                        📄 Native Viewer
+                    <button class="pdf-mode-pill ${pdfViewerState.viewMode === 'native' ? 'active' : ''}" id="btn-mode-native" onclick="switchPdfViewMode('native')" style="display: inline-flex; align-items: center; gap: 5px;">
+                        ${uiIcon('fileText', 12)} Native Viewer
                     </button>
                 </div>
             </div>
@@ -3164,7 +3221,9 @@ function renderExamViewer(title, subtitle, fileUrl, onBackFn) {
             <div id="pdf-viewer-viewport" style="position: relative; width: 100%;">
                 <div id="pdf-canvas-area" class="pdf-canvas-container" style="${pdfViewerState.viewMode === 'native' ? 'display: none;' : ''}">
                     <div class="pdf-loading-card" id="pdf-loading-card">
-                        <div class="hub-icon-circle" style="animation: pulse 1.5s infinite; font-size: 32px; width: 64px; height: 64px;">⚡</div>
+                        <div class="hub-icon-circle" style="animation: pulse 1.5s infinite; width: 60px; height: 60px; display: flex; align-items: center; justify-content: center; background: rgba(99, 102, 241, 0.2); border: 1px solid rgba(99, 102, 241, 0.4); color: #818cf8; border-radius: 50%; margin: 0 auto 14px;">
+                            ${uiIcon('bolt', 26)}
+                        </div>
                         <h4 style="color: #ffffff; font-size: 16px;">Loading Examination Paper...</h4>
                         <div class="pdf-progress-track">
                             <div class="pdf-progress-fill" id="pdf-progress-bar"></div>

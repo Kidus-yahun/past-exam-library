@@ -2480,4 +2480,105 @@ footer {
     flex-shrink: 0;
 }
 
+/* ========================================================
+   AESTHETIC VECTOR ICON SYSTEM & METRICS
+======================================================== */
+.ui-icon {
+    display: inline-block;
+    vertical-align: middle;
+    flex-shrink: 0;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.stat-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: all 0.25s var(--ease-out);
+}
+
+.stat-icon svg {
+    filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.35));
+}
+
+.stat-card:hover .stat-icon {
+    transform: scale(1.08);
+}
+
+#activity-metrics-container .stat-card {
+    background: rgba(255, 255, 255, 0.025);
+    border: 1px solid var(--border-glass);
+    border-radius: 14px;
+    padding: 18px 20px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    transition: all 0.25s ease;
+}
+
+#activity-metrics-container .stat-card:hover {
+    background: rgba(255, 255, 255, 0.045);
+    border-color: rgba(255, 255, 255, 0.16);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+}
+
+.act-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 11px;
+    border-radius: 9999px;
+    font-size: 11.5px;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+}
+
+.act-badge svg {
+    flex-shrink: 0;
+}
+
+.empty-state-aesthetic {
+    text-align: center;
+    padding: 48px 24px;
+    background: radial-gradient(circle at center, rgba(99, 102, 241, 0.04) 0%, rgba(255, 255, 255, 0.01) 100%);
+    border: 1px dashed rgba(255, 255, 255, 0.12);
+    border-radius: 14px;
+    margin: 14px 0;
+}
+
+.empty-state-icon-wrap {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid var(--border-glass);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-muted);
+    margin-bottom: 12px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+}
+
+.empty-state-title {
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+.empty-state-text {
+    color: var(--text-muted);
+    font-size: 13.5px;
+    max-width: 480px;
+    margin: 0 auto;
+    line-height: 1.5;
+}
+
+
 
