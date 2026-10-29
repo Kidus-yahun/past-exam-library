@@ -155,6 +155,12 @@ class Database {
                 this.data.questions = bundledSeedData.questions;
                 this.save();
             }
+
+            // Ensure activityLogs container exists
+            if (!this.data.activityLogs) {
+                this.data.activityLogs = (bundledSeedData && Array.isArray(bundledSeedData.activityLogs)) ? bundledSeedData.activityLogs : [];
+                this.save();
+            }
         } catch (err) {
             console.warn('Failed to read db file, using seed data:', err.message);
             this.data = bundledSeedData ? JSON.parse(JSON.stringify(bundledSeedData)) : getInitialData();
@@ -386,14 +392,141 @@ class Database {
         return removed;
     }
 
+    // ========================================================
+    // Student & User Activity Operations
+    // ========================================================
+    addActivityLog(logData) {
+        if (!this.data.activityLogs) this.data.activityLogs = [];
+        const newLog = {
+            id: 'act_' + Date.now() + '_' + Math.random().toString(36).substr(2, 5),
+            type: logData.type, // 'login', 'download', 'preview', 'practice'
+            userId: logData.userId || null,
+            username: logData.username || 'student',
+            role: logData.role || 'student',
+            grade: logData.grade || null,
+            subject: logData.subject || null,
+            semester: logData.semester || null,
+            examType: logData.examType || null,
+            examTitle: logData.examTitle || null,
+            filePath: logData.filePath || null,
+            score: typeof logData.score === 'number' ? logData.score : null,
+            totalQuestions: typeof logData.totalQuestions === 'number' ? logData.totalQuestions : null,
+            percentage: typeof logData.percentage === 'number' ? logData.percentage : null,
+            durationSeconds: typeof logData.durationSeconds === 'number' ? logData.durationSeconds : null,
+            mode: logData.mode || null, // 'practice' or 'timed'
+            details: logData.details || '',
+            ip: logData.ip || '',
+            userAgent: logData.userAgent || '',
+            timestamp: logData.timestamp || new Date().toISOString()
+        };
+
+        this.data.activityLogs.unshift(newLog);
+
+        // Keep last 1,500 logs to maintain fast performance while preserving rich history
+        if (this.data.activityLogs.length > 1500) {
+            this.data.activityLogs = this.data.activityLogs.slice(0, 1500);
+        }
+        this.save();
+        return newLog;
+    }
+
+    getActivityLogs(filters = {}) {
+        if (!this.data.activityLogs) this.data.activityLogs = [];
+        let logs = [...this.data.activityLogs];
+
+        if (filters.type && filters.type !== 'all') {
+            logs = logs.filter(l => l.type === filters.type);
+        }
+        if (filters.username) {
+            const u = filters.username.toLowerCase().trim();
+            logs = logs.filter(l => l.username && l.username.toLowerCase().includes(u));
+        }
+        if (filters.grade && filters.grade !== 'all') {
+            logs = logs.filter(l => l.grade === filters.grade);
+        }
+        if (filters.subject && filters.subject !== 'all') {
+            const s = filters.subject.toLowerCase().trim();
+            logs = logs.filter(l => l.subject && l.subject.toLowerCase() === s);
+        }
+        if (filters.search) {
+            const q = filters.search.toLowerCase().trim();
+            logs = logs.filter(l =>
+                (l.username && l.username.toLowerCase().includes(q)) ||
+                (l.subject && l.subject.toLowerCase().includes(q)) ||
+                (l.examTitle && l.examTitle.toLowerCase().includes(q)) ||
+                (l.details && l.details.toLowerCase().includes(q))
+            );
+        }
+
+        const limit = parseInt(filters.limit) || 200;
+        return logs.slice(0, limit);
+    }
+
+    getActivityStats() {
+        if (!this.data.activityLogs) this.data.activityLogs = [];
+        const logs = this.data.activityLogs;
+
+        const totalLogins = logs.filter(l => l.type === 'login').length;
+        const totalDownloads = logs.filter(l => l.type === 'download' || l.type === 'preview').length;
+        const practiceLogs = logs.filter(l => l.type === 'practice');
+        const totalPractices = practiceLogs.length;
+
+        let totalScoreSum = 0;
+        let scoreCount = 0;
+        practiceLogs.forEach(l => {
+            if (typeof l.percentage === 'number') {
+                totalScoreSum += l.percentage;
+                scoreCount++;
+            }
+        });
+        const avgScore = scoreCount > 0 ? Math.round(totalScoreSum / scoreCount) : 0;
+
+        // Group by user
+        const userMap = {};
+        logs.forEach(l => {
+            const name = l.username || 'Anonymous';
+            if (!userMap[name]) {
+                userMap[name] = { username: name, role: l.role || 'student', logins: 0, downloads: 0, practices: 0, lastActive: l.timestamp };
+            }
+            if (l.type === 'login') userMap[name].logins++;
+            if (l.type === 'download' || l.type === 'preview') userMap[name].downloads++;
+            if (l.type === 'practice') userMap[name].practices++;
+            if (new Date(l.timestamp) > new Date(userMap[name].lastActive)) {
+                userMap[name].lastActive = l.timestamp;
+            }
+        });
+
+        // Most engaged subjects
+        const subjectMap = {};
+        logs.forEach(l => {
+            if (l.subject) {
+                subjectMap[l.subject] = (subjectMap[l.subject] || 0) + 1;
+            }
+        });
+
+        return {
+            totalLogins,
+            totalDownloads,
+            totalPractices,
+            avgScore,
+            totalEvents: logs.length,
+            activeUsers: Object.values(userMap).sort((a, b) => (b.downloads + b.practices + b.logins) - (a.downloads + a.practices + a.logins)).slice(0, 8),
+            topSubjects: Object.entries(subjectMap).map(([subject, count]) => ({ subject, count })).sort((a, b) => b.count - a.count).slice(0, 6)
+        };
+    }
+
     getStats() {
         if (!this.data.questions) this.data.questions = [];
+        if (!this.data.activityLogs) this.data.activityLogs = [];
         return {
             totalExams: this.data.exams.length,
             totalGrades: this.data.categories.grades.length,
             totalUsers: this.data.users.length,
             totalSubjects: Object.values(this.data.categories.subjects).reduce((acc, curr) => acc + curr.length, 0),
-            totalQuestions: this.data.questions.length
+            totalQuestions: this.data.questions.length,
+            totalLogins: this.data.activityLogs.filter(l => l.type === 'login').length,
+            totalDownloads: this.data.activityLogs.filter(l => l.type === 'download' || l.type === 'preview').length,
+            totalPractices: this.data.activityLogs.filter(l => l.type === 'practice').length
         };
     }
 }

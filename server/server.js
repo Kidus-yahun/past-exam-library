@@ -235,6 +235,23 @@ app.post('/api/auth/login', (req, res) => {
         }
 
         const token = generateToken(user);
+
+        // Record user login activity
+        try {
+            db.addActivityLog({
+                type: 'login',
+                userId: user.id,
+                username: user.username,
+                role: user.role,
+                details: `Signed in to account`,
+                ip: req.ip || req.headers['x-forwarded-for'] || '',
+                userAgent: req.headers['user-agent'] || '',
+                timestamp: new Date().toISOString()
+            });
+        } catch (logErr) {
+            console.warn('Could not record login log:', logErr.message);
+        }
+
         res.json({
             success: true,
             message: 'Login successful',
@@ -527,6 +544,96 @@ app.delete('/api/practice/questions/:id', authenticateToken, requireAdmin, (req,
             return res.status(404).json({ success: false, message: 'Question not found' });
         }
         res.json({ success: true, message: 'Question deleted successfully', question: deleted });
+    } catch (err) {
+        res.status(500).json({ success: false, message: err.message });
+    }
+});
+
+/* ========================================================
+   STUDENT & USER ACTIVITY TRACKING ROUTES
+======================================================== */
+
+// Log an action (download, preview, practice completion)
+app.post('/api/activity/log', (req, res) => {
+    try {
+        let authUser = null;
+        const authHeader = req.headers['authorization'];
+        const token = authHeader && authHeader.split(' ')[1];
+        if (token) {
+            try {
+                authUser = jwt.verify(token, JWT_SECRET);
+            } catch (e) {}
+        }
+
+        const {
+            type,
+            grade,
+            subject,
+            semester,
+            examType,
+            examTitle,
+            filePath,
+            score,
+            totalQuestions,
+            percentage,
+            durationSeconds,
+            mode,
+            details
+        } = req.body;
+
+        if (!type) {
+            return res.status(400).json({ success: false, message: 'Activity type is required' });
+        }
+
+        const username = authUser ? authUser.username : (req.body.username || 'student');
+        const role = authUser ? authUser.role : (req.body.role || 'student');
+        const userId = authUser ? authUser.id : (req.body.userId || null);
+
+        const newLog = db.addActivityLog({
+            type,
+            userId,
+            username,
+            role,
+            grade,
+            subject,
+            semester,
+            examType,
+            examTitle,
+            filePath,
+            score,
+            totalQuestions,
+            percentage,
+            durationSeconds,
+            mode,
+            details,
+            ip: req.ip || req.headers['x-forwarded-for'] || '',
+            userAgent: req.headers['user-agent'] || '',
+            timestamp: new Date().toISOString()
+        });
+
+        res.json({ success: true, log: newLog });
+    } catch (err) {
+        console.error('Activity logging error:', err);
+        res.status(500).json({ success: false, message: err.message });
+    }
+});
+
+// Query activity logs with filtering (Admin only)
+app.get('/api/activity/logs', authenticateToken, requireAdmin, (req, res) => {
+    try {
+        const { type, username, grade, subject, search, limit } = req.query;
+        const logs = db.getActivityLogs({ type, username, grade, subject, search, limit });
+        res.json({ success: true, count: logs.length, logs });
+    } catch (err) {
+        res.status(500).json({ success: false, message: err.message });
+    }
+});
+
+// Aggregated activity statistics (Admin only)
+app.get('/api/activity/stats', authenticateToken, requireAdmin, (req, res) => {
+    try {
+        const stats = db.getActivityStats();
+        res.json({ success: true, stats });
     } catch (err) {
         res.status(500).json({ success: false, message: err.message });
     }

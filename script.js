@@ -23,11 +23,16 @@ const state = {
         searchQuery: ''
     },
     admin: {
-        activeTab: 'exams', // 'exams', 'categories', 'stats'
+        activeTab: 'exams', // 'exams', 'questions', 'activity', 'categories', 'overview'
         selectedGradeForSubjects: 'Grade12',
         examFilter: {
             grade: '',
             semester: '',
+            search: ''
+        },
+        activityFilter: {
+            type: 'all',
+            grade: 'all',
             search: ''
         }
     }
@@ -99,6 +104,31 @@ function updateNetworkStatus() {
 
 window.addEventListener('online', updateNetworkStatus);
 window.addEventListener('offline', updateNetworkStatus);
+
+/* ========================================================
+   ACTIVITY & AUDIT LOGGING HELPER
+======================================================== */
+async function logActivity(type, data = {}) {
+    try {
+        const payload = {
+            type,
+            username: state.user ? state.user.username : 'student',
+            role: state.user ? state.user.role : 'student',
+            userId: state.user ? state.user.id : null,
+            ...data
+        };
+        await fetch('/api/activity/log', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': state.token ? `Bearer ${state.token}` : ''
+            },
+            body: JSON.stringify(payload)
+        });
+    } catch (err) {
+        console.warn('Activity logging fallback:', err);
+    }
+}
 
 /* ========================================================
    INITIALIZATION & API HELPERS
@@ -570,6 +600,10 @@ async function showAdminDashboard() {
                         onclick="switchAdminTab('questions')">
                     🎯 Practice Questions
                 </button>
+                <button class="admin-tab ${activeTab === 'activity' ? 'active' : ''}" 
+                        onclick="switchAdminTab('activity')">
+                    ⚡ Activity & Student Logs
+                </button>
                 <button class="admin-tab ${activeTab === 'categories' ? 'active' : ''}" 
                         onclick="switchAdminTab('categories')">
                     🗂️ Categories & Subjects
@@ -595,6 +629,8 @@ async function showAdminDashboard() {
         renderAdminExamsTab();
     } else if (activeTab === 'questions') {
         renderAdminQuestionsTab();
+    } else if (activeTab === 'activity') {
+        renderAdminActivityTab();
     } else if (activeTab === 'categories') {
         renderAdminCategoriesTab();
     } else if (activeTab === 'overview') {
@@ -1543,6 +1579,339 @@ function renderAdminOverviewTab() {
 }
 
 /* ========================================================
+   2D: STUDENT ACTIVITY & AUDIT LOGS TAB
+======================================================== */
+let cachedActivityLogs = [];
+let activitySearchTimeout = null;
+
+function renderAdminActivityTab() {
+    const container = document.getElementById('admin-tab-content');
+    const f = state.admin.activityFilter;
+
+    container.innerHTML = `
+        <div class="admin-section">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 14px;">
+                <div>
+                    <h3 style="font-size: 20px; color: #ffffff; margin-bottom: 4px;">Student Activity & Audit Logs</h3>
+                    <p style="color: var(--text-muted); font-size: 14px;">
+                        Live real-time feed tracking student logins, exam paper PDF downloads, and interactive practice scores.
+                    </p>
+                </div>
+                <div style="display: flex; gap: 10px; align-items: center;">
+                    <button class="btn-secondary" style="padding: 8px 16px; font-size: 13px; display: inline-flex; align-items: center; gap: 6px;" onclick="loadActivityStatsAndLogs()">
+                        🔄 Refresh Feed
+                    </button>
+                    <button class="btn-secondary" style="padding: 8px 16px; font-size: 13px; display: inline-flex; align-items: center; gap: 6px;" onclick="exportActivityLogsCsv()">
+                        📥 Export CSV
+                    </button>
+                </div>
+            </div>
+
+            <!-- Live KPI Metric Cards -->
+            <div id="activity-metrics-container" class="stats-grid" style="grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); margin-bottom: 24px;">
+                <div class="stat-card" style="border-left: 4px solid #3b82f6;">
+                    <div class="stat-icon" style="background: rgba(59, 130, 246, 0.15); color: #60a5fa;">🔑</div>
+                    <div>
+                        <div class="stat-value" id="act-metric-logins">...</div>
+                        <div class="stat-label">Total Student Logins</div>
+                    </div>
+                </div>
+                <div class="stat-card" style="border-left: 4px solid #10b981;">
+                    <div class="stat-icon" style="background: rgba(16, 185, 129, 0.15); color: #34d399;">⬇️</div>
+                    <div>
+                        <div class="stat-value" id="act-metric-downloads">...</div>
+                        <div class="stat-label">PDF Papers Downloaded</div>
+                    </div>
+                </div>
+                <div class="stat-card" style="border-left: 4px solid #8b5cf6;">
+                    <div class="stat-icon" style="background: rgba(139, 92, 246, 0.15); color: #c084fc;">🎯</div>
+                    <div>
+                        <div class="stat-value" id="act-metric-practices">...</div>
+                        <div class="stat-label">Practice Tests Taken</div>
+                    </div>
+                </div>
+                <div class="stat-card" style="border-left: 4px solid #f59e0b;">
+                    <div class="stat-icon" style="background: rgba(245, 158, 11, 0.15); color: #fbbf24;">📈</div>
+                    <div>
+                        <div class="stat-value" id="act-metric-avgscore">...</div>
+                        <div class="stat-label">Average Practice Score</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Filter Controls -->
+            <div style="background: rgba(255, 255, 255, 0.02); border: 1px solid var(--border-glass); border-radius: 12px; padding: 14px 18px; margin-bottom: 20px; display: flex; gap: 14px; flex-wrap: wrap; align-items: center;">
+                <div style="display: flex; align-items: center; gap: 8px; flex: 1; min-width: 220px;">
+                    <span style="font-size: 13.5px; color: var(--text-muted); font-weight: 600;">Activity:</span>
+                    <select id="activity-filter-type" class="admin-select" style="margin: 0; padding: 8px 12px; width: 100%;" onchange="handleActivityFilterChange()">
+                        <option value="all" ${f.type === 'all' ? 'selected' : ''}>All Events (Logins, Downloads, Practice)</option>
+                        <option value="login" ${f.type === 'login' ? 'selected' : ''}>🔑 Logins Only</option>
+                        <option value="download" ${f.type === 'download' ? 'selected' : ''}>⬇️ PDF Downloads Only</option>
+                        <option value="practice" ${f.type === 'practice' ? 'selected' : ''}>🎯 Practice Tests Only</option>
+                    </select>
+                </div>
+
+                <div style="display: flex; align-items: center; gap: 8px; min-width: 170px;">
+                    <span style="font-size: 13.5px; color: var(--text-muted); font-weight: 600;">Grade:</span>
+                    <select id="activity-filter-grade" class="admin-select" style="margin: 0; padding: 8px 12px; width: 100%;" onchange="handleActivityFilterChange()">
+                        <option value="all" ${f.grade === 'all' ? 'selected' : ''}>All Grades</option>
+                        <option value="Grade9" ${f.grade === 'Grade9' ? 'selected' : ''}>Grade 9</option>
+                        <option value="Grade10" ${f.grade === 'Grade10' ? 'selected' : ''}>Grade 10</option>
+                        <option value="Grade11" ${f.grade === 'Grade11' ? 'selected' : ''}>Grade 11</option>
+                        <option value="Grade12" ${f.grade === 'Grade12' ? 'selected' : ''}>Grade 12</option>
+                    </select>
+                </div>
+
+                <div style="flex: 2; min-width: 240px;">
+                    <input type="text" id="activity-filter-search" class="admin-input" style="margin: 0; padding: 8px 14px; width: 100%;" 
+                           placeholder="Search student username, paper, or subject..." value="${escapeQuotes(f.search)}" oninput="debounceActivitySearch()">
+                </div>
+            </div>
+
+            <!-- Table Container -->
+            <div id="activity-table-container">
+                <p style="color: var(--text-muted); padding: 24px 0; text-align: center;">Loading activity records...</p>
+            </div>
+        </div>
+    `;
+
+    loadActivityStatsAndLogs();
+}
+
+async function loadActivityStatsAndLogs() {
+    // 1. Fetch Stats
+    try {
+        const statsRes = await fetch('/api/activity/stats', {
+            headers: { 'Authorization': `Bearer ${state.token}` }
+        });
+        if (statsRes.ok) {
+            const data = await statsRes.json();
+            const s = data.stats;
+            const logEl = document.getElementById('act-metric-logins');
+            const dlEl = document.getElementById('act-metric-downloads');
+            const prEl = document.getElementById('act-metric-practices');
+            const avgEl = document.getElementById('act-metric-avgscore');
+            if (logEl) logEl.textContent = s.totalLogins;
+            if (dlEl) dlEl.textContent = s.totalDownloads;
+            if (prEl) prEl.textContent = s.totalPractices;
+            if (avgEl) avgEl.textContent = `${s.avgScore}%`;
+        }
+    } catch (e) {
+        console.warn('Failed loading activity stats', e);
+    }
+
+    // 2. Fetch Logs with Filters
+    const f = state.admin.activityFilter;
+    const tableContainer = document.getElementById('activity-table-container');
+    if (!tableContainer) return;
+
+    try {
+        let url = `/api/activity/logs?limit=200`;
+        if (f.type && f.type !== 'all') url += `&type=${encodeURIComponent(f.type)}`;
+        if (f.grade && f.grade !== 'all') url += `&grade=${encodeURIComponent(f.grade)}`;
+        if (f.search) url += `&search=${encodeURIComponent(f.search)}`;
+
+        const logsRes = await fetch(url, {
+            headers: { 'Authorization': `Bearer ${state.token}` }
+        });
+        const data = await logsRes.json();
+        cachedActivityLogs = data.logs || [];
+        renderActivityTable(cachedActivityLogs);
+    } catch (err) {
+        tableContainer.innerHTML = `<p style="color: var(--accent-rose); padding: 20px 0;">Failed to load activity logs: ${err.message}</p>`;
+    }
+}
+
+function renderActivityTable(logs) {
+    const container = document.getElementById('activity-table-container');
+    if (!container) return;
+
+    if (logs.length === 0) {
+        container.innerHTML = `
+            <div style="text-align: center; padding: 48px 20px; background: rgba(255, 255, 255, 0.02); border: 1px dashed var(--border-glass); border-radius: 12px;">
+                <div style="font-size: 36px; margin-bottom: 10px;">📋</div>
+                <h4 style="color: #ffffff; margin-bottom: 6px;">No activity logs found</h4>
+                <p style="color: var(--text-muted); font-size: 14px;">No matching records found for the selected filters. Activity will appear here when students sign in, download papers, or take practice exams.</p>
+            </div>
+        `;
+        return;
+    }
+
+    container.innerHTML = `
+        <div style="overflow-x: auto;">
+            <table class="custom-table" style="width: 100%;">
+                <thead>
+                    <tr>
+                        <th style="width: 130px;">Time</th>
+                        <th style="width: 150px;">Student / User</th>
+                        <th style="width: 130px;">Action</th>
+                        <th>Details & Exam Information</th>
+                        <th style="width: 150px;">Device / IP</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    ${logs.map(log => {
+                        const timeStr = formatRelativeTime(log.timestamp);
+                        const fullDateStr = new Date(log.timestamp).toLocaleString();
+                        const initial = (log.username || 'S').charAt(0).toUpperCase();
+
+                        let actionBadge = '';
+                        if (log.type === 'login') {
+                            actionBadge = `<span class="act-badge act-badge-login">🔑 Login</span>`;
+                        } else if (log.type === 'download') {
+                            actionBadge = `<span class="act-badge act-badge-download">⬇️ Download</span>`;
+                        } else if (log.type === 'preview') {
+                            actionBadge = `<span class="act-badge act-badge-preview">👁️ Preview</span>`;
+                        } else if (log.type === 'practice') {
+                            actionBadge = `<span class="act-badge act-badge-practice">🎯 Practice</span>`;
+                        }
+
+                        let detailsHtml = '';
+                        if (log.type === 'practice') {
+                            const scoreClass = (log.percentage >= 75) ? 'high' : ((log.percentage >= 50) ? 'med' : 'low');
+                            detailsHtml = `
+                                <div>
+                                    <div style="font-weight: 700; color: #ffffff; font-size: 14px; margin-bottom: 4px;">
+                                        ${log.examTitle || `${log.grade || ''} ${log.subject || ''}`}
+                                    </div>
+                                    <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+                                        <span class="score-badge ${scoreClass}">
+                                            Score: ${log.score !== null ? log.score : '-'}/${log.totalQuestions || '-'} (${log.percentage !== null ? `${log.percentage}%` : '-'})
+                                        </span>
+                                        <span style="font-size: 12px; color: var(--text-muted);">
+                                            ${log.mode === 'timed' ? '⏱️ Timed Mode' : '⚡ Instant Practice'}
+                                        </span>
+                                        ${log.durationSeconds ? `<span style="font-size: 12px; color: var(--text-muted);">• ${formatTime(log.durationSeconds)}</span>` : ''}
+                                    </div>
+                                </div>
+                            `;
+                        } else if (log.type === 'download' || log.type === 'preview') {
+                            detailsHtml = `
+                                <div>
+                                    <div style="font-weight: 700; color: #ffffff; font-size: 14px; margin-bottom: 2px;">
+                                        ${log.examTitle || log.filePath || 'Exam Document PDF'}
+                                    </div>
+                                    <div style="font-size: 12.5px; color: var(--text-muted);">
+                                        ${log.grade ? `${log.grade} • ` : ''}${log.subject ? `${log.subject} • ` : ''}${log.details || 'Official PDF past paper'}
+                                    </div>
+                                </div>
+                            `;
+                        } else {
+                            detailsHtml = `
+                                <div>
+                                    <div style="color: #ffffff; font-weight: 600; font-size: 13.5px;">User signed in successfully</div>
+                                    <div style="font-size: 12px; color: var(--text-muted);">${log.details || ''}</div>
+                                </div>
+                            `;
+                        }
+
+                        return `
+                            <tr>
+                                <td style="font-size: 12.5px; color: var(--text-muted); white-space: nowrap;" title="${fullDateStr}">
+                                    ${timeStr}
+                                </td>
+                                <td>
+                                    <div class="activity-user-cell">
+                                        <div class="activity-user-avatar">${initial}</div>
+                                        <div>
+                                            <div style="font-weight: 700; color: #ffffff; font-size: 13.5px;">${log.username}</div>
+                                            <span class="role-pill ${log.role === 'admin' ? 'admin' : ''}" style="font-size: 10px; padding: 2px 6px;">${log.role}</span>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>${actionBadge}</td>
+                                <td>${detailsHtml}</td>
+                                <td style="font-size: 12px; color: var(--text-muted); font-family: monospace;">
+                                    ${log.ip ? `<div>${log.ip}</div>` : ''}
+                                    <div style="font-size: 11px; opacity: 0.8;">${formatUserAgent(log.userAgent)}</div>
+                                </td>
+                            </tr>
+                        `;
+                    }).join('')}
+                </tbody>
+            </table>
+        </div>
+        <div style="margin-top: 14px; font-size: 12.5px; color: var(--text-muted); display: flex; justify-content: space-between;">
+            <span>Showing ${logs.length} most recent activities</span>
+            <span>Refreshed live from system logs</span>
+        </div>
+    `;
+}
+
+function handleActivityFilterChange() {
+    state.admin.activityFilter.type = document.getElementById('activity-filter-type').value;
+    state.admin.activityFilter.grade = document.getElementById('activity-filter-grade').value;
+    loadActivityStatsAndLogs();
+}
+
+function debounceActivitySearch() {
+    clearTimeout(activitySearchTimeout);
+    activitySearchTimeout = setTimeout(() => {
+        state.admin.activityFilter.search = document.getElementById('activity-filter-search').value.trim();
+        loadActivityStatsAndLogs();
+    }, 250);
+}
+
+function exportActivityLogsCsv() {
+    if (!cachedActivityLogs || cachedActivityLogs.length === 0) {
+        showToast('No activity records available to export', 'info');
+        return;
+    }
+
+    const headers = ['Timestamp', 'Username', 'Role', 'Action Type', 'Grade', 'Subject', 'Exam Title', 'Score', 'Total Questions', 'Percentage', 'Duration Seconds', 'IP Address'];
+    const rows = cachedActivityLogs.map(l => [
+        `"${l.timestamp || ''}"`,
+        `"${l.username || ''}"`,
+        `"${l.role || ''}"`,
+        `"${l.type || ''}"`,
+        `"${l.grade || ''}"`,
+        `"${l.subject || ''}"`,
+        `"${(l.examTitle || '').replace(/"/g, '""')}"`,
+        `"${l.score !== null ? l.score : ''}"`,
+        `"${l.totalQuestions !== null ? l.totalQuestions : ''}"`,
+        `"${l.percentage !== null ? l.percentage : ''}"`,
+        `"${l.durationSeconds !== null ? l.durationSeconds : ''}"`,
+        `"${l.ip || ''}"`
+    ]);
+
+    const csvContent = [headers.join(','), ...rows.map(r => r.join(','))].join('\n');
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `school_past_exam_activity_${new Date().toISOString().slice(0, 10)}.csv`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    showToast('Activity logs exported to CSV successfully!', 'success');
+}
+
+function formatRelativeTime(isoString) {
+    if (!isoString) return 'Just now';
+    const diffMs = Date.now() - new Date(isoString).getTime();
+    const diffSec = Math.floor(diffMs / 1000);
+    if (diffSec < 45) return 'Just now';
+    const diffMin = Math.floor(diffSec / 60);
+    if (diffMin < 60) return `${diffMin}m ago`;
+    const diffHr = Math.floor(diffMin / 60);
+    if (diffHr < 24) return `${diffHr}h ago`;
+    const diffDay = Math.floor(diffHr / 24);
+    if (diffDay < 7) return `${diffDay}d ago`;
+    return new Date(isoString).toLocaleDateString();
+}
+
+function formatUserAgent(ua) {
+    if (!ua) return 'Web Browser';
+    if (ua.includes('Mobile') || ua.includes('Android') || ua.includes('iPhone')) return '📱 Mobile';
+    if (ua.includes('Chrome')) return '💻 Chrome';
+    if (ua.includes('Firefox')) return '💻 Firefox';
+    if (ua.includes('Safari')) return '💻 Safari';
+    if (ua.includes('Edge')) return '💻 Edge';
+    return '💻 Desktop';
+}
+
+/* ========================================================
    3. STUDENT / PUBLIC LIBRARY VIEW
 ======================================================== */
 
@@ -2072,11 +2441,12 @@ async function showExamHub(grade, semester, examType, subject, filePath, examTit
                 </p>
 
                 <div style="display: flex; flex-direction: column; gap: 12px; margin-top: auto;">
-                    <a href="${filePath}" target="_blank" download class="btn-primary" style="text-decoration: none; text-align: center;">
+                    <a href="${filePath}" target="_blank" download class="btn-primary" style="text-decoration: none; text-align: center;" 
+                       onclick="logActivity('download', { grade: '${grade}', subject: '${escapeQuotes(subject)}', semester: '${semester}', examType: '${examType}', examTitle: '${escapeQuotes(examTitle)}', filePath: '${filePath}', details: 'Downloaded official examination PDF' })">
                         ⬇️ Download Official PDF Paper
                     </a>
                     <button class="btn-secondary" style="justify-content: center; padding: 12px;" 
-                            onclick="renderExamViewer('${escapeQuotes(examTitle)}', '${grade} • ${semester} • ${examType}', '${filePath}', () => showExamHub('${grade}', '${semester}', '${examType}', '${escapeQuotes(subject)}', '${filePath}', '${escapeQuotes(examTitle)}', window._lastBackFn))">
+                            onclick="logActivity('preview', { grade: '${grade}', subject: '${escapeQuotes(subject)}', semester: '${semester}', examType: '${examType}', examTitle: '${escapeQuotes(examTitle)}', filePath: '${filePath}', details: 'Previewed exam PDF online' }); renderExamViewer('${escapeQuotes(examTitle)}', '${grade} • ${semester} • ${examType}', '${filePath}', () => showExamHub('${grade}', '${semester}', '${examType}', '${escapeQuotes(subject)}', '${filePath}', '${escapeQuotes(examTitle)}', window._lastBackFn))">
                         👁️ Preview PDF Document
                     </button>
                 </div>
@@ -2422,6 +2792,22 @@ function finishQuiz() {
     const percent = Math.round((earnedPoints / (totalPoints || 1)) * 100);
     const timeSpentSeconds = Math.round((Date.now() - currentQuiz.startTime) / 1000);
 
+    // Record practice session in student activity audit logs
+    logActivity('practice', {
+        grade: currentQuiz.grade,
+        subject: currentQuiz.subject,
+        semester: currentQuiz.semester,
+        examType: currentQuiz.examType,
+        examTitle: currentQuiz.examTitle,
+        filePath: currentQuiz.filePath,
+        score: correctCount,
+        totalQuestions: currentQuiz.questions.length,
+        percentage: percent,
+        durationSeconds: timeSpentSeconds,
+        mode: currentQuiz.mode,
+        details: `Scored ${correctCount}/${currentQuiz.questions.length} (${percent}%) in ${formatTime(timeSpentSeconds)}`
+    });
+
     let verdict = '🎉 Excellent Job!';
     if (percent >= 90) verdict = '🏆 Outstanding Mastery! Distinction!';
     else if (percent >= 75) verdict = '🌟 Great Performance! High Pass!';
@@ -2463,7 +2849,8 @@ function finishQuiz() {
                 <button class="btn-secondary" onclick="startPracticeSession('${currentQuiz.grade}', '${currentQuiz.semester}', '${currentQuiz.examType}', '${escapeQuotes(currentQuiz.subject)}', '${currentQuiz.mode}', '${escapeQuotes(currentQuiz.examTitle)}', '${currentQuiz.filePath}', currentQuiz.backFn)">
                     🔄 Retake Practice Test
                 </button>
-                <a href="${currentQuiz.filePath}" target="_blank" download class="btn-secondary" style="text-decoration: none;">
+                <a href="${currentQuiz.filePath}" target="_blank" download class="btn-secondary" style="text-decoration: none;"
+                   onclick="logActivity('download', { grade: '${currentQuiz.grade}', subject: '${escapeQuotes(currentQuiz.subject)}', semester: '${currentQuiz.semester}', examType: '${currentQuiz.examType}', examTitle: '${escapeQuotes(currentQuiz.examTitle)}', filePath: '${currentQuiz.filePath}', details: 'Downloaded official PDF paper from quiz results' })">
                     ⬇️ Download Official PDF
                 </a>
                 <button class="btn-secondary" onclick="currentQuiz.backFn ? currentQuiz.backFn() : showLibraryHome()">
