@@ -193,6 +193,120 @@ async function logActivity(type, data = {}) {
 }
 
 /* ========================================================
+   IN-TAB DOWNLOAD SYSTEM (NO NEW TAB OPENED)
+======================================================== */
+async function downloadExamPaper(fileUrl, suggestedFileName = 'exam_paper.pdf', activityData = null) {
+    if (!fileUrl) {
+        showToast('Document file path not available', 'error');
+        return;
+    }
+
+    if (activityData) {
+        logActivity('download', { ...activityData, filePath: fileUrl, details: 'Downloaded official examination PDF' });
+    }
+
+    showToast('Starting exam download in background...', 'info');
+
+    // 1. Try downloading as blob (keeps student on current tab, saves directly to device)
+    try {
+        const response = await fetch(fileUrl);
+        if (response.ok) {
+            const blob = await response.blob();
+            const blobUrl = window.URL.createObjectURL(blob);
+            const anchor = document.createElement('a');
+            anchor.style.display = 'none';
+            anchor.href = blobUrl;
+            anchor.download = suggestedFileName || fileUrl.split('/').pop() || 'exam_paper.pdf';
+            document.body.appendChild(anchor);
+            anchor.click();
+
+            setTimeout(() => {
+                if (document.body.contains(anchor)) {
+                    document.body.removeChild(anchor);
+                }
+                window.URL.revokeObjectURL(blobUrl);
+            }, 3000);
+
+            showToast('Exam paper saved to Downloads folder!', 'success');
+            return;
+        }
+    } catch (err) {
+        console.warn('In-tab blob download failed, falling back to hidden frame', err);
+    }
+
+    // 2. Fallback: Use invisible iframe (keeps user 100% on current tab without opening new tabs)
+    try {
+        const iframe = document.createElement('iframe');
+        iframe.style.display = 'none';
+        iframe.src = fileUrl;
+        document.body.appendChild(iframe);
+        setTimeout(() => {
+            if (document.body.contains(iframe)) {
+                document.body.removeChild(iframe);
+            }
+        }, 10000);
+        showToast('Download started on this page!', 'success');
+    } catch (e) {
+        // 3. Fallback: same-tab anchor without target="_blank"
+        const anchor = document.createElement('a');
+        anchor.style.display = 'none';
+        anchor.href = fileUrl;
+        anchor.download = suggestedFileName;
+        document.body.appendChild(anchor);
+        anchor.click();
+        setTimeout(() => {
+            if (document.body.contains(anchor)) {
+                document.body.removeChild(anchor);
+            }
+        }, 2000);
+    }
+}
+
+/* ========================================================
+   BROWSER HISTORY & SPA BACK NAVIGATION (SAME TAB)
+======================================================== */
+function pushNavState(stateObj, title = '') {
+    try {
+        window.history.pushState(stateObj, title, window.location.pathname);
+    } catch (e) {
+        console.warn('History pushState failed', e);
+    }
+}
+
+window.addEventListener('popstate', (e) => {
+    const s = e.state;
+    if (!s || s.view === 'library') {
+        showLibraryHome(false);
+    } else if (s.view === 'grade') {
+        showGrade(s.gradeId, false);
+    } else if (s.view === 'semester') {
+        showSemester(s.gradeId, s.semester, false);
+    } else if (s.view === 'examType') {
+        showExamType(s.gradeId, s.semester, s.examType, false);
+    } else if (s.view === 'national') {
+        showNationalExamCategory(s.category, false);
+    } else if (s.view === 'hub') {
+        showExamHub(s.grade, s.semester, s.examType, s.subject, s.filePath, s.examTitle, () => {
+            if (s.semester === 'Pretest' || s.semester === 'Model') {
+                showNationalExamCategory(s.semester, false);
+            } else {
+                showExamType(s.grade, s.semester, s.examType, false);
+            }
+        }, false);
+    } else if (s.view === 'viewer') {
+        renderExamViewer(s.title, s.subtitle, s.fileUrl, () => {
+            showLibraryHome(false);
+        }, false);
+    } else if (s.view === 'practiceGradeCatalog') {
+        showPracticeGradeCatalog(false);
+    } else if (s.view === 'practiceSubjectCatalog') {
+        showPracticeSubjectCatalog(s.gradeId, false);
+    } else {
+        showLibraryHome(false);
+    }
+});
+
+/* ========================================================
    INITIALIZATION & API HELPERS
 ======================================================== */
 
@@ -929,9 +1043,9 @@ function renderExamsTable(exams) {
                                     <button class="btn-icon" onclick="previewExamDoc('${exam.id}')" title="Preview PDF" style="display: inline-flex; align-items: center; gap: 5px;">
                                         ${uiIcon('eye', 13)} View
                                     </button>
-                                    <a href="${exam.fileUrl}" target="_blank" download class="btn-icon" title="Download PDF" style="display: inline-flex; align-items: center; justify-content: center;">
+                                    <button class="btn-icon" title="Download PDF" onclick="downloadExamPaper('${exam.fileUrl}', '${escapeQuotes(exam.title)}.pdf')" style="display: inline-flex; align-items: center; justify-content: center; cursor: pointer;">
                                         ${uiIcon('download', 14)}
-                                    </a>
+                                    </button>
                                     <button class="btn-icon danger" onclick="confirmDeleteExam('${exam.id}', '${escapeQuotes(exam.title)}')" title="Delete" style="display: inline-flex; align-items: center; justify-content: center;">
                                         ${uiIcon('trash', 14)}
                                     </button>
@@ -2066,7 +2180,10 @@ function formatUserAgent(ua) {
    3. STUDENT / PUBLIC LIBRARY VIEW
 ======================================================== */
 
-function showLibraryHome() {
+function showLibraryHome(pushHistory = true) {
+    if (pushHistory) {
+        pushNavState({ view: 'library' }, 'Past Exam Library');
+    }
     state.library.grade = null;
     state.library.semester = null;
     state.library.examType = null;
@@ -2123,7 +2240,10 @@ function showLibraryHome() {
     `;
 }
 
-async function showPracticeGradeCatalog() {
+async function showPracticeGradeCatalog(pushHistory = true) {
+    if (pushHistory) {
+        pushNavState({ view: 'practiceGradeCatalog' }, 'Practice Question Bank');
+    }
     const grades = state.categories.grades || [];
     let countsByGrade = {};
     try {
@@ -2149,7 +2269,17 @@ async function showPracticeGradeCatalog() {
     }
 
     app.innerHTML = `
-        <button class="back-button" onclick="showLibraryHome()">← Back to grades</button>
+        <div class="nav-breadcrumbs-bar">
+            <button class="back-button back-button-home" onclick="showLibraryHome()" style="margin: 0; display: inline-flex; align-items: center; gap: 6px;" title="Go back to the website home page where you choose your grade">
+                ${uiIcon('home', 14)} Back to Grades (Home)
+            </button>
+            <div class="breadcrumb-trail">
+                <span class="clickable" onclick="showLibraryHome()">Grades</span>
+                <span>/</span>
+                <span class="current">Practice Bank</span>
+            </div>
+        </div>
+
         <div class="page-title">
             <h2>Practice question bank</h2>
             <p>Choose a grade, then a subject to practice questions from that category.</p>
@@ -2169,7 +2299,10 @@ async function showPracticeGradeCatalog() {
     `;
 }
 
-async function showPracticeSubjectCatalog(gradeId) {
+async function showPracticeSubjectCatalog(gradeId, pushHistory = true) {
+    if (pushHistory) {
+        pushNavState({ view: 'practiceSubjectCatalog', gradeId }, `${gradeId} Practice Bank`);
+    }
     const grade = (state.categories.grades || []).find(item => item.id === gradeId);
     const subjects = (state.categories.subjects || {})[gradeId] || [];
     let countsBySubject = {};
@@ -2196,7 +2329,24 @@ async function showPracticeSubjectCatalog(gradeId) {
     }
 
     app.innerHTML = `
-        <button class="back-button" onclick="showPracticeGradeCatalog()">← Back to grades</button>
+        <div class="nav-breadcrumbs-bar">
+            <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+                <button class="back-button back-button-home" onclick="showLibraryHome()" style="margin: 0; display: inline-flex; align-items: center; gap: 6px;" title="Go back to the website home page where you choose your grade">
+                    ${uiIcon('home', 14)} Back to Grades (Home)
+                </button>
+                <button class="back-button" onclick="showPracticeGradeCatalog()" style="margin: 0;">
+                    ← Back to practice grades
+                </button>
+            </div>
+            <div class="breadcrumb-trail">
+                <span class="clickable" onclick="showLibraryHome()">Grades</span>
+                <span>/</span>
+                <span class="clickable" onclick="showPracticeGradeCatalog()">Practice</span>
+                <span>/</span>
+                <span class="current">${grade ? grade.name : gradeId}</span>
+            </div>
+        </div>
+
         <div class="page-title">
             <h2>${grade ? grade.name : gradeId} practice</h2>
             <p>Select a subject to practice authentic school examination questions.</p>
@@ -2266,10 +2416,14 @@ async function handleLibrarySearch(query) {
     }
 }
 
-function showGrade(gradeId) {
+function showGrade(gradeId, pushHistory = true) {
     state.library.grade = gradeId;
     const gradeObj = state.categories.grades.find(g => g.id === gradeId);
     const gradeName = gradeObj ? gradeObj.name : gradeId;
+
+    if (pushHistory) {
+        pushNavState({ view: 'grade', gradeId }, `${gradeName} - Exam Library`);
+    }
 
     let specialCards = '';
     if (gradeId === 'Grade12') {
@@ -2295,9 +2449,16 @@ function showGrade(gradeId) {
     }
 
     app.innerHTML = `
-        <button class="back-button" onclick="showLibraryHome()">
-            ← Back to grades
-        </button>
+        <div class="nav-breadcrumbs-bar">
+            <button class="back-button back-button-home" onclick="showLibraryHome()" style="margin: 0; display: inline-flex; align-items: center; gap: 6px;" title="Go back to the website home page where you choose your grade">
+                ${uiIcon('home', 14)} Back to Grades (Home)
+            </button>
+            <div class="breadcrumb-trail">
+                <span class="clickable" onclick="showLibraryHome()">Grades</span>
+                <span>/</span>
+                <span class="current">${gradeName}</span>
+            </div>
+        </div>
 
         <div class="page-title">
             <h2>${gradeName}</h2>
@@ -2328,13 +2489,30 @@ function showGrade(gradeId) {
     `;
 }
 
-function showSemester(gradeId, semester) {
+function showSemester(gradeId, semester, pushHistory = true) {
     state.library.semester = semester;
+    if (pushHistory) {
+        pushNavState({ view: 'semester', gradeId, semester }, `${gradeId} ${semester}`);
+    }
 
     app.innerHTML = `
-        <button class="back-button" onclick="showGrade('${gradeId}')">
-            ← Back to semesters
-        </button>
+        <div class="nav-breadcrumbs-bar">
+            <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+                <button class="back-button back-button-home" onclick="showLibraryHome()" style="margin: 0; display: inline-flex; align-items: center; gap: 6px;" title="Go back to the website home page where you choose your grade">
+                    ${uiIcon('home', 14)} Back to Grades (Home)
+                </button>
+                <button class="back-button" onclick="showGrade('${gradeId}')" style="margin: 0;">
+                    ← Back to ${gradeId}
+                </button>
+            </div>
+            <div class="breadcrumb-trail">
+                <span class="clickable" onclick="showLibraryHome()">Grades</span>
+                <span>/</span>
+                <span class="clickable" onclick="showGrade('${gradeId}')">${gradeId}</span>
+                <span>/</span>
+                <span class="current">${semester}</span>
+            </div>
+        </div>
 
         <div class="page-title">
             <h2>${semester}</h2>
@@ -2372,14 +2550,33 @@ function showSemester(gradeId, semester) {
     `;
 }
 
-function showExamType(gradeId, semester, examType) {
+function showExamType(gradeId, semester, examType, pushHistory = true) {
     state.library.examType = examType;
+    if (pushHistory) {
+        pushNavState({ view: 'examType', gradeId, semester, examType }, `${gradeId} ${semester} ${examType}`);
+    }
     const subjects = state.categories.subjects[gradeId] || [];
 
     app.innerHTML = `
-        <button class="back-button" onclick="showSemester('${gradeId}', '${semester}')">
-            ← Back to exam types
-        </button>
+        <div class="nav-breadcrumbs-bar">
+            <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+                <button class="back-button back-button-home" onclick="showLibraryHome()" style="margin: 0; display: inline-flex; align-items: center; gap: 6px;" title="Go back to the website home page where you choose your grade">
+                    ${uiIcon('home', 14)} Back to Grades (Home)
+                </button>
+                <button class="back-button" onclick="showSemester('${gradeId}', '${semester}')" style="margin: 0;">
+                    ← Back to ${semester}
+                </button>
+            </div>
+            <div class="breadcrumb-trail">
+                <span class="clickable" onclick="showLibraryHome()">Grades</span>
+                <span>/</span>
+                <span class="clickable" onclick="showGrade('${gradeId}')">${gradeId}</span>
+                <span>/</span>
+                <span class="clickable" onclick="showSemester('${gradeId}', '${semester}')">${semester}</span>
+                <span>/</span>
+                <span class="current">${examType}</span>
+            </div>
+        </div>
 
         <div class="page-title">
             <h2>${examType}</h2>
@@ -2402,15 +2599,32 @@ function showExamType(gradeId, semester, examType) {
     `;
 }
 
-function showNationalExamCategory(category) {
+function showNationalExamCategory(category, pushHistory = true) {
+    if (pushHistory) {
+        pushNavState({ view: 'national', category }, `Grade 12 ${category}`);
+    }
     const subjects = state.categories.grade12NationalSubjects || [
         "English", "Mathematics", "Aptitude", "Physics", "Chemistry", "Biology"
     ];
 
     app.innerHTML = `
-        <button class="back-button" onclick="showGrade('Grade12')">
-            ← Back to Grade 12
-        </button>
+        <div class="nav-breadcrumbs-bar">
+            <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+                <button class="back-button back-button-home" onclick="showLibraryHome()" style="margin: 0; display: inline-flex; align-items: center; gap: 6px;" title="Go back to the website home page where you choose your grade">
+                    ${uiIcon('home', 14)} Back to Grades (Home)
+                </button>
+                <button class="back-button" onclick="showGrade('Grade12')" style="margin: 0;">
+                    ← Back to Grade 12
+                </button>
+            </div>
+            <div class="breadcrumb-trail">
+                <span class="clickable" onclick="showLibraryHome()">Grades</span>
+                <span>/</span>
+                <span class="clickable" onclick="showGrade('Grade12')">Grade 12</span>
+                <span>/</span>
+                <span class="current">${category === 'Pretest' ? 'Pre-test' : 'Model Exam'}</span>
+            </div>
+        </div>
 
         <div class="page-title">
             <h2>${category === 'Pretest' ? 'Pre-test' : 'Model Exam'}</h2>
@@ -2475,7 +2689,10 @@ async function openSubjectExam(grade, semester, examType, subject) {
     showExamHub(grade, semester, examType, subject, filePath, examTitle, backFn);
 }
 
-async function showExamHub(grade, semester, examType, subject, filePath, examTitle, backFn) {
+async function showExamHub(grade, semester, examType, subject, filePath, examTitle, backFn, pushHistory = true) {
+    if (pushHistory) {
+        pushNavState({ view: 'hub', grade, semester, examType, subject, filePath, examTitle }, examTitle || `${grade} ${subject}`);
+    }
     window._lastBackFn = backFn;
 
     let questionCount = 0;
@@ -2504,9 +2721,27 @@ async function showExamHub(grade, semester, examType, subject, filePath, examTit
     }
 
     app.innerHTML = `
-        <button class="back-button" onclick="window._lastBackFn ? window._lastBackFn() : showLibraryHome()">
-            ← Back to subjects
-        </button>
+        <div class="nav-breadcrumbs-bar">
+            <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+                <button class="back-button back-button-home" onclick="showLibraryHome()" style="margin: 0; display: inline-flex; align-items: center; gap: 6px;" title="Go back to the website home page where you choose your grade">
+                    ${uiIcon('home', 14)} Back to Grades (Home)
+                </button>
+                <button class="back-button" onclick="window._lastBackFn ? window._lastBackFn() : showLibraryHome()" style="margin: 0;">
+                    ← Back to subjects
+                </button>
+            </div>
+            <div class="breadcrumb-trail">
+                <span class="clickable" onclick="showLibraryHome()">Grades</span>
+                <span>/</span>
+                <span class="clickable" onclick="showGrade('${grade}')">${grade}</span>
+                <span>/</span>
+                <span class="clickable" onclick="showSemester('${grade}', '${semester}')">${semester}</span>
+                <span>/</span>
+                <span class="clickable" onclick="showExamType('${grade}', '${semester}', '${examType}')">${examType}</span>
+                <span>/</span>
+                <span class="current">${subject}</span>
+            </div>
+        </div>
 
         <div class="page-title">
             <h2>${subject}</h2>
@@ -2598,10 +2833,10 @@ async function showExamHub(grade, semester, examType, subject, filePath, examTit
                 </p>
 
                 <div style="display: flex; flex-direction: column; gap: 12px; margin-top: auto;">
-                    <a href="${filePath}" target="_blank" download class="btn-primary" style="text-decoration: none; text-align: center; display: inline-flex; align-items: center; justify-content: center; gap: 8px;" 
-                       onclick="logActivity('download', { grade: '${grade}', subject: '${escapeQuotes(subject)}', semester: '${semester}', examType: '${examType}', examTitle: '${escapeQuotes(examTitle)}', filePath: '${filePath}', details: 'Downloaded official examination PDF' })">
-                        ${uiIcon('download', 15)} Download Official PDF Paper
-                    </a>
+                    <button class="btn-primary" style="justify-content: center; padding: 14px 20px; display: inline-flex; align-items: center; gap: 8px; cursor: pointer; border: none; font-size: 14.5px;" 
+                            onclick="downloadExamPaper('${filePath}', '${escapeQuotes(examTitle)}.pdf', { grade: '${grade}', subject: '${escapeQuotes(subject)}', semester: '${semester}', examType: '${examType}', examTitle: '${escapeQuotes(examTitle)}' })">
+                        ${uiIcon('download', 16)} Download Official PDF Paper
+                    </button>
                     <button class="btn-secondary" style="justify-content: center; padding: 12px; display: inline-flex; align-items: center; gap: 8px;" 
                             onclick="logActivity('preview', { grade: '${grade}', subject: '${escapeQuotes(subject)}', semester: '${semester}', examType: '${examType}', examTitle: '${escapeQuotes(examTitle)}', filePath: '${filePath}', details: 'Previewed exam PDF online' }); renderExamViewer('${escapeQuotes(examTitle)}', '${grade} • ${semester} • ${examType}', '${filePath}', () => showExamHub('${grade}', '${semester}', '${examType}', '${escapeQuotes(subject)}', '${filePath}', '${escapeQuotes(examTitle)}', window._lastBackFn))">
                         ${uiIcon('eye', 15)} Preview PDF Document
@@ -2742,9 +2977,9 @@ function renderQuizScreen() {
                         </span>
                     `}
 
-                    <a href="${currentQuiz.filePath}" target="_blank" download class="btn-secondary" style="padding: 7px 12px; font-size: 13px; display: inline-flex; align-items: center; gap: 5px;" title="Download PDF">
+                    <button class="btn-secondary" style="padding: 7px 12px; font-size: 13px; display: inline-flex; align-items: center; gap: 5px; cursor: pointer;" title="Download PDF" onclick="downloadExamPaper('${currentQuiz.filePath}', '${escapeQuotes(currentQuiz.examTitle)}.pdf')">
                         ${uiIcon('download', 13)} PDF
-                    </a>
+                    </button>
 
                     ${isTimed ? `
                         <button class="btn-secondary" style="padding: 7px 12px; font-size: 13px; color: ${isFlagged ? '#f59e0b' : 'var(--text-muted)'}; display: inline-flex; align-items: center; gap: 5px;" onclick="toggleQuizFlag('${q.id}')">
@@ -3010,12 +3245,12 @@ function finishQuiz() {
                 <button class="btn-secondary" style="display: inline-flex; align-items: center; gap: 7px;" onclick="startPracticeSession('${currentQuiz.grade}', '${currentQuiz.semester}', '${currentQuiz.examType}', '${escapeQuotes(currentQuiz.subject)}', '${currentQuiz.mode}', '${escapeQuotes(currentQuiz.examTitle)}', '${currentQuiz.filePath}', currentQuiz.backFn)">
                     ${uiIcon('refresh', 14)} Retake Practice Test
                 </button>
-                <a href="${currentQuiz.filePath}" target="_blank" download class="btn-secondary" style="text-decoration: none; display: inline-flex; align-items: center; gap: 7px;"
-                   onclick="logActivity('download', { grade: '${currentQuiz.grade}', subject: '${escapeQuotes(currentQuiz.subject)}', semester: '${currentQuiz.semester}', examType: '${currentQuiz.examType}', examTitle: '${escapeQuotes(currentQuiz.examTitle)}', filePath: '${currentQuiz.filePath}', details: 'Downloaded official PDF paper from quiz results' })">
+                <button class="btn-secondary" style="display: inline-flex; align-items: center; gap: 7px; cursor: pointer;"
+                   onclick="downloadExamPaper('${currentQuiz.filePath}', '${escapeQuotes(currentQuiz.examTitle)}.pdf', { grade: '${currentQuiz.grade}', subject: '${escapeQuotes(currentQuiz.subject)}', semester: '${currentQuiz.semester}', examType: '${currentQuiz.examType}', examTitle: '${escapeQuotes(currentQuiz.examTitle)}' })">
                     ${uiIcon('download', 14)} Download Official PDF
-                </a>
-                <button class="btn-secondary" style="display: inline-flex; align-items: center; gap: 7px;" onclick="currentQuiz.backFn ? currentQuiz.backFn() : showLibraryHome()">
-                    ${uiIcon('home', 14)} Back to Library
+                </button>
+                <button class="btn-secondary back-button-home" style="display: inline-flex; align-items: center; gap: 7px;" onclick="showLibraryHome()">
+                    ${uiIcon('home', 14)} Back to Grades (Home)
                 </button>
             </div>
         </div>
@@ -3095,9 +3330,16 @@ function renderExamNotFound(title, subtitle, grade, semester, examType, subject,
     const isAdmin = state.user && state.user.role === 'admin';
 
     app.innerHTML = `
-        <button class="back-button" onclick="window._lastBackFn ? window._lastBackFn() : showLibraryHome()">
-            ← Back to papers
-        </button>
+        <div class="nav-breadcrumbs-bar">
+            <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+                <button class="back-button back-button-home" onclick="showLibraryHome()" style="margin: 0; display: inline-flex; align-items: center; gap: 6px;" title="Go back to the website home page where you choose your grade">
+                    ${uiIcon('home', 14)} Back to Grades (Home)
+                </button>
+                <button class="back-button" onclick="window._lastBackFn ? window._lastBackFn() : showLibraryHome()" style="margin: 0;">
+                    ← Back to papers
+                </button>
+            </div>
+        </div>
 
         <div class="exam-message" style="margin-top: 10px;">
             <div class="empty-state-icon-wrap" style="width: 64px; height: 64px; margin: 0 auto 14px; background: rgba(99, 102, 241, 0.12); color: #818cf8; border-color: rgba(99, 102, 241, 0.3);">
@@ -3150,7 +3392,10 @@ let pdfViewerState = {
     title: ''
 };
 
-function renderExamViewer(title, subtitle, fileUrl, onBackFn) {
+function renderExamViewer(title, subtitle, fileUrl, onBackFn, pushHistory = true) {
+    if (pushHistory) {
+        pushNavState({ view: 'viewer', title, subtitle, fileUrl }, title);
+    }
     window._lastBackFn = onBackFn;
     pdfViewerState.fileUrl = fileUrl;
     pdfViewerState.title = title;
@@ -3159,9 +3404,16 @@ function renderExamViewer(title, subtitle, fileUrl, onBackFn) {
     pdfViewerState.viewMode = (window.pdfjsLib) ? 'canvas' : 'native';
 
     app.innerHTML = `
-        <button class="back-button" onclick="window._lastBackFn ? window._lastBackFn() : showLibraryHome()">
-            ← Back to papers
-        </button>
+        <div class="nav-breadcrumbs-bar">
+            <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+                <button class="back-button back-button-home" onclick="showLibraryHome()" style="margin: 0; display: inline-flex; align-items: center; gap: 6px;" title="Go back to the website home page where you choose your grade">
+                    ${uiIcon('home', 14)} Back to Grades (Home)
+                </button>
+                <button class="back-button" onclick="window._lastBackFn ? window._lastBackFn() : showLibraryHome()" style="margin: 0;">
+                    ← Back to papers
+                </button>
+            </div>
+        </div>
 
         <div class="exam-viewer-container">
             <div class="exam-viewer-toolbar">
@@ -3177,9 +3429,9 @@ function renderExamViewer(title, subtitle, fileUrl, onBackFn) {
                     <button class="btn-primary" style="width: auto; padding: 8px 16px; font-size: 13px; display: inline-flex; align-items: center; gap: 6px;" onclick="window._lastBackFn ? window._lastBackFn() : showLibraryHome()">
                         ${uiIcon('target', 14)} Practice Questions
                     </button>
-                    <a href="${fileUrl}" target="_blank" download class="btn-secondary" style="display: inline-flex; align-items: center; gap: 6px;" title="Download for offline study">
+                    <button class="btn-secondary" style="display: inline-flex; align-items: center; gap: 6px; cursor: pointer;" title="Download for offline study" onclick="downloadExamPaper('${fileUrl}', '${escapeQuotes(title)}.pdf')">
                         ${uiIcon('download', 14)} Download PDF
-                    </a>
+                    </button>
                     <a href="${fileUrl}" target="_blank" class="btn-secondary" title="Open in raw browser tab">
                         ⤢ Open in New Tab
                     </a>

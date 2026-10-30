@@ -594,6 +594,58 @@ main {
     box-shadow: 0 4px 16px rgba(99, 102, 241, 0.2);
 }
 
+.nav-breadcrumbs-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 22px;
+    flex-wrap: wrap;
+}
+
+.back-button-home {
+    background: rgba(99, 102, 241, 0.16) !important;
+    border-color: rgba(99, 102, 241, 0.38) !important;
+    color: #e0e7ff !important;
+    font-weight: 700 !important;
+}
+
+.back-button-home:hover {
+    background: rgba(99, 102, 241, 0.32) !important;
+    border-color: rgba(129, 140, 248, 0.6) !important;
+    color: #ffffff !important;
+}
+
+.breadcrumb-trail {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 13px;
+    color: var(--text-muted);
+    background: rgba(255, 255, 255, 0.03);
+    padding: 6px 14px;
+    border-radius: var(--radius-full);
+    border: 1px solid var(--border-glass);
+    flex-wrap: wrap;
+}
+
+.breadcrumb-trail .clickable {
+    color: #a5b4fc;
+    cursor: pointer;
+    text-decoration: none;
+    transition: color 0.18s ease;
+}
+
+.breadcrumb-trail .clickable:hover {
+    color: #ffffff;
+    text-decoration: underline;
+}
+
+.breadcrumb-trail .current {
+    color: #ffffff;
+    font-weight: 600;
+}
+
 /* ========================================================
    BUTTONS (MODERN GRADIENTS & GLOW)
 ======================================================== */
