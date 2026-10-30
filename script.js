@@ -187,6 +187,15 @@ async function logActivity(type, data = {}) {
             },
             body: JSON.stringify(payload)
         });
+
+        // Also broadcast custom events to Vercel Analytics
+        if (typeof window.va === 'function') {
+            window.va('track', type, {
+                grade: data.grade || 'General',
+                subject: data.subject || 'All',
+                examType: data.examType || 'General'
+            });
+        }
     } catch (err) {
         console.warn('Activity logging fallback:', err);
     }
@@ -268,6 +277,9 @@ async function downloadExamPaper(fileUrl, suggestedFileName = 'exam_paper.pdf', 
 function pushNavState(stateObj, title = '') {
     try {
         window.history.pushState(stateObj, title, window.location.pathname);
+        if (typeof window.va === 'function' && stateObj && stateObj.view) {
+            window.va('track', 'pageview', { view: stateObj.view, grade: stateObj.gradeId || 'home' });
+        }
     } catch (e) {
         console.warn('History pushState failed', e);
     }
