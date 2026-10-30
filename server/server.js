@@ -242,6 +242,7 @@ app.post('/api/auth/login', (req, res) => {
                 type: 'login',
                 userId: user.id,
                 username: user.username,
+                fullName: user.fullName || user.username,
                 role: user.role,
                 details: `Signed in to account`,
                 ip: req.ip || req.headers['x-forwarded-for'] || '',
@@ -261,7 +262,7 @@ app.post('/api/auth/login', (req, res) => {
                 username: user.username,
                 email: user.email,
                 role: user.role,
-                fullName: user.fullName
+                fullName: user.fullName || user.username
             }
         });
     } catch (err) {
