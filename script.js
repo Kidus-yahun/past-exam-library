@@ -196,6 +196,13 @@ async function logActivity(type, data = {}) {
                 examType: data.examType || 'General'
             });
         }
+
+        // Broadcast instant cross-tab sync to Admin Dashboard
+        if (typeof activityChannel !== 'undefined' && activityChannel) {
+            try {
+                activityChannel.postMessage({ type: 'activity_updated', timestamp: Date.now() });
+            } catch (_) {}
+        }
     } catch (err) {
         console.warn('Activity logging fallback:', err);
     }
@@ -419,6 +426,9 @@ async function fetchCategories() {
 }
 
 function setView(viewName) {
+    if (viewName !== 'admin' && typeof stopActivityPolling === 'function') {
+        stopActivityPolling();
+    }
     state.currentView = viewName;
     renderHeader();
 
@@ -926,6 +936,9 @@ async function showAdminDashboard() {
 }
 
 function switchAdminTab(tab) {
+    if (tab !== 'activity' && typeof stopActivityPolling === 'function') {
+        stopActivityPolling();
+    }
     state.admin.activeTab = tab;
     showAdminDashboard();
 }
@@ -1854,10 +1867,55 @@ function renderAdminOverviewTab() {
 }
 
 /* ========================================================
-   2D: STUDENT ACTIVITY & AUDIT LOGS TAB
+   2D: STUDENT ACTIVITY & AUDIT LOGS TAB (REAL-TIME LIVE SYNC)
 ======================================================== */
 let cachedActivityLogs = [];
 let activitySearchTimeout = null;
+let activityPollTimer = null;
+let lastActivityLogsSignature = '';
+let activityChannel = null;
+
+try {
+    if ('BroadcastChannel' in window) {
+        activityChannel = new BroadcastChannel('pel_activity_sync');
+        activityChannel.onmessage = (event) => {
+            if (event.data && event.data.type === 'activity_updated') {
+                if (state.currentView === 'admin' && state.admin.activeTab === 'activity') {
+                    loadActivityStatsAndLogs(true);
+                }
+            }
+        };
+    }
+} catch (_) {}
+
+function startActivityPolling() {
+    stopActivityPolling();
+    // High-frequency 3-second auto-sync for live student activity
+    activityPollTimer = setInterval(() => {
+        if (document.visibilityState === 'visible' && state.currentView === 'admin' && state.admin.activeTab === 'activity') {
+            loadActivityStatsAndLogs(true);
+        }
+    }, 3000);
+}
+
+function stopActivityPolling() {
+    if (activityPollTimer) {
+        clearInterval(activityPollTimer);
+        activityPollTimer = null;
+    }
+}
+
+// Instant re-sync when browser tab regains focus
+document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible' && state.currentView === 'admin' && state.admin.activeTab === 'activity') {
+        loadActivityStatsAndLogs(true);
+    }
+});
+window.addEventListener('focus', () => {
+    if (state.currentView === 'admin' && state.admin.activeTab === 'activity') {
+        loadActivityStatsAndLogs(true);
+    }
+});
 
 function renderAdminActivityTab() {
     const container = document.getElementById('admin-tab-content');
@@ -1867,14 +1925,17 @@ function renderAdminActivityTab() {
         <div class="admin-section">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 14px;">
                 <div>
-                    <h3 style="font-size: 20px; color: #ffffff; margin-bottom: 4px;">Student Activity & Audit Logs</h3>
-                    <p style="color: var(--text-muted); font-size: 14px;">
+                    <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 4px; flex-wrap: wrap;">
+                        <h3 style="font-size: 20px; color: #ffffff; margin: 0;">Student Activity & Audit Logs</h3>
+                        <span class="live-pill" id="activity-live-indicator"><span class="live-dot pulse"></span> Live (Auto-sync 3s)</span>
+                    </div>
+                    <p style="color: var(--text-muted); font-size: 14px; margin: 0;">
                         Live real-time feed tracking student logins, exam paper PDF downloads, and interactive practice scores.
                     </p>
                 </div>
                 <div style="display: flex; gap: 10px; align-items: center;">
-                    <button class="btn-secondary" style="padding: 8px 16px; font-size: 13px; display: inline-flex; align-items: center; gap: 7px;" onclick="loadActivityStatsAndLogs()">
-                        ${uiIcon('refresh', 14)} Refresh Feed
+                    <button id="btn-refresh-feed" class="btn-secondary" style="padding: 8px 16px; font-size: 13px; display: inline-flex; align-items: center; gap: 7px;" onclick="manualRefreshActivityFeed()">
+                        <span id="refresh-icon-spin">${uiIcon('refresh', 14)}</span> Refresh Feed
                     </button>
                     <button class="btn-secondary" style="padding: 8px 16px; font-size: 13px; display: inline-flex; align-items: center; gap: 7px;" onclick="exportActivityLogsCsv()">
                         ${uiIcon('export', 14)} Export CSV
@@ -1950,10 +2011,35 @@ function renderAdminActivityTab() {
         </div>
     `;
 
+    lastActivityLogsSignature = '';
     loadActivityStatsAndLogs();
+    startActivityPolling();
 }
 
-async function loadActivityStatsAndLogs() {
+async function manualRefreshActivityFeed() {
+    const iconSpan = document.getElementById('refresh-icon-spin');
+    if (iconSpan) iconSpan.classList.add('spin-icon');
+    await loadActivityStatsAndLogs(false);
+    setTimeout(() => {
+        if (iconSpan) iconSpan.classList.remove('spin-icon');
+    }, 600);
+}
+
+function updateMetricWithAnimation(elemId, newVal) {
+    const el = document.getElementById(elemId);
+    if (!el) return;
+    const strVal = String(newVal);
+    if (el.textContent !== '...' && el.textContent !== strVal) {
+        el.textContent = strVal;
+        el.classList.remove('stat-value-updated');
+        void el.offsetWidth;
+        el.classList.add('stat-value-updated');
+    } else if (el.textContent === '...') {
+        el.textContent = strVal;
+    }
+}
+
+async function loadActivityStatsAndLogs(isSilent = false) {
     // 1. Fetch Stats
     try {
         const statsRes = await fetch('/api/activity/stats', {
@@ -1962,14 +2048,10 @@ async function loadActivityStatsAndLogs() {
         if (statsRes.ok) {
             const data = await statsRes.json();
             const s = data.stats;
-            const logEl = document.getElementById('act-metric-logins');
-            const dlEl = document.getElementById('act-metric-downloads');
-            const prEl = document.getElementById('act-metric-practices');
-            const avgEl = document.getElementById('act-metric-avgscore');
-            if (logEl) logEl.textContent = s.totalLogins;
-            if (dlEl) dlEl.textContent = s.totalDownloads;
-            if (prEl) prEl.textContent = s.totalPractices;
-            if (avgEl) avgEl.textContent = `${s.avgScore}%`;
+            updateMetricWithAnimation('act-metric-logins', s.totalLogins);
+            updateMetricWithAnimation('act-metric-downloads', s.totalDownloads);
+            updateMetricWithAnimation('act-metric-practices', s.totalPractices);
+            updateMetricWithAnimation('act-metric-avgscore', `${s.avgScore}%`);
         }
     } catch (e) {
         console.warn('Failed loading activity stats', e);
@@ -1991,9 +2073,21 @@ async function loadActivityStatsAndLogs() {
         });
         const data = await logsRes.json();
         cachedActivityLogs = data.logs || [];
-        renderActivityTable(cachedActivityLogs);
+
+        // Check signature: only re-render DOM table if log events actually changed
+        const newSig = cachedActivityLogs.map(l => `${l.id}_${l.timestamp}`).join('|');
+        if (newSig !== lastActivityLogsSignature || !isSilent) {
+            lastActivityLogsSignature = newSig;
+            renderActivityTable(cachedActivityLogs);
+        }
+
+        if (!isSilent) {
+            showToast('Activity feed updated (Latest live data)', 'info');
+        }
     } catch (err) {
-        tableContainer.innerHTML = `<p style="color: var(--accent-rose); padding: 20px 0;">Failed to load activity logs: ${err.message}</p>`;
+        if (!isSilent) {
+            tableContainer.innerHTML = `<p style="color: var(--accent-rose); padding: 20px 0;">Failed to load activity logs: ${err.message}</p>`;
+        }
     }
 }
 
