@@ -3028,6 +3028,36 @@ footer {
     margin-top: 10px;
 }
 
+.formula-search-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.formula-search-input {
+    width: 100%;
+    min-height: 48px;
+    padding: 12px 18px 12px 48px;
+    background: #151823;
+    border: 1px solid var(--border-glass);
+    border-radius: 10px;
+    color: #ffffff;
+    font-size: 14.5px;
+    font-family: inherit;
+    outline: none;
+    transition: all 0.2s ease;
+}
+
+.formula-search-input:focus {
+    border-color: rgba(168, 85, 247, 0.6);
+    background: #181c2a;
+    box-shadow: 0 0 0 3px rgba(168, 85, 247, 0.15);
+}
+
+.formula-search-input::placeholder {
+    color: #71717a;
+}
+
+
 
 
 

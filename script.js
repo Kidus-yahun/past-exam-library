@@ -500,8 +500,14 @@ window.addEventListener('popstate', (e) => {
         showPracticeGradeCatalog(false);
     } else if (s.view === 'practiceSubjectCatalog') {
         showPracticeSubjectCatalog(s.gradeId, false);
+    } else if (s.view === 'formulaGrades') {
+        showFormulaGrades(false);
+    } else if (s.view === 'formulaSubjects') {
+        showFormulaSubjects(s.gradeId, false);
+    } else if (s.view === 'formulaSheet') {
+        showFormulaSheet(s.gradeId, s.subjectId, s.search || '', false);
     } else if (s.view === 'formulas') {
-        showFormulaSheetsView(s.subject || 'math', s.grade || 'all', s.search || '', false);
+        showFormulaGrades(false);
     } else if (s.view === 'studyhub') {
         showStudyHubView(false);
     } else {
@@ -623,7 +629,7 @@ function setView(viewName) {
     } else if (viewName === 'library') {
         showLibraryHome();
     } else if (viewName === 'formulas') {
-        showFormulaSheetsView();
+        showFormulaGrades();
     } else if (viewName === 'studyhub') {
         showStudyHubView();
     }
@@ -4510,30 +4516,21 @@ const FORMULA_DATA = {
     ]
 };
 
-let currentFormulaSubject = 'math';
-let currentFormulaGrade = 'all';
-let currentFormulaSearch = '';
-
-function showFormulaSheetsView(activeSubject = 'math', activeGrade = 'all', searchQuery = '', pushHistory = true) {
-    currentFormulaSubject = activeSubject;
-    currentFormulaGrade = activeGrade;
-    currentFormulaSearch = searchQuery;
-
+/* ========================================================
+   FORMULA SHEETS & REVISION: HIERARCHICAL NAVIGATION FLOW
+   Step 1: Choose Grade -> Step 2: Choose Subject -> Step 3: View Formula Sheet
+======================================================== */
+function showFormulaGrades(pushHistory = true) {
     if (pushHistory) {
-        pushNavState({ view: 'formulas', subject: activeSubject, grade: activeGrade, search: searchQuery }, 'Formula Sheets & Quick Revision');
+        pushNavState({ view: 'formulaGrades' }, 'Formula Sheets — Select Grade');
     }
 
-    const items = FORMULA_DATA[activeSubject] || FORMULA_DATA.math;
-    const q = searchQuery.toLowerCase().trim();
-
-    const filtered = items.filter(f => {
-        if (activeGrade !== 'all' && !f.grades.includes(activeGrade)) return false;
-        if (q) {
-            const haystack = `${f.title} ${f.topic} ${f.displayMath} ${f.variables} ${f.tip}`.toLowerCase();
-            return haystack.includes(q);
-        }
-        return true;
-    });
+    const gradeDescriptions = {
+        Grade9: 'General Science, Basic Algebra, Linear Motion & Chemical Foundations',
+        Grade10: 'Secondary Science, Quadratics, Trigonometry, Optics & Reactions',
+        Grade11: 'Advanced Mathematics, Kinematics, Energy, Bonding & Chemical Equilibrium',
+        Grade12: 'National Exam Prep: Calculus, Electromagnetism, Modern Physics & Electrochemistry'
+    };
 
     app.innerHTML = `
         <div class="nav-breadcrumbs-bar">
@@ -4544,54 +4541,212 @@ function showFormulaSheetsView(activeSubject = 'math', activeGrade = 'all', sear
 
         <section class="hero" style="margin-bottom: 24px;">
             <p class="label">Academic Reference Guide</p>
-            <h1>Formula Sheets & <span>Quick Summaries</span></h1>
+            <h1>Formula <span>Sheets</span></h1>
             <p class="description">
-                Comprehensive formulas, universal constants, and essential examination tips for Blessed G/Michael Catholic Secondary School science and mathematics courses.
+                Choose your grade to explore curated formulas, standard physical constants, and verified examination summaries.
             </p>
         </section>
 
-        <!-- Subject Switcher Tabs -->
-        <div class="formula-tab-bar">
-            <button class="formula-tab-btn ${activeSubject === 'math' ? 'active' : ''}" onclick="showFormulaSheetsView('math', '${currentFormulaGrade}', '${escapeQuotes(currentFormulaSearch)}')">
-                ${uiIcon('calculator', 15)} Mathematics
-            </button>
-            <button class="formula-tab-btn ${activeSubject === 'physics' ? 'active' : ''}" onclick="showFormulaSheetsView('physics', '${currentFormulaGrade}', '${escapeQuotes(currentFormulaSearch)}')">
-                ${uiIcon('bolt', 15)} Physics
-            </button>
-            <button class="formula-tab-btn ${activeSubject === 'chem' ? 'active' : ''}" onclick="showFormulaSheetsView('chem', '${currentFormulaGrade}', '${escapeQuotes(currentFormulaSearch)}')">
-                ${uiIcon('sparkles', 15)} Chemistry
-            </button>
-            <button class="btn-secondary" style="margin-left: auto; padding: 7px 14px; font-size: 13px; display: inline-flex; align-items: center; gap: 6px;" onclick="printFormulaSheet()">
-                ${uiIcon('printer', 14)} Print / Save Sheet
-            </button>
+        <div class="page-title">
+            <h2>Select your grade</h2>
+            <p>Step 1 of 2: Pick your grade level to browse available formula guides.</p>
         </div>
 
-        <!-- Filter Controls Bar -->
-        <div style="background: rgba(255, 255, 255, 0.02); border: 1px solid var(--border-glass); border-radius: 12px; padding: 14px 18px; margin-bottom: 24px; display: flex; gap: 14px; flex-wrap: wrap; align-items: center;">
-            <div style="display: flex; align-items: center; gap: 8px; min-width: 190px;">
-                <span style="font-size: 13.5px; color: var(--text-muted); font-weight: 600;">Grade:</span>
-                <select class="admin-select" style="margin: 0; padding: 8px 12px; width: 100%;" onchange="showFormulaSheetsView('${activeSubject}', this.value, '${escapeQuotes(currentFormulaSearch)}')">
-                    <option value="all" ${activeGrade === 'all' ? 'selected' : ''}>All High School Grades</option>
-                    <option value="Grade9" ${activeGrade === 'Grade9' ? 'selected' : ''}>Grade 9</option>
-                    <option value="Grade10" ${activeGrade === 'Grade10' ? 'selected' : ''}>Grade 10</option>
-                    <option value="Grade11" ${activeGrade === 'Grade11' ? 'selected' : ''}>Grade 11</option>
-                    <option value="Grade12" ${activeGrade === 'Grade12' ? 'selected' : ''}>Grade 12 (National Prep)</option>
-                </select>
-            </div>
+        <div class="card-grid">
+            ${['Grade9', 'Grade10', 'Grade11', 'Grade12'].map(gId => {
+                const num = gId.replace('Grade', '');
+                return `
+                    <div class="card" onclick="showFormulaSubjects('${gId}')">
+                        <div class="card-number">${num}</div>
+                        <div class="card-info">
+                            <h3>Grade ${num}</h3>
+                            <p>${gradeDescriptions[gId] || 'Mathematics, Physics & Chemistry'}</p>
+                        </div>
+                        <div class="arrow">→</div>
+                    </div>
+                `;
+            }).join('')}
+        </div>
+    `;
+}
 
-            <div style="flex: 2; min-width: 260px;">
-                <input type="text" class="admin-input" style="margin: 0; padding: 8px 14px; width: 100%;" 
-                       placeholder="Search formula (e.g. Snell, quadratic, Gibbs, Ohm, integral)..." 
-                       value="${escapeQuotes(currentFormulaSearch)}"
-                       oninput="debounceFormulaSearch(this.value)">
+function showFormulaSubjects(gradeId, pushHistory = true) {
+    if (pushHistory) {
+        pushNavState({ view: 'formulaSubjects', gradeId }, `${gradeId} Formula Sheets — Select Subject`);
+    }
+
+    const gradeNum = gradeId.replace('Grade', '');
+
+    const subjects = [
+        {
+            id: 'math',
+            name: 'Mathematics',
+            badge: '∑',
+            desc: gradeId === 'Grade12'
+                ? 'Calculus (Derivatives & Integrals), Trigonometry, Sequences, Vectors & Probability'
+                : (gradeId === 'Grade11'
+                    ? 'Advanced Algebra, Sequences & Series, Circular Trigonometry & Vectors'
+                    : 'Algebra, Quadratics, Linear Equations, Geometry & Statistics')
+        },
+        {
+            id: 'physics',
+            name: 'Physics',
+            badge: '⚡',
+            desc: gradeId === 'Grade12'
+                ? 'Universal Constants, Electromagnetism, Optics, Quantum & Modern Physics'
+                : (gradeId === 'Grade11'
+                    ? '2D Projectiles, Dynamics, Work-Energy, Circular Motion & Electrostatics'
+                    : 'Mechanics, Accelerated Motion, Fluid Pressure, Simple Machines & Heat')
+        },
+        {
+            id: 'chem',
+            name: 'Chemistry',
+            badge: '⚗',
+            desc: gradeId === 'Grade12'
+                ? 'Acid-Base Equilibria, Electrochemistry, Thermodynamics & Reaction Rates'
+                : (gradeId === 'Grade11'
+                    ? 'Atomic Bonding, Gas Laws, Thermochemistry & Chemical Equilibrium'
+                    : 'Atomic Structure, Chemical Bonding, Stoichiometry & Reactions')
+        }
+    ];
+
+    app.innerHTML = `
+        <div class="nav-breadcrumbs-bar">
+            <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+                <button class="back-button back-button-home" onclick="showLibraryHome()" style="margin: 0; display: inline-flex; align-items: center; gap: 6px;" title="Go back to the website home page where you choose your grade">
+                    ${uiIcon('home', 14)} Back to Grades (Home)
+                </button>
+                <button class="back-button" onclick="showFormulaGrades()" style="margin: 0;">
+                    ← Back to Formula Grades
+                </button>
+            </div>
+            <div class="breadcrumb-trail">
+                <span class="clickable" onclick="showLibraryHome()">Home</span>
+                <span>/</span>
+                <span class="clickable" onclick="showFormulaGrades()">Formula Sheets</span>
+                <span>/</span>
+                <span class="current">Grade ${gradeNum}</span>
+            </div>
+        </div>
+
+        <section class="hero" style="margin-bottom: 24px;">
+            <p class="label">Step 2 of 2: Select Subject</p>
+            <h1>Grade ${gradeNum} <span>Formula Sheets</span></h1>
+            <p class="description">
+                Select a subject below to open verified formulas, variable definitions, and exam notes for Grade ${gradeNum}.
+            </p>
+        </section>
+
+        <div class="page-title">
+            <h2>Select subject</h2>
+            <p>Pick a subject to open its complete formula reference guide.</p>
+        </div>
+
+        <div class="card-grid">
+            ${subjects.map(s => `
+                <div class="card" onclick="showFormulaSheet('${gradeId}', '${s.id}')">
+                    <div class="card-number" style="font-size: 24px; color: #a5b4fc;">${s.badge}</div>
+                    <div class="card-info">
+                        <h3>${s.name}</h3>
+                        <p>${s.desc}</p>
+                    </div>
+                    <div class="arrow">→</div>
+                </div>
+            `).join('')}
+        </div>
+    `;
+}
+
+function showFormulaSheet(gradeId, subjectId = 'math', searchQuery = '', pushHistory = true) {
+    if (pushHistory) {
+        pushNavState({ view: 'formulaSheet', gradeId, subjectId, search: searchQuery }, `${gradeId} ${subjectId} Formula Sheet`);
+    }
+
+    const subjectLabels = {
+        math: 'Mathematics',
+        physics: 'Physics',
+        chem: 'Chemistry'
+    };
+    const subjectName = subjectLabels[subjectId] || 'Mathematics';
+    const gradeNum = gradeId.replace('Grade', '');
+
+    const items = FORMULA_DATA[subjectId] || FORMULA_DATA.math;
+    const q = searchQuery.toLowerCase().trim();
+
+    // Filter items specifically by this grade and search query
+    const filtered = items.filter(f => {
+        if (!f.grades.includes(gradeId)) return false;
+        if (q) {
+            const haystack = `${f.title} ${f.topic} ${f.displayMath} ${f.variables} ${f.tip}`.toLowerCase();
+            return haystack.includes(q);
+        }
+        return true;
+    });
+
+    app.innerHTML = `
+        <div class="nav-breadcrumbs-bar">
+            <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+                <button class="back-button back-button-home" onclick="showLibraryHome()" style="margin: 0; display: inline-flex; align-items: center; gap: 6px;" title="Go back to the website home page where you choose your grade">
+                    ${uiIcon('home', 14)} Back to Grades (Home)
+                </button>
+                <button class="back-button" onclick="showFormulaSubjects('${gradeId}')" style="margin: 0;">
+                    ← Back to Grade ${gradeNum} Subjects
+                </button>
+            </div>
+            <div class="breadcrumb-trail">
+                <span class="clickable" onclick="showLibraryHome()">Home</span>
+                <span>/</span>
+                <span class="clickable" onclick="showFormulaGrades()">Formula Sheets</span>
+                <span>/</span>
+                <span class="clickable" onclick="showFormulaSubjects('${gradeId}')">Grade ${gradeNum}</span>
+                <span>/</span>
+                <span class="current">${subjectName}</span>
+            </div>
+        </div>
+
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px; margin-bottom: 22px;">
+            <div>
+                <h2 style="font-size: 26px; color: #ffffff; margin-bottom: 4px; font-weight: 750;">Grade ${gradeNum} ${subjectName} Formulas</h2>
+                <p style="color: var(--text-muted); font-size: 14px; margin: 0;">
+                    Verified syllabus formulas, symbol definitions, and exam notes for Grade ${gradeNum}.
+                </p>
+            </div>
+            <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+                <button class="formula-tab-btn ${subjectId === 'math' ? 'active' : ''}" onclick="showFormulaSheet('${gradeId}', 'math')">
+                    ${uiIcon('calculator', 14)} Math
+                </button>
+                <button class="formula-tab-btn ${subjectId === 'physics' ? 'active' : ''}" onclick="showFormulaSheet('${gradeId}', 'physics')">
+                    ${uiIcon('bolt', 14)} Physics
+                </button>
+                <button class="formula-tab-btn ${subjectId === 'chem' ? 'active' : ''}" onclick="showFormulaSheet('${gradeId}', 'chem')">
+                    ${uiIcon('sparkles', 14)} Chemistry
+                </button>
+                <button class="btn-secondary" style="padding: 7px 14px; font-size: 13px; display: inline-flex; align-items: center; gap: 6px; cursor: pointer;" onclick="printFormulaSheet()" title="Print or save sheet as PDF">
+                    ${uiIcon('printer', 14)} Print Sheet
+                </button>
+            </div>
+        </div>
+
+        <!-- Search Bar with Dark Theme Styling -->
+        <div style="margin-bottom: 24px;">
+            <div class="formula-search-wrapper">
+                <span class="search-icon" aria-hidden="true" style="top: 50%; left: 16px; transform: translateY(-50%);"></span>
+                <input type="text" class="formula-search-input" 
+                       placeholder="Search inside Grade ${gradeNum} ${subjectName} (e.g. formula title, variable, topic)..." 
+                       value="${escapeQuotes(searchQuery)}"
+                       oninput="debounceFormulaSearch('${gradeId}', '${subjectId}', this.value)">
             </div>
         </div>
 
         <!-- Formula Cards Grid -->
         ${filtered.length === 0 ? `
-            <div style="text-align: center; padding: 40px 20px; background: var(--surface-glass); border: 1px dashed var(--border-glass); border-radius: 14px;">
-                <p style="color: var(--text-muted); font-size: 14px; margin-bottom: 12px;">No formulas matched your search keyword.</p>
-                <button class="btn-secondary" onclick="showFormulaSheetsView('${activeSubject}', 'all', '')">Clear Filters</button>
+            <div style="text-align: center; padding: 48px 20px; background: var(--surface-glass); border: 1px dashed var(--border-glass); border-radius: 14px;">
+                <div style="width: 50px; height: 50px; border-radius: 50%; background: rgba(99, 102, 241, 0.12); display: inline-flex; align-items: center; justify-content: center; color: #818cf8; margin-bottom: 12px;">
+                    ${uiIcon('search', 22)}
+                </div>
+                <h4 style="font-size: 17px; color: #ffffff; margin-bottom: 6px;">No formulas found matching "${escapeQuotes(searchQuery)}"</h4>
+                <p style="color: var(--text-muted); font-size: 13.5px; margin-bottom: 14px;">Try searching for a different keyword or clear your filter.</p>
+                <button class="btn-secondary" onclick="showFormulaSheet('${gradeId}', '${subjectId}', '')">Clear Search</button>
             </div>
         ` : `
             <div class="formula-grid">
@@ -4600,9 +4755,7 @@ function showFormulaSheetsView(activeSubject = 'math', activeGrade = 'all', sear
                         <div>
                             <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; margin-bottom: 8px;">
                                 <span class="badge badge-purple">${f.topic}</span>
-                                <div style="display: flex; gap: 4px;">
-                                    ${f.grades.map(g => `<span class="badge badge-blue" style="font-size: 10px; padding: 1px 5px;">${g.replace('Grade', 'G')}</span>`).join('')}
-                                </div>
+                                <span class="badge badge-blue">Grade ${gradeNum}</span>
                             </div>
                             <h3 style="font-size: 17px; color: #ffffff; margin-bottom: 8px; font-weight: 700;">${f.title}</h3>
 
@@ -4634,11 +4787,19 @@ function showFormulaSheetsView(activeSubject = 'math', activeGrade = 'all', sear
 }
 
 let formulaSearchTimeout = null;
-function debounceFormulaSearch(query) {
+function debounceFormulaSearch(gradeId, subjectId, query) {
     if (formulaSearchTimeout) clearTimeout(formulaSearchTimeout);
     formulaSearchTimeout = setTimeout(() => {
-        showFormulaSheetsView(currentFormulaSubject, currentFormulaGrade, query);
-    }, 250);
+        showFormulaSheet(gradeId, subjectId, query, false);
+    }, 220);
+}
+
+function showFormulaSheetsView(activeSubject = 'math', activeGrade = 'all', searchQuery = '', pushHistory = true) {
+    if (activeGrade && activeGrade !== 'all') {
+        showFormulaSheet(activeGrade, activeSubject || 'math', searchQuery, pushHistory);
+    } else {
+        showFormulaGrades(pushHistory);
+    }
 }
 
 function copyFormulaText(text, btnElement) {
