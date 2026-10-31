@@ -84,7 +84,13 @@ const UI_ICONS = {
     home: '<path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>',
     smartphone: '<rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/>',
     monitor: '<rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/>',
-    alertTriangle: '<path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>'
+    alertTriangle: '<path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>',
+    bookmark: '<path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>',
+    bookmarkCheck: '<path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/><polyline points="9 10 11 12 15 8"/>',
+    calculator: '<rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/><line x1="16" y1="14" x2="16" y2="18"/><path d="M16 10h.01"/><path d="M12 10h.01"/><path d="M8 10h.01"/><path d="M12 14h.01"/><path d="M8 14h.01"/><path d="M12 18h.01"/><path d="M8 18h.01"/>',
+    calendar: '<rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>',
+    copy: '<rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>',
+    printer: '<polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/>'
 };
 
 function uiIcon(name, size = 18, extraClass = '', strokeWidth = 2) {
@@ -209,11 +215,185 @@ async function logActivity(type, data = {}) {
 }
 
 /* ========================================================
-   IN-TAB DOWNLOAD SYSTEM (NO NEW TAB OPENED)
+   IN-TAB DOWNLOAD SYSTEM (NO NEW TAB OPENED) & AUTH GATE
 ======================================================== */
+window._pendingDownload = null;
+
+function promptDownloadAuth(fileUrl, suggestedFileName, activityData) {
+    window._pendingDownload = { fileUrl, suggestedFileName, activityData };
+    const bodyHtml = `
+        <div style="text-align: center; margin-bottom: 20px;">
+            <div style="width: 58px; height: 58px; border-radius: 50%; background: rgba(99, 102, 241, 0.16); border: 1px solid rgba(99, 102, 241, 0.35); display: inline-flex; align-items: center; justify-content: center; color: #818cf8; margin-bottom: 12px; box-shadow: 0 4px 16px rgba(99, 102, 241, 0.25);">
+                ${uiIcon('download', 28)}
+            </div>
+            <h3 style="font-size: 20px; color: #ffffff; margin-bottom: 6px;">Sign In to Download PDF</h3>
+            <p style="color: var(--text-muted); font-size: 13.5px; line-height: 1.5; margin: 0 auto; max-width: 380px;">
+                Browsing is free for all visitors. Please sign in or register your student name once to save official examination papers to your device.
+            </p>
+        </div>
+
+        <div class="auth-tabs" style="margin-bottom: 18px;">
+            <button id="dl-auth-tab-signin" class="auth-tab-btn active" onclick="switchDownloadAuthTab('signin')">Sign In</button>
+            <button id="dl-auth-tab-register" class="auth-tab-btn" onclick="switchDownloadAuthTab('register')">Create Student Account</button>
+        </div>
+
+        <div id="dl-auth-form-container"></div>
+    `;
+    showModal('Student Verification Required', bodyHtml);
+    switchDownloadAuthTab('signin');
+}
+
+function switchDownloadAuthTab(tab) {
+    const btnSignin = document.getElementById('dl-auth-tab-signin');
+    const btnReg = document.getElementById('dl-auth-tab-register');
+    const container = document.getElementById('dl-auth-form-container');
+    if (!container) return;
+
+    if (btnSignin && btnReg) {
+        btnSignin.className = `auth-tab-btn ${tab === 'signin' ? 'active' : ''}`;
+        btnReg.className = `auth-tab-btn ${tab === 'register' ? 'active' : ''}`;
+    }
+
+    if (tab === 'signin') {
+        container.innerHTML = `
+            <form id="dl-signin-form" onsubmit="handleDownloadAuthSignIn(event)">
+                <div class="auth-form-group">
+                    <label>Username</label>
+                    <input type="text" id="dl-login-username" autocomplete="username" required placeholder="Your username" autofocus>
+                </div>
+                <div class="auth-form-group">
+                    <label>Password</label>
+                    <input type="password" id="dl-login-password" autocomplete="current-password" required placeholder="Your password">
+                </div>
+                <button type="submit" class="btn-primary" id="btn-dl-signin-submit">
+                    Sign In & Download PDF →
+                </button>
+            </form>
+        `;
+    } else {
+        container.innerHTML = `
+            <form id="dl-reg-form" onsubmit="handleDownloadAuthRegister(event)">
+                <div class="auth-form-group">
+                    <label>Student Full Name (First & Last Name) *</label>
+                    <input type="text" id="dl-reg-fullname" required placeholder="e.g. Kidist Solomon" autofocus>
+                </div>
+                <div class="auth-form-group">
+                    <label>Username</label>
+                    <input type="text" id="dl-reg-username" required placeholder="Pick a username">
+                </div>
+                <div class="auth-form-group">
+                    <label>Email Address</label>
+                    <input type="email" id="dl-reg-email" required placeholder="student@example.com">
+                </div>
+                <div class="auth-form-group">
+                    <label>Password</label>
+                    <input type="password" id="dl-reg-password" autocomplete="new-password" required placeholder="At least 6 characters">
+                </div>
+                <button type="submit" class="btn-primary" id="btn-dl-reg-submit">
+                    Create Account & Download PDF →
+                </button>
+            </form>
+        `;
+    }
+}
+
+async function handleDownloadAuthSignIn(e) {
+    e.preventDefault();
+    const btn = document.getElementById('btn-dl-signin-submit');
+    const username = document.getElementById('dl-login-username').value.trim();
+    const password = document.getElementById('dl-login-password').value;
+
+    btn.disabled = true;
+    btn.innerHTML = 'Signing in...';
+
+    try {
+        const res = await fetch('/api/auth/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username, password })
+        });
+        const data = await res.json();
+
+        if (res.ok && data.success) {
+            state.token = data.token;
+            state.user = data.user;
+            localStorage.setItem('pel_token', data.token);
+            localStorage.setItem('pel_user', JSON.stringify(data.user));
+            renderHeader();
+            closeModal();
+            showToast(`Welcome back, ${data.user.fullName || data.user.username}! Starting download...`, 'success');
+
+            if (window._pendingDownload) {
+                const { fileUrl, suggestedFileName, activityData } = window._pendingDownload;
+                window._pendingDownload = null;
+                downloadExamPaper(fileUrl, suggestedFileName, activityData);
+            }
+        } else {
+            showToast(data.message || 'Login failed', 'error');
+            btn.disabled = false;
+            btn.innerHTML = 'Sign In & Download PDF →';
+        }
+    } catch (err) {
+        showToast('Connection error during login', 'error');
+        btn.disabled = false;
+        btn.innerHTML = 'Sign In & Download PDF →';
+    }
+}
+
+async function handleDownloadAuthRegister(e) {
+    e.preventDefault();
+    const btn = document.getElementById('btn-dl-reg-submit');
+    const fullName = document.getElementById('dl-reg-fullname').value.trim();
+    const username = document.getElementById('dl-reg-username').value.trim();
+    const email = document.getElementById('dl-reg-email').value.trim();
+    const password = document.getElementById('dl-reg-password').value;
+
+    btn.disabled = true;
+    btn.innerHTML = 'Creating account...';
+
+    try {
+        const res = await fetch('/api/auth/register', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ fullName, username, email, password, role: 'student' })
+        });
+        const data = await res.json();
+
+        if (res.ok && data.success) {
+            state.token = data.token;
+            state.user = data.user;
+            localStorage.setItem('pel_token', data.token);
+            localStorage.setItem('pel_user', JSON.stringify(data.user));
+            renderHeader();
+            closeModal();
+            showToast(`Account created! Starting download for ${fullName}...`, 'success');
+
+            if (window._pendingDownload) {
+                const { fileUrl, suggestedFileName, activityData } = window._pendingDownload;
+                window._pendingDownload = null;
+                downloadExamPaper(fileUrl, suggestedFileName, activityData);
+            }
+        } else {
+            showToast(data.message || 'Registration failed', 'error');
+            btn.disabled = false;
+            btn.innerHTML = 'Create Account & Download PDF →';
+        }
+    } catch (err) {
+        showToast('Connection error during registration', 'error');
+        btn.disabled = false;
+        btn.innerHTML = 'Create Account & Download PDF →';
+    }
+}
+
 async function downloadExamPaper(fileUrl, suggestedFileName = 'exam_paper.pdf', activityData = null) {
     if (!fileUrl) {
         showToast('Document file path not available', 'error');
+        return;
+    }
+
+    // Gated Download: If not signed in, prompt student sign-in / registration
+    if (!state.user) {
+        promptDownloadAuth(fileUrl, suggestedFileName, activityData);
         return;
     }
 
@@ -320,6 +500,10 @@ window.addEventListener('popstate', (e) => {
         showPracticeGradeCatalog(false);
     } else if (s.view === 'practiceSubjectCatalog') {
         showPracticeSubjectCatalog(s.gradeId, false);
+    } else if (s.view === 'formulas') {
+        showFormulaSheetsView(s.subject || 'math', s.grade || 'all', s.search || '', false);
+    } else if (s.view === 'studyhub') {
+        showStudyHubView(false);
     } else {
         showLibraryHome(false);
     }
@@ -388,16 +572,11 @@ async function initApp() {
     // Load dynamic categories
     await fetchCategories();
 
-    // Determine initial view
-    if (state.user) {
-        if (state.user.role === 'admin') {
-            setView('admin');
-        } else {
-            setView('library');
-        }
+    // Determine initial view: Public browsing enabled for all visitors
+    if (state.user && state.user.role === 'admin' && window.location.hash === '#admin') {
+        setView('admin');
     } else {
-        // As requested: "making the site a login page 1st"
-        setView('login');
+        setView('library');
     }
 }
 
@@ -443,19 +622,15 @@ function setView(viewName) {
         showAdminDashboard();
     } else if (viewName === 'library') {
         showLibraryHome();
+    } else if (viewName === 'formulas') {
+        showFormulaSheetsView();
+    } else if (viewName === 'studyhub') {
+        showStudyHubView();
     }
 }
 
 function navigateToHome() {
-    if (state.user) {
-        if (state.user.role === 'admin' && state.currentView === 'admin') {
-            showAdminDashboard();
-        } else {
-            showLibraryHome();
-        }
-    } else {
-        setView('login');
-    }
+    setView('library');
 }
 
 /* ========================================================
@@ -522,18 +697,30 @@ function renderHeader() {
         </div>
     `;
 
+    const isLibraryActive = state.currentView === 'library';
+    const isFormulasActive = state.currentView === 'formulas';
+    const isStudyHubActive = state.currentView === 'studyhub';
+
     if (!state.user) {
         headerNav.innerHTML = `
             ${pwaControls}
-            <button class="nav-btn active" onclick="setView('login')">
-                Sign in / Register
+            <button class="nav-btn ${isLibraryActive ? 'active' : ''}" onclick="setView('library')">
+                ${uiIcon('book', 14)} Exam library
+            </button>
+            <button class="nav-btn ${isFormulasActive ? 'active' : ''}" onclick="setView('formulas')">
+                ${uiIcon('calculator', 14)} Formula sheets
+            </button>
+            <button class="nav-btn ${isStudyHubActive ? 'active' : ''}" onclick="setView('studyhub')">
+                ${uiIcon('bookmark', 14)} My study hub
+            </button>
+            <button class="btn-primary" style="padding: 6px 14px; font-size: 13px; margin-left: 6px; cursor: pointer;" onclick="setView('login')">
+                Sign in
             </button>
         `;
         return;
     }
 
     const isAdmin = state.user.role === 'admin';
-    const isLibraryActive = state.currentView === 'library';
     const isAdminActive = state.currentView === 'admin';
     const displayName = state.user.fullName || state.user.username || 'Student';
     const userInitial = displayName.trim().charAt(0).toUpperCase() || 'S';
@@ -549,7 +736,13 @@ function renderHeader() {
         </div>
 
         <button class="nav-btn ${isLibraryActive ? 'active' : ''}" onclick="setView('library')">
-            Exam library
+            ${uiIcon('book', 14)} Exam library
+        </button>
+        <button class="nav-btn ${isFormulasActive ? 'active' : ''}" onclick="setView('formulas')">
+            ${uiIcon('calculator', 14)} Formula sheets
+        </button>
+        <button class="nav-btn ${isStudyHubActive ? 'active' : ''}" onclick="setView('studyhub')">
+            ${uiIcon('bookmark', 14)} My study hub
         </button>
 
         ${isAdmin ? `
@@ -2320,15 +2513,27 @@ function showLibraryHome(pushHistory = true) {
             </div>
         </div>
 
+        <!-- Live Exam Countdown Widget -->
+        ${renderCountdownWidgetHtml()}
+
+        <!-- Quick Study Shortcuts Toolbar -->
+        <div style="display: flex; gap: 10px; margin-bottom: 24px; flex-wrap: wrap;">
+            <button class="btn-secondary" style="padding: 10px 16px; font-size: 13.5px; display: inline-flex; align-items: center; gap: 8px;" onclick="setView('formulas')">
+                ${uiIcon('calculator', 15)} Formula Sheets & Summaries
+            </button>
+            <button class="btn-secondary" style="padding: 10px 16px; font-size: 13.5px; display: inline-flex; align-items: center; gap: 8px;" onclick="setView('studyhub')">
+                ${uiIcon('bookmark', 15)} My Study Hub & Bookmarks
+            </button>
+            <button class="btn-secondary" style="padding: 10px 16px; font-size: 13.5px; display: inline-flex; align-items: center; gap: 8px;" onclick="showPracticeGradeCatalog()">
+                ${uiIcon('target', 15)} Authentic Practice Question Bank
+            </button>
+        </div>
+
         <div id="library-content-container">
             <div class="page-title">
                 <h2>Select your grade</h2>
                 <p>Choose a grade to browse its past examinations.</p>
             </div>
-
-            <button class="btn-secondary" style="margin-bottom: 18px; display: inline-flex; align-items: center; gap: 8px;" onclick="showPracticeGradeCatalog()">
-                ${uiIcon('target', 15)} Browse practice questions by grade and subject
-            </button>
 
             <div class="card-grid">
                 ${grades.map(g => `
@@ -2344,6 +2549,8 @@ function showLibraryHome(pushHistory = true) {
             </div>
         </div>
     `;
+
+    startCountdownLiveTimer();
 }
 
 async function showPracticeGradeCatalog(pushHistory = true) {
@@ -2947,6 +3154,10 @@ async function showExamHub(grade, semester, examType, subject, filePath, examTit
                             onclick="logActivity('preview', { grade: '${grade}', subject: '${escapeQuotes(subject)}', semester: '${semester}', examType: '${examType}', examTitle: '${escapeQuotes(examTitle)}', filePath: '${filePath}', details: 'Previewed exam PDF online' }); renderExamViewer('${escapeQuotes(examTitle)}', '${grade} • ${semester} • ${examType}', '${filePath}', () => showExamHub('${grade}', '${semester}', '${examType}', '${escapeQuotes(subject)}', '${filePath}', '${escapeQuotes(examTitle)}', window._lastBackFn))">
                         ${uiIcon('eye', 15)} Preview PDF Document
                     </button>
+                    <button class="btn-bookmark ${isExamBookmarked(examTitle) ? 'bookmarked' : ''}" id="btn-bookmark-${escapeQuotes(examTitle)}" style="justify-content: center; padding: 12px; display: inline-flex; align-items: center; gap: 8px; width: 100%;" 
+                            onclick="toggleBookmarkExam('${grade}_${semester}_${subject}', '${escapeQuotes(examTitle)}', '${grade}', '${semester}', '${examType}', '${escapeQuotes(subject)}', '${filePath}')">
+                        ${uiIcon(isExamBookmarked(examTitle) ? 'bookmarkCheck' : 'bookmark', 15)} ${isExamBookmarked(examTitle) ? 'Saved in My Study Hub ✓' : 'Save to My Study Hub'}
+                    </button>
                 </div>
             </div>
         </div>
@@ -3538,9 +3749,9 @@ function renderExamViewer(title, subtitle, fileUrl, onBackFn, pushHistory = true
                     <button class="btn-secondary" style="display: inline-flex; align-items: center; gap: 6px; cursor: pointer;" title="Download for offline study" onclick="downloadExamPaper('${fileUrl}', '${escapeQuotes(title)}.pdf')">
                         ${uiIcon('download', 14)} Download PDF
                     </button>
-                    <a href="${fileUrl}" target="_blank" class="btn-secondary" title="Open in raw browser tab">
-                        ⤢ Open in New Tab
-                    </a>
+                    <button class="btn-secondary" style="display: inline-flex; align-items: center; gap: 6px; cursor: pointer;" title="Save to My Study Hub" onclick="toggleBookmarkExam('exam_${escapeQuotes(title)}', '${escapeQuotes(title)}', '', '', '', '', '${fileUrl}')">
+                        ${uiIcon('bookmark', 14)} Bookmark
+                    </button>
                 </div>
             </div>
 
@@ -3766,6 +3977,690 @@ function switchPdfViewMode(mode) {
         if (btnCanvas) btnCanvas.classList.remove('active');
         if (btnNative) btnNative.classList.add('active');
     }
+}
+
+/* ========================================================
+   EXAM COUNTDOWN SYSTEM
+======================================================== */
+const COUNTDOWN_TARGETS = {
+    grade12_national: {
+        name: 'Grade 12 National University Entrance Exam',
+        date: new Date('2027-07-07T08:30:00+03:00').getTime(),
+        desc: 'Ethiopian University Entrance Examination (EUEE)'
+    },
+    sem1_finals: {
+        name: 'Semester 1 Final Examinations',
+        date: new Date('2027-01-25T08:30:00+03:00').getTime(),
+        desc: 'Blessed G/Michael Catholic Secondary School'
+    },
+    grade10_regional: {
+        name: 'Grade 10 Regional Examination',
+        date: new Date('2027-06-01T08:30:00+03:00').getTime(),
+        desc: 'Addis Ababa City Regional Examination'
+    },
+    sem2_finals: {
+        name: 'Semester 2 Final Examinations',
+        date: new Date('2027-06-15T08:30:00+03:00').getTime(),
+        desc: 'Academic Year 2026/2027 Promotion Finals'
+    }
+};
+
+let currentCountdownTarget = 'grade12_national';
+let countdownInterval = null;
+
+function getCountdownTimeRemaining(targetTimestamp) {
+    const total = targetTimestamp - Date.now();
+    if (total <= 0) {
+        return { total: 0, days: 0, hours: 0, minutes: 0, seconds: 0 };
+    }
+    const seconds = Math.floor((total / 1000) % 60);
+    const minutes = Math.floor((total / 1000 / 60) % 60);
+    const hours = Math.floor((total / (1000 * 60 * 60)) % 24);
+    const days = Math.floor(total / (1000 * 60 * 60 * 24));
+    return { total, days, hours, minutes, seconds };
+}
+
+function renderCountdownWidgetHtml() {
+    const target = COUNTDOWN_TARGETS[currentCountdownTarget] || COUNTDOWN_TARGETS.grade12_national;
+    const t = getCountdownTimeRemaining(target.date);
+
+    return `
+        <div class="exam-countdown-card">
+            <div class="countdown-header">
+                <div class="countdown-badge">
+                    <span class="countdown-pulse-dot"></span> Live Exam Countdown
+                </div>
+                <select class="countdown-select" onchange="switchCountdownTarget(this.value)" aria-label="Select Target Exam">
+                    <option value="grade12_national" ${currentCountdownTarget === 'grade12_national' ? 'selected' : ''}>Grade 12 National University Entrance Exam</option>
+                    <option value="sem1_finals" ${currentCountdownTarget === 'sem1_finals' ? 'selected' : ''}>Semester 1 Final Examinations</option>
+                    <option value="grade10_regional" ${currentCountdownTarget === 'grade10_regional' ? 'selected' : ''}>Grade 10 Regional Examination</option>
+                    <option value="sem2_finals" ${currentCountdownTarget === 'sem2_finals' ? 'selected' : ''}>Semester 2 Final Examinations</option>
+                </select>
+            </div>
+
+            <div class="countdown-timer-grid">
+                <div class="timer-box">
+                    <span class="timer-num" id="cd-days">${String(t.days).padStart(2, '0')}</span>
+                    <span class="timer-unit">Days</span>
+                </div>
+                <div class="timer-colon">:</div>
+                <div class="timer-box">
+                    <span class="timer-num" id="cd-hours">${String(t.hours).padStart(2, '0')}</span>
+                    <span class="timer-unit">Hours</span>
+                </div>
+                <div class="timer-colon">:</div>
+                <div class="timer-box">
+                    <span class="timer-num" id="cd-mins">${String(t.minutes).padStart(2, '0')}</span>
+                    <span class="timer-unit">Minutes</span>
+                </div>
+                <div class="timer-colon">:</div>
+                <div class="timer-box">
+                    <span class="timer-num" id="cd-secs">${String(t.seconds).padStart(2, '0')}</span>
+                    <span class="timer-unit">Seconds</span>
+                </div>
+            </div>
+
+            <div class="countdown-footer">
+                <div>
+                    <strong style="color: #ffffff;">${target.name}</strong>
+                    <span style="display: block; font-size: 11.5px; color: var(--text-muted); margin-top: 2px;">${target.desc}</span>
+                </div>
+                <button class="countdown-action-btn" onclick="setView('studyhub')">
+                    ${uiIcon('bookmark', 13)} Open My Study Hub →
+                </button>
+            </div>
+        </div>
+    `;
+}
+
+function startCountdownLiveTimer() {
+    if (countdownInterval) clearInterval(countdownInterval);
+    countdownInterval = setInterval(() => {
+        const daysEl = document.getElementById('cd-days');
+        if (!daysEl) {
+            clearInterval(countdownInterval);
+            countdownInterval = null;
+            return;
+        }
+        const target = COUNTDOWN_TARGETS[currentCountdownTarget] || COUNTDOWN_TARGETS.grade12_national;
+        const t = getCountdownTimeRemaining(target.date);
+        const hoursEl = document.getElementById('cd-hours');
+        const minsEl = document.getElementById('cd-mins');
+        const secsEl = document.getElementById('cd-secs');
+
+        if (daysEl) daysEl.textContent = String(t.days).padStart(2, '0');
+        if (hoursEl) hoursEl.textContent = String(t.hours).padStart(2, '0');
+        if (minsEl) minsEl.textContent = String(t.minutes).padStart(2, '0');
+        if (secsEl) secsEl.textContent = String(t.seconds).padStart(2, '0');
+    }, 1000);
+}
+
+function switchCountdownTarget(targetKey) {
+    if (COUNTDOWN_TARGETS[targetKey]) {
+        currentCountdownTarget = targetKey;
+        const container = document.querySelector('.exam-countdown-card');
+        if (container) {
+            container.outerHTML = renderCountdownWidgetHtml();
+            startCountdownLiveTimer();
+        }
+    }
+}
+
+/* ========================================================
+   STUDENT BOOKMARKS & STUDY HUB SYSTEM
+======================================================== */
+function getStudyBookmarks() {
+    try {
+        return JSON.parse(localStorage.getItem('pel_bookmarks') || '[]');
+    } catch (_) {
+        return [];
+    }
+}
+
+function saveStudyBookmarks(list) {
+    try {
+        localStorage.setItem('pel_bookmarks', JSON.stringify(list));
+    } catch (_) {}
+}
+
+function isExamBookmarked(key) {
+    const list = getStudyBookmarks();
+    return list.some(b => b.id === key || b.title === key);
+}
+
+function toggleBookmarkExam(id, title, grade = '', semester = '', examType = '', subject = '', filePath = '') {
+    let list = getStudyBookmarks();
+    const key = id || title;
+    const existingIdx = list.findIndex(b => b.id === key || b.title === key);
+
+    if (existingIdx >= 0) {
+        list.splice(existingIdx, 1);
+        saveStudyBookmarks(list);
+        showToast(`Removed "${title}" from Study Hub`, 'info');
+    } else {
+        list.push({
+            id: key,
+            title,
+            grade: grade || 'General',
+            semester: semester || 'Standard',
+            examType: examType || 'Paper',
+            subject: subject || 'General',
+            filePath: filePath || '',
+            status: 'not_started', // 'not_started', 'in_progress', 'mastered'
+            addedAt: new Date().toISOString()
+        });
+        saveStudyBookmarks(list);
+        showToast(`Saved "${title}" to My Study Hub!`, 'success');
+    }
+
+    if (state.currentView === 'studyhub') {
+        showStudyHubView(false);
+    } else {
+        const btn = document.getElementById(`btn-bookmark-${key}`);
+        if (btn) {
+            const isNow = isExamBookmarked(key);
+            btn.className = `btn-bookmark ${isNow ? 'bookmarked' : ''}`;
+            btn.innerHTML = `${uiIcon(isNow ? 'bookmarkCheck' : 'bookmark', 15)} ${isNow ? 'Saved in My Study Hub ✓' : 'Save to My Study Hub'}`;
+        }
+    }
+}
+
+function updateBookmarkStatus(id, newStatus) {
+    let list = getStudyBookmarks();
+    const item = list.find(b => b.id === id || b.title === id);
+    if (item) {
+        item.status = newStatus;
+        item.updatedAt = new Date().toISOString();
+        saveStudyBookmarks(list);
+        showToast(`Updated status to: ${newStatus.replace('_', ' ').toUpperCase()}`, 'info');
+        if (state.currentView === 'studyhub') {
+            showStudyHubView(false);
+        }
+    }
+}
+
+function showStudyHubView(pushHistory = true) {
+    if (pushHistory) {
+        pushNavState({ view: 'studyhub' }, 'My Study Hub — Past Exam Library');
+    }
+
+    const bookmarks = getStudyBookmarks();
+    const total = bookmarks.length;
+    const mastered = bookmarks.filter(b => b.status === 'mastered').length;
+    const inProgress = bookmarks.filter(b => b.status === 'in_progress').length;
+    const notStarted = bookmarks.filter(b => b.status === 'not_started' || !b.status).length;
+    const percent = total > 0 ? Math.round((mastered / total) * 100) : 0;
+
+    app.innerHTML = `
+        <div class="nav-breadcrumbs-bar">
+            <button class="back-button back-button-home" onclick="showLibraryHome()" style="margin: 0; display: inline-flex; align-items: center; gap: 6px;" title="Go back to the website home page where you choose your grade">
+                ${uiIcon('home', 14)} Back to Grades (Home)
+            </button>
+        </div>
+
+        <section class="hero" style="margin-bottom: 24px;">
+            <p class="label">Personal Revision Dashboard</p>
+            <h1>My Study <span>Hub</span></h1>
+            <p class="description">
+                Organize your targeted examination papers, monitor your revision checklist, and track exam readiness.
+            </p>
+        </section>
+
+        <!-- Live Countdown Widget -->
+        ${renderCountdownWidgetHtml()}
+
+        <!-- Progress Overview Card -->
+        <div class="stat-card" style="margin-bottom: 24px; border-left: 4px solid #6366f1; padding: 22px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; margin-bottom: 8px;">
+                <div>
+                    <h3 style="font-size: 18px; color: #ffffff; margin: 0 0 4px 0;">Target Revision Progress</h3>
+                    <p style="font-size: 13.5px; color: var(--text-muted); margin: 0;">
+                        ${mastered} of ${total} saved examination papers mastered
+                    </p>
+                </div>
+                <div style="font-size: 26px; font-weight: 800; color: #a5b4fc;">${percent}%</div>
+            </div>
+
+            <div class="study-progress-bar-wrap">
+                <div class="study-progress-bar-fill" style="width: ${percent}%;"></div>
+            </div>
+
+            <div style="display: flex; gap: 14px; flex-wrap: wrap; margin-top: 10px;">
+                <span class="status-badge mastered">${mastered} Mastered</span>
+                <span class="status-badge in_progress">${inProgress} In Review</span>
+                <span class="status-badge not_started">${notStarted} Not Started</span>
+            </div>
+        </div>
+
+        <!-- Bookmarked Papers Grid -->
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; margin-bottom: 16px;">
+            <h3 style="font-size: 20px; color: #ffffff; margin: 0;">Saved Examination Papers (${total})</h3>
+            <button class="btn-secondary" style="font-size: 13px; padding: 7px 14px; display: inline-flex; align-items: center; gap: 6px;" onclick="showLibraryHome()">
+                ${uiIcon('book', 14)} Browse More Papers
+            </button>
+        </div>
+
+        ${total === 0 ? `
+            <div style="text-align: center; padding: 50px 20px; background: var(--surface-glass); border: 1px dashed var(--border-glass); border-radius: 16px;">
+                <div style="width: 54px; height: 54px; border-radius: 50%; background: rgba(99, 102, 241, 0.15); display: inline-flex; align-items: center; justify-content: center; color: #818cf8; margin-bottom: 14px;">
+                    ${uiIcon('bookmark', 24)}
+                </div>
+                <h4 style="font-size: 18px; color: #ffffff; margin-bottom: 6px;">No saved papers in your hub yet</h4>
+                <p style="color: var(--text-muted); font-size: 14px; max-width: 440px; margin: 0 auto 18px; line-height: 1.5;">
+                    While browsing through grades and subjects, tap the <strong>"Save to Study Hub"</strong> button on any paper to build your personal revision schedule.
+                </p>
+                <button class="btn-primary" style="padding: 10px 22px; font-size: 14px;" onclick="showLibraryHome()">
+                    Explore Exam Papers Now →
+                </button>
+            </div>
+        ` : `
+            <div class="study-hub-grid">
+                ${bookmarks.map(b => `
+                    <div class="study-card status-${b.status || 'not_started'}">
+                        <div>
+                            <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; margin-bottom: 8px;">
+                                <span class="badge badge-blue">${b.grade} • ${b.subject}</span>
+                                <button class="btn-icon" onclick="toggleBookmarkExam('${b.id}', '${escapeQuotes(b.title)}')" title="Remove from Study Hub" style="color: var(--text-muted); padding: 4px;">
+                                    ${uiIcon('trash', 14)}
+                                </button>
+                            </div>
+                            <h4 style="font-size: 17px; color: #ffffff; margin-bottom: 4px; font-weight: 700;">${b.title}</h4>
+                            <p style="font-size: 12.5px; color: var(--text-muted); margin-bottom: 14px;">${b.semester} • ${b.examType}</p>
+                        </div>
+
+                        <div>
+                            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 14px; background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-glass); border-radius: 8px; padding: 6px 10px;">
+                                <span style="font-size: 12px; color: var(--text-muted); font-weight: 600;">Status:</span>
+                                <select class="admin-select" style="margin: 0; padding: 4px 8px; font-size: 12px; width: auto; flex: 1;" onchange="updateBookmarkStatus('${b.id}', this.value)">
+                                    <option value="not_started" ${b.status === 'not_started' || !b.status ? 'selected' : ''}>⚪ Not Started</option>
+                                    <option value="in_progress" ${b.status === 'in_progress' ? 'selected' : ''}>🟡 In Review / Studying</option>
+                                    <option value="mastered" ${b.status === 'mastered' ? 'selected' : ''}>🟢 Mastered & Ready</option>
+                                </select>
+                            </div>
+
+                            <div style="display: flex; gap: 8px;">
+                                <button class="btn-secondary" style="flex: 1; padding: 8px 10px; font-size: 12.5px; justify-content: center; display: inline-flex; align-items: center; gap: 5px;" 
+                                        onclick="showExamHub('${b.grade}', '${b.semester}', '${b.examType}', '${escapeQuotes(b.subject)}', '${b.filePath}', '${escapeQuotes(b.title)}', () => showStudyHubView())">
+                                    ${uiIcon('target', 13)} Practice
+                                </button>
+                                <button class="btn-primary" style="flex: 1; padding: 8px 10px; font-size: 12.5px; justify-content: center; display: inline-flex; align-items: center; gap: 5px;" 
+                                        onclick="downloadExamPaper('${b.filePath}', '${escapeQuotes(b.title)}.pdf', { grade: '${b.grade}', subject: '${escapeQuotes(b.subject)}', examTitle: '${escapeQuotes(b.title)}' })">
+                                    ${uiIcon('download', 13)} Download
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `).join('')}
+            </div>
+        `}
+    `;
+
+    startCountdownLiveTimer();
+}
+
+/* ========================================================
+   FORMULA SHEETS & QUICK REVISION REFERENCE
+======================================================== */
+const FORMULA_DATA = {
+    math: [
+        {
+            title: "Quadratic Formula & Discriminant",
+            topic: "Algebra & Polynomials",
+            grades: ["Grade9", "Grade10", "Grade11", "Grade12"],
+            displayMath: "x = (-b ± √(b² - 4ac)) / (2a)",
+            variables: "a, b, c = coefficients in ax² + bx + c = 0, Δ = b² - 4ac",
+            tip: "Δ > 0: two real roots; Δ = 0: one repeated real root; Δ < 0: no real roots (two complex conjugates)."
+        },
+        {
+            title: "Arithmetic Progression (AP)",
+            topic: "Sequences & Series",
+            grades: ["Grade11", "Grade12"],
+            displayMath: "aₙ = a₁ + (n - 1)d   |   Sₙ = (n/2)[2a₁ + (n - 1)d] = (n/2)(a₁ + aₙ)",
+            variables: "a₁ = first term, d = common difference, n = term index, Sₙ = sum of first n terms",
+            tip: "Common difference d is obtained by subtracting any term from the next: d = aₙ - aₙ₋₁."
+        },
+        {
+            title: "Geometric Progression (GP)",
+            topic: "Sequences & Series",
+            grades: ["Grade11", "Grade12"],
+            displayMath: "aₙ = a₁ · rⁿ⁻¹   |   Sₙ = a₁(1 - rⁿ) / (1 - r)   |   S_∞ = a₁ / (1 - r)   (|r| < 1)",
+            variables: "a₁ = first term, r = common ratio, S_∞ = sum to infinity (convergent only if |r| < 1)",
+            tip: "An infinite GP only converges when |r| < 1. If |r| ≥ 1, the sum diverges."
+        },
+        {
+            title: "Pythagorean & Fundamental Trigonometric Identities",
+            topic: "Trigonometry",
+            grades: ["Grade10", "Grade11", "Grade12"],
+            displayMath: "sin²θ + cos²θ = 1   |   1 + tan²θ = sec²θ   |   1 + cot²θ = csc²θ",
+            variables: "θ = angle in radians or degrees, tan θ = sin θ / cos θ, sec θ = 1/cos θ",
+            tip: "Divide sin²θ + cos²θ = 1 by cos²θ to get 1 + tan²θ = sec²θ instantly."
+        },
+        {
+            title: "Double-Angle Formulas",
+            topic: "Trigonometry",
+            grades: ["Grade11", "Grade12"],
+            displayMath: "sin(2θ) = 2 sin θ cos θ   |   cos(2θ) = cos²θ - sin²θ = 2cos²θ - 1 = 1 - 2sin²θ",
+            variables: "θ = acute or general angle",
+            tip: "Essential for national exam calculus integrations: cos²θ = (1 + cos 2θ)/2 and sin²θ = (1 - cos 2θ)/2."
+        },
+        {
+            title: "Law of Sines & Law of Cosines",
+            topic: "Trigonometry & Geometry",
+            grades: ["Grade10", "Grade11", "Grade12"],
+            displayMath: "a/sin(A) = b/sin(B) = c/sin(C) = 2R   |   c² = a² + b² - 2ab·cos(C)",
+            variables: "a, b, c = opposite side lengths; A, B, C = interior angles; R = circumradius",
+            tip: "Use Cosine law when 2 sides and the included angle (SAS) or all 3 sides (SSS) are known."
+        },
+        {
+            title: "Derivatives of Standard Functions",
+            topic: "Calculus (Differentiation)",
+            grades: ["Grade12"],
+            displayMath: "d/dx[xⁿ] = n·xⁿ⁻¹   |   d/dx[sin x] = cos x   |   d/dx[cos x] = -sin x   |   d/dx[eᵏˣ] = k·eᵏˣ   |   d/dx[ln x] = 1/x",
+            variables: "n = power, k = constant, x > 0 for ln x",
+            tip: "Chain Rule: d/dx[f(g(x))] = f'(g(x)) · g'(x). Always multiply by the derivative of the inside."
+        },
+        {
+            title: "Product & Quotient Rules",
+            topic: "Calculus (Differentiation)",
+            grades: ["Grade12"],
+            displayMath: "(u·v)' = u'v + uv'   |   (u/v)' = (u'v - uv') / v²",
+            variables: "u = u(x), v = v(x) differentiable functions, v ≠ 0",
+            tip: "Remember: quotient rule numerator has a minus sign, and denominator is v²."
+        },
+        {
+            title: "Standard Integration Formulas",
+            topic: "Calculus (Integration)",
+            grades: ["Grade12"],
+            displayMath: "∫ xⁿ dx = (xⁿ⁺¹)/(n + 1) + C  (n ≠ -1)   |   ∫ (1/x) dx = ln|x| + C   |   ∫ eᵏˣ dx = (1/k)eᵏˣ + C",
+            variables: "C = constant of integration",
+            tip: "Definite integrals: ∫ₐᵇ f(x) dx = F(b) - F(a). For areas under curves, verify boundaries."
+        },
+        {
+            title: "Permutations & Combinations",
+            topic: "Probability & Combinatorics",
+            grades: ["Grade11", "Grade12"],
+            displayMath: "P(n, r) = n! / (n - r)!   |   C(n, r) = n! / [r! · (n - r)!]",
+            variables: "n = total distinct items, r = items chosen. Note: 0! = 1",
+            tip: "Permutation: ORDER matters (ranking, codes). Combination: ORDER does not matter (groups, committees)."
+        }
+    ],
+    physics: [
+        {
+            title: "Universal Physical Constants",
+            topic: "Reference Constants",
+            grades: ["Grade9", "Grade10", "Grade11", "Grade12"],
+            displayMath: "g = 9.8 m/s²  |  c = 3.00×10⁸ m/s  |  G = 6.674×10⁻¹¹ N·m²/kg²  |  e = 1.602×10⁻¹⁹ C",
+            variables: "kₑ = 8.988×10⁹ N·m²/C², h = 6.626×10⁻³⁴ J·s, mₑ = 9.109×10⁻³¹ kg, R = 8.314 J/(mol·K)",
+            tip: "Standard constants used across all Ethiopian high school national physics examinations."
+        },
+        {
+            title: "Equations of Uniformly Accelerated Motion",
+            topic: "Mechanics (Kinematics)",
+            grades: ["Grade9", "Grade10", "Grade11", "Grade12"],
+            displayMath: "v = u + at   |   s = ut + ½at²   |   v² = u² + 2as   |   s = [(u + v)/2]·t",
+            variables: "u = initial velocity, v = final velocity, a = constant acceleration, t = time, s = displacement",
+            tip: "For dropped bodies: u = 0, a = g = 9.8 m/s². For vertical projection: at top, v = 0."
+        },
+        {
+            title: "Projectile Motion Equations",
+            topic: "Mechanics (2D Kinematics)",
+            grades: ["Grade11", "Grade12"],
+            displayMath: "T = (2u·sin θ) / g   |   H_max = (u²·sin²θ) / (2g)   |   R = (u²·sin 2θ) / g",
+            variables: "u = launch speed, θ = projection angle above horizontal, g = 9.8 m/s²",
+            tip: "Maximum range occurs at θ = 45°. Complementary angles (e.g. 30° and 60°) achieve identical horizontal ranges."
+        },
+        {
+            title: "Newton's Laws & Linear Momentum",
+            topic: "Mechanics (Dynamics)",
+            grades: ["Grade9", "Grade10", "Grade11", "Grade12"],
+            displayMath: "ΣF = m·a   |   p = m·v   |   Impulse J = F·Δt = Δp = m(v - u)",
+            variables: "F = net force (N), m = mass (kg), a = acceleration (m/s²), p = momentum (kg·m/s), J = impulse (N·s)",
+            tip: "Law of conservation of momentum: m₁u₁ + m₂u₂ = m₁v₁ + m₂v₂ (in isolated collisions)."
+        },
+        {
+            title: "Work-Energy Theorem & Power",
+            topic: "Mechanics (Work & Energy)",
+            grades: ["Grade9", "Grade10", "Grade11", "Grade12"],
+            displayMath: "W = F·d·cos θ = ΔK   |   K = ½mv²   |   PE = mgh   |   Power P = W/t = F·v",
+            variables: "W = work (J), K = kinetic energy, PE = gravitational potential energy, P = power (Watts)",
+            tip: "Work is zero when force is perpendicular to motion (θ = 90°, cos 90° = 0), like in uniform circular motion."
+        },
+        {
+            title: "Coulomb's Law & Electric Fields",
+            topic: "Electricity & Magnetism",
+            grades: ["Grade10", "Grade11", "Grade12"],
+            displayMath: "F = kₑ·|q₁q₂| / r²   |   E = kₑ·Q / r²   |   V = kₑ·Q / r",
+            variables: "kₑ = 8.99×10⁹ N·m²/C², q = charge (C), r = distance (m), E = field (N/C or V/m), V = potential (V)",
+            tip: "Electric field lines emanate radially outward from positive charges and terminate on negative charges."
+        },
+        {
+            title: "Ohm's Law, Resistors & Electric Power",
+            topic: "Current Electricity",
+            grades: ["Grade9", "Grade10", "Grade11", "Grade12"],
+            displayMath: "V = I·R   |   P = I·V = I²R = V²/R   |   R_series = Σ Rᵢ   |   1/R_parallel = Σ (1/Rᵢ)",
+            variables: "V = voltage (V), I = current (A), R = resistance (Ω), P = electric power (W)",
+            tip: "In parallel connections: voltage is equal across all branches. In series: current is equal through all elements."
+        },
+        {
+            title: "Snell's Law & Thin Lens Equation",
+            topic: "Waves & Optics",
+            grades: ["Grade10", "Grade11", "Grade12"],
+            displayMath: "n₁·sin θ₁ = n₂·sin θ₂   |   sin θ_c = n₂/n₁ (n₁ > n₂)   |   1/f = 1/d_o + 1/d_i",
+            variables: "n = refractive index, θ_c = critical angle, f = focal length, d_o = object distance, d_i = image distance",
+            tip: "Total internal reflection requires light traveling from denser to rarer medium with angle exceeding θ_c."
+        },
+        {
+            title: "Photoelectric Effect & Quantum Physics",
+            topic: "Modern Physics",
+            grades: ["Grade12"],
+            displayMath: "E = hf = hc / λ   |   K_max = hf - Φ = e·V_s   |   de Broglie λ = h / p = h / (mv)",
+            variables: "h = 6.63×10⁻³⁴ J·s, f = frequency (Hz), Φ = work function, V_s = stopping potential",
+            tip: "Increasing light intensity increases electron emission rate, but does NOT increase maximum kinetic energy."
+        }
+    ],
+    chem: [
+        {
+            title: "Mole Concept & Solution Concentration",
+            topic: "Stoichiometry",
+            grades: ["Grade9", "Grade10", "Grade11", "Grade12"],
+            displayMath: "n = m / M = N / N_A   |   Molarity M = n / V(L)   |   Dilution: M₁V₁ = M₂V₂",
+            variables: "n = moles, m = mass (g), M = molar mass (g/mol), N_A = 6.022×10²³, V = volume in Liters",
+            tip: "Always convert solution volume to Liters before calculating molarity (e.g. 500 mL = 0.500 L)."
+        },
+        {
+            title: "Ideal Gas Law & Dalton's Partial Pressures",
+            topic: "States of Matter (Gases)",
+            grades: ["Grade10", "Grade11", "Grade12"],
+            displayMath: "PV = nRT   |   (P₁V₁) / T₁ = (P₂V₂) / T₂   |   P_total = Σ Pᵢ = Σ (Xᵢ·P_total)",
+            variables: "P = pressure, V = volume (L), n = moles, R = 0.0821 L·atm/(mol·K) = 8.314 J/(mol·K), T = Kelvin (K = °C + 273.15)",
+            tip: "Temperature must always be in Kelvin. Combined gas law: when moles are constant."
+        },
+        {
+            title: "Equilibrium Constant (Kc & Kp)",
+            topic: "Chemical Equilibrium",
+            grades: ["Grade11", "Grade12"],
+            displayMath: "aA + bB ⇌ cC + dD  ⇒  K_c = [C]ᶜ[D]ᵈ / ([A]ᵃ[B]ᵇ)   |   K_p = K_c(RT)^Δn",
+            variables: "[] = molar concentrations at equilibrium, Δn = (moles gas products) - (moles gas reactants)",
+            tip: "Pure solids (s) and pure liquids (l) are omitted from equilibrium constant expressions."
+        },
+        {
+            title: "pH, pOH & Aqueous Acid-Base Equilibrium",
+            topic: "Acids, Bases & Solutions",
+            grades: ["Grade11", "Grade12"],
+            displayMath: "pH = -log[H⁺]   |   pOH = -log[OH⁻]   |   pH + pOH = 14   |   K_w = [H⁺][OH⁻] = 1.0×10⁻¹⁴ (25°C)",
+            variables: "[H⁺] = hydrogen ion concentration (M), [OH⁻] = hydroxide ion concentration (M)",
+            tip: "Henderson-Hasselbalch equation for buffer solutions: pH = pKa + log([Conjugate Base] / [Weak Acid])."
+        },
+        {
+            title: "Thermochemistry & Gibbs Free Energy",
+            topic: "Chemical Thermodynamics",
+            grades: ["Grade11", "Grade12"],
+            displayMath: "ΔH°_rxn = Σ nΔH°_f(products) - Σ mΔH°_f(reactants)   |   ΔG = ΔH - TΔS",
+            variables: "ΔH = enthalpy change (kJ), ΔS = entropy change (J/K), T = temperature (K), ΔG = Gibbs free energy (kJ)",
+            tip: "Spontaneity criterion: reaction is spontaneous at constant T and P when ΔG < 0 (negative)."
+        },
+        {
+            title: "Standard Cell Potential & Faraday's Law",
+            topic: "Electrochemistry",
+            grades: ["Grade11", "Grade12"],
+            displayMath: "E°_cell = E°_cathode - E°_anode   |   ΔG° = -n·F·E°_cell   |   Faraday: m = (M·I·t) / (n·F)",
+            variables: "E° = standard potential (V), F = 96485 C/mol e⁻, n = moles of electrons, I = current (A), t = time (s)",
+            tip: "Reduction occurs at the Cathode ('Red Cat'); Oxidation occurs at the Anode ('An Ox')."
+        }
+    ]
+};
+
+let currentFormulaSubject = 'math';
+let currentFormulaGrade = 'all';
+let currentFormulaSearch = '';
+
+function showFormulaSheetsView(activeSubject = 'math', activeGrade = 'all', searchQuery = '', pushHistory = true) {
+    currentFormulaSubject = activeSubject;
+    currentFormulaGrade = activeGrade;
+    currentFormulaSearch = searchQuery;
+
+    if (pushHistory) {
+        pushNavState({ view: 'formulas', subject: activeSubject, grade: activeGrade, search: searchQuery }, 'Formula Sheets & Quick Revision');
+    }
+
+    const items = FORMULA_DATA[activeSubject] || FORMULA_DATA.math;
+    const q = searchQuery.toLowerCase().trim();
+
+    const filtered = items.filter(f => {
+        if (activeGrade !== 'all' && !f.grades.includes(activeGrade)) return false;
+        if (q) {
+            const haystack = `${f.title} ${f.topic} ${f.displayMath} ${f.variables} ${f.tip}`.toLowerCase();
+            return haystack.includes(q);
+        }
+        return true;
+    });
+
+    app.innerHTML = `
+        <div class="nav-breadcrumbs-bar">
+            <button class="back-button back-button-home" onclick="showLibraryHome()" style="margin: 0; display: inline-flex; align-items: center; gap: 6px;" title="Go back to the website home page where you choose your grade">
+                ${uiIcon('home', 14)} Back to Grades (Home)
+            </button>
+        </div>
+
+        <section class="hero" style="margin-bottom: 24px;">
+            <p class="label">Academic Reference Guide</p>
+            <h1>Formula Sheets & <span>Quick Summaries</span></h1>
+            <p class="description">
+                Comprehensive formulas, universal constants, and essential examination tips for Blessed G/Michael Catholic Secondary School science and mathematics courses.
+            </p>
+        </section>
+
+        <!-- Subject Switcher Tabs -->
+        <div class="formula-tab-bar">
+            <button class="formula-tab-btn ${activeSubject === 'math' ? 'active' : ''}" onclick="showFormulaSheetsView('math', '${currentFormulaGrade}', '${escapeQuotes(currentFormulaSearch)}')">
+                ${uiIcon('calculator', 15)} Mathematics
+            </button>
+            <button class="formula-tab-btn ${activeSubject === 'physics' ? 'active' : ''}" onclick="showFormulaSheetsView('physics', '${currentFormulaGrade}', '${escapeQuotes(currentFormulaSearch)}')">
+                ${uiIcon('bolt', 15)} Physics
+            </button>
+            <button class="formula-tab-btn ${activeSubject === 'chem' ? 'active' : ''}" onclick="showFormulaSheetsView('chem', '${currentFormulaGrade}', '${escapeQuotes(currentFormulaSearch)}')">
+                ${uiIcon('sparkles', 15)} Chemistry
+            </button>
+            <button class="btn-secondary" style="margin-left: auto; padding: 7px 14px; font-size: 13px; display: inline-flex; align-items: center; gap: 6px;" onclick="printFormulaSheet()">
+                ${uiIcon('printer', 14)} Print / Save Sheet
+            </button>
+        </div>
+
+        <!-- Filter Controls Bar -->
+        <div style="background: rgba(255, 255, 255, 0.02); border: 1px solid var(--border-glass); border-radius: 12px; padding: 14px 18px; margin-bottom: 24px; display: flex; gap: 14px; flex-wrap: wrap; align-items: center;">
+            <div style="display: flex; align-items: center; gap: 8px; min-width: 190px;">
+                <span style="font-size: 13.5px; color: var(--text-muted); font-weight: 600;">Grade:</span>
+                <select class="admin-select" style="margin: 0; padding: 8px 12px; width: 100%;" onchange="showFormulaSheetsView('${activeSubject}', this.value, '${escapeQuotes(currentFormulaSearch)}')">
+                    <option value="all" ${activeGrade === 'all' ? 'selected' : ''}>All High School Grades</option>
+                    <option value="Grade9" ${activeGrade === 'Grade9' ? 'selected' : ''}>Grade 9</option>
+                    <option value="Grade10" ${activeGrade === 'Grade10' ? 'selected' : ''}>Grade 10</option>
+                    <option value="Grade11" ${activeGrade === 'Grade11' ? 'selected' : ''}>Grade 11</option>
+                    <option value="Grade12" ${activeGrade === 'Grade12' ? 'selected' : ''}>Grade 12 (National Prep)</option>
+                </select>
+            </div>
+
+            <div style="flex: 2; min-width: 260px;">
+                <input type="text" class="admin-input" style="margin: 0; padding: 8px 14px; width: 100%;" 
+                       placeholder="Search formula (e.g. Snell, quadratic, Gibbs, Ohm, integral)..." 
+                       value="${escapeQuotes(currentFormulaSearch)}"
+                       oninput="debounceFormulaSearch(this.value)">
+            </div>
+        </div>
+
+        <!-- Formula Cards Grid -->
+        ${filtered.length === 0 ? `
+            <div style="text-align: center; padding: 40px 20px; background: var(--surface-glass); border: 1px dashed var(--border-glass); border-radius: 14px;">
+                <p style="color: var(--text-muted); font-size: 14px; margin-bottom: 12px;">No formulas matched your search keyword.</p>
+                <button class="btn-secondary" onclick="showFormulaSheetsView('${activeSubject}', 'all', '')">Clear Filters</button>
+            </div>
+        ` : `
+            <div class="formula-grid">
+                ${filtered.map(f => `
+                    <div class="formula-card">
+                        <div>
+                            <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; margin-bottom: 8px;">
+                                <span class="badge badge-purple">${f.topic}</span>
+                                <div style="display: flex; gap: 4px;">
+                                    ${f.grades.map(g => `<span class="badge badge-blue" style="font-size: 10px; padding: 1px 5px;">${g.replace('Grade', 'G')}</span>`).join('')}
+                                </div>
+                            </div>
+                            <h3 style="font-size: 17px; color: #ffffff; margin-bottom: 8px; font-weight: 700;">${f.title}</h3>
+
+                            <div class="formula-math-box">
+                                ${f.displayMath}
+                            </div>
+
+                            <div style="font-size: 12px; color: var(--text-muted); line-height: 1.5; margin-bottom: 10px;">
+                                <strong style="color: #cbd5e1;">Variables:</strong> ${f.variables}
+                            </div>
+
+                            ${f.tip ? `
+                                <div class="formula-tip">
+                                    <strong>Exam Tip:</strong> ${f.tip}
+                                </div>
+                            ` : ''}
+                        </div>
+
+                        <div style="display: flex; justify-content: flex-end; margin-top: 14px; padding-top: 10px; border-top: 1px solid var(--border-glass);">
+                            <button class="btn-secondary" style="font-size: 12px; padding: 6px 12px; display: inline-flex; align-items: center; gap: 6px;" onclick="copyFormulaText('${escapeQuotes(f.displayMath)}', this)">
+                                ${uiIcon('copy', 13)} Copy Formula
+                            </button>
+                        </div>
+                    </div>
+                `).join('')}
+            </div>
+        `}
+    `;
+}
+
+let formulaSearchTimeout = null;
+function debounceFormulaSearch(query) {
+    if (formulaSearchTimeout) clearTimeout(formulaSearchTimeout);
+    formulaSearchTimeout = setTimeout(() => {
+        showFormulaSheetsView(currentFormulaSubject, currentFormulaGrade, query);
+    }, 250);
+}
+
+function copyFormulaText(text, btnElement) {
+    if (navigator.clipboard) {
+        navigator.clipboard.writeText(text).then(() => {
+            const orig = btnElement.innerHTML;
+            btnElement.innerHTML = `${uiIcon('check', 13)} Copied!`;
+            btnElement.style.color = '#34d399';
+            setTimeout(() => {
+                btnElement.innerHTML = orig;
+                btnElement.style.color = '';
+            }, 2000);
+        }).catch(() => {
+            showToast('Copied formula to clipboard', 'info');
+        });
+    } else {
+        showToast('Copied formula to clipboard', 'info');
+    }
+}
+
+function printFormulaSheet() {
+    window.print();
 }
 
 // Start the application
