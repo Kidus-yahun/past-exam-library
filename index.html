@@ -17,6 +17,15 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Exam Library">
 
+    <script>
+        (function() {
+            try {
+                var theme = localStorage.getItem('pel_theme') || 'dark';
+                document.documentElement.setAttribute('data-theme', theme);
+            } catch(e) {}
+        })();
+    </script>
+
     <link rel="stylesheet" href="style.css">
 
     <!-- Vercel Web Analytics -->

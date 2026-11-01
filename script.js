@@ -91,7 +91,9 @@ const UI_ICONS = {
     calendar: '<rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>',
     copy: '<rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>',
     printer: '<polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/>',
-    dna: '<path d="M2 15c6.667-6 13.333 0 20-6"/><path d="M2 9c6.667 6 13.333 0 20 6"/><path d="M7 10.5v3"/><path d="M12 9v6"/><path d="M17 10.5v3"/>'
+    dna: '<path d="M2 15c6.667-6 13.333 0 20-6"/><path d="M2 9c6.667 6 13.333 0 20 6"/><path d="M7 10.5v3"/><path d="M12 9v6"/><path d="M17 10.5v3"/>',
+    sun: '<circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>',
+    moon: '<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>'
 };
 
 function uiIcon(name, size = 18, extraClass = '', strokeWidth = 2) {
@@ -521,6 +523,11 @@ window.addEventListener('popstate', (e) => {
 ======================================================== */
 
 async function initApp() {
+    // Initialize Theme
+    const currentTheme = getTheme();
+    document.documentElement.setAttribute('data-theme', currentTheme);
+    state.theme = currentTheme;
+
     // Register Service Worker for offline & low-data caching
     if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
@@ -688,40 +695,83 @@ modalContainer.addEventListener('click', (e) => {
 });
 
 /* ========================================================
-   HEADER NAVIGATION
+   THEME MANAGEMENT (LIGHT & DARK MODE)
+======================================================== */
+function getTheme() {
+    return document.documentElement.getAttribute('data-theme') || (function() {
+        try {
+            return localStorage.getItem('pel_theme') || 'dark';
+        } catch(e) {
+            return 'dark';
+        }
+    })();
+}
+
+function applyTheme(theme) {
+    document.documentElement.setAttribute('data-theme', theme);
+    try {
+        localStorage.setItem('pel_theme', theme);
+    } catch (e) {}
+    state.theme = theme;
+    renderHeader();
+}
+
+function toggleTheme() {
+    const nextTheme = getTheme() === 'light' ? 'dark' : 'light';
+    applyTheme(nextTheme);
+}
+
+/* ========================================================
+   HEADER NAVIGATION (COMPACT ICON BUTTONS WITH HOVER REVEAL)
 ======================================================== */
 
 function renderHeader() {
     const isOnline = navigator.onLine;
+    const currentTheme = getTheme();
+    const isLight = currentTheme === 'light';
+
     const pwaControls = `
         <div class="pwa-nav-container">
-            <span class="offline-pill ${isOnline ? '' : 'offline'}" title="${isOnline ? 'Connected to school archive' : 'Practicing with cached exam papers'}">
-                <span class="status-dot"></span> ${isOnline ? 'Online' : 'Offline'}
+            <span class="offline-pill ${isOnline ? '' : 'offline'}" title="${isOnline ? 'Online: Connected to school archive' : 'Offline: Practicing with cached exam papers'}">
+                <span class="status-dot"></span> <span class="offline-pill-text">${isOnline ? 'Online' : 'Offline'}</span>
             </span>
-            <button id="pwa-install-btn" class="pwa-install-btn" style="display: ${window._deferredPwaPrompt ? 'inline-flex' : 'none'}; align-items: center; gap: 6px;" onclick="promptPwaInstall()">
-                ${uiIcon('download', 14)} Install App
+            <button id="pwa-install-btn" class="nav-btn pwa-install-btn" style="display: ${window._deferredPwaPrompt ? 'inline-flex' : 'none'};" onclick="promptPwaInstall()" data-tooltip="Install App" aria-label="Install App">
+                ${uiIcon('download', 14)}
+                <span class="nav-btn-label">Install App</span>
             </button>
         </div>
     `;
 
-    const isLibraryActive = state.currentView === 'library';
-    const isFormulasActive = state.currentView === 'formulas';
+    const themeToggleBtn = `
+        <button class="nav-btn theme-toggle-btn" onclick="toggleTheme()" data-tooltip="${isLight ? 'Switch to Dark Mode' : 'Switch to Light Mode'}" aria-label="Toggle Theme">
+            ${uiIcon(isLight ? 'moon' : 'sun', 15)}
+            <span class="nav-btn-label">${isLight ? 'Dark mode' : 'Light mode'}</span>
+        </button>
+    `;
+
+    const isLibraryActive = state.currentView === 'library' || state.currentView === 'grade' || state.currentView === 'semester' || state.currentView === 'examType' || state.currentView === 'hub';
+    const isFormulasActive = state.currentView === 'formulas' || state.currentView === 'formulaGrades' || state.currentView === 'formulaSubjects' || state.currentView === 'formulaSheet';
     const isStudyHubActive = state.currentView === 'studyhub';
 
     if (!state.user) {
         headerNav.innerHTML = `
             ${pwaControls}
-            <button class="nav-btn ${isLibraryActive ? 'active' : ''}" onclick="setView('library')">
-                ${uiIcon('book', 14)} Exam library
+            <button class="nav-btn ${isLibraryActive ? 'active' : ''}" onclick="setView('library')" data-tooltip="Exam library" aria-label="Exam library">
+                ${uiIcon('book', 15)}
+                <span class="nav-btn-label">Exam library</span>
             </button>
-            <button class="nav-btn ${isFormulasActive ? 'active' : ''}" onclick="setView('formulas')">
-                ${uiIcon('calculator', 14)} Formula sheets
+            <button class="nav-btn ${isFormulasActive ? 'active' : ''}" onclick="setView('formulas')" data-tooltip="Formula sheets" aria-label="Formula sheets">
+                ${uiIcon('calculator', 15)}
+                <span class="nav-btn-label">Formula sheets</span>
             </button>
-            <button class="nav-btn ${isStudyHubActive ? 'active' : ''}" onclick="setView('studyhub')">
-                ${uiIcon('bookmark', 14)} My study hub
+            <button class="nav-btn ${isStudyHubActive ? 'active' : ''}" onclick="setView('studyhub')" data-tooltip="My study hub" aria-label="My study hub">
+                ${uiIcon('bookmark', 15)}
+                <span class="nav-btn-label">My study hub</span>
             </button>
-            <button class="btn-primary" style="padding: 6px 14px; font-size: 13px; margin-left: 6px; cursor: pointer;" onclick="setView('login')">
-                Sign in
+            ${themeToggleBtn}
+            <button class="nav-btn nav-btn-signin" onclick="setView('login')" data-tooltip="Sign in" aria-label="Sign in">
+                ${uiIcon('user', 15)}
+                <span class="nav-btn-label">Sign in</span>
             </button>
         `;
         return;
@@ -734,32 +784,39 @@ function renderHeader() {
 
     headerNav.innerHTML = `
         ${pwaControls}
-        <div class="user-badge" onclick="openProfileModal()" style="cursor: pointer; display: flex; align-items: center; gap: 8px;" title="Registered Name: ${escapeQuotes(displayName)} (Click to view or edit)">
+        <div class="user-badge" onclick="openProfileModal()" style="cursor: pointer; display: flex; align-items: center; gap: 8px;" title="Registered Name: ${escapeQuotes(displayName)} (Click to view or edit)" data-tooltip="Student Profile: ${escapeQuotes(displayName)}">
             <div class="activity-user-avatar" style="width: 28px; height: 28px; font-size: 12px; margin-right: 2px;">${userInitial}</div>
             <div style="display: flex; flex-direction: column; text-align: left; line-height: 1.2;">
-                <span class="user-name" style="font-weight: 700; color: #ffffff; font-size: 13.5px;">${displayName}</span>
+                <span class="user-name" style="font-weight: 700; color: var(--text-main); font-size: 13.5px;">${displayName}</span>
                 <span class="role-pill ${isAdmin ? 'admin' : ''}" style="font-size: 9.5px; padding: 1px 6px; align-self: flex-start;">${isAdmin ? 'Admin' : 'Student'}</span>
             </div>
         </div>
 
-        <button class="nav-btn ${isLibraryActive ? 'active' : ''}" onclick="setView('library')">
-            ${uiIcon('book', 14)} Exam library
+        <button class="nav-btn ${isLibraryActive ? 'active' : ''}" onclick="setView('library')" data-tooltip="Exam library" aria-label="Exam library">
+            ${uiIcon('book', 15)}
+            <span class="nav-btn-label">Exam library</span>
         </button>
-        <button class="nav-btn ${isFormulasActive ? 'active' : ''}" onclick="setView('formulas')">
-            ${uiIcon('calculator', 14)} Formula sheets
+        <button class="nav-btn ${isFormulasActive ? 'active' : ''}" onclick="setView('formulas')" data-tooltip="Formula sheets" aria-label="Formula sheets">
+            ${uiIcon('calculator', 15)}
+            <span class="nav-btn-label">Formula sheets</span>
         </button>
-        <button class="nav-btn ${isStudyHubActive ? 'active' : ''}" onclick="setView('studyhub')">
-            ${uiIcon('bookmark', 14)} My study hub
+        <button class="nav-btn ${isStudyHubActive ? 'active' : ''}" onclick="setView('studyhub')" data-tooltip="My study hub" aria-label="My study hub">
+            ${uiIcon('bookmark', 15)}
+            <span class="nav-btn-label">My study hub</span>
         </button>
 
         ${isAdmin ? `
-            <button class="nav-btn ${isAdminActive ? 'active' : ''}" onclick="setView('admin')">
-                Admin dashboard
+            <button class="nav-btn ${isAdminActive ? 'active' : ''}" onclick="setView('admin')" data-tooltip="Admin dashboard" aria-label="Admin dashboard">
+                ${uiIcon('activity', 15)}
+                <span class="nav-btn-label">Admin</span>
             </button>
         ` : ''}
 
-        <button class="nav-btn" onclick="logout()" title="Sign Out">
-            Sign out
+        ${themeToggleBtn}
+
+        <button class="nav-btn" onclick="logout()" data-tooltip="Sign out" aria-label="Sign out">
+            ${uiIcon('export', 15)}
+            <span class="nav-btn-label">Sign out</span>
         </button>
     `;
 }
