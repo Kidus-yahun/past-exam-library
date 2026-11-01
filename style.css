@@ -729,13 +729,7 @@ main {
 }
 
 .auth-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 3px;
-    background: linear-gradient(90deg, #6366f1, #a855f7, #ec4899);
+    display: none;
 }
 
 .auth-header {
@@ -2062,45 +2056,37 @@ footer {
 }
 
 .hub-card-featured {
-    border-color: rgba(168, 85, 247, 0.45);
-    background: linear-gradient(145deg, rgba(22, 31, 58, 0.85), rgba(30, 22, 58, 0.75));
-    box-shadow: 0 10px 35px -5px rgba(139, 92, 246, 0.25);
+    border-color: rgba(170, 145, 236, 0.28);
+    background: var(--bg-card);
+    box-shadow: var(--shadow-card);
 }
 
 .hub-card-featured::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 3px;
-    background: linear-gradient(90deg, #6366f1, #a855f7, #ec4899);
+    display: none;
 }
 
 .hub-badge {
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    padding: 5px 12px;
-    border-radius: var(--radius-full);
+    padding: 4px 10px;
+    border-radius: var(--radius-sm);
     font-size: 11px;
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: 1px;
+    font-weight: 600;
     width: fit-content;
     margin-bottom: 16px;
 }
 
 .hub-badge-interactive {
-    background: rgba(168, 85, 247, 0.2);
-    border: 1px solid rgba(168, 85, 247, 0.4);
-    color: #d8b4fe;
+    background: rgba(170, 145, 236, 0.1);
+    border: 1px solid rgba(170, 145, 236, 0.25);
+    color: var(--primary);
 }
 
 .hub-badge-pdf {
-    background: rgba(99, 102, 241, 0.18);
-    border: 1px solid rgba(129, 140, 248, 0.35);
-    color: #a5b4fc;
+    background: rgba(99, 102, 241, 0.1);
+    border: 1px solid rgba(129, 140, 248, 0.25);
+    color: var(--text-muted);
 }
 
 .mode-selector {
@@ -2220,7 +2206,7 @@ footer {
 
 .quiz-progress-bar {
     height: 100%;
-    background: linear-gradient(90deg, #6366f1, #a855f7, #ec4899);
+    background: linear-gradient(90deg, #6366f1, #8b5cf6);
     border-radius: var(--radius-full);
     transition: width 0.3s var(--ease-out);
 }

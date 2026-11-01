@@ -654,7 +654,7 @@ function navigateToHome() {
 function showToast(message, type = 'info') {
     const toast = document.createElement('div');
     toast.className = `toast ${type}`;
-    const iconSvg = type === 'success' ? uiIcon('checkCircle', 15) : (type === 'error' ? uiIcon('alertTriangle', 15) : uiIcon('sparkles', 15));
+    const iconSvg = type === 'success' ? uiIcon('checkCircle', 15) : (type === 'error' ? uiIcon('alertTriangle', 15) : uiIcon('fileText', 15));
     toast.innerHTML = `<span style="display: inline-flex; align-items: center;">${iconSvg}</span> <span>${message}</span>`;
     toastContainer.appendChild(toast);
 
@@ -3130,22 +3130,22 @@ async function showExamHub(grade, semester, examType, subject, filePath, examTit
             <div class="hub-card ${questionCount > 0 ? 'hub-card-featured' : ''}" style="${questionCount === 0 ? 'border: 1px dashed var(--border-glass);' : ''}">
                 ${questionCount > 0 ? `
                     <span class="hub-badge hub-badge-interactive" style="display: inline-flex; align-items: center; gap: 6px;">
-                        ${uiIcon('sparkles', 13)} 100% Authentic Paper Questions
+                        ${uiIcon('fileText', 13)} Exam Questions
                     </span>
-                    <h3 style="font-size: 24px; color: #ffffff; margin-bottom: 8px;">Online Practice Mode</h3>
+                    <h3 style="font-size: 24px; color: var(--text-main); margin-bottom: 8px;">Online Practice Mode</h3>
                     <p style="color: var(--text-muted); font-size: 14.5px; line-height: 1.6;">
-                        Practice real examination questions transcribed directly from the physical school paper with instant feedback and score reports.
+                        Practice examination questions transcribed directly from the physical school paper with instant feedback and score reports.
                     </p>
 
                     <div class="mode-selector">
                         <div class="mode-option ${selectedHubMode === 'practice' ? 'active' : ''}" id="mode-opt-practice" onclick="setHubMode('practice')">
                             <div class="mode-radio"></div>
                             <div>
-                                <div style="font-weight: 700; color: #ffffff; font-size: 15px; display: flex; align-items: center; gap: 6px;">
-                                    ${uiIcon('bolt', 16, 'text-accent')} Instant Practice Mode
+                                <div style="font-weight: 700; color: var(--text-main); font-size: 15px;">
+                                    Practice Mode
                                 </div>
                                 <div style="font-size: 12.5px; color: var(--text-muted); margin-top: 2px;">
-                                    Check answers immediately after each question with detailed explanations.
+                                    Check answers immediately after each question with step-by-step explanations.
                                 </div>
                             </div>
                         </div>
@@ -3153,32 +3153,32 @@ async function showExamHub(grade, semester, examType, subject, filePath, examTit
                         <div class="mode-option ${selectedHubMode === 'timed' ? 'active' : ''}" id="mode-opt-timed" onclick="setHubMode('timed')">
                             <div class="mode-radio"></div>
                             <div>
-                                <div style="font-weight: 700; color: #ffffff; font-size: 15px; display: flex; align-items: center; gap: 6px;">
-                                    ${uiIcon('clock', 16, 'text-accent')} Timed Exam Simulation
+                                <div style="font-weight: 700; color: var(--text-main); font-size: 15px;">
+                                    Timed Examination
                                 </div>
                                 <div style="font-size: 12.5px; color: var(--text-muted); margin-top: 2px;">
-                                    Real test conditions with live countdown timer and verified final score report.
+                                    Simulated test conditions with live countdown timer and verified final score report.
                                 </div>
                             </div>
                         </div>
                     </div>
 
                     <div style="display: flex; align-items: center; justify-content: space-between; margin-top: auto; padding-top: 18px; border-top: 1px solid var(--border-glass);">
-                        <span style="font-size: 13px; color: #c084fc; font-weight: 600; display: inline-flex; align-items: center; gap: 6px;">
-                            ${uiIcon('bookOpen', 15)} ${questionCount} Authentic Questions Transcribed
+                        <span style="font-size: 13px; color: var(--text-muted); font-weight: 600; display: inline-flex; align-items: center; gap: 6px;">
+                            ${uiIcon('fileText', 14)} ${questionCount} Questions Available
                         </span>
                         <button class="btn-primary" style="width: auto; padding: 12px 24px;" 
                                 onclick="startPracticeSession('${grade}', '${semester}', '${examType}', '${escapeQuotes(subject)}', selectedHubMode, '${escapeQuotes(examTitle)}', '${filePath}', window._lastBackFn)">
-                            Start Practicing Now (${questionCount} Qs) →
+                            Start Practice (${questionCount} Qs) →
                         </button>
                     </div>
                 ` : `
                     <span class="hub-badge" style="background: rgba(148, 163, 184, 0.15); color: #94a3b8; border: 1px solid rgba(148, 163, 184, 0.25); display: inline-flex; align-items: center; gap: 5px;">
                         ${uiIcon('clipboard', 12)} Archive Paper
                     </span>
-                    <h3 style="font-size: 22px; color: #ffffff; margin-bottom: 8px;">Interactive Mode In Transcription</h3>
+                    <h3 style="font-size: 22px; color: var(--text-main); margin-bottom: 8px;">Interactive Practice In Preparation</h3>
                     <p style="color: var(--text-muted); font-size: 14px; line-height: 1.6; margin-bottom: 16px;">
-                        To maintain strict 100% exam fidelity, questions for this paper are being transcribed directly from school physical archives. No AI-generated or synthetic questions are published.
+                        Questions for this paper are being transcribed directly from physical school archives. The original paper is available for study below.
                     </p>
                     <div style="background: rgba(99, 102, 241, 0.08); border: 1px solid rgba(99, 102, 241, 0.2); border-radius: 12px; padding: 14px; margin-bottom: 20px;">
                         <div style="font-weight: 600; color: #a5b4fc; font-size: 13.5px; margin-bottom: 4px; display: flex; align-items: center; gap: 6px;">
@@ -3220,7 +3220,7 @@ async function showExamHub(grade, semester, examType, subject, filePath, examTit
                     </button>
                     <button class="btn-bookmark ${isExamBookmarked(examTitle) ? 'bookmarked' : ''}" id="btn-bookmark-${escapeQuotes(examTitle)}" style="justify-content: center; padding: 12px; display: inline-flex; align-items: center; gap: 8px; width: 100%;" 
                             onclick="toggleBookmarkExam('${grade}_${semester}_${subject}', '${escapeQuotes(examTitle)}', '${grade}', '${semester}', '${examType}', '${escapeQuotes(subject)}', '${filePath}')">
-                        ${uiIcon(isExamBookmarked(examTitle) ? 'bookmarkCheck' : 'bookmark', 15)} ${isExamBookmarked(examTitle) ? 'Saved in My Study Hub ✓' : 'Save to My Study Hub'}
+                        ${uiIcon(isExamBookmarked(examTitle) ? 'bookmarkCheck' : 'bookmark', 15)} ${isExamBookmarked(examTitle) ? 'Saved in Study Hub' : 'Save to Study Hub'}
                     </button>
                 </div>
             </div>
@@ -3436,8 +3436,8 @@ function renderQuizScreen() {
                                 Next Question →
                             </button>
                         ` : `
-                            <button class="btn-primary" style="width: auto; padding: 10px 22px; background: linear-gradient(135deg, #059669, #10b981); display: inline-flex; align-items: center; gap: 8px;" onclick="finishQuiz()">
-                                View Results & Score ${uiIcon('trophy', 16)}
+                            <button class="btn-primary" style="width: auto; padding: 10px 22px;" onclick="finishQuiz()">
+                                Submit Assessment →
                             </button>
                         `}
                     </div>
@@ -3583,18 +3583,18 @@ function finishQuiz() {
         details: `Scored ${correctCount}/${currentQuiz.questions.length} (${percent}%) in ${formatTime(timeSpentSeconds)}`
     });
 
-    let verdict = `<span style="display: inline-flex; align-items: center; gap: 8px;">${uiIcon('sparkles', 20)} Excellent Job!</span>`;
-    if (percent >= 90) verdict = `<span style="display: inline-flex; align-items: center; gap: 8px;">${uiIcon('trophy', 20)} Outstanding Mastery! Distinction!</span>`;
-    else if (percent >= 75) verdict = `<span style="display: inline-flex; align-items: center; gap: 8px;">${uiIcon('star', 20)} Great Performance! High Pass!</span>`;
-    else if (percent >= 50) verdict = `<span style="display: inline-flex; align-items: center; gap: 8px;">${uiIcon('checkCircle', 20)} Good Effort! Passing Grade.</span>`;
-    else verdict = `<span style="display: inline-flex; align-items: center; gap: 8px;">${uiIcon('bookOpen', 20)} Keep Practicing! Review key concepts below.</span>`;
+    let verdict = `Score: ${percent}%`;
+    if (percent >= 90) verdict = `Distinction (${percent}%)`;
+    else if (percent >= 75) verdict = `Upper Credit (${percent}%)`;
+    else if (percent >= 50) verdict = `Passing Grade (${percent}%)`;
+    else verdict = `Revision Required (${percent}%)`;
 
     app.innerHTML = `
         <div class="results-card">
-            <div class="empty-state-icon-wrap" style="width: 72px; height: 72px; margin: 0 auto 16px; background: rgba(99, 102, 241, 0.15); color: #a5b4fc; border-color: rgba(99, 102, 241, 0.35);">
-                ${uiIcon('graduation', 36)}
+            <div class="empty-state-icon-wrap" style="width: 72px; height: 72px; margin: 0 auto 16px; background: rgba(99, 102, 241, 0.12); color: var(--primary); border-color: rgba(99, 102, 241, 0.25);">
+                ${uiIcon('fileText', 34)}
             </div>
-            <h2 style="font-family: 'Outfit', sans-serif; font-size: 32px; color: #ffffff; margin-bottom: 6px;">Practice Completed!</h2>
+            <h2 style="font-family: inherit; font-size: 28px; color: var(--text-main); margin-bottom: 6px; font-weight: 700;">Assessment Results</h2>
             <p style="color: var(--text-muted); font-size: 15px;">${currentQuiz.subject} • ${currentQuiz.grade} • ${currentQuiz.examType}</p>
 
             <div class="score-circle-wrapper" style="margin-top: 24px;">
@@ -4224,7 +4224,7 @@ function toggleBookmarkExam(id, title, grade = '', semester = '', examType = '',
         if (btn) {
             const isNow = isExamBookmarked(key);
             btn.className = `btn-bookmark ${isNow ? 'bookmarked' : ''}`;
-            btn.innerHTML = `${uiIcon(isNow ? 'bookmarkCheck' : 'bookmark', 15)} ${isNow ? 'Saved in My Study Hub ✓' : 'Save to My Study Hub'}`;
+            btn.innerHTML = `${uiIcon(isNow ? 'bookmarkCheck' : 'bookmark', 15)} ${isNow ? 'Saved in Study Hub' : 'Save to Study Hub'}`;
         }
     }
 }
@@ -4336,9 +4336,9 @@ function showStudyHubView(pushHistory = true) {
                             <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 14px; background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-glass); border-radius: 8px; padding: 6px 10px;">
                                 <span style="font-size: 12px; color: var(--text-muted); font-weight: 600;">Status:</span>
                                 <select class="admin-select" style="margin: 0; padding: 4px 8px; font-size: 12px; width: auto; flex: 1;" onchange="updateBookmarkStatus('${b.id}', this.value)">
-                                    <option value="not_started" ${b.status === 'not_started' || !b.status ? 'selected' : ''}>⚪ Not Started</option>
-                                    <option value="in_progress" ${b.status === 'in_progress' ? 'selected' : ''}>🟡 In Review / Studying</option>
-                                    <option value="mastered" ${b.status === 'mastered' ? 'selected' : ''}>🟢 Mastered & Ready</option>
+                                    <option value="not_started" ${b.status === 'not_started' || !b.status ? 'selected' : ''}>Not Started</option>
+                                    <option value="in_progress" ${b.status === 'in_progress' ? 'selected' : ''}>In Progress</option>
+                                    <option value="mastered" ${b.status === 'mastered' ? 'selected' : ''}>Completed</option>
                                 </select>
                             </div>
 
@@ -5397,7 +5397,7 @@ function showFormulaSubjects(gradeId, pushHistory = true) {
         {
             id: 'math',
             name: 'Mathematics',
-            badge: '∑',
+            code: 'MATH',
             desc: gradeId === 'Grade12'
                 ? 'Calculus (Derivatives & Integrals), Trigonometry, Sequences, Vectors & Probability'
                 : (gradeId === 'Grade11'
@@ -5407,7 +5407,7 @@ function showFormulaSubjects(gradeId, pushHistory = true) {
         {
             id: 'physics',
             name: 'Physics',
-            badge: '⚡',
+            code: 'PHYS',
             desc: gradeId === 'Grade12'
                 ? 'Universal Constants, Rotational Dynamics, Oscillations, Optics, Electromagnetism & Modern Physics'
                 : (gradeId === 'Grade11'
@@ -5417,7 +5417,7 @@ function showFormulaSubjects(gradeId, pushHistory = true) {
         {
             id: 'chem',
             name: 'Chemistry',
-            badge: '⚗',
+            code: 'CHEM',
             desc: gradeId === 'Grade12'
                 ? 'Solutions & Colligative Properties, Acid-Base Equilibria, Electrochemistry & Rate Laws'
                 : (gradeId === 'Grade11'
@@ -5427,7 +5427,7 @@ function showFormulaSubjects(gradeId, pushHistory = true) {
         {
             id: 'bio',
             name: 'Biology',
-            badge: '🧬',
+            code: 'BIOL',
             desc: gradeId === 'Grade12'
                 ? 'Population Genetics (Hardy-Weinberg), Chi-Square Tests, Ecology Sampling & Energetics'
                 : (gradeId === 'Grade11'
@@ -5471,7 +5471,7 @@ function showFormulaSubjects(gradeId, pushHistory = true) {
         <div class="card-grid">
             ${subjects.map(s => `
                 <div class="card" onclick="showFormulaSheet('${gradeId}', '${s.id}')">
-                    <div class="card-number" style="font-size: 24px; color: #a5b4fc;">${s.badge}</div>
+                    <div class="card-number" style="font-size: 13px; font-weight: 700; color: var(--primary); letter-spacing: 0.5px;">${s.code}</div>
                     <div class="card-info">
                         <h3>${s.name}</h3>
                         <p>${s.desc}</p>
@@ -5546,7 +5546,7 @@ function showFormulaSheet(gradeId, subjectId = 'math', searchQuery = '', pushHis
                     ${uiIcon('bolt', 14)} Physics
                 </button>
                 <button class="formula-tab-btn ${subjectId === 'chem' ? 'active' : ''}" onclick="showFormulaSheet('${gradeId}', 'chem')">
-                    ${uiIcon('sparkles', 14)} Chemistry
+                    ${uiIcon('fileText', 14)} Chemistry
                 </button>
                 <button class="formula-tab-btn ${subjectId === 'bio' ? 'active' : ''}" onclick="showFormulaSheet('${gradeId}', 'bio')">
                     ${uiIcon('dna', 14)} Biology
