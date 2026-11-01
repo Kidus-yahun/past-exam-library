@@ -1680,16 +1680,25 @@ header {
 .logo:hover { transform: none; opacity: .88; }
 
 .brand-mark {
-    display: grid;
-    width: 29px;
-    height: 29px;
-    place-items: center;
-    border: 1px solid rgba(184, 162, 236, .44);
-    border-radius: 8px;
-    color: #c3b1ef;
-    font-family: Georgia, "Times New Roman", serif;
-    font-size: 17px;
-    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 9px;
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.16), rgba(168, 85, 247, 0.22));
+    border: 1px solid rgba(168, 85, 247, 0.35);
+    color: #c4b5fd;
+    box-shadow: 0 2px 10px rgba(99, 102, 241, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    flex-shrink: 0;
+}
+
+.logo:hover .brand-mark {
+    transform: scale(1.08) rotate(-2deg);
+    border-color: rgba(168, 85, 247, 0.6);
+    box-shadow: 0 4px 16px rgba(168, 85, 247, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+    color: #ffffff;
 }
 
 .logo-accent {
@@ -3200,6 +3209,19 @@ footer {
 
 [data-theme="light"] .logo {
     color: #0f172a;
+}
+
+[data-theme="light"] .brand-mark {
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.12), rgba(168, 85, 247, 0.15));
+    border-color: rgba(99, 102, 241, 0.28);
+    color: #6366f1;
+    box-shadow: 0 2px 8px rgba(99, 102, 241, 0.1);
+}
+
+[data-theme="light"] .logo:hover .brand-mark {
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.2), rgba(168, 85, 247, 0.25));
+    border-color: #6366f1;
+    color: #4338ca;
 }
 
 [data-theme="light"] .header-tagline {

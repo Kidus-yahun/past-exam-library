@@ -933,7 +933,7 @@ function showLoginView(activeTab = 'signin') {
         <div class="auth-wrapper">
             <div class="auth-card">
                 <div class="auth-header">
-                    <div class="auth-icon" aria-hidden="true"><span>PE</span></div>
+                    <div class="auth-icon" aria-hidden="true">${uiIcon('bookOpen', 26)}</div>
                     <h2>Past Exam Library</h2>
                     <p>A student-run collection of past examination papers.</p>
                 </div>
