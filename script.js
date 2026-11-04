@@ -1390,7 +1390,15 @@ function renderExamsTable(exams) {
 }
 
 function escapeQuotes(str) {
-    return (str || '').replace(/'/g, "\\'");
+    if (str == null) return '';
+    return String(str)
+        .replace(/\\/g, '\\\\')
+        .replace(/'/g, "\\'")
+        .replace(/"/g, '&quot;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/\r/g, '')
+        .replace(/\n/g, ' ');
 }
 
 /* Modal: Upload New Exam Paper */

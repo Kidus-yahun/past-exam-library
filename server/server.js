@@ -67,9 +67,15 @@ app.use((req, res, next) => {
 
 // Block direct access to internal server files, database, and configurations
 app.use((req, res, next) => {
-    const rawPath = decodeURIComponent(req.path || '').toLowerCase();
-    const blockedPrefixes = ['/data', '/server', '/.git', '/exam_cache', '/node_modules', '/scripts'];
-    const blockedFiles = ['/package.json', '/package-lock.json', '/vercel.json', '/.gitignore', '/readme.md'];
+    let rawPath = '';
+    try {
+        rawPath = decodeURIComponent(req.path || '');
+    } catch (e) {
+        rawPath = req.path || '';
+    }
+    rawPath = path.posix.normalize(rawPath.replace(/\\/g, '/')).toLowerCase();
+    const blockedPrefixes = ['/data', '/server', '/.git', '/exam_cache', '/node_modules', '/scripts', '/.env'];
+    const blockedFiles = ['/package.json', '/package-lock.json', '/vercel.json', '/.gitignore', '/readme.md', '/.env'];
 
     if (blockedPrefixes.some(p => rawPath === p || rawPath.startsWith(p + '/')) || blockedFiles.includes(rawPath)) {
         return res.status(404).send('Not Found');
@@ -92,14 +98,19 @@ try {
 
 // Proxy & serve exam papers directly with edge CDN acceleration, range support & disk cache
 app.use('/exams', (req, res, next) => {
-    const rawReqPath = decodeURIComponent(req.path || '');
+    let rawReqPath = '';
+    try {
+        rawReqPath = decodeURIComponent(req.path || '');
+    } catch (e) {
+        rawReqPath = req.path || '';
+    }
     // Sanitize path against directory traversal
     const safeRelPath = path.normalize(rawReqPath).replace(/^(\.\.[\/\\])+/, '').replace(/^[\\\/]+/, '');
     const examsBaseDir = path.resolve(ROOT_DIR, 'exams');
     const localFile = path.resolve(examsBaseDir, safeRelPath);
 
     // Strict directory traversal boundary check
-    if (!localFile.startsWith(examsBaseDir)) {
+    if (localFile !== examsBaseDir && !localFile.startsWith(examsBaseDir + path.sep)) {
         return res.status(403).json({ success: false, message: 'Access denied: Invalid file path' });
     }
 
@@ -115,7 +126,7 @@ app.use('/exams', (req, res, next) => {
     }
 
     // High-speed CDN proxy with jsDelivr edge CDN + raw fallback
-    const encodedSegments = safeRelPath.split(/[\/\\]/).map(seg => encodeURIComponent(seg)).join('/');
+    const encodedSegments = safeRelPath.split(/[\/\\]/).filter(s => s && s !== '..' && s !== '.').map(seg => encodeURIComponent(seg)).join('/');
     const jsDelivrUrl = `https://cdn.jsdelivr.net/gh/soliyana-dev/past-exam-library@main/exams/${encodedSegments}`;
     const rawGithubUrl = `https://raw.githubusercontent.com/soliyana-dev/past-exam-library/main/exams/${encodedSegments}`;
 
@@ -201,7 +212,7 @@ app.get('/sw.js', (req, res) => {
     res.sendFile(path.join(ROOT_DIR, 'sw.js'));
 });
 
-app.use(express.static(ROOT_DIR));
+app.use(express.static(ROOT_DIR, { dotfiles: 'ignore' }));
 
 // Auth Helpers
 function generateToken(user) {
@@ -346,7 +357,8 @@ app.post('/api/auth/register', rateLimitAuth, (req, res) => {
         const salt = bcrypt.genSaltSync(10);
         const passwordHash = bcrypt.hashSync(password, salt);
 
-        const assignedRole = role === 'admin' ? 'student' : (role || 'student');
+        // Public registration strictly assigns student role (prevents role elevation)
+        const assignedRole = 'student';
 
         const newUser = db.createUser({
             username: username.trim(),
