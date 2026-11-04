@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+# Prevent crawlers from indexing private admin API endpoints
+Disallow: /api/
+Disallow: /uploads/
+
+Sitemap: /sitemap.xml

@@ -5,9 +5,52 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Past Exam Library — Blessed G/Michael Catholic Secondary School</title>
-    <meta name="description" content="A student-run archive of authentic past examination papers and interactive practice for Blessed G/Michael Catholic Secondary School.">
+    <title>Catholic Past Exam Library — Blessed G/Michael Catholic Secondary School</title>
+    <meta name="description" content="Authentic Catholic past exam library for Blessed G/Michael Catholic Secondary School. Free access to past examination papers, model exams, revision formula sheets, and interactive practice questions for grades 9 through 12.">
+    <meta name="keywords" content="Catholic past exam library, Catholic past exams, Blessed G/Michael Catholic Secondary School, past examination papers, Ethiopian secondary school exams, grade 9 exams, grade 10 exams, grade 11 exams, grade 12 exams, model exams, midterm exams, final exams, formula sheets, student exam archive">
+    <meta name="author" content="Blessed G/Michael Catholic Secondary School Students">
+    <meta name="application-name" content="Catholic Past Exam Library">
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
     <meta name="theme-color" content="#4f46e5">
+    <meta name="google-site-verification" content="googleabf25ffc530ebc63">
+
+    <!-- Open Graph / Facebook / WhatsApp Preview -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Catholic Past Exam Library">
+    <meta property="og:title" content="Catholic Past Exam Library — Blessed G/Michael Catholic Secondary School">
+    <meta property="og:description" content="Access authentic past examination papers, trial exams, study formula sheets, and interactive practice questions.">
+    <meta property="og:image" content="/icons/icon-512.png">
+    <meta property="og:locale" content="en_US">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Catholic Past Exam Library — Blessed G/Michael Catholic Secondary School">
+    <meta name="twitter:description" content="Access authentic past examination papers, trial exams, study formula sheets, and interactive practice questions.">
+    <meta name="twitter:image" content="/icons/icon-512.png">
+
+    <!-- Schema.org JSON-LD Structured Data for Google Search -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebSite",
+          "name": "Catholic Past Exam Library",
+          "alternateName": [
+            "Catholic Past Exams",
+            "Blessed G/Michael Catholic Secondary School Past Exam Library"
+          ],
+          "description": "Student-run archive of authentic past examination papers, model tests, formulas, and interactive practice for Catholic secondary school students.",
+          "inLanguage": "en"
+        },
+        {
+          "@type": "EducationalOrganization",
+          "name": "Blessed G/Michael Catholic Secondary School",
+          "description": "Catholic secondary educational institution exam archive and study portal."
+        }
+      ]
+    }
+    </script>
 
     <!-- Progressive Web App (PWA) Manifest & Icons -->
     <link rel="manifest" href="/manifest.json">
@@ -70,7 +113,26 @@
 
     <main id="main-container">
         <!-- Rendered dynamically (Login / Admin Dashboard / Library) -->
-        <div id="app"></div>
+        <div id="app">
+            <section class="seo-crawlable-hero" style="padding: 3rem 1.5rem; max-width: 860px; margin: 0 auto; text-align: center;">
+                <h1 style="font-size: 2rem; margin-bottom: 0.75rem; font-weight: 700; color: inherit;">Catholic Past Exam Library</h1>
+                <p style="font-size: 1.1rem; line-height: 1.6; opacity: 0.85; max-width: 680px; margin: 0 auto 1.5rem auto;">
+                    Digital past examination papers, model exams, study formula sheets, and interactive practice questions for Blessed G/Michael Catholic Secondary School.
+                </p>
+                <div style="display: flex; gap: 0.6rem; justify-content: center; flex-wrap: wrap; margin-bottom: 1.5rem;">
+                    <span style="background: rgba(99, 102, 241, 0.15); border: 1px solid rgba(99, 102, 241, 0.3); padding: 0.35rem 0.85rem; border-radius: 9999px; font-size: 0.85rem;">Grade 9 – Grade 12</span>
+                    <span style="background: rgba(99, 102, 241, 0.15); border: 1px solid rgba(99, 102, 241, 0.3); padding: 0.35rem 0.85rem; border-radius: 9999px; font-size: 0.85rem;">Midterm &amp; Final Exams</span>
+                    <span style="background: rgba(99, 102, 241, 0.15); border: 1px solid rgba(99, 102, 241, 0.3); padding: 0.35rem 0.85rem; border-radius: 9999px; font-size: 0.85rem;">Interactive Question Bank</span>
+                    <span style="background: rgba(99, 102, 241, 0.15); border: 1px solid rgba(99, 102, 241, 0.3); padding: 0.35rem 0.85rem; border-radius: 9999px; font-size: 0.85rem;">Formula Sheets</span>
+                </div>
+            </section>
+        </div>
+        <noscript>
+            <div style="padding: 2rem; text-align: center; max-width: 700px; margin: 0 auto;">
+                <h2>Blessed G/Michael Catholic Secondary School Past Exam Archive</h2>
+                <p>Please enable JavaScript in your browser to access the interactive past exam papers, formulas library, and student practice tests.</p>
+            </div>
+        </noscript>
     </main>
 
     <!-- Global Toast Container -->
@@ -78,6 +140,46 @@
 
     <!-- Global Modal Container -->
     <div id="modal-container" class="modal-backdrop" style="display: none;"></div>
+
+    <!-- Mobile Bottom Navigation Bar (App-like navigation on phones) -->
+    <nav id="mobile-bottom-nav" class="mobile-bottom-nav" aria-label="Mobile Bottom Navigation">
+        <button class="mob-nav-item active" onclick="setView('library')" id="mob-nav-exams">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+                <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+            </svg>
+            <span>Exams</span>
+        </button>
+        <button class="mob-nav-item" onclick="showPracticeGradeCatalog()" id="mob-nav-practice">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"/>
+                <circle cx="12" cy="12" r="6"/>
+                <circle cx="12" cy="12" r="2"/>
+            </svg>
+            <span>Practice</span>
+        </button>
+        <button class="mob-nav-item" onclick="setView('formulas')" id="mob-nav-formulas">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="4" y="2" width="16" height="20" rx="2"/>
+                <line x1="8" y1="6" x2="16" y2="6"/>
+                <line x1="16" y1="14" x2="16" y2="18"/>
+                <path d="M16 10h.01"/>
+                <path d="M12 10h.01"/>
+                <path d="M8 10h.01"/>
+                <path d="M12 14h.01"/>
+                <path d="M8 14h.01"/>
+                <path d="M12 18h.01"/>
+                <path d="M8 18h.01"/>
+            </svg>
+            <span>Formulas</span>
+        </button>
+        <button class="mob-nav-item" onclick="setView('studyhub')" id="mob-nav-studyhub">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>
+            </svg>
+            <span>Study Hub</span>
+        </button>
+    </nav>
 
     <footer>
         <div class="footer-content">

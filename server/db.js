@@ -340,22 +340,44 @@ class Database {
     getQuestions(filters = {}) {
         if (!this.data.questions) this.data.questions = [];
         let results = [...this.data.questions];
+
+        const clean = str => (str || '').toLowerCase().replace(/[\s_-]+/g, '');
+        const cleanType = str => clean(str).replace(/exam$/i, '');
+
         if (filters.examId) {
             results = results.filter(q => q.examId && q.examId.toLowerCase() === filters.examId.toLowerCase());
         }
         if (filters.grade) {
-            results = results.filter(q => q.grade && q.grade.toLowerCase() === filters.grade.toLowerCase());
+            const normGrade = clean(filters.grade);
+            results = results.filter(q => q.grade && clean(q.grade) === normGrade);
         }
         if (filters.subject) {
-            const normSub = filters.subject.toLowerCase().replace(/\s+/g, '');
-            results = results.filter(q => q.subject && q.subject.toLowerCase().replace(/\s+/g, '') === normSub);
+            const normSub = clean(filters.subject);
+            results = results.filter(q => q.subject && clean(q.subject) === normSub);
         }
-        if (filters.semester) {
-            results = results.filter(q => q.semester && q.semester.toLowerCase() === filters.semester.toLowerCase());
+
+        // Try exact semester and examType matching first
+        let narrowed = [...results];
+        if (filters.semester && filters.semester !== 'All' && filters.semester !== 'Practice Bank') {
+            const semClean = clean(filters.semester);
+            const semFiltered = narrowed.filter(q => q.semester && (clean(q.semester) === semClean || clean(q.semester).includes(semClean) || semClean.includes(clean(q.semester))));
+            if (semFiltered.length > 0) {
+                narrowed = semFiltered;
+            }
         }
-        if (filters.examType) {
-            results = results.filter(q => q.examType && q.examType.toLowerCase() === filters.examType.toLowerCase());
+        if (filters.examType && filters.examType !== 'All') {
+            const typeClean = cleanType(filters.examType);
+            const typeFiltered = narrowed.filter(q => q.examType && (cleanType(q.examType) === typeClean || cleanType(q.examType).includes(typeClean) || typeClean.includes(cleanType(q.examType))));
+            if (typeFiltered.length > 0) {
+                narrowed = typeFiltered;
+            }
         }
+
+        // If narrowed has questions, use narrowed; otherwise fall back to subject questions for that grade
+        if (narrowed.length > 0 || filters.exactOnly) {
+            results = narrowed;
+        }
+
         if (filters.search) {
             const s = filters.search.toLowerCase().trim();
             results = results.filter(q => 

@@ -803,6 +803,7 @@ function renderHeader() {
                 <span class="nav-btn-label">Sign in</span>
             </button>
         `;
+        updateMobileBottomNav();
         return;
     }
 
@@ -848,6 +849,24 @@ function renderHeader() {
             <span class="nav-btn-label">Sign out</span>
         </button>
     `;
+    updateMobileBottomNav();
+}
+
+function updateMobileBottomNav() {
+    const isLibraryActive = state.currentView === 'library' || state.currentView === 'grade' || state.currentView === 'semester' || state.currentView === 'examType' || state.currentView === 'hub';
+    const isPracticeActive = state.currentView === 'practiceGradeCatalog' || state.currentView === 'practiceSubjectCatalog' || state.currentView === 'quiz' || state.currentView === 'quizSummary';
+    const isFormulasActive = state.currentView === 'formulas' || state.currentView === 'formulaGrades' || state.currentView === 'formulaSubjects' || state.currentView === 'formulaSheet';
+    const isStudyHubActive = state.currentView === 'studyhub';
+
+    const setItemActive = (id, active) => {
+        const el = document.getElementById(id);
+        if (el) el.classList.toggle('active', !!active);
+    };
+
+    setItemActive('mob-nav-exams', isLibraryActive);
+    setItemActive('mob-nav-practice', isPracticeActive);
+    setItemActive('mob-nav-formulas', isFormulasActive);
+    setItemActive('mob-nav-studyhub', isStudyHubActive);
 }
 
 function openProfileModal() {
@@ -2572,6 +2591,36 @@ function formatUserAgent(ua) {
    3. STUDENT / PUBLIC LIBRARY VIEW
 ======================================================== */
 
+function renderHomeModeTabs(activeMode = 'exams') {
+    return `
+        <div class="home-mode-tabs-wrapper">
+            <nav class="home-mode-tabs" role="tablist" aria-label="Library Navigation Modes">
+                <button class="home-mode-tab ${activeMode === 'exams' ? 'active' : ''}" 
+                        onclick="showLibraryHome()" 
+                        role="tab" 
+                        aria-selected="${activeMode === 'exams'}" 
+                        title="Browse past examination papers by grade">
+                    ${uiIcon('book', 15)} <span>Past Exam Papers</span>
+                </button>
+                <button class="home-mode-tab ${activeMode === 'practice' ? 'active' : ''}" 
+                        onclick="showPracticeGradeCatalog()" 
+                        role="tab" 
+                        aria-selected="${activeMode === 'practice'}" 
+                        title="Practice interactive quizzes by grade and subject">
+                    ${uiIcon('target', 15)} <span>Practice Questions</span>
+                </button>
+                <button class="home-mode-tab ${activeMode === 'formulas' ? 'active' : ''}" 
+                        onclick="showFormulaGrades()" 
+                        role="tab" 
+                        aria-selected="${activeMode === 'formulas'}" 
+                        title="Academic formula sheets, constants & summaries">
+                    ${uiIcon('calculator', 15)} <span>Formula Sheets</span>
+                </button>
+            </nav>
+        </div>
+    `;
+}
+
 function showLibraryHome(pushHistory = true) {
     if (pushHistory) {
         pushNavState({ view: 'library' }, 'Past Exam Library');
@@ -2585,7 +2634,7 @@ function showLibraryHome(pushHistory = true) {
     const grades = state.categories.grades;
 
     app.innerHTML = `
-        <section class="hero">
+        <section class="hero" style="margin-bottom: 18px;">
             <p class="label">A student-run archive</p>
             <h1>
                 A good place to<br>
@@ -2595,6 +2644,9 @@ function showLibraryHome(pushHistory = true) {
                 Browse past papers by grade, semester and subject, and get straight to studying.
             </p>
         </section>
+
+        <!-- Mode-Based Selector Tabs: Option 2 -->
+        ${renderHomeModeTabs('exams')}
 
         <!-- Search Bar -->
         <div class="search-container">
@@ -2606,22 +2658,7 @@ function showLibraryHome(pushHistory = true) {
             </div>
         </div>
 
-        <!-- Live Exam Countdown Widget -->
-        ${renderCountdownWidgetHtml()}
-
-        <!-- Quick Study Shortcuts Toolbar -->
-        <div style="display: flex; gap: 10px; margin-bottom: 24px; flex-wrap: wrap;">
-            <button class="btn-secondary" style="padding: 10px 16px; font-size: 13.5px; display: inline-flex; align-items: center; gap: 8px;" onclick="setView('formulas')">
-                ${uiIcon('calculator', 15)} Formula Sheets & Summaries
-            </button>
-            <button class="btn-secondary" style="padding: 10px 16px; font-size: 13.5px; display: inline-flex; align-items: center; gap: 8px;" onclick="setView('studyhub')">
-                ${uiIcon('bookmark', 15)} My Study Hub & Bookmarks
-            </button>
-            <button class="btn-secondary" style="padding: 10px 16px; font-size: 13.5px; display: inline-flex; align-items: center; gap: 8px;" onclick="showPracticeGradeCatalog()">
-                ${uiIcon('target', 15)} Authentic Practice Question Bank
-            </button>
-        </div>
-
+        <!-- Grade Selection: 100% focused, zero clutter, instant to catch -->
         <div id="library-content-container">
             <div class="page-title">
                 <h2>Select your grade</h2>
@@ -2642,8 +2679,6 @@ function showLibraryHome(pushHistory = true) {
             </div>
         </div>
     `;
-
-    startCountdownLiveTimer();
 }
 
 async function showPracticeGradeCatalog(pushHistory = true) {
@@ -2686,9 +2721,20 @@ async function showPracticeGradeCatalog(pushHistory = true) {
             </div>
         </div>
 
+        <section class="hero" style="margin-bottom: 18px;">
+            <p class="label">Authentic Student Question Bank</p>
+            <h1>Practice <span>Questions</span></h1>
+            <p class="description">
+                Interactive questions with instant step-by-step scoring and explanations.
+            </p>
+        </section>
+
+        <!-- Mode-Based Selector Tabs: Option 2 -->
+        ${renderHomeModeTabs('practice')}
+
         <div class="page-title">
-            <h2>Practice question bank</h2>
-            <p>Choose a grade, then a subject to practice questions from that category.</p>
+            <h2>Select your grade</h2>
+            <p>Choose your grade to practice authentic examination questions.</p>
         </div>
         <div class="card-grid">
             ${grades.map(grade => `
@@ -3106,9 +3152,16 @@ async function showExamHub(grade, semester, examType, subject, filePath, examTit
         let qUrl = `/api/practice?grade=${grade}&subject=${encodeURIComponent(subject)}`;
         if (semester && semester !== 'All') qUrl += `&semester=${encodeURIComponent(semester)}`;
         if (examType && examType !== 'All') qUrl += `&examType=${encodeURIComponent(examType)}`;
-        const res = await fetch(qUrl);
-        const data = await res.json();
+        let res = await fetch(qUrl);
+        let data = await res.json();
         questionCount = (data.questions || []).length;
+
+        // Fallback to grade & subject question bank if this specific exam paper tag has 0 questions
+        if (questionCount === 0) {
+            res = await fetch(`/api/practice?grade=${grade}&subject=${encodeURIComponent(subject)}`);
+            data = await res.json();
+            questionCount = (data.questions || []).length;
+        }
     } catch (e) {}
 
     if (questionCount === 0) {
@@ -3116,9 +3169,10 @@ async function showExamHub(grade, semester, examType, subject, filePath, examTit
             const raw = localStorage.getItem('pel_offline_questions');
             if (raw) {
                 const allOffline = JSON.parse(raw);
+                const clean = s => (s || '').toLowerCase().replace(/[\s_-]+/g, '');
                 const matched = allOffline.filter(q => {
-                    if (q.grade !== grade) return false;
-                    if (subject && q.subject !== subject) return false;
+                    if (clean(q.grade) !== clean(grade)) return false;
+                    if (subject && clean(q.subject) !== clean(subject)) return false;
                     return true;
                 });
                 questionCount = matched.length;
@@ -3293,6 +3347,13 @@ async function startPracticeSession(grade, semester, examType, subject, mode, ex
         let res = await fetch(qUrl);
         let data = await res.json();
         questions = data.questions || [];
+
+        // Fallback to grade & subject question bank if this specific paper tag returned 0 questions
+        if (questions.length === 0) {
+            res = await fetch(`/api/practice?grade=${grade}&subject=${encodeURIComponent(subject)}`);
+            data = await res.json();
+            questions = data.questions || [];
+        }
     } catch (e) {
         console.warn('Practice fetch error online, checking offline cache', e);
     }
@@ -3302,9 +3363,10 @@ async function startPracticeSession(grade, semester, examType, subject, mode, ex
             const raw = localStorage.getItem('pel_offline_questions');
             if (raw) {
                 const allOffline = JSON.parse(raw);
+                const clean = s => (s || '').toLowerCase().replace(/[\s_-]+/g, '');
                 questions = allOffline.filter(q => {
-                    if (q.grade !== grade) return false;
-                    if (subject && q.subject !== subject) return false;
+                    if (clean(q.grade) !== clean(grade)) return false;
+                    if (subject && clean(q.subject) !== clean(subject)) return false;
                     return true;
                 });
             }
@@ -4184,7 +4246,7 @@ function renderCountdownWidgetHtml() {
 
             <div class="countdown-footer">
                 <div>
-                    <strong style="color: #ffffff;">${target.name}</strong>
+                    <strong class="countdown-target-name">${target.name}</strong>
                     <span style="display: block; font-size: 11.5px; color: var(--text-muted); margin-top: 2px;">${target.desc}</span>
                 </div>
                 <button class="countdown-action-btn" onclick="setView('studyhub')">
@@ -5413,13 +5475,16 @@ function showFormulaGrades(pushHistory = true) {
             </button>
         </div>
 
-        <section class="hero" style="margin-bottom: 24px;">
+        <section class="hero" style="margin-bottom: 18px;">
             <p class="label">Academic Reference Guide</p>
             <h1>Formula <span>Sheets</span></h1>
             <p class="description">
                 Choose your grade to explore curated formulas, standard physical constants, and verified examination summaries.
             </p>
         </section>
+
+        <!-- Mode-Based Selector Tabs: Option 2 -->
+        ${renderHomeModeTabs('formulas')}
 
         <div class="page-title">
             <h2>Select your grade</h2>
