@@ -83,9 +83,28 @@ body {
 .glow-orb {
     position: absolute;
     border-radius: 50%;
-    filter: blur(120px);
-    opacity: 0.35;
+    filter: blur(80px);
+    opacity: 0.3;
     animation: orbFloat 22s infinite alternate ease-in-out;
+    pointer-events: none;
+    will-change: transform;
+    transform: translateZ(0);
+}
+
+@media (max-width: 768px) {
+    .glow-orb {
+        animation: none !important;
+        filter: blur(35px) !important;
+        opacity: 0.16 !important;
+        transform: none !important;
+        will-change: auto !important;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .glow-orb {
+        animation: none !important;
+    }
 }
 
 .orb-1 {

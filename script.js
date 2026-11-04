@@ -3,17 +3,40 @@
    Full-stack Frontend with Auth, Admin Dashboard & Dynamic Library
 ======================================================== */
 
+// Static Category Fallback for Instant First-Paint (Zero Network Delay)
+const STATIC_FALLBACK_CATEGORIES = {
+    grades: [
+        { id: 'Grade9', name: 'Grade 9', number: '09', description: 'Past examinations for Grade 9' },
+        { id: 'Grade10', name: 'Grade 10', number: '10', description: 'Past examinations for Grade 10' },
+        { id: 'Grade11', name: 'Grade 11', number: '11', description: 'Past examinations for Grade 11' },
+        { id: 'Grade12', name: 'Grade 12', number: '12', description: 'Past examinations for Grade 12' }
+    ],
+    semesters: [
+        { id: 'Semester1', name: 'Semester 1', description: 'Mid 1, Mid 2 and Final' },
+        { id: 'Semester2', name: 'Semester 2', description: 'Mid 1, Mid 2 and Final' }
+    ],
+    examTypes: [
+        { id: 'Mid1', name: 'Mid 1', code: 'M1', description: 'First midterm examination' },
+        { id: 'Mid2', name: 'Mid 2', code: 'M2', description: 'Second midterm examination' },
+        { id: 'Final', name: 'Final', code: 'F', description: 'Final examination' },
+        { id: 'Pretest', name: 'Pre-test', code: 'P', description: 'National pre-test examination' },
+        { id: 'Model', name: 'Model Exam', code: 'M', description: 'National model examination' }
+    ],
+    subjects: {
+        Grade9: ['Amharic', 'English', 'Mathematics', 'Physics', 'Chemistry', 'Biology', 'History', 'Geography', 'Economics', 'IT', 'Citizenship', 'HP'],
+        Grade10: ['Amharic', 'English', 'Mathematics', 'Physics', 'Chemistry', 'Biology', 'History', 'Geography', 'Economics', 'IT', 'Citizenship', 'HP'],
+        Grade11: ['Amharic', 'English', 'Mathematics', 'Physics', 'Chemistry', 'Biology', 'Agriculture', 'IT', 'WEB'],
+        Grade12: ['Amharic', 'English', 'Mathematics', 'Physics', 'Chemistry', 'Biology', 'Agriculture', 'IT', 'Aptitude']
+    },
+    grade12NationalSubjects: ['English', 'Mathematics', 'Aptitude', 'Physics', 'Chemistry', 'Biology']
+};
+
 // State Management
 const state = {
     user: null,
     token: null,
-    currentView: 'login', // 'login', 'library', 'admin'
-    categories: {
-        grades: [],
-        semesters: [],
-        examTypes: [],
-        subjects: {}
-    },
+    currentView: 'library', // Default to library for instant visual render
+    categories: JSON.parse(JSON.stringify(STATIC_FALLBACK_CATEGORIES)),
     library: {
         grade: null,
         semester: null,
@@ -523,75 +546,85 @@ window.addEventListener('popstate', (e) => {
 ======================================================== */
 
 async function initApp() {
-    // Initialize Theme
+    // 1. Initialize Theme synchronously (zero flash)
     const currentTheme = getTheme();
     document.documentElement.setAttribute('data-theme', currentTheme);
     state.theme = currentTheme;
 
-    // Register Service Worker for offline & low-data caching
-    if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-            navigator.serviceWorker.register('/sw.js').then((reg) => {
-                console.log('[PWA] Service Worker registered with scope:', reg.scope);
-                // Pre-cache authentic exam questions across all grades for seamless offline practice
-                if (navigator.onLine) {
-                    ['Grade9', 'Grade10', 'Grade11', 'Grade12'].forEach(g => {
-                        fetch(`/api/practice?grade=${g}`).catch(() => {});
-                    });
-                    fetch('/api/practice').then(r => r.json()).then(d => {
-                        if (d && d.questions && d.questions.length > 0) {
-                            try {
-                                localStorage.setItem('pel_offline_questions', JSON.stringify(d.questions));
-                            } catch(e) {}
-                        }
-                    }).catch(() => {});
-                    fetch('/api/categories').then(r => r.json()).then(d => {
-                        if (d && d.categories) {
-                            try {
-                                localStorage.setItem('pel_offline_categories', JSON.stringify(d.categories));
-                            } catch(e) {}
-                        }
-                    }).catch(() => {});
-                    fetch('/api/exams').catch(() => {});
-                }
-            }).catch((err) => {
-                console.warn('[PWA] Service Worker registration failed:', err);
-            });
-        });
-    }
-    // Check saved session
+    // 2. Load saved session synchronously from local cache
     const savedToken = localStorage.getItem('pel_token');
     const savedUser = localStorage.getItem('pel_user');
-
     if (savedToken && savedUser) {
         try {
             state.token = savedToken;
             state.user = JSON.parse(savedUser);
-            // Verify token validity with backend
-            const res = await fetch('/api/auth/me', {
-                headers: { 'Authorization': `Bearer ${state.token}` }
-            });
-            if (res.ok) {
-                const data = await res.json();
-                state.user = data.user;
-                localStorage.setItem('pel_user', JSON.stringify(data.user));
-            } else {
-                logout(false);
-            }
         } catch (e) {
-            console.warn('Session verification fallback', e);
+            console.warn('Session parse error', e);
         }
     }
 
-    // Load dynamic categories
-    await fetchCategories();
+    // 3. Load cached offline categories synchronously if present
+    try {
+        const cachedCat = localStorage.getItem('pel_offline_categories');
+        if (cachedCat) {
+            const parsed = JSON.parse(cachedCat);
+            if (parsed && parsed.grades && parsed.grades.length > 0) {
+                state.categories = parsed;
+            }
+        }
+    } catch (e) {}
 
-    // Determine initial view: Public browsing enabled for all visitors
+    // 4. RENDER FIRST PAINT IMMEDIATELY (Zero Network Latency / No Blocking Spinner)
     if (state.user && state.user.role === 'admin' && window.location.hash === '#admin') {
         setView('admin');
     } else {
         setView('library');
     }
+
+    // 5. Non-blocking Background Sync (Token verification & Category refresh)
+    setTimeout(async () => {
+        // Verify token validity in background if logged in
+        if (state.token) {
+            try {
+                const res = await fetch('/api/auth/me', {
+                    headers: { 'Authorization': `Bearer ${state.token}` }
+                });
+                if (res.ok) {
+                    const data = await res.json();
+                    state.user = data.user;
+                    localStorage.setItem('pel_user', JSON.stringify(data.user));
+                    renderHeader();
+                } else if (res.status === 401) {
+                    logout(false);
+                }
+            } catch (e) {
+                console.warn('Background token check fallback', e);
+            }
+        }
+
+        // Fetch fresh categories from backend in background
+        await fetchCategories();
+    }, 60);
+
+    // 6. Non-blocking Service Worker registration (delayed so page load is 100% smooth)
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                navigator.serviceWorker.register('/sw.js').then((reg) => {
+                    console.log('[PWA] Service Worker active');
+                }).catch((err) => {
+                    console.warn('[PWA] Service Worker registration failed:', err);
+                });
+            }, 2500);
+        });
+    }
+
+    // 7. Idle prefetch PDF.js (warm up browser cache for instant preview later)
+    setTimeout(() => {
+        if (typeof ensurePdfJsLoaded === 'function') {
+            ensurePdfJsLoaded();
+        }
+    }, 4500);
 }
 
 async function fetchCategories() {
@@ -599,22 +632,18 @@ async function fetchCategories() {
         const res = await fetch('/api/categories');
         if (res.ok) {
             const data = await res.json();
-            state.categories = data.categories;
-            try {
-                localStorage.setItem('pel_offline_categories', JSON.stringify(data.categories));
-            } catch(e) {}
-            if (state.categories.grades && state.categories.grades.length > 0 && !state.admin.selectedGradeForSubjects) {
-                state.admin.selectedGradeForSubjects = state.categories.grades[0].id;
+            if (data && data.categories && data.categories.grades) {
+                state.categories = data.categories;
+                try {
+                    localStorage.setItem('pel_offline_categories', JSON.stringify(data.categories));
+                } catch(e) {}
+                if (state.categories.grades && state.categories.grades.length > 0 && !state.admin.selectedGradeForSubjects) {
+                    state.admin.selectedGradeForSubjects = state.categories.grades[0].id;
+                }
             }
         }
     } catch (err) {
-        console.warn('Network failed to fetch categories, attempting offline fallback:', err);
-        try {
-            const cachedCat = localStorage.getItem('pel_offline_categories');
-            if (cachedCat) {
-                state.categories = JSON.parse(cachedCat);
-            }
-        } catch(e) {}
+        console.warn('Network category fetch deferred to cache/static:', err.message);
     }
 }
 
@@ -3762,7 +3791,7 @@ function previewExamDoc(examId) {
     openExamById(examId);
 }
 
-// PDF Reader State
+// PDF Reader State & Lazy-Loader
 let pdfViewerState = {
     doc: null,
     pageNum: 1,
@@ -3773,6 +3802,31 @@ let pdfViewerState = {
     title: ''
 };
 
+let pdfJsLoadingPromise = null;
+function ensurePdfJsLoaded() {
+    if (window.pdfjsLib) return Promise.resolve(true);
+    if (pdfJsLoadingPromise) return pdfJsLoadingPromise;
+    pdfJsLoadingPromise = new Promise((resolve) => {
+        const s = document.createElement('script');
+        s.src = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js';
+        s.async = true;
+        s.onload = () => {
+            try {
+                if (window.pdfjsLib) {
+                    window.pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+                }
+            } catch (e) {}
+            resolve(true);
+        };
+        s.onerror = () => {
+            console.warn('Failed to dynamically load PDF.js');
+            resolve(false);
+        };
+        document.head.appendChild(s);
+    });
+    return pdfJsLoadingPromise;
+}
+
 function renderExamViewer(title, subtitle, fileUrl, onBackFn, pushHistory = true) {
     if (pushHistory) {
         pushNavState({ view: 'viewer', title, subtitle, fileUrl }, title);
@@ -3782,7 +3836,8 @@ function renderExamViewer(title, subtitle, fileUrl, onBackFn, pushHistory = true
     pdfViewerState.title = title;
     pdfViewerState.pageNum = 1;
     pdfViewerState.doc = null;
-    pdfViewerState.viewMode = (window.pdfjsLib) ? 'canvas' : 'native';
+    pdfViewerState.viewMode = 'canvas';
+    ensurePdfJsLoaded();
 
     app.innerHTML = `
         <div class="nav-breadcrumbs-bar">
@@ -3883,9 +3938,12 @@ function renderExamViewer(title, subtitle, fileUrl, onBackFn, pushHistory = true
 
 async function loadPdfDocument(fileUrl) {
     if (!window.pdfjsLib) {
-        console.warn('PDF.js not available, falling back to native iframe');
-        switchPdfViewMode('native');
-        return;
+        const loaded = await ensurePdfJsLoaded();
+        if (!loaded || !window.pdfjsLib) {
+            console.warn('PDF.js not available, falling back to native iframe');
+            switchPdfViewMode('native');
+            return;
+        }
     }
 
     try {
