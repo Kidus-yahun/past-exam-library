@@ -56,6 +56,27 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// Defense-in-depth security headers
+app.use((req, res, next) => {
+    res.setHeader('X-Content-Type-Options', 'nosniff');
+    res.setHeader('X-Frame-Options', 'SAMEORIGIN');
+    res.setHeader('X-XSS-Protection', '1; mode=block');
+    res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
+    next();
+});
+
+// Block direct access to internal server files, database, and configurations
+app.use((req, res, next) => {
+    const rawPath = decodeURIComponent(req.path || '').toLowerCase();
+    const blockedPrefixes = ['/data', '/server', '/.git', '/exam_cache', '/node_modules', '/scripts'];
+    const blockedFiles = ['/package.json', '/package-lock.json', '/vercel.json', '/.gitignore', '/readme.md'];
+
+    if (blockedPrefixes.some(p => rawPath === p || rawPath.startsWith(p + '/')) || blockedFiles.includes(rawPath)) {
+        return res.status(404).send('Not Found');
+    }
+    next();
+});
+
 // Serve static assets
 app.use('/uploads', express.static(path.join(ROOT_DIR, 'uploads')));
 
@@ -71,22 +92,30 @@ try {
 
 // Proxy & serve exam papers directly with edge CDN acceleration, range support & disk cache
 app.use('/exams', (req, res, next) => {
-    const relPath = decodeURIComponent(req.path.replace(/^\//, ''));
-    const localFile = path.join(ROOT_DIR, 'exams', relPath);
+    const rawReqPath = decodeURIComponent(req.path || '');
+    // Sanitize path against directory traversal
+    const safeRelPath = path.normalize(rawReqPath).replace(/^(\.\.[\/\\])+/, '').replace(/^[\\\/]+/, '');
+    const examsBaseDir = path.resolve(ROOT_DIR, 'exams');
+    const localFile = path.resolve(examsBaseDir, safeRelPath);
 
-    if (fs.existsSync(localFile)) {
-        return res.sendFile(localFile, { dotfiles: 'allow', acceptRanges: true, maxAge: '7d' });
+    // Strict directory traversal boundary check
+    if (!localFile.startsWith(examsBaseDir)) {
+        return res.status(403).json({ success: false, message: 'Access denied: Invalid file path' });
     }
 
-    const safeCacheKey = relPath.replace(/[^a-zA-Z0-9._-]/g, '_');
-    const cachedFile = path.join(PDF_CACHE_DIR, safeCacheKey);
+    if (fs.existsSync(localFile)) {
+        return res.sendFile(localFile, { dotfiles: 'ignore', acceptRanges: true, maxAge: '7d' });
+    }
+
+    const safeCacheKey = safeRelPath.replace(/[^a-zA-Z0-9._-]/g, '_');
+    const cachedFile = path.resolve(PDF_CACHE_DIR, safeCacheKey);
 
     if (fs.existsSync(cachedFile)) {
-        return res.sendFile(cachedFile, { dotfiles: 'allow', acceptRanges: true, maxAge: '7d' });
+        return res.sendFile(cachedFile, { dotfiles: 'ignore', acceptRanges: true, maxAge: '7d' });
     }
 
     // High-speed CDN proxy with jsDelivr edge CDN + raw fallback
-    const encodedSegments = relPath.split('/').map(seg => encodeURIComponent(seg)).join('/');
+    const encodedSegments = safeRelPath.split(/[\/\\]/).map(seg => encodeURIComponent(seg)).join('/');
     const jsDelivrUrl = `https://cdn.jsdelivr.net/gh/soliyana-dev/past-exam-library@main/exams/${encodedSegments}`;
     const rawGithubUrl = `https://raw.githubusercontent.com/soliyana-dev/past-exam-library/main/exams/${encodedSegments}`;
 
@@ -212,12 +241,39 @@ function requireAdmin(req, res, next) {
     next();
 }
 
+// In-memory IP Rate Limiter to mitigate brute-force attacks on auth endpoints
+const authRateLimits = new Map();
+function rateLimitAuth(req, res, next) {
+    const ip = req.ip || req.headers['x-forwarded-for'] || 'unknown';
+    const now = Date.now();
+    const windowMs = 15 * 60 * 1000; // 15-minute sliding window
+    const maxAttempts = 15; // Max 15 attempts per 15 min per IP
+
+    const record = authRateLimits.get(ip) || { count: 0, resetTime: now + windowMs };
+    if (now > record.resetTime) {
+        record.count = 1;
+        record.resetTime = now + windowMs;
+    } else {
+        record.count++;
+    }
+    authRateLimits.set(ip, record);
+
+    if (record.count > maxAttempts) {
+        const waitMinutes = Math.ceil((record.resetTime - now) / 60000);
+        return res.status(429).json({
+            success: false,
+            message: `Too many attempts from this IP. Please try again in ${waitMinutes} minute${waitMinutes > 1 ? 's' : ''}.`
+        });
+    }
+    next();
+}
+
 /* ========================================================
    AUTHENTICATION ROUTES
 ======================================================== */
 
-// Login
-app.post('/api/auth/login', (req, res) => {
+// Login (Protected with Rate Limiting)
+app.post('/api/auth/login', rateLimitAuth, (req, res) => {
     try {
         const { username, password } = req.body;
         if (!username || !password) {
@@ -271,8 +327,8 @@ app.post('/api/auth/login', (req, res) => {
     }
 });
 
-// Register
-app.post('/api/auth/register', (req, res) => {
+// Register (Protected with Rate Limiting)
+app.post('/api/auth/register', rateLimitAuth, (req, res) => {
     try {
         const { username, email, password, fullName, role } = req.body;
         if (!username || !password || !email) {
@@ -517,14 +573,16 @@ app.delete('/api/exams/:id', authenticateToken, requireAdmin, (req, res) => {
             return res.status(404).json({ success: false, message: 'Exam paper not found' });
         }
 
-        // Clean up file if it was uploaded to uploads directory
+        // Clean up file safely if it was uploaded to uploads directory
         if (exam.fileUrl && exam.fileUrl.startsWith('/uploads/exams/')) {
-            const diskPath = path.join(ROOT_DIR, exam.fileUrl);
-            if (fs.existsSync(diskPath)) {
+            const fileName = path.basename(exam.fileUrl);
+            const diskPath = path.resolve(UPLOADS_DIR, fileName);
+            const uploadsBase = path.resolve(UPLOADS_DIR);
+            if (diskPath.startsWith(uploadsBase) && fs.existsSync(diskPath)) {
                 try {
                     fs.unlinkSync(diskPath);
                 } catch (e) {
-                    console.warn('Could not delete physical file:', e);
+                    console.warn('Could not delete physical file:', e.message);
                 }
             }
         }
@@ -628,10 +686,11 @@ app.post('/api/activity/log', (req, res) => {
             return res.status(400).json({ success: false, message: 'Activity type is required' });
         }
 
-        const username = authUser ? authUser.username : (req.body.username || 'student');
-        const fullName = authUser ? (authUser.fullName || authUser.username) : (req.body.fullName || req.body.username || 'Student');
-        const role = authUser ? authUser.role : (req.body.role || 'student');
-        const userId = authUser ? authUser.id : (req.body.userId || null);
+        const username = authUser ? authUser.username : (req.body.username ? String(req.body.username).slice(0, 30) : 'student');
+        const fullName = authUser ? (authUser.fullName || authUser.username) : (req.body.fullName ? String(req.body.fullName).slice(0, 50) : username);
+        // Prevent unauthorized spoofing of admin role in logs when unauthenticated
+        const role = authUser ? authUser.role : 'student';
+        const userId = authUser ? authUser.id : null;
 
         const newLog = db.addActivityLog({
             type,
