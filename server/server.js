@@ -368,6 +368,21 @@ app.post('/api/auth/register', rateLimitAuth, (req, res) => {
             fullName: fullName || username
         });
 
+        // Record new student registration in activity logs
+        try {
+            db.addActivityLog({
+                type: 'login',
+                userId: newUser.id,
+                username: newUser.username,
+                fullName: newUser.fullName || newUser.username,
+                role: newUser.role,
+                details: 'New student account registered & signed in',
+                ip: req.ip || req.headers['x-forwarded-for'] || '',
+                userAgent: req.headers['user-agent'] || '',
+                timestamp: new Date().toISOString()
+            });
+        } catch (e) {}
+
         const token = generateToken(newUser);
         res.status(201).json({
             success: true,
@@ -745,10 +760,11 @@ app.get('/api/activity/logs', authenticateToken, requireAdmin, (req, res) => {
     }
 });
 
-// Aggregated activity statistics (Admin only)
+// Aggregated activity statistics (Admin only) - supports active filters
 app.get('/api/activity/stats', authenticateToken, requireAdmin, (req, res) => {
     try {
-        const stats = db.getActivityStats();
+        const { type, username, grade, subject, search } = req.query;
+        const stats = db.getActivityStats({ type, username, grade, subject, search });
         res.json({ success: true, stats });
     } catch (err) {
         res.status(500).json({ success: false, message: err.message });

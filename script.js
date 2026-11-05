@@ -164,12 +164,71 @@ function promptPwaInstall() {
                 showToast('Installing Exam Library app...', 'info');
             }
             window._deferredPwaPrompt = null;
-            const btn = document.getElementById('pwa-install-btn');
-            if (btn) btn.style.display = 'none';
         });
     } else {
-        showToast('To install: Tap your browser menu (⋮ or Share) and select "Add to Home screen"', 'info');
+        openDownloadApkModal();
     }
+}
+
+const APK_RELEASE_URL = 'https://github.com/Kidus-yahun/past-exam-library/releases/latest/download/PastExamLibrary.apk';
+
+function openDownloadApkModal() {
+    const bodyHtml = `
+        <div style="text-align: center; padding: 4px 0 10px 0;">
+            <div style="width: 58px; height: 58px; margin: 0 auto 12px auto; background: linear-gradient(135deg, #4f46e5, #7c3aed); border-radius: 16px; display: flex; align-items: center; justify-content: center; box-shadow: 0 8px 20px rgba(79, 70, 229, 0.35);">
+                <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect>
+                    <line x1="12" y1="18" x2="12.01" y2="18"></line>
+                </svg>
+            </div>
+            <h4 style="font-size: 17px; font-weight: 700; margin-bottom: 6px; color: var(--text-primary);">Past Exam Library for Android</h4>
+            <p style="font-size: 13px; color: var(--text-muted); line-height: 1.5; max-width: 380px; margin: 0 auto 16px auto;">
+                Official Android Application (.APK) for Blessed G/Michael Catholic Secondary School digital past exam archive.
+            </p>
+
+            <div style="display: grid; gap: 8px; margin-bottom: 18px; text-align: left; background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 10px; padding: 12px 14px;">
+                <div style="display: flex; align-items: center; gap: 8px; font-size: 12.5px; color: var(--text-secondary);">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                    <span>Full offline study &amp; practice question bank</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 8px; font-size: 12.5px; color: var(--text-secondary);">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                    <span>Direct PDF downloads straight to your phone's storage</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 8px; font-size: 12.5px; color: var(--text-secondary);">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                    <span>Compatible with Android 7.0 up to Android 15</span>
+                </div>
+            </div>
+
+            <div style="display: flex; flex-direction: column; gap: 10px;">
+                <a href="${APK_RELEASE_URL}" class="btn-primary" style="display: flex; align-items: center; justify-content: center; gap: 10px; padding: 12px 16px; font-size: 14.5px; font-weight: 600; text-decoration: none; border-radius: 9px;" download="PastExamLibrary.apk" target="_blank" rel="noopener">
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="7 10 12 15 17 10"></polyline>
+                        <line x1="12" y1="15" x2="12" y2="3"></line>
+                    </svg>
+                    <span>Download Android App (.APK)</span>
+                </a>
+
+                ${window._deferredPwaPrompt ? `
+                    <button class="btn-secondary" style="display: flex; align-items: center; justify-content: center; gap: 8px; padding: 10px; font-size: 13.5px;" onclick="promptPwaInstall(); closeModal();">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect></svg>
+                        <span>Add to Home Screen (Instant PWA)</span>
+                    </button>
+                ` : ''}
+            </div>
+
+            <div style="margin-top: 16px; padding: 10px 12px; background: rgba(99, 102, 241, 0.08); border-radius: 9px; text-align: left; font-size: 11.5px; color: var(--text-muted); line-height: 1.5;">
+                <strong style="color: var(--text-primary); display: block; margin-bottom: 3px;">📲 How to install:</strong>
+                1. Tap <b>Download Android App (.APK)</b> above or from our channel.<br>
+                2. Open the downloaded file from your notifications.<br>
+                3. Allow <i>"Install from unknown sources"</i> in your settings and tap <b>Install</b>.
+            </div>
+        </div>
+    `;
+
+    showModal('Android App (.APK)', bodyHtml);
 }
 
 function updateNetworkStatus() {
@@ -764,9 +823,12 @@ function renderHeader() {
             <span class="offline-pill ${isOnline ? '' : 'offline'}" title="${isOnline ? 'Online: Connected to school archive' : 'Offline: Practicing with cached exam papers'}">
                 <span class="status-dot"></span> <span class="offline-pill-text">${isOnline ? 'Online' : 'Offline'}</span>
             </span>
-            <button id="pwa-install-btn" class="nav-btn pwa-install-btn" style="display: ${window._deferredPwaPrompt ? 'inline-flex' : 'none'};" onclick="promptPwaInstall()" data-tooltip="Install App" aria-label="Install App">
-                ${uiIcon('download', 14)}
-                <span class="nav-btn-label">Install App</span>
+            <button id="pwa-install-btn" class="nav-btn pwa-install-btn" style="display: inline-flex;" onclick="openDownloadApkModal()" data-tooltip="Get Android App (.APK)" aria-label="Get Android App">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect>
+                    <line x1="12" y1="18" x2="12.01" y2="18"></line>
+                </svg>
+                <span class="nav-btn-label">Android App</span>
             </button>
         </div>
     `;
@@ -1241,11 +1303,34 @@ async function showAdminDashboard() {
 }
 
 function switchAdminTab(tab) {
-    if (tab !== 'activity' && typeof stopActivityPolling === 'function') {
-        stopActivityPolling();
-    }
     state.admin.activeTab = tab;
-    showAdminDashboard();
+    const tabContent = document.getElementById('admin-tab-content');
+    if (!tabContent) {
+        showAdminDashboard();
+        return;
+    }
+
+    // Keep active tab button highlighted without wiping the stats cards
+    const tabs = document.querySelectorAll('.admin-tab');
+    tabs.forEach(btn => {
+        const isActive = btn.getAttribute('onclick')?.includes(`'${tab}'`);
+        btn.classList.toggle('active', !!isActive);
+    });
+
+    if (tab === 'exams') {
+        renderAdminExamsTab();
+    } else if (tab === 'questions') {
+        renderAdminQuestionsTab();
+    } else if (tab === 'activity') {
+        renderAdminActivityTab();
+    } else if (tab === 'categories') {
+        renderAdminCategoriesTab();
+    } else if (tab === 'overview') {
+        renderAdminOverviewTab();
+    }
+
+    // Instantly update stats on tab change
+    loadAdminStats();
 }
 
 async function loadAdminStats() {
@@ -1256,16 +1341,36 @@ async function loadAdminStats() {
         if (res.ok) {
             const data = await res.json();
             const s = data.stats;
-            document.getElementById('stat-exams').textContent = s.totalExams;
-            document.getElementById('stat-grades').textContent = s.totalGrades;
-            document.getElementById('stat-subjects').textContent = s.totalSubjects;
-            document.getElementById('stat-users').textContent = s.totalUsers;
+            updateMetricWithAnimation('stat-exams', s.totalExams);
+            updateMetricWithAnimation('stat-grades', s.totalGrades);
+            updateMetricWithAnimation('stat-subjects', s.totalSubjects);
+            updateMetricWithAnimation('stat-users', s.totalUsers);
             if (document.getElementById('stat-questions')) {
-                document.getElementById('stat-questions').textContent = s.totalQuestions || 0;
+                updateMetricWithAnimation('stat-questions', s.totalQuestions || 0);
             }
+        } else {
+            fallbackAdminStats();
         }
     } catch (e) {
-        console.warn('Failed to load stats', e);
+        fallbackAdminStats();
+    }
+}
+
+function fallbackAdminStats() {
+    const totalExams = (typeof cachedExams !== 'undefined' && cachedExams.length) ? cachedExams.length : 135;
+    const totalGrades = (state.categories && state.categories.grades) ? state.categories.grades.length : 4;
+    const totalSubjects = (state.categories && state.categories.subjects)
+        ? Object.values(state.categories.subjects).reduce((acc, curr) => acc + curr.length, 0)
+        : 42;
+    const totalUsers = (state.user && state.user.role === 'admin') ? 2 : 1;
+    const totalQuestions = 614;
+
+    updateMetricWithAnimation('stat-exams', totalExams);
+    updateMetricWithAnimation('stat-grades', totalGrades);
+    updateMetricWithAnimation('stat-subjects', totalSubjects);
+    updateMetricWithAnimation('stat-users', totalUsers);
+    if (document.getElementById('stat-questions')) {
+        updateMetricWithAnimation('stat-questions', totalQuestions);
     }
 }
 

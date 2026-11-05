@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Past Exam Library</string>
+    <string name="app_url">https://past-exam-library.vercel.app/</string>
+    <string name="downloading_file">Downloading exam paper...</string>
+    <string name="offline_title">No Internet Connection</string>
+    <string name="offline_msg">Please check your network and tap retry to load the examination library.</string>
+    <string name="retry_btn">Retry</string>
+</resources>

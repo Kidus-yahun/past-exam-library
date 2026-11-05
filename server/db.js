@@ -498,10 +498,39 @@ class Database {
         return logs.slice(0, limit);
     }
 
-    getActivityStats() {
+    getActivityStats(filters = {}) {
         if (!this.data.activityLogs) this.data.activityLogs = [];
-        const logs = this.data.activityLogs;
+        let logs = [...this.data.activityLogs];
 
+        // Apply grade filter if specified
+        if (filters.grade && filters.grade !== 'all') {
+            logs = logs.filter(l => l.grade === filters.grade || (!l.grade && l.type === 'login'));
+        }
+        // Apply subject filter if specified
+        if (filters.subject && filters.subject !== 'all') {
+            const s = filters.subject.toLowerCase().trim();
+            logs = logs.filter(l => l.subject && l.subject.toLowerCase() === s);
+        }
+        // Apply user / search filter if specified
+        if (filters.username) {
+            const u = filters.username.toLowerCase().trim();
+            logs = logs.filter(l => 
+                (l.username && l.username.toLowerCase().includes(u)) ||
+                (l.fullName && l.fullName.toLowerCase().includes(u))
+            );
+        }
+        if (filters.search) {
+            const q = filters.search.toLowerCase().trim();
+            logs = logs.filter(l =>
+                (l.fullName && l.fullName.toLowerCase().includes(q)) ||
+                (l.username && l.username.toLowerCase().includes(q)) ||
+                (l.subject && l.subject.toLowerCase().includes(q)) ||
+                (l.examTitle && l.examTitle.toLowerCase().includes(q)) ||
+                (l.details && l.details.toLowerCase().includes(q))
+            );
+        }
+
+        // Calculate metrics based on filtered logs
         const totalLogins = logs.filter(l => l.type === 'login').length;
         const totalDownloads = logs.filter(l => l.type === 'download' || l.type === 'preview').length;
         const practiceLogs = logs.filter(l => l.type === 'practice');
@@ -546,6 +575,7 @@ class Database {
             totalPractices,
             avgScore,
             totalEvents: logs.length,
+            isFiltered: Boolean((filters.grade && filters.grade !== 'all') || (filters.subject && filters.subject !== 'all') || filters.search || (filters.type && filters.type !== 'all')),
             activeUsers: Object.values(userMap).sort((a, b) => (b.downloads + b.practices + b.logins) - (a.downloads + a.practices + a.logins)).slice(0, 8),
             topSubjects: Object.entries(subjectMap).map(([subject, count]) => ({ subject, count })).sort((a, b) => b.count - a.count).slice(0, 6)
         };

@@ -1,0 +1,74 @@
+name: Build Android APK
+
+on:
+  push:
+    branches: [ "main" ]
+    paths:
+      - 'android/**'
+      - '.github/workflows/build-apk.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    name: Build & Release APK
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Java JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v3
+        with:
+          gradle-version: '8.5'
+
+      - name: Build Android Release APK
+        working-directory: ./android
+        run: |
+          gradle assembleRelease --no-daemon
+
+      - name: Prepare APK Output
+        run: |
+          mkdir -p build-artifacts
+          cp android/app/build/outputs/apk/release/app-release.apk build-artifacts/PastExamLibrary.apk
+          echo "APK generated successfully at build-artifacts/PastExamLibrary.apk"
+          ls -lh build-artifacts/PastExamLibrary.apk
+
+      - name: Upload APK Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: PastExamLibrary-APK
+          path: build-artifacts/PastExamLibrary.apk
+
+      - name: Publish to GitHub Release
+        uses: softprops/action-gh-release@v2
+        if: github.ref == 'refs/heads/main'
+        with:
+          tag_name: v1.0.0-apk
+          name: "Past Exam Library Android APK v1.0.0"
+          body: |
+            ### 📱 Past Exam Library - Official Android APK
+
+            Download and install directly on your Android phone to practice past exams and study offline.
+
+            - **App Name:** Past Exam Library
+            - **Platform:** Android 7.0 (API 24) and above
+            - **Features:** Complete exam archive, interactive practice questions, formula sheets, PDF reader, and offline caching.
+
+            #### How to Install:
+            1. Download `PastExamLibrary.apk` below or from our Telegram channel.
+            2. Tap the downloaded file on your phone.
+            3. If prompted, allow "Install from unknown sources" in settings.
+            4. Open and start studying!
+          files: build-artifacts/PastExamLibrary.apk
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
