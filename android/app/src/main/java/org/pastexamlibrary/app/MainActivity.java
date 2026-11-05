@@ -15,6 +15,7 @@ import android.os.Environment;
 import android.view.View;
 import android.webkit.CookieManager;
 import android.webkit.DownloadListener;
+import android.webkit.JavascriptInterface;
 import android.webkit.URLUtil;
 import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
@@ -94,6 +95,11 @@ public class MainActivity extends AppCompatActivity {
         swipeRefresh.setColorSchemeResources(R.color.primary, R.color.accent);
         swipeRefresh.setOnRefreshListener(() -> webView.reload());
 
+        // Delegate scroll checks to the inner WebView so SwipeRefreshLayout doesn't fight vertical scrolling
+        swipeRefresh.setOnChildScrollUpCallback((parent, child) -> {
+            return webView != null && (webView.getScrollY() > 0 || webView.canScrollVertically(-1));
+        });
+
         btnRetry.setOnClickListener(v -> {
             offlineContainer.setVisibility(View.GONE);
             webView.setVisibility(View.VISIBLE);
@@ -153,6 +159,11 @@ public class MainActivity extends AppCompatActivity {
         settings.setDisplayZoomControls(false);
         settings.setCacheMode(WebSettings.LOAD_DEFAULT);
 
+        // Smooth momentum scrolling
+        webView.setVerticalScrollBarEnabled(true);
+        webView.setHorizontalScrollBarEnabled(false);
+        webView.setOverScrollMode(View.OVER_SCROLL_IF_CONTENT_SCROLLS);
+
         // Append custom user agent identifier so web app recognizes native APK
         String defaultUA = settings.getUserAgentString();
         settings.setUserAgentString(defaultUA + " PastExamLibraryAndroid/1.0");
@@ -160,9 +171,23 @@ public class MainActivity extends AppCompatActivity {
         CookieManager.getInstance().setAcceptCookie(true);
         CookieManager.getInstance().setAcceptThirdPartyCookies(webView, true);
 
+        // Bridge to allow web app to disable pull-to-refresh during interactive quizzes and PDF reading
+        webView.addJavascriptInterface(new WebAppInterface(), "AndroidNative");
+
         webView.setWebViewClient(new AppWebViewClient());
         webView.setWebChromeClient(new AppWebChromeClient());
         webView.setDownloadListener(new AppDownloadListener());
+    }
+
+    public class WebAppInterface {
+        @JavascriptInterface
+        public void setSwipeRefreshEnabled(final boolean enabled) {
+            runOnUiThread(() -> {
+                if (swipeRefresh != null) {
+                    swipeRefresh.setEnabled(enabled);
+                }
+            });
+        }
     }
 
     private void loadAppUrl() {

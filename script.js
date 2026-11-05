@@ -3074,18 +3074,58 @@ async function showPracticeSubjectCatalog(gradeId, pushHistory = true) {
             ${subjects.map(subject => {
                 const count = countsBySubject[subject] || 0;
                 return `
-                    <button class="card subject-card" style="text-align: left; color: inherit; font: inherit; ${count ? '' : 'opacity: .55;'}" ${count ? `onclick="startPracticeSession('${gradeId}', 'Practice Bank', 'All', '${escapeQuotes(subject)}', 'practice', '${escapeQuotes(`${grade ? grade.name : gradeId} ${subject} Practice`)}', '', () => showPracticeSubjectCatalog('${gradeId}'))"` : 'disabled'}>
+                    <button class="card subject-card" style="text-align: left; color: inherit; font: inherit;" onclick="${count > 0 ? `startPracticeSession('${gradeId}', 'Practice Bank', 'All', '${escapeQuotes(subject)}', 'practice', '${escapeQuotes(`${grade ? grade.name : gradeId} ${subject} Practice`)}', '', () => showPracticeSubjectCatalog('${gradeId}'))` : `handleSubjectPracticeClick('${gradeId}', '${escapeQuotes(subject)}')`}">
                         <div class="subject-icon" style="color: #c084fc;">${uiIcon('target', 20)}</div>
                         <div class="card-info">
                             <h3>${subject}</h3>
-                            <p>${count > 0 ? `${count} authentic questions` : 'In transcription (PDF available)'}</p>
+                            <p>${count > 0 ? `${count} interactive questions` : 'Authentic papers ready for practice'}</p>
                         </div>
-                        <div class="arrow">${count ? '→' : '—'}</div>
+                        <div class="arrow">→</div>
                     </button>
                 `;
             }).join('')}
         </div>
     `;
+}
+
+function handleSubjectPracticeClick(gradeId, subject) {
+    const grade = (state.categories.grades || []).find(item => item.id === gradeId);
+    const gradeName = grade ? grade.name : gradeId;
+
+    const allExams = state.libraryExams || [];
+    const clean = s => (s || '').toLowerCase().replace(/[\s_-]+/g, '');
+    const subjectExams = allExams.filter(e => clean(e.grade) === clean(gradeId) && clean(e.subject) === clean(subject));
+
+    const bodyHtml = `
+        <div style="display: flex; flex-direction: column; gap: 12px;">
+            <p>Interactive single-question bank for <strong>${subject}</strong> is currently being expanded. You can immediately practice with official school examinations for this subject below:</p>
+            ${subjectExams.length > 0 ? `
+                <div style="font-size: 13px; font-weight: 700; color: #cbd5e1; margin-top: 4px;">Available ${subject} Exam Papers (${subjectExams.length}):</div>
+                <div style="max-height: 240px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; padding-right: 4px;">
+                    ${subjectExams.map(e => `
+                        <div style="background: rgba(255, 255, 255, 0.04); border: 1px solid var(--border-glass); border-radius: 8px; padding: 10px 12px; display: flex; align-items: center; justify-content: space-between; gap: 8px;">
+                            <div>
+                                <strong style="color: var(--text-main); font-size: 13.5px;">${e.title || `${e.semester} ${e.examType}`}</strong>
+                                <div style="font-size: 11.5px; color: var(--text-muted);">${e.semester} • ${e.examType}</div>
+                            </div>
+                            <button class="btn-primary" style="padding: 6px 12px; font-size: 12px; width: auto;" onclick="closeModal(); renderExamViewer('${escapeQuotes(e.title || subject)}', '${gradeName} • ${e.semester} • ${e.examType}', '${e.fileUrl || e.filePath}', () => showPracticeSubjectCatalog('${gradeId}'))">
+                                Practice Paper →
+                            </button>
+                        </div>
+                    `).join('')}
+                </div>
+            ` : `
+                <p style="color: var(--text-muted); font-size: 13px;">Full ${gradeName} papers and formula sheets are available in the archive.</p>
+            `}
+        </div>
+    `;
+    const footerHtml = `
+        <button class="btn-secondary" onclick="closeModal()">Close</button>
+        <button class="btn-primary" style="width: auto;" onclick="closeModal(); showGrade('${gradeId}')">
+            Browse All ${gradeName} Papers
+        </button>
+    `;
+    showModal(`${gradeName} • ${subject} Practice`, bodyHtml, footerHtml);
 }
 
 async function handleLibrarySearch(query) {
@@ -3691,6 +3731,15 @@ function renderQuizScreen() {
 
     const letters = ['A', 'B', 'C', 'D', 'E', 'F'];
 
+    // Hide mobile bottom navigation bar so choices and action buttons are unobstructed on small screens
+    const mobNav = document.getElementById('mobile-bottom-nav');
+    if (mobNav) mobNav.style.display = 'none';
+
+    // Disable Android swipe-to-refresh so vertical scrolling is 100% fluid and test progress is safe
+    if (window.AndroidNative && typeof window.AndroidNative.setSwipeRefreshEnabled === 'function') {
+        window.AndroidNative.setSwipeRefreshEnabled(false);
+    }
+
     app.innerHTML = `
         <div class="quiz-runner-container">
             <!-- Top Action & Progress Bar -->
@@ -3747,7 +3796,7 @@ function renderQuizScreen() {
                 </div>
 
                 <div class="options-grid">
-                    ${q.options.map((opt, idx) => {
+                    ${(q.options || []).map((opt, idx) => {
                         let optClass = 'option-btn';
                         if (selected === idx) optClass += ' selected';
                         if (isChecked) {
@@ -3756,7 +3805,7 @@ function renderQuizScreen() {
                         }
 
                         return `
-                            <button type="button" class="${optClass}" onclick="selectQuizOption('${q.id}', ${idx})" ${isChecked ? 'disabled' : ''}>
+                            <button type="button" class="${optClass}" data-q-idx="${idx}" onclick="selectQuizOption('${q.id}', ${idx})" ${isChecked ? 'disabled' : ''}>
                                 <div class="option-letter">${letters[idx] || (idx + 1)}</div>
                                 <span>${opt}</span>
                             </button>
@@ -3777,14 +3826,14 @@ function renderQuizScreen() {
                 ` : ''}
 
                 <!-- Bottom Question Navigation Buttons -->
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 32px; padding-top: 20px; border-top: 1px solid var(--border-glass);">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 32px; padding-top: 20px; border-top: 1px solid var(--border-glass); flex-wrap: wrap; gap: 12px;">
                     <button class="btn-secondary" onclick="prevQuizQuestion()" ${currentQuiz.currentIndex === 0 ? 'disabled style="opacity: 0.4;"' : ''}>
                         ← Previous
                     </button>
 
-                    <div style="display: flex; gap: 10px;">
+                    <div style="display: flex; gap: 10px; flex-wrap: wrap;">
                         ${!isTimed && !isChecked ? `
-                            <button class="btn-primary" style="width: auto; padding: 10px 22px; display: inline-flex; align-items: center; gap: 6px;" onclick="checkCurrentAnswer('${q.id}')" ${selected === undefined ? 'disabled style="opacity: 0.5;"' : ''}>
+                            <button id="quiz-check-answer-btn" class="btn-primary" style="width: auto; padding: 10px 22px; display: inline-flex; align-items: center; gap: 6px; ${selected === undefined ? 'opacity: 0.5; pointer-events: none;' : ''}" onclick="checkCurrentAnswer('${q.id}')" ${selected === undefined ? 'disabled' : ''}>
                                 Check Answer ${uiIcon('check', 14)}
                             </button>
                         ` : ''}
@@ -3829,7 +3878,26 @@ function renderQuizScreen() {
 function selectQuizOption(qId, index) {
     if (currentQuiz.checked[qId]) return;
     currentQuiz.answers[qId] = index;
-    renderQuizScreen();
+
+    // Smoothly update selected choice in DOM without resetting page scroll
+    const optionsGrid = document.querySelector('.options-grid');
+    if (optionsGrid) {
+        const optionBtns = optionsGrid.querySelectorAll('.option-btn');
+        optionBtns.forEach((btn, idx) => {
+            if (idx === index) {
+                btn.classList.add('selected');
+            } else {
+                btn.classList.remove('selected');
+            }
+        });
+    }
+
+    const checkBtn = document.getElementById('quiz-check-answer-btn');
+    if (checkBtn) {
+        checkBtn.removeAttribute('disabled');
+        checkBtn.style.opacity = '1';
+        checkBtn.style.pointerEvents = 'auto';
+    }
 }
 
 function checkCurrentAnswer(qId) {
@@ -3841,6 +3909,7 @@ function nextQuizQuestion() {
     if (currentQuiz.currentIndex < currentQuiz.questions.length - 1) {
         currentQuiz.currentIndex++;
         renderQuizScreen();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 }
 
@@ -3848,12 +3917,14 @@ function prevQuizQuestion() {
     if (currentQuiz.currentIndex > 0) {
         currentQuiz.currentIndex--;
         renderQuizScreen();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 }
 
 function jumpQuizQuestion(index) {
     currentQuiz.currentIndex = index;
     renderQuizScreen();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 function toggleQuizFlag(qId) {
@@ -3876,6 +3947,21 @@ function confirmSubmitTimedExam() {
     showModal('Submit Examination', bodyHtml, footerHtml);
 }
 
+function exitQuizSession() {
+    closeModal();
+    if (currentQuiz.timerInterval) clearInterval(currentQuiz.timerInterval);
+    const mobNav = document.getElementById('mobile-bottom-nav');
+    if (mobNav) mobNav.style.display = '';
+    if (window.AndroidNative && typeof window.AndroidNative.setSwipeRefreshEnabled === 'function') {
+        window.AndroidNative.setSwipeRefreshEnabled(true);
+    }
+    if (currentQuiz.backFn) {
+        currentQuiz.backFn();
+    } else {
+        showLibraryHome();
+    }
+}
+
 function confirmExitQuiz() {
     const bodyHtml = `
         <p>Are you sure you want to leave this practice session?</p>
@@ -3883,7 +3969,7 @@ function confirmExitQuiz() {
     `;
     const footerHtml = `
         <button class="btn-secondary" onclick="closeModal()">Stay in Test</button>
-        <button class="btn-primary" style="background: var(--accent-rose);" onclick="closeModal(); if (currentQuiz.timerInterval) clearInterval(currentQuiz.timerInterval); currentQuiz.backFn ? currentQuiz.backFn() : showLibraryHome();">
+        <button class="btn-primary" style="background: var(--accent-rose);" onclick="exitQuizSession()">
             Exit Session
         </button>
     `;
@@ -3908,6 +3994,13 @@ function updateTimerDisplay() {
 
 function finishQuiz() {
     if (currentQuiz.timerInterval) clearInterval(currentQuiz.timerInterval);
+
+    // Restore mobile bottom navigation bar and Android pull-to-refresh
+    const mobNav = document.getElementById('mobile-bottom-nav');
+    if (mobNav) mobNav.style.display = '';
+    if (window.AndroidNative && typeof window.AndroidNative.setSwipeRefreshEnabled === 'function') {
+        window.AndroidNative.setSwipeRefreshEnabled(true);
+    }
 
     let correctCount = 0;
     let totalPoints = 0;

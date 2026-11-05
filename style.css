@@ -54,6 +54,11 @@
     --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
+html {
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+}
+
 body {
     font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
     background-color: var(--bg-page);
@@ -64,6 +69,8 @@ body {
     overflow-x: hidden;
     position: relative;
     letter-spacing: -0.2px;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-y: contain;
 }
 
 /* ========================================================
@@ -2714,6 +2721,98 @@ footer {
     color: var(--text-muted);
     font-weight: 600;
     margin-top: 4px;
+}
+
+/* ========================================================
+   QUIZ RUNNER MOBILE RESPONSIVE & EASY SCROLL
+======================================================== */
+@media (max-width: 768px) {
+    .quiz-runner-container {
+        gap: 12px !important;
+        padding-bottom: 96px !important;
+        overflow-x: hidden;
+    }
+
+    .quiz-top-bar {
+        padding: 10px 14px !important;
+        gap: 8px !important;
+        border-radius: var(--radius-sm) !important;
+    }
+
+    .quiz-top-bar button {
+        padding: 6px 11px !important;
+        font-size: 12.5px !important;
+    }
+
+    .quiz-card {
+        padding: 18px 16px !important;
+        border-radius: var(--radius-sm) !important;
+    }
+
+    .question-number-badge {
+        font-size: 11px !important;
+        margin-bottom: 8px !important;
+    }
+
+    .question-text {
+        font-size: 16px !important;
+        line-height: 1.45 !important;
+        margin-bottom: 16px !important;
+        color: #ffffff !important;
+        word-break: break-word;
+    }
+
+    .options-grid {
+        gap: 10px !important;
+    }
+
+    .option-btn {
+        padding: 12px 14px !important;
+        font-size: 14px !important;
+        gap: 12px !important;
+        border-radius: 10px !important;
+        min-height: 48px;
+        -webkit-tap-highlight-color: transparent;
+        touch-action: manipulation;
+    }
+
+    .option-btn:hover {
+        transform: none !important;
+    }
+
+    .option-letter {
+        width: 32px !important;
+        height: 32px !important;
+        font-size: 13px !important;
+        border-radius: 6px !important;
+        flex-shrink: 0;
+    }
+
+    .explanation-box {
+        padding: 14px !important;
+        margin-top: 14px !important;
+        border-radius: 10px !important;
+    }
+
+    .explanation-text {
+        font-size: 13px !important;
+        line-height: 1.5 !important;
+    }
+
+    .results-card {
+        padding: 24px 18px !important;
+        margin: 0 4px !important;
+    }
+
+    .score-circle-wrapper {
+        width: 120px !important;
+        height: 120px !important;
+        margin-bottom: 18px !important;
+    }
+
+    .score-percentage {
+        font-size: 34px !important;
+    }
 }
 
 /* ========================================================

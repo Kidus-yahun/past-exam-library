@@ -12923,6 +12923,528 @@
       "correctAnswer": 3,
       "explanation": "Torque τ = F × r × sin θ = 400 N × 5 m × sin 30° = 2000 × 0.5 = 1000 Nm.",
       "points": 1
+    },
+    {
+      "id": "q_g10_math_01",
+      "examId": "practice_bank_g10_math",
+      "grade": "Grade10",
+      "subject": "Mathematics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "If f(x) = 2x^2 - 3x + 1, what is the value of f(-2)?",
+      "options": [
+        "3",
+        "7",
+        "15",
+        "19"
+      ],
+      "correctAnswer": 2,
+      "explanation": "Substitute x = -2 into f(x): f(-2) = 2(-2)^2 - 3(-2) + 1 = 2(4) + 6 + 1 = 8 + 6 + 1 = 15. The correct option is C.",
+      "points": 1
+    },
+    {
+      "id": "q_g10_math_02",
+      "examId": "practice_bank_g10_math",
+      "grade": "Grade10",
+      "subject": "Mathematics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "What is the solution set of the quadratic equation x^2 - 5x + 6 = 0?",
+      "options": [
+        "{-2, -3}",
+        "{2, 3}",
+        "{-1, 6}",
+        "{1, -6}"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Factoring x^2 - 5x + 6 = 0 gives (x - 2)(x - 3) = 0. Therefore, x = 2 or x = 3. The solution set is {2, 3}.",
+      "points": 1
+    },
+    {
+      "id": "q_g10_math_03",
+      "examId": "practice_bank_g10_math",
+      "grade": "Grade10",
+      "subject": "Mathematics",
+      "semester": "Semester1",
+      "examType": "Final",
+      "question": "What is the value of log_2(64) - log_3(27)?",
+      "options": [
+        "2",
+        "3",
+        "4",
+        "5"
+      ],
+      "correctAnswer": 1,
+      "explanation": "log_2(64) = 6 because 2^6 = 64. log_3(27) = 3 because 3^3 = 27. Therefore, 6 - 3 = 3.",
+      "points": 1
+    },
+    {
+      "id": "q_g10_math_04",
+      "examId": "practice_bank_g10_math",
+      "grade": "Grade10",
+      "subject": "Mathematics",
+      "semester": "Semester1",
+      "examType": "Final",
+      "question": "What is the distance between the points A(1, 2) and B(4, 6)?",
+      "options": [
+        "3",
+        "4",
+        "5",
+        "7"
+      ],
+      "correctAnswer": 2,
+      "explanation": "Using the distance formula: d = sqrt((4 - 1)^2 + (6 - 2)^2) = sqrt(3^2 + 4^2) = sqrt(9 + 16) = sqrt(25) = 5.",
+      "points": 1
+    },
+    {
+      "id": "q_g10_math_05",
+      "examId": "practice_bank_g10_math",
+      "grade": "Grade10",
+      "subject": "Mathematics",
+      "semester": "Semester2",
+      "examType": "Mid2",
+      "question": "In a right-angled triangle, if sin(theta) = 3/5, what is the value of cos(theta) for an acute angle theta?",
+      "options": [
+        "4/5",
+        "3/4",
+        "5/4",
+        "5/3"
+      ],
+      "correctAnswer": 0,
+      "explanation": "Using the identity sin^2(theta) + cos^2(theta) = 1: cos(theta) = sqrt(1 - (3/5)^2) = sqrt(1 - 9/25) = sqrt(16/25) = 4/5.",
+      "points": 1
+    },
+    {
+      "id": "q_g10_math_06",
+      "examId": "practice_bank_g10_math",
+      "grade": "Grade10",
+      "subject": "Mathematics",
+      "semester": "Semester2",
+      "examType": "Final",
+      "question": "What is the 10th term of the arithmetic progression: 3, 7, 11, 15, ...?",
+      "options": [
+        "36",
+        "39",
+        "40",
+        "43"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Here a = 3 and common difference d = 7 - 3 = 4. The n-th term is a_n = a + (n - 1)d = 3 + (10 - 1)(4) = 3 + 36 = 39.",
+      "points": 1
+    },
+    {
+      "id": "q_g10_math_07",
+      "examId": "practice_bank_g10_math",
+      "grade": "Grade10",
+      "subject": "Mathematics",
+      "semester": "Semester2",
+      "examType": "Final",
+      "question": "If a polynomial P(x) is divided by (x - 3), the remainder according to the Remainder Theorem is equal to:",
+      "options": [
+        "P(0)",
+        "P(-3)",
+        "P(3)",
+        "P(1)"
+      ],
+      "correctAnswer": 2,
+      "explanation": "By the Remainder Theorem, dividing any polynomial P(x) by a linear factor (x - c) yields a remainder equal to P(c). Here c = 3, so the remainder is P(3).",
+      "points": 1
+    },
+    {
+      "id": "q_g10_math_08",
+      "examId": "practice_bank_g10_math",
+      "grade": "Grade10",
+      "subject": "Mathematics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "What is the vertex of the parabola given by y = (x - 4)^2 + 7?",
+      "options": [
+        "(-4, 7)",
+        "(4, 7)",
+        "(4, -7)",
+        "(-4, -7)"
+      ],
+      "correctAnswer": 1,
+      "explanation": "The vertex form of a parabola is y = a(x - h)^2 + k where (h, k) is the vertex. Here h = 4 and k = 7, so the vertex is (4, 7).",
+      "points": 1
+    },
+    {
+      "id": "q_g10_eng_01",
+      "examId": "practice_bank_g10_eng",
+      "grade": "Grade10",
+      "subject": "English",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Choose the correct verb form: If she ______ hard, she will pass the national examination.",
+      "options": [
+        "studies",
+        "studied",
+        "had studied",
+        "would study"
+      ],
+      "correctAnswer": 0,
+      "explanation": "This is a first conditional sentence expressing a realistic future possibility: If + present simple, will + base verb. Hence, 'studies' is correct.",
+      "points": 1
+    },
+    {
+      "id": "q_g10_eng_02",
+      "examId": "practice_bank_g10_eng",
+      "grade": "Grade10",
+      "subject": "English",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Identify the passive form: 'The students cleaned the laboratory yesterday.'",
+      "options": [
+        "The laboratory is cleaned by the students yesterday.",
+        "The laboratory was cleaned by the students yesterday.",
+        "The laboratory had been cleaned by the students yesterday.",
+        "The laboratory was being cleaned by the students yesterday."
+      ],
+      "correctAnswer": 1,
+      "explanation": "The original sentence is in past simple ('cleaned'). The passive voice requires 'was/were + past participle', giving 'The laboratory was cleaned'.",
+      "points": 1
+    },
+    {
+      "id": "q_g10_eng_03",
+      "examId": "practice_bank_g10_eng",
+      "grade": "Grade10",
+      "subject": "English",
+      "semester": "Semester1",
+      "examType": "Final",
+      "question": "Choose the correct relative pronoun: The teacher ______ taught us biology received an award.",
+      "options": [
+        "which",
+        "who",
+        "whom",
+        "whose"
+      ],
+      "correctAnswer": 1,
+      "explanation": "'The teacher' is a person acting as the subject of the relative clause, so the correct relative pronoun is 'who'.",
+      "points": 1
+    },
+    {
+      "id": "q_g10_eng_04",
+      "examId": "practice_bank_g10_eng",
+      "grade": "Grade10",
+      "subject": "English",
+      "semester": "Semester2",
+      "examType": "Mid2",
+      "question": "Choose the preposition that correctly completes the sentence: 'She is interested ______ studying environmental science.'",
+      "options": [
+        "at",
+        "with",
+        "in",
+        "for"
+      ],
+      "correctAnswer": 2,
+      "explanation": "The adjective 'interested' is always paired with the preposition 'in' (interested in doing something).",
+      "points": 1
+    },
+    {
+      "id": "q_g10_eng_05",
+      "examId": "practice_bank_g10_eng",
+      "grade": "Grade10",
+      "subject": "English",
+      "semester": "Semester2",
+      "examType": "Final",
+      "question": "Which connector indicates contrast?",
+      "options": [
+        "Furthermore",
+        "Consequently",
+        "However",
+        "In addition"
+      ],
+      "correctAnswer": 2,
+      "explanation": "'However' is used to introduce a statement that contrasts with or seems to contradict something that has been said previously.",
+      "points": 1
+    },
+    {
+      "id": "q_g10_eng_06",
+      "examId": "practice_bank_g10_eng",
+      "grade": "Grade10",
+      "subject": "English",
+      "semester": "Semester2",
+      "examType": "Final",
+      "question": "Choose the sentence with correct subject-verb agreement:",
+      "options": [
+        "Neither the teacher nor the students was ready.",
+        "Neither the teacher nor the students were ready.",
+        "Neither the teacher nor the students is ready.",
+        "Neither the teachers nor the student were ready."
+      ],
+      "correctAnswer": 1,
+      "explanation": "With 'neither... nor...', the verb agrees with the subject closest to it. 'Students' is plural, so 'were ready' is correct.",
+      "points": 1
+    },
+    {
+      "id": "q_g11_math_01",
+      "examId": "practice_bank_g11_math",
+      "grade": "Grade11",
+      "subject": "Mathematics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "What is the domain of the rational function f(x) = (2x + 1) / (x^2 - 9)?",
+      "options": [
+        "All real numbers except x = 3",
+        "All real numbers except x = -3",
+        "All real numbers except x = 3 and x = -3",
+        "All positive real numbers"
+      ],
+      "correctAnswer": 2,
+      "explanation": "The denominator cannot be zero: x^2 - 9 != 0 => (x - 3)(x + 3) != 0 => x != 3 and x != -3. Thus the domain is R \\ {-3, 3}.",
+      "points": 1
+    },
+    {
+      "id": "q_g11_math_02",
+      "examId": "practice_bank_g11_math",
+      "grade": "Grade11",
+      "subject": "Mathematics",
+      "semester": "Semester1",
+      "examType": "Final",
+      "question": "What is the determinant of the 2x2 matrix [[4, 2], [3, 5]]?",
+      "options": [
+        "14",
+        "18",
+        "26",
+        "10"
+      ],
+      "correctAnswer": 0,
+      "explanation": "det(A) = ad - bc = (4)(5) - (2)(3) = 20 - 6 = 14.",
+      "points": 1
+    },
+    {
+      "id": "q_g11_math_03",
+      "examId": "practice_bank_g11_math",
+      "grade": "Grade11",
+      "subject": "Mathematics",
+      "semester": "Semester2",
+      "examType": "Mid2",
+      "question": "If vectors u = (3, 4) and v = (2, -1), what is their dot product u . v?",
+      "options": [
+        "2",
+        "5",
+        "7",
+        "10"
+      ],
+      "correctAnswer": 0,
+      "explanation": "u . v = u_x * v_x + u_y * v_y = (3)(2) + (4)(-1) = 6 - 4 = 2.",
+      "points": 1
+    },
+    {
+      "id": "q_g11_math_04",
+      "examId": "practice_bank_g11_math",
+      "grade": "Grade11",
+      "subject": "Mathematics",
+      "semester": "Semester2",
+      "examType": "Final",
+      "question": "What is the magnitude (length) of the vector w = (6, -8)?",
+      "options": [
+        "10",
+        "12",
+        "14",
+        "sqrt(28)"
+      ],
+      "correctAnswer": 0,
+      "explanation": "||w|| = sqrt(6^2 + (-8)^2) = sqrt(36 + 64) = sqrt(100) = 10.",
+      "points": 1
+    },
+    {
+      "id": "q_g11_phys_01",
+      "examId": "practice_bank_g11_phys",
+      "grade": "Grade11",
+      "subject": "Physics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "In two-dimensional projectile motion, which of the following quantities remains constant throughout the flight (neglecting air resistance)?",
+      "options": [
+        "Vertical velocity",
+        "Horizontal acceleration",
+        "Horizontal velocity",
+        "Total momentum direction"
+      ],
+      "correctAnswer": 2,
+      "explanation": "Since no horizontal forces act on the projectile (neglecting air resistance), horizontal acceleration is 0 and horizontal velocity remains constant.",
+      "points": 1
+    },
+    {
+      "id": "q_g11_phys_02",
+      "examId": "practice_bank_g11_phys",
+      "grade": "Grade11",
+      "subject": "Physics",
+      "semester": "Semester1",
+      "examType": "Final",
+      "question": "A car of mass 1000 kg travels around a circular track of radius 50 m at a speed of 10 m/s. What is the centripetal force required?",
+      "options": [
+        "1000 N",
+        "2000 N",
+        "5000 N",
+        "10000 N"
+      ],
+      "correctAnswer": 1,
+      "explanation": "F_c = m * v^2 / r = 1000 * (10)^2 / 50 = 1000 * 100 / 50 = 2000 N.",
+      "points": 1
+    },
+    {
+      "id": "q_g11_phys_03",
+      "examId": "practice_bank_g11_phys",
+      "grade": "Grade11",
+      "subject": "Physics",
+      "semester": "Semester2",
+      "examType": "Final",
+      "question": "According to the First Law of Thermodynamics, the change in internal energy Delta U is given by:",
+      "options": [
+        "Delta U = Q + W (where W is work done by system)",
+        "Delta U = Q - W (where W is work done by system)",
+        "Delta U = Q * W",
+        "Delta U = Q / W"
+      ],
+      "correctAnswer": 1,
+      "explanation": "The first law of thermodynamics states Delta U = Q - W, where Q is heat added to the system and W is work done by the system on its surroundings.",
+      "points": 1
+    },
+    {
+      "id": "q_g12_math_01",
+      "examId": "practice_bank_g12_math",
+      "grade": "Grade12",
+      "subject": "Mathematics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "What is the limit: lim_{x -> 3} (x^2 - 9) / (x - 3)?",
+      "options": [
+        "0",
+        "3",
+        "6",
+        "Undefined"
+      ],
+      "correctAnswer": 2,
+      "explanation": "Factor the numerator: (x - 3)(x + 3) / (x - 3) = x + 3 for x != 3. As x approaches 3, the limit is 3 + 3 = 6.",
+      "points": 1
+    },
+    {
+      "id": "q_g12_math_02",
+      "examId": "practice_bank_g12_math",
+      "grade": "Grade12",
+      "subject": "Mathematics",
+      "semester": "Semester1",
+      "examType": "Final",
+      "question": "What is the derivative of f(x) = 3x^4 - 5x^2 + 7 with respect to x?",
+      "options": [
+        "12x^3 - 10x",
+        "12x^3 - 10x + 7",
+        "7x^3 - 10x",
+        "12x^4 - 5x"
+      ],
+      "correctAnswer": 0,
+      "explanation": "Using the power rule d/dx(x^n) = n*x^(n-1): f'(x) = 3(4x^3) - 5(2x) + 0 = 12x^3 - 10x.",
+      "points": 1
+    },
+    {
+      "id": "q_g12_math_03",
+      "examId": "practice_bank_g12_math",
+      "grade": "Grade12",
+      "subject": "Mathematics",
+      "semester": "Semester2",
+      "examType": "Final",
+      "question": "Evaluate the definite integral: integral from 0 to 2 of (3x^2) dx.",
+      "options": [
+        "4",
+        "6",
+        "8",
+        "12"
+      ],
+      "correctAnswer": 2,
+      "explanation": "The antiderivative of 3x^2 is x^3. Evaluating from 0 to 2: [2^3 - 0^3] = 8 - 0 = 8.",
+      "points": 1
+    },
+    {
+      "id": "q_g12_math_04",
+      "examId": "practice_bank_g12_math",
+      "grade": "Grade12",
+      "subject": "Mathematics",
+      "semester": "Semester2",
+      "examType": "Final",
+      "question": "If z = 3 + 4i is a complex number, what is the modulus |z|?",
+      "options": [
+        "5",
+        "7",
+        "12",
+        "25"
+      ],
+      "correctAnswer": 0,
+      "explanation": "The modulus of z = a + bi is |z| = sqrt(a^2 + b^2) = sqrt(3^2 + 4^2) = sqrt(9 + 16) = sqrt(25) = 5.",
+      "points": 1
+    },
+    {
+      "id": "q_g12_apt_01",
+      "examId": "practice_bank_g12_apt",
+      "grade": "Grade12",
+      "subject": "Aptitude",
+      "semester": "Semester1",
+      "examType": "Model",
+      "question": "Find the next number in the series: 2, 6, 12, 20, 30, ...",
+      "options": [
+        "36",
+        "40",
+        "42",
+        "48"
+      ],
+      "correctAnswer": 2,
+      "explanation": "The differences between successive terms are +4, +6, +8, +10. The next difference is +12, so 30 + 12 = 42.",
+      "points": 1
+    },
+    {
+      "id": "q_g12_apt_02",
+      "examId": "practice_bank_g12_apt",
+      "grade": "Grade12",
+      "subject": "Aptitude",
+      "semester": "Semester1",
+      "examType": "Model",
+      "question": "Complete the analogy: ARCHITECT : BLUEPRINT :: DOCTOR : ______",
+      "options": [
+        "HOSPITAL",
+        "MEDICINE",
+        "PRESCRIPTION",
+        "STETHOSCOPE"
+      ],
+      "correctAnswer": 2,
+      "explanation": "An architect designs and produces a blueprint for construction; a doctor formulates and issues a prescription for medical treatment.",
+      "points": 1
+    },
+    {
+      "id": "q_g12_apt_03",
+      "examId": "practice_bank_g12_apt",
+      "grade": "Grade12",
+      "subject": "Aptitude",
+      "semester": "Semester2",
+      "examType": "Model",
+      "question": "If all Roses are Flowers, and some Flowers fade quickly, which of the following is necessarily true?",
+      "options": [
+        "All Roses fade quickly",
+        "No Roses fade quickly",
+        "Some Roses might fade quickly",
+        "All Flowers are Roses"
+      ],
+      "correctAnswer": 2,
+      "explanation": "Since some flowers fade quickly and roses belong to the set of flowers, some roses might fade quickly, while it cannot be claimed with certainty that all or none do.",
+      "points": 1
+    },
+    {
+      "id": "q_g12_apt_04",
+      "examId": "practice_bank_g12_apt",
+      "grade": "Grade12",
+      "subject": "Aptitude",
+      "semester": "Semester2",
+      "examType": "Model",
+      "question": "A train running at 72 km/h crosses a 200-meter-long platform in 20 seconds. What is the length of the train?",
+      "options": [
+        "150 m",
+        "200 m",
+        "250 m",
+        "300 m"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Speed in m/s = 72 * (5/18) = 20 m/s. Total distance in 20 seconds = 20 * 20 = 400 m. Since Total Distance = Train Length + Platform Length: Train Length = 400 - 200 = 200 meters.",
+      "points": 1
     }
   ],
   "activityLogs": [
