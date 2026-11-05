@@ -5,3 +5,5 @@ npm-debug.log*
 temp_repo/
 exam_cache/
 .exam_cache/
+*.apk
+build-artifacts/
