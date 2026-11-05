@@ -261,15 +261,32 @@ window.addEventListener('offline', updateNetworkStatus);
    ACTIVITY & AUDIT LOGGING HELPER
 ======================================================== */
 async function logActivity(type, data = {}) {
+    const payload = {
+        id: 'act_' + Date.now() + '_' + Math.random().toString(36).substr(2, 5),
+        type,
+        username: state.user ? state.user.username : 'student',
+        fullName: state.user ? (state.user.fullName || state.user.username) : 'Student',
+        role: state.user ? state.user.role : 'student',
+        userId: state.user ? state.user.id : null,
+        timestamp: new Date().toISOString(),
+        ...data
+    };
+
+    // Store in browser local storage so user activity is never lost across serverless restarts
     try {
-        const payload = {
-            type,
-            username: state.user ? state.user.username : 'student',
-            fullName: state.user ? (state.user.fullName || state.user.username) : 'Student',
-            role: state.user ? state.user.role : 'student',
-            userId: state.user ? state.user.id : null,
-            ...data
-        };
+        const rawLocal = localStorage.getItem('pel_local_activity_logs');
+        let localLogs = rawLocal ? JSON.parse(rawLocal) : [];
+        localLogs.unshift(payload);
+        if (localLogs.length > 200) localLogs = localLogs.slice(0, 200);
+        localStorage.setItem('pel_local_activity_logs', JSON.stringify(localLogs));
+    } catch (_) {}
+
+    // Instant local/tab sync if currently viewing activity tab
+    if (state.currentView === 'admin' && state.admin.activeTab === 'activity') {
+        loadActivityStatsAndLogs(true);
+    }
+
+    try {
         await fetch('/api/activity/log', {
             method: 'POST',
             headers: {
@@ -407,6 +424,7 @@ async function handleDownloadAuthSignIn(e) {
             renderHeader();
             closeModal();
             showToast(`Welcome back, ${data.user.fullName || data.user.username}! Starting download...`, 'success');
+            broadcastStatsUpdate('activity_updated');
 
             if (window._pendingDownload) {
                 const { fileUrl, suggestedFileName, activityData } = window._pendingDownload;
@@ -452,6 +470,7 @@ async function handleDownloadAuthRegister(e) {
             renderHeader();
             closeModal();
             showToast(`Account created! Starting download for ${fullName}...`, 'success');
+            broadcastStatsUpdate('activity_updated');
 
             if (window._pendingDownload) {
                 const { fileUrl, suggestedFileName, activityData } = window._pendingDownload;
@@ -482,9 +501,12 @@ async function downloadExamPaper(fileUrl, suggestedFileName = 'exam_paper.pdf', 
         return;
     }
 
-    if (activityData) {
-        logActivity('download', { ...activityData, filePath: fileUrl, details: 'Downloaded official examination PDF' });
-    }
+    const dlData = activityData || {
+        filePath: fileUrl,
+        examTitle: (suggestedFileName || '').replace(/\.pdf$/i, '') || 'Exam Paper',
+        details: 'Downloaded official examination PDF'
+    };
+    logActivity('download', dlData);
 
     showToast('Starting exam download in background...', 'info');
 
@@ -1137,6 +1159,7 @@ async function handleSignIn(e) {
             localStorage.setItem('pel_user', JSON.stringify(data.user));
 
             showToast(`Welcome back, ${data.user.fullName || data.user.username}!`, 'success');
+            broadcastStatsUpdate('activity_updated');
 
             if (data.user.role === 'admin') {
                 setView('admin');
@@ -1181,6 +1204,7 @@ async function handleRegister(e) {
             localStorage.setItem('pel_user', JSON.stringify(data.user));
 
             showToast('Account created successfully!', 'success');
+            broadcastStatsUpdate('activity_updated');
             setView('library');
         } else {
             showToast(data.message || 'Registration failed.', 'error');
@@ -1287,6 +1311,9 @@ async function showAdminDashboard() {
 
     // Load statistics
     loadAdminStats();
+
+    // Start live metrics polling across admin dashboard
+    startActivityPolling();
 
     // Render active tab content
     if (activeTab === 'exams') {
@@ -1677,6 +1704,7 @@ async function handleUploadExam(e) {
             // Refresh categories & list
             await fetchCategories();
             loadAdminStats();
+            broadcastStatsUpdate('stats_updated');
             loadAdminExamsList();
         } else {
             showToast(data.message || 'Failed to upload exam paper', 'error');
@@ -1716,6 +1744,7 @@ async function deleteExam(id) {
             showToast('Exam paper deleted', 'success');
             closeModal();
             loadAdminStats();
+            broadcastStatsUpdate('stats_updated');
             loadAdminExamsList();
         } else {
             showToast(data.message || 'Delete failed', 'error');
@@ -2210,6 +2239,7 @@ async function handleAddQuestion(e) {
             showToast('Practice question added successfully!', 'success');
             closeModal();
             loadAdminStats();
+            broadcastStatsUpdate('stats_updated');
             loadAdminQuestionsList();
         } else {
             showToast(data.message || 'Failed to add question', 'error');
@@ -2248,6 +2278,7 @@ async function deleteQuestion(id) {
             showToast('Question deleted', 'success');
             closeModal();
             loadAdminStats();
+            broadcastStatsUpdate('stats_updated');
             loadAdminQuestionsList();
         } else {
             showToast(data.message || 'Delete failed', 'error');
@@ -2293,13 +2324,24 @@ let activityPollTimer = null;
 let lastActivityLogsSignature = '';
 let activityChannel = null;
 
+function broadcastStatsUpdate(type = 'activity_updated') {
+    if (typeof activityChannel !== 'undefined' && activityChannel) {
+        try {
+            activityChannel.postMessage({ type, timestamp: Date.now() });
+        } catch (_) {}
+    }
+}
+
 try {
     if ('BroadcastChannel' in window) {
         activityChannel = new BroadcastChannel('pel_activity_sync');
         activityChannel.onmessage = (event) => {
-            if (event.data && event.data.type === 'activity_updated') {
-                if (state.currentView === 'admin' && state.admin.activeTab === 'activity') {
-                    loadActivityStatsAndLogs(true);
+            if (event.data && (event.data.type === 'activity_updated' || event.data.type === 'stats_updated')) {
+                if (state.currentView === 'admin') {
+                    loadAdminStats();
+                    if (state.admin.activeTab === 'activity') {
+                        loadActivityStatsAndLogs(true);
+                    }
                 }
             }
         };
@@ -2308,10 +2350,14 @@ try {
 
 function startActivityPolling() {
     stopActivityPolling();
-    // High-frequency 3-second auto-sync for live student activity
+    // High-frequency 3-second auto-sync for live student activity & admin metrics
     activityPollTimer = setInterval(() => {
-        if (document.visibilityState === 'visible' && state.currentView === 'admin' && state.admin.activeTab === 'activity') {
-            loadActivityStatsAndLogs(true);
+        if (document.visibilityState === 'visible' && state.currentView === 'admin') {
+            if (state.admin.activeTab === 'activity') {
+                loadActivityStatsAndLogs(true);
+            } else {
+                loadAdminStats();
+            }
         }
     }, 3000);
 }
@@ -2323,15 +2369,21 @@ function stopActivityPolling() {
     }
 }
 
-// Instant re-sync when browser tab regains focus
+// Instant re-sync when browser tab regains focus or visibility
 document.addEventListener('visibilitychange', () => {
-    if (document.visibilityState === 'visible' && state.currentView === 'admin' && state.admin.activeTab === 'activity') {
-        loadActivityStatsAndLogs(true);
+    if (document.visibilityState === 'visible' && state.currentView === 'admin') {
+        loadAdminStats();
+        if (state.admin.activeTab === 'activity') {
+            loadActivityStatsAndLogs(true);
+        }
     }
 });
 window.addEventListener('focus', () => {
-    if (state.currentView === 'admin' && state.admin.activeTab === 'activity') {
-        loadActivityStatsAndLogs(true);
+    if (state.currentView === 'admin') {
+        loadAdminStats();
+        if (state.admin.activeTab === 'activity') {
+            loadActivityStatsAndLogs(true);
+        }
     }
 });
 
@@ -2437,7 +2489,10 @@ function renderAdminActivityTab() {
 async function manualRefreshActivityFeed() {
     const iconSpan = document.getElementById('refresh-icon-spin');
     if (iconSpan) iconSpan.classList.add('spin-icon');
-    await loadActivityStatsAndLogs(false);
+    await Promise.all([
+        loadActivityStatsAndLogs(false),
+        loadAdminStats()
+    ]);
     setTimeout(() => {
         if (iconSpan) iconSpan.classList.remove('spin-icon');
     }, 600);
@@ -2446,21 +2501,30 @@ async function manualRefreshActivityFeed() {
 function updateMetricWithAnimation(elemId, newVal) {
     const el = document.getElementById(elemId);
     if (!el) return;
-    const strVal = String(newVal);
-    if (el.textContent !== '...' && el.textContent !== strVal) {
+    const strVal = String(newVal != null ? newVal : 0);
+    if (el.textContent !== strVal) {
         el.textContent = strVal;
         el.classList.remove('stat-value-updated');
         void el.offsetWidth;
         el.classList.add('stat-value-updated');
-    } else if (el.textContent === '...') {
-        el.textContent = strVal;
     }
 }
 
 async function loadActivityStatsAndLogs(isSilent = false) {
-    // 1. Fetch Stats
+    // Keep top admin stats in sync with activity
+    loadAdminStats();
+
+    // 1. Fetch Stats with active filters
+    const f = state.admin.activityFilter;
     try {
-        const statsRes = await fetch('/api/activity/stats', {
+        let statsUrl = '/api/activity/stats';
+        const params = [];
+        if (f.type && f.type !== 'all') params.push(`type=${encodeURIComponent(f.type)}`);
+        if (f.grade && f.grade !== 'all') params.push(`grade=${encodeURIComponent(f.grade)}`);
+        if (f.search) params.push(`search=${encodeURIComponent(f.search)}`);
+        if (params.length) statsUrl += '?' + params.join('&');
+
+        const statsRes = await fetch(statsUrl, {
             headers: { 'Authorization': `Bearer ${state.token}` }
         });
         if (statsRes.ok) {
@@ -2470,13 +2534,14 @@ async function loadActivityStatsAndLogs(isSilent = false) {
             updateMetricWithAnimation('act-metric-downloads', s.totalDownloads);
             updateMetricWithAnimation('act-metric-practices', s.totalPractices);
             updateMetricWithAnimation('act-metric-avgscore', `${s.avgScore}%`);
+        } else {
+            fallbackActivityStats();
         }
     } catch (e) {
-        console.warn('Failed loading activity stats', e);
+        fallbackActivityStats();
     }
 
     // 2. Fetch Logs with Filters
-    const f = state.admin.activityFilter;
     const tableContainer = document.getElementById('activity-table-container');
     if (!tableContainer) return;
 
@@ -2486,11 +2551,68 @@ async function loadActivityStatsAndLogs(isSilent = false) {
         if (f.grade && f.grade !== 'all') url += `&grade=${encodeURIComponent(f.grade)}`;
         if (f.search) url += `&search=${encodeURIComponent(f.search)}`;
 
-        const logsRes = await fetch(url, {
-            headers: { 'Authorization': `Bearer ${state.token}` }
+        let serverLogs = [];
+        try {
+            const logsRes = await fetch(url, {
+                headers: { 'Authorization': `Bearer ${state.token}` }
+            });
+            if (logsRes.ok) {
+                const data = await logsRes.json();
+                serverLogs = data.logs || [];
+            }
+        } catch (_) {}
+
+        // Merge with local persistent activity logs so recent user actions always appear
+        let localLogs = [];
+        try {
+            const rawLocal = localStorage.getItem('pel_local_activity_logs');
+            if (rawLocal) localLogs = JSON.parse(rawLocal);
+        } catch (_) {}
+
+        const seen = new Set();
+        const combined = [];
+        [...localLogs, ...serverLogs].forEach(l => {
+            if (l && l.id && !seen.has(l.id)) {
+                seen.add(l.id);
+                combined.push(l);
+            }
         });
-        const data = await logsRes.json();
-        cachedActivityLogs = data.logs || [];
+
+        // Apply filters to combined activity list
+        let filteredLogs = combined;
+        if (f.type && f.type !== 'all') filteredLogs = filteredLogs.filter(l => l.type === f.type);
+        if (f.grade && f.grade !== 'all') filteredLogs = filteredLogs.filter(l => l.grade === f.grade || (!l.grade && l.type === 'login'));
+        if (f.search) {
+            const q = f.search.toLowerCase();
+            filteredLogs = filteredLogs.filter(l => 
+                (l.fullName && l.fullName.toLowerCase().includes(q)) || 
+                (l.username && l.username.toLowerCase().includes(q)) ||
+                (l.subject && l.subject.toLowerCase().includes(q)) ||
+                (l.details && l.details.toLowerCase().includes(q))
+            );
+        }
+
+        filteredLogs.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+        cachedActivityLogs = filteredLogs;
+
+        // If local logs exist, also ensure KPI metric cards include them
+        if (localLogs.length > 0) {
+            const logins = combined.filter(l => l.type === 'login').length;
+            const downloads = combined.filter(l => l.type === 'download' || l.type === 'preview').length;
+            const practices = combined.filter(l => l.type === 'practice');
+            let sum = 0, cnt = 0;
+            practices.forEach(p => {
+                if (typeof p.percentage === 'number') {
+                    sum += p.percentage;
+                    cnt++;
+                }
+            });
+            const avg = cnt > 0 ? Math.round(sum / cnt) : 0;
+            updateMetricWithAnimation('act-metric-logins', logins);
+            updateMetricWithAnimation('act-metric-downloads', downloads);
+            updateMetricWithAnimation('act-metric-practices', practices.length);
+            updateMetricWithAnimation('act-metric-avgscore', `${avg}%`);
+        }
 
         // Check signature: only re-render DOM table if log events actually changed
         const newSig = cachedActivityLogs.map(l => `${l.id}_${l.timestamp}`).join('|');
@@ -2507,6 +2629,38 @@ async function loadActivityStatsAndLogs(isSilent = false) {
             tableContainer.innerHTML = `<p style="color: var(--accent-rose); padding: 20px 0;">Failed to load activity logs: ${err.message}</p>`;
         }
     }
+}
+
+function fallbackActivityStats() {
+    let logs = cachedActivityLogs || [];
+    const f = state.admin.activityFilter;
+    if (f.grade && f.grade !== 'all') {
+        logs = logs.filter(l => l.grade === f.grade || (!l.grade && l.type === 'login'));
+    }
+    if (f.search) {
+        const q = f.search.toLowerCase();
+        logs = logs.filter(l => 
+            (l.fullName && l.fullName.toLowerCase().includes(q)) || 
+            (l.username && l.username.toLowerCase().includes(q)) ||
+            (l.subject && l.subject.toLowerCase().includes(q)) ||
+            (l.details && l.details.toLowerCase().includes(q))
+        );
+    }
+    const logins = logs.filter(l => l.type === 'login').length;
+    const downloads = logs.filter(l => l.type === 'download' || l.type === 'preview').length;
+    const practices = logs.filter(l => l.type === 'practice');
+    let sum = 0, cnt = 0;
+    practices.forEach(p => {
+        if (typeof p.percentage === 'number') {
+            sum += p.percentage;
+            cnt++;
+        }
+    });
+    const avg = cnt > 0 ? Math.round(sum / cnt) : 0;
+    updateMetricWithAnimation('act-metric-logins', logins);
+    updateMetricWithAnimation('act-metric-downloads', downloads);
+    updateMetricWithAnimation('act-metric-practices', practices.length);
+    updateMetricWithAnimation('act-metric-avgscore', `${avg}%`);
 }
 
 function renderActivityTable(logs) {

@@ -40,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String APP_URL = "https://past-exam-library.vercel.app/";
     private static final String APP_HOST = "past-exam-library.vercel.app";
+    private static final String ALT_HOST = "catholic-past-exam-library.vercel.app";
 
     private WebView webView;
     private SwipeRefreshLayout swipeRefresh;
@@ -215,7 +216,7 @@ public class MainActivity extends AppCompatActivity {
             }
 
             // Open external domains (e.g. Telegram channel t.me/...) in external browser/app
-            if (host != null && !host.contains(APP_HOST) && !host.contains("jsdelivr.net") && !host.contains("github")) {
+            if (host != null && !host.contains(APP_HOST) && !host.contains(ALT_HOST) && !host.contains("jsdelivr.net") && !host.contains("github")) {
                 try {
                     Intent intent = new Intent(Intent.ACTION_VIEW, uri);
                     startActivity(intent);
