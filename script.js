@@ -2595,25 +2595,6 @@ async function loadActivityStatsAndLogs(isSilent = false) {
         filteredLogs.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
         cachedActivityLogs = filteredLogs;
 
-        // If local logs exist, also ensure KPI metric cards include them
-        if (localLogs.length > 0) {
-            const logins = combined.filter(l => l.type === 'login').length;
-            const downloads = combined.filter(l => l.type === 'download' || l.type === 'preview').length;
-            const practices = combined.filter(l => l.type === 'practice');
-            let sum = 0, cnt = 0;
-            practices.forEach(p => {
-                if (typeof p.percentage === 'number') {
-                    sum += p.percentage;
-                    cnt++;
-                }
-            });
-            const avg = cnt > 0 ? Math.round(sum / cnt) : 0;
-            updateMetricWithAnimation('act-metric-logins', logins);
-            updateMetricWithAnimation('act-metric-downloads', downloads);
-            updateMetricWithAnimation('act-metric-practices', practices.length);
-            updateMetricWithAnimation('act-metric-avgscore', `${avg}%`);
-        }
-
         // Check signature: only re-render DOM table if log events actually changed
         const newSig = cachedActivityLogs.map(l => `${l.id}_${l.timestamp}`).join('|');
         if (newSig !== lastActivityLogsSignature || !isSilent) {
