@@ -1700,11 +1700,6 @@ footer {
     .pwa-install-btn .nav-btn-label {
         display: none !important;
     }
-        height: 30px !important;
-        margin: 0 !important;
-        font-size: 13px !important;
-        border: 2px solid var(--border-glass) !important;
-    }
 
     /* Online pill compact on mobile */
     .offline-pill {
@@ -1836,6 +1831,12 @@ footer {
 @media (max-width: 768px) {
     .mobile-bottom-nav {
         display: flex;
+    }
+}
+
+@media (min-width: 769px) {
+    .mobile-bottom-nav {
+        display: none !important;
     }
 }
 
