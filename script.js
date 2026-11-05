@@ -2867,21 +2867,27 @@ function renderHomeModeTabs(activeMode = 'exams') {
                         role="tab" 
                         aria-selected="${activeMode === 'exams'}" 
                         title="Browse past examination papers by grade">
-                    ${uiIcon('book', 15)} <span>Past Exam Papers</span>
+                    ${uiIcon('book', 15)} 
+                    <span class="tab-label-full">Past Exam Papers</span>
+                    <span class="tab-label-short">Exams</span>
                 </button>
                 <button class="home-mode-tab ${activeMode === 'practice' ? 'active' : ''}" 
                         onclick="showPracticeGradeCatalog()" 
                         role="tab" 
                         aria-selected="${activeMode === 'practice'}" 
                         title="Practice interactive quizzes by grade and subject">
-                    ${uiIcon('target', 15)} <span>Practice Questions</span>
+                    ${uiIcon('target', 15)} 
+                    <span class="tab-label-full">Practice Questions</span>
+                    <span class="tab-label-short">Practice</span>
                 </button>
                 <button class="home-mode-tab ${activeMode === 'formulas' ? 'active' : ''}" 
                         onclick="showFormulaGrades()" 
                         role="tab" 
                         aria-selected="${activeMode === 'formulas'}" 
                         title="Academic formula sheets, constants & summaries">
-                    ${uiIcon('calculator', 15)} <span>Formula Sheets</span>
+                    ${uiIcon('calculator', 15)} 
+                    <span class="tab-label-full">Formula Sheets</span>
+                    <span class="tab-label-short">Formulas</span>
                 </button>
             </nav>
         </div>
