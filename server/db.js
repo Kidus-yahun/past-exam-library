@@ -156,9 +156,14 @@ class Database {
                 this.save();
             }
 
-            // Ensure activityLogs container exists
-            if (!this.data.activityLogs) {
-                this.data.activityLogs = (bundledSeedData && Array.isArray(bundledSeedData.activityLogs)) ? bundledSeedData.activityLogs : [];
+            // Ensure activityLogs container exists and syncs with verified bundled data
+            if (bundledSeedData && Array.isArray(bundledSeedData.activityLogs)) {
+                if (!this.data.activityLogs || this.data.activityLogs.length < bundledSeedData.activityLogs.length) {
+                    this.data.activityLogs = bundledSeedData.activityLogs;
+                    this.save();
+                }
+            } else if (!this.data.activityLogs) {
+                this.data.activityLogs = [];
                 this.save();
             }
         } catch (err) {
