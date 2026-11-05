@@ -300,10 +300,10 @@ header {
    MAIN CONTAINER
 ======================================================== */
 main {
-    width: 90%;
-    max-width: 1200px;
+    width: 95%;
+    max-width: 1560px;
     margin: 0 auto;
-    padding: 50px 0 90px;
+    padding: 36px 0 90px;
     flex: 1;
     position: relative;
     z-index: 1;
@@ -1631,7 +1631,7 @@ footer {
 }
 
 .footer-content {
-    max-width: 1200px;
+    max-width: 1560px;
     margin: 0 auto;
     display: flex;
     justify-content: space-between;
@@ -2084,7 +2084,7 @@ header {
     background: rgba(16, 18, 27, .97);
     border-bottom-color: rgba(237, 232, 247, .1);
     box-shadow: none;
-    padding: 14px max(5%, calc((100% - 1180px) / 2));
+    padding: 14px max(2.5%, calc((100% - 1560px) / 2));
     backdrop-filter: none;
 }
 
@@ -2252,9 +2252,9 @@ header {
 .role-pill, .role-pill.admin { background: rgba(237, 232, 247, .08); color: #c4c1cc; box-shadow: none; }
 
 main {
-    width: min(90%, 1120px);
+    width: min(95%, 1560px);
     margin: 0 auto;
-    padding: 48px 0 68px;
+    padding: 36px 0 68px;
     box-sizing: border-box;
 }
 
@@ -2281,9 +2281,9 @@ main {
 }
 
 .hero h1 {
-    max-width: 720px;
-    font-size: clamp(38px, 5vw, 54px);
-    line-height: 1.08;
+    max-width: 960px;
+    font-size: clamp(38px, 4.5vw, 54px);
+    line-height: 1.1;
     font-weight: 680;
 }
 
@@ -2294,7 +2294,7 @@ main {
     animation: none;
 }
 
-.description { max-width: 540px; margin-top: 14px; font-size: 15px; line-height: 1.7; }
+.description { max-width: 840px; margin-top: 14px; font-size: 15.5px; line-height: 1.7; }
 
 .search-container { margin-bottom: 40px; animation: none; }
 
@@ -2342,7 +2342,7 @@ main {
 .page-title h2 { font-size: 25px; font-weight: 650; }
 .page-title p { font-size: 14px; }
 
-.card-grid { grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 14px; }
+.card-grid { grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); gap: 18px; }
 
 .card {
     min-height: 102px;
@@ -2422,7 +2422,7 @@ main {
 .back-button { border-radius: 8px; color: #c1a8f2; backdrop-filter: none; }
 
 footer {
-    padding: 19px max(5%, calc((100% - 1180px) / 2));
+    padding: 19px max(2.5%, calc((100% - 1560px) / 2));
     border-top-color: rgba(237, 232, 247, .1);
     background: #10121b;
     font-size: 12px;
