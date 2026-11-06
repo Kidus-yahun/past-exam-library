@@ -203,65 +203,201 @@ function trackApkDownload() {
     } catch (_) {}
 }
 
+function isIosDevice() {
+    return /iPad|iPhone|iPod/.test(navigator.userAgent) || 
+           (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+}
+
 const APK_RELEASE_URL = 'https://github.com/Kidus-yahun/past-exam-library/releases/latest/download/PastExamLibrary.apk';
 
 function openDownloadApkModal() {
+    openAppInstallModal(isIosDevice() ? 'ios' : 'android');
+}
+
+function openAppInstallModal(activeTab) {
+    if (!activeTab) {
+        activeTab = isIosDevice() ? 'ios' : 'android';
+    }
+
+    const iosTabActive = activeTab === 'ios';
+    const androidTabActive = activeTab === 'android';
+
     const bodyHtml = `
-        <div style="text-align: center; padding: 4px 0 10px 0;">
-            <div style="width: 58px; height: 58px; margin: 0 auto 12px auto; background: linear-gradient(135deg, #4f46e5, #7c3aed); border-radius: 16px; display: flex; align-items: center; justify-content: center; box-shadow: 0 8px 20px rgba(79, 70, 229, 0.35);">
-                <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect>
-                    <line x1="12" y1="18" x2="12.01" y2="18"></line>
-                </svg>
-            </div>
-            <h4 style="font-size: 17px; font-weight: 700; margin-bottom: 6px; color: var(--text-primary);">Past Exam Library for Android</h4>
-            <p style="font-size: 13px; color: var(--text-muted); line-height: 1.5; max-width: 380px; margin: 0 auto 16px auto;">
-                Official Android Application (.APK) for Blessed G/Michael Catholic Secondary School digital past exam archive.
-            </p>
-
-            <div style="display: grid; gap: 8px; margin-bottom: 18px; text-align: left; background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 10px; padding: 12px 14px;">
-                <div style="display: flex; align-items: center; gap: 8px; font-size: 12.5px; color: var(--text-secondary);">
-                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                    <span>Full offline study &amp; practice question bank</span>
-                </div>
-                <div style="display: flex; align-items: center; gap: 8px; font-size: 12.5px; color: var(--text-secondary);">
-                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                    <span>Direct PDF downloads straight to your phone's storage</span>
-                </div>
-                <div style="display: flex; align-items: center; gap: 8px; font-size: 12.5px; color: var(--text-secondary);">
-                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                    <span>Compatible with Android 7.0 up to Android 15</span>
-                </div>
+        <div style="padding: 4px 0 6px 0;">
+            <!-- OS Platform Tabs -->
+            <div style="display: flex; gap: 8px; margin-bottom: 20px; background: rgba(255, 255, 255, 0.05); padding: 5px; border-radius: 12px; border: 1px solid var(--border-glass);">
+                <button type="button" id="tab-btn-ios" class="btn-secondary" onclick="switchAppInstallTab('ios')" style="flex: 1; padding: 10px; font-size: 13.5px; font-weight: 700; border-radius: 8px; display: inline-flex; align-items: center; justify-content: center; gap: 7px; ${iosTabActive ? 'background: #4f46e5; color: #ffffff; border-color: transparent;' : 'background: transparent; color: var(--text-muted); border: none;'}">
+                    <span>🍎</span> iPhone &amp; iPad
+                </button>
+                <button type="button" id="tab-btn-android" class="btn-secondary" onclick="switchAppInstallTab('android')" style="flex: 1; padding: 10px; font-size: 13.5px; font-weight: 700; border-radius: 8px; display: inline-flex; align-items: center; justify-content: center; gap: 7px; ${androidTabActive ? 'background: #4f46e5; color: #ffffff; border-color: transparent;' : 'background: transparent; color: var(--text-muted); border: none;'}">
+                    <span>🤖</span> Android (.APK)
+                </button>
             </div>
 
-            <div style="display: flex; flex-direction: column; gap: 10px;">
-                <a href="${APK_RELEASE_URL}" class="btn-primary" onclick="trackApkDownload()" style="display: flex; align-items: center; justify-content: center; gap: 10px; padding: 12px 16px; font-size: 14.5px; font-weight: 600; text-decoration: none; border-radius: 9px;" download="PastExamLibrary.apk" target="_blank" rel="noopener">
-                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                        <polyline points="7 10 12 15 17 10"></polyline>
-                        <line x1="12" y1="15" x2="12" y2="3"></line>
+            <!-- iOS VIEW -->
+            <div id="install-tab-ios" style="${iosTabActive ? 'display: block;' : 'display: none;'} text-align: center;">
+                <div style="width: 58px; height: 58px; margin: 0 auto 12px auto; background: linear-gradient(135deg, #0284c7, #6366f1); border-radius: 16px; display: flex; align-items: center; justify-content: center; box-shadow: 0 8px 20px rgba(99, 102, 241, 0.35);">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="5" y="2" width="14" height="20" rx="3" ry="3"></rect>
+                        <line x1="12" y1="18" x2="12.01" y2="18"></line>
                     </svg>
-                    <span>Download Android App (.APK)</span>
-                </a>
+                </div>
+                <h4 style="font-size: 17px; font-weight: 700; margin-bottom: 6px; color: var(--text-primary);">Past Exam Library for iPhone &amp; iPad</h4>
+                <p style="font-size: 13px; color: var(--text-muted); line-height: 1.5; max-width: 400px; margin: 0 auto 18px auto;">
+                    Add the official app directly to your iPhone Home Screen. Zero App Store download or Apple ID needed.
+                </p>
 
-                ${window._deferredPwaPrompt ? `
-                    <button class="btn-secondary" style="display: flex; align-items: center; justify-content: center; gap: 8px; padding: 10px; font-size: 13.5px;" onclick="promptPwaInstall(); closeModal();">
-                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect></svg>
-                        <span>Add to Home Screen (Instant PWA)</span>
+                <div style="display: grid; gap: 11px; margin-bottom: 18px; text-align: left; background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; padding: 14px 16px;">
+                    <div style="display: flex; gap: 12px; align-items: flex-start;">
+                        <div style="background: rgba(99, 102, 241, 0.15); color: #818cf8; width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 13px; flex-shrink: 0;">1</div>
+                        <div style="font-size: 13px; color: var(--text-primary); line-height: 1.45;">
+                            In <b>Safari</b>, tap the <b>Share</b> button at the bottom:
+                            <span style="display: inline-flex; align-items: center; gap: 4px; background: rgba(255,255,255,0.08); padding: 2px 7px; border-radius: 6px; font-weight: 600; margin-top: 3px;">
+                                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"></path><polyline points="16 6 12 2 8 6"></polyline><line x1="12" y1="2" x2="12" y2="15"></line></svg> Share Icon
+                            </span>
+                        </div>
+                    </div>
+                    <div style="display: flex; gap: 12px; align-items: flex-start;">
+                        <div style="background: rgba(99, 102, 241, 0.15); color: #818cf8; width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 13px; flex-shrink: 0;">2</div>
+                        <div style="font-size: 13px; color: var(--text-primary); line-height: 1.45;">
+                            Scroll down the menu and tap <b>"Add to Home Screen"</b> <span style="color: var(--text-muted); font-size: 12px;">(with the [+] icon)</span>.
+                        </div>
+                    </div>
+                    <div style="display: flex; gap: 12px; align-items: flex-start;">
+                        <div style="background: rgba(99, 102, 241, 0.15); color: #818cf8; width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 13px; flex-shrink: 0;">3</div>
+                        <div style="font-size: 13px; color: var(--text-primary); line-height: 1.45;">
+                            Tap <b>Add</b> in the top right. The app will launch fullscreen with offline support!
+                        </div>
+                    </div>
+                </div>
+
+                <div style="display: flex; flex-direction: column; gap: 10px;">
+                    ${navigator.share ? `
+                        <button class="btn-primary" style="display: flex; align-items: center; justify-content: center; gap: 9px; padding: 12px 16px; font-size: 14px; font-weight: 600; border-radius: 9px;" onclick="triggerIosShareSheet()">
+                            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"></path><polyline points="16 6 12 2 8 6"></polyline><line x1="12" y1="2" x2="12" y2="15"></line></svg>
+                            <span>Open Safari Share Menu (Step 1)</span>
+                        </button>
+                    ` : ''}
+                    <button class="btn-secondary" style="display: flex; align-items: center; justify-content: center; gap: 8px; padding: 10px; font-size: 13px;" onclick="copyWebsiteLinkForSafari()">
+                        ${uiIcon('link', 14)}
+                        <span>Copy Link for Safari</span>
                     </button>
-                ` : ''}
+                </div>
+
+                <div style="margin-top: 14px; padding: 10px 12px; background: rgba(59, 130, 246, 0.08); border-radius: 9px; text-align: left; font-size: 12px; color: var(--text-muted); line-height: 1.5;">
+                    💡 <b>If you are in Telegram, Instagram, or TikTok:</b> Tap the <b>•••</b> at the top right and choose <b>"Open in Safari"</b> first to install the app.
+                </div>
             </div>
 
-            <div style="margin-top: 16px; padding: 10px 12px; background: rgba(99, 102, 241, 0.08); border-radius: 9px; text-align: left; font-size: 11.5px; color: var(--text-muted); line-height: 1.5;">
-                <strong style="color: var(--text-primary); display: block; margin-bottom: 3px;">📲 How to install:</strong>
-                1. Tap <b>Download Android App (.APK)</b> above or from our channel.<br>
-                2. Open the downloaded file from your notifications.<br>
-                3. Allow <i>"Install from unknown sources"</i> in your settings and tap <b>Install</b>.
+            <!-- ANDROID VIEW -->
+            <div id="install-tab-android" style="${androidTabActive ? 'display: block;' : 'display: none;'} text-align: center;">
+                <div style="width: 58px; height: 58px; margin: 0 auto 12px auto; background: linear-gradient(135deg, #10b981, #059669); border-radius: 16px; display: flex; align-items: center; justify-content: center; box-shadow: 0 8px 20px rgba(16, 185, 129, 0.35);">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect>
+                        <line x1="12" y1="18" x2="12.01" y2="18"></line>
+                    </svg>
+                </div>
+                <h4 style="font-size: 17px; font-weight: 700; margin-bottom: 6px; color: var(--text-primary);">Past Exam Library for Android</h4>
+                <p style="font-size: 13px; color: var(--text-muted); line-height: 1.5; max-width: 380px; margin: 0 auto 16px auto;">
+                    Official Android Application (.APK) for Blessed G/Michael Catholic Secondary School digital past exam archive.
+                </p>
+
+                <div style="display: grid; gap: 8px; margin-bottom: 18px; text-align: left; background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 10px; padding: 12px 14px;">
+                    <div style="display: flex; align-items: center; gap: 8px; font-size: 12.5px; color: var(--text-secondary);">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        <span>Full offline study &amp; practice question bank</span>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 8px; font-size: 12.5px; color: var(--text-secondary);">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        <span>Direct PDF downloads straight to your phone's storage</span>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 8px; font-size: 12.5px; color: var(--text-secondary);">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        <span>Compatible with Android 7.0 up to Android 15</span>
+                    </div>
+                </div>
+
+                <div style="display: flex; flex-direction: column; gap: 10px;">
+                    <a href="${APK_RELEASE_URL}" class="btn-primary" onclick="trackApkDownload()" style="display: flex; align-items: center; justify-content: center; gap: 10px; padding: 12px 16px; font-size: 14.5px; font-weight: 600; text-decoration: none; border-radius: 9px;" download="PastExamLibrary.apk" target="_blank" rel="noopener">
+                        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                            <polyline points="7 10 12 15 17 10"></polyline>
+                            <line x1="12" y1="15" x2="12" y2="3"></line>
+                        </svg>
+                        <span>Download Android App (.APK)</span>
+                    </a>
+
+                    ${window._deferredPwaPrompt ? `
+                        <button class="btn-secondary" style="display: flex; align-items: center; justify-content: center; gap: 8px; padding: 10px; font-size: 13.5px;" onclick="promptPwaInstall(); closeModal();">
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect></svg>
+                            <span>Add to Home Screen (Instant PWA)</span>
+                        </button>
+                    ` : ''}
+                </div>
+
+                <div style="margin-top: 14px; padding: 10px 12px; background: rgba(99, 102, 241, 0.08); border-radius: 9px; text-align: left; font-size: 11.5px; color: var(--text-muted); line-height: 1.5;">
+                    <strong style="color: var(--text-primary); display: block; margin-bottom: 3px;">📲 How to install on Android:</strong>
+                    1. Tap <b>Download Android App (.APK)</b>.<br>
+                    2. If Play Protect appears, tap <b>Install anyway</b>.<br>
+                    3. Launch from your home screen.
+                </div>
             </div>
         </div>
     `;
 
-    showModal('Android App (.APK)', bodyHtml);
+    showModal('Install Past Exam Library', bodyHtml);
+}
+
+function switchAppInstallTab(tab) {
+    const iosDiv = document.getElementById('install-tab-ios');
+    const androidDiv = document.getElementById('install-tab-android');
+    const btnIos = document.getElementById('tab-btn-ios');
+    const btnAndroid = document.getElementById('tab-btn-android');
+    if (!iosDiv || !androidDiv) return;
+
+    if (tab === 'ios') {
+        iosDiv.style.display = 'block';
+        androidDiv.style.display = 'none';
+        if (btnIos) {
+            btnIos.style.background = '#4f46e5';
+            btnIos.style.color = '#ffffff';
+        }
+        if (btnAndroid) {
+            btnAndroid.style.background = 'transparent';
+            btnAndroid.style.color = 'var(--text-muted)';
+        }
+    } else {
+        iosDiv.style.display = 'none';
+        androidDiv.style.display = 'block';
+        if (btnAndroid) {
+            btnAndroid.style.background = '#4f46e5';
+            btnAndroid.style.color = '#ffffff';
+        }
+        if (btnIos) {
+            btnIos.style.background = 'transparent';
+            btnIos.style.color = 'var(--text-muted)';
+        }
+    }
+}
+
+function triggerIosShareSheet() {
+    if (navigator.share) {
+        navigator.share({
+            title: 'Past Exam Library',
+            text: 'Catholic Past Exam Library - Official Past Papers & Practice Bank',
+            url: window.location.origin
+        }).catch(() => {});
+    } else {
+        copyWebsiteLinkForSafari();
+    }
+}
+
+function copyWebsiteLinkForSafari() {
+    navigator.clipboard.writeText(window.location.origin).then(() => {
+        showToast('Link copied! Open Safari on your iPhone and paste.', 'success');
+    }).catch(() => {
+        showToast(window.location.origin, 'info');
+    });
 }
 
 function updateNetworkStatus() {
@@ -873,17 +1009,29 @@ function renderHeader() {
     const currentTheme = getTheme();
     const isLight = currentTheme === 'light';
 
+    const isIOS = isIosDevice();
+    const appBtnLabel = isIOS ? 'iOS App' : 'Get App';
+    const appBtnTooltip = isIOS ? 'Install on iPhone & iPad (iOS)' : 'Get Android App (.APK) & iOS App';
+    const appBtnIcon = isIOS ? `
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="5" y="2" width="14" height="20" rx="3" ry="3"></rect>
+            <line x1="12" y1="18" x2="12.01" y2="18"></line>
+        </svg>
+    ` : `
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect>
+            <line x1="12" y1="18" x2="12.01" y2="18"></line>
+        </svg>
+    `;
+
     const pwaControls = `
         <div class="pwa-nav-container">
             <span class="offline-pill ${isOnline ? '' : 'offline'}" title="${isOnline ? 'Online: Connected to school archive' : 'Offline: Practicing with cached exam papers'}">
                 <span class="status-dot"></span> <span class="offline-pill-text">${isOnline ? 'Online' : 'Offline'}</span>
             </span>
-            <button id="pwa-install-btn" class="nav-btn pwa-install-btn" style="display: inline-flex;" onclick="openDownloadApkModal()" data-tooltip="Get Android App (.APK)" aria-label="Get Android App">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                    <rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect>
-                    <line x1="12" y1="18" x2="12.01" y2="18"></line>
-                </svg>
-                <span class="nav-btn-label">Android App</span>
+            <button id="pwa-install-btn" class="nav-btn pwa-install-btn" style="display: inline-flex;" onclick="openAppInstallModal()" data-tooltip="${appBtnTooltip}" aria-label="${appBtnTooltip}">
+                ${appBtnIcon}
+                <span class="nav-btn-label">${appBtnLabel}</span>
             </button>
         </div>
     `;
