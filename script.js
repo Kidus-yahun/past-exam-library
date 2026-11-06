@@ -775,8 +775,10 @@ window.addEventListener('popstate', (e) => {
         }, false);
     } else if (s.view === 'practiceGradeCatalog') {
         showPracticeGradeCatalog(false);
+    } else if (s.view === 'practiceExamTypeCatalog') {
+        showPracticeExamTypeCatalog(s.gradeId, false);
     } else if (s.view === 'practiceSubjectCatalog') {
-        showPracticeSubjectCatalog(s.gradeId, false);
+        showPracticeSubjectCatalog(s.gradeId, s.examType || 'All', false);
     } else if (s.view === 'formulaGrades') {
         showFormulaGrades(false);
     } else if (s.view === 'formulaSubjects') {
@@ -1120,7 +1122,7 @@ function renderHeader() {
 
 function updateMobileBottomNav() {
     const isLibraryActive = state.currentView === 'library' || state.currentView === 'grade' || state.currentView === 'semester' || state.currentView === 'examType' || state.currentView === 'hub';
-    const isPracticeActive = state.currentView === 'practiceGradeCatalog' || state.currentView === 'practiceSubjectCatalog' || state.currentView === 'quiz' || state.currentView === 'quizSummary';
+    const isPracticeActive = state.currentView === 'practiceGradeCatalog' || state.currentView === 'practiceExamTypeCatalog' || state.currentView === 'practiceSubjectCatalog' || state.currentView === 'quiz' || state.currentView === 'quizSummary';
     const isFormulasActive = state.currentView === 'formulas' || state.currentView === 'formulaGrades' || state.currentView === 'formulaSubjects' || state.currentView === 'formulaSheet';
     const isStudyHubActive = state.currentView === 'studyhub';
 
@@ -3102,10 +3104,59 @@ function showLibraryHome(pushHistory = true) {
     `;
 }
 
+/* ========================================================
+   PRACTICE EXAM TYPE HELPERS & NAVIGATION
+======================================================== */
+
+function normalizeExamTypeKey(type) {
+    const clean = (type || '').toLowerCase().replace(/[\s_-]+/g, '');
+    if (clean === 'mid1' || clean === 'midterm1' || clean === 'midterm') return 'Mid1';
+    if (clean === 'mid2' || clean === 'midterm2') return 'Mid2';
+    if (clean.startsWith('final')) return 'Final';
+    if (clean === 'pretest' || clean === 'prelim') return 'Pretest';
+    if (clean === 'model' || clean === 'modelexam') return 'Model';
+    return 'All';
+}
+
+function getExamTypeDisplayName(type) {
+    const key = normalizeExamTypeKey(type);
+    if (key === 'Mid1') return 'Mid 1';
+    if (key === 'Mid2') return 'Mid 2';
+    if (key === 'Final') return 'Final Exam';
+    if (key === 'Pretest') return 'Pre-test';
+    if (key === 'Model') return 'Model Exam';
+    return 'All Questions';
+}
+
+async function fetchPracticeQuestionsForGrade(gradeId) {
+    let questions = [];
+    try {
+        const response = await fetch(`/api/practice?grade=${encodeURIComponent(gradeId)}`);
+        const data = await response.json();
+        questions = data.questions || [];
+    } catch (e) {
+        console.warn('Could not fetch grade practice questions online, checking offline cache', e);
+    }
+    if (questions.length === 0) {
+        try {
+            const raw = localStorage.getItem('pel_offline_questions');
+            if (raw) {
+                const clean = s => (s || '').toLowerCase().replace(/[\s_-]+/g, '');
+                const all = JSON.parse(raw);
+                questions = all.filter(q => clean(q.grade) === clean(gradeId));
+            }
+        } catch (e) {}
+    }
+    return questions;
+}
+
 async function showPracticeGradeCatalog(pushHistory = true) {
+    state.currentView = 'practiceGradeCatalog';
     if (pushHistory) {
         pushNavState({ view: 'practiceGradeCatalog' }, 'Practice Question Bank');
     }
+    updateMobileBottomNav();
+
     const grades = state.categories.grades || [];
     let countsByGrade = {};
     try {
@@ -3159,7 +3210,7 @@ async function showPracticeGradeCatalog(pushHistory = true) {
         </div>
         <div class="card-grid">
             ${grades.map(grade => `
-                <button class="card" style="text-align: left; color: inherit; font: inherit;" onclick="showPracticeSubjectCatalog('${grade.id}')">
+                <button class="card" style="text-align: left; color: inherit; font: inherit;" onclick="showPracticeExamTypeCatalog('${grade.id}')">
                     <div class="card-number">${grade.number || grade.id.replace(/\D/g, '') || '00'}</div>
                     <div class="card-info">
                         <h3>${grade.name}</h3>
@@ -3172,33 +3223,54 @@ async function showPracticeGradeCatalog(pushHistory = true) {
     `;
 }
 
-async function showPracticeSubjectCatalog(gradeId, pushHistory = true) {
+async function showPracticeExamTypeCatalog(gradeId, pushHistory = true) {
+    state.currentView = 'practiceExamTypeCatalog';
     if (pushHistory) {
-        pushNavState({ view: 'practiceSubjectCatalog', gradeId }, `${gradeId} Practice Bank`);
+        pushNavState({ view: 'practiceExamTypeCatalog', gradeId }, `${gradeId} Practice Exams`);
     }
-    const grade = (state.categories.grades || []).find(item => item.id === gradeId);
-    const subjects = (state.categories.subjects || {})[gradeId] || [];
-    let countsBySubject = {};
-    try {
-        const response = await fetch(`/api/practice?grade=${encodeURIComponent(gradeId)}`);
-        const data = await response.json();
-        (data.questions || []).forEach(question => {
-            countsBySubject[question.subject] = (countsBySubject[question.subject] || 0) + 1;
-        });
-    } catch (error) {
-        console.warn('Could not load subject practice question counts online, checking offline cache', error);
-    }
+    updateMobileBottomNav();
 
-    if (Object.keys(countsBySubject).length === 0) {
-        try {
-            const raw = localStorage.getItem('pel_offline_questions');
-            if (raw) {
-                const questions = JSON.parse(raw);
-                questions.filter(q => q.grade === gradeId).forEach(q => {
-                    countsBySubject[q.subject] = (countsBySubject[q.subject] || 0) + 1;
-                });
-            }
-        } catch (e) {}
+    const grade = (state.categories.grades || []).find(item => item.id === gradeId);
+    const gradeName = grade ? grade.name : gradeId;
+
+    const questions = await fetchPracticeQuestionsForGrade(gradeId);
+
+    const counts = {
+        Mid1: 0,
+        Mid2: 0,
+        Final: 0,
+        Pretest: 0,
+        Model: 0,
+        All: questions.length
+    };
+
+    questions.forEach(q => {
+        const key = normalizeExamTypeKey(q.examType);
+        if (counts[key] !== undefined) {
+            counts[key]++;
+        }
+    });
+
+    let specialCards = '';
+    if (gradeId === 'Grade12') {
+        specialCards = `
+            <button class="card" style="text-align: left; color: inherit; font: inherit;" onclick="showPracticeSubjectCatalog('${gradeId}', 'Pretest')">
+                <div class="card-number">P</div>
+                <div class="card-info">
+                    <h3>Pre-test Examination</h3>
+                    <p>${counts.Pretest > 0 ? `${counts.Pretest} practice questions` : 'Grade 12 pre-test practice'}</p>
+                </div>
+                <div class="arrow">→</div>
+            </button>
+            <button class="card" style="text-align: left; color: inherit; font: inherit;" onclick="showPracticeSubjectCatalog('${gradeId}', 'Model')">
+                <div class="card-number">M</div>
+                <div class="card-info">
+                    <h3>Model Examination</h3>
+                    <p>${counts.Model > 0 ? `${counts.Model} practice questions` : 'National model exam practice'}</p>
+                </div>
+                <div class="arrow">→</div>
+            </button>
+        `;
     }
 
     app.innerHTML = `
@@ -3216,23 +3288,230 @@ async function showPracticeSubjectCatalog(gradeId, pushHistory = true) {
                 <span>/</span>
                 <span class="clickable" onclick="showPracticeGradeCatalog()">Practice</span>
                 <span>/</span>
-                <span class="current">${grade ? grade.name : gradeId}</span>
+                <span class="current">${gradeName}</span>
             </div>
         </div>
 
         <div class="page-title">
-            <h2>${grade ? grade.name : gradeId} practice</h2>
-            <p>Select a subject to practice authentic school examination questions.</p>
+            <h2>${gradeName} Practice Exams</h2>
+            <p>Choose an examination type: Mid 1, Mid 2, Final Exam, or practice all questions.</p>
         </div>
+
+        <div class="card-grid">
+            <button class="card" style="text-align: left; color: inherit; font: inherit;" onclick="showPracticeSubjectCatalog('${gradeId}', 'Mid1')">
+                <div class="card-number">M1</div>
+                <div class="card-info">
+                    <h3>Mid 1 Examination</h3>
+                    <p>${counts.Mid1 > 0 ? `${counts.Mid1} practice questions` : 'First midterm practice'}</p>
+                </div>
+                <div class="arrow">→</div>
+            </button>
+
+            <button class="card" style="text-align: left; color: inherit; font: inherit;" onclick="showPracticeSubjectCatalog('${gradeId}', 'Mid2')">
+                <div class="card-number">M2</div>
+                <div class="card-info">
+                    <h3>Mid 2 Examination</h3>
+                    <p>${counts.Mid2 > 0 ? `${counts.Mid2} practice questions` : 'Second midterm practice'}</p>
+                </div>
+                <div class="arrow">→</div>
+            </button>
+
+            <button class="card" style="text-align: left; color: inherit; font: inherit;" onclick="showPracticeSubjectCatalog('${gradeId}', 'Final')">
+                <div class="card-number">F</div>
+                <div class="card-info">
+                    <h3>Final Examination</h3>
+                    <p>${counts.Final > 0 ? `${counts.Final} practice questions` : 'Comprehensive final exam questions'}</p>
+                </div>
+                <div class="arrow">→</div>
+            </button>
+
+            ${specialCards}
+
+            <button class="card" style="text-align: left; color: inherit; font: inherit;" onclick="showPracticeSubjectCatalog('${gradeId}', 'All')">
+                <div class="card-number">All</div>
+                <div class="card-info">
+                    <h3>All Exam Questions</h3>
+                    <p>${counts.All > 0 ? `${counts.All} total practice questions` : 'All grade questions'}</p>
+                </div>
+                <div class="arrow">→</div>
+            </button>
+        </div>
+    `;
+}
+
+async function showPracticeSubjectCatalog(gradeId, examType = 'All', pushHistory = true) {
+    state.currentView = 'practiceSubjectCatalog';
+    const normExamType = normalizeExamTypeKey(examType);
+    const examTypeDisplay = getExamTypeDisplayName(normExamType);
+
+    if (pushHistory) {
+        pushNavState({ view: 'practiceSubjectCatalog', gradeId, examType: normExamType }, `${gradeId} ${examTypeDisplay} Practice`);
+    }
+    updateMobileBottomNav();
+
+    const grade = (state.categories.grades || []).find(item => item.id === gradeId);
+    const gradeName = grade ? grade.name : gradeId;
+    const subjects = (state.categories.subjects || {})[gradeId] || [];
+
+    const questions = await fetchPracticeQuestionsForGrade(gradeId);
+
+    // Compute grade-wide counts for the top pill filter buttons
+    const overallCounts = {
+        Mid1: 0,
+        Mid2: 0,
+        Final: 0,
+        Pretest: 0,
+        Model: 0,
+        All: questions.length
+    };
+    questions.forEach(q => {
+        const key = normalizeExamTypeKey(q.examType);
+        if (overallCounts[key] !== undefined) {
+            overallCounts[key]++;
+        }
+    });
+
+    // Compute per-subject breakdown and active filter counts
+    const clean = s => (s || '').toLowerCase().replace(/[\s_-]+/g, '');
+    const cleanType = s => clean(s).replace(/exam$/i, '');
+    const reqCleanType = cleanType(normExamType);
+
+    const countsBySubject = {};
+    const breakdownBySubject = {};
+
+    subjects.forEach(sub => {
+        countsBySubject[sub] = 0;
+        breakdownBySubject[sub] = { Mid1: 0, Mid2: 0, Final: 0, Pretest: 0, Model: 0, All: 0 };
+    });
+
+    questions.forEach(q => {
+        const sub = subjects.find(s => clean(s) === clean(q.subject)) || q.subject;
+        if (!countsBySubject[sub]) countsBySubject[sub] = 0;
+        if (!breakdownBySubject[sub]) {
+            breakdownBySubject[sub] = { Mid1: 0, Mid2: 0, Final: 0, Pretest: 0, Model: 0, All: 0 };
+        }
+        breakdownBySubject[sub].All++;
+        const key = normalizeExamTypeKey(q.examType);
+        if (breakdownBySubject[sub][key] !== undefined) {
+            breakdownBySubject[sub][key]++;
+        }
+
+        if (normExamType === 'All') {
+            countsBySubject[sub]++;
+        } else {
+            const qType = cleanType(q.examType);
+            if (qType === reqCleanType || qType.includes(reqCleanType) || reqCleanType.includes(qType)) {
+                countsBySubject[sub]++;
+            }
+        }
+    });
+
+    app.innerHTML = `
+        <div class="nav-breadcrumbs-bar">
+            <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+                <button class="back-button back-button-home" onclick="showLibraryHome()" style="margin: 0; display: inline-flex; align-items: center; gap: 6px;" title="Go back to the website home page where you choose your grade">
+                    ${uiIcon('home', 14)} Back to Grades (Home)
+                </button>
+                <button class="back-button" onclick="showPracticeExamTypeCatalog('${gradeId}')" style="margin: 0;">
+                    ← Back to exam types
+                </button>
+            </div>
+            <div class="breadcrumb-trail">
+                <span class="clickable" onclick="showLibraryHome()">Grades</span>
+                <span>/</span>
+                <span class="clickable" onclick="showPracticeGradeCatalog()">Practice</span>
+                <span>/</span>
+                <span class="clickable" onclick="showPracticeExamTypeCatalog('${gradeId}')">${gradeName}</span>
+                <span>/</span>
+                <span class="current">${examTypeDisplay}</span>
+            </div>
+        </div>
+
+        <div class="page-title">
+            <h2>${gradeName} ${examTypeDisplay} practice</h2>
+            <p>Select a subject below or use the buttons to switch between Mid 1, Mid 2, and Final.</p>
+        </div>
+
+        <!-- 1-Tap Mobile Exam Type Pill Filter Bar -->
+        <div class="practice-type-pills-bar" role="tablist" aria-label="Filter practice questions by exam type">
+            <button class="practice-type-pill ${normExamType === 'All' ? 'active' : ''}" 
+                    onclick="showPracticeSubjectCatalog('${gradeId}', 'All')" 
+                    role="tab" 
+                    aria-selected="${normExamType === 'All'}">
+                <span>All Questions</span>
+                <span class="pill-badge">${overallCounts.All}</span>
+            </button>
+            <button class="practice-type-pill ${normExamType === 'Mid1' ? 'active' : ''}" 
+                    onclick="showPracticeSubjectCatalog('${gradeId}', 'Mid1')" 
+                    role="tab" 
+                    aria-selected="${normExamType === 'Mid1'}">
+                <span>Mid 1</span>
+                <span class="pill-badge">${overallCounts.Mid1}</span>
+            </button>
+            <button class="practice-type-pill ${normExamType === 'Mid2' ? 'active' : ''}" 
+                    onclick="showPracticeSubjectCatalog('${gradeId}', 'Mid2')" 
+                    role="tab" 
+                    aria-selected="${normExamType === 'Mid2'}">
+                <span>Mid 2</span>
+                <span class="pill-badge">${overallCounts.Mid2}</span>
+            </button>
+            <button class="practice-type-pill ${normExamType === 'Final' ? 'active' : ''}" 
+                    onclick="showPracticeSubjectCatalog('${gradeId}', 'Final')" 
+                    role="tab" 
+                    aria-selected="${normExamType === 'Final'}">
+                <span>Final Exam</span>
+                <span class="pill-badge">${overallCounts.Final}</span>
+            </button>
+            ${gradeId === 'Grade12' ? `
+            <button class="practice-type-pill ${normExamType === 'Pretest' ? 'active' : ''}" 
+                    onclick="showPracticeSubjectCatalog('${gradeId}', 'Pretest')" 
+                    role="tab" 
+                    aria-selected="${normExamType === 'Pretest'}">
+                <span>Pre-test</span>
+                <span class="pill-badge">${overallCounts.Pretest}</span>
+            </button>
+            <button class="practice-type-pill ${normExamType === 'Model' ? 'active' : ''}" 
+                    onclick="showPracticeSubjectCatalog('${gradeId}', 'Model')" 
+                    role="tab" 
+                    aria-selected="${normExamType === 'Model'}">
+                <span>Model</span>
+                <span class="pill-badge">${overallCounts.Model}</span>
+            </button>
+            ` : ''}
+        </div>
+
         <div class="card-grid">
             ${subjects.map(subject => {
                 const count = countsBySubject[subject] || 0;
+                const b = breakdownBySubject[subject] || { Mid1: 0, Mid2: 0, Final: 0, All: 0 };
+                let subtitle = '';
+                if (normExamType === 'All') {
+                    if (count > 0) {
+                        const parts = [];
+                        if (b.Mid1 > 0) parts.push(`Mid 1: ${b.Mid1}`);
+                        if (b.Mid2 > 0) parts.push(`Mid 2: ${b.Mid2}`);
+                        if (b.Final > 0) parts.push(`Final: ${b.Final}`);
+                        if (b.Model > 0) parts.push(`Model: ${b.Model}`);
+                        subtitle = parts.length > 0 ? parts.join(' • ') : `${count} questions`;
+                    } else {
+                        subtitle = 'Authentic papers ready for practice';
+                    }
+                } else {
+                    subtitle = count > 0 ? `${count} ${examTypeDisplay} questions` : 'Official papers ready for practice';
+                }
+
+                const clickAction = normExamType === 'All'
+                    ? `handlePracticeSubjectClick('${gradeId}', '${escapeQuotes(subject)}')`
+                    : (count > 0 
+                        ? `startPracticeSession('${gradeId}', 'Practice Bank', '${normExamType}', '${escapeQuotes(subject)}', 'practice', '${escapeQuotes(`${gradeName} ${subject} ${examTypeDisplay} Practice`)}', '', () => showPracticeSubjectCatalog('${gradeId}', '${normExamType}'))`
+                        : `handleSubjectPracticeClick('${gradeId}', '${escapeQuotes(subject)}', '${normExamType}')`);
+
                 return `
-                    <button class="card subject-card" style="text-align: left; color: inherit; font: inherit;" onclick="${count > 0 ? `startPracticeSession('${gradeId}', 'Practice Bank', 'All', '${escapeQuotes(subject)}', 'practice', '${escapeQuotes(`${grade ? grade.name : gradeId} ${subject} Practice`)}', '', () => showPracticeSubjectCatalog('${gradeId}'))` : `handleSubjectPracticeClick('${gradeId}', '${escapeQuotes(subject)}')`}">
+                    <button class="card subject-card" style="text-align: left; color: inherit; font: inherit;" onclick="${clickAction}">
                         <div class="subject-icon" style="color: #c084fc;">${uiIcon('target', 20)}</div>
                         <div class="card-info">
                             <h3>${subject}</h3>
-                            <p>${count > 0 ? `${count} interactive questions` : 'Authentic papers ready for practice'}</p>
+                            <p>${subtitle}</p>
                         </div>
                         <div class="arrow">→</div>
                     </button>
@@ -3242,27 +3521,166 @@ async function showPracticeSubjectCatalog(gradeId, pushHistory = true) {
     `;
 }
 
-function handleSubjectPracticeClick(gradeId, subject) {
+async function handlePracticeSubjectClick(gradeId, subject) {
     const grade = (state.categories.grades || []).find(item => item.id === gradeId);
     const gradeName = grade ? grade.name : gradeId;
 
+    const questions = await fetchPracticeQuestionsForGrade(gradeId);
+    const clean = s => (s || '').toLowerCase().replace(/[\s_-]+/g, '');
+
+    const subjectQuestions = questions.filter(q => clean(q.subject) === clean(subject));
+
+    if (subjectQuestions.length === 0) {
+        handleSubjectPracticeClick(gradeId, subject, 'All');
+        return;
+    }
+
+    const counts = {
+        Mid1: 0,
+        Mid2: 0,
+        Final: 0,
+        Pretest: 0,
+        Model: 0,
+        All: subjectQuestions.length
+    };
+
+    subjectQuestions.forEach(q => {
+        const key = normalizeExamTypeKey(q.examType);
+        if (counts[key] !== undefined) {
+            counts[key]++;
+        }
+    });
+
+    const bodyHtml = `
+        <div style="display: flex; flex-direction: column; gap: 14px;">
+            <p style="margin: 0; font-size: 13.5px; color: var(--text-muted);">
+                Choose which examination you would like to practice for <strong>${subject}</strong>:
+            </p>
+            <div class="exam-choice-list">
+                ${counts.Mid1 > 0 ? `
+                    <button class="exam-choice-btn" onclick="closeModal(); startPracticeSession('${gradeId}', 'Practice Bank', 'Mid1', '${escapeQuotes(subject)}', 'practice', '${escapeQuotes(`${gradeName} ${subject} Mid 1 Practice`)}', '', () => showPracticeSubjectCatalog('${gradeId}', 'Mid1'))">
+                        <div class="choice-meta">
+                            <span class="choice-badge">M1</span>
+                            <div class="choice-info">
+                                <h4>Mid 1 Examination</h4>
+                                <p>${counts.Mid1} interactive questions available</p>
+                            </div>
+                        </div>
+                        <span class="choice-action">Practice →</span>
+                    </button>
+                ` : ''}
+
+                ${counts.Mid2 > 0 ? `
+                    <button class="exam-choice-btn" onclick="closeModal(); startPracticeSession('${gradeId}', 'Practice Bank', 'Mid2', '${escapeQuotes(subject)}', 'practice', '${escapeQuotes(`${gradeName} ${subject} Mid 2 Practice`)}', '', () => showPracticeSubjectCatalog('${gradeId}', 'Mid2'))">
+                        <div class="choice-meta">
+                            <span class="choice-badge">M2</span>
+                            <div class="choice-info">
+                                <h4>Mid 2 Examination</h4>
+                                <p>${counts.Mid2} interactive questions available</p>
+                            </div>
+                        </div>
+                        <span class="choice-action">Practice →</span>
+                    </button>
+                ` : ''}
+
+                ${counts.Final > 0 ? `
+                    <button class="exam-choice-btn" onclick="closeModal(); startPracticeSession('${gradeId}', 'Practice Bank', 'Final', '${escapeQuotes(subject)}', 'practice', '${escapeQuotes(`${gradeName} ${subject} Final Practice`)}', '', () => showPracticeSubjectCatalog('${gradeId}', 'Final'))">
+                        <div class="choice-meta">
+                            <span class="choice-badge">F</span>
+                            <div class="choice-info">
+                                <h4>Final Examination</h4>
+                                <p>${counts.Final} interactive questions available</p>
+                            </div>
+                        </div>
+                        <span class="choice-action">Practice →</span>
+                    </button>
+                ` : ''}
+
+                ${gradeId === 'Grade12' && counts.Pretest > 0 ? `
+                    <button class="exam-choice-btn" onclick="closeModal(); startPracticeSession('${gradeId}', 'Practice Bank', 'Pretest', '${escapeQuotes(subject)}', 'practice', '${escapeQuotes(`${gradeName} ${subject} Pre-test Practice`)}', '', () => showPracticeSubjectCatalog('${gradeId}', 'Pretest'))">
+                        <div class="choice-meta">
+                            <span class="choice-badge">P</span>
+                            <div class="choice-info">
+                                <h4>Pre-test Examination</h4>
+                                <p>${counts.Pretest} interactive questions available</p>
+                            </div>
+                        </div>
+                        <span class="choice-action">Practice →</span>
+                    </button>
+                ` : ''}
+
+                ${gradeId === 'Grade12' && counts.Model > 0 ? `
+                    <button class="exam-choice-btn" onclick="closeModal(); startPracticeSession('${gradeId}', 'Practice Bank', 'Model', '${escapeQuotes(subject)}', 'practice', '${escapeQuotes(`${gradeName} ${subject} Model Exam Practice`)}', '', () => showPracticeSubjectCatalog('${gradeId}', 'Model'))">
+                        <div class="choice-meta">
+                            <span class="choice-badge">M</span>
+                            <div class="choice-info">
+                                <h4>Model Examination</h4>
+                                <p>${counts.Model} interactive questions available</p>
+                            </div>
+                        </div>
+                        <span class="choice-action">Practice →</span>
+                    </button>
+                ` : ''}
+
+                <button class="exam-choice-btn" onclick="closeModal(); startPracticeSession('${gradeId}', 'Practice Bank', 'All', '${escapeQuotes(subject)}', 'practice', '${escapeQuotes(`${gradeName} ${subject} Practice (All Questions)`)}', '', () => showPracticeSubjectCatalog('${gradeId}', 'All'))">
+                    <div class="choice-meta">
+                        <span class="choice-badge" style="background: rgba(168, 85, 247, 0.15); color: #d8b4fe;">All</span>
+                        <div class="choice-info">
+                            <h4>All Mixed Questions</h4>
+                            <p>${counts.All} total questions from all examination types</p>
+                        </div>
+                    </div>
+                    <span class="choice-action">Practice →</span>
+                </button>
+            </div>
+        </div>
+    `;
+
+    const footerHtml = `
+        <button class="btn-secondary" onclick="closeModal()">Close</button>
+        <button class="btn-primary" style="width: auto;" onclick="closeModal(); handleSubjectPracticeClick('${gradeId}', '${escapeQuotes(subject)}', 'All')">
+            Official Exam Papers →
+        </button>
+    `;
+
+    showModal(`${gradeName} • ${subject} Practice`, bodyHtml, footerHtml);
+}
+
+function handleSubjectPracticeClick(gradeId, subject, requestedExamType = 'All') {
+    const grade = (state.categories.grades || []).find(item => item.id === gradeId);
+    const gradeName = grade ? grade.name : gradeId;
+    const reqDisplay = getExamTypeDisplayName(requestedExamType);
+
     const allExams = state.libraryExams || [];
     const clean = s => (s || '').toLowerCase().replace(/[\s_-]+/g, '');
-    const subjectExams = allExams.filter(e => clean(e.grade) === clean(gradeId) && clean(e.subject) === clean(subject));
+    const cleanType = s => clean(s).replace(/exam$/i, '');
+    const reqType = cleanType(requestedExamType);
+
+    const subjectExams = allExams.filter(e => {
+        if (clean(e.grade) !== clean(gradeId)) return false;
+        if (clean(e.subject) !== clean(subject)) return false;
+        if (requestedExamType && requestedExamType !== 'All') {
+            const eType = cleanType(e.examType);
+            if (eType !== reqType && !eType.includes(reqType) && !reqType.includes(eType)) return false;
+        }
+        return true;
+    });
+
+    const fallbackExams = subjectExams.length > 0 ? subjectExams : allExams.filter(e => clean(e.grade) === clean(gradeId) && clean(e.subject) === clean(subject));
 
     const bodyHtml = `
         <div style="display: flex; flex-direction: column; gap: 12px;">
-            <p>Interactive single-question bank for <strong>${subject}</strong> is currently being expanded. You can immediately practice with official school examinations for this subject below:</p>
-            ${subjectExams.length > 0 ? `
-                <div style="font-size: 13px; font-weight: 700; color: #cbd5e1; margin-top: 4px;">Available ${subject} Exam Papers (${subjectExams.length}):</div>
+            <p>Interactive questions for <strong>${subject}</strong> ${requestedExamType !== 'All' ? `(${reqDisplay})` : ''} are currently in transcription. You can immediately practice with official school examination papers below:</p>
+            ${fallbackExams.length > 0 ? `
+                <div style="font-size: 13px; font-weight: 700; color: #cbd5e1; margin-top: 4px;">Available ${subject} Exam Papers (${fallbackExams.length}):</div>
                 <div style="max-height: 240px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; padding-right: 4px;">
-                    ${subjectExams.map(e => `
+                    ${fallbackExams.map(e => `
                         <div style="background: rgba(255, 255, 255, 0.04); border: 1px solid var(--border-glass); border-radius: 8px; padding: 10px 12px; display: flex; align-items: center; justify-content: space-between; gap: 8px;">
                             <div>
                                 <strong style="color: var(--text-main); font-size: 13.5px;">${e.title || `${e.semester} ${e.examType}`}</strong>
                                 <div style="font-size: 11.5px; color: var(--text-muted);">${e.semester} • ${e.examType}</div>
                             </div>
-                            <button class="btn-primary" style="padding: 6px 12px; font-size: 12px; width: auto;" onclick="closeModal(); renderExamViewer('${escapeQuotes(e.title || subject)}', '${gradeName} • ${e.semester} • ${e.examType}', '${e.fileUrl || e.filePath}', () => showPracticeSubjectCatalog('${gradeId}'))">
+                            <button class="btn-primary" style="padding: 6px 12px; font-size: 12px; width: auto;" onclick="closeModal(); renderExamViewer('${escapeQuotes(e.title || subject)}', '${gradeName} • ${e.semester} • ${e.examType}', '${e.fileUrl || e.filePath}', () => showPracticeSubjectCatalog('${gradeId}', '${requestedExamType || 'All'}'))">
                                 Practice Paper →
                             </button>
                         </div>

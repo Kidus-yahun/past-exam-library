@@ -4441,6 +4441,172 @@ footer {
     stroke: #4f46e5 !important;
 }
 
+/* ========================================================
+   PRACTICE EXAM TYPE SELECTION & FILTER PILLS
+======================================================== */
+.practice-type-pills-bar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding: 6px 2px 16px;
+    margin-bottom: 12px;
+}
+.practice-type-pills-bar::-webkit-scrollbar {
+    display: none;
+}
+
+.practice-type-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    border-radius: 9999px;
+    font-weight: 600;
+    font-size: 13.5px;
+    border: 1px solid var(--border-glass);
+    background: rgba(255, 255, 255, 0.04);
+    color: var(--text-muted);
+    padding: 8px 16px;
+    min-height: 42px;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    white-space: nowrap;
+    text-decoration: none;
+    flex-shrink: 0;
+    font-family: inherit;
+    -webkit-tap-highlight-color: transparent;
+}
+.practice-type-pill:hover {
+    background: rgba(255, 255, 255, 0.08);
+    color: var(--text-main);
+    transform: translateY(-1px);
+}
+.practice-type-pill.active {
+    background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+    color: #ffffff;
+    border-color: rgba(168, 85, 247, 0.4);
+    box-shadow: 0 4px 14px rgba(99, 102, 241, 0.35);
+    transform: translateY(-1px);
+}
+.practice-type-pill .pill-badge {
+    background: rgba(255, 255, 255, 0.16);
+    color: inherit;
+    font-size: 11px;
+    padding: 2px 7px;
+    border-radius: 999px;
+    font-weight: 700;
+}
+.practice-type-pill.active .pill-badge {
+    background: rgba(255, 255, 255, 0.28);
+    color: #ffffff;
+}
+
+/* Light Theme overrides for practice type pills */
+[data-theme="light"] .practice-type-pill {
+    background: #f1f5f9;
+    border-color: #cbd5e1;
+    color: #475569;
+}
+[data-theme="light"] .practice-type-pill:hover {
+    background: #e2e8f0;
+    color: #0f172a;
+}
+[data-theme="light"] .practice-type-pill.active {
+    background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+    color: #ffffff;
+    border-color: transparent;
+    box-shadow: 0 4px 12px rgba(79, 70, 229, 0.25);
+}
+[data-theme="light"] .practice-type-pill .pill-badge {
+    background: rgba(15, 23, 42, 0.08);
+    color: inherit;
+}
+[data-theme="light"] .practice-type-pill.active .pill-badge {
+    background: rgba(255, 255, 255, 0.3);
+    color: #ffffff;
+}
+
+/* Exam Choice Modal Styles */
+.exam-choice-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: 12px 0;
+}
+.exam-choice-btn {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 12px 14px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid var(--border-glass);
+    border-radius: 10px;
+    color: var(--text-main);
+    cursor: pointer;
+    font-family: inherit;
+    transition: all 0.2s ease;
+    text-align: left;
+    -webkit-tap-highlight-color: transparent;
+}
+.exam-choice-btn:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(99, 102, 241, 0.4);
+    transform: translateY(-1px);
+}
+.exam-choice-btn .choice-meta {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.exam-choice-btn .choice-badge {
+    min-width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    background: rgba(99, 102, 241, 0.15);
+    color: #a5b4fc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 13px;
+    flex-shrink: 0;
+}
+.exam-choice-btn .choice-info h4 {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-main);
+}
+.exam-choice-btn .choice-info p {
+    margin: 2px 0 0;
+    font-size: 12px;
+    color: var(--text-muted);
+}
+.exam-choice-btn .choice-action {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 12.5px;
+    font-weight: 600;
+    color: #818cf8;
+}
+[data-theme="light"] .exam-choice-btn {
+    background: #ffffff;
+    border-color: #e2e8f0;
+}
+[data-theme="light"] .exam-choice-btn:hover {
+    background: #f8fafc;
+    border-color: #cbd5e1;
+}
+[data-theme="light"] .exam-choice-btn .choice-badge {
+    background: #eef2ff;
+    color: #4338ca;
+}
+
+
 
 
 

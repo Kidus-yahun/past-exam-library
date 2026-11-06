@@ -627,8 +627,16 @@ app.delete('/api/exams/:id', authenticateToken, requireAdmin, (req, res) => {
 // Get practice questions with filters
 app.get('/api/practice', (req, res) => {
     try {
-        const { grade, subject, semester, examType, search, examId } = req.query;
-        const questions = db.getQuestions({ grade, subject, semester, examType, search, examId });
+        const { grade, subject, semester, examType, search, examId, exactOnly } = req.query;
+        const questions = db.getQuestions({ 
+            grade, 
+            subject, 
+            semester, 
+            examType, 
+            search, 
+            examId, 
+            exactOnly: exactOnly === 'true' || exactOnly === '1' 
+        });
         res.json({ success: true, count: questions.length, questions });
     } catch (err) {
         res.status(500).json({ success: false, message: err.message });

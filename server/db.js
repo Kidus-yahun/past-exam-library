@@ -396,7 +396,9 @@ class Database {
         if (filters.examType && filters.examType !== 'All') {
             const typeClean = cleanType(filters.examType);
             const typeFiltered = narrowed.filter(q => q.examType && (cleanType(q.examType) === typeClean || cleanType(q.examType).includes(typeClean) || typeClean.includes(cleanType(q.examType))));
-            if (typeFiltered.length > 0) {
+            if (filters.exactOnly) {
+                narrowed = typeFiltered;
+            } else if (typeFiltered.length > 0) {
                 narrowed = typeFiltered;
             }
         }
