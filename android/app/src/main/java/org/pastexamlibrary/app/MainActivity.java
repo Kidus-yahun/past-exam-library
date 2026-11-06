@@ -15,7 +15,6 @@ import android.os.Environment;
 import android.view.View;
 import android.webkit.CookieManager;
 import android.webkit.DownloadListener;
-import android.webkit.JavascriptInterface;
 import android.webkit.URLUtil;
 import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
@@ -35,16 +34,13 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 public class MainActivity extends AppCompatActivity {
 
     private static final String APP_URL = "https://past-exam-library.vercel.app/";
     private static final String APP_HOST = "past-exam-library.vercel.app";
-    private static final String ALT_HOST = "catholic-past-exam-library.vercel.app";
 
     private WebView webView;
-    private SwipeRefreshLayout swipeRefresh;
     private ProgressBar progressBar;
     private LinearLayout offlineContainer;
     private Button btnRetry;
@@ -87,18 +83,9 @@ public class MainActivity extends AppCompatActivity {
 
     private void initViews() {
         webView = findViewById(R.id.webview);
-        swipeRefresh = findViewById(R.id.swipe_refresh);
         progressBar = findViewById(R.id.progress_bar);
         offlineContainer = findViewById(R.id.offline_container);
         btnRetry = findViewById(R.id.btn_retry);
-
-        swipeRefresh.setColorSchemeResources(R.color.primary, R.color.accent);
-        swipeRefresh.setOnRefreshListener(() -> webView.reload());
-
-        // Delegate scroll checks to the inner WebView so SwipeRefreshLayout doesn't fight vertical scrolling
-        swipeRefresh.setOnChildScrollUpCallback((parent, child) -> {
-            return webView != null && (webView.getScrollY() > 0 || webView.canScrollVertically(-1));
-        });
 
         btnRetry.setOnClickListener(v -> {
             offlineContainer.setVisibility(View.GONE);
@@ -152,18 +139,12 @@ public class MainActivity extends AppCompatActivity {
         settings.setDatabaseEnabled(true);
         settings.setAllowFileAccess(true);
         settings.setAllowContentAccess(true);
-        // Lock viewport tightly to physical mobile screen width — prevents horizontal drifting and side-sliding
-        settings.setUseWideViewPort(false);
-        settings.setLoadWithOverviewMode(false);
-        settings.setSupportZoom(false);
-        settings.setBuiltInZoomControls(false);
+        settings.setUseWideViewPort(true);
+        settings.setLoadWithOverviewMode(true);
+        settings.setSupportZoom(true);
+        settings.setBuiltInZoomControls(true);
         settings.setDisplayZoomControls(false);
         settings.setCacheMode(WebSettings.LOAD_DEFAULT);
-
-        // Smooth vertical momentum scrolling; disable horizontal scroll completely
-        webView.setVerticalScrollBarEnabled(true);
-        webView.setHorizontalScrollBarEnabled(false);
-        webView.setOverScrollMode(View.OVER_SCROLL_IF_CONTENT_SCROLLS);
 
         // Append custom user agent identifier so web app recognizes native APK
         String defaultUA = settings.getUserAgentString();
@@ -172,23 +153,9 @@ public class MainActivity extends AppCompatActivity {
         CookieManager.getInstance().setAcceptCookie(true);
         CookieManager.getInstance().setAcceptThirdPartyCookies(webView, true);
 
-        // Bridge to allow web app to disable pull-to-refresh during interactive quizzes and PDF reading
-        webView.addJavascriptInterface(new WebAppInterface(), "AndroidNative");
-
         webView.setWebViewClient(new AppWebViewClient());
         webView.setWebChromeClient(new AppWebChromeClient());
         webView.setDownloadListener(new AppDownloadListener());
-    }
-
-    public class WebAppInterface {
-        @JavascriptInterface
-        public void setSwipeRefreshEnabled(final boolean enabled) {
-            runOnUiThread(() -> {
-                if (swipeRefresh != null) {
-                    swipeRefresh.setEnabled(enabled);
-                }
-            });
-        }
     }
 
     private void loadAppUrl() {
@@ -242,7 +209,7 @@ public class MainActivity extends AppCompatActivity {
             }
 
             // Open external domains (e.g. Telegram channel t.me/...) in external browser/app
-            if (host != null && !host.contains(APP_HOST) && !host.contains(ALT_HOST) && !host.contains("jsdelivr.net") && !host.contains("github")) {
+            if (host != null && !host.contains(APP_HOST) && !host.contains("jsdelivr.net") && !host.contains("github")) {
                 try {
                     Intent intent = new Intent(Intent.ACTION_VIEW, uri);
                     startActivity(intent);
@@ -268,7 +235,6 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onPageFinished(WebView view, String url) {
             progressBar.setVisibility(View.GONE);
-            swipeRefresh.setRefreshing(false);
             offlineContainer.setVisibility(View.GONE);
             webView.setVisibility(View.VISIBLE);
         }
@@ -277,7 +243,6 @@ public class MainActivity extends AppCompatActivity {
         public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
             if (request.isForMainFrame()) {
                 progressBar.setVisibility(View.GONE);
-                swipeRefresh.setRefreshing(false);
                 if (webView.getUrl() == null || webView.getUrl().equals(APP_URL)) {
                     webView.setVisibility(View.GONE);
                     offlineContainer.setVisibility(View.VISIBLE);

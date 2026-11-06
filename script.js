@@ -3425,6 +3425,7 @@ async function showExamHub(grade, semester, examType, subject, filePath, examTit
         pushNavState({ view: 'hub', grade, semester, examType, subject, filePath, examTitle }, examTitle || `${grade} ${subject}`);
     }
     window._lastBackFn = backFn;
+    ensurePdfJsLoaded();
 
     let questionCount = 0;
     try {
@@ -3611,8 +3612,6 @@ let currentQuiz = {
 
 async function startPracticeSession(grade, semester, examType, subject, mode, examTitle, filePath, backFn) {
     if (currentQuiz.timerInterval) clearInterval(currentQuiz.timerInterval);
-
-    showToast('Loading practice questions...', 'info');
 
     let questions = [];
     try {
@@ -4301,16 +4300,60 @@ function renderExamViewer(title, subtitle, fileUrl, onBackFn, pushHistory = true
 
             <!-- Viewport container -->
             <div id="pdf-viewer-viewport" style="position: relative; width: 100%;">
+                <!-- Subtle Top Streaming Strip (No blocking modal card) -->
+                <div class="pdf-stream-strip" id="pdf-stream-strip">
+                    <div class="pdf-stream-fill" id="pdf-progress-bar"></div>
+                </div>
+
                 <div id="pdf-canvas-area" class="pdf-canvas-container" style="${pdfViewerState.viewMode === 'native' ? 'display: none;' : ''}">
-                    <div class="pdf-loading-card" id="pdf-loading-card">
-                        <div class="hub-icon-circle" style="animation: pulse 1.5s infinite; width: 60px; height: 60px; display: flex; align-items: center; justify-content: center; background: rgba(99, 102, 241, 0.2); border: 1px solid rgba(99, 102, 241, 0.4); color: #818cf8; border-radius: 50%; margin: 0 auto 14px;">
-                            ${uiIcon('bolt', 26)}
+                    <!-- Realistic Exam Paper Skeleton: Renders with zero latency so users see document immediately -->
+                    <div class="pdf-paper-skeleton" id="pdf-paper-skeleton" aria-label="Loading document page">
+                        <div class="paper-skel-header">
+                            <div class="paper-skel-crest"></div>
+                            <div class="paper-skel-line title"></div>
+                            <div class="paper-skel-line sub"></div>
+                            <div class="paper-skel-line meta"></div>
+                            <div class="paper-skel-inst-box">
+                                <div class="paper-skel-line" style="width: 82%;"></div>
+                                <div class="paper-skel-line" style="width: 65%;"></div>
+                            </div>
                         </div>
-                        <h4 style="color: #ffffff; font-size: 16px;">Loading Examination Paper...</h4>
-                        <div class="pdf-progress-track">
-                            <div class="pdf-progress-fill" id="pdf-progress-bar"></div>
+                        <div class="paper-skel-questions">
+                            <div class="paper-skel-q">
+                                <div class="paper-skel-q-num">
+                                    <div class="paper-skel-q-badge"></div>
+                                    <div class="paper-skel-line" style="width: 80%;"></div>
+                                </div>
+                                <div class="paper-skel-q-options">
+                                    <div class="paper-skel-line" style="width: 70%;"></div>
+                                    <div class="paper-skel-line" style="width: 62%;"></div>
+                                    <div class="paper-skel-line" style="width: 74%;"></div>
+                                    <div class="paper-skel-line" style="width: 58%;"></div>
+                                </div>
+                            </div>
+                            <div class="paper-skel-q">
+                                <div class="paper-skel-q-num">
+                                    <div class="paper-skel-q-badge"></div>
+                                    <div class="paper-skel-line" style="width: 85%;"></div>
+                                </div>
+                                <div class="paper-skel-q-options">
+                                    <div class="paper-skel-line" style="width: 65%;"></div>
+                                    <div class="paper-skel-line" style="width: 78%;"></div>
+                                    <div class="paper-skel-line" style="width: 55%;"></div>
+                                    <div class="paper-skel-line" style="width: 68%;"></div>
+                                </div>
+                            </div>
+                            <div class="paper-skel-q">
+                                <div class="paper-skel-q-num">
+                                    <div class="paper-skel-q-badge"></div>
+                                    <div class="paper-skel-line" style="width: 72%;"></div>
+                                </div>
+                                <div class="paper-skel-q-options">
+                                    <div class="paper-skel-line" style="width: 66%;"></div>
+                                    <div class="paper-skel-line" style="width: 50%;"></div>
+                                </div>
+                            </div>
                         </div>
-                        <p style="color: var(--text-muted); font-size: 13px;" id="pdf-loading-status">Streaming document via accelerated edge CDN...</p>
                     </div>
                 </div>
 
@@ -4345,8 +4388,6 @@ async function loadPdfDocument(fileUrl) {
     } catch (e) {}
 
     const progressBar = document.getElementById('pdf-progress-bar');
-    const loadingStatus = document.getElementById('pdf-loading-status');
-    const loadingCard = document.getElementById('pdf-loading-card');
 
     const urlsToTry = [fileUrl];
     if (fileUrl.startsWith('/exams/')) {
@@ -4364,9 +4405,8 @@ async function loadPdfDocument(fileUrl) {
 
             loadingTask.onProgress = function(progress) {
                 if (progress.total > 0 && progressBar) {
-                    const percent = Math.min(Math.round((progress.loaded / progress.total) * 100), 99);
+                    const percent = Math.min(Math.round((progress.loaded / progress.total) * 100), 96);
                     progressBar.style.width = percent + '%';
-                    if (loadingStatus) loadingStatus.textContent = `Streaming document: ${percent}%...`;
                 }
             };
 
@@ -4389,8 +4429,6 @@ async function loadPdfDocument(fileUrl) {
 
         const totalPagesEl = document.getElementById('pdf-total-pages');
         if (totalPagesEl) totalPagesEl.textContent = pdfDoc.numPages;
-
-        if (loadingCard) loadingCard.style.display = 'none';
 
         // Render initial page
         await renderCurrentPdfPage();
@@ -4434,6 +4472,20 @@ async function renderCurrentPdfPage() {
         };
 
         await page.render(renderContext).promise;
+
+        // Smoothly fade out and remove the paper skeleton now that real canvas is rendered
+        const skel = document.getElementById('pdf-paper-skeleton');
+        if (skel) {
+            skel.style.opacity = '0';
+            setTimeout(() => { if (skel && skel.parentNode) skel.remove(); }, 250);
+        }
+        // Smoothly complete and fade out top streaming strip
+        const progressBar = document.getElementById('pdf-progress-bar');
+        const streamStrip = document.getElementById('pdf-stream-strip');
+        if (progressBar) progressBar.style.width = '100%';
+        if (streamStrip) {
+            setTimeout(() => { streamStrip.style.opacity = '0'; }, 300);
+        }
 
         const currEl = document.getElementById('pdf-current-page');
         if (currEl) currEl.textContent = pdfViewerState.pageNum;

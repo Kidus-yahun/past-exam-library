@@ -69,6 +69,11 @@ html {
     box-sizing: border-box;
 }
 
+html, body {
+    overscroll-behavior-y: none;
+    -webkit-overflow-scrolling: touch;
+}
+
 body {
     font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
     background-color: var(--bg-page);
@@ -82,8 +87,6 @@ body {
     overflow-x: clip;
     position: relative;
     letter-spacing: -0.2px;
-    -webkit-overflow-scrolling: touch;
-    overscroll-behavior-y: contain;
     box-sizing: border-box;
 }
 
@@ -1468,32 +1471,194 @@ main {
     transition: transform 0.2s ease;
 }
 
-.pdf-loading-card {
+/* ========================================================
+   OPTIMISTIC ZERO-WAIT EXAM VIEWER SKELETON & STREAM STRIP
+======================================================== */
+.pdf-stream-strip {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    z-index: 20;
+    background: transparent;
+    overflow: hidden;
+    pointer-events: none;
+    transition: opacity 0.35s ease;
+}
+
+.pdf-stream-fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, #6366f1, #a855f7, #38bdf8);
+    transition: width 0.15s ease-out;
+    box-shadow: 0 0 10px rgba(99, 102, 241, 0.6);
+}
+
+.pdf-paper-skeleton {
+    width: min(780px, 94vw);
+    min-height: 980px;
+    background: #141824;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 4px;
+    box-shadow: 0 12px 36px rgba(0, 0, 0, 0.55);
+    padding: 44px 48px;
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+    animation: paperFadeIn 0.25s ease-out both;
+    position: relative;
+    overflow: hidden;
+    transition: opacity 0.3s ease;
+}
+
+@keyframes paperFadeIn {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.pdf-paper-skeleton::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 200%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.035) 50%, transparent 100%);
+    animation: paperShimmer 1.8s infinite;
+    pointer-events: none;
+}
+
+@keyframes paperShimmer {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(50%); }
+}
+
+.paper-skel-header {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    padding: 80px 24px;
+    gap: 10px;
+    padding-bottom: 20px;
+    border-bottom: 1.5px solid rgba(255, 255, 255, 0.08);
     text-align: center;
-    gap: 16px;
-    width: 100%;
 }
 
-.pdf-progress-track {
-    width: 280px;
-    height: 8px;
+.paper-skel-crest {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.08);
+    margin-bottom: 4px;
+}
+
+.paper-skel-line {
     background: rgba(255, 255, 255, 0.08);
     border-radius: 4px;
-    overflow: hidden;
-    position: relative;
+    height: 12px;
 }
 
-.pdf-progress-fill {
-    height: 100%;
-    width: 0%;
-    background: linear-gradient(90deg, #6366f1, #a855f7);
-    border-radius: 4px;
-    transition: width 0.2s ease;
+.paper-skel-line.title {
+    width: 60%;
+    height: 18px;
+}
+
+.paper-skel-line.sub {
+    width: 40%;
+    height: 12px;
+}
+
+.paper-skel-line.meta {
+    width: 75%;
+    height: 10px;
+}
+
+.paper-skel-inst-box {
+    width: 100%;
+    padding: 14px 18px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px dashed rgba(255, 255, 255, 0.1);
+    border-radius: 6px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 6px;
+}
+
+.paper-skel-questions {
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+    margin-top: 10px;
+}
+
+.paper-skel-q {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.paper-skel-q-num {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.paper-skel-q-badge {
+    width: 26px;
+    height: 14px;
+    border-radius: 3px;
+    background: rgba(99, 102, 241, 0.25);
+}
+
+.paper-skel-q-options {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px 24px;
+    padding-left: 28px;
+}
+
+@media (max-width: 600px) {
+    .pdf-paper-skeleton {
+        padding: 24px 20px;
+        min-height: 600px;
+    }
+    .paper-skel-q-options {
+        grid-template-columns: 1fr;
+        padding-left: 14px;
+    }
+}
+
+/* Light Mode Paper Skeleton: Pure Crisp Official Examination Paper */
+[data-theme="light"] .pdf-paper-skeleton {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.1);
+}
+
+[data-theme="light"] .pdf-paper-skeleton::after {
+    background: linear-gradient(90deg, transparent 0%, rgba(15, 23, 42, 0.03) 50%, transparent 100%);
+}
+
+[data-theme="light"] .paper-skel-header {
+    border-bottom: 1.5px solid #e2e8f0;
+}
+
+[data-theme="light"] .paper-skel-crest {
+    background: #e2e8f0;
+}
+
+[data-theme="light"] .paper-skel-line {
+    background: #e2e8f0;
+}
+
+[data-theme="light"] .paper-skel-inst-box {
+    background: #f8fafc;
+    border-color: #cbd5e1;
+}
+
+[data-theme="light"] .paper-skel-q-badge {
+    background: rgba(79, 70, 229, 0.15);
 }
 
 /* Notice for un-uploaded paper */
