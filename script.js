@@ -3,6 +3,21 @@
    Full-stack Frontend with Auth, Admin Dashboard & Dynamic Library
 ======================================================== */
 
+// Over-the-air fix: Immediately & permanently disable native SwipeRefreshLayout on all installed Android apps
+function disableAndroidSwipeRefresh() {
+    if (window.AndroidNative && typeof window.AndroidNative.setSwipeRefreshEnabled === 'function') {
+        try {
+            window.AndroidNative.setSwipeRefreshEnabled(false);
+        } catch (e) {}
+    }
+}
+disableAndroidSwipeRefresh();
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', disableAndroidSwipeRefresh);
+}
+window.addEventListener('load', disableAndroidSwipeRefresh);
+setInterval(disableAndroidSwipeRefresh, 1500);
+
 // Static Category Fallback for Instant First-Paint (Zero Network Delay)
 const STATIC_FALLBACK_CATEGORIES = {
     grades: [
@@ -3923,9 +3938,7 @@ function exitQuizSession() {
     if (currentQuiz.timerInterval) clearInterval(currentQuiz.timerInterval);
     const mobNav = document.getElementById('mobile-bottom-nav');
     if (mobNav) mobNav.style.display = '';
-    if (window.AndroidNative && typeof window.AndroidNative.setSwipeRefreshEnabled === 'function') {
-        window.AndroidNative.setSwipeRefreshEnabled(true);
-    }
+    disableAndroidSwipeRefresh();
     if (currentQuiz.backFn) {
         currentQuiz.backFn();
     } else {
@@ -3966,12 +3979,10 @@ function updateTimerDisplay() {
 function finishQuiz() {
     if (currentQuiz.timerInterval) clearInterval(currentQuiz.timerInterval);
 
-    // Restore mobile bottom navigation bar and Android pull-to-refresh
+    // Restore mobile bottom navigation bar
     const mobNav = document.getElementById('mobile-bottom-nav');
     if (mobNav) mobNav.style.display = '';
-    if (window.AndroidNative && typeof window.AndroidNative.setSwipeRefreshEnabled === 'function') {
-        window.AndroidNative.setSwipeRefreshEnabled(true);
-    }
+    disableAndroidSwipeRefresh();
 
     let correctCount = 0;
     let totalPoints = 0;
