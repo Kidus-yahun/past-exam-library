@@ -5,6 +5,15 @@ const PDFDocument = require('pdfkit');
 const dbPath = path.join(__dirname, '..', 'data', 'db.json');
 const db = JSON.parse(fs.readFileSync(dbPath, 'utf8'));
 
+const fontRegular = path.join(__dirname, '..', 'fonts', 'DejaVuSans.ttf');
+const fontBold = path.join(__dirname, '..', 'fonts', 'DejaVuSans-Bold.ttf');
+
+const LEFT_MARGIN = 42;
+const RIGHT_MARGIN = 42;
+const PAGE_WIDTH = 595.28; // A4 standard width
+const PAGE_HEIGHT = 841.89; // A4 standard height
+const CONTENT_WIDTH = PAGE_WIDTH - LEFT_MARGIN - RIGHT_MARGIN; // ~511pt
+
 function formatExamTitle(e) {
     const sem = e.semester ? e.semester.replace(/Semester(\d)/, 'Semester $1') : '';
     const type = e.examType ? (e.examType.includes('Final') ? 'Final Examination' : e.examType.includes('Mid') ? `${e.examType} Examination` : `${e.examType} Exam`) : 'Examination';
@@ -22,26 +31,43 @@ function generateCleanPdfForExam(exam, questions) {
     return new Promise((resolve, reject) => {
         const doc = new PDFDocument({
             size: 'A4',
-            margins: { top: 32, bottom: 32, left: 40, right: 40 },
-            bufferPages: true
+            margins: { top: 34, bottom: 38, left: LEFT_MARGIN, right: RIGHT_MARGIN },
+            bufferPages: true,
+            autoFirstPage: true
         });
+
+        // Register full Unicode font
+        if (fs.existsSync(fontRegular) && fs.existsSync(fontBold)) {
+            doc.registerFont('Regular', fontRegular);
+            doc.registerFont('Bold', fontBold);
+        } else {
+            doc.registerFont('Regular', 'Helvetica');
+            doc.registerFont('Bold', 'Helvetica-Bold');
+        }
 
         const writeStream = fs.createWriteStream(fullOutPath);
         doc.pipe(writeStream);
 
         // Header
-        doc.fontSize(13).font('Helvetica-Bold').text('Blessed G/Michael Catholic Secondary School', { align: 'center' });
-        doc.fontSize(11).font('Helvetica-Bold').text(formatExamTitle(exam), { align: 'center' });
-        doc.moveDown(0.2);
+        doc.fontSize(13.5).font('Bold').text('Blessed G/Michael Catholic Secondary School', LEFT_MARGIN, doc.y, { align: 'center', width: CONTENT_WIDTH });
+        doc.moveDown(0.18);
+        doc.fontSize(11).font('Bold').text(formatExamTitle(exam), LEFT_MARGIN, doc.y, { align: 'center', width: CONTENT_WIDTH });
+        doc.moveDown(0.25);
 
         const isMid = exam.examType && exam.examType.toLowerCase().includes('mid');
         const timeStr = isMid ? "Time Allowed: 1:30'" : "Time Allowed: 2:00'";
-        doc.fontSize(9.5).font('Helvetica').text(`Academic Year: 2024 / 2018 E.C.                                                                                     ${timeStr}`, { align: 'center' });
-        doc.moveDown(0.3);
-        doc.fontSize(9.5).font('Helvetica').text(`Name: _____________________________________   Grade & Sec: ${exam.grade || ''} _____   R.No: ______`, { align: 'left' });
-        doc.moveDown(0.4);
+        doc.fontSize(9.5).font('Regular').text(`Academic Year: 2024 / 2018 E.C.                                                                                     ${timeStr}`, LEFT_MARGIN, doc.y, { align: 'center', width: CONTENT_WIDTH });
+        doc.moveDown(0.35);
 
-        // Group questions by type
+        doc.fontSize(9.5).font('Bold').text('Name: ', LEFT_MARGIN, doc.y, { continued: true });
+        doc.font('Regular').text('_____________________________________    ', { continued: true });
+        doc.font('Bold').text(`Grade & Sec: `, { continued: true });
+        doc.font('Regular').text(`${exam.grade || ''} _____    `, { continued: true });
+        doc.font('Bold').text('R.No: ', { continued: true });
+        doc.font('Regular').text('______');
+        doc.moveDown(0.45);
+
+        // Group questions
         const tfQuestions = [];
         const matchQuestions = [];
         const mcqQuestions = [];
@@ -64,141 +90,217 @@ function generateCleanPdfForExam(exam, questions) {
         let currentSectionNum = 1;
         const romanNums = ['I', 'II', 'III', 'IV', 'V'];
 
-        function ensureSpace(heightNeeded = 36) {
-            if (doc.y + heightNeeded > 780) {
+        function ensureSpace(heightNeeded = 40) {
+            if (doc.y + heightNeeded > PAGE_HEIGHT - 48) {
                 doc.addPage();
+                doc.x = LEFT_MARGIN;
             }
         }
 
         // Section 1: True / False
         if (tfQuestions.length > 0) {
             ensureSpace(50);
-            doc.fontSize(10).font('Helvetica-Bold').text(`${romanNums[currentSectionNum - 1]}. Write 'True' if the statement is correct and 'False' if it is incorrect.`, { underline: true });
-            doc.moveDown(0.3);
+            doc.x = LEFT_MARGIN;
+            doc.fontSize(10).font('Bold').text(`${romanNums[currentSectionNum - 1]}. Write 'True' if the statement is correct and 'False' if it is incorrect.`, LEFT_MARGIN, doc.y, { underline: true, width: CONTENT_WIDTH });
+            doc.moveDown(0.35);
             currentSectionNum++;
 
             tfQuestions.forEach(q => {
                 ensureSpace(32);
+                doc.x = LEFT_MARGIN;
                 const cleanQText = q.question.replace(/^True or False:\s*/i, '').replace(/^True\/False:\s*/i, '').trim();
-                doc.fontSize(9.5).font('Helvetica-Bold').text(`____ ${q.origIdx}. `, { continued: true });
-                doc.font('Helvetica').text(cleanQText);
-                doc.moveDown(0.25);
+                doc.fontSize(9.5).font('Bold').text(`____ ${q.origIdx}. `, LEFT_MARGIN, doc.y, { continued: true });
+                doc.font('Regular').text(cleanQText, { width: CONTENT_WIDTH - 15 });
+                doc.moveDown(0.3);
+                doc.x = LEFT_MARGIN;
             });
-            doc.moveDown(0.3);
+            doc.moveDown(0.35);
         }
 
         // Section 2: Matching
         if (matchQuestions.length > 0) {
             ensureSpace(50);
-            doc.fontSize(10).font('Helvetica-Bold').text(`${romanNums[currentSectionNum - 1]}. Match the items under Column A with the correct descriptions under Column B.`, { underline: true });
-            doc.moveDown(0.3);
+            doc.x = LEFT_MARGIN;
+            doc.fontSize(10).font('Bold').text(`${romanNums[currentSectionNum - 1]}. Match the items under Column A with the correct descriptions under Column B.`, LEFT_MARGIN, doc.y, { underline: true, width: CONTENT_WIDTH });
+            doc.moveDown(0.35);
             currentSectionNum++;
 
             matchQuestions.forEach(q => {
                 ensureSpace(45);
-                doc.fontSize(9.5).font('Helvetica-Bold').text(`${q.origIdx}. `, { continued: true });
-                doc.font('Helvetica').text(q.question);
-                doc.moveDown(0.15);
+                doc.x = LEFT_MARGIN;
+                doc.fontSize(9.5).font('Bold').text(`${q.origIdx}. `, LEFT_MARGIN, doc.y, { continued: true });
+                doc.font('Regular').text(q.question, { width: CONTENT_WIDTH - 20 });
+                doc.moveDown(0.2);
+                doc.x = LEFT_MARGIN;
+
                 if (q.options && q.options.length > 0) {
                     const optLabels = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
                     q.options.forEach((opt, oIdx) => {
                         ensureSpace(16);
-                        doc.fontSize(9).font('Helvetica-Bold').text(`     ${optLabels[oIdx] || '*'}. `, { continued: true });
-                        doc.font('Helvetica').text(String(opt));
+                        doc.x = LEFT_MARGIN + 22;
+                        doc.fontSize(9).font('Bold').text(`${optLabels[oIdx] || '*'}. `, LEFT_MARGIN + 22, doc.y, { continued: true });
+                        doc.font('Regular').text(String(opt), { width: CONTENT_WIDTH - 30 });
                     });
                 }
-                doc.moveDown(0.25);
+                doc.moveDown(0.3);
+                doc.x = LEFT_MARGIN;
             });
-            doc.moveDown(0.3);
+            doc.moveDown(0.35);
         }
 
-        // Section 3: Multiple Choice
+        // Section 3: Multiple Choice Questions
         if (mcqQuestions.length > 0) {
             ensureSpace(50);
-            doc.fontSize(10).font('Helvetica-Bold').text(`${romanNums[currentSectionNum - 1]}. Choose the best answer among the given alternatives.`, { underline: true });
-            doc.moveDown(0.3);
+            doc.x = LEFT_MARGIN;
+            doc.fontSize(10).font('Bold').text(`${romanNums[currentSectionNum - 1]}. Choose the best answer among the given alternatives.`, LEFT_MARGIN, doc.y, { underline: true, width: CONTENT_WIDTH });
+            doc.moveDown(0.35);
             currentSectionNum++;
 
             mcqQuestions.forEach(q => {
-                ensureSpace(48);
-                doc.fontSize(9.5).font('Helvetica-Bold').text(`____ ${q.origIdx}. `, { continued: true });
-                doc.font('Helvetica').text(q.question);
-                doc.moveDown(0.15);
-
                 const optLabels = ['A', 'B', 'C', 'D', 'E', 'F'];
-                const opts = q.options || [];
+                const opts = (q.options || []).map(o => String(o).trim());
 
-                const areShort = opts.every(o => String(o).length < 24);
-                if (areShort && opts.length === 4) {
-                    ensureSpace(20);
-                    const yOpt = doc.y;
-                    doc.fontSize(9).font('Helvetica-Bold').text(`     A. `, 40, yOpt, { continued: true });
-                    doc.font('Helvetica').text(String(opts[0]));
+                // Measure question height
+                doc.fontSize(9.5).font('Regular');
+                const qHeight = doc.heightOfString(`____ ${q.origIdx}. ${q.question}`, { width: CONTENT_WIDTH });
+                ensureSpace(qHeight + 45);
 
-                    doc.fontSize(9).font('Helvetica-Bold').text(`B. `, 180, yOpt, { continued: true });
-                    doc.font('Helvetica').text(String(opts[1]));
+                // Print Question text
+                doc.x = LEFT_MARGIN;
+                doc.fontSize(9.5).font('Bold').text(`____ ${q.origIdx}. `, LEFT_MARGIN, doc.y, { continued: true });
+                doc.font('Regular').text(q.question, { width: CONTENT_WIDTH - 15 });
+                doc.moveDown(0.2);
 
-                    doc.fontSize(9).font('Helvetica-Bold').text(`C. `, 310, yOpt, { continued: true });
-                    doc.font('Helvetica').text(String(opts[2]));
+                const maxOptLen = opts.reduce((max, o) => Math.max(max, o.length), 0);
+                const hasMultiline = opts.some(o => o.includes('\n'));
 
-                    doc.fontSize(9).font('Helvetica-Bold').text(`D. `, 435, yOpt, { continued: true });
-                    doc.font('Helvetica').text(String(opts[3]));
+                // CASE 1: 4 Short options (<= 14 chars, e.g. numbers, short sets, variables)
+                // Dispersed in 4 distinct columns across the page
+                if (opts.length === 4 && maxOptLen <= 14 && !hasMultiline) {
+                    ensureSpace(22);
+                    const yRow = doc.y;
+                    const colWidth = 118;
+                    const colStarts = [
+                        LEFT_MARGIN + 20,
+                        LEFT_MARGIN + 145,
+                        LEFT_MARGIN + 270,
+                        LEFT_MARGIN + 395
+                    ];
 
-                    doc.y = yOpt + 14;
-                } else if (areShort && opts.length === 2) {
-                    ensureSpace(20);
-                    const yOpt = doc.y;
-                    doc.fontSize(9).font('Helvetica-Bold').text(`     A. `, 40, yOpt, { continued: true });
-                    doc.font('Helvetica').text(String(opts[0]));
-
-                    doc.fontSize(9).font('Helvetica-Bold').text(`B. `, 260, yOpt, { continued: true });
-                    doc.font('Helvetica').text(String(opts[1]));
-
-                    doc.y = yOpt + 14;
-                } else {
-                    opts.forEach((opt, oIdx) => {
-                        ensureSpace(16);
-                        doc.fontSize(9).font('Helvetica-Bold').text(`     ${optLabels[oIdx] || '*'}. `, { continued: true });
-                        doc.font('Helvetica').text(String(opt));
-                    });
+                    let maxHeight = 14;
+                    for (let i = 0; i < 4; i++) {
+                        doc.fontSize(9).font('Bold').text(`${optLabels[i]}. `, colStarts[i], yRow, { continued: true, width: colWidth });
+                        doc.font('Regular').text(opts[i], { width: colWidth - 16 });
+                        const h = doc.y - yRow;
+                        if (h > maxHeight) maxHeight = h;
+                    }
+                    doc.y = yRow + maxHeight + 4;
+                    doc.x = LEFT_MARGIN;
                 }
-                doc.moveDown(0.25);
+                // CASE 2: Medium options (<= 38 chars) -> Dispersed in 2 columns (Row 1: A & B; Row 2: C & D)
+                else if (opts.length === 4 && maxOptLen <= 38 && !hasMultiline) {
+                    ensureSpace(42);
+                    const colWidth = 238;
+                    const col1 = LEFT_MARGIN + 20;
+                    const col2 = LEFT_MARGIN + 272;
+
+                    // Row 1: A & B
+                    let yRow = doc.y;
+                    doc.fontSize(9).font('Bold').text(`A. `, col1, yRow, { continued: true, width: colWidth });
+                    doc.font('Regular').text(opts[0], { width: colWidth - 18 });
+                    const hA = doc.y - yRow;
+
+                    doc.fontSize(9).font('Bold').text(`B. `, col2, yRow, { continued: true, width: colWidth });
+                    doc.font('Regular').text(opts[1], { width: colWidth - 18 });
+                    const hB = doc.y - yRow;
+
+                    const row1H = Math.max(hA, hB, 13);
+                    yRow = yRow + row1H + 3;
+
+                    // Row 2: C & D
+                    doc.fontSize(9).font('Bold').text(`C. `, col1, yRow, { continued: true, width: colWidth });
+                    doc.font('Regular').text(opts[2], { width: colWidth - 18 });
+                    const hC = doc.y - yRow;
+
+                    doc.fontSize(9).font('Bold').text(`D. `, col2, yRow, { continued: true, width: colWidth });
+                    doc.font('Regular').text(opts[3], { width: colWidth - 18 });
+                    const hD = doc.y - yRow;
+
+                    const row2H = Math.max(hC, hD, 13);
+                    doc.y = yRow + row2H + 4;
+                    doc.x = LEFT_MARGIN;
+                }
+                // CASE 3: 2 Options (e.g. True/False or 2 choices <= 38 chars)
+                else if (opts.length === 2 && maxOptLen <= 38 && !hasMultiline) {
+                    ensureSpace(22);
+                    const yRow = doc.y;
+                    const colWidth = 238;
+                    doc.fontSize(9).font('Bold').text(`A. `, LEFT_MARGIN + 20, yRow, { continued: true, width: colWidth });
+                    doc.font('Regular').text(opts[0], { width: colWidth - 18 });
+
+                    doc.fontSize(9).font('Bold').text(`B. `, LEFT_MARGIN + 272, yRow, { continued: true, width: colWidth });
+                    doc.font('Regular').text(opts[1], { width: colWidth - 18 });
+
+                    doc.y = yRow + 16;
+                    doc.x = LEFT_MARGIN;
+                }
+                // CASE 4: Long descriptive options -> Indented list stacked vertically
+                else {
+                    opts.forEach((opt, oIdx) => {
+                        ensureSpace(18);
+                        doc.x = LEFT_MARGIN + 20;
+                        doc.fontSize(9).font('Bold').text(`${optLabels[oIdx] || '*'}. `, LEFT_MARGIN + 20, doc.y, { continued: true, width: CONTENT_WIDTH - 25 });
+                        doc.font('Regular').text(opt, { width: CONTENT_WIDTH - 42 });
+                        doc.moveDown(0.12);
+                    });
+                    doc.x = LEFT_MARGIN;
+                }
+
+                // Generous vertical breathing space between questions
+                doc.moveDown(0.35);
+                doc.x = LEFT_MARGIN;
             });
-            doc.moveDown(0.3);
+            doc.moveDown(0.35);
         }
 
         // Section 4: Workout
         if (workoutQuestions.length > 0) {
             ensureSpace(50);
-            doc.fontSize(10).font('Helvetica-Bold').text(`${romanNums[currentSectionNum - 1]}. Workout: Show all necessary steps clearly.`, { underline: true });
-            doc.moveDown(0.3);
+            doc.x = LEFT_MARGIN;
+            doc.fontSize(10).font('Bold').text(`${romanNums[currentSectionNum - 1]}. Workout: Show all necessary steps clearly.`, LEFT_MARGIN, doc.y, { underline: true, width: CONTENT_WIDTH });
+            doc.moveDown(0.35);
             currentSectionNum++;
 
             workoutQuestions.forEach(q => {
-                ensureSpace(85);
-                doc.fontSize(9.5).font('Helvetica-Bold').text(`${q.origIdx}. `, { continued: true });
-                doc.font('Helvetica').text(q.question);
+                ensureSpace(90);
+                doc.x = LEFT_MARGIN;
+                doc.fontSize(9.5).font('Bold').text(`${q.origIdx}. `, LEFT_MARGIN, doc.y, { continued: true });
+                doc.font('Regular').text(q.question, { width: CONTENT_WIDTH - 20 });
                 doc.moveDown(0.2);
 
                 const boxY = doc.y + 4;
-                doc.rect(40, boxY, 515, 65).stroke('#cccccc');
-                doc.fontSize(8.5).font('Helvetica-Oblique').fillColor('#888888').text('Solution space / working steps:', 46, boxY + 6);
+                doc.rect(LEFT_MARGIN, boxY, CONTENT_WIDTH, 68).stroke('#cccccc');
+                doc.fontSize(8.5).font('Regular').fillColor('#888888').text('Solution space / working steps:', LEFT_MARGIN + 6, boxY + 6);
                 doc.fillColor('#000000');
-                doc.y = boxY + 72;
-                doc.moveDown(0.3);
+                doc.y = boxY + 76;
+                doc.moveDown(0.35);
+                doc.x = LEFT_MARGIN;
             });
         }
 
-        // Add page numbers
+        // Add page numbers without causing accidental page breaks
         const totalPages = doc.bufferedPageRange().count;
         for (let i = 0; i < totalPages; i++) {
             doc.switchToPage(i);
-            doc.fontSize(8).font('Helvetica').fillColor('#888888').text(
+            const oldBottomMargin = doc.page.margins.bottom;
+            doc.page.margins.bottom = 0;
+            doc.fontSize(8).font('Regular').fillColor('#888888').text(
                 `Page ${i + 1} of ${totalPages} - Blessed G/Michael Catholic Secondary School Past Exam Archive`,
-                40,
-                800,
-                { align: 'center', width: 515 }
+                LEFT_MARGIN,
+                PAGE_HEIGHT - 24,
+                { align: 'center', width: CONTENT_WIDTH, lineBreak: false }
             );
+            doc.page.margins.bottom = oldBottomMargin;
         }
 
         doc.end();
@@ -214,7 +316,7 @@ function generateCleanPdfForExam(exam, questions) {
 async function run() {
     const list = [];
     db.exams.forEach(e => {
-        // Skip Grade 10 Math Mid 2 and Grade 11 Chem Mid 1 since they already have specialized custom layouts
+        // Skip Grade 10 Math Mid 2 and Grade 11 Chem Mid 1 since they have custom scripts, unless requested
         if (e.id === 'exam_33' || e.id === 'exam_g11_chem_s1_m1') return;
 
         const qs = db.questions.filter(q => q.examId === e.id || (
@@ -228,7 +330,7 @@ async function run() {
         }
     });
 
-    console.log(`Generating clean answer-free PDFs for ${list.length} exams...`);
+    console.log(`Generating properly formatted, dispersed, readable PDFs for ${list.length} exams...`);
 
     for (const item of list) {
         try {
