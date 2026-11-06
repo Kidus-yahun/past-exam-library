@@ -8,7 +8,9 @@
         android:id="@+id/webview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:overScrollMode="never" />
+        android:overScrollMode="ifContentScrolls"
+        android:scrollbars="vertical"
+        android:nestedScrollingEnabled="true" />
 
     <ProgressBar
         android:id="@+id/progress_bar"

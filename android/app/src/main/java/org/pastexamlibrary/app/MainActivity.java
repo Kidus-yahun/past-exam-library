@@ -153,6 +153,13 @@ public class MainActivity extends AppCompatActivity {
         CookieManager.getInstance().setAcceptCookie(true);
         CookieManager.getInstance().setAcceptThirdPartyCookies(webView, true);
 
+        // Samsung One UI & Android WebView scrolling optimizations
+        webView.setOverScrollMode(View.OVER_SCROLL_IF_CONTENT_SCROLLS);
+        webView.setVerticalScrollBarEnabled(true);
+        webView.setHorizontalScrollBarEnabled(false);
+        webView.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);
+        webView.setNestedScrollingEnabled(true);
+
         webView.setWebViewClient(new AppWebViewClient());
         webView.setWebChromeClient(new AppWebChromeClient());
         webView.setDownloadListener(new AppDownloadListener());
