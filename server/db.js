@@ -156,15 +156,30 @@ class Database {
                 this.save();
             }
 
-            // Ensure activityLogs container exists and syncs with verified bundled data
-            if (bundledSeedData && Array.isArray(bundledSeedData.activityLogs)) {
-                if (!this.data.activityLogs || this.data.activityLogs.length < bundledSeedData.activityLogs.length) {
-                    this.data.activityLogs = bundledSeedData.activityLogs;
-                    this.save();
-                }
-            } else if (!this.data.activityLogs) {
+            // Ensure activityLogs container exists and contains ONLY genuine user actions (purge any synthetic seed entries)
+            if (!this.data.activityLogs || !Array.isArray(this.data.activityLogs)) {
                 this.data.activityLogs = [];
                 this.save();
+            } else {
+                const genuineLogs = this.data.activityLogs.filter(l =>
+                    l &&
+                    !l.id?.startsWith('act_seed_') &&
+                    !l.id?.startsWith('act_dl_') &&
+                    !l.id?.startsWith('act_prac_') &&
+                    !l.id?.startsWith('act_log_') &&
+                    l.username !== 'tsion.mengistu' &&
+                    l.username !== 'student1' &&
+                    l.username !== 'student2' &&
+                    l.username !== 'student3' &&
+                    l.username !== 'student4' &&
+                    l.username !== 'student5' &&
+                    l.username !== 'student6' &&
+                    l.fullName !== 'Tsion Mengistu'
+                );
+                if (genuineLogs.length !== this.data.activityLogs.length) {
+                    this.data.activityLogs = genuineLogs;
+                    this.save();
+                }
             }
         } catch (err) {
             console.warn('Failed to read db file, using seed data:', err.message);

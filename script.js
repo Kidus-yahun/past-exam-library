@@ -2515,21 +2515,22 @@ async function loadActivityStatsAndLogs(isSilent = false) {
         const statsRes = await fetch(statsUrl, {
             headers: { 'Authorization': `Bearer ${state.token}` }
         });
+        try {
+            localStorage.removeItem('pel_max_activity_stats');
+        } catch (_) {}
+
         if (statsRes.ok) {
             const data = await statsRes.json();
             const s = data.stats || {};
-            const prev = JSON.parse(localStorage.getItem('pel_max_activity_stats') || '{}');
-            const logins = Math.max(s.totalLogins || 0, prev.logins || 7);
-            const downloads = Math.max(s.totalDownloads || 0, prev.downloads || 106);
-            const practices = Math.max(s.totalPractices || 0, prev.practices || 16);
-            const avgScore = s.avgScore || prev.avgScore || 62;
-
-            localStorage.setItem('pel_max_activity_stats', JSON.stringify({ logins, downloads, practices, avgScore }));
+            const logins = Number(s.totalLogins || 0);
+            const downloads = Number(s.totalDownloads || 0);
+            const practices = Number(s.totalPractices || 0);
+            const avgScore = practices > 0 && typeof s.avgScore === 'number' ? `${s.avgScore}%` : '—';
 
             setMetricStable('act-metric-logins', logins);
             setMetricStable('act-metric-downloads', downloads);
             setMetricStable('act-metric-practices', practices);
-            setMetricStable('act-metric-avgscore', `${avgScore}%`);
+            setMetricStable('act-metric-avgscore', avgScore);
         } else {
             fallbackActivityStats();
         }
@@ -2609,15 +2610,23 @@ async function loadActivityStatsAndLogs(isSilent = false) {
 }
 
 function fallbackActivityStats() {
-    const prev = JSON.parse(localStorage.getItem('pel_max_activity_stats') || '{}');
-    const logins = prev.logins || 7;
-    const downloads = prev.downloads || 106;
-    const practices = prev.practices || 16;
-    const avgScore = prev.avgScore || 62;
+    const logs = Array.isArray(cachedActivityLogs) ? cachedActivityLogs : [];
+    const logins = logs.filter(l => l.type === 'login').length;
+    const downloads = logs.filter(l => l.type === 'download' || l.type === 'preview').length;
+    const practices = logs.filter(l => l.type === 'practice');
+    let totalScore = 0, count = 0;
+    practices.forEach(p => {
+        if (typeof p.percentage === 'number') {
+            totalScore += p.percentage;
+            count++;
+        }
+    });
+    const avgScore = count > 0 ? `${Math.round(totalScore / count)}%` : '—';
+
     setMetricStable('act-metric-logins', logins);
     setMetricStable('act-metric-downloads', downloads);
-    setMetricStable('act-metric-practices', practices);
-    setMetricStable('act-metric-avgscore', `${avgScore}%`);
+    setMetricStable('act-metric-practices', practices.length);
+    setMetricStable('act-metric-avgscore', avgScore);
 }
 
 function renderActivityTable(logs) {
