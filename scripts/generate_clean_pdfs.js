@@ -316,9 +316,6 @@ function generateCleanPdfForExam(exam, questions) {
 async function run() {
     const list = [];
     db.exams.forEach(e => {
-        // Skip Grade 10 Math Mid 2 and Grade 11 Chem Mid 1 since they have custom scripts, unless requested
-        if (e.id === 'exam_33' || e.id === 'exam_g11_chem_s1_m1') return;
-
         const qs = db.questions.filter(q => q.examId === e.id || (
             (q.grade || '').toLowerCase() === (e.grade || '').toLowerCase() &&
             (q.subject || '').toLowerCase() === (e.subject || '').toLowerCase() &&
@@ -330,7 +327,7 @@ async function run() {
         }
     });
 
-    console.log(`Generating properly formatted, dispersed, readable PDFs for ${list.length} exams...`);
+    console.log(`Generating properly formatted, dispersed, readable PDFs for ALL ${list.length} exams...`);
 
     for (const item of list) {
         try {
