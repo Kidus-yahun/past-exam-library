@@ -100,6 +100,7 @@ const UI_ICONS = {
     bolt: '<polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>',
     clock: '<circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>',
     eye: '<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>',
+    eyeOff: '<path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/>',
     trash: '<polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>',
     refresh: '<polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/>',
     export: '<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/>',
@@ -3854,7 +3855,8 @@ async function startPracticeSession(grade, semester, examType, subject, mode, ex
         flagged: {},
         startTime: Date.now(),
         timeRemaining: Math.max(questions.length * 90, 600),
-        timerInterval: null
+        timerInterval: null,
+        hideAnswers: localStorage.getItem('pel_quiz_hide_answers') === 'true'
     };
 
     if (currentQuiz.mode === 'timed') {
@@ -3877,9 +3879,10 @@ function renderQuizScreen() {
     const total = currentQuiz.questions.length;
     const progress = Math.round(((currentQuiz.currentIndex + 1) / total) * 100);
     const selected = currentQuiz.answers[q.id];
-    const isChecked = currentQuiz.checked[q.id];
-    const isFlagged = currentQuiz.flagged[q.id];
     const isTimed = currentQuiz.mode === 'timed';
+    const isHiddenMode = !isTimed && !!currentQuiz.hideAnswers;
+    const isChecked = !isHiddenMode && currentQuiz.checked[q.id];
+    const isFlagged = currentQuiz.flagged[q.id];
 
     const letters = ['A', 'B', 'C', 'D', 'E', 'F'];
 
@@ -3906,15 +3909,15 @@ function renderQuizScreen() {
                     </div>
                 </div>
 
-                <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+                <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
                     ${isTimed ? `
                         <div class="quiz-timer-pill" id="quiz-timer-display" style="display: inline-flex; align-items: center; gap: 6px;">
                             ${uiIcon('clock', 13)} ${formatTime(currentQuiz.timeRemaining)}
                         </div>
                     ` : `
-                        <span class="hub-badge hub-badge-interactive" style="margin: 0; display: inline-flex; align-items: center; gap: 5px;">
-                            ${uiIcon('bolt', 13)} Practice Mode
-                        </span>
+                        <button class="btn-secondary" style="padding: 6px 12px; font-size: 12px; display: inline-flex; align-items: center; gap: 6px; cursor: pointer; ${isHiddenMode ? 'background: rgba(16, 185, 129, 0.15); color: #34d399; border-color: rgba(16, 185, 129, 0.4);' : ''}" onclick="toggleQuizAnswerVisibility()" title="Toggle Self-Study Mode: Hide answers so you can dig on your own">
+                            ${isHiddenMode ? `${uiIcon('eyeOff', 13)} Answers Hidden (Dig Mode)` : `${uiIcon('eye', 13)} Show Answers`}
+                        </button>
                     `}
 
                     <button class="btn-secondary" style="padding: 7px 12px; font-size: 13px; display: inline-flex; align-items: center; gap: 5px; cursor: pointer;" title="Download PDF" onclick="downloadExamPaper('${currentQuiz.filePath}', '${escapeQuotes(currentQuiz.examTitle)}.pdf')">
@@ -3984,7 +3987,7 @@ function renderQuizScreen() {
                     </button>
 
                     <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-                        ${!isTimed && !isChecked ? `
+                        ${!isTimed && !isChecked && !isHiddenMode ? `
                             <button id="quiz-check-answer-btn" class="btn-primary" style="width: auto; padding: 10px 22px; display: inline-flex; align-items: center; gap: 6px; ${selected === undefined ? 'opacity: 0.5; pointer-events: none;' : ''}" onclick="checkCurrentAnswer('${q.id}')" ${selected === undefined ? 'disabled' : ''}>
                                 Check Answer ${uiIcon('check', 14)}
                             </button>
@@ -4054,6 +4057,19 @@ function selectQuizOption(qId, index) {
 
 function checkCurrentAnswer(qId) {
     currentQuiz.checked[qId] = true;
+    renderQuizScreen();
+}
+
+function toggleQuizAnswerVisibility() {
+    currentQuiz.hideAnswers = !currentQuiz.hideAnswers;
+    try {
+        localStorage.setItem('pel_quiz_hide_answers', currentQuiz.hideAnswers ? 'true' : 'false');
+    } catch (_) {}
+    if (currentQuiz.hideAnswers) {
+        showToast('Self-Study Mode ON: Answers & explanations hidden so you can dig for yourself!', 'info');
+    } else {
+        showToast('Answer hints & explanations enabled.', 'info');
+    }
     renderQuizScreen();
 }
 
