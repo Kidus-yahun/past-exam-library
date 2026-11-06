@@ -4220,14 +4220,14 @@ async function startPracticeSession(grade, semester, examType, subject, mode, ex
             qUrl += `&semester=${encodeURIComponent(semester)}`;
         }
         if (examType && examType !== 'All') {
-            qUrl += `&examType=${encodeURIComponent(examType)}`;
+            qUrl += `&examType=${encodeURIComponent(examType)}&exactOnly=true`;
         }
         let res = await fetch(qUrl);
         let data = await res.json();
         questions = data.questions || [];
 
-        // Fallback to grade & subject question bank if this specific paper tag returned 0 questions
-        if (questions.length === 0) {
+        // Fallback to grade & subject question bank ONLY if examType was not specifically requested
+        if (questions.length === 0 && (!examType || examType === 'All')) {
             res = await fetch(`/api/practice?grade=${grade}&subject=${encodeURIComponent(subject)}`);
             data = await res.json();
             questions = data.questions || [];
@@ -4242,9 +4242,15 @@ async function startPracticeSession(grade, semester, examType, subject, mode, ex
             if (raw) {
                 const allOffline = JSON.parse(raw);
                 const clean = s => (s || '').toLowerCase().replace(/[\s_-]+/g, '');
+                const cleanType = s => clean(s).replace(/exam$/i, '');
                 questions = allOffline.filter(q => {
                     if (clean(q.grade) !== clean(grade)) return false;
                     if (subject && clean(q.subject) !== clean(subject)) return false;
+                    if (examType && examType !== 'All') {
+                        const qType = cleanType(q.examType);
+                        const reqType = cleanType(examType);
+                        if (qType !== reqType && !qType.includes(reqType) && !reqType.includes(qType)) return false;
+                    }
                     return true;
                 });
             }
