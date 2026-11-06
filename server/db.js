@@ -150,6 +150,14 @@ class Database {
                 this.data = JSON.parse(raw);
             }
 
+            // Sync with bundled exams: ensure newly added past exams are synced to persistent store
+            if (bundledSeedData && bundledSeedData.exams && Array.isArray(bundledSeedData.exams)) {
+                if (!this.data.exams || this.data.exams.length < bundledSeedData.exams.length) {
+                    this.data.exams = bundledSeedData.exams;
+                    this.save();
+                }
+            }
+
             // Sync with bundled questions: ONLY keep genuine authentic questions matching bundledSeedData
             if (bundledSeedData && bundledSeedData.questions && Array.isArray(bundledSeedData.questions)) {
                 this.data.questions = bundledSeedData.questions;
