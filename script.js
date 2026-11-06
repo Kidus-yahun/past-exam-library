@@ -185,6 +185,24 @@ function promptPwaInstall() {
     }
 }
 
+function trackApkDownload() {
+    try {
+        fetch('/api/activity/log', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                ...(state.token ? { 'Authorization': `Bearer ${state.token}` } : {})
+            },
+            body: JSON.stringify({
+                type: 'download',
+                examTitle: 'Past Exam Library Android App (.APK)',
+                details: 'Downloaded official Android application package',
+                filePath: '/PastExamLibrary.apk'
+            })
+        }).catch(() => {});
+    } catch (_) {}
+}
+
 const APK_RELEASE_URL = 'https://github.com/Kidus-yahun/past-exam-library/releases/latest/download/PastExamLibrary.apk';
 
 function openDownloadApkModal() {
@@ -217,7 +235,7 @@ function openDownloadApkModal() {
             </div>
 
             <div style="display: flex; flex-direction: column; gap: 10px;">
-                <a href="${APK_RELEASE_URL}" class="btn-primary" style="display: flex; align-items: center; justify-content: center; gap: 10px; padding: 12px 16px; font-size: 14.5px; font-weight: 600; text-decoration: none; border-radius: 9px;" download="PastExamLibrary.apk" target="_blank" rel="noopener">
+                <a href="${APK_RELEASE_URL}" class="btn-primary" onclick="trackApkDownload()" style="display: flex; align-items: center; justify-content: center; gap: 10px; padding: 12px 16px; font-size: 14.5px; font-weight: 600; text-decoration: none; border-radius: 9px;" download="PastExamLibrary.apk" target="_blank" rel="noopener">
                     <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
                         <polyline points="7 10 12 15 17 10"></polyline>
