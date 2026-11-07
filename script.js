@@ -188,6 +188,18 @@ function promptPwaInstall() {
 
 function trackApkDownload() {
     try {
+        if (typeof window.gtag === 'function') {
+            window.gtag('event', 'file_download', {
+                file_name: 'PastExamLibrary.apk',
+                file_extension: 'apk',
+                link_text: 'Download APK',
+                platform: 'android'
+            });
+            window.gtag('event', 'apk_download', { platform: 'android' });
+        }
+        if (window.dataLayer && Array.isArray(window.dataLayer)) {
+            window.dataLayer.push({ event: 'apk_download', platform: 'android' });
+        }
         fetch('/api/activity/log', {
             method: 'POST',
             headers: {
@@ -475,6 +487,49 @@ async function logActivity(type, data = {}) {
             });
         }
 
+        // Broadcast custom events to Google Analytics 4 (GA4) / Tag Manager
+        try {
+            if (typeof window.gtag === 'function') {
+                if (type === 'download') {
+                    window.gtag('event', 'file_download', {
+                        file_name: data.examTitle || 'Exam Paper',
+                        file_extension: 'pdf',
+                        grade: data.grade || 'General',
+                        subject: data.subject || 'All',
+                        exam_type: data.examType || 'General',
+                        file_path: data.filePath || ''
+                    });
+                    window.gtag('event', 'exam_download', {
+                        exam_title: data.examTitle || 'Exam Paper',
+                        grade: data.grade || 'General',
+                        subject: data.subject || 'All'
+                    });
+                } else if (type === 'practice') {
+                    window.gtag('event', 'practice_completed', {
+                        grade: data.grade || '',
+                        subject: data.subject || '',
+                        exam_type: data.examType || '',
+                        score: Number(data.score || 0),
+                        percentage: Number(data.percentage || 0),
+                        total_questions: Number(data.totalQuestions || 0)
+                    });
+                } else if (type === 'login') {
+                    window.gtag('event', 'login', { method: 'student_portal' });
+                } else if (type === 'register') {
+                    window.gtag('event', 'sign_up', { method: 'student_portal' });
+                } else {
+                    window.gtag('event', type, data);
+                }
+            }
+
+            if (window.dataLayer && Array.isArray(window.dataLayer)) {
+                window.dataLayer.push({
+                    event: type === 'download' ? 'exam_download' : type,
+                    ...data
+                });
+            }
+        } catch (_) {}
+
         // Broadcast instant cross-tab sync to Admin Dashboard
         if (typeof activityChannel !== 'undefined' && activityChannel) {
             try {
@@ -743,6 +798,13 @@ function pushNavState(stateObj, title = '') {
         window.history.pushState(stateObj, title, window.location.pathname);
         if (typeof window.va === 'function' && stateObj && stateObj.view) {
             window.va('track', 'pageview', { view: stateObj.view, grade: stateObj.gradeId || 'home' });
+        }
+        if (typeof window.gtag === 'function' && stateObj && stateObj.view) {
+            window.gtag('event', 'page_view', {
+                page_title: title || stateObj.view,
+                page_location: window.location.href,
+                page_path: window.location.pathname + '#' + (stateObj.view || '') + (stateObj.gradeId ? '/' + stateObj.gradeId : '')
+            });
         }
     } catch (e) {
         console.warn('History pushState failed', e);
