@@ -2421,6 +2421,124 @@ header {
 
 .role-pill, .role-pill.admin { background: rgba(237, 232, 247, .08); color: #c4c1cc; box-shadow: none; }
 
+/* Telegram Pinned Announcement Banner */
+.telegram-banner {
+    background: linear-gradient(90deg, rgba(14, 165, 233, 0.16) 0%, rgba(99, 102, 241, 0.16) 50%, rgba(168, 85, 247, 0.16) 100%);
+    border-bottom: 1px solid rgba(56, 189, 248, 0.3);
+    color: var(--text-main);
+    padding: 9px 18px;
+    font-size: 13.5px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    z-index: 1000;
+    position: relative;
+    backdrop-filter: blur(14px);
+    transition: all 0.3s ease;
+}
+
+.telegram-banner.hidden {
+    display: none !important;
+}
+
+.telegram-banner-inner {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100%;
+    text-align: center;
+}
+
+.tg-badge {
+    background: linear-gradient(135deg, #0284c7, #38bdf8);
+    color: #ffffff;
+    font-size: 10.5px;
+    font-weight: 800;
+    padding: 3px 9px;
+    border-radius: 9999px;
+    letter-spacing: 0.6px;
+    box-shadow: 0 2px 8px rgba(2, 132, 199, 0.4);
+}
+
+.tg-text {
+    font-weight: 500;
+    color: var(--text-main);
+}
+
+.tg-banner-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: #0284c7;
+    color: #ffffff !important;
+    font-weight: 700;
+    font-size: 12.5px;
+    padding: 5px 14px;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    box-shadow: 0 3px 10px rgba(2, 132, 199, 0.35);
+}
+
+.tg-banner-btn:hover {
+    background: #0369a1;
+    transform: translateY(-1px);
+    box-shadow: 0 5px 16px rgba(2, 132, 199, 0.5);
+    color: #ffffff !important;
+}
+
+.tg-banner-close {
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    font-size: 15px;
+    cursor: pointer;
+    padding: 6px 8px;
+    border-radius: 6px;
+    line-height: 1;
+    transition: all 0.15s ease;
+}
+
+.tg-banner-close:hover {
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+/* Telegram Nav Button */
+.nav-btn.nav-btn-telegram {
+    background: rgba(14, 165, 233, 0.12);
+    border-color: rgba(56, 189, 248, 0.35);
+    color: #38bdf8;
+}
+
+.nav-btn.nav-btn-telegram:hover,
+.nav-btn.nav-btn-telegram:focus-visible {
+    background: rgba(14, 165, 233, 0.25);
+    border-color: #38bdf8;
+    color: #ffffff;
+    box-shadow: 0 4px 16px rgba(14, 165, 233, 0.35);
+}
+
+[data-theme="light"] .telegram-banner {
+    background: linear-gradient(90deg, rgba(224, 242, 254, 0.9) 0%, rgba(238, 242, 255, 0.9) 50%, rgba(250, 245, 255, 0.9) 100%);
+    border-bottom-color: rgba(56, 189, 248, 0.4);
+    color: #0f172a;
+}
+
+[data-theme="light"] .tg-banner-close:hover {
+    color: #0f172a;
+    background: rgba(0, 0, 0, 0.06);
+}
+
+[data-theme="light"] .nav-btn.nav-btn-telegram {
+    background: rgba(14, 165, 233, 0.12);
+    border-color: rgba(14, 165, 233, 0.35);
+    color: #0284c7;
+}
+
 main {
     width: min(95%, 1560px);
     margin: 0 auto;

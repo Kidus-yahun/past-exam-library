@@ -857,10 +857,35 @@ window.addEventListener('popstate', (e) => {
 });
 
 /* ========================================================
+   TELEGRAM CHANNEL ANNOUNCEMENT HELPERS
+======================================================== */
+function dismissTelegramBanner() {
+    const banner = document.getElementById('telegram-banner');
+    if (banner) {
+        banner.classList.add('hidden');
+        try {
+            sessionStorage.setItem('pel_tg_banner_dismissed', '1');
+        } catch (e) {}
+    }
+}
+
+function initTelegramBanner() {
+    try {
+        if (sessionStorage.getItem('pel_tg_banner_dismissed') === '1') {
+            const banner = document.getElementById('telegram-banner');
+            if (banner) banner.classList.add('hidden');
+        }
+    } catch (e) {}
+}
+
+/* ========================================================
    INITIALIZATION & API HELPERS
 ======================================================== */
 
 async function initApp() {
+    // 0. Initialize Telegram Banner state
+    initTelegramBanner();
+
     // 1. Initialize Theme synchronously (zero flash)
     const currentTheme = getTheme();
     document.documentElement.setAttribute('data-theme', currentTheme);
@@ -1112,6 +1137,15 @@ function renderHeader() {
     const isFormulasActive = state.currentView === 'formulas' || state.currentView === 'formulaGrades' || state.currentView === 'formulaSubjects' || state.currentView === 'formulaSheet';
     const isStudyHubActive = state.currentView === 'studyhub';
 
+    const telegramBtn = `
+        <a href="https://t.me/BGMCS1236" target="_blank" rel="noopener noreferrer" class="nav-btn nav-btn-telegram" data-tooltip="Join Telegram Channel (@BGMCS1236)" aria-label="Join our Telegram Channel @BGMCS1236">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/>
+            </svg>
+            <span class="nav-btn-label">Telegram</span>
+        </a>
+    `;
+
     if (!state.user) {
         headerNav.innerHTML = `
             ${pwaControls}
@@ -1127,6 +1161,7 @@ function renderHeader() {
                 ${uiIcon('bookmark', 15)}
                 <span class="nav-btn-label">My study hub</span>
             </button>
+            ${telegramBtn}
             ${themeToggleBtn}
             <button class="nav-btn nav-btn-signin" onclick="setView('login')" data-tooltip="Sign in" aria-label="Sign in">
                 ${uiIcon('user', 15)}
@@ -1172,6 +1207,7 @@ function renderHeader() {
             </button>
         ` : ''}
 
+        ${telegramBtn}
         ${themeToggleBtn}
 
         <button class="nav-btn" onclick="logout()" data-tooltip="Sign out" aria-label="Sign out">
