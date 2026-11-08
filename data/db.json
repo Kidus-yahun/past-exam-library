@@ -14287,6 +14287,2922 @@
       "correctAnswer": 0,
       "explanation": "Convert to exponential form: log_x 3 = 1/3 <=> x^(1/3) = 3. Cube both sides: (x^(1/3))^3 = 3^3 => x = 27.",
       "points": 1
+    },
+    {
+      "id": "q_g10_math_m1_03",
+      "examId": "exam_22",
+      "grade": "Grade10",
+      "subject": "Mathematics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Which of the following relations is a function?",
+      "options": [
+        "{(1, 2), (1, 3), (2, 4)}",
+        "{(2, 5), (3, 7), (4, 9), (5, 11)}",
+        "{(3, 1), (3, 2), (3, 3)}",
+        "{(0, 1), (0, -1), (2, 3)}"
+      ],
+      "correctAnswer": 1,
+      "explanation": "A relation is a function if and only if each element of the domain is paired with exactly one element in the range. In {(2, 5), (3, 7), (4, 9), (5, 11)}, all first coordinates are distinct.",
+      "points": 1
+    },
+    {
+      "id": "q_g10_math_m1_04",
+      "examId": "exam_22",
+      "grade": "Grade10",
+      "subject": "Mathematics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "What is the domain of the function f(x) = sqrt(2x - 6)?",
+      "options": [
+        "{x in R | x >= 3}",
+        "{x in R | x > 3}",
+        "{x in R | x <= 3}",
+        "{x in R | x != 3}"
+      ],
+      "correctAnswer": 0,
+      "explanation": "For a real square root function, the radicand must be non-negative: 2x - 6 >= 0 => 2x >= 6 => x >= 3.",
+      "points": 1
+    },
+    {
+      "id": "q_g10_math_m1_05",
+      "examId": "exam_22",
+      "grade": "Grade10",
+      "subject": "Mathematics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "What is the remainder when P(x) = 2x^3 - 4x^2 + 5x - 3 is divided by (x - 2)?",
+      "options": [
+        "3",
+        "5",
+        "7",
+        "11"
+      ],
+      "correctAnswer": 2,
+      "explanation": "By the Remainder Theorem, the remainder is P(2) = 2(2)^3 - 4(2)^2 + 5(2) - 3 = 16 - 16 + 10 - 3 = 7.",
+      "points": 1
+    },
+    {
+      "id": "q_g10_math_m1_06",
+      "examId": "exam_22",
+      "grade": "Grade10",
+      "subject": "Mathematics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "If (x - 1) is a factor of P(x) = x^3 - 3x^2 + kx + 2, what is the value of k?",
+      "options": [
+        "-2",
+        "0",
+        "1",
+        "2"
+      ],
+      "correctAnswer": 1,
+      "explanation": "By the Factor Theorem, P(1) = 0 => (1)^3 - 3(1)^2 + k(1) + 2 = 0 => 1 - 3 + k + 2 = 0 => k = 0.",
+      "points": 1
+    },
+    {
+      "id": "q_g10_math_m1_07",
+      "examId": "exam_22",
+      "grade": "Grade10",
+      "subject": "Mathematics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "What is the vertex of the parabola f(x) = 2(x - 3)^2 + 5?",
+      "options": [
+        "(-3, 5)",
+        "(3, 5)",
+        "(3, -5)",
+        "(-3, -5)"
+      ],
+      "correctAnswer": 1,
+      "explanation": "In vertex form f(x) = a(x - h)^2 + k, the vertex is (h, k). Here h = 3 and k = 5, so the vertex is (3, 5).",
+      "points": 1
+    },
+    {
+      "id": "q_g10_math_m1_09",
+      "examId": "exam_22",
+      "grade": "Grade10",
+      "subject": "Mathematics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "What are the zeros of the polynomial f(x) = x^2 - 7x + 12?",
+      "options": [
+        "x = -3 and x = -4",
+        "x = 3 and x = 4",
+        "x = 2 and x = 6",
+        "x = -2 and x = -6"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Factoring: (x - 3)(x - 4) = 0 gives x = 3 and x = 4.",
+      "points": 1
+    },
+    {
+      "id": "q_g10_math_m1_10",
+      "examId": "exam_22",
+      "grade": "Grade10",
+      "subject": "Mathematics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "The axis of symmetry of the quadratic function y = -x^2 + 6x - 8 is:",
+      "options": [
+        "x = -3",
+        "x = 3",
+        "x = 6",
+        "x = 1"
+      ],
+      "correctAnswer": 1,
+      "explanation": "The axis of symmetry is given by x = -b / (2a) = -6 / (2 * -1) = 3.",
+      "points": 1
+    },
+    {
+      "id": "q_g10_math_m1_11",
+      "examId": "exam_22",
+      "grade": "Grade10",
+      "subject": "Mathematics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "What is the solution of 3^(2x - 1) = 27?",
+      "options": [
+        "x = 1",
+        "x = 2",
+        "x = 3",
+        "x = 4"
+      ],
+      "correctAnswer": 1,
+      "explanation": "27 = 3^3. Therefore, 2x - 1 = 3 => 2x = 4 => x = 2.",
+      "points": 1
+    },
+    {
+      "id": "q_g10_math_m1_12",
+      "examId": "exam_22",
+      "grade": "Grade10",
+      "subject": "Mathematics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Evaluate log_2(32) - log_3(81):",
+      "options": [
+        "-1",
+        "0",
+        "1",
+        "2"
+      ],
+      "correctAnswer": 2,
+      "explanation": "log_2(32) = 5 because 2^5 = 32. log_3(81) = 4 because 3^4 = 81. Thus, 5 - 4 = 1.",
+      "points": 1
+    },
+    {
+      "id": "q_g10_math_m1_13",
+      "examId": "exam_22",
+      "grade": "Grade10",
+      "subject": "Mathematics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "If f(x) = 3x - 2 and g(x) = x^2 + 1, find (f o g)(2):",
+      "options": [
+        "13",
+        "15",
+        "17",
+        "21"
+      ],
+      "correctAnswer": 0,
+      "explanation": "g(2) = (2)^2 + 1 = 5. Then f(g(2)) = f(5) = 3(5) - 2 = 13.",
+      "points": 1
+    },
+    {
+      "id": "q_g10_math_m1_14",
+      "examId": "exam_22",
+      "grade": "Grade10",
+      "subject": "Mathematics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "What is the inverse of the function f(x) = (2x + 3) / 5?",
+      "options": [
+        "f^(-1)(x) = (5x - 3) / 2",
+        "f^(-1)(x) = (5x + 3) / 2",
+        "f^(-1)(x) = (2x - 5) / 3",
+        "f^(-1)(x) = 5 / (2x + 3)"
+      ],
+      "correctAnswer": 0,
+      "explanation": "Let y = (2x + 3)/5 => 5y = 2x + 3 => 2x = 5y - 3 => x = (5y - 3)/2. Swapping variables gives f^(-1)(x) = (5x - 3)/2.",
+      "points": 1
+    },
+    {
+      "id": "q_g10_math_m1_15",
+      "examId": "exam_22",
+      "grade": "Grade10",
+      "subject": "Mathematics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Which of the following is the discriminant of the equation 2x^2 - 4x + 3 = 0?",
+      "options": [
+        "-8",
+        "8",
+        "-40",
+        "40"
+      ],
+      "correctAnswer": 0,
+      "explanation": "Discriminant Delta = b^2 - 4ac = (-4)^2 - 4(2)(3) = 16 - 24 = -8. Since Delta < 0, there are no real roots.",
+      "points": 1
+    },
+    {
+      "id": "q_g10_phys_m1_01",
+      "examId": "exam_23",
+      "grade": "Grade10",
+      "subject": "Physics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Which of the following is a pure vector quantity?",
+      "options": [
+        "Speed",
+        "Mass",
+        "Displacement",
+        "Kinetic energy"
+      ],
+      "correctAnswer": 2,
+      "explanation": "Displacement has both magnitude and a specific direction, making it a vector quantity, unlike speed, mass, or kinetic energy which are scalars.",
+      "points": 1
+    },
+    {
+      "id": "q_g10_phys_m1_02",
+      "examId": "exam_23",
+      "grade": "Grade10",
+      "subject": "Physics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Two vectors of magnitudes 3 N and 4 N act at a right angle (90 degrees) to each other. What is their resultant magnitude?",
+      "options": [
+        "1 N",
+        "5 N",
+        "7 N",
+        "12 N"
+      ],
+      "correctAnswer": 1,
+      "explanation": "By the Pythagorean theorem: R = sqrt(3^2 + 4^2) = sqrt(9 + 16) = sqrt(25) = 5 N.",
+      "points": 1
+    },
+    {
+      "id": "q_g10_phys_m1_03",
+      "examId": "exam_23",
+      "grade": "Grade10",
+      "subject": "Physics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "A car accelerates uniformly from rest to 20 m/s in 5 seconds. What is its acceleration?",
+      "options": [
+        "2 m/s^2",
+        "4 m/s^2",
+        "5 m/s^2",
+        "10 m/s^2"
+      ],
+      "correctAnswer": 1,
+      "explanation": "a = (v - u) / t = (20 - 0) / 5 = 4 m/s^2.",
+      "points": 1
+    },
+    {
+      "id": "q_g10_phys_m1_04",
+      "examId": "exam_23",
+      "grade": "Grade10",
+      "subject": "Physics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "How far does a body travel during 4 seconds of free fall from rest? (Take g = 10 m/s^2)",
+      "options": [
+        "40 m",
+        "60 m",
+        "80 m",
+        "100 m"
+      ],
+      "correctAnswer": 2,
+      "explanation": "s = ut + (1/2)gt^2. Since u = 0: s = (1/2)(10)(4^2) = 5 * 16 = 80 m.",
+      "points": 1
+    },
+    {
+      "id": "q_g10_phys_m1_05",
+      "examId": "exam_23",
+      "grade": "Grade10",
+      "subject": "Physics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "In projectile motion, what happens to the horizontal velocity component (neglecting air resistance)?",
+      "options": [
+        "It increases continuously",
+        "It decreases continuously",
+        "It remains constant throughout the flight",
+        "It becomes zero at maximum height"
+      ],
+      "correctAnswer": 2,
+      "explanation": "Since gravity acts only vertically downwards, there is zero horizontal acceleration (ax = 0). Thus, horizontal velocity vx remains constant.",
+      "points": 1
+    },
+    {
+      "id": "q_g10_phys_m1_06",
+      "examId": "exam_23",
+      "grade": "Grade10",
+      "subject": "Physics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "What launch angle produces the maximum horizontal range for a projectile launched on level ground?",
+      "options": [
+        "30 degrees",
+        "45 degrees",
+        "60 degrees",
+        "90 degrees"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Range R = (u^2 * sin(2*theta)) / g. The maximum value occurs when sin(2*theta) = 1 => 2*theta = 90 => theta = 45 degrees.",
+      "points": 1
+    },
+    {
+      "id": "q_g10_phys_m1_07",
+      "examId": "exam_23",
+      "grade": "Grade10",
+      "subject": "Physics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Newton’s First Law of Motion is also known as the Law of:",
+      "options": [
+        "Acceleration",
+        "Conservation of Momentum",
+        "Inertia",
+        "Gravitation"
+      ],
+      "correctAnswer": 2,
+      "explanation": "Newton’s First Law defines inertia: an object remains at rest or in uniform motion unless acted upon by a net external force.",
+      "points": 1
+    },
+    {
+      "id": "q_g10_phys_m1_08",
+      "examId": "exam_23",
+      "grade": "Grade10",
+      "subject": "Physics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "A net force of 50 N acts on an object of mass 10 kg. What is the resulting acceleration?",
+      "options": [
+        "0.2 m/s^2",
+        "5 m/s^2",
+        "50 m/s^2",
+        "500 m/s^2"
+      ],
+      "correctAnswer": 1,
+      "explanation": "By Newton’s Second Law: a = F / m = 50 N / 10 kg = 5 m/s^2.",
+      "points": 1
+    },
+    {
+      "id": "q_g10_phys_m1_09",
+      "examId": "exam_23",
+      "grade": "Grade10",
+      "subject": "Physics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Action and reaction force pairs mentioned in Newton’s Third Law:",
+      "options": [
+        "Act on the same object and cancel each other",
+        "Act on two different interacting bodies",
+        "Are unequal in magnitude when there is acceleration",
+        "Act in the same direction"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Newton’s Third Law forces are equal in magnitude, opposite in direction, and act on two distinct objects, which is why they never cancel each other.",
+      "points": 1
+    },
+    {
+      "id": "q_g10_phys_m1_10",
+      "examId": "exam_23",
+      "grade": "Grade10",
+      "subject": "Physics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "The coefficient of static friction (mu_s) compared to kinetic friction (mu_k) for the same surfaces is generally:",
+      "options": [
+        "Greater",
+        "Smaller",
+        "Equal",
+        "Zero"
+      ],
+      "correctAnswer": 0,
+      "explanation": "It takes more force to initiate motion from rest than to maintain motion; hence mu_s is always greater than mu_k.",
+      "points": 1
+    },
+    {
+      "id": "q_g10_chem_m1_01",
+      "examId": "exam_15",
+      "grade": "Grade10",
+      "subject": "Chemistry",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "What is the general molecular formula of saturated hydrocarbons (Alkanes)?",
+      "options": [
+        "CnH2n",
+        "CnH2n+2",
+        "CnH2n-2",
+        "CnH2n-6"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Alkanes contain single carbon-carbon bonds and adhere to the general formula CnH2n+2.",
+      "points": 1
+    },
+    {
+      "id": "q_g10_chem_m1_02",
+      "examId": "exam_15",
+      "grade": "Grade10",
+      "subject": "Chemistry",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "What is the hybridization of carbon atoms in an alkane molecule like methane (CH4)?",
+      "options": [
+        "sp",
+        "sp2",
+        "sp3",
+        "dsp2"
+      ],
+      "correctAnswer": 2,
+      "explanation": "In alkanes, carbon forms four single sigma bonds with tetrahedral geometry and 109.5 degree bond angles, which corresponds to sp3 hybridization.",
+      "points": 1
+    },
+    {
+      "id": "q_g10_chem_m1_03",
+      "examId": "exam_15",
+      "grade": "Grade10",
+      "subject": "Chemistry",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "What is the IUPAC name for the hydrocarbon CH3-CH(CH3)-CH2-CH3?",
+      "options": [
+        "2-methylpropane",
+        "2-methylbutane",
+        "Isopentane",
+        "Dimethylpropane"
+      ],
+      "correctAnswer": 1,
+      "explanation": "The longest continuous carbon chain has 4 carbons (butane) with a methyl group on carbon 2, making it 2-methylbutane.",
+      "points": 1
+    },
+    {
+      "id": "q_g10_chem_m1_04",
+      "examId": "exam_15",
+      "grade": "Grade10",
+      "subject": "Chemistry",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "How many structural isomers does butane (C4H10) have?",
+      "options": [
+        "1",
+        "2",
+        "3",
+        "4"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Butane (C4H10) has two structural isomers: normal butane (n-butane) and 2-methylpropane (isobutane).",
+      "points": 1
+    },
+    {
+      "id": "q_g10_chem_m1_05",
+      "examId": "exam_15",
+      "grade": "Grade10",
+      "subject": "Chemistry",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Complete combustion of any hydrocarbon in excess oxygen produces:",
+      "options": [
+        "CO and H2",
+        "CO2 and H2O",
+        "C and H2O",
+        "CO2 and H2"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Complete combustion of hydrocarbons yields carbon dioxide (CO2) and water vapor (H2O), releasing substantial thermal energy.",
+      "points": 1
+    },
+    {
+      "id": "q_g10_chem_m1_06",
+      "examId": "exam_15",
+      "grade": "Grade10",
+      "subject": "Chemistry",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Which of the following hydrocarbons contains a triple bond between carbon atoms?",
+      "options": [
+        "Ethene",
+        "Ethane",
+        "Ethyne",
+        "Propene"
+      ],
+      "correctAnswer": 2,
+      "explanation": "Ethyne (acetylene, C2H2) belongs to the alkyne family and contains a carbon-carbon triple bond.",
+      "points": 1
+    },
+    {
+      "id": "q_g10_chem_m1_07",
+      "examId": "exam_15",
+      "grade": "Grade10",
+      "subject": "Chemistry",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "The reaction between methane and chlorine in the presence of ultraviolet light is an example of:",
+      "options": [
+        "Addition reaction",
+        "Substitution reaction",
+        "Elimination reaction",
+        "Polymerization"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Alkanes undergo free-radical halogenation, which is a substitution reaction where hydrogen atoms are replaced by halogen atoms.",
+      "points": 1
+    },
+    {
+      "id": "q_g10_chem_m1_08",
+      "examId": "exam_15",
+      "grade": "Grade10",
+      "subject": "Chemistry",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "According to Markovnikov’s rule, when HBr adds to propene (CH3-CH=CH2), the hydrogen atom attaches to:",
+      "options": [
+        "The carbon with fewer hydrogen atoms",
+        "The carbon with more hydrogen atoms",
+        "The central carbon exclusively",
+        "Any carbon randomly"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Markovnikov’s rule states that in the addition of HX to an unsymmetrical alkene, the hydrogen attaches to the double-bonded carbon holding the greater number of hydrogen atoms.",
+      "points": 1
+    },
+    {
+      "id": "q_g10_bio_m1_01",
+      "examId": "exam_14",
+      "grade": "Grade10",
+      "subject": "Biology",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Which organelle is considered the \"powerhouse of the cell\" responsible for ATP synthesis?",
+      "options": [
+        "Golgi apparatus",
+        "Ribosome",
+        "Mitochondrion",
+        "Lysosome"
+      ],
+      "correctAnswer": 2,
+      "explanation": "Mitochondria generate most of the chemical energy needed by the cell through cellular respiration in the form of ATP.",
+      "points": 1
+    },
+    {
+      "id": "q_g10_bio_m1_02",
+      "examId": "exam_14",
+      "grade": "Grade10",
+      "subject": "Biology",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "The movement of water molecules from a region of lower solute concentration to higher solute concentration across a semi-permeable membrane is:",
+      "options": [
+        "Active transport",
+        "Osmosis",
+        "Facilitated diffusion",
+        "Endocytosis"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Osmosis is specifically the passive diffusion of solvent (water) across a selectively permeable membrane.",
+      "points": 1
+    },
+    {
+      "id": "q_g10_bio_m1_03",
+      "examId": "exam_14",
+      "grade": "Grade10",
+      "subject": "Biology",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "During which phase of mitosis do sister chromatids separate and move toward opposite poles?",
+      "options": [
+        "Prophase",
+        "Metaphase",
+        "Anaphase",
+        "Telophase"
+      ],
+      "correctAnswer": 2,
+      "explanation": "During anaphase, the centromeres divide and the spindle fibers pull sister chromatids to opposite poles of the cell.",
+      "points": 1
+    },
+    {
+      "id": "q_g10_bio_m1_04",
+      "examId": "exam_14",
+      "grade": "Grade10",
+      "subject": "Biology",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "In which stage of the cell cycle is DNA duplicated?",
+      "options": [
+        "G1 phase",
+        "S phase",
+        "G2 phase",
+        "M phase"
+      ],
+      "correctAnswer": 1,
+      "explanation": "The S phase (Synthesis phase) of interphase is when the cell replicates its genetic material (DNA).",
+      "points": 1
+    },
+    {
+      "id": "q_g10_bio_m1_05",
+      "examId": "exam_14",
+      "grade": "Grade10",
+      "subject": "Biology",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Which biological branch specifically studies heredity and variation in living organisms?",
+      "options": [
+        "Ecology",
+        "Genetics",
+        "Cytology",
+        "Physiology"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Genetics is the branch of biology focused on how traits and genes are passed from parents to offspring.",
+      "points": 1
+    },
+    {
+      "id": "q_g10_bio_m1_06",
+      "examId": "exam_14",
+      "grade": "Grade10",
+      "subject": "Biology",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Which structure is present in plant cells but absent in typical animal cells?",
+      "options": [
+        "Cell wall and chloroplast",
+        "Ribosome and nucleus",
+        "Plasma membrane and cytoplasm",
+        "Mitochondria and vacuole"
+      ],
+      "correctAnswer": 0,
+      "explanation": "Plant cells have a rigid cellulose cell wall and photosynthetic chloroplasts, which animal cells lack.",
+      "points": 1
+    },
+    {
+      "id": "q_g10_eng_m1_03",
+      "examId": "exam_18",
+      "grade": "Grade10",
+      "subject": "English",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Choose the correct form: If you heat water to 100 degrees Celsius, it ______.",
+      "options": [
+        "boils",
+        "boiled",
+        "will boil",
+        "would boil"
+      ],
+      "correctAnswer": 0,
+      "explanation": "This is a Zero Conditional representing a scientific universal fact: If + Present Simple, Present Simple.",
+      "points": 1
+    },
+    {
+      "id": "q_g10_eng_m1_04",
+      "examId": "exam_18",
+      "grade": "Grade10",
+      "subject": "English",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Identify the passive voice: \"The laboratory report ______ by Kidist yesterday.\"",
+      "options": [
+        "was submitted",
+        "is submitted",
+        "has submitted",
+        "submitting"
+      ],
+      "correctAnswer": 0,
+      "explanation": "The action occurred in the past (\"yesterday\"), so the past simple passive form is \"was/were + past participle\" -> \"was submitted\".",
+      "points": 1
+    },
+    {
+      "id": "q_g10_eng_m1_05",
+      "examId": "exam_18",
+      "grade": "Grade10",
+      "subject": "English",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Select the correct relative pronoun: \"The scientist ______ discovered the vaccine won the award.\"",
+      "options": [
+        "which",
+        "who",
+        "whose",
+        "whom"
+      ],
+      "correctAnswer": 1,
+      "explanation": "\"Who\" is used as a subject relative pronoun to refer to people (the scientist).",
+      "points": 1
+    },
+    {
+      "id": "q_g10_eng_m1_06",
+      "examId": "exam_18",
+      "grade": "Grade10",
+      "subject": "English",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Complete the sentence: \"Neither the teacher nor the students ______ present in the auditorium.\"",
+      "options": [
+        "was",
+        "were",
+        "is",
+        "has been"
+      ],
+      "correctAnswer": 1,
+      "explanation": "When using \"neither... nor\", the verb agrees with the closer subject (\"students\", which is plural), so \"were\" is correct.",
+      "points": 1
+    },
+    {
+      "id": "q_g10_eng_m1_07",
+      "examId": "exam_18",
+      "grade": "Grade10",
+      "subject": "English",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Which word contains a prefix meaning \"against\"?",
+      "options": [
+        "Antibiotic",
+        "Prehistoric",
+        "Submarine",
+        "Supermarket"
+      ],
+      "correctAnswer": 0,
+      "explanation": "The prefix \"anti-\" means against or opposing (e.g., antibiotic = against living bacterial pathogens).",
+      "points": 1
+    },
+    {
+      "id": "q_g10_hist_m1_01",
+      "examId": "exam_20",
+      "grade": "Grade10",
+      "subject": "History",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Where did the cultural movement known as the Renaissance begin in the 14th century?",
+      "options": [
+        "Germany",
+        "England",
+        "Italy",
+        "France"
+      ],
+      "correctAnswer": 2,
+      "explanation": "The Renaissance began in Italian city-states (such as Florence, Venice, and Genoa) before spreading across Europe.",
+      "points": 1
+    },
+    {
+      "id": "q_g10_hist_m1_02",
+      "examId": "exam_20",
+      "grade": "Grade10",
+      "subject": "History",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Who initiated the Protestant Reformation in 1517 by posting his Ninety-Five Theses?",
+      "options": [
+        "John Calvin",
+        "Martin Luther",
+        "Henry VIII",
+        "Ignatius of Loyola"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Martin Luther sparked the Reformation in 1517 when he nailed his 95 Theses to the door of All Saints' Church in Wittenberg, Germany.",
+      "points": 1
+    },
+    {
+      "id": "q_g10_hist_m1_03",
+      "examId": "exam_20",
+      "grade": "Grade10",
+      "subject": "History",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Which Portuguese commander led the military expedition that aided Emperor Gelawdewos against Imam Ahmad Ibn Ibrahim (Gragn) in 1541?",
+      "options": [
+        "Vasco da Gama",
+        "Cristóvão da Gama",
+        "Pedro Álvares Cabral",
+        "Alfonso de Albuquerque"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Cristóvão da Gama (the son of Vasco da Gama) commanded the Portuguese force of 400 musketeers sent to assist the Christian kingdom.",
+      "points": 1
+    },
+    {
+      "id": "q_g10_hist_m1_04",
+      "examId": "exam_20",
+      "grade": "Grade10",
+      "subject": "History",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "At which decisive battle in 1543 was Imam Ahmad Gragn defeated and killed by the forces of Emperor Gelawdewos?",
+      "options": [
+        "Battle of Shimbra Kure",
+        "Battle of Wayna Daga",
+        "Battle of Wofla",
+        "Battle of Debre Abbay"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Imam Ahmad was defeated and killed at the Battle of Wayna Daga near Lake Tana on February 21, 1543.",
+      "points": 1
+    },
+    {
+      "id": "q_g10_hist_m1_05",
+      "examId": "exam_20",
+      "grade": "Grade10",
+      "subject": "History",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "The traditional indigenous socio-political and democratic governing system of the Oromo people is called:",
+      "options": [
+        "Gadaa system",
+        "Chafe council",
+        "Qallu institution",
+        "Luwa system"
+      ],
+      "correctAnswer": 0,
+      "explanation": "The Gadaa system is the traditional Oromo democratic egalitarian system structured across 8-year age-grade cycles.",
+      "points": 1
+    },
+    {
+      "id": "q_g10_geog_m1_01",
+      "examId": "exam_19",
+      "grade": "Grade10",
+      "subject": "Geography",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Which of the following representative fractions represents the largest map scale?",
+      "options": [
+        "1 : 25,000",
+        "1 : 50,000",
+        "1 : 100,000",
+        "1 : 250,000"
+      ],
+      "correctAnswer": 0,
+      "explanation": "A smaller denominator indicates a larger scale because features appear larger and in greater detail (1/25,000 > 1/250,000).",
+      "points": 1
+    },
+    {
+      "id": "q_g10_geog_m1_02",
+      "examId": "exam_19",
+      "grade": "Grade10",
+      "subject": "Geography",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Lines joining points of equal elevation above sea level on a topographical map are called:",
+      "options": [
+        "Isobars",
+        "Isotherms",
+        "Contour lines",
+        "Isohyets"
+      ],
+      "correctAnswer": 2,
+      "explanation": "Contour lines join points of equal altitude and indicate topography, slopes, and landforms on contour maps.",
+      "points": 1
+    },
+    {
+      "id": "q_g10_geog_m1_03",
+      "examId": "exam_19",
+      "grade": "Grade10",
+      "subject": "Geography",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "During which geological era was the Great East African Rift Valley formed through tectonic faulting and volcanic activity?",
+      "options": [
+        "Precambrian Era",
+        "Paleozoic Era",
+        "Mesozoic Era",
+        "Cenozoic Era"
+      ],
+      "correctAnswer": 3,
+      "explanation": "The Cenozoic Era (Tertiary and Quaternary periods) saw major rifting, volcanism, and the creation of the Ethiopian Rift Valley.",
+      "points": 1
+    },
+    {
+      "id": "q_g10_geog_m1_04",
+      "examId": "exam_19",
+      "grade": "Grade10",
+      "subject": "Geography",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "What is the absolute latitudinal location of Ethiopia?",
+      "options": [
+        "3°N to 15°N latitude",
+        "10°S to 20°N latitude",
+        "33°E to 48°E latitude",
+        "0° to 10°N latitude"
+      ],
+      "correctAnswer": 0,
+      "explanation": "Ethiopia is located between approximately 3°N to 15°N latitude and 33°E to 48°E longitude.",
+      "points": 1
+    },
+    {
+      "id": "q_g10_econ_m1_01",
+      "examId": "exam_17",
+      "grade": "Grade10",
+      "subject": "Economics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "What is the fundamental economic problem facing all human societies?",
+      "options": [
+        "Inflation",
+        "Scarcity of resources",
+        "Unemployment",
+        "Poverty"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Scarcity arises because human wants are virtually unlimited while productive resources available to satisfy them are finite.",
+      "points": 1
+    },
+    {
+      "id": "q_g10_econ_m1_02",
+      "examId": "exam_17",
+      "grade": "Grade10",
+      "subject": "Economics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "The value of the next best alternative foregone when a choice is made is termed:",
+      "options": [
+        "Explicit cost",
+        "Sunk cost",
+        "Opportunity cost",
+        "Marginal cost"
+      ],
+      "correctAnswer": 2,
+      "explanation": "Opportunity cost measures the sacrifice incurred by choosing one option over its best forgone alternative.",
+      "points": 1
+    },
+    {
+      "id": "q_g10_econ_m1_03",
+      "examId": "exam_17",
+      "grade": "Grade10",
+      "subject": "Economics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "According to the Law of Demand, when the price of a good increases, ceteris paribus:",
+      "options": [
+        "Quantity demanded increases",
+        "Quantity demanded decreases",
+        "Demand shifts rightward",
+        "Supply decreases"
+      ],
+      "correctAnswer": 1,
+      "explanation": "The Law of Demand states an inverse relationship between price and quantity demanded when other factors remain constant.",
+      "points": 1
+    },
+    {
+      "id": "q_g10_econ_m1_04",
+      "examId": "exam_17",
+      "grade": "Grade10",
+      "subject": "Economics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Market equilibrium occurs at the price level where:",
+      "options": [
+        "Quantity demanded equals quantity supplied",
+        "There is excess supply",
+        "There is excess demand",
+        "Government fixes price ceilings"
+      ],
+      "correctAnswer": 0,
+      "explanation": "Equilibrium is the state where buyers are willing to buy the exact quantity that sellers are willing to sell (Qd = Qs).",
+      "points": 1
+    },
+    {
+      "id": "q_g10_it_m1_01",
+      "examId": "exam_21",
+      "grade": "Grade10",
+      "subject": "IT",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Which component of the Central Processing Unit (CPU) performs mathematical calculations and logical comparisons?",
+      "options": [
+        "Control Unit (CU)",
+        "Arithmetic Logic Unit (ALU)",
+        "Registers",
+        "Cache Memory"
+      ],
+      "correctAnswer": 1,
+      "explanation": "The ALU executes all arithmetic operations (+, -, *, /) and logical evaluations (AND, OR, NOT, comparisons).",
+      "points": 1
+    },
+    {
+      "id": "q_g10_it_m1_02",
+      "examId": "exam_21",
+      "grade": "Grade10",
+      "subject": "IT",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Which type of network topology connects all nodes to a central hub or switch?",
+      "options": [
+        "Bus topology",
+        "Star topology",
+        "Ring topology",
+        "Mesh topology"
+      ],
+      "correctAnswer": 1,
+      "explanation": "In a Star topology, every device is connected via dedicated point-to-point cables to a central central device (switch/hub).",
+      "points": 1
+    },
+    {
+      "id": "q_g10_it_m1_03",
+      "examId": "exam_21",
+      "grade": "Grade10",
+      "subject": "IT",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "An IPv4 address consists of how many bits?",
+      "options": [
+        "16 bits",
+        "32 bits",
+        "64 bits",
+        "128 bits"
+      ],
+      "correctAnswer": 1,
+      "explanation": "An IPv4 address is formatted as 4 octets separated by dots (e.g. 192.168.1.1), totaling 32 bits (unlike IPv6 which is 128 bits).",
+      "points": 1
+    },
+    {
+      "id": "q_g10_it_m1_04",
+      "examId": "exam_21",
+      "grade": "Grade10",
+      "subject": "IT",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Which of the following is volatile memory that loses its contents when power is turned off?",
+      "options": [
+        "ROM",
+        "RAM",
+        "Hard Disk Drive",
+        "Flash Memory"
+      ],
+      "correctAnswer": 1,
+      "explanation": "RAM (Random Access Memory) requires power to maintain state and clears whenever the computer powers down.",
+      "points": 1
+    },
+    {
+      "id": "q_g10_cit_m1_01",
+      "examId": "exam_16",
+      "grade": "Grade10",
+      "subject": "Citizenship",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Which of the following is a core foundational pillar of a democratic system?",
+      "options": [
+        "Rule of law and constitutional supremacy",
+        "Concentration of power in one leader",
+        "Restricted citizen participation",
+        "Censorship of public discourse"
+      ],
+      "correctAnswer": 0,
+      "explanation": "A genuine democracy is founded on constitutionalism, rule of law, periodic free elections, and the protection of basic citizen rights.",
+      "points": 1
+    },
+    {
+      "id": "q_g10_cit_m1_02",
+      "examId": "exam_16",
+      "grade": "Grade10",
+      "subject": "Citizenship",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "First-generation human rights primarily encompass which category of rights?",
+      "options": [
+        "Civil and political rights",
+        "Economic and social rights",
+        "Environmental and solidarity rights",
+        "Developmental rights"
+      ],
+      "correctAnswer": 0,
+      "explanation": "First-generation rights deal with liberty and political participation (freedom of speech, right to fair trial, voting, freedom of religion).",
+      "points": 1
+    },
+    {
+      "id": "q_g10_cit_m1_03",
+      "examId": "exam_16",
+      "grade": "Grade10",
+      "subject": "Citizenship",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "What is the primary function of the legislative branch of government?",
+      "options": [
+        "Enforcing laws",
+        "Interpreting laws",
+        "Making and enacting laws",
+        "Administering punishments"
+      ],
+      "correctAnswer": 2,
+      "explanation": "The Legislature (Parliament/Congress) has the primary constitutional responsibility to draft, debate, and enact legislation.",
+      "points": 1
+    },
+    {
+      "id": "q_g11_math_m1_02",
+      "examId": "exam_68",
+      "grade": "Grade11",
+      "subject": "Mathematics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "What is the domain of the rational function f(x) = (2x + 1) / (x^2 - 9)?",
+      "options": [
+        "{x in R | x != 3 and x != -3}",
+        "{x in R | x != 9}",
+        "{x in R | x > 3}",
+        "All real numbers R"
+      ],
+      "correctAnswer": 0,
+      "explanation": "The denominator must not equal zero: x^2 - 9 != 0 => (x - 3)(x + 3) != 0 => x != 3 and x != -3.",
+      "points": 1
+    },
+    {
+      "id": "q_g11_math_m1_03",
+      "examId": "exam_68",
+      "grade": "Grade11",
+      "subject": "Mathematics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "What is the horizontal asymptote of the rational function f(x) = (3x^2 - 5) / (2x^2 + 7x - 4)?",
+      "options": [
+        "y = 0",
+        "y = 3/2",
+        "y = -5/4",
+        "No horizontal asymptote"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Since the degree of numerator (2) equals the degree of denominator (2), the horizontal asymptote is the ratio of leading coefficients: y = 3/2.",
+      "points": 1
+    },
+    {
+      "id": "q_g11_math_m1_04",
+      "examId": "exam_68",
+      "grade": "Grade11",
+      "subject": "Mathematics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "What are the coordinates of the center and radius of the circle with equation (x - 4)^2 + (y + 2)^2 = 25?",
+      "options": [
+        "Center (4, -2), radius = 5",
+        "Center (-4, 2), radius = 5",
+        "Center (4, -2), radius = 25",
+        "Center (-4, 2), radius = 25"
+      ],
+      "correctAnswer": 0,
+      "explanation": "In standard circle form (x - h)^2 + (y - k)^2 = r^2, center is (h, k) = (4, -2) and radius r = sqrt(25) = 5.",
+      "points": 1
+    },
+    {
+      "id": "q_g11_math_m1_05",
+      "examId": "exam_68",
+      "grade": "Grade11",
+      "subject": "Mathematics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "What is the slope of a line perpendicular to 2x - 5y + 10 = 0?",
+      "options": [
+        "2/5",
+        "-2/5",
+        "5/2",
+        "-5/2"
+      ],
+      "correctAnswer": 3,
+      "explanation": "Writing in slope-intercept form: 5y = 2x + 10 => y = (2/5)x + 2. The slope m1 = 2/5. A perpendicular line has slope m2 = -1 / m1 = -5/2.",
+      "points": 1
+    },
+    {
+      "id": "q_g11_math_m1_06",
+      "examId": "exam_68",
+      "grade": "Grade11",
+      "subject": "Mathematics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Which of the following functions is an odd function?",
+      "options": [
+        "f(x) = x^2 + 4",
+        "f(x) = x^3 - 5x",
+        "f(x) = |x|",
+        "f(x) = cos(x)"
+      ],
+      "correctAnswer": 1,
+      "explanation": "A function is odd if f(-x) = -f(x). For f(x) = x^3 - 5x, f(-x) = (-x)^3 - 5(-x) = -x^3 + 5x = -(x^3 - 5x) = -f(x).",
+      "points": 1
+    },
+    {
+      "id": "q_g11_math_m1_07",
+      "examId": "exam_68",
+      "grade": "Grade11",
+      "subject": "Mathematics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Solve for x: (x + 2) / (x - 1) = 3",
+      "options": [
+        "x = 2.5",
+        "x = 3",
+        "x = 1.5",
+        "x = 4"
+      ],
+      "correctAnswer": 0,
+      "explanation": "x + 2 = 3(x - 1) => x + 2 = 3x - 3 => 2x = 5 => x = 5/2 = 2.5.",
+      "points": 1
+    },
+    {
+      "id": "q_g11_phys_m1_02",
+      "examId": "exam_69",
+      "grade": "Grade11",
+      "subject": "Physics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Given vector A = 3i + 4j and vector B = 2i - j, what is the dot product A · B?",
+      "options": [
+        "2",
+        "6",
+        "10",
+        "14"
+      ],
+      "correctAnswer": 0,
+      "explanation": "A · B = (Ax * Bx) + (Ay * By) = (3 * 2) + (4 * -1) = 6 - 4 = 2.",
+      "points": 1
+    },
+    {
+      "id": "q_g11_phys_m1_03",
+      "examId": "exam_69",
+      "grade": "Grade11",
+      "subject": "Physics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "A projectile is launched with velocity 50 m/s at an angle of 30 degrees above horizontal. What is its initial vertical velocity component vy? (sin 30° = 0.5)",
+      "options": [
+        "25 m/s",
+        "43.3 m/s",
+        "50 m/s",
+        "10 m/s"
+      ],
+      "correctAnswer": 0,
+      "explanation": "vy = v * sin(theta) = 50 * sin(30°) = 50 * 0.5 = 25 m/s.",
+      "points": 1
+    },
+    {
+      "id": "q_g11_phys_m1_04",
+      "examId": "exam_69",
+      "grade": "Grade11",
+      "subject": "Physics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "In uniform circular motion with radius r and constant speed v, the centripetal acceleration is directed:",
+      "options": [
+        "Radially outward from the center",
+        "Radially inward toward the center",
+        "Tangential to the circle in the direction of motion",
+        "Opposite to the velocity vector"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Centripetal acceleration (ac = v^2 / r) is continuously directed along the radius toward the center of the circular path.",
+      "points": 1
+    },
+    {
+      "id": "q_g11_phys_m1_05",
+      "examId": "exam_69",
+      "grade": "Grade11",
+      "subject": "Physics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "A 2 kg mass attached to a string moves in a circle of radius 0.5 m with a speed of 4 m/s. What is the centripetal force?",
+      "options": [
+        "16 N",
+        "32 N",
+        "64 N",
+        "8 N"
+      ],
+      "correctAnswer": 2,
+      "explanation": "Fc = m * v^2 / r = 2 * (4^2) / 0.5 = 2 * 16 / 0.5 = 64 N.",
+      "points": 1
+    },
+    {
+      "id": "q_g11_phys_m1_06",
+      "examId": "exam_69",
+      "grade": "Grade11",
+      "subject": "Physics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Work done by a conservative force along any closed path is always:",
+      "options": [
+        "Maximum",
+        "Positive",
+        "Zero",
+        "Negative"
+      ],
+      "correctAnswer": 2,
+      "explanation": "By definition, the work done by a conservative force (like gravity) over any closed loop is zero.",
+      "points": 1
+    },
+    {
+      "id": "q_g11_phys_m1_07",
+      "examId": "exam_69",
+      "grade": "Grade11",
+      "subject": "Physics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "An elastic collision is characterized by the conservation of:",
+      "options": [
+        "Kinetic energy only",
+        "Linear momentum only",
+        "Both linear momentum and kinetic energy",
+        "Neither linear momentum nor kinetic energy"
+      ],
+      "correctAnswer": 2,
+      "explanation": "In perfectly elastic collisions, both total momentum and total kinetic energy are strictly conserved.",
+      "points": 1
+    },
+    {
+      "id": "q_g11_bio_m1_01",
+      "examId": "exam_65",
+      "grade": "Grade11",
+      "subject": "Biology",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Which chemical bond links consecutive amino acids together in a polypeptide protein chain?",
+      "options": [
+        "Phosphodiester bond",
+        "Glycosidic bond",
+        "Peptide bond",
+        "Ester bond"
+      ],
+      "correctAnswer": 2,
+      "explanation": "A peptide bond forms between the carboxyl group of one amino acid and the amino group of another via condensation.",
+      "points": 1
+    },
+    {
+      "id": "q_g11_bio_m1_02",
+      "examId": "exam_65",
+      "grade": "Grade11",
+      "subject": "Biology",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Enzymes accelerate biochemical reactions primarily by:",
+      "options": [
+        "Increasing temperature",
+        "Lowering activation energy",
+        "Changing the equilibrium constant",
+        "Supplying ATP directly"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Enzymes are biological catalysts that speed up metabolic reactions by lowering the activation energy barrier required to reach the transition state.",
+      "points": 1
+    },
+    {
+      "id": "q_g11_bio_m1_03",
+      "examId": "exam_65",
+      "grade": "Grade11",
+      "subject": "Biology",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Which model of enzyme action proposed that the active site undergoes conformational changes upon substrate binding?",
+      "options": [
+        "Lock-and-key model",
+        "Induced-fit model",
+        "Fluid mosaic model",
+        "Sliding filament model"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Daniel Koshland’s induced-fit model states that enzyme active sites flex slightly to snugly bind the substrate.",
+      "points": 1
+    },
+    {
+      "id": "q_g11_bio_m1_04",
+      "examId": "exam_65",
+      "grade": "Grade11",
+      "subject": "Biology",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "A competitive enzyme inhibitor binds to:",
+      "options": [
+        "The active site directly, competing with the substrate",
+        "An allosteric site only",
+        "The enzyme-substrate complex only",
+        "The product molecules"
+      ],
+      "correctAnswer": 0,
+      "explanation": "Competitive inhibitors structurally resemble the substrate and bind directly to the active site, blocking substrate entry.",
+      "points": 1
+    },
+    {
+      "id": "q_g11_bio_m1_05",
+      "examId": "exam_65",
+      "grade": "Grade11",
+      "subject": "Biology",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Which disaccharide sugar is composed of glucose and fructose linked by a glycosidic bond?",
+      "options": [
+        "Maltose",
+        "Lactose",
+        "Sucrose",
+        "Cellulose"
+      ],
+      "correctAnswer": 2,
+      "explanation": "Sucrose (table sugar) is a disaccharide made of one glucose molecule and one fructose molecule.",
+      "points": 1
+    },
+    {
+      "id": "q_g11_eng_m1_01",
+      "examId": "exam_66",
+      "grade": "Grade11",
+      "subject": "English",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Choose the correct third conditional form: \"If she ______ harder, she would have passed the scholarship exam.\"",
+      "options": [
+        "studied",
+        "had studied",
+        "has studied",
+        "would study"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Third conditional (talking about hypothetical past situations): If + Past Perfect (had studied), would have + Past Participle.",
+      "points": 1
+    },
+    {
+      "id": "q_g11_eng_m1_02",
+      "examId": "exam_66",
+      "grade": "Grade11",
+      "subject": "English",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Identify the inversion: \"Rarely ______ such a passionate speech by a young orator.\"",
+      "options": [
+        "we have heard",
+        "have we heard",
+        "we had heard",
+        "did we heard"
+      ],
+      "correctAnswer": 1,
+      "explanation": "When negative or restrictive adverbs like \"rarely\", \"seldom\", or \"never\" begin a sentence, subject-auxiliary inversion is required: \"have we heard\".",
+      "points": 1
+    },
+    {
+      "id": "q_g11_eng_m1_03",
+      "examId": "exam_66",
+      "grade": "Grade11",
+      "subject": "English",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Select the best transition word: \"The national team trained rigorously; ______, they triumphed in the championship.\"",
+      "options": [
+        "conversely",
+        "consequently",
+        "nonetheless",
+        "meanwhile"
+      ],
+      "correctAnswer": 1,
+      "explanation": "\"Consequently\" signifies a direct result or outcome of the rigorous training described in the first clause.",
+      "points": 1
+    },
+    {
+      "id": "q_g11_eng_m1_04",
+      "examId": "exam_66",
+      "grade": "Grade11",
+      "subject": "English",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Which of the following sentences contains a non-defining relative clause?",
+      "options": [
+        "The student who scored 100% received an award.",
+        "Addis Ababa, which is the diplomatic capital of Africa, has expanded rapidly.",
+        "The book that you recommended was thrilling.",
+        "People who live in glass houses should not throw stones."
+      ],
+      "correctAnswer": 1,
+      "explanation": "Non-defining relative clauses provide extra non-essential information enclosed by commas (\"which is the diplomatic capital of Africa\").",
+      "points": 1
+    },
+    {
+      "id": "q_g11_it_m1_01",
+      "examId": "exam_67",
+      "grade": "Grade11",
+      "subject": "IT",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Which layer of the OSI 7-layer reference model is responsible for routing data packets across disparate networks?",
+      "options": [
+        "Data Link Layer",
+        "Network Layer",
+        "Transport Layer",
+        "Session Layer"
+      ],
+      "correctAnswer": 1,
+      "explanation": "The Network layer (Layer 3) handles logical IP addressing, routing, and packet forwarding across network boundaries.",
+      "points": 1
+    },
+    {
+      "id": "q_g11_it_m1_02",
+      "examId": "exam_67",
+      "grade": "Grade11",
+      "subject": "IT",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Which transport layer protocol provides reliable, connection-oriented data transmission with error checking?",
+      "options": [
+        "UDP",
+        "TCP",
+        "IP",
+        "ICMP"
+      ],
+      "correctAnswer": 1,
+      "explanation": "TCP (Transmission Control Protocol) establishes a connection via a 3-way handshake and guarantees ordered, error-checked packet delivery.",
+      "points": 1
+    },
+    {
+      "id": "q_g11_it_m1_03",
+      "examId": "exam_67",
+      "grade": "Grade11",
+      "subject": "IT",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "In a Relational Database Management System (RDBMS), a primary key must be:",
+      "options": [
+        "Unique and cannot contain NULL values",
+        "Numeric and allow duplicates",
+        "Text-based and optional",
+        "Shared between multiple tables without constraints"
+      ],
+      "correctAnswer": 0,
+      "explanation": "A Primary Key uniquely identifies each record in a relational database table and strictly forbids duplicate or NULL values.",
+      "points": 1
+    },
+    {
+      "id": "q_g11_web_m1_01",
+      "examId": "exam_70",
+      "grade": "Grade11",
+      "subject": "WEB",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Which semantic HTML5 element represents standalone, self-contained content such as a blog post or news story?",
+      "options": [
+        "<section>",
+        "<article>",
+        "<aside>",
+        "<nav>"
+      ],
+      "correctAnswer": 1,
+      "explanation": "The <article> tag specifies independent, self-contained content that could be distributed and reused independently.",
+      "points": 1
+    },
+    {
+      "id": "q_g11_web_m1_02",
+      "examId": "exam_70",
+      "grade": "Grade11",
+      "subject": "WEB",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "In CSS Flexbox, which property aligns flex items along the cross axis (vertically in a row container)?",
+      "options": [
+        "justify-content",
+        "align-items",
+        "flex-direction",
+        "align-content"
+      ],
+      "correctAnswer": 1,
+      "explanation": "justify-content aligns items along the main axis, while align-items controls alignment along the cross axis.",
+      "points": 1
+    },
+    {
+      "id": "q_g11_web_m1_03",
+      "examId": "exam_70",
+      "grade": "Grade11",
+      "subject": "WEB",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Which HTTP method is specifically intended to submit form data to a server to create a new resource?",
+      "options": [
+        "GET",
+        "POST",
+        "HEAD",
+        "OPTIONS"
+      ],
+      "correctAnswer": 1,
+      "explanation": "POST sends payload data in the HTTP request body to the server to process and create/update resources.",
+      "points": 1
+    },
+    {
+      "id": "q_g11_agri_m1_01",
+      "examId": "exam_63",
+      "grade": "Grade11",
+      "subject": "Agriculture",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Which soil horizon contains the highest concentration of organic matter and humus?",
+      "options": [
+        "A horizon (Topsoil)",
+        "B horizon (Subsoil)",
+        "C horizon (Parent material)",
+        "R horizon (Bedrock)"
+      ],
+      "correctAnswer": 0,
+      "explanation": "The A horizon (topsoil) is rich in decomposed biological organic matter (humus) providing vital nutrients for plant roots.",
+      "points": 1
+    },
+    {
+      "id": "q_g11_agri_m1_02",
+      "examId": "exam_63",
+      "grade": "Grade11",
+      "subject": "Agriculture",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Which of the following is an effective soil conservation practice on sloped agricultural terrain?",
+      "options": [
+        "Contour plowing and terracing",
+        "Downslope cultivation",
+        "Overgrazing",
+        "Deforestation"
+      ],
+      "correctAnswer": 0,
+      "explanation": "Terracing and contour plowing slow surface water runoff, preventing topsoil erosion on steep slopes.",
+      "points": 1
+    },
+    {
+      "id": "q_g12_math_m1_02",
+      "examId": "exam_100",
+      "grade": "Grade12",
+      "subject": "Mathematics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "What is the 10th term of an arithmetic sequence whose first term is 4 and common difference is 3?",
+      "options": [
+        "28",
+        "31",
+        "34",
+        "37"
+      ],
+      "correctAnswer": 1,
+      "explanation": "an = a1 + (n - 1)d => a10 = 4 + (10 - 1)*3 = 4 + 27 = 31.",
+      "points": 1
+    },
+    {
+      "id": "q_g12_math_m1_03",
+      "examId": "exam_100",
+      "grade": "Grade12",
+      "subject": "Mathematics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "What is the sum of the infinite geometric series: 12 + 6 + 3 + 3/2 + ...?",
+      "options": [
+        "18",
+        "24",
+        "36",
+        "Diverges"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Here a = 12 and common ratio r = 6/12 = 1/2. Since |r| < 1, S = a / (1 - r) = 12 / (1 - 0.5) = 12 / 0.5 = 24.",
+      "points": 1
+    },
+    {
+      "id": "q_g12_math_m1_04",
+      "examId": "exam_100",
+      "grade": "Grade12",
+      "subject": "Mathematics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Evaluate the limit: lim_{x -> 0} (sin(5x) / x)",
+      "options": [
+        "0",
+        "1",
+        "5",
+        "Undefined"
+      ],
+      "correctAnswer": 2,
+      "explanation": "Using the standard trigonometric limit lim_{u -> 0} sin(u)/u = 1: lim_{x -> 0} 5 * [sin(5x) / (5x)] = 5 * 1 = 5.",
+      "points": 1
+    },
+    {
+      "id": "q_g12_math_m1_05",
+      "examId": "exam_100",
+      "grade": "Grade12",
+      "subject": "Mathematics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Evaluate the limit: lim_{x -> 2} (x^2 - 4) / (x - 2)",
+      "options": [
+        "0",
+        "2",
+        "4",
+        "Infinity"
+      ],
+      "correctAnswer": 2,
+      "explanation": "Factoring: (x - 2)(x + 2) / (x - 2) = x + 2 for x != 2. Substituting x = 2 gives 2 + 2 = 4.",
+      "points": 1
+    },
+    {
+      "id": "q_g12_math_m1_06",
+      "examId": "exam_100",
+      "grade": "Grade12",
+      "subject": "Mathematics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "What is the value of lim_{x -> infinity} (4x^3 + 2x) / (5x^3 - 7x^2 + 1)?",
+      "options": [
+        "0",
+        "4/5",
+        "Infinity",
+        "-2/7"
+      ],
+      "correctAnswer": 1,
+      "explanation": "For rational limits at infinity with equal degrees, the limit equals the ratio of leading coefficients: 4/5.",
+      "points": 1
+    },
+    {
+      "id": "q_g12_math_m1_07",
+      "examId": "exam_100",
+      "grade": "Grade12",
+      "subject": "Mathematics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "A function f(x) is continuous at x = c if and only if:",
+      "options": [
+        "f(c) is defined, lim_{x -> c} f(x) exists, and lim_{x -> c} f(x) = f(c)",
+        "f(c) exists only",
+        "lim_{x -> c} f(x) exists only",
+        "f(x) has a derivative at all points"
+      ],
+      "correctAnswer": 0,
+      "explanation": "The three fundamental conditions for continuity at a point are: f(c) exists, the two-sided limit exists, and the limit matches the function value.",
+      "points": 1
+    },
+    {
+      "id": "q_g12_phys_m1_01",
+      "examId": "exam_101",
+      "grade": "Grade12",
+      "subject": "Physics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "According to the First Law of Thermodynamics, the change in internal energy (Delta U) is given by:",
+      "options": [
+        "Delta U = Q - W",
+        "Delta U = Q + W",
+        "Delta U = W - Q",
+        "Delta U = Q / W"
+      ],
+      "correctAnswer": 0,
+      "explanation": "The First Law states Delta U = Q - W, where Q is heat added to the system and W is work done by the system.",
+      "points": 1
+    },
+    {
+      "id": "q_g12_phys_m1_02",
+      "examId": "exam_101",
+      "grade": "Grade12",
+      "subject": "Physics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "In an isothermal thermodynamic process, which physical variable remains constant?",
+      "options": [
+        "Pressure",
+        "Volume",
+        "Temperature",
+        "Entropy"
+      ],
+      "correctAnswer": 2,
+      "explanation": "An isothermal process occurs at constant temperature (Delta T = 0), which implies Delta U = 0 for an ideal gas.",
+      "points": 1
+    },
+    {
+      "id": "q_g12_phys_m1_03",
+      "examId": "exam_101",
+      "grade": "Grade12",
+      "subject": "Physics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "What is the maximum theoretical efficiency of a Carnot heat engine operating between a hot reservoir at 600 K and a cold reservoir at 300 K?",
+      "options": [
+        "25%",
+        "33%",
+        "50%",
+        "75%"
+      ],
+      "correctAnswer": 2,
+      "explanation": "Carnot efficiency eta = 1 - (Tc / Th) = 1 - (300 / 600) = 1 - 0.5 = 0.5 or 50%.",
+      "points": 1
+    },
+    {
+      "id": "q_g12_phys_m1_04",
+      "examId": "exam_101",
+      "grade": "Grade12",
+      "subject": "Physics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Two point charges of +2 microC and +8 microC are placed in vacuum separated by a distance r. If the distance is doubled (2r), the electrostatic force between them becomes:",
+      "options": [
+        "Doubled",
+        "Halved",
+        "One-fourth as large",
+        "Four times larger"
+      ],
+      "correctAnswer": 2,
+      "explanation": "According to Coulomb’s inverse-square law: F proportional to 1 / r^2. Doubling distance reduces force to 1/(2^2) = 1/4.",
+      "points": 1
+    },
+    {
+      "id": "q_g12_phys_m1_05",
+      "examId": "exam_101",
+      "grade": "Grade12",
+      "subject": "Physics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "What is the electric field inside a hollow charged spherical conductor in electrostatic equilibrium?",
+      "options": [
+        "Infinite",
+        "Zero",
+        "Uniform and non-zero",
+        "Dependent on radius"
+      ],
+      "correctAnswer": 1,
+      "explanation": "By Gauss’s Law, all electrostatic excess charges reside entirely on the outer surface, leaving the internal electric field strictly zero.",
+      "points": 1
+    },
+    {
+      "id": "q_g12_chem_m1_01",
+      "examId": "exam_97",
+      "grade": "Grade12",
+      "subject": "Chemistry",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "For a reaction with rate law Rate = k[A]^2[B], what is the overall order of the reaction?",
+      "options": [
+        "First order",
+        "Second order",
+        "Third order",
+        "Zero order"
+      ],
+      "correctAnswer": 2,
+      "explanation": "The overall reaction order is the sum of exponents: 2 + 1 = 3 (third order).",
+      "points": 1
+    },
+    {
+      "id": "q_g12_chem_m1_02",
+      "examId": "exam_97",
+      "grade": "Grade12",
+      "subject": "Chemistry",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "What are the SI units of the rate constant (k) for a first-order chemical reaction?",
+      "options": [
+        "mol / (L * s)",
+        "s^(-1)",
+        "L / (mol * s)",
+        "L^2 / (mol^2 * s)"
+      ],
+      "correctAnswer": 1,
+      "explanation": "For a first-order reaction: Rate = k[A] => (mol/(L*s)) = k * (mol/L) => k has units s^(-1).",
+      "points": 1
+    },
+    {
+      "id": "q_g12_chem_m1_03",
+      "examId": "exam_97",
+      "grade": "Grade12",
+      "subject": "Chemistry",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "How does increasing the temperature affect the rate constant (k) according to the Arrhenius equation?",
+      "options": [
+        "Increases k exponentially",
+        "Decreases k",
+        "Has no effect on k",
+        "Decreases activation energy Ea"
+      ],
+      "correctAnswer": 0,
+      "explanation": "In k = A * e^(-Ea / RT), increasing T increases the fraction of colliding molecules with sufficient activation energy, increasing k exponentially.",
+      "points": 1
+    },
+    {
+      "id": "q_g12_chem_m1_04",
+      "examId": "exam_97",
+      "grade": "Grade12",
+      "subject": "Chemistry",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "A catalyst speeds up a chemical reaction by:",
+      "options": [
+        "Increasing enthalpy of reaction Delta H",
+        "Providing an alternative pathway with lower activation energy",
+        "Increasing the frequency of non-effective collisions",
+        "Shifting the chemical equilibrium position to the right"
+      ],
+      "correctAnswer": 1,
+      "explanation": "A catalyst lowers the activation energy barrier for both forward and reverse reactions without altering Delta H or Kc.",
+      "points": 1
+    },
+    {
+      "id": "q_g12_chem_m1_05",
+      "examId": "exam_97",
+      "grade": "Grade12",
+      "subject": "Chemistry",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "The half-life of a first-order reaction is:",
+      "options": [
+        "Independent of initial reactant concentration",
+        "Inversely proportional to initial concentration",
+        "Directly proportional to initial concentration",
+        "Zero at equilibrium"
+      ],
+      "correctAnswer": 0,
+      "explanation": "For first order reactions, t_1/2 = ln(2) / k = 0.693 / k, which is strictly independent of starting concentration [A]0.",
+      "points": 1
+    },
+    {
+      "id": "q_g12_bio_m1_01",
+      "examId": "exam_96",
+      "grade": "Grade12",
+      "subject": "Biology",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "In a monohybrid cross between two heterozygous pea plants (Tt x Tt), what is the expected phenotypic ratio of tall to dwarf offspring?",
+      "options": [
+        "1 : 1",
+        "3 : 1",
+        "9 : 3 : 3 : 1",
+        "1 : 2 : 1"
+      ],
+      "correctAnswer": 1,
+      "explanation": "The genotypic ratio is 1 TT : 2 Tt : 1 tt, resulting in a 3 dominant (tall) to 1 recessive (dwarf) phenotypic ratio.",
+      "points": 1
+    },
+    {
+      "id": "q_g12_bio_m1_02",
+      "examId": "exam_96",
+      "grade": "Grade12",
+      "subject": "Biology",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Which enzyme is responsible for synthesizing new complementary DNA strands during semi-conservative replication?",
+      "options": [
+        "RNA Polymerase",
+        "DNA Helicase",
+        "DNA Polymerase",
+        "DNA Ligase"
+      ],
+      "correctAnswer": 2,
+      "explanation": "DNA polymerase adds complementary deoxyribonucleotides in the 5' to 3' direction to build the nascent strand.",
+      "points": 1
+    },
+    {
+      "id": "q_g12_bio_m1_03",
+      "examId": "exam_96",
+      "grade": "Grade12",
+      "subject": "Biology",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "The synthesis of mRNA from a DNA template strand in the cell nucleus is called:",
+      "options": [
+        "Translation",
+        "Transcription",
+        "Transduction",
+        "Transformation"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Transcription is the enzymatic synthesis of RNA from a gene sequence on DNA catalyzed by RNA polymerase.",
+      "points": 1
+    },
+    {
+      "id": "q_g12_bio_m1_04",
+      "examId": "exam_96",
+      "grade": "Grade12",
+      "subject": "Biology",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Human ABO blood groups demonstrate which non-Mendelian genetic inheritance pattern?",
+      "options": [
+        "Incomplete dominance",
+        "Codominance and multiple alleles",
+        "Polygenic inheritance",
+        "Sex linkage"
+      ],
+      "correctAnswer": 1,
+      "explanation": "The ABO system involves three alleles (IA, IB, i) where IA and IB are codominant with each other and dominant over i.",
+      "points": 1
+    },
+    {
+      "id": "q_g12_eng_m1_01",
+      "examId": "exam_98",
+      "grade": "Grade12",
+      "subject": "English",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Choose the correct subjunctive mood verb form: \"The principal recommended that every candidate ______ punctual.\"",
+      "options": [
+        "is",
+        "was",
+        "be",
+        "are"
+      ],
+      "correctAnswer": 2,
+      "explanation": "Mandative subjunctive constructions following verbs of demanding/recommending use the base form of the verb (\"be\").",
+      "points": 1
+    },
+    {
+      "id": "q_g12_eng_m1_02",
+      "examId": "exam_98",
+      "grade": "Grade12",
+      "subject": "English",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Identify the cleft sentence structure used for emphasis:",
+      "options": [
+        "Nahom solved the physics problem quickly.",
+        "It was Nahom who solved the physics problem.",
+        "Solving the physics problem was easy for Nahom.",
+        "The physics problem was solved by Nahom."
+      ],
+      "correctAnswer": 1,
+      "explanation": "\"It was X who/that...\" is an it-cleft sentence specifically focusing listener emphasis on the agent (Nahom).",
+      "points": 1
+    },
+    {
+      "id": "q_g12_eng_m1_03",
+      "examId": "exam_98",
+      "grade": "Grade12",
+      "subject": "English",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Select the synonym for \"ubiquitous\":",
+      "options": [
+        "Rare",
+        "Omnipresent",
+        "Obsolete",
+        "Temporary"
+      ],
+      "correctAnswer": 1,
+      "explanation": "\"Ubiquitous\" means present, appearing, or found everywhere at the same time (omnipresent).",
+      "points": 1
+    },
+    {
+      "id": "q_g12_apt_m1_01",
+      "examId": "exam_95",
+      "grade": "Grade12",
+      "subject": "Aptitude",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Find the next number in the sequence: 2, 6, 12, 20, 30, ?",
+      "options": [
+        "38",
+        "40",
+        "42",
+        "46"
+      ],
+      "correctAnswer": 2,
+      "explanation": "Differences between consecutive numbers are +4, +6, +8, +10. The next difference is +12 => 30 + 12 = 42 (also n*(n+1)).",
+      "points": 1
+    },
+    {
+      "id": "q_g12_apt_m1_02",
+      "examId": "exam_95",
+      "grade": "Grade12",
+      "subject": "Aptitude",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "OASIS is to DESERT as ISLAND is to:",
+      "options": [
+        "OCEAN",
+        "SAND",
+        "FOREST",
+        "MOUNTAIN"
+      ],
+      "correctAnswer": 0,
+      "explanation": "An oasis is a fertile isolated body of water surrounded by desert, just as an island is a body of land surrounded by ocean.",
+      "points": 1
+    },
+    {
+      "id": "q_g12_apt_m1_03",
+      "examId": "exam_95",
+      "grade": "Grade12",
+      "subject": "Aptitude",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "If 5 workers take 12 days to complete a construction project, how many days would 10 workers take at the same pace?",
+      "options": [
+        "6 days",
+        "10 days",
+        "15 days",
+        "24 days"
+      ],
+      "correctAnswer": 0,
+      "explanation": "Work = Workers * Days = 5 * 12 = 60 worker-days. For 10 workers: 60 / 10 = 6 days.",
+      "points": 1
+    },
+    {
+      "id": "q_g12_apt_m1_04",
+      "examId": "exam_95",
+      "grade": "Grade12",
+      "subject": "Aptitude",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "If all Catholics are Christians, and all Christians value compassion, it logically follows that:",
+      "options": [
+        "All compassionate people are Catholic",
+        "All Catholics value compassion",
+        "Some Christians are not compassionate",
+        "No valid conclusion exists"
+      ],
+      "correctAnswer": 1,
+      "explanation": "By standard categorical syllogism: All A are B, and all B are C => All A are C (All Catholics value compassion).",
+      "points": 1
+    },
+    {
+      "id": "q_g12_it_m1_01",
+      "examId": "exam_99",
+      "grade": "Grade12",
+      "subject": "IT",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "In asymmetric public-key cryptography, a message encrypted with a recipient’s public key can only be decrypted by:",
+      "options": [
+        "The sender’s public key",
+        "The recipient’s private key",
+        "The sender’s private key",
+        "A symmetric secret key"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Asymmetric encryption uses keypairs: data encrypted with the public key can only be decrypted by the matching private key.",
+      "points": 1
+    },
+    {
+      "id": "q_g12_it_m1_02",
+      "examId": "exam_99",
+      "grade": "Grade12",
+      "subject": "IT",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Which software development methodology emphasizes short iterative sprints, frequent releases, and continuous stakeholder feedback?",
+      "options": [
+        "Waterfall model",
+        "Agile methodology",
+        "V-Model",
+        "Linear Sequential Model"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Agile development breaks projects into flexible sprint cycles adapting to evolving user feedback.",
+      "points": 1
+    },
+    {
+      "id": "q_g12_agri_m1_01",
+      "examId": "exam_93",
+      "grade": "Grade12",
+      "subject": "Agriculture",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Which of the following is the most water-efficient modern irrigation system delivering water directly to root zones?",
+      "options": [
+        "Flood irrigation",
+        "Furrow irrigation",
+        "Drip (trickle) irrigation",
+        "Sprinkler irrigation"
+      ],
+      "correctAnswer": 0,
+      "explanation": "Drip irrigation minimizes water evaporation and runoff by applying water directly to the plant root zone via emitters.",
+      "points": 1
+    },
+    {
+      "id": "q_g12_agri_m1_02",
+      "examId": "exam_93",
+      "grade": "Grade12",
+      "subject": "Agriculture",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "The three primary essential plant macronutrients supplied by standard NPK fertilizers are:",
+      "options": [
+        "Nitrogen, Phosphorus, and Potassium",
+        "Nickel, Platinum, and Krypton",
+        "Nitrogen, Potassium, and Calcium",
+        "Sodium, Phosphorus, and Potassium"
+      ],
+      "correctAnswer": 0,
+      "explanation": "NPK stands for Nitrogen (N) for vegetative foliage growth, Phosphorus (P) for roots/flowers, and Potassium (K) for disease resistance.",
+      "points": 1
+    },
+    {
+      "id": "q_g10_bio_m1_07",
+      "examId": "exam_14",
+      "grade": "Grade10",
+      "subject": "Biology",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Which of the following microscopes uses beams of electrons rather than light to achieve magnifications up to 1,000,000x?",
+      "options": [
+        "Compound light microscope",
+        "Transmission electron microscope (TEM)",
+        "Dissecting stereomicroscope",
+        "Fluorescence microscope"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Electron microscopes utilize electron beams with much shorter wavelengths than visible light, enabling atomic-level resolving power.",
+      "points": 1
+    },
+    {
+      "id": "q_g10_bio_m1_08",
+      "examId": "exam_14",
+      "grade": "Grade10",
+      "subject": "Biology",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "What happens to a red blood cell placed into a hypertonic salt solution?",
+      "options": [
+        "It absorbs water and lyses (bursts)",
+        "It loses water and crenates (shrinks)",
+        "It remains unchanged in shape",
+        "It divides by mitosis"
+      ],
+      "correctAnswer": 1,
+      "explanation": "In a hypertonic environment, water exits the erythrocyte down the osmotic gradient into the higher solute surrounding, causing crenation.",
+      "points": 1
+    },
+    {
+      "id": "q_g10_bio_m1_09",
+      "examId": "exam_14",
+      "grade": "Grade10",
+      "subject": "Biology",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Which component of the cytoskeleton forms the mitotic spindle fibers during nuclear cell division?",
+      "options": [
+        "Microfilaments (actin)",
+        "Intermediate filaments",
+        "Microtubules (tubulin)",
+        "Collagen fibers"
+      ],
+      "correctAnswer": 2,
+      "explanation": "Spindle fibers are composed of alpha and beta tubulin dimers forming dynamic microtubules that guide chromosomes.",
+      "points": 1
+    },
+    {
+      "id": "q_g10_bio_m1_10",
+      "examId": "exam_14",
+      "grade": "Grade10",
+      "subject": "Biology",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "What is the end product of normal mitotic cell division?",
+      "options": [
+        "Four genetically distinct haploid gametes",
+        "Two genetically identical diploid daughter cells",
+        "Two haploid zygotes",
+        "One multinucleated clone"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Mitosis produces two genetically identical diploid (2n) somatic cells for growth, tissue repair, and maintenance.",
+      "points": 1
+    },
+    {
+      "id": "q_g10_chem_m1_09",
+      "examId": "exam_15",
+      "grade": "Grade10",
+      "subject": "Chemistry",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "What type of isomerism is exhibited by but-2-ene in cis and trans arrangements?",
+      "options": [
+        "Chain isomerism",
+        "Positional isomerism",
+        "Geometric (stereoisomerism)",
+        "Functional group isomerism"
+      ],
+      "correctAnswer": 2,
+      "explanation": "Restricted rotation around the carbon-carbon double bond allows substituents to be on the same side (cis) or opposite sides (trans).",
+      "points": 1
+    },
+    {
+      "id": "q_g10_chem_m1_10",
+      "examId": "exam_15",
+      "grade": "Grade10",
+      "subject": "Chemistry",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Which reagent is used as a test for unsaturation (decolorized by alkenes and alkynes)?",
+      "options": [
+        "Bromine water (Br2 in CCl4)",
+        "Dilute hydrochloric acid",
+        "Sodium hydroxide solution",
+        "Litmus indicator"
+      ],
+      "correctAnswer": 0,
+      "explanation": "Alkenes and alkynes rapidly decolorize reddish-brown bromine water by electrophilic halogen addition across pi bonds.",
+      "points": 1
+    },
+    {
+      "id": "q_g10_phys_m1_11",
+      "examId": "exam_23",
+      "grade": "Grade10",
+      "subject": "Physics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "A 1500 kg truck travelling at 20 m/s brakes to a complete stop in 4 seconds. What magnitude of braking force was applied?",
+      "options": [
+        "3,000 N",
+        "5,000 N",
+        "7,500 N",
+        "15,000 N"
+      ],
+      "correctAnswer": 2,
+      "explanation": "a = (0 - 20) / 4 = -5 m/s^2. Force magnitude F = m * |a| = 1500 * 5 = 7,500 N.",
+      "points": 1
+    },
+    {
+      "id": "q_g10_phys_m1_12",
+      "examId": "exam_23",
+      "grade": "Grade10",
+      "subject": "Physics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "What is the work done when a force of 40 N moves a box 5 meters in the exact direction of the force?",
+      "options": [
+        "8 J",
+        "45 J",
+        "200 J",
+        "800 J"
+      ],
+      "correctAnswer": 2,
+      "explanation": "Work W = F * d * cos(0°) = 40 * 5 * 1 = 200 Joules.",
+      "points": 1
+    },
+    {
+      "id": "q_g10_hist_m1_06",
+      "examId": "exam_20",
+      "grade": "Grade10",
+      "subject": "History",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "The European maritime exploration that inaugurated direct oceanic sea routes to India was achieved by:",
+      "options": [
+        "Christopher Columbus",
+        "Vasco da Gama",
+        "Ferdinand Magellan",
+        "Marco Polo"
+      ],
+      "correctAnswer": 1,
+      "explanation": "In 1498, Portuguese navigator Vasco da Gama sailed around the Cape of Good Hope, reaching Calicut, India.",
+      "points": 1
+    },
+    {
+      "id": "q_g10_hist_m1_07",
+      "examId": "exam_20",
+      "grade": "Grade10",
+      "subject": "History",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "The great Christian king of Ethiopia who defeated Sultan Jamal ad-Din and extended royal authority in the 14th century was:",
+      "options": [
+        "Emperor Amda Seyon I",
+        "Emperor Zara Yaqob",
+        "Emperor Lalibela",
+        "Emperor Tewodros II"
+      ],
+      "correctAnswer": 0,
+      "explanation": "Emperor Amda Seyon I (1314–1344) commanded renowned military campaigns consolidating royal control across the central highlands.",
+      "points": 1
+    },
+    {
+      "id": "q_g10_geog_m1_05",
+      "examId": "exam_19",
+      "grade": "Grade10",
+      "subject": "Geography",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Which neighboring country borders Ethiopia directly to the east?",
+      "options": [
+        "Sudan",
+        "Kenya",
+        "Somalia and Djibouti",
+        "South Sudan"
+      ],
+      "correctAnswer": 2,
+      "explanation": "Ethiopia is bounded on the east and southeast by Somalia and Djibouti.",
+      "points": 1
+    },
+    {
+      "id": "q_g10_geog_m1_06",
+      "examId": "exam_19",
+      "grade": "Grade10",
+      "subject": "Geography",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Closely spaced contour lines on a topographic map indicate a:",
+      "options": [
+        "Gentle slope",
+        "Steep slope or cliff",
+        "Broad flat plain",
+        "Deep lake"
+      ],
+      "correctAnswer": 1,
+      "explanation": "When contour intervals are close together, elevation changes rapidly over short horizontal distances, indicating steep terrain.",
+      "points": 1
+    },
+    {
+      "id": "q_g10_econ_m1_05",
+      "examId": "exam_17",
+      "grade": "Grade10",
+      "subject": "Economics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "A point located inside the Production Possibility Curve (PPC) represents:",
+      "options": [
+        "Unattainable production level",
+        "Inefficient use or underemployment of resources",
+        "Maximum potential output",
+        "Economic growth"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Points inside the PPC show that society is not fully utilizing its available resources or technology efficiently.",
+      "points": 1
+    },
+    {
+      "id": "q_g10_econ_m1_06",
+      "examId": "exam_17",
+      "grade": "Grade10",
+      "subject": "Economics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "If demand for injera teff increases while its supply remains constant, what happens to the equilibrium price and quantity?",
+      "options": [
+        "Both price and quantity increase",
+        "Price increases but quantity decreases",
+        "Both price and quantity decrease",
+        "Price decreases but quantity increases"
+      ],
+      "correctAnswer": 0,
+      "explanation": "A rightward shift in demand along an upward-sloping supply curve raises both the equilibrium market price and equilibrium quantity.",
+      "points": 1
+    },
+    {
+      "id": "q_g10_it_m1_05",
+      "examId": "exam_21",
+      "grade": "Grade10",
+      "subject": "IT",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Which optical storage media typically holds up to 700 MB of digital data?",
+      "options": [
+        "CD-ROM",
+        "DVD-ROM",
+        "Blu-ray Disc",
+        "Magnetic Tape"
+      ],
+      "correctAnswer": 0,
+      "explanation": "Standard Compact Discs (CD-ROMs) have a data capacity of approximately 650–700 MB.",
+      "points": 1
+    },
+    {
+      "id": "q_g10_cit_m1_04",
+      "examId": "exam_16",
+      "grade": "Grade10",
+      "subject": "Citizenship",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "A constitutional system where governmental authority is partitioned between central federal bodies and regional states is termed:",
+      "options": [
+        "Unitary state",
+        "Federal state",
+        "Confederacy",
+        "Absolute monarchy"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Federalism divides sovereign constitutional authority between the national federal government and constitutionally recognized regional states.",
+      "points": 1
+    },
+    {
+      "id": "q_g11_math_m1_08",
+      "examId": "exam_68",
+      "grade": "Grade11",
+      "subject": "Mathematics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Decompose 5 / [(x - 1)(x + 4)] into partial fractions: A/(x - 1) + B/(x + 4). What is the value of A?",
+      "options": [
+        "1",
+        "2",
+        "-1",
+        "5"
+      ],
+      "correctAnswer": 0,
+      "explanation": "5 = A(x + 4) + B(x - 1). Setting x = 1 gives 5 = A(5) => A = 1.",
+      "points": 1
+    },
+    {
+      "id": "q_g11_math_m1_09",
+      "examId": "exam_68",
+      "grade": "Grade11",
+      "subject": "Mathematics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "What is the distance between the points P(1, 2) and Q(4, 6)?",
+      "options": [
+        "3",
+        "4",
+        "5",
+        "7"
+      ],
+      "correctAnswer": 2,
+      "explanation": "d = sqrt[(4 - 1)^2 + (6 - 2)^2] = sqrt[3^2 + 4^2] = sqrt[9 + 16] = 5.",
+      "points": 1
+    },
+    {
+      "id": "q_g11_math_m1_10",
+      "examId": "exam_68",
+      "grade": "Grade11",
+      "subject": "Mathematics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Find the vertex of the parabola y = x^2 - 4x + 7:",
+      "options": [
+        "(2, 3)",
+        "(-2, 3)",
+        "(2, -3)",
+        "(4, 7)"
+      ],
+      "correctAnswer": 0,
+      "explanation": "x = -b/(2a) = 4 / 2 = 2. y = (2)^2 - 4(2) + 7 = 4 - 8 + 7 = 3. Vertex is (2, 3).",
+      "points": 1
+    },
+    {
+      "id": "q_g11_phys_m1_08",
+      "examId": "exam_69",
+      "grade": "Grade11",
+      "subject": "Physics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "What is the cross product magnitude |A x B| if |A| = 6, |B| = 8, and the angle between them is 30 degrees?",
+      "options": [
+        "12",
+        "24",
+        "48",
+        "41.6"
+      ],
+      "correctAnswer": 1,
+      "explanation": "|A x B| = |A| * |B| * sin(theta) = 6 * 8 * sin(30°) = 48 * 0.5 = 24.",
+      "points": 1
+    },
+    {
+      "id": "q_g11_phys_m1_09",
+      "examId": "exam_69",
+      "grade": "Grade11",
+      "subject": "Physics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "The gravitational potential energy of a 5 kg object raised 10 meters above the ground is: (take g = 9.8 m/s^2)",
+      "options": [
+        "49 J",
+        "98 J",
+        "490 J",
+        "980 J"
+      ],
+      "correctAnswer": 2,
+      "explanation": "PE = mgh = 5 * 9.8 * 10 = 490 Joules.",
+      "points": 1
+    },
+    {
+      "id": "q_g11_bio_m1_06",
+      "examId": "exam_65",
+      "grade": "Grade11",
+      "subject": "Biology",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Which class of biomolecules has the primary cellular role of storing and transmitting genetic information?",
+      "options": [
+        "Triglycerides",
+        "Polypeptides",
+        "Nucleic acids (DNA and RNA)",
+        "Phospholipids"
+      ],
+      "correctAnswer": 2,
+      "explanation": "Deoxyribonucleic acid (DNA) and ribonucleic acid (RNA) encode the genetic instructions for all living organisms.",
+      "points": 1
+    },
+    {
+      "id": "q_g11_bio_m1_07",
+      "examId": "exam_65",
+      "grade": "Grade11",
+      "subject": "Biology",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Which test reagent produces a purple-violet color in the presence of peptide bonds in proteins?",
+      "options": [
+        "Benedict’s reagent",
+        "Iodine solution",
+        "Biuret reagent",
+        "Sudan III stain"
+      ],
+      "correctAnswer": 2,
+      "explanation": "Biuret solution reacts with peptide linkages in alkaline copper conditions to produce a characteristic violet color.",
+      "points": 1
+    },
+    {
+      "id": "q_g11_eng_m1_05",
+      "examId": "exam_66",
+      "grade": "Grade11",
+      "subject": "English",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Identify the mood in: \"Had we known about the exam schedule earlier, we would have revised the chapters.\"",
+      "options": [
+        "Indicative mood",
+        "Imperative mood",
+        "Conditional inversion",
+        "Subjunctive simple"
+      ],
+      "correctAnswer": 2,
+      "explanation": "\"Had we known...\" is an inverted conditional clause equivalent to \"If we had known...\".",
+      "points": 1
+    },
+    {
+      "id": "q_g11_it_m1_04",
+      "examId": "exam_67",
+      "grade": "Grade11",
+      "subject": "IT",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "What is the primary role of the Domain Name System (DNS) in computer networking?",
+      "options": [
+        "Encrypting outgoing passwords",
+        "Translating human-readable domain names into IP addresses",
+        "Compressing video streams",
+        "Filtering phishing emails"
+      ],
+      "correctAnswer": 1,
+      "explanation": "DNS acts as the internet's directory, resolving names like \"pastexamlibrary.org\" into machine-routable IP addresses.",
+      "points": 1
+    },
+    {
+      "id": "q_g11_web_m1_04",
+      "examId": "exam_70",
+      "grade": "Grade11",
+      "subject": "WEB",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Which CSS selector selects all <p> elements located directly inside a <div>?",
+      "options": [
+        "div p",
+        "div > p",
+        "div + p",
+        "div ~ p"
+      ],
+      "correctAnswer": 1,
+      "explanation": "The child combinator (>) targets elements that are direct children of the specified parent.",
+      "points": 1
+    },
+    {
+      "id": "q_g11_agri_m1_03",
+      "examId": "exam_63",
+      "grade": "Grade11",
+      "subject": "Agriculture",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Which process in leguminous crops enriches soil with bioavailable nitrogen compounds?",
+      "options": [
+        "Nitrification by Rhizobium root nodules",
+        "Denitrification by Pseudomonas",
+        "Ammonification by fungi",
+        "Photosynthesis by stomata"
+      ],
+      "correctAnswer": 0,
+      "explanation": "Symbiotic Rhizobium bacteria inside legume root nodules fix atmospheric nitrogen gas into plant-absorbable ammonium.",
+      "points": 1
+    },
+    {
+      "id": "q_g12_math_m1_08",
+      "examId": "exam_100",
+      "grade": "Grade12",
+      "subject": "Mathematics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "What is the derivative f'(x) of the function f(x) = 3x^4 - 5x^2 + 8?",
+      "options": [
+        "12x^3 - 10x",
+        "12x^3 - 5x",
+        "7x^3 - 10x",
+        "3x^3 - 10x"
+      ],
+      "correctAnswer": 0,
+      "explanation": "Applying the power rule: d/dx(3x^4) = 12x^3, d/dx(-5x^2) = -10x, and d/dx(8) = 0.",
+      "points": 1
+    },
+    {
+      "id": "q_g12_math_m1_09",
+      "examId": "exam_100",
+      "grade": "Grade12",
+      "subject": "Mathematics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "If the common ratio of a geometric progression is r = 3 and the first term is a1 = 2, what is the 5th term?",
+      "options": [
+        "54",
+        "162",
+        "486",
+        "243"
+      ],
+      "correctAnswer": 1,
+      "explanation": "a5 = a1 * r^(5 - 1) = 2 * (3^4) = 2 * 81 = 162.",
+      "points": 1
+    },
+    {
+      "id": "q_g12_math_m1_10",
+      "examId": "exam_100",
+      "grade": "Grade12",
+      "subject": "Mathematics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Evaluate lim_{x -> 0} [(e^x - 1) / x]:",
+      "options": [
+        "0",
+        "1",
+        "e",
+        "Undefined"
+      ],
+      "correctAnswer": 1,
+      "explanation": "By L’Hôpital’s rule or the definition of derivative of e^x at x=0: lim_{x -> 0} (e^x / 1) = e^0 = 1.",
+      "points": 1
+    },
+    {
+      "id": "q_g12_phys_m1_06",
+      "examId": "exam_101",
+      "grade": "Grade12",
+      "subject": "Physics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "The electric potential V at a distance r from an isolated point charge Q in free space is given by:",
+      "options": [
+        "k * Q / r",
+        "k * Q / r^2",
+        "k * Q^2 / r",
+        "k * Q * r"
+      ],
+      "correctAnswer": 0,
+      "explanation": "Electric potential is a scalar quantity given by V = k * Q / r, whereas electric field magnitude is k * Q / r^2.",
+      "points": 1
+    },
+    {
+      "id": "q_g12_phys_m1_07",
+      "examId": "exam_101",
+      "grade": "Grade12",
+      "subject": "Physics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "What is the capacitance of a parallel-plate capacitor with plate area A and separation distance d in air?",
+      "options": [
+        "C = epsilon_0 * A / d",
+        "C = epsilon_0 * d / A",
+        "C = A * d / epsilon_0",
+        "C = epsilon_0 * A * d"
+      ],
+      "correctAnswer": 0,
+      "explanation": "Capacitance is directly proportional to plate area and inversely proportional to plate separation: C = epsilon_0 * A / d.",
+      "points": 1
+    },
+    {
+      "id": "q_g12_chem_m1_06",
+      "examId": "exam_97",
+      "grade": "Grade12",
+      "subject": "Chemistry",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "In an exothermic reversible reaction, what happens to the equilibrium constant Kc when the temperature is raised?",
+      "options": [
+        "Kc increases",
+        "Kc decreases",
+        "Kc remains unchanged",
+        "Kc drops to zero"
+      ],
+      "correctAnswer": 1,
+      "explanation": "According to Le Chatelier’s principle, adding heat to an exothermic reaction shifts the equilibrium toward reactants, reducing Kc.",
+      "points": 1
+    },
+    {
+      "id": "q_g12_chem_m1_07",
+      "examId": "exam_97",
+      "grade": "Grade12",
+      "subject": "Chemistry",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "What is the pH of a 0.001 M hydrochloric acid (HCl) solution at 25°C?",
+      "options": [
+        "1",
+        "2",
+        "3",
+        "11"
+      ],
+      "correctAnswer": 2,
+      "explanation": "HCl is a strong monoprotic acid: [H+] = 10^(-3) M => pH = -log(10^(-3)) = 3.",
+      "points": 1
+    },
+    {
+      "id": "q_g12_bio_m1_05",
+      "examId": "exam_96",
+      "grade": "Grade12",
+      "subject": "Biology",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Red-green color blindness in humans is inherited as an:",
+      "options": [
+        "Autosomal dominant trait",
+        "Autosomal recessive trait",
+        "X-linked recessive trait",
+        "Y-linked trait"
+      ],
+      "correctAnswer": 2,
+      "explanation": "The alleles responsible for red-green color vision pigments are located on the X chromosome and inherited in an X-linked recessive manner.",
+      "points": 1
+    },
+    {
+      "id": "q_g12_bio_m1_06",
+      "examId": "exam_96",
+      "grade": "Grade12",
+      "subject": "Biology",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Which nitrogenous base is found in RNA molecules but completely absent in DNA?",
+      "options": [
+        "Thymine",
+        "Uracil",
+        "Adenine",
+        "Cytosine"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Uracil (U) replaces Thymine (T) in RNA and pairs with Adenine (A) during transcription and translation.",
+      "points": 1
+    },
+    {
+      "id": "q_g12_eng_m1_04",
+      "examId": "exam_98",
+      "grade": "Grade12",
+      "subject": "English",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Choose the correct preposition: \"The candidate was fully absorbed ______ his mathematical derivation.\"",
+      "options": [
+        "with",
+        "in",
+        "at",
+        "on"
+      ],
+      "correctAnswer": 1,
+      "explanation": "The standard idiomatic collocation is \"absorbed in\" something (meaning deeply engrossed or focused).",
+      "points": 1
+    },
+    {
+      "id": "q_g12_apt_m1_05",
+      "examId": "exam_95",
+      "grade": "Grade12",
+      "subject": "Aptitude",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "If a product priced at 800 Birr is discounted by 25%, what is the final selling price?",
+      "options": [
+        "500 Birr",
+        "600 Birr",
+        "650 Birr",
+        "700 Birr"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Discount = 800 * 0.25 = 200 Birr. Final price = 800 - 200 = 600 Birr.",
+      "points": 1
+    },
+    {
+      "id": "q_g12_apt_m1_06",
+      "examId": "exam_95",
+      "grade": "Grade12",
+      "subject": "Aptitude",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "TELESCOPE is to ASTRONOMER as MICROSCOPE is to:",
+      "options": [
+        "BIOLOGIST",
+        "GEOLOGIST",
+        "ENGINEER",
+        "PILOT"
+      ],
+      "correctAnswer": 0,
+      "explanation": "A telescope is the primary observational tool of an astronomer, just as a microscope is the fundamental investigative tool of a biologist.",
+      "points": 1
+    },
+    {
+      "id": "q_g12_it_m1_03",
+      "examId": "exam_99",
+      "grade": "Grade12",
+      "subject": "IT",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Which of the following hash algorithms produces a 256-bit fixed-length cryptographic digest?",
+      "options": [
+        "MD5",
+        "SHA-1",
+        "SHA-256",
+        "DES"
+      ],
+      "correctAnswer": 2,
+      "explanation": "SHA-256 (Secure Hash Algorithm 256-bit) computes a deterministic, one-way 256-bit hash value widely used in security and blockchain.",
+      "points": 1
+    },
+    {
+      "id": "q_g12_agri_m1_03",
+      "examId": "exam_93",
+      "grade": "Grade12",
+      "subject": "Agriculture",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Integrated Pest Management (IPM) prioritizes which strategy before applying chemical synthetic pesticides?",
+      "options": [
+        "Immediate chemical saturation",
+        "Biological controls, crop rotation, and cultural pest-resistant varieties",
+        "Burning all adjacent vegetative fields",
+        "Flooding crop furrows permanently"
+      ],
+      "correctAnswer": 1,
+      "explanation": "IPM emphasizes ecologically balanced cultural, physical, and biological methods to suppress pest populations below economic damage thresholds.",
+      "points": 1
     }
   ],
   "activityLogs": []
