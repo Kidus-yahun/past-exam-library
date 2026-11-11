@@ -5587,6 +5587,80 @@ function showStudyHubView(pushHistory = true) {
 const FORMULA_DATA = {
     "math": [
         {
+            "title": "Vector Magnitude & Unit Vector",
+            "topic": "Vectors",
+            "grades": [
+                "Grade11",
+                "Grade12"
+            ],
+            "displayMath": "|u| = √(u₁² + u₂² + u₃²)   |   û = u / |u|   (|û| = 1)",
+            "variables": "u = (u₁, u₂, u₃) = vector components in 3D, |u| = Euclidean norm/length, û = dimensionless unit direction vector",
+            "tip": "A unit vector has a length of exactly 1. To normalize any non-zero vector, divide each component by its magnitude."
+        },
+        {
+            "title": "Scalar (Dot) Product & Angle Between Vectors",
+            "topic": "Vectors",
+            "grades": [
+                "Grade11",
+                "Grade12"
+            ],
+            "displayMath": "u · v = |u||v|cos θ = u₁v₁ + u₂v₂ + u₃v₃   |   cos θ = (u · v) / (|u||v|)",
+            "variables": "u, v = vectors, θ = angle between vectors (0 ≤ θ ≤ π), u · v = scalar dot product",
+            "tip": "Two non-zero vectors are perpendicular (orthogonal) if and only if their dot product u · v = 0."
+        },
+        {
+            "title": "Vector (Cross) Product & Geometric Area",
+            "topic": "Vectors",
+            "grades": [
+                "Grade11",
+                "Grade12"
+            ],
+            "displayMath": "u × v = |u||v|sin θ · n̂   |   |u × v| = Area of parallelogram   |   ½|u × v| = Area of triangle",
+            "variables": "u × v = vector perpendicular to both u and v (right-hand rule), n̂ = normal unit vector",
+            "tip": "The cross product of parallel (collinear) vectors is zero: u × v = 0 when sin θ = 0 (θ = 0° or 180°)."
+        },
+        {
+            "title": "Vector Projections (Scalar & Vector)",
+            "topic": "Vectors",
+            "grades": [
+                "Grade11",
+                "Grade12"
+            ],
+            "displayMath": "Scalar Component: comp_v(u) = (u · v) / |v|   |   Vector Projection: proj_v(u) = [(u · v) / |v|²] · v",
+            "variables": "comp_v(u) = signed scalar length of projection, proj_v(u) = orthogonal projection vector along v",
+            "tip": "The vector component of u orthogonal to v is given by u - proj_v(u)."
+        },
+        {
+            "title": "Position, Velocity & Acceleration via Calculus",
+            "topic": "Motion & Rates of Change",
+            "grades": [
+                "Grade12"
+            ],
+            "displayMath": "v(t) = s'(t) = ds/dt   |   a(t) = v'(t) = s''(t) = dv/dt   |   s(t) = ∫ v(t) dt",
+            "variables": "s(t) = position/displacement function, v(t) = instantaneous velocity, a(t) = instantaneous acceleration, t = time",
+            "tip": "A particle is at rest instantaneously when v(t) = 0. Speed is the scalar magnitude |v(t)|."
+        },
+        {
+            "title": "Total Distance Traveled vs Net Displacement",
+            "topic": "Motion & Rates of Change",
+            "grades": [
+                "Grade12"
+            ],
+            "displayMath": "Displacement: Δs = ∫ₐᵇ v(t) dt = s(b) - s(a)   |   Total Distance: D = ∫ₐᵇ |v(t)| dt",
+            "variables": "a, b = initial and final time instants, v(t) = velocity function, |v(t)| = speed",
+            "tip": "To find total distance, find where v(t) changes sign (v(t) = 0), split the integral across those intervals, and take absolute values."
+        },
+        {
+            "title": "Related Rates of Motion & Change",
+            "topic": "Motion & Rates of Change",
+            "grades": [
+                "Grade12"
+            ],
+            "displayMath": "dy/dt = (dy/dx) · (dx/dt)   |   Pythagorean rate: 2x(dx/dt) + 2y(dy/dt) = 2z(dz/dt)",
+            "variables": "x, y, z = geometric variables varying with time t, dx/dt, dy/dt = instantaneous time rates of change",
+            "tip": "Differentiate the connecting geometric equation implicitly with respect to time t, then substitute known instantaneous values."
+        },
+        {
             "title": "Quadratic Formula & Discriminant",
             "topic": "Algebra & Polynomials",
             "grades": [
@@ -5596,8 +5670,44 @@ const FORMULA_DATA = {
                 "Grade12"
             ],
             "displayMath": "x = (-b ± √(b² - 4ac)) / (2a)   |   Δ = b² - 4ac",
-            "variables": "a, b, c = coefficients in ax² + bx + c = 0, Δ = discriminant",
+            "variables": "a, b, c = coefficients in ax² + bx + c = 0 (a ≠ 0), Δ = discriminant",
             "tip": "Δ > 0: two distinct real roots; Δ = 0: one repeated real root; Δ < 0: no real roots (two complex conjugate roots)."
+        },
+        {
+            "title": "Vieta's Formulas for Polynomial Roots",
+            "topic": "Algebra & Polynomials",
+            "grades": [
+                "Grade10",
+                "Grade11",
+                "Grade12"
+            ],
+            "displayMath": "Quadratic: x₁ + x₂ = -b/a,  x₁·x₂ = c/a   |   Cubic: Σxᵢ = -b/a,  Σxᵢxⱼ = c/a,  x₁x₂x₃ = -d/a",
+            "variables": "xᵢ = roots of polynomial P(x) = aₙxⁿ + aₙ₋₁xⁿ⁻¹ + ... + a₀",
+            "tip": "Allows finding symmetric expressions like x₁² + x₂² = (x₁ + x₂)² - 2x₁x₂ without solving for individual roots."
+        },
+        {
+            "title": "Remainder & Factor Theorems",
+            "topic": "Algebra & Polynomials",
+            "grades": [
+                "Grade9",
+                "Grade10",
+                "Grade11",
+                "Grade12"
+            ],
+            "displayMath": "P(x) = (x - c)·Q(x) + R   =>   Remainder R = P(c)   |   (x - c) is a factor ⟺ P(c) = 0",
+            "variables": "P(x) = dividend polynomial, (x - c) = linear divisor, Q(x) = quotient, R = constant remainder",
+            "tip": "If P(c) = 0, then c is an exact root of P(x) and (x - c) divides P(x) completely with zero remainder."
+        },
+        {
+            "title": "Binomial Expansion Theorem",
+            "topic": "Algebra & Polynomials",
+            "grades": [
+                "Grade11",
+                "Grade12"
+            ],
+            "displayMath": "(a + b)ⁿ = Σₖ₌₀ⁿ [C(n, k) · aⁿ⁻ᵏ · bᵏ]   |   C(n, k) = n! / [k!(n - k)!]",
+            "variables": "n = positive integer power, C(n, k) = binomial coefficients, T_(k+1) = (k+1)-th term",
+            "tip": "The general (r + 1)-th term in the expansion is T_(r+1) = C(n, r) · aⁿ⁻ʳ · bʳ."
         },
         {
             "title": "Coordinate Geometry: Distance, Midpoint & Slope",
@@ -5608,57 +5718,109 @@ const FORMULA_DATA = {
                 "Grade11",
                 "Grade12"
             ],
-            "displayMath": "d = √[(x₂ - x₁)² + (y₂ - y₁)²]   |   M = ((x₁ + x₂)/2, (y₁ + y₂)/2)   |   m = (y₂ - y₁) / (x₂ - x₁) = tan θ",
-            "variables": "(x₁, y₁) and (x₂, y₂) = coordinates of two points, m = gradient/slope, θ = inclination angle",
+            "displayMath": "d = √[(x₂ - x₁)² + (y₂ - y₁)²]   |   M = ((x₁ + x₂)/2, (y₁ + y₂)/2)   |   m = (y₂ - y₁) / (x₂ - x₁)",
+            "variables": "(x₁, y₁), (x₂, y₂) = coordinates of two points, d = distance, M = midpoint, m = slope/gradient",
             "tip": "Parallel lines have identical slopes (m₁ = m₂). Perpendicular lines have negative reciprocal slopes (m₁ · m₂ = -1)."
         },
         {
-            "title": "Equations of Straight Lines",
+            "title": "Distance from a Point to a Straight Line",
             "topic": "Analytic Geometry",
             "grades": [
-                "Grade9",
                 "Grade10",
                 "Grade11",
                 "Grade12"
             ],
-            "displayMath": "Slope-Intercept: y = mx + b   |   Point-Slope: y - y₁ = m(x - x₁)   |   General: Ax + By + C = 0",
-            "variables": "m = slope, b = y-intercept (0, b), (x₁, y₁) = known point on line",
-            "tip": "Distance from point (x₀, y₀) to line Ax + By + C = 0 is d = |Ax₀ + By₀ + C| / √(A² + B²)."
-        },
-        {
-            "title": "Laws of Exponents & Logarithms",
-            "topic": "Exponentials & Logarithms",
-            "grades": [
-                "Grade10",
-                "Grade11",
-                "Grade12"
-            ],
-            "displayMath": "log_b(xy) = log_b(x) + log_b(y)   |   log_b(x/y) = log_b(x) - log_b(y)   |   log_b(xᵏ) = k·log_b(x)   |   Change of base: log_b(x) = ln(x) / ln(b)",
-            "variables": "b > 0 (b ≠ 1) = base, x, y > 0 = arguments, k = real exponent",
-            "tip": "Natural log ln(x) uses base e ≈ 2.71828. Remember: log_b(1) = 0 and log_b(b) = 1."
+            "displayMath": "d = |A·x₀ + B·y₀ + C| / √(A² + B²)",
+            "variables": "(x₀, y₀) = coordinates of point, Ax + By + C = 0 = standard equation of line, d = perpendicular distance",
+            "tip": "Distance between two parallel lines Ax + By + C₁ = 0 and Ax + By + C₂ = 0 is d = |C₁ - C₂| / √(A² + B²)."
         },
         {
             "title": "Standard Equation of a Circle",
-            "topic": "Conic Sections",
+            "topic": "Analytic Geometry",
             "grades": [
                 "Grade10",
                 "Grade11",
                 "Grade12"
             ],
             "displayMath": "(x - h)² + (y - k)² = r²   |   General: x² + y² + 2gx + 2fy + c = 0",
-            "variables": "(h, k) = center coordinates, r = radius (r > 0). In general form: Center = (-g, -f), r = √(g² + f² - c)",
-            "tip": "If g² + f² - c < 0, the equation represents no real circle. If = 0, it represents a single point."
+            "variables": "(h, k) = center, r = radius. In general form: Center = (-g, -f), radius r = √(g² + f² - c)",
+            "tip": "If g² + f² - c < 0, no real circle exists. If = 0, it represents a single degenerate point."
         },
         {
-            "title": "Conic Sections: Parabola & Ellipse",
-            "topic": "Conic Sections",
+            "title": "Conic Sections: Parabola, Ellipse & Hyperbola",
+            "topic": "Analytic Geometry",
             "grades": [
                 "Grade11",
                 "Grade12"
             ],
-            "displayMath": "Parabola: (y - k)² = 4p(x - h)   |   Ellipse: (x - h)²/a² + (y - k)²/b² = 1   (c² = a² - b²)",
-            "variables": "(h, k) = vertex or center, p = focal length, a = semi-major axis, b = semi-minor axis, c = focal distance",
-            "tip": "Eccentricity of an ellipse is e = c/a (0 < e < 1). For a parabola, eccentricity e = 1."
+            "displayMath": "Parabola: (y - k)² = 4p(x - h)   |   Ellipse: x²/a² + y²/b² = 1 (c²=a²-b²)   |   Hyperbola: x²/a² - y²/b² = 1 (c²=a²+b²)",
+            "variables": "a = semi-major axis, b = semi-minor axis, c = focal distance, e = c/a (eccentricity)",
+            "tip": "Eccentricity: e = 0 for circle; 0 < e < 1 for ellipse; e = 1 for parabola; e > 1 for hyperbola."
+        },
+        {
+            "title": "Fundamental Pythagorean Identities",
+            "topic": "Trigonometry",
+            "grades": [
+                "Grade10",
+                "Grade11",
+                "Grade12"
+            ],
+            "displayMath": "sin²θ + cos²θ = 1   |   1 + tan²θ = sec²θ   |   1 + cot²θ = csc²θ",
+            "variables": "θ = angle, tan θ = sin θ/cos θ, sec θ = 1/cos θ, csc θ = 1/sin θ, cot θ = 1/tan θ",
+            "tip": "Divide sin²θ + cos²θ = 1 by cos²θ to get 1 + tan²θ = sec²θ instantly."
+        },
+        {
+            "title": "Compound Angle & Double Angle Formulas",
+            "topic": "Trigonometry",
+            "grades": [
+                "Grade11",
+                "Grade12"
+            ],
+            "displayMath": "sin(A ± B) = sin A cos B ± cos A sin B   |   cos(A ± B) = cos A cos B ∓ sin A sin B   |   sin 2θ = 2sin θ cos θ",
+            "variables": "A, B, θ = real angles in radians or degrees, cos 2θ = cos²θ - sin²θ = 2cos²θ - 1 = 1 - 2sin²θ",
+            "tip": "Crucial for calculus integrations: cos²θ = (1 + cos 2θ)/2 and sin²θ = (1 - cos 2θ)/2."
+        },
+        {
+            "title": "Laws of Sines & Cosines (Triangle Solving)",
+            "topic": "Trigonometry",
+            "grades": [
+                "Grade10",
+                "Grade11",
+                "Grade12"
+            ],
+            "displayMath": "Law of Sines: a/sin A = b/sin B = c/sin C = 2R   |   Law of Cosines: c² = a² + b² - 2ab·cos C",
+            "variables": "a, b, c = side lengths, A, B, C = opposite interior angles, R = circumradius",
+            "tip": "Area of any triangle with two sides and included angle: Area = ½·a·b·sin C."
+        },
+        {
+            "title": "Core Differentiation Rules",
+            "topic": "Calculus",
+            "grades": [
+                "Grade12"
+            ],
+            "displayMath": "Power: d/dx(xⁿ) = n·xⁿ⁻¹   |   Product: (uv)' = u'v + uv'   |   Quotient: (u/v)' = (u'v - uv')/v²   |   Chain: [f(g(x))]' = f'(g(x))·g'(x)",
+            "variables": "u = u(x), v = v(x) differentiable functions, v ≠ 0, n = real number exponent",
+            "tip": "Quotient rule mnemonic: (Low d-High - High d-Low) / (Low Low)."
+        },
+        {
+            "title": "Derivatives of Transcendental Functions",
+            "topic": "Calculus",
+            "grades": [
+                "Grade12"
+            ],
+            "displayMath": "d/dx(eᵏˣ) = k·eᵏˣ   |   d/dx(ln x) = 1/x   |   d/dx(sin x) = cos x   |   d/dx(cos x) = -sin x   |   d/dx(tan x) = sec²x",
+            "variables": "k = constant scalar, x > 0 for natural logarithm ln x",
+            "tip": "Remember that trigonometric derivatives starting with 'co' (cos, cot, csc) always produce negative derivatives."
+        },
+        {
+            "title": "Fundamental Theorem of Calculus & Standard Integrals",
+            "topic": "Calculus",
+            "grades": [
+                "Grade12"
+            ],
+            "displayMath": "∫ xⁿ dx = (xⁿ⁺¹)/(n+1) + C (n≠-1)   |   ∫ (1/x) dx = ln|x| + C   |   Definite: ∫ₐᵇ f(x) dx = F(b) - F(a)",
+            "variables": "F(x) = antiderivative of f(x) such that F'(x) = f(x), C = arbitrary constant of integration",
+            "tip": "For integration by substitution: ∫ f(g(x))g'(x) dx = ∫ f(u) du where u = g(x) and du = g'(x)dx."
         },
         {
             "title": "Arithmetic Progression (AP)",
@@ -5668,893 +5830,525 @@ const FORMULA_DATA = {
                 "Grade12"
             ],
             "displayMath": "aₙ = a₁ + (n - 1)d   |   Sₙ = (n/2)[2a₁ + (n - 1)d] = (n/2)(a₁ + aₙ)",
-            "variables": "a₁ = first term, d = common difference, n = term index, Sₙ = sum of first n terms",
-            "tip": "Common difference d is obtained by subtracting any term from the next: d = aₙ - aₙ₋₁."
+            "variables": "a₁ = first term, d = common difference (aₙ - aₙ₋₁), n = term number, Sₙ = sum of first n terms",
+            "tip": "Arithmetic mean between two numbers a and b is A = (a + b) / 2."
         },
         {
-            "title": "Geometric Progression (GP)",
+            "title": "Geometric Progression (GP) & Infinite Series",
             "topic": "Sequences & Series",
             "grades": [
                 "Grade11",
                 "Grade12"
             ],
-            "displayMath": "aₙ = a₁ · rⁿ⁻¹   |   Sₙ = a₁(1 - rⁿ) / (1 - r)   |   S_∞ = a₁ / (1 - r)   (|r| < 1)",
-            "variables": "a₁ = first term, r = common ratio, S_∞ = sum to infinity (convergent only if |r| < 1)",
-            "tip": "An infinite GP only converges when |r| < 1. If |r| ≥ 1, the sum diverges."
+            "displayMath": "aₙ = a₁ · rⁿ⁻¹   |   Sₙ = a₁(1 - rⁿ) / (1 - r)   |   S_∞ = a₁ / (1 - r)  (|r| < 1)",
+            "variables": "a₁ = first term, r = common ratio (aₙ / aₙ₋₁), S_∞ = sum to infinity (converges only when |r| < 1)",
+            "tip": "If |r| ≥ 1, the infinite geometric series diverges and has no finite sum."
         },
         {
-            "title": "Fundamental Trigonometric Identities",
-            "topic": "Trigonometry",
+            "title": "Permutations, Combinations & Probability",
+            "topic": "Probability & Statistics",
             "grades": [
                 "Grade10",
                 "Grade11",
                 "Grade12"
             ],
-            "displayMath": "sin²θ + cos²θ = 1   |   1 + tan²θ = sec²θ   |   1 + cot²θ = csc²θ",
-            "variables": "θ = angle in radians or degrees, tan θ = sin θ / cos θ, sec θ = 1/cos θ, csc θ = 1/sin θ",
-            "tip": "Divide sin²θ + cos²θ = 1 by cos²θ to get 1 + tan²θ = sec²θ instantly."
+            "displayMath": "P(n, r) = n! / (n - r)!   |   C(n, r) = n! / [r!(n - r)!]   |   P(A ∪ B) = P(A) + P(B) - P(A ∩ B)",
+            "variables": "n = total items, r = items chosen, P(A) = probability. Note: 0! = 1",
+            "tip": "Permutation: ORDER matters (ranking, PINs). Combination: ORDER does not matter (committees, hands of cards)."
         },
         {
-            "title": "Compound Angle / Addition Formulas",
-            "topic": "Trigonometry",
+            "title": "Sample Mean, Variance & Standard Deviation",
+            "topic": "Probability & Statistics",
             "grades": [
-                "Grade11",
-                "Grade12"
-            ],
-            "displayMath": "sin(A ± B) = sin A cos B ± cos A sin B   |   cos(A ± B) = cos A cos B ∓ sin A sin B",
-            "variables": "A, B = real angles in radians or degrees",
-            "tip": "Notice the sign flip for cosine: cos(A + B) has a minus sign, while cos(A - B) has a plus sign."
-        },
-        {
-            "title": "Double-Angle Formulas",
-            "topic": "Trigonometry",
-            "grades": [
-                "Grade11",
-                "Grade12"
-            ],
-            "displayMath": "sin(2θ) = 2 sin θ cos θ   |   cos(2θ) = cos²θ - sin²θ = 2cos²θ - 1 = 1 - 2sin²θ",
-            "variables": "θ = acute or general angle",
-            "tip": "Essential for national exam calculus integrations: cos²θ = (1 + cos 2θ)/2 and sin²θ = (1 - cos 2θ)/2."
-        },
-        {
-            "title": "Law of Sines & Law of Cosines",
-            "topic": "Trigonometry & Geometry",
-            "grades": [
+                "Grade9",
                 "Grade10",
                 "Grade11",
                 "Grade12"
             ],
-            "displayMath": "a/sin(A) = b/sin(B) = c/sin(C) = 2R   |   c² = a² + b² - 2ab·cos(C)",
-            "variables": "a, b, c = opposite side lengths; A, B, C = interior angles; R = circumradius",
-            "tip": "Use Cosine law when 2 sides and the included angle (SAS) or all 3 sides (SSS) are known."
+            "displayMath": "Mean x̄ = (Σ xᵢ) / n   |   Variance s² = Σ(xᵢ - x̄)² / (n - 1)   |   Std Dev s = √(s²)",
+            "variables": "xᵢ = individual data observations, n = sample size, x̄ = sample arithmetic mean",
+            "tip": "Variance measures average squared deviation from the mean; standard deviation brings the unit back to the original measurement."
+        }
+    ],
+    "physics": [
+        {
+            "title": "Vector Resolution into Orthogonal Components",
+            "topic": "Vectors",
+            "grades": [
+                "Grade9",
+                "Grade10",
+                "Grade11",
+                "Grade12"
+            ],
+            "displayMath": "A_x = |A| cos θ   |   A_y = |A| sin θ   |   |A| = √(A_x² + A_y²)   |   θ = arctan(A_y / A_x)",
+            "variables": "|A| = magnitude of vector (scalar ≥ 0), θ = direction angle measured counterclockwise from +x axis",
+            "tip": "Always check the coordinate quadrant when computing θ from arctan(A_y / A_x) to get the true standard direction."
         },
         {
-            "title": "Vectors in 2D & 3D: Magnitude, Dot & Cross Product",
+            "title": "Resultant of Multiple Vectors (Component Method)",
+            "topic": "Vectors",
+            "grades": [
+                "Grade9",
+                "Grade10",
+                "Grade11",
+                "Grade12"
+            ],
+            "displayMath": "R_x = Σ A_x = A₁ₓ + A₂ₓ + ...   |   R_y = Σ A_y = A₁ᵧ + A₂ᵧ + ...   |   |R| = √(R_x² + R_y²)",
+            "variables": "R = resultant net vector, R_x = sum of horizontal components, R_y = sum of vertical components",
+            "tip": "For equilibrium of coplanar forces: Σ F_x = 0 and Σ F_y = 0."
+        },
+        {
+            "title": "Scalar Dot Product & Physical Work",
             "topic": "Vectors",
             "grades": [
                 "Grade11",
                 "Grade12"
             ],
-            "displayMath": "|u| = √(u₁² + u₂² + u₃²)   |   u · v = |u||v|cos θ = u₁v₁ + u₂v₂ + u₃v₃   |   |u × v| = |u||v|sin θ",
-            "variables": "u, v = vectors, θ = angle between vectors, u · v = scalar dot product, u × v = vector cross product",
-            "tip": "Two non-zero vectors are perpendicular if and only if their dot product u · v = 0."
+            "displayMath": "A · B = |A||B| cos θ   |   Work W = F · d = |F||d| cos θ",
+            "variables": "F = applied force vector, d = displacement vector, θ = angle between force and displacement",
+            "tip": "Work is zero when force is perpendicular to displacement (θ = 90°, cos 90° = 0), e.g. magnetic force on a charge."
         },
         {
-            "title": "Matrices & 2×2 Determinants and Inverses",
-            "topic": "Matrices & Linear Systems",
+            "title": "Vector Cross Product & Torque",
+            "topic": "Vectors",
             "grades": [
                 "Grade11",
                 "Grade12"
             ],
-            "displayMath": "det(A) = ad - bc   |   A⁻¹ = (1 / det(A)) · [[d, -b], [-c, a]]   (det(A) ≠ 0)",
-            "variables": "A = [[a, b], [c, d]], det(A) = ad - bc = scalar determinant",
-            "tip": "A matrix is invertible (non-singular) if and only if det(A) ≠ 0. If det(A) = 0, no inverse exists."
+            "displayMath": "τ = r × F   |   |τ| = |r||F| sin θ = F · d_perpendicular",
+            "variables": "τ = torque vector (N·m), r = position vector from pivot to point of force application, θ = angle between r and F",
+            "tip": "Torque is maximized when the force is applied perpendicular to the moment arm (θ = 90°, sin 90° = 1)."
         },
         {
-            "title": "Limits & Special Trigonometric Limits",
-            "topic": "Calculus (Limits)",
-            "grades": [
-                "Grade12"
-            ],
-            "displayMath": "lim(x→0) [sin(x) / x] = 1   |   lim(x→0) [(1 - cos x) / x] = 0   |   lim(x→0) (1 + x)^(1/x) = e",
-            "variables": "x = variable approaching target limit, e ≈ 2.71828",
-            "tip": "For 0/0 or ∞/∞ indeterminate forms in national exams, apply L'Hôpital's Rule: lim [f(x)/g(x)] = lim [f'(x)/g'(x)]."
-        },
-        {
-            "title": "Derivatives of Standard Functions",
-            "topic": "Calculus (Differentiation)",
-            "grades": [
-                "Grade12"
-            ],
-            "displayMath": "d/dx[xⁿ] = n·xⁿ⁻¹   |   d/dx[sin x] = cos x   |   d/dx[cos x] = -sin x   |   d/dx[eᵏˣ] = k·eᵏˣ   |   d/dx[ln x] = 1/x",
-            "variables": "n = power, k = constant, x > 0 for ln x",
-            "tip": "Chain Rule: d/dx[f(g(x))] = f'(g(x)) · g'(x). Always multiply by the derivative of the inside."
-        },
-        {
-            "title": "Product, Quotient & Chain Rules",
-            "topic": "Calculus (Differentiation)",
-            "grades": [
-                "Grade12"
-            ],
-            "displayMath": "(u·v)' = u'v + uv'   |   (u/v)' = (u'v - uv') / v²   |   dy/dx = (dy/du) · (du/dx)",
-            "variables": "u = u(x), v = v(x) differentiable functions, v ≠ 0",
-            "tip": "Remember: quotient rule numerator has a minus sign, and denominator is v²."
-        },
-        {
-            "title": "Tangent Line & Extreme Values (Optimization)",
-            "topic": "Calculus (Applications)",
-            "grades": [
-                "Grade12"
-            ],
-            "displayMath": "Tangent: y - y₀ = f'(x₀)(x - x₀)   |   Critical points: f'(x) = 0 or undefined",
-            "variables": "x₀ = point of tangency, f'(x₀) = slope of tangent line",
-            "tip": "Second derivative test: If f'(c) = 0 and f''(c) > 0, local minimum. If f''(c) < 0, local maximum."
-        },
-        {
-            "title": "Standard Integration Formulas",
-            "topic": "Calculus (Integration)",
-            "grades": [
-                "Grade12"
-            ],
-            "displayMath": "∫ xⁿ dx = (xⁿ⁺¹)/(n + 1) + C  (n ≠ -1)   |   ∫ (1/x) dx = ln|x| + C   |   ∫ eᵏˣ dx = (1/k)eᵏˣ + C",
-            "variables": "C = constant of integration",
-            "tip": "Definite integrals: ∫ₐᵇ f(x) dx = F(b) - F(a). For areas under curves, verify boundaries."
-        },
-        {
-            "title": "Permutations & Combinations",
-            "topic": "Probability & Combinatorics",
-            "grades": [
-                "Grade11",
-                "Grade12"
-            ],
-            "displayMath": "P(n, r) = n! / (n - r)!   |   C(n, r) = n! / [r! · (n - r)!]",
-            "variables": "n = total distinct items, r = items chosen. Note: 0! = 1",
-            "tip": "Permutation: ORDER matters (ranking, codes). Combination: ORDER does not matter (groups, committees)."
-        },
-        {
-            "title": "Probability & Conditional Probability",
-            "topic": "Probability",
-            "grades": [
-                "Grade10",
-                "Grade11",
-                "Grade12"
-            ],
-            "displayMath": "P(A ∪ B) = P(A) + P(B) - P(A ∩ B)   |   P(A | B) = P(A ∩ B) / P(B)   (P(B) > 0)",
-            "variables": "P(A) = probability of event A, P(A ∩ B) = joint probability, P(A | B) = conditional probability",
-            "tip": "If events A and B are mutually exclusive, P(A ∩ B) = 0. If independent, P(A ∩ B) = P(A) · P(B)."
-        },
-        {
-            "title": "Binomial Expansion Theorem",
-            "topic": "Algebra & Series",
-            "grades": [
-                "Grade11",
-                "Grade12"
-            ],
-            "displayMath": "(a + b)ⁿ = Σₖ₌₀ⁿ [C(n, k) · aⁿ⁻ᵏ · bᵏ]",
-            "variables": "n = non-negative integer power, C(n, k) = n! / [k!(n - k)!] binomial coefficients",
-            "tip": "The general (r + 1)-th term in the expansion is T_(r+1) = C(n, r) · aⁿ⁻ʳ · bʳ."
-        },
-        {
-            "title": "Descriptive Statistics: Mean, Variance & Standard Deviation",
-            "topic": "Statistics",
+            "title": "The 4 Equations of Uniformly Accelerated Motion (1D)",
+            "topic": "Motion & Kinematics",
             "grades": [
                 "Grade9",
                 "Grade10",
                 "Grade11",
                 "Grade12"
             ],
-            "displayMath": "Mean x̄ = (Σ xᵢ) / n   |   Variance s² = Σ (xᵢ - x̄)² / (n - 1)   |   Standard Deviation s = √(s²)",
-            "variables": "xᵢ = individual data values, n = sample size, x̄ = sample arithmetic mean",
-            "tip": "Standard deviation measures the average dispersion or spread of data points from the arithmetic mean."
-        }
-    ],
-    "physics": [
+            "displayMath": "1) v = u + at   |   2) s = ut + ½at²   |   3) v² = u² + 2as   |   4) s = [(u + v)/2]·t",
+            "variables": "u = initial velocity, v = final velocity, a = constant acceleration, t = time elapsed, s = displacement",
+            "tip": "Select the equation that excludes the unknown variable not asked for in the examination question."
+        },
         {
-            "title": "Universal Physical Constants",
-            "topic": "Reference Constants",
+            "title": "Free Fall Under Gravity (Vertical Motion)",
+            "topic": "Motion & Kinematics",
             "grades": [
                 "Grade9",
                 "Grade10",
                 "Grade11",
                 "Grade12"
             ],
-            "displayMath": "g = 9.8 m/s²  |  c = 3.00×10⁸ m/s  |  G = 6.674×10⁻¹¹ N·m²/kg²  |  e = 1.602×10⁻¹⁹ C",
-            "variables": "kₑ = 8.988×10⁹ N·m²/C², h = 6.626×10⁻³⁴ J·s, mₑ = 9.109×10⁻³¹ kg, R = 8.314 J/(mol·K)",
-            "tip": "Standard constants used across all Ethiopian high school national physics examinations."
+            "displayMath": "v = u - gt   |   h = ut - ½gt²   |   v² = u² - 2gh   |   t_peak = u/g   |   H_max = u²/(2g)",
+            "variables": "g = 9.8 m/s² (downward acceleration due to gravity), u = initial vertical speed, H_max = maximum altitude",
+            "tip": "At the maximum height of vertical projection, instantaneous vertical velocity v = 0 m/s."
         },
         {
-            "title": "Equations of Uniformly Accelerated Motion",
-            "topic": "Mechanics (Kinematics)",
+            "title": "Projectile Motion in 2D (Launch at Angle θ)",
+            "topic": "Motion & Kinematics",
+            "grades": [
+                "Grade11",
+                "Grade12"
+            ],
+            "displayMath": "Time of Flight: T = (2u·sin θ)/g   |   Max Height: H = (u²·sin²θ)/(2g)   |   Range: R = (u²·sin 2θ)/g",
+            "variables": "u = initial launch speed, θ = angle of launch above horizontal ground, g = 9.8 m/s²",
+            "tip": "Horizontal velocity v_x = u cos θ remains strictly CONSTANT throughout flight because horizontal acceleration a_x = 0."
+        },
+        {
+            "title": "Uniform Circular Motion & Centripetal Acceleration",
+            "topic": "Motion & Kinematics",
+            "grades": [
+                "Grade10",
+                "Grade11",
+                "Grade12"
+            ],
+            "displayMath": "a_c = v² / r = ω²r   |   v = ω·r = (2πr) / T   |   Centripetal Force F_c = m·a_c = (m·v²) / r",
+            "variables": "v = linear tangential speed, ω = angular velocity (rad/s), r = circular radius, T = period of rotation (s)",
+            "tip": "Centripetal acceleration is always directed radially inward toward the center of rotation, perpendicular to tangential velocity."
+        },
+        {
+            "title": "Relative Velocity in 1D & 2D",
+            "topic": "Motion & Kinematics",
+            "grades": [
+                "Grade11",
+                "Grade12"
+            ],
+            "displayMath": "v_AB = v_A - v_B   |   Opposite directions: |v_AB| = |v_A| + |v_B|   |   Same direction: |v_AB| = |v_A| - |v_B|",
+            "variables": "v_AB = velocity of body A relative to observer B, v_A = velocity of A, v_B = velocity of B",
+            "tip": "In river crossing problems, downstream drift = v_river × (width / v_boat_perpendicular)."
+        },
+        {
+            "title": "Newton's Second Law & Net Force",
+            "topic": "Forces & Dynamics",
             "grades": [
                 "Grade9",
                 "Grade10",
                 "Grade11",
                 "Grade12"
             ],
-            "displayMath": "v = u + at   |   s = ut + ½at²   |   v² = u² + 2as   |   s = [(u + v)/2]·t",
-            "variables": "u = initial velocity, v = final velocity, a = constant acceleration, t = time, s = displacement",
-            "tip": "For dropped bodies: u = 0, a = g = 9.8 m/s². For vertical projection: at top, v = 0."
+            "displayMath": "Σ F = m · a = dp/dt   |   Weight W = m · g",
+            "variables": "ΣF = vector sum of all external forces (N), m = inertial mass (kg), a = acceleration (m/s²)",
+            "tip": "Always draw a Free Body Diagram (FBD) resolving forces along the axis of acceleration and perpendicular to it."
         },
         {
-            "title": "Projectile Motion Equations",
-            "topic": "Mechanics (2D Kinematics)",
-            "grades": [
-                "Grade11",
-                "Grade12"
-            ],
-            "displayMath": "T = (2u·sin θ) / g   |   H_max = (u²·sin²θ) / (2g)   |   R = (u²·sin 2θ) / g",
-            "variables": "u = launch speed, θ = projection angle above horizontal, g = 9.8 m/s²",
-            "tip": "Maximum range occurs at θ = 45°. Complementary angles (e.g. 30° and 60°) achieve identical horizontal ranges."
-        },
-        {
-            "title": "Newton's Laws & Friction Force",
-            "topic": "Mechanics (Dynamics)",
+            "title": "Static & Kinetic Friction Forces",
+            "topic": "Forces & Dynamics",
             "grades": [
                 "Grade9",
                 "Grade10",
                 "Grade11",
                 "Grade12"
             ],
-            "displayMath": "ΣF = m·a   |   f_s ≤ μ_s·N   |   f_k = μ_k·N",
-            "variables": "F = net force (N), m = mass (kg), a = acceleration (m/s²), μ = friction coefficient, N = normal reaction force",
-            "tip": "Static friction coefficient μ_s is always greater than or equal to kinetic friction coefficient μ_k."
+            "displayMath": "f_s ≤ μ_s · N   |   f_s(max) = μ_s · N   |   f_k = μ_k · N",
+            "variables": "f_s = static friction, f_k = kinetic (sliding) friction, μ = friction coefficient, N = normal contact reaction force",
+            "tip": "Static friction is an adjustable self-limiting force that matches applied force until reaching f_s(max). Usually μ_s > μ_k."
         },
         {
-            "title": "Centripetal Acceleration & Force",
-            "topic": "Circular Motion",
-            "grades": [
-                "Grade10",
-                "Grade11",
-                "Grade12"
-            ],
-            "displayMath": "a_c = v² / r = ω²r   |   F_c = (m·v²) / r = m·ω²r   |   v = ω·r",
-            "variables": "v = tangential linear velocity, r = radius of circle, ω = angular velocity (rad/s), m = mass",
-            "tip": "Centripetal force is always directed toward the center of the circular curve, perpendicular to linear velocity."
-        },
-        {
-            "title": "Newton's Law of Universal Gravitation",
-            "topic": "Gravitation",
-            "grades": [
-                "Grade10",
-                "Grade11",
-                "Grade12"
-            ],
-            "displayMath": "F = G · (m₁m₂) / r²   |   g = G·M / R²   |   Orbital Speed: v = √(G·M / r)",
-            "variables": "G = 6.674×10⁻¹¹ N·m²/kg², m₁, m₂ = masses, r = separation distance, M = mass of planet, R = radius",
-            "tip": "Kepler's Third Law: T² / r³ = constant = 4π² / (GM) for all bodies orbiting the same central mass."
-        },
-        {
-            "title": "Linear Momentum & Impulse",
-            "topic": "Mechanics (Momentum)",
+            "title": "Forces on an Inclined Plane",
+            "topic": "Forces & Dynamics",
             "grades": [
                 "Grade9",
                 "Grade10",
                 "Grade11",
                 "Grade12"
             ],
-            "displayMath": "p = m·v   |   Impulse J = F·Δt = Δp = m(v - u)   |   Conservation: m₁u₁ + m₂u₂ = m₁v₁ + m₂v₂",
-            "variables": "p = momentum (kg·m/s), J = impulse (N·s), F = impact force, Δt = collision contact time",
-            "tip": "In an elastic collision, both linear momentum AND kinetic energy are conserved. In inelastic, KE is lost."
+            "displayMath": "F_parallel = mg·sin θ   |   Normal Force N = mg·cos θ   |   Frictionless Accel: a = g·sin θ",
+            "variables": "m = object mass, g = 9.8 m/s², θ = incline angle with horizontal, a = acceleration down incline",
+            "tip": "With friction down the plane: a = g(sin θ - μ_k cos θ). The minimum angle for sliding to start satisfies tan θ_c = μ_s."
         },
         {
-            "title": "Work-Energy Theorem & Power",
-            "topic": "Mechanics (Work & Energy)",
+            "title": "Atwood Machine & Connected Pulleys",
+            "topic": "Forces & Dynamics",
+            "grades": [
+                "Grade11",
+                "Grade12"
+            ],
+            "displayMath": "a = [(m₁ - m₂) / (m₁ + m₂)] · g   |   Tension T = [2m₁m₂ / (m₁ + m₂)] · g",
+            "variables": "m₁ > m₂ = hanging masses over an ideal frictionless, massless pulley, T = tension in light string",
+            "tip": "Both hanging masses share the exact same magnitude of linear acceleration a and string tension T."
+        },
+        {
+            "title": "Work-Energy Theorem & Kinetic Energy",
+            "topic": "Work, Energy & Momentum",
             "grades": [
                 "Grade9",
                 "Grade10",
                 "Grade11",
                 "Grade12"
             ],
-            "displayMath": "W = F·d·cos θ = ΔK   |   K = ½mv²   |   PE = mgh   |   Power P = W/t = F·v",
-            "variables": "W = work (J), K = kinetic energy, PE = gravitational potential energy, P = power (Watts)",
-            "tip": "Work is zero when force is perpendicular to motion (θ = 90°, cos 90° = 0), like in uniform circular motion."
+            "displayMath": "W_net = ΔK = ½mv² - ½mu²   |   Kinetic Energy K = ½mv² = p² / (2m)",
+            "variables": "W_net = net work done by all forces (J), K = kinetic energy, u = initial speed, v = final speed, p = momentum",
+            "tip": "If net work W_net is positive, the object speeds up. If W_net is negative, the object slows down."
         },
         {
-            "title": "Rotational Dynamics & Torque",
-            "topic": "Rotational Motion",
+            "title": "Gravitational & Elastic Potential Energy",
+            "topic": "Work, Energy & Momentum",
             "grades": [
-                "Grade12"
-            ],
-            "displayMath": "τ = r·F·sin θ = I·α   |   L = I·ω   |   K_rot = ½Iω²",
-            "variables": "τ = torque (N·m), I = moment of inertia (kg·m²), α = angular acceleration (rad/s²), L = angular momentum",
-            "tip": "Conservation of angular momentum: when net external torque Στ = 0, I₁ω₁ = I₂ω₂."
-        },
-        {
-            "title": "Hooke's Law & Simple Harmonic Motion (SHM)",
-            "topic": "Oscillations",
-            "grades": [
+                "Grade9",
+                "Grade10",
                 "Grade11",
                 "Grade12"
             ],
-            "displayMath": "F = -kx   |   Spring: T = 2π√(m / k)   |   Simple Pendulum: T = 2π√(L / g)   |   f = 1 / T",
-            "variables": "k = spring stiffness constant (N/m), x = displacement, T = period of oscillation (s), L = pendulum length",
-            "tip": "The period of a simple pendulum depends only on length L and gravitational field g; mass has NO effect."
+            "displayMath": "Gravitational: U_g = mgh   |   Elastic Spring: U_s = ½kx²   |   Hooke's Law: F = -kx",
+            "variables": "m = mass, g = 9.8 m/s², h = height above reference level, k = spring constant (N/m), x = spring extension/compression",
+            "tip": "Conservation of mechanical energy (conservative forces only): E_total = K_initial + U_initial = K_final + U_final."
         },
         {
-            "title": "Wave Mechanics & Sound Intensity",
-            "topic": "Waves & Sound",
+            "title": "Linear Momentum & Impulse-Momentum Theorem",
+            "topic": "Work, Energy & Momentum",
+            "grades": [
+                "Grade9",
+                "Grade10",
+                "Grade11",
+                "Grade12"
+            ],
+            "displayMath": "p = m·v   |   Impulse J = F_avg · Δt = Δp = m·v_final - m·u_initial",
+            "variables": "p = linear momentum (kg·m/s), J = impulse (N·s), F_avg = average collision impact force, Δt = impact duration",
+            "tip": "To decrease impact force on passengers in vehicle collisions, crumple zones and airbags increase collision duration Δt."
+        },
+        {
+            "title": "Conservation of Momentum & Collisions",
+            "topic": "Work, Energy & Momentum",
+            "grades": [
+                "Grade9",
+                "Grade10",
+                "Grade11",
+                "Grade12"
+            ],
+            "displayMath": "Conservation: m₁u₁ + m₂u₂ = m₁v₁ + m₂v₂   |   Restitution: e = (v₂ - v₁) / (u₁ - u₂)",
+            "variables": "m₁, m₂ = colliding masses, u = velocities before impact, v = velocities after, e = coefficient of restitution",
+            "tip": "Elastic collision (e = 1): both momentum AND kinetic energy are conserved. Perfectly inelastic (e = 0): objects stick together."
+        },
+        {
+            "title": "Newton's Law of Universal Gravitation & Orbits",
+            "topic": "Rotational & Gravitation",
             "grades": [
                 "Grade10",
                 "Grade11",
                 "Grade12"
             ],
-            "displayMath": "v = f·λ   |   Intensity I = P / (4πr²)   |   Sound Level β = 10 · log₁₀(I / I₀)",
-            "variables": "v = wave propagation speed, f = frequency (Hz), λ = wavelength (m), I₀ = 10⁻¹² W/m² (hearing threshold)",
-            "tip": "An increase of 10 dB corresponds to a 10-fold increase in sound intensity (logarithmic decibel scale)."
+            "displayMath": "F = G·(m₁m₂)/r²   |   g = G·M/R²   |   Orbital Speed v = √(G·M/r)   |   Escape Speed v_esc = √(2G·M/R)",
+            "variables": "G = 6.674×10⁻¹¹ N·m²/kg², M = central body mass, r = orbital distance, R = planetary radius",
+            "tip": "Kepler's Third Law: T² / r³ = 4π² / (GM). The square of orbital period T is proportional to the cube of orbital radius r."
         },
         {
-            "title": "Doppler Effect for Sound Waves",
-            "topic": "Waves & Sound",
+            "title": "Rotational Kinematics & Dynamics",
+            "topic": "Rotational & Gravitation",
+            "grades": [
+                "Grade12"
+            ],
+            "displayMath": "ω = ω₀ + αt   |   θ = ω₀t + ½αt²   |   τ_net = I·α = dL/dt   |   Rotational KE = ½Iω²",
+            "variables": "θ = angular displacement (rad), ω = angular velocity (rad/s), α = angular acceleration (rad/s²), I = moment of inertia",
+            "tip": "Conservation of angular momentum: when net external torque Στ = 0, initial angular momentum equals final (I₁ω₁ = I₂ω₂)."
+        },
+        {
+            "title": "Simple Harmonic Motion (Mass-Spring & Pendulum)",
+            "topic": "Oscillations & Waves",
+            "grades": [
+                "Grade11",
+                "Grade12"
+            ],
+            "displayMath": "Spring Period: T = 2π√(m / k)   |   Simple Pendulum: T = 2π√(L / g)   |   Frequency f = 1 / T",
+            "variables": "m = oscillating mass (kg), k = spring stiffness (N/m), L = pendulum string length (m), g = 9.8 m/s²",
+            "tip": "The period of a simple pendulum depends only on length L and gravitational field g; mass has ZERO effect."
+        },
+        {
+            "title": "Wave Mechanics & Sound Intensity Decibels",
+            "topic": "Oscillations & Waves",
+            "grades": [
+                "Grade9",
+                "Grade10",
+                "Grade11",
+                "Grade12"
+            ],
+            "displayMath": "v = f · λ   |   Intensity I = P / (4πr²)   |   Sound Level β = 10 · log₁₀(I / I₀)  (dB)",
+            "variables": "v = wave propagation speed, f = frequency (Hz), λ = wavelength (m), I₀ = 10⁻¹² W/m² (auditory threshold)",
+            "tip": "An increase of +10 dB represents a 10× increase in physical sound intensity. An increase of +20 dB is a 100× increase."
+        },
+        {
+            "title": "Doppler Effect Formula for Sound",
+            "topic": "Oscillations & Waves",
             "grades": [
                 "Grade12"
             ],
             "displayMath": "f' = f · [(v ± v_o) / (v ∓ v_s)]",
-            "variables": "f = source frequency, f' = observed frequency, v = speed of sound in air, v_o = observer speed, v_s = source speed",
-            "tip": "Top sign (+ / -) when observer moves toward source. Bottom sign (- / +) when source moves toward observer."
+            "variables": "f = emitted source frequency, f' = observed pitch, v = sound speed in air, v_o = observer velocity, v_s = source velocity",
+            "tip": "Numerator uses (+) when observer approaches source. Denominator uses (-) when source approaches observer."
         },
         {
-            "title": "Fluid Statics: Pressure, Pascal & Archimedes",
-            "topic": "Properties of Matter",
+            "title": "Fluid Statics: Density, Pressure & Archimedes",
+            "topic": "Thermal & Fluids",
             "grades": [
                 "Grade9",
                 "Grade10",
-                "Grade11"
+                "Grade11",
+                "Grade12"
             ],
-            "displayMath": "P = F / A   |   P = P₀ + ρgh   |   Buoyant Force F_b = ρ_fluid · V_sub · g",
-            "variables": "P = pressure (Pa or N/m²), ρ = fluid density (kg/m³), h = depth, V_sub = submerged volume",
-            "tip": "Archimedes' principle: upward buoyant force equals the exact weight of the displaced volume of fluid."
+            "displayMath": "P = F/A   |   Hydrostatic: P = P₀ + ρgh   |   Buoyant Force F_b = ρ_fluid · V_displaced · g",
+            "variables": "P = fluid pressure (Pa), ρ = fluid density (kg/m³), h = depth beneath surface, V_displaced = submerged volume",
+            "tip": "An object floats in equilibrium when buoyant force equals its total weight: ρ_object / ρ_fluid = V_submerged / V_total."
         },
         {
             "title": "Fluid Dynamics: Continuity & Bernoulli's Equation",
-            "topic": "Fluid Mechanics",
+            "topic": "Thermal & Fluids",
             "grades": [
                 "Grade11",
                 "Grade12"
             ],
             "displayMath": "Continuity: A₁v₁ = A₂v₂   |   Bernoulli: P₁ + ½ρv₁² + ρgh₁ = P₂ + ½ρv₂² + ρgh₂",
-            "variables": "A = pipe cross-sectional area, v = fluid flow speed, P = fluid static pressure, ρ = fluid density",
-            "tip": "Bernoulli effect: where fluid flow speed increases, internal static fluid pressure decreases."
+            "variables": "A = cross-sectional area, v = fluid speed, P = static pressure, ρ = fluid density, h = elevation",
+            "tip": "Bernoulli principle: where flow speed v increases (narrow constriction), internal fluid static pressure P decreases."
         },
         {
-            "title": "Heat Capacity & Latent Heat",
-            "topic": "Thermal Physics",
-            "grades": [
-                "Grade9",
-                "Grade10",
-                "Grade11"
-            ],
-            "displayMath": "Q = m·c·ΔT   |   Q_phase = m·L   |   First Law: ΔU = Q - W",
-            "variables": "Q = heat energy (J), m = mass (kg), c = specific heat capacity, L = latent heat of fusion/vaporization",
-            "tip": "During a phase change (melting, boiling), temperature remains completely constant while latent heat is absorbed."
-        },
-        {
-            "title": "Coulomb's Law, Electric Fields & Potential",
-            "topic": "Electrostatics",
-            "grades": [
-                "Grade10",
-                "Grade11",
-                "Grade12"
-            ],
-            "displayMath": "F = kₑ·|q₁q₂| / r²   |   E = kₑ·|Q| / r²   |   V = kₑ·Q / r   |   W = q·ΔV",
-            "variables": "kₑ = 8.99×10⁹ N·m²/C², q = electric charge (C), r = distance (m), E = electric field (N/C), V = potential (V)",
-            "tip": "Electric field lines point away from positive charges and terminate radially inward toward negative charges."
-        },
-        {
-            "title": "Capacitance & Stored Electrical Energy",
-            "topic": "Electrostatics",
-            "grades": [
-                "Grade11",
-                "Grade12"
-            ],
-            "displayMath": "C = Q / V = (ε₀·A) / d   |   U = ½CV² = ½QV = Q² / (2C)",
-            "variables": "C = capacitance (Farads), A = plate area, d = plate separation, ε₀ = 8.854×10⁻¹² F/m, U = potential energy (J)",
-            "tip": "Capacitors in parallel: C_eq = C₁ + C₂. Capacitors in series: 1/C_eq = 1/C₁ + 1/C₂."
-        },
-        {
-            "title": "Ohm's Law, Resistors & Electric Power",
-            "topic": "Current Electricity",
+            "title": "Heat Capacity, Latent Heat & Thermodynamics",
+            "topic": "Thermal & Fluids",
             "grades": [
                 "Grade9",
                 "Grade10",
                 "Grade11",
                 "Grade12"
             ],
-            "displayMath": "V = I·R   |   R = ρ·(L / A)   |   P = I·V = I²R = V²/R   |   R_series = Σ Rᵢ   |   1/R_parallel = Σ (1/Rᵢ)",
-            "variables": "V = voltage (V), I = current (A), R = resistance (Ω), ρ = resistivity (Ω·m), L = wire length, A = cross-section",
-            "tip": "In parallel connections: voltage is equal across all branches. In series: current is equal through all elements."
+            "displayMath": "Q = mcΔT   |   Q_phase = mL   |   First Law: ΔU = Q - W   |   Ideal Gas: PV = nRT",
+            "variables": "Q = heat energy (J), c = specific heat capacity, L = latent heat of fusion/vaporization, W = work done by gas",
+            "tip": "During a phase transition (melting, boiling), temperature stays perfectly constant while latent heat is absorbed."
         },
         {
-            "title": "Kirchhoff's Circuit Laws",
-            "topic": "DC Circuits",
+            "title": "Coulomb's Law & Electric Field Intensity",
+            "topic": "Electricity & Magnetism",
+            "grades": [
+                "Grade10",
+                "Grade11",
+                "Grade12"
+            ],
+            "displayMath": "F = k_e · |q₁q₂| / r²   |   E = F / q = k_e · |Q| / r²   (k_e ≈ 8.99×10⁹ N·m²/C²)",
+            "variables": "F = electrostatic force (N), q = charge (C), r = distance of separation (m), E = electric field vector (N/C or V/m)",
+            "tip": "Electric field lines point radially outward from positive charges and terminate radially inward on negative charges."
+        },
+        {
+            "title": "Electric Potential & Capacitance",
+            "topic": "Electricity & Magnetism",
             "grades": [
                 "Grade11",
                 "Grade12"
             ],
-            "displayMath": "Junction Rule: Σ I_in = Σ I_out   |   Loop Rule: Σ ΔV = 0 (around any closed loop)",
-            "variables": "I = electric current at a junction node, ΔV = potential drops and EMF gains around a complete loop",
-            "tip": "Junction rule is conservation of electric charge. Loop rule is conservation of electrical energy."
+            "displayMath": "V = k_e Q / r   |   Capacitance C = Q/V = (ε₀A)/d   |   Stored Energy U = ½CV² = ½QV = Q²/(2C)",
+            "variables": "V = electric potential (Volts), C = capacitance (Farads), A = plate area, d = plate separation, ε₀ = 8.854×10⁻¹² F/m",
+            "tip": "Inserting a dielectric of constant κ increases capacitance by factor κ: C_new = κ·C₀."
+        },
+        {
+            "title": "Ohm's Law, Resistance & DC Circuit Combinations",
+            "topic": "Electricity & Magnetism",
+            "grades": [
+                "Grade9",
+                "Grade10",
+                "Grade11",
+                "Grade12"
+            ],
+            "displayMath": "V = I·R   |   R = ρL/A   |   Series: R_eq = Σ Rᵢ   |   Parallel: 1/R_eq = Σ (1/Rᵢ)",
+            "variables": "V = potential difference (V), I = current (A), R = electrical resistance (Ω), ρ = material resistivity, L = wire length",
+            "tip": "In a series circuit, CURRENT is identical through all components. In a parallel circuit, VOLTAGE is identical across all branches."
         },
         {
             "title": "Magnetic Force on Moving Charges & Currents",
-            "topic": "Electromagnetism",
+            "topic": "Electricity & Magnetism",
             "grades": [
                 "Grade11",
                 "Grade12"
             ],
-            "displayMath": "F = q·v·B·sin θ   |   F = I·L·B·sin θ   |   Straight Wire Field: B = (μ₀·I) / (2πr)",
-            "variables": "B = magnetic flux density (Tesla), v = particle velocity, L = conductor length, μ₀ = 4π×10⁻⁷ T·m/A",
-            "tip": "Use Right Hand Rule: thumb points in velocity/current, index along magnetic field B, palm pushes in force direction."
+            "displayMath": "Charge: F = q(v × B) = qvB sin θ   |   Current-Carrying Wire: F = I(L × B) = ILB sin θ",
+            "variables": "q = particle charge, v = velocity, B = magnetic flux density (Tesla), I = wire current, L = wire length vector",
+            "tip": "Use the Right-Hand Rule: Thumb along v (or I), fingers along magnetic field B, palm points in direction of magnetic force F on positive charge."
         },
         {
             "title": "Faraday's Law of Induction & Transformers",
-            "topic": "Electromagnetism",
+            "topic": "Electricity & Magnetism",
             "grades": [
                 "Grade11",
                 "Grade12"
             ],
-            "displayMath": "Induced EMF: ε = -N · (ΔΦ / Δt)   |   Φ = B·A·cos θ   |   Transformer: V_s / V_p = N_s / N_p = I_p / I_s",
-            "variables": "ε = induced electromotive force (V), Φ = magnetic flux (Weber), N = number of coil turns",
-            "tip": "Lenz's Law (minus sign): the induced current always flows to produce a magnetic field that opposes the flux change."
-        },
-        {
-            "title": "Snell's Law & Thin Lens Equation",
-            "topic": "Waves & Optics",
-            "grades": [
-                "Grade10",
-                "Grade11",
-                "Grade12"
-            ],
-            "displayMath": "n₁·sin θ₁ = n₂·sin θ₂   |   sin θ_c = n₂/n₁ (n₁ > n₂)   |   1/f = 1/d_o + 1/d_i   |   m = -d_i / d_o",
-            "variables": "n = refractive index, θ_c = critical angle, f = focal length, d_o = object distance, d_i = image distance",
-            "tip": "Total internal reflection requires light traveling from denser to rarer medium with angle exceeding θ_c."
-        },
-        {
-            "title": "Young's Double Slit Wave Interference",
-            "topic": "Physical Optics",
-            "grades": [
-                "Grade12"
-            ],
-            "displayMath": "Bright Fringes (Maxima): d·sin θ = m·λ   |   Dark Fringes: d·sin θ = (m + ½)·λ   |   y_m ≈ (m·λ·L) / d",
-            "variables": "d = slit separation distance, m = order number (0, 1, 2...), λ = wavelength, L = distance to screen",
-            "tip": "Young's experiment is the classic proof of the wave nature of light. Increasing slit separation decreases fringe width."
-        },
-        {
-            "title": "Photoelectric Effect & Quantum Physics",
-            "topic": "Modern Physics",
-            "grades": [
-                "Grade12"
-            ],
-            "displayMath": "E = hf = hc / λ   |   K_max = hf - Φ = e·V_s   |   de Broglie λ = h / p = h / (mv)",
-            "variables": "h = 6.63×10⁻³⁴ J·s, f = frequency (Hz), Φ = work function, V_s = stopping potential",
-            "tip": "Increasing light intensity increases electron emission rate, but does NOT increase maximum kinetic energy."
-        },
-        {
-            "title": "Radioactive Decay Law & Nuclear Half-Life",
-            "topic": "Nuclear Physics",
-            "grades": [
-                "Grade12"
-            ],
-            "displayMath": "N(t) = N₀ · e^(-λt) = N₀ · (½)^(t / T_½)   |   T_½ = ln(2) / λ ≈ 0.693 / λ",
-            "variables": "N₀ = initial number of radioactive nuclei, N(t) = remaining nuclei at time t, λ = decay constant, T_½ = half-life",
-            "tip": "Mass-energy equivalence: E = (Δm)·c², where Δm is mass defect in nuclear fission and fusion reactions."
+            "displayMath": "EMF: ε = -N (ΔΦ_B / Δt)   |   Φ_B = B·A·cos θ   |   Transformer: V_s / V_p = N_s / N_p = I_p / I_s",
+            "variables": "ε = induced electromotive force (V), N = number of coil turns, Φ_B = magnetic flux (Weber), p = primary, s = secondary",
+            "tip": "Lenz's Law (minus sign): the induced current flows in such a direction that its magnetic field opposes the change in flux that created it."
         }
     ],
     "chem": [
         {
-            "title": "Mole Concept & Stoichiometry",
-            "topic": "Stoichiometry",
+            "title": "Mole Concept, Molar Mass & Avogadro's Number",
+            "topic": "Stoichiometry & Gases",
             "grades": [
                 "Grade9",
                 "Grade10",
                 "Grade11",
                 "Grade12"
             ],
-            "displayMath": "n = m / M = N / N_A = V_gas / 22.4L (at STP)",
-            "variables": "n = number of moles, m = mass (g), M = molar mass (g/mol), N_A = 6.022×10²³ particles/mol",
-            "tip": "At Standard Temperature and Pressure (STP: 0°C, 1 atm), exactly 1 mole of any ideal gas occupies 22.4 Liters."
+            "displayMath": "n = m / M = N / N_A = V / V_m   |   N_A = 6.022 × 10²³ particles/mol",
+            "variables": "n = number of moles, m = mass in grams, M = molar mass (g/mol), V_m = 22.4 L/mol at STP (0°C, 1 atm)",
+            "tip": "At STP (Standard Temperature & Pressure: 0°C and 1 atm), exactly 1 mole of any ideal gas occupies 22.4 liters."
         },
         {
-            "title": "Percentage Composition & Empirical Formula",
-            "topic": "Chemical Calculations",
+            "title": "Ideal Gas Law & Combined Gas Equation",
+            "topic": "Stoichiometry & Gases",
+            "grades": [
+                "Grade10",
+                "Grade11",
+                "Grade12"
+            ],
+            "displayMath": "PV = nRT   |   (P₁V₁)/T₁ = (P₂V₂)/T₂   |   R = 0.0821 L·atm/(mol·K) = 8.314 J/(mol·K)",
+            "variables": "P = pressure, V = volume, n = moles, T = absolute temperature in KELVIN (K = °C + 273.15)",
+            "tip": "Always convert temperatures to absolute Kelvin before plugging into gas law calculations."
+        },
+        {
+            "title": "Solution Concentration: Molarity & Dilution",
+            "topic": "Solutions & Equilibrium",
             "grades": [
                 "Grade9",
                 "Grade10",
                 "Grade11",
                 "Grade12"
             ],
-            "displayMath": "% element = [(n · M_element) / M_compound] × 100%   |   Molecular formula = (Empirical formula)ₙ",
-            "variables": "n = number of atoms of element in formula unit, M = molar mass",
-            "tip": "To find empirical formula: convert grams to moles, then divide all mole amounts by the smallest mole value."
+            "displayMath": "Molarity M = n_solute / V_solution(L)   |   Dilution Equation: M₁V₁ = M₂V₂",
+            "variables": "M = molarity (mol/L), n = moles of dissolved solute, V = volume of solution in liters",
+            "tip": "During dilution, the total amount of solute moles remains strictly constant; only solvent volume increases."
         },
         {
-            "title": "Theoretical Yield & Percentage Yield",
-            "topic": "Stoichiometry",
-            "grades": [
-                "Grade9",
-                "Grade10",
-                "Grade11",
-                "Grade12"
-            ],
-            "displayMath": "% Yield = (Actual Experimental Yield / Theoretical Yield) × 100%",
-            "variables": "Actual yield = mass obtained in laboratory, Theoretical yield = stoichiometric maximum calculated from limiting reactant",
-            "tip": "The limiting reactant is completely consumed first and determines the theoretical yield of product."
-        },
-        {
-            "title": "Gas Laws: Boyle, Charles & Combined Gas Law",
-            "topic": "States of Matter (Gases)",
+            "title": "pH, pOH & Acid-Base Equilibrium",
+            "topic": "Acids, Bases & Electrochemistry",
             "grades": [
                 "Grade10",
                 "Grade11",
                 "Grade12"
             ],
-            "displayMath": "Boyle: P₁V₁ = P₂V₂   |   Charles: V₁/T₁ = V₂/T₂   |   Combined: (P₁V₁) / T₁ = (P₂V₂) / T₂",
-            "variables": "P = pressure (atm/kPa), V = volume (L), T = absolute temperature in Kelvin (K = °C + 273.15)",
-            "tip": "Temperature in all gas calculations MUST be in Kelvin. Absolute zero is 0 K (-273.15°C)."
+            "displayMath": "pH = -log₁₀[H⁺]   |   pOH = -log₁₀[OH⁻]   |   pH + pOH = 14.0 (at 25°C)   |   K_w = [H⁺][OH⁻] = 1.0×10⁻¹⁴",
+            "variables": "[H⁺] = hydronium ion molarity, [OH⁻] = hydroxide ion molarity, K_w = autoionization constant of pure water",
+            "tip": "A neutral solution at 25°C has pH = 7.0 ([H⁺] = 10⁻⁷ M). Acidic: pH < 7. Basic/Alkaline: pH > 7."
         },
         {
-            "title": "Ideal Gas Law & Gas Density",
-            "topic": "States of Matter (Gases)",
-            "grades": [
-                "Grade10",
-                "Grade11",
-                "Grade12"
-            ],
-            "displayMath": "PV = nRT   |   Molar Mass M = (d·R·T) / P   |   Density d = (P·M) / (R·T)",
-            "variables": "R = 0.0821 L·atm/(mol·K) = 8.314 J/(mol·K), d = density (g/L), M = molar mass (g/mol)",
-            "tip": "Remember to match units: if using R = 0.0821, pressure must be in atm and volume in Liters."
-        },
-        {
-            "title": "Dalton's Partial Pressures & Graham's Effusion",
-            "topic": "States of Matter (Gases)",
+            "title": "Standard Cell Potential & Nernst Equation",
+            "topic": "Acids, Bases & Electrochemistry",
             "grades": [
                 "Grade11",
                 "Grade12"
             ],
-            "displayMath": "P_total = Σ Pᵢ   |   P_A = X_A · P_total   |   Graham: Rate₁ / Rate₂ = √(M₂ / M₁)",
-            "variables": "P_A = partial pressure of gas A, X_A = mole fraction of A = n_A / n_total, M = molar mass",
-            "tip": "Lighter gases (lower molar mass) effuse and diffuse significantly faster than heavier gases."
-        },
-        {
-            "title": "Solution Concentrations: Molarity, Molality & Mole Fraction",
-            "topic": "Solutions",
-            "grades": [
-                "Grade11",
-                "Grade12"
-            ],
-            "displayMath": "Molarity M = n_solute / V_solution(L)   |   Molality m = n_solute / kg_solvent   |   Mole Fraction X_A = n_A / n_total",
-            "variables": "n = moles of solute, V = volume in Liters, kg_solvent = mass of solvent in kilograms",
-            "tip": "Molality is independent of temperature changes because mass does not change with expansion/contraction."
-        },
-        {
-            "title": "Dilution Formula & Mass Percent",
-            "topic": "Solutions",
-            "grades": [
-                "Grade10",
-                "Grade11",
-                "Grade12"
-            ],
-            "displayMath": "Dilution: M₁V₁ = M₂V₂   |   Mass % = (mass of solute / total mass of solution) × 100%",
-            "variables": "M₁ = initial stock concentration, V₁ = initial volume needed, M₂ = target concentration, V₂ = final volume",
-            "tip": "During dilution, the total amount of solute moles remains constant: n₁ = n₂."
-        },
-        {
-            "title": "Colligative Properties: Boiling & Freezing Shifts",
-            "topic": "Solutions & Colligative Properties",
-            "grades": [
-                "Grade12"
-            ],
-            "displayMath": "Boiling Elevation: ΔT_b = i · K_b · m   |   Freezing Depression: ΔT_f = i · K_f · m",
-            "variables": "i = van 't Hoff factor (ions per formula unit), K_b = ebullioscopic constant, K_f = cryoscopic constant, m = molality",
-            "tip": "For non-electrolytes (e.g. glucose, urea): i = 1. For NaCl: i ≈ 2. For CaCl₂: i ≈ 3."
-        },
-        {
-            "title": "Colligative Properties: Raoult's Law & Osmotic Pressure",
-            "topic": "Solutions & Colligative Properties",
-            "grades": [
-                "Grade12"
-            ],
-            "displayMath": "Vapour Lowering: P_solution = X_solvent · P°_solvent   |   Osmotic Pressure: Π = i · M · R · T",
-            "variables": "P° = pure solvent vapour pressure, X = mole fraction, Π = osmotic pressure (atm), M = molarity, T = Kelvin",
-            "tip": "Osmotic pressure is widely tested in national exams for determining the molar mass of biomolecules and polymers."
-        },
-        {
-            "title": "Chemical Reaction Rates & Differential Rate Laws",
-            "topic": "Chemical Kinetics",
-            "grades": [
-                "Grade12"
-            ],
-            "displayMath": "Rate = k [A]ᵐ [B]ⁿ   |   Overall order = m + n",
-            "variables": "k = specific rate constant, [A], [B] = molar concentrations, m, n = reaction orders (determined experimentally)",
-            "tip": "Reaction orders m and n CANNOT be deduced from stoichiometric reaction coefficients; they must be found experimentally."
-        },
-        {
-            "title": "Arrhenius Equation & Activation Energy",
-            "topic": "Chemical Kinetics",
-            "grades": [
-                "Grade12"
-            ],
-            "displayMath": "k = A · e^(-E_a / (RT))   |   ln(k₂ / k₁) = (E_a / R) · [1/T₁ - 1/T₂]",
-            "variables": "k = rate constant, A = frequency factor, E_a = activation energy (J/mol), R = 8.314 J/(mol·K), T = Kelvin",
-            "tip": "A catalyst provides an alternative reaction pathway with lower activation energy E_a, thereby increasing rate constant k."
-        },
-        {
-            "title": "Equilibrium Constant (Kc & Kp)",
-            "topic": "Chemical Equilibrium",
-            "grades": [
-                "Grade11",
-                "Grade12"
-            ],
-            "displayMath": "aA + bB ⇌ cC + dD  ⇒  K_c = [C]ᶜ[D]ᵈ / ([A]ᵃ[B]ᵇ)   |   K_p = K_c(RT)^Δn",
-            "variables": "[] = molar concentrations at equilibrium, Δn = (moles gas products) - (moles gas reactants)",
-            "tip": "Pure solids (s) and pure liquids (l) are omitted from equilibrium constant expressions."
-        },
-        {
-            "title": "Reaction Quotient (Qc) & Le Chatelier's Principle",
-            "topic": "Chemical Equilibrium",
-            "grades": [
-                "Grade11",
-                "Grade12"
-            ],
-            "displayMath": "Q_c < K_c: shifts right (forward)   |   Q_c = K_c: at equilibrium   |   Q_c > K_c: shifts left (reverse)",
-            "variables": "Q_c = reaction quotient calculated using instantaneous non-equilibrium concentrations",
-            "tip": "Increasing pressure shifts equilibrium toward the side with fewer gas moles. Temperature change alters value of K_c."
-        },
-        {
-            "title": "pH, pOH & Self-Ionization of Water",
-            "topic": "Acids, Bases & Solutions",
-            "grades": [
-                "Grade10",
-                "Grade11",
-                "Grade12"
-            ],
-            "displayMath": "pH = -log[H⁺]   |   pOH = -log[OH⁻]   |   pH + pOH = 14   |   K_w = [H⁺][OH⁻] = 1.0×10⁻¹⁴ (25°C)",
-            "variables": "[H⁺] = hydrogen ion concentration (M), [OH⁻] = hydroxide ion concentration (M)",
-            "tip": "Neutral solution at 25°C has pH = 7. Acidic: pH < 7. Basic/Alkaline: pH > 7."
-        },
-        {
-            "title": "Acid & Base Dissociation Constants (Ka & Kb)",
-            "topic": "Acids and Bases",
-            "grades": [
-                "Grade11",
-                "Grade12"
-            ],
-            "displayMath": "K_a = ([H⁺][A⁻]) / [HA]   |   K_b = ([BH⁺][OH⁻]) / [B]   |   K_a · K_b = K_w = 1.0×10⁻¹⁴   |   pK_a = -log(K_a)",
-            "variables": "HA = weak acid, B = weak base, pK_a + pK_b = 14",
-            "tip": "The stronger the acid, the larger its K_a value and the smaller its pK_a value."
-        },
-        {
-            "title": "Buffer Solutions & Henderson-Hasselbalch Equation",
-            "topic": "Acids, Bases & Solutions",
-            "grades": [
-                "Grade12"
-            ],
-            "displayMath": "pH = pK_a + log([Conjugate Base] / [Weak Acid])   |   pOH = pK_b + log([Conjugate Acid] / [Weak Base])",
-            "variables": "pK_a = -log(K_a), [A⁻] = concentration of conjugate base salt, [HA] = weak acid concentration",
-            "tip": "A buffer resists changes in pH when small amounts of acid or base are added. Optimal buffering occurs when [Base] = [Acid]."
-        },
-        {
-            "title": "Hess's Law & Standard Enthalpy of Reaction",
-            "topic": "Chemical Thermodynamics",
-            "grades": [
-                "Grade11",
-                "Grade12"
-            ],
-            "displayMath": "ΔH°_rxn = Σ nΔH°_f(products) - Σ mΔH°_f(reactants)   |   ΔH_combustion = Σ BE(broken) - Σ BE(formed)",
-            "variables": "ΔH°_f = standard enthalpy of formation, BE = bond energy",
-            "tip": "Standard enthalpy of formation for any pure element in its most stable standard physical state is exactly ZERO (e.g. O₂, N₂, C_graphite)."
-        },
-        {
-            "title": "Calorimetry & Specific Heat Capacity",
-            "topic": "Thermochemistry",
-            "grades": [
-                "Grade10",
-                "Grade11",
-                "Grade12"
-            ],
-            "displayMath": "q = m · c · ΔT   |   q_lost + q_gained = 0   |   Bomb calorimeter: q = C_cal · ΔT",
-            "variables": "q = heat exchanged (Joules), m = mass (g), c = specific heat capacity (J/g·°C), ΔT = T_final - T_initial",
-            "tip": "For water: c = 4.184 J/(g·°C). In an insulated coffee-cup calorimeter, heat lost by reaction equals heat absorbed by solution."
-        },
-        {
-            "title": "Entropy & Gibbs Free Energy (Spontaneity)",
-            "topic": "Chemical Thermodynamics",
-            "grades": [
-                "Grade11",
-                "Grade12"
-            ],
-            "displayMath": "ΔG° = ΔH° - TΔS°   |   ΔG° = -R·T·ln(K_eq)   |   Spontaneous when ΔG < 0",
-            "variables": "ΔG = Gibbs free energy change (kJ), ΔH = enthalpy change, ΔS = entropy change (J/K), T = temperature in Kelvin",
-            "tip": "If ΔH < 0 (exothermic) and ΔS > 0 (more disorder), the reaction is spontaneous (ΔG < 0) at ALL temperatures."
-        },
-        {
-            "title": "Standard Cell Potential (EMF)",
-            "topic": "Electrochemistry",
-            "grades": [
-                "Grade11",
-                "Grade12"
-            ],
-            "displayMath": "E°_cell = E°_cathode - E°_anode   |   ΔG° = -n · F · E°_cell",
-            "variables": "E° = standard reduction potential (V), F = 96485 C/mol e⁻, n = moles of electrons transferred in balanced equation",
-            "tip": "A galvanic (voltaic) cell is thermodynamically spontaneous when E°_cell > 0, which corresponds to ΔG° < 0."
-        },
-        {
-            "title": "Nernst Equation for Non-Standard Conditions",
-            "topic": "Electrochemistry",
-            "grades": [
-                "Grade12"
-            ],
-            "displayMath": "E_cell = E°_cell - (0.0591 / n) · log₁₀(Q)   (at 25°C / 298 K)",
-            "variables": "E_cell = non-standard cell potential, Q = reaction quotient = [Products] / [Reactants], n = moles of e⁻",
-            "tip": "As the galvanic cell operates, reactants are consumed, Q increases, and cell potential E_cell decreases until it reaches 0 V (dead battery)."
-        },
-        {
-            "title": "Faraday's Laws of Electrolysis",
-            "topic": "Electrochemistry",
-            "grades": [
-                "Grade11",
-                "Grade12"
-            ],
-            "displayMath": "m = (M · I · t) / (n · F)   |   Charge Q = I · t",
-            "variables": "m = mass deposited (g), M = molar mass (g/mol), I = current in Amperes (A), t = time in seconds, F = 96485 C/mol",
-            "tip": "Always convert time t to seconds before calculating mass deposited during electrolysis (e.g. 1 hour = 3600 seconds)."
+            "displayMath": "E°_cell = E°_cathode - E°_anode   |   Nernst: E = E° - (0.0592 / n) · log₁₀(Q)  (at 298 K)",
+            "variables": "E° = standard cell reduction potential (V), n = moles of transferred electrons, Q = reaction quotient",
+            "tip": "A galvanic/voltaic cell is spontaneous when E°_cell > 0 V (corresponding to negative Gibbs free energy ΔG° < 0)."
         }
     ],
     "bio": [
         {
-            "title": "Microscope Magnification & Actual Specimen Size",
-            "topic": "Cell Biology & Microscopy",
+            "title": "Microscope Magnification & Actual Size",
+            "topic": "Cell Biology & Physiology",
             "grades": [
                 "Grade9",
                 "Grade10",
                 "Grade11",
                 "Grade12"
             ],
-            "displayMath": "Magnification M = Image Size (I) / Actual Specimen Size (A)   |   A = I / M   |   I = M · A",
-            "variables": "I = measured image size, A = actual size of cell/organelle, M = total magnification factor",
-            "tip": "Ensure identical units: convert millimeters (mm) to micrometers (μm) by multiplying by 1000 before computing."
+            "displayMath": "Total Magnification = Ocular Lens Mag × Objective Lens Mag   |   Actual Size = Image Size / Magnification",
+            "variables": "Image Size = measured size on microscope field, Magnification = power ratio (e.g. 400×)",
+            "tip": "Always ensure image size and actual size use matching units (convert mm to micrometers: 1 mm = 1,000 μm)."
         },
         {
-            "title": "Cell Surface Area-to-Volume Ratio (SA/V)",
-            "topic": "Cell Biology & Transport",
+            "title": "Surface Area to Volume Ratio (Cell Size Limit)",
+            "topic": "Cell Biology & Physiology",
             "grades": [
                 "Grade9",
                 "Grade10",
                 "Grade11",
                 "Grade12"
             ],
-            "displayMath": "For a cube of side a: SA = 6a²   |   V = a³   |   Ratio = 6 / a",
-            "variables": "SA = total plasma membrane surface area, V = internal cytoplasmic cell volume, a = linear cell dimension",
-            "tip": "As cell size increases, its SA/V ratio decreases sharply, limiting nutrient diffusion and forcing large cells to divide."
+            "displayMath": "SA/V = Surface Area / Volume   |   Spherical Cell: SA/V = (4πr²) / (4/3 πr³) = 3 / r",
+            "variables": "r = radius of cell, SA = outer membrane area, V = cytoplasmic volume",
+            "tip": "As a cell grows larger in radius, its SA/V ratio decreases sharply, limiting efficient diffusion and nutrient transport."
         },
         {
-            "title": "Osmosis: Percentage Change in Mass & Water Potential",
-            "topic": "Cell Physiology & Transport",
-            "grades": [
-                "Grade9",
-                "Grade10",
-                "Grade11",
-                "Grade12"
-            ],
-            "displayMath": "% Change in Mass = [(Final Mass - Initial Mass) / Initial Mass] × 100%   |   Water Potential Ψ = Ψ_s + Ψ_p",
-            "variables": "Ψ = total water potential, Ψ_s = solute potential (negative), Ψ_p = pressure potential (turgor)",
-            "tip": "Water always flows spontaneously down a water potential gradient: from higher (less negative) to lower (more negative) Ψ."
-        },
-        {
-            "title": "Enzyme Reaction Rates & Kinetics",
-            "topic": "Biochemistry & Enzymes",
-            "grades": [
-                "Grade10",
-                "Grade11",
-                "Grade12"
-            ],
-            "displayMath": "Rate of Reaction = (Amount of Substrate Used or Product Formed) / Time Taken (Δt)",
-            "variables": "Rate = velocity in mol/s or g/min, Δt = reaction incubation time period",
-            "tip": "At optimum temperature and pH, reaction rate peaks. Above optimum temperature, enzymes denature due to hydrogen bond breakage."
-        },
-        {
-            "title": "Food Calorimetry & Energy Release",
-            "topic": "Bioenergetics & Nutrition",
-            "grades": [
-                "Grade10",
-                "Grade11",
-                "Grade12"
-            ],
-            "displayMath": "Energy Released (J) = m_water · c_water · ΔT   |   Energy per gram = Total Energy / Mass of Food Sample",
-            "variables": "m_water = mass of water (1 mL = 1 g), c_water = 4.184 J/(g·°C), ΔT = temperature rise (°C)",
-            "tip": "To convert Joules to calories or kilocalories: 1 calorie = 4.184 Joules. 1 kcal = 1000 calories = 4184 Joules."
-        },
-        {
-            "title": "Respiratory Quotient (RQ)",
-            "topic": "Cellular Respiration",
-            "grades": [
-                "Grade11",
-                "Grade12"
-            ],
-            "displayMath": "RQ = Volume of CO₂ Produced / Volume of O₂ Consumed",
-            "variables": "RQ = respiratory quotient (dimensionless ratio)",
-            "tip": "RQ values indicate substrate burned: Carbohydrates (glucose) RQ = 1.0; Proteins RQ ≈ 0.9; Lipids (fats) RQ ≈ 0.7."
-        },
-        {
-            "title": "Lincoln-Petersen Capture-Mark-Recapture Index",
-            "topic": "Ecology & Population Dynamics",
-            "grades": [
-                "Grade11",
-                "Grade12"
-            ],
-            "displayMath": "Estimated Total Population (N) = (M · C) / R",
-            "variables": "M = number of individuals marked in 1st sample, C = total caught in 2nd sample, R = marked individuals recaptured in 2nd sample",
-            "tip": "Key assumptions: marks do not fade or harm organisms, no significant births/deaths/migration occurred between samples."
-        },
-        {
-            "title": "Quadrat Sampling: Density & Species Frequency",
-            "topic": "Ecology & Plant Biology",
-            "grades": [
-                "Grade11",
-                "Grade12"
-            ],
-            "displayMath": "Population Density D = Total Individuals Counted / Total Area Sampled   |   % Frequency = (Quadrats with Species / Total Quadrats) × 100%",
-            "variables": "D = individuals per unit area (e.g. organisms/m²), Quadrat area = length × width",
-            "tip": "Quadrat sampling is strictly for sessile or slow-moving organisms (plants, lichens, snails). Use random coordinates to avoid bias."
-        },
-        {
-            "title": "Hardy-Weinberg Law: Allele Frequencies",
+            "title": "Hardy-Weinberg Principle of Population Genetics",
             "topic": "Genetics & Evolution",
             "grades": [
-                "Grade12"
-            ],
-            "displayMath": "p + q = 1",
-            "variables": "p = frequency of the dominant allele (A), q = frequency of the recessive allele (a)",
-            "tip": "Always calculate q first from the recessive phenotype (q = √(recessive frequency q²)), then deduce p = 1 - q."
-        },
-        {
-            "title": "Hardy-Weinberg Law: Genotype Frequencies",
-            "topic": "Genetics & Evolution",
-            "grades": [
-                "Grade12"
-            ],
-            "displayMath": "p² + 2pq + q² = 1",
-            "variables": "p² = frequency of homozygous dominant (AA), 2pq = frequency of heterozygous (Aa), q² = frequency of homozygous recessive (aa)",
-            "tip": "Conditions for equilibrium: large population, random mating, no mutation, no natural selection, no gene flow (migration)."
-        },
-        {
-            "title": "Mendelian Dihybrid Phenotypic Ratios",
-            "topic": "Mendelian Genetics",
-            "grades": [
                 "Grade11",
                 "Grade12"
             ],
-            "displayMath": "Dihybrid Cross (AaBb × AaBb): 9 : 3 : 3 : 1   |   Testcross (AaBb × aabb): 1 : 1 : 1 : 1",
-            "variables": "9 = Dom/Dom, 3 = Dom/Rec, 3 = Rec/Dom, 1 = Rec/Rec",
-            "tip": "A 9:3:3:1 phenotypic ratio confirms that the two genes assort independently on different homologous chromosomes."
+            "displayMath": "Allele Frequencies: p + q = 1   |   Genotype Frequencies: p² + 2pq + q² = 1",
+            "variables": "p = frequency of dominant allele A, q = frequency of recessive allele a, p² = AA, 2pq = Aa, q² = aa",
+            "tip": "Always determine q² first by dividing the count of homozygous recessive individuals by total population."
         },
         {
-            "title": "Chi-Square (χ²) Goodness-of-Fit Test in Genetics",
-            "topic": "Genetics & Statistics",
+            "title": "Cardiac Output & Stroke Volume",
+            "topic": "Human Systems & Physiology",
             "grades": [
-                "Grade12"
-            ],
-            "displayMath": "χ² = Σ [(O - E)² / E]   |   Degrees of Freedom df = (number of outcome classes) - 1",
-            "variables": "O = observed number of offspring, E = expected number based on Mendelian ratio, Σ = sum over all classes",
-            "tip": "If calculated χ² < critical value (at p = 0.05), fail to reject null hypothesis: observed differences are due to random chance."
-        },
-        {
-            "title": "Cardiac Output, Heart Rate & Stroke Volume",
-            "topic": "Human Physiology & Circulation",
-            "grades": [
+                "Grade10",
                 "Grade11",
                 "Grade12"
             ],
             "displayMath": "Cardiac Output (CO) = Heart Rate (HR) × Stroke Volume (SV)",
-            "variables": "CO = volume pumped per minute (mL/min or L/min), HR = beats per minute (bpm), SV = volume ejected per heartbeat (mL/beat)",
-            "tip": "Typical resting values: HR ≈ 70 bpm, SV ≈ 70 mL/beat, resulting in normal resting Cardiac Output ≈ 4900 mL/min ≈ 5 L/min."
+            "variables": "CO = volume of blood pumped per minute (mL/min or L/min), HR = beats per minute (bpm), SV = volume ejected per ventricular beat (mL)",
+            "tip": "During vigorous exercise, both heart rate and stroke volume rise to drastically increase overall cardiac output."
         }
     ]
 };
 
-/* ========================================================
-   FORMULA SHEETS & REVISION: HIERARCHICAL NAVIGATION FLOW
-   Step 1: Choose Grade -> Step 2: Choose Subject -> Step 3: View Formula Sheet
-======================================================== */
 function showFormulaGrades(pushHistory = true) {
     if (pushHistory) {
         pushNavState({ view: 'formulaGrades' }, 'Formula Sheets — Select Grade');
@@ -6705,10 +6499,14 @@ function showFormulaSubjects(gradeId, pushHistory = true) {
     `;
 }
 
-function showFormulaSheet(gradeId, subjectId = 'math', searchQuery = '', pushHistory = true) {
+function showFormulaSheet(gradeId, subjectId = 'math', searchQuery = '', activeTopic = 'all', pushHistory = true) {
     if (pushHistory) {
-        pushNavState({ view: 'formulaSheet', gradeId, subjectId, search: searchQuery }, `${gradeId} ${subjectId} Formula Sheet`);
+        pushNavState({ view: 'formulaSheet', gradeId, subjectId, search: searchQuery, activeTopic }, `${gradeId} ${subjectId} Formula Sheet`);
     }
+
+    window._currentFormulaGrade = gradeId;
+    window._currentFormulaSubject = subjectId;
+    window._currentFormulaTopic = activeTopic;
 
     const subjectLabels = {
         math: 'Mathematics',
@@ -6720,11 +6518,15 @@ function showFormulaSheet(gradeId, subjectId = 'math', searchQuery = '', pushHis
     const gradeNum = gradeId.replace('Grade', '');
 
     const items = FORMULA_DATA[subjectId] || FORMULA_DATA.math;
-    const q = searchQuery.toLowerCase().trim();
+    const q = (searchQuery || '').toLowerCase().trim();
 
-    // Filter items specifically by this grade and search query
-    const filtered = items.filter(f => {
-        if (!f.grades.includes(gradeId)) return false;
+    // Collect all unique topics/classes for this grade & subject
+    const gradeItems = items.filter(f => f.grades.includes(gradeId));
+    const allTopics = ['all', ...new Set(gradeItems.map(f => f.topic))];
+
+    // Filter items specifically by this grade, topic, and search query
+    const filtered = gradeItems.filter(f => {
+        if (activeTopic !== 'all' && f.topic !== activeTopic) return false;
         if (q) {
             const haystack = `${f.title} ${f.topic} ${f.displayMath} ${f.variables} ${f.tip}`.toLowerCase();
             return haystack.includes(q);
@@ -6753,24 +6555,24 @@ function showFormulaSheet(gradeId, subjectId = 'math', searchQuery = '', pushHis
             </div>
         </div>
 
-        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px; margin-bottom: 22px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px; margin-bottom: 18px;">
             <div>
                 <h2 style="font-size: 26px; color: #ffffff; margin-bottom: 4px; font-weight: 750;">Grade ${gradeNum} ${subjectName} Formulas</h2>
                 <p style="color: var(--text-muted); font-size: 14px; margin: 0;">
-                    Verified syllabus formulas, symbol definitions, and exam notes for Grade ${gradeNum}.
+                    Verified syllabus formulas, symbol definitions, and exam notes categorized by major unit for Grade ${gradeNum}.
                 </p>
             </div>
             <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
-                <button class="formula-tab-btn ${subjectId === 'math' ? 'active' : ''}" onclick="showFormulaSheet('${gradeId}', 'math')">
+                <button class="formula-tab-btn ${subjectId === 'math' ? 'active' : ''}" onclick="showFormulaSheet('${gradeId}', 'math', '', 'all')">
                     ${uiIcon('calculator', 14)} Math
                 </button>
-                <button class="formula-tab-btn ${subjectId === 'physics' ? 'active' : ''}" onclick="showFormulaSheet('${gradeId}', 'physics')">
+                <button class="formula-tab-btn ${subjectId === 'physics' ? 'active' : ''}" onclick="showFormulaSheet('${gradeId}', 'physics', '', 'all')">
                     ${uiIcon('bolt', 14)} Physics
                 </button>
-                <button class="formula-tab-btn ${subjectId === 'chem' ? 'active' : ''}" onclick="showFormulaSheet('${gradeId}', 'chem')">
+                <button class="formula-tab-btn ${subjectId === 'chem' ? 'active' : ''}" onclick="showFormulaSheet('${gradeId}', 'chem', '', 'all')">
                     ${uiIcon('fileText', 14)} Chemistry
                 </button>
-                <button class="formula-tab-btn ${subjectId === 'bio' ? 'active' : ''}" onclick="showFormulaSheet('${gradeId}', 'bio')">
+                <button class="formula-tab-btn ${subjectId === 'bio' ? 'active' : ''}" onclick="showFormulaSheet('${gradeId}', 'bio', '', 'all')">
                     ${uiIcon('dna', 14)} Biology
                 </button>
                 <button class="btn-secondary" style="padding: 7px 14px; font-size: 13px; display: inline-flex; align-items: center; gap: 6px; cursor: pointer;" onclick="printFormulaSheet()" title="Print or save sheet as PDF">
@@ -6779,14 +6581,29 @@ function showFormulaSheet(gradeId, subjectId = 'math', searchQuery = '', pushHis
             </div>
         </div>
 
+        <!-- Topic Classes / Category Pills (Vectors, Motion, Forces, etc.) -->
+        <div class="formula-topic-pills-bar">
+            ${allTopics.map(t => {
+                const count = t === 'all' ? gradeItems.length : gradeItems.filter(f => f.topic === t).length;
+                const label = t === 'all' ? 'All Formulas' : t;
+                const isActive = activeTopic === t;
+                return `
+                    <button class="formula-topic-pill ${isActive ? 'active' : ''}" 
+                            onclick="showFormulaSheet('${gradeId}', '${subjectId}', '${escapeQuotes(searchQuery)}', '${escapeQuotes(t)}', false)">
+                        ${label} (${count})
+                    </button>
+                `;
+            }).join('')}
+        </div>
+
         <!-- Search Bar with Dark Theme Styling -->
-        <div style="margin-bottom: 24px;">
+        <div style="margin-bottom: 22px;">
             <div class="formula-search-wrapper">
                 <span class="search-icon" aria-hidden="true" style="top: 50%; left: 16px; transform: translateY(-50%);"></span>
                 <input type="text" class="formula-search-input" 
-                       placeholder="Search inside Grade ${gradeNum} ${subjectName} (e.g. formula title, variable, topic)..." 
+                       placeholder="Search inside Grade ${gradeNum} ${subjectName} (e.g. formula, variables, motion, vector)..." 
                        value="${escapeQuotes(searchQuery)}"
-                       oninput="debounceFormulaSearch('${gradeId}', '${subjectId}', this.value)">
+                       oninput="debounceFormulaSearch('${gradeId}', '${subjectId}', this.value, '${escapeQuotes(activeTopic)}')">
             </div>
         </div>
 
@@ -6797,8 +6614,8 @@ function showFormulaSheet(gradeId, subjectId = 'math', searchQuery = '', pushHis
                     ${uiIcon('search', 22)}
                 </div>
                 <h4 style="font-size: 17px; color: #ffffff; margin-bottom: 6px;">No formulas found matching "${escapeQuotes(searchQuery)}"</h4>
-                <p style="color: var(--text-muted); font-size: 13.5px; margin-bottom: 14px;">Try searching for a different keyword or clear your filter.</p>
-                <button class="btn-secondary" onclick="showFormulaSheet('${gradeId}', '${subjectId}', '')">Clear Search</button>
+                <p style="color: var(--text-muted); font-size: 13.5px; margin-bottom: 14px;">Try selecting a different topic pill or clear your search query.</p>
+                <button class="btn-secondary" onclick="showFormulaSheet('${gradeId}', '${subjectId}', '', 'all')">Reset Topic & Search</button>
             </div>
         ` : `
             <div class="formula-grid">
@@ -6806,7 +6623,9 @@ function showFormulaSheet(gradeId, subjectId = 'math', searchQuery = '', pushHis
                     <div class="formula-card">
                         <div>
                             <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; margin-bottom: 8px;">
-                                <span class="badge badge-purple">${f.topic}</span>
+                                <span class="badge badge-purple" style="cursor: pointer;" onclick="showFormulaSheet('${gradeId}', '${subjectId}', '', '${escapeQuotes(f.topic)}', false)" title="Click to view only ${f.topic} formulas">
+                                    ${f.topic}
+                                </span>
                                 <span class="badge badge-blue">Grade ${gradeNum}</span>
                             </div>
                             <h3 style="font-size: 17px; color: #ffffff; margin-bottom: 8px; font-weight: 700;">${f.title}</h3>
@@ -6827,7 +6646,7 @@ function showFormulaSheet(gradeId, subjectId = 'math', searchQuery = '', pushHis
                         </div>
 
                         <div style="display: flex; justify-content: flex-end; margin-top: 14px; padding-top: 10px; border-top: 1px solid var(--border-glass);">
-                            <button class="btn-secondary" style="font-size: 12px; padding: 6px 12px; display: inline-flex; align-items: center; gap: 6px;" onclick="copyFormulaText('${escapeQuotes(f.displayMath)}', this)">
+                            <button class="btn-secondary" style="font-size: 12px; padding: 6px 14px; display: inline-flex; align-items: center; gap: 6px;" onclick="copyFormulaText('${escapeQuotes(f.displayMath)}', this)">
                                 ${uiIcon('copy', 13)} Copy Formula
                             </button>
                         </div>
@@ -6839,6 +6658,13 @@ function showFormulaSheet(gradeId, subjectId = 'math', searchQuery = '', pushHis
 }
 
 let formulaSearchTimeout = null;
+function debounceFormulaSearch(gradeId, subjectId, query, activeTopic = 'all') {
+    if (formulaSearchTimeout) clearTimeout(formulaSearchTimeout);
+    formulaSearchTimeout = setTimeout(() => {
+        showFormulaSheet(gradeId, subjectId, query, activeTopic, false);
+    }, 220);
+}
+
 function debounceFormulaSearch(gradeId, subjectId, query) {
     if (formulaSearchTimeout) clearTimeout(formulaSearchTimeout);
     formulaSearchTimeout = setTimeout(() => {
