@@ -4046,16 +4046,6 @@ function showLibraryHome(pushHistory = true) {
         <!-- Mode-Based Selector Tabs: Option 2 -->
         ${renderHomeModeTabs('exams')}
 
-        <!-- Search Bar -->
-        <div class="search-container">
-            <div class="search-input-wrapper">
-                <span class="search-icon" aria-hidden="true"></span>
-                <input type="text" id="library-search" class="search-input" 
-                       placeholder="Search any exam paper (e.g. Mathematics, Biology, Final, Pre-test)..."
-                       oninput="handleLibrarySearch(this.value)">
-            </div>
-        </div>
-
         <!-- Grade Selection: 100% focused, zero clutter, instant to catch -->
         <div id="library-content-container">
             <div class="page-title">
