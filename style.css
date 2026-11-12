@@ -5945,27 +5945,80 @@ footer {
 
 /* Duolingo Pomodoro Timer Widget */
 .desk-pomodoro-pill {
-    display: flex;
+    display: inline-flex;
     align-items: center;
     gap: 10px;
-    background: rgba(249, 115, 22, 0.12);
-    border: 1px solid rgba(249, 115, 22, 0.4);
+    background: rgba(249, 115, 22, 0.14);
+    border: 1.5px solid rgba(249, 115, 22, 0.5);
     border-radius: 9999px;
-    padding: 6px 16px;
+    padding: 5px 14px;
     color: #ffedd5;
+    box-shadow: 0 2px 12px rgba(249, 115, 22, 0.15);
+    transition: all 0.2s ease;
 }
 
 [data-theme="light"] .desk-pomodoro-pill {
     background: #fff7ed;
     border-color: #fdba74;
     color: #c2410c;
+    box-shadow: 0 2px 10px rgba(249, 115, 22, 0.12);
+}
+
+.desk-pomodoro-pill.running {
+    border-color: #f97316;
+    box-shadow: 0 0 16px rgba(249, 115, 22, 0.35);
+    animation: pomodoro-pulse 2s infinite ease-in-out;
+}
+
+@keyframes pomodoro-pulse {
+    0%, 100% { border-color: rgba(249, 115, 22, 0.5); }
+    50% { border-color: rgba(249, 115, 22, 0.95); }
+}
+
+.desk-timer-info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    line-height: 1.1;
+}
+
+.desk-timer-mode-tag {
+    font-size: 9.5px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    color: #f97316;
+}
+
+[data-theme="light"] .desk-timer-mode-tag {
+    color: #ea580c;
 }
 
 .desk-timer-display {
-    font-size: 17px;
+    font-size: 19px;
     font-weight: 900;
-    font-family: 'Outfit', sans-serif;
+    font-family: 'Outfit', monospace, sans-serif;
+    font-variant-numeric: tabular-nums;
     letter-spacing: 0.5px;
+    display: inline-flex;
+    align-items: baseline;
+    gap: 3px;
+    color: #ffffff;
+}
+
+[data-theme="light"] .desk-timer-display {
+    color: #1e293b;
+}
+
+.desk-timer-unit {
+    font-size: 11px;
+    font-weight: 800;
+    color: #fdba74;
+    text-transform: lowercase;
+}
+
+[data-theme="light"] .desk-timer-unit {
+    color: #c2410c;
 }
 
 .desk-timer-toggle-btn {
@@ -5973,21 +6026,54 @@ footer {
     color: #ffffff;
     border: none;
     border-radius: 9999px;
-    padding: 4px 12px;
+    padding: 5px 13px;
     font-size: 11.5px;
     font-weight: 800;
     text-transform: uppercase;
     cursor: pointer;
     box-shadow: 0 2px 0 #c2410c;
     transition: all 0.15s;
+    letter-spacing: 0.5px;
+}
+
+.desk-timer-toggle-btn.running {
+    background: #ef4444;
+    box-shadow: 0 2px 0 #b91c1c;
 }
 
 .desk-timer-toggle-btn:hover {
-    background: #fb923c;
+    filter: brightness(1.1);
+    transform: translateY(-1px);
 }
 .desk-timer-toggle-btn:active {
     transform: translateY(1px);
     box-shadow: 0 1px 0 #c2410c;
+}
+
+.desk-timer-reset-btn {
+    background: transparent;
+    border: 1px solid rgba(249, 115, 22, 0.4);
+    color: #fed7aa;
+    border-radius: 9999px;
+    padding: 4px 8px;
+    font-size: 11px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.15s;
+}
+
+.desk-timer-reset-btn:hover {
+    background: rgba(249, 115, 22, 0.2);
+    color: #ffffff;
+}
+
+[data-theme="light"] .desk-timer-reset-btn {
+    border-color: #fdba74;
+    color: #9a3412;
+}
+
+[data-theme="light"] .desk-timer-reset-btn:hover {
+    background: #ffedd5;
 }
 
 /* Split Workspace Grid (css-layout compliant) */

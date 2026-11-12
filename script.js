@@ -8042,7 +8042,7 @@ function toggleDeskTimer() {
                 
                 if (deskState.pomodoroMode === 'study') {
                     recordStudyStreakActivity();
-                    showToast('🎉 Focus sprint completed! Streak boosted and 50 XP awarded!', 'success');
+                    showToast('🎉 25-minute focus sprint completed! Streak boosted and 50 XP awarded!', 'success');
                     if (typeof showSessionEndStreakCelebration === 'function') {
                         showSessionEndStreakCelebration();
                     }
@@ -8050,7 +8050,7 @@ function toggleDeskTimer() {
                     deskState.pomodoroMinutes = 5;
                     deskState.pomodoroSeconds = 0;
                 } else {
-                    showToast('☕ Break time over! Ready for another focus session?', 'info');
+                    showToast('☕ Break time over! Ready for another 25-minute focus session?', 'info');
                     deskState.pomodoroMode = 'study';
                     deskState.pomodoroMinutes = 25;
                     deskState.pomodoroSeconds = 0;
@@ -8068,28 +8068,58 @@ function switchDeskTimerMode() {
         deskState.pomodoroMode = 'break';
         deskState.pomodoroMinutes = 5;
         deskState.pomodoroSeconds = 0;
+        showToast('☕ Switched to 5-minute break mode.', 'info');
     } else {
         deskState.pomodoroMode = 'study';
         deskState.pomodoroMinutes = 25;
         deskState.pomodoroSeconds = 0;
+        showToast('🎯 Switched to default 25-minute focus sprint.', 'info');
     }
     updateDeskTimerUI();
+}
+
+function resetDeskTimer(minutes = 25) {
+    if (deskState.pomodoroTimer) clearInterval(deskState.pomodoroTimer);
+    deskState.pomodoroRunning = false;
+    deskState.pomodoroMode = (minutes === 5) ? 'break' : 'study';
+    deskState.pomodoroMinutes = minutes;
+    deskState.pomodoroSeconds = 0;
+    updateDeskTimerUI();
+    showToast(`⏱️ Timer reset to default ${minutes} minutes.`, 'info');
 }
 
 function updateDeskTimerUI() {
     const el = document.getElementById('desk-timer-clock');
     const btn = document.getElementById('desk-timer-toggle');
     const modeBtn = document.getElementById('desk-timer-mode-btn');
+    const modeLabel = document.getElementById('desk-timer-mode-label');
+    const pill = document.getElementById('desk-pomodoro-pill');
+
+    const m = String(deskState.pomodoroMinutes).padStart(2, '0');
+    const s = String(deskState.pomodoroSeconds).padStart(2, '0');
+
     if (el) {
-        const m = String(deskState.pomodoroMinutes).padStart(2, '0');
-        const s = String(deskState.pomodoroSeconds).padStart(2, '0');
         el.textContent = `${m}:${s}`;
+    }
+    if (modeLabel) {
+        modeLabel.textContent = deskState.pomodoroMode === 'study' ? '25 MIN FOCUS' : '5 MIN BREAK';
+    }
+    if (pill) {
+        pill.classList.toggle('running', deskState.pomodoroRunning);
     }
     if (btn) {
         btn.textContent = deskState.pomodoroRunning ? 'PAUSE' : 'START';
+        btn.classList.toggle('running', deskState.pomodoroRunning);
     }
     if (modeBtn) {
-        modeBtn.textContent = deskState.pomodoroMode === 'study' ? '25m Focus' : '5m Break';
+        modeBtn.textContent = deskState.pomodoroMode === 'study' ? '5m Break' : '25m Focus';
+    }
+
+    // Dynamic browser tab title so students see the countdown minutes while multitasking
+    if (deskState.pomodoroRunning) {
+        document.title = `(${m}:${s} min) 🎯 Focus Study Room`;
+    } else if (state && state.currentView === 'studydesk') {
+        document.title = `(${m}:00 min) 🎯 Focus Study Room`;
     }
 }
 
@@ -8150,6 +8180,17 @@ async function showStudyDesk(initialGrade = null, initialSubject = null, pushHis
 
     const streak = getStudyStreakData();
 
+    // Default to 25 minutes focus sprint if timer is not actively running
+    if (!deskState.pomodoroRunning) {
+        deskState.pomodoroMode = 'study';
+        deskState.pomodoroMinutes = 25;
+        deskState.pomodoroSeconds = 0;
+    }
+
+    const initialM = String(deskState.pomodoroMinutes).padStart(2, '0');
+    const initialS = String(deskState.pomodoroSeconds).padStart(2, '0');
+    const modeLabel = deskState.pomodoroMode === 'study' ? '25 MIN FOCUS' : '5 MIN BREAK';
+
     app.innerHTML = `
         <div class="study-desk-wrapper">
             <!-- Top Controls Bar -->
@@ -8169,12 +8210,19 @@ async function showStudyDesk(initialGrade = null, initialSubject = null, pushHis
                 </div>
 
                 <div class="desk-controls-group">
-                    <!-- Duolingo Style Pomodoro Timer -->
-                    <div class="desk-pomodoro-pill">
-                        <span style="font-size: 16px;">⏱️</span>
-                        <span class="desk-timer-display" id="desk-timer-clock">25:00</span>
-                        <button id="desk-timer-toggle" class="desk-timer-toggle-btn" onclick="toggleDeskTimer()">START</button>
-                        <button id="desk-timer-mode-btn" class="desk-tool-btn" style="padding: 3px 8px; font-size: 11px;" onclick="switchDeskTimerMode()">25m Focus</button>
+                    <!-- Duolingo Style Pomodoro Timer (25 Min Default) -->
+                    <div class="desk-pomodoro-pill ${deskState.pomodoroRunning ? 'running' : ''}" id="desk-pomodoro-pill" title="Default 25-Minute Focus Sprint">
+                        <span style="font-size: 18px;" class="desk-timer-icon">⏱️</span>
+                        <div class="desk-timer-info">
+                            <span class="desk-timer-mode-tag" id="desk-timer-mode-label">${modeLabel}</span>
+                            <span class="desk-timer-display">
+                                <span id="desk-timer-clock">${initialM}:${initialS}</span>
+                                <span class="desk-timer-unit">min</span>
+                            </span>
+                        </div>
+                        <button id="desk-timer-toggle" class="desk-timer-toggle-btn ${deskState.pomodoroRunning ? 'running' : ''}" onclick="toggleDeskTimer()" title="Start or Pause 25-min study countdown">${deskState.pomodoroRunning ? 'PAUSE' : 'START'}</button>
+                        <button id="desk-timer-mode-btn" class="desk-tool-btn" style="padding: 4px 9px; font-size: 11px;" onclick="switchDeskTimerMode()" title="Toggle between 25 Min Focus and 5 Min Break">${deskState.pomodoroMode === 'study' ? '5m Break' : '25m Focus'}</button>
+                        <button type="button" class="desk-timer-reset-btn" onclick="resetDeskTimer(25)" title="Reset back to default 25 minutes">↺ 25m</button>
                     </div>
 
                     <!-- Streak Flame Pill -->
