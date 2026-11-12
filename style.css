@@ -2522,6 +2522,154 @@ header {
     box-shadow: 0 4px 16px rgba(14, 165, 233, 0.35);
 }
 
+/* Support Nav Button */
+.nav-btn.nav-btn-support {
+    background: rgba(239, 68, 68, 0.12);
+    border-color: rgba(239, 68, 68, 0.35);
+    color: #f87171;
+}
+
+.nav-btn.nav-btn-support:hover,
+.nav-btn.nav-btn-support:focus-visible {
+    background: rgba(239, 68, 68, 0.25);
+    border-color: #ef4444;
+    color: #ffffff;
+    box-shadow: 0 4px 16px rgba(239, 68, 68, 0.35);
+}
+
+[data-theme="light"] .nav-btn.nav-btn-support {
+    background: rgba(239, 68, 68, 0.1);
+    border-color: rgba(239, 68, 68, 0.3);
+    color: #b91c1c;
+}
+
+/* ========================================================
+   HERO GROWTH & RETENTION BAR
+======================================================== */
+.hero-growth-bar {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 18px;
+}
+
+.hero-growth-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 7px 14px;
+    border-radius: 9999px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    background: rgba(255, 255, 255, 0.04);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    color: var(--text-main);
+    user-select: none;
+}
+
+.hero-growth-pill:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+}
+
+.hero-streak-pill {
+    background: rgba(249, 115, 22, 0.12);
+    border-color: rgba(249, 115, 22, 0.35);
+    color: #fdba74;
+}
+
+.hero-streak-pill:hover {
+    background: rgba(249, 115, 22, 0.22);
+    border-color: #f97316;
+    color: #ffedd5;
+    box-shadow: 0 4px 18px rgba(249, 115, 22, 0.3);
+}
+
+.hero-support-pill {
+    background: rgba(239, 68, 68, 0.12);
+    border-color: rgba(239, 68, 68, 0.35);
+    color: #fca5a5;
+}
+
+.hero-support-pill:hover {
+    background: rgba(239, 68, 68, 0.22);
+    border-color: #ef4444;
+    color: #fee2e2;
+    box-shadow: 0 4px 18px rgba(239, 68, 68, 0.3);
+}
+
+.hero-support-pill .pill-sub-tag {
+    font-size: 10px;
+    text-transform: uppercase;
+    font-weight: 700;
+    padding: 1px 6px;
+    border-radius: 4px;
+    background: rgba(239, 68, 68, 0.25);
+    color: #ffffff;
+    letter-spacing: 0.3px;
+}
+
+.hero-tg-pill {
+    background: rgba(14, 165, 233, 0.12);
+    border-color: rgba(56, 189, 248, 0.35);
+    color: #38bdf8;
+}
+
+.hero-tg-pill:hover {
+    background: rgba(14, 165, 233, 0.22);
+    border-color: #38bdf8;
+    color: #ffffff;
+    box-shadow: 0 4px 18px rgba(14, 165, 233, 0.3);
+}
+
+.footer-support-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 6px 14px;
+    border-radius: 9999px;
+    font-size: 12.5px;
+    font-weight: 600;
+    background: rgba(239, 68, 68, 0.12);
+    border: 1px solid rgba(239, 68, 68, 0.35);
+    color: #fca5a5;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.footer-support-btn:hover {
+    background: rgba(239, 68, 68, 0.22);
+    border-color: #ef4444;
+    color: #ffffff;
+    box-shadow: 0 4px 16px rgba(239, 68, 68, 0.3);
+}
+
+[data-theme="light"] .hero-streak-pill {
+    background: rgba(249, 115, 22, 0.1);
+    border-color: rgba(249, 115, 22, 0.3);
+    color: #c2410c;
+}
+[data-theme="light"] .hero-support-pill {
+    background: rgba(239, 68, 68, 0.1);
+    border-color: rgba(239, 68, 68, 0.3);
+    color: #b91c1c;
+}
+[data-theme="light"] .hero-support-pill .pill-sub-tag {
+    background: #ef4444;
+    color: #ffffff;
+}
+[data-theme="light"] .footer-support-btn {
+    background: rgba(239, 68, 68, 0.08);
+    border-color: rgba(239, 68, 68, 0.25);
+    color: #b91c1c;
+}
+
 [data-theme="light"] .telegram-banner {
     background: linear-gradient(90deg, rgba(224, 242, 254, 0.9) 0%, rgba(238, 242, 255, 0.9) 50%, rgba(250, 245, 255, 0.9) 100%);
     border-bottom-color: rgba(56, 189, 248, 0.4);
