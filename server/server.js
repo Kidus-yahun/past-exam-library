@@ -847,6 +847,59 @@ app.get('/api/admin/students', authenticateToken, requireAdmin, async (req, res)
     }
 });
 
+// AI Study Coach / Mentor API
+app.post('/api/ai-tutor', async (req, res) => {
+    try {
+        const { message, grade, subject, currentQuestion, context } = req.body;
+        if (!message) {
+            return res.status(400).json({ success: false, message: 'Message is required' });
+        }
+
+        const apiKey = process.env.GEMINI_API_KEY;
+        if (apiKey) {
+            const systemInstruction = `You are Archie, an inspiring, energetic, and highly effective AI Study Coach for Ethiopian secondary school students (Grades 9-12, Ethiopian Curriculum).
+Your mission is to make students study, keep them focused, and master their subjects.
+Current student context:
+- Grade: ${grade || 'Grade 12'}
+- Subject: ${subject || 'General'}
+${currentQuestion ? `- Currently practicing question: "${currentQuestion.questionText}". Options: ${(currentQuestion.options || []).join(', ')}` : ''}
+
+Key rules:
+1. Be concise, direct, and encouraging. Use bullet points and step-by-step numbered logic.
+2. Socratic teaching: Don't just blurt the direct answer if they are asking about an active quiz question. Guide them with a hint, formula, or elimination clue first!
+3. Format math formulas cleanly (e.g. F = m*a, x = (-b ± √(b² - 4ac)) / (2a)).
+4. Keep them motivated and accountable during their study sprint!`;
+
+            const promptText = `${systemInstruction}\n\nStudent asks: "${message}"`;
+            
+            const geminiRes = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    contents: [{ parts: [{ text: promptText }] }]
+                })
+            });
+
+            if (geminiRes.ok) {
+                const geminiData = await geminiRes.json();
+                const reply = geminiData.candidates?.[0]?.content?.parts?.[0]?.text;
+                if (reply) {
+                    return res.json({ success: true, reply, source: 'gemini' });
+                }
+            }
+        }
+
+        return res.json({
+            success: true,
+            reply: null,
+            source: 'fallback'
+        });
+    } catch (err) {
+        console.error('AI Tutor error:', err);
+        res.status(500).json({ success: false, message: err.message });
+    }
+});
+
 // Fallback to index.html for single-page client routing
 app.use((req, res, next) => {
     if (req.method === 'GET' && !req.path.startsWith('/api') && !req.path.startsWith('/uploads') && !req.path.startsWith('/exams')) {

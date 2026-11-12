@@ -7972,20 +7972,13 @@ const deskState = {
     paperIndex: 0,
     availablePapers: [],
     leftTab: 'pdf', // 'pdf', 'formulas', 'tips'
-    rightTab: 'practice', // 'practice', 'scratchpad', 'notes'
+    rightTab: 'ai', // 'ai', 'practice', 'notes'
     // Pomodoro
     pomodoroMinutes: 25,
     pomodoroSeconds: 0,
     pomodoroRunning: false,
     pomodoroTimer: null,
     pomodoroMode: 'study', // 'study' (25m) or 'break' (5m)
-    // Scratchpad
-    canvas: null,
-    ctx: null,
-    drawing: false,
-    penColor: '#38bdf8',
-    penSize: 3,
-    tool: 'pen',
     // Practice Questions
     questions: [],
     currentQIndex: 0,
@@ -8123,12 +8116,11 @@ function setDeskRightTab(tab) {
     const body = document.getElementById('desk-right-body');
     if (!body) return;
     
-    if (tab === 'practice') {
+    if (tab === 'ai') {
+        renderDeskAiWrapper(body);
+    } else if (tab === 'practice') {
         renderDeskPracticeWrapper(body);
         loadDeskPracticeQuestions();
-    } else if (tab === 'scratchpad') {
-        renderDeskScratchpadWrapper(body);
-        setTimeout(initDeskScratchpad, 50);
     } else if (tab === 'notes') {
         renderDeskNotesWrapper(body);
         loadDeskNotes();
@@ -8212,15 +8204,15 @@ async function showStudyDesk(initialGrade = null, initialSubject = null, pushHis
                     </div>
                 </div>
 
-                <!-- Right Panel: Practice Quiz / Scratchpad / Notes -->
+                <!-- Right Panel: AI Study Coach / Practice Quiz / Notes -->
                 <div class="desk-panel" id="desk-right-panel">
                     <div class="desk-panel-header">
                         <div class="desk-panel-tabs">
-                            <button class="desk-tab-btn desk-right-tab active" data-tab="practice" onclick="setDeskRightTab('practice')">
-                                ${uiIcon('target', 14)} Practice Quiz
+                            <button class="desk-tab-btn desk-right-tab active" data-tab="ai" onclick="setDeskRightTab('ai')">
+                                🤖 AI Study Coach
                             </button>
-                            <button class="desk-tab-btn desk-right-tab" data-tab="scratchpad" onclick="setDeskRightTab('scratchpad')">
-                                ✍️ Scratchpad
+                            <button class="desk-tab-btn desk-right-tab" data-tab="practice" onclick="setDeskRightTab('practice')">
+                                ${uiIcon('target', 14)} Practice Quiz
                             </button>
                             <button class="desk-tab-btn desk-right-tab" data-tab="notes" onclick="setDeskRightTab('notes')">
                                 📝 Notes
@@ -8237,7 +8229,7 @@ async function showStudyDesk(initialGrade = null, initialSubject = null, pushHis
     `;
 
     setDeskLeftTab(deskState.leftTab || 'pdf');
-    setDeskRightTab(deskState.rightTab || 'practice');
+    setDeskRightTab(deskState.rightTab || 'ai');
     updateDeskTimerUI();
 }
 
@@ -8533,6 +8525,16 @@ function renderDeskPracticeQuestion() {
             </div>
         ` : ''}
 
+        <!-- Ask AI Study Coach Assistant Bar -->
+        <div style="display: flex; gap: 8px; margin-bottom: 14px; flex-wrap: wrap;">
+            <button type="button" class="desk-tool-btn" style="color: #38bdf8; border-color: rgba(56, 189, 248, 0.4); background: rgba(56, 189, 248, 0.08);" onclick="askAiAboutCurrentQuestion()">
+                🤖 Ask Archie to Explain Step-by-Step
+            </button>
+            <button type="button" class="desk-tool-btn" style="color: #f59e0b; border-color: rgba(245, 158, 11, 0.4); background: rgba(245, 158, 11, 0.08);" onclick="askAiForHint()">
+                🔍 Get Socratic Hint
+            </button>
+        </div>
+
         <!-- Bottom Action Button -->
         <div style="margin-top: auto; padding-top: 10px;">
             ${!deskState.isChecked ? `
@@ -8591,129 +8593,303 @@ function nextDeskQuestion() {
 }
 
 /* ========================================================
-   SCRATCHPAD (HTML5 CANVAS WITH TOUCH & MOUSE)
+   AI STUDY COACH / CHATBOT ("ARCHIE")
 ======================================================== */
 
-function renderDeskScratchpadWrapper(container) {
+let deskAiMessages = [];
+
+function initDeskAiChat() {
+    if (deskAiMessages.length === 0) {
+        deskAiMessages = [
+            {
+                sender: 'bot',
+                text: `👋 Hey! I'm <strong>Archie</strong>, your AI Study Coach for <strong>${deskState.grade} ${deskState.subject}</strong>.<br><br>I'm here to keep you locked in and make sure you actually master this material. Don't study passively—ask me to test you, break down a question step-by-step, or explain a difficult formula.<br><br>What topic or problem should we conquer right now?`,
+                time: 'Just now'
+            }
+        ];
+    }
+}
+
+function renderDeskAiWrapper(container) {
+    initDeskAiChat();
     const rightActions = document.getElementById('desk-right-actions');
     if (rightActions) {
         rightActions.innerHTML = `
-            <button class="desk-tool-btn" onclick="clearDeskScratchpad()">
-                ${uiIcon('trash', 12)} Clear Canvas
+            <button class="desk-tool-btn" onclick="clearDeskAiChat()" title="Reset chat with AI Coach">
+                ${uiIcon('trash', 12)} Reset Coach
             </button>
         `;
     }
 
     container.innerHTML = `
-        <div class="desk-canvas-toolbar">
-            <span style="font-size: 12px; font-weight: 700; color: var(--text-muted); align-self: center; margin-right: 4px;">Pen:</span>
-            <button class="desk-color-dot active" style="background: #38bdf8;" onclick="setDeskPenColor('#38bdf8', this)" title="Cyan Pen"></button>
-            <button class="desk-color-dot" style="background: #22c55e;" onclick="setDeskPenColor('#22c55e', this)" title="Emerald Pen"></button>
-            <button class="desk-color-dot" style="background: #f59e0b;" onclick="setDeskPenColor('#f59e0b', this)" title="Amber Pen"></button>
-            <button class="desk-color-dot" style="background: #ffffff;" onclick="setDeskPenColor('#ffffff', this)" title="White Pen"></button>
-            
-            <span style="border-left: 1px solid var(--border-glass); margin: 0 4px;"></span>
-            
-            <button class="desk-tool-btn" id="desk-eraser-btn" onclick="setDeskEraser(this)">
-                🧹 Eraser
-            </button>
+        <div class="desk-ai-container">
+            <div class="desk-ai-header-status">
+                <div class="desk-ai-coach-badge">
+                    <div class="desk-ai-avatar">🤖</div>
+                    <div>
+                        <div style="font-size: 13.5px; font-weight: 800; color: var(--text-main); display: flex; align-items: center; gap: 6px;">
+                            Archie <span style="font-size: 10px; font-weight: 700; color: #1cb0f6; background: rgba(28, 176, 246, 0.12); padding: 1px 6px; border-radius: 9999px;">AI Study Coach</span>
+                        </div>
+                        <div style="font-size: 11px; color: var(--text-muted); display: flex; align-items: center; gap: 4px;">
+                            <span class="desk-ai-status-pulse"></span> Active for ${deskState.grade} • ${deskState.subject}
+                        </div>
+                    </div>
+                </div>
+                <div style="font-size: 11.5px; color: #f59e0b; font-weight: 700;">
+                    🔥 Streak Booster Active
+                </div>
+            </div>
+
+            <!-- Messages Stream -->
+            <div class="desk-ai-messages" id="desk-ai-msg-list">
+                <!-- Rendered dynamically -->
+            </div>
+
+            <!-- Quick Study Prompt Chips -->
+            <div class="desk-ai-chips-wrapper">
+                <button class="desk-ai-chip" onclick="askAiAboutCurrentQuestion()">
+                    💡 Explain Current Question
+                </button>
+                <button class="desk-ai-chip" onclick="askAiForHint()">
+                    🔍 Socratic Hint
+                </button>
+                <button class="desk-ai-chip" onclick="sendDeskAiMessage('Quiz me on a high-yield concept from this subject!')">
+                    ⚡ Quiz Me
+                </button>
+                <button class="desk-ai-chip" onclick="sendDeskAiMessage('What are the top 3 formulas I must know for exams in this subject?')">
+                    📐 Top 3 Formulas
+                </button>
+                <button class="desk-ai-chip" onclick="sendDeskAiMessage('Give me a 25-minute Pomodoro study plan to stay 100% focused.')">
+                    🎯 25m Focus Plan
+                </button>
+            </div>
+
+            <!-- Chat Input Bar -->
+            <form class="desk-ai-input-bar" onsubmit="event.preventDefault(); sendDeskAiMessage();">
+                <input type="text" id="desk-ai-text-input" class="desk-ai-input" placeholder="Ask Archie anything or request step-by-step guidance..." autocomplete="off">
+                <button type="submit" class="desk-ai-send-btn" id="desk-ai-send-btn">
+                    <span>Send</span> ${uiIcon('export', 13)}
+                </button>
+            </form>
         </div>
-        <div class="desk-canvas-container" id="desk-canvas-box">
-            <canvas id="desk-scratchpad-canvas"></canvas>
-        </div>
-        <p style="font-size: 11.5px; color: var(--text-muted); margin: 8px 0 0 0; text-align: center;">
-            ✍️ Supports stylus, finger touch, and mouse drawing. Perfect for rough calculations and scratch math.
-        </p>
     `;
+
+    renderDeskAiMessages();
 }
 
-function initDeskScratchpad() {
-    const canvas = document.getElementById('desk-scratchpad-canvas');
-    const box = document.getElementById('desk-canvas-box');
-    if (!canvas || !box) return;
+function renderDeskAiMessages() {
+    const list = document.getElementById('desk-ai-msg-list');
+    if (!list) return;
 
-    deskState.canvas = canvas;
-    deskState.ctx = canvas.getContext('2d');
+    list.innerHTML = deskAiMessages.map(m => `
+        <div class="desk-ai-msg ${m.sender}">
+            <div class="desk-ai-bubble">
+                ${m.text}
+            </div>
+        </div>
+    `).join('');
 
-    canvas.width = box.clientWidth || 500;
-    canvas.height = box.clientHeight || 450;
+    list.scrollTop = list.scrollHeight;
+}
 
-    deskState.ctx.lineCap = 'round';
-    deskState.ctx.lineJoin = 'round';
+async function sendDeskAiMessage(customPrompt = null) {
+    const input = document.getElementById('desk-ai-text-input');
+    const sendBtn = document.getElementById('desk-ai-send-btn');
+    const text = customPrompt || (input ? input.value.trim() : '');
+    if (!text) return;
 
-    function getPos(e) {
-        const r = canvas.getBoundingClientRect();
-        if (e.touches && e.touches.length > 0) {
-            return {
-                x: e.touches[0].clientX - r.left,
-                y: e.touches[0].clientY - r.top
-            };
+    if (input && !customPrompt) input.value = '';
+
+    // Add user message
+    deskAiMessages.push({
+        sender: 'user',
+        text: escapeQuotes(text).replace(/&lt;/g, '<').replace(/&gt;/g, '>'),
+        time: 'Just now'
+    });
+    renderDeskAiMessages();
+
+    // Show typing indicator
+    const list = document.getElementById('desk-ai-msg-list');
+    if (list) {
+        const typingEl = document.createElement('div');
+        typingEl.className = 'desk-ai-msg bot';
+        typingEl.id = 'desk-ai-typing-indicator';
+        typingEl.innerHTML = `
+            <div class="desk-ai-bubble" style="padding: 8px 14px;">
+                <div class="desk-ai-typing">
+                    <span class="desk-ai-typing-dot"></span>
+                    <span class="desk-ai-typing-dot"></span>
+                    <span class="desk-ai-typing-dot"></span>
+                </div>
+            </div>
+        `;
+        list.appendChild(typingEl);
+        list.scrollTop = list.scrollHeight;
+    }
+
+    if (sendBtn) sendBtn.disabled = true;
+
+    const currentQ = (deskState.questions && deskState.questions.length > deskState.currentQIndex)
+        ? deskState.questions[deskState.currentQIndex]
+        : null;
+
+    let botReply = '';
+
+    try {
+        const res = await fetch('/api/ai-tutor', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                message: text,
+                grade: deskState.grade,
+                subject: deskState.subject,
+                currentQuestion: currentQ
+            })
+        });
+
+        if (res.ok) {
+            const data = await res.json();
+            if (data.reply) {
+                botReply = data.reply
+                    .replace(/\n\n/g, '<br><br>')
+                    .replace(/\n/g, '<br>')
+                    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                    .replace(/\*(.*?)\*/g, '<em>$1</em>');
+            }
         }
-        return {
-            x: e.clientX - r.left,
-            y: e.clientY - r.top
+    } catch (e) {}
+
+    // Seamless Intelligent Fallback if API key is not present or user is offline
+    if (!botReply) {
+        botReply = generateLocalAiStudyResponse(text, deskState.grade, deskState.subject, currentQ);
+    }
+
+    // Remove typing indicator
+    const indicator = document.getElementById('desk-ai-typing-indicator');
+    if (indicator) indicator.remove();
+    if (sendBtn) sendBtn.disabled = false;
+
+    deskAiMessages.push({
+        sender: 'bot',
+        text: botReply,
+        time: 'Just now'
+    });
+
+    renderDeskAiMessages();
+    playDeskChime('correct');
+}
+
+function askAiAboutCurrentQuestion() {
+    setDeskRightTab('ai');
+    const currentQ = (deskState.questions && deskState.questions.length > deskState.currentQIndex)
+        ? deskState.questions[deskState.currentQIndex]
+        : null;
+
+    if (currentQ) {
+        sendDeskAiMessage(`Can you explain Question #${deskState.currentQIndex + 1} ("${currentQ.questionText.slice(0, 50)}...") step-by-step and show me the concept to solve it?`);
+    } else {
+        sendDeskAiMessage('Can you break down the core exam concepts for this subject?');
+    }
+}
+
+function askAiForHint() {
+    setDeskRightTab('ai');
+    const currentQ = (deskState.questions && deskState.questions.length > deskState.currentQIndex)
+        ? deskState.questions[deskState.currentQIndex]
+        : null;
+
+    if (currentQ) {
+        sendDeskAiMessage(`Give me a Socratic hint for Question #${deskState.currentQIndex + 1} without spoiling the final answer!`);
+    } else {
+        sendDeskAiMessage('Give me a high-yield study hint for my current subject.');
+    }
+}
+
+function clearDeskAiChat() {
+    deskAiMessages = [];
+    initDeskAiChat();
+    renderDeskAiMessages();
+    showToast('AI Study Coach conversation reset', 'info');
+}
+
+function generateLocalAiStudyResponse(query, grade, subject, currentQ) {
+    const qLower = query.toLowerCase();
+
+    // 1. Current Question Socratic Breakdown
+    if ((qLower.includes('explain') || qLower.includes('question') || qLower.includes('step')) && currentQ) {
+        return `
+            <strong>🎯 Step-by-Step Breakdown for Question #${deskState.currentQIndex + 1}:</strong><br><br>
+            <strong>Problem:</strong> <em>"${currentQ.questionText}"</em><br><br>
+            <strong>1. Identify What's Being Asked:</strong><br>
+            Focus on the primary variable or relationship. What fundamental law or definition in <strong>${subject}</strong> connects these quantities?<br><br>
+            <strong>2. Core Concept:</strong><br>
+            ${currentQ.explanation ? currentQ.explanation : `In ${grade} ${subject}, this tests standard syllabus application. Break the problem into given values vs unknown values.`}<br><br>
+            <strong>3. How to Eliminate Options:</strong><br>
+            Check the units and extreme values first. Eliminate any option that violates conservation laws or magnitude checks.<br><br>
+            <strong>💡 Ready to try?</strong> Switch to the <strong>Practice Quiz</strong> tab and choose your answer!
+        `;
+    }
+
+    // 2. Hint Request (No Spoilers)
+    if (qLower.includes('hint') && currentQ) {
+        return `
+            <strong>🔍 Socratic Hint for Question #${deskState.currentQIndex + 1}:</strong><br><br>
+            Don't look at the final answer choices yet. Ask yourself:<br>
+            • <em>What happens if the main variable increases or decreases?</em><br>
+            • <em>Can you write down the governing formula on paper first?</em><br><br>
+            ${currentQ.explanation ? `<strong>Clue:</strong> Look closely at the connection to: <em>${currentQ.explanation.split('.')[0]}.</em>` : 'Check your Formula Sheets tab on the left to see the matching equation!'}
+            <br><br>
+            Give it another shot on the quiz tab!
+        `;
+    }
+
+    // 3. Quiz Me / Practice Drills
+    if (qLower.includes('quiz') || qLower.includes('test me')) {
+        const drills = {
+            'Mathematics': 'Solve this quick recall: If f(x) = x³ - 3x, at what values of x does f(x) have critical points (where f\'(x) = 0)? Reply with your steps!',
+            'Physics': 'Quick concept check: An object is thrown straight up. At its highest point, what are its velocity and its acceleration? Tell me both!',
+            'Chemistry': 'Recall drill: In an exothermic equilibrium reaction (ΔH < 0), what happens to the equilibrium position if you increase the temperature? Le Chatelier\'s principle in action!',
+            'Biology': 'Cell biology check: In which phase of meiosis does crossing over (genetic recombination) occur? Reply with the sub-phase!'
         };
+        const drill = drills[subject] || `Quick drill for ${grade} ${subject}: What is the single most important definition or theorem tested in this unit? Type your answer!`;
+        return `
+            <strong>⚡ Active Recall Challenge:</strong><br><br>
+            ${drill}<br><br>
+            <em>Type your answer below and let's see how solid your recall is!</em>
+        `;
     }
 
-    function startDraw(e) {
-        deskState.drawing = true;
-        const pos = getPos(e);
-        deskState.ctx.beginPath();
-        deskState.ctx.moveTo(pos.x, pos.y);
-        if (e.type === 'touchstart') e.preventDefault();
+    // 4. Formulas Request
+    if (qLower.includes('formula')) {
+        return `
+            <strong>📐 Master Formulas for ${grade} ${subject}:</strong><br><br>
+            Check the <strong>Formulas</strong> tab on your left panel to see the full verified sheet! Here are the 2 crucial rules examiners look for:<br><br>
+            <strong>1. Always Check SI Units:</strong> Never plug values directly without converting km/h to m/s, or cm to m.<br>
+            <strong>2. Rearrange Before Calculating:</strong> Solve for the unknown variable algebraically before plugging in numbers to avoid arithmetic errors.<br><br>
+            Would you like me to walk you through a specific equation?
+        `;
     }
 
-    function draw(e) {
-        if (!deskState.drawing) return;
-        const pos = getPos(e);
-        if (deskState.tool === 'eraser') {
-            deskState.ctx.strokeStyle = state.theme === 'light' ? '#ffffff' : '#0a0d14';
-            deskState.ctx.lineWidth = deskState.penSize * 5;
-        } else {
-            deskState.ctx.strokeStyle = deskState.penColor;
-            deskState.ctx.lineWidth = deskState.penSize;
-        }
-        deskState.ctx.lineTo(pos.x, pos.y);
-        deskState.ctx.stroke();
-        if (e.type === 'touchmove') e.preventDefault();
+    // 5. Pomodoro & Focus Coaching
+    if (qLower.includes('pomodoro') || qLower.includes('focus') || qLower.includes('plan') || qLower.includes('tired')) {
+        return `
+            <strong>🎯 Your 25-Minute Focus Protocol:</strong><br><br>
+            1. <strong>Start the Timer:</strong> Click <strong>START</strong> on the orange timer above (25:00).<br>
+            2. <strong>Goal:</strong> Complete 5 to 7 past questions on the Practice Quiz tab without switching browser tabs.<br>
+            3. <strong>If Stuck:</strong> Tap <em>"Ask AI Coach"</em> immediately rather than staring blankly.<br>
+            4. <strong>Reward:</strong> When the 25 minutes ding, your streak extends and you earn 50 XP!<br><br>
+            You are completely capable of mastering this. Let's start right now!
+        `;
     }
 
-    function stopDraw() {
-        if (deskState.drawing) {
-            deskState.ctx.closePath();
-            deskState.drawing = false;
-        }
-    }
-
-    canvas.onmousedown = startDraw;
-    canvas.onmousemove = draw;
-    window.onmouseup = stopDraw;
-
-    canvas.ontouchstart = startDraw;
-    canvas.ontouchmove = draw;
-    window.ontouchend = stopDraw;
-}
-
-function setDeskPenColor(color, btn) {
-    deskState.penColor = color;
-    deskState.tool = 'pen';
-    document.querySelectorAll('.desk-color-dot').forEach(d => d.classList.remove('active'));
-    if (btn) btn.classList.add('active');
-    const eraserBtn = document.getElementById('desk-eraser-btn');
-    if (eraserBtn) eraserBtn.classList.remove('active');
-}
-
-function setDeskEraser(btn) {
-    deskState.tool = 'eraser';
-    document.querySelectorAll('.desk-color-dot').forEach(d => d.classList.remove('active'));
-    if (btn) btn.classList.add('active');
-}
-
-function clearDeskScratchpad() {
-    if (deskState.ctx && deskState.canvas) {
-        deskState.ctx.clearRect(0, 0, deskState.canvas.width, deskState.canvas.height);
-        showToast('Scratchpad canvas cleared', 'info');
-    }
+    // 6. General Encouragement & Subject Explanation
+    return `
+        <strong>📚 Archie's Study Guidance:</strong><br><br>
+        Great question regarding <strong>${subject}</strong>!<br><br>
+        • In ${grade}, examiners test whether you can <strong>apply concepts to new scenarios</strong>, not just memorize raw definitions.<br>
+        • Try working through the past exam questions on the left or interactive quiz on the right.<br><br>
+        What specific problem from the exam paper would you like us to solve together?
+    `;
 }
 
 /* ========================================================
