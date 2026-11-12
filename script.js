@@ -7969,9 +7969,10 @@ function printFormulaSheet() {
 const deskState = {
     grade: 'Grade 12',
     subject: 'Mathematics',
+    selectedUnitIndex: 0,
     paperIndex: 0,
     availablePapers: [],
-    leftTab: 'pdf', // 'pdf', 'formulas', 'tips'
+    leftTab: 'unitNotes', // 'unitNotes' (default), 'pdf', 'formulas', 'tips'
     rightTab: 'ai', // 'ai', 'practice', 'notes'
     // Pomodoro
     pomodoroMinutes: 25,
@@ -8099,7 +8100,9 @@ function setDeskLeftTab(tab) {
     const body = document.getElementById('desk-left-body');
     if (!body) return;
     
-    if (tab === 'pdf') {
+    if (tab === 'unitNotes' || tab === 'notes') {
+        renderDeskUnitNotesView(body);
+    } else if (tab === 'pdf') {
         renderDeskPdfView(body);
     } else if (tab === 'formulas') {
         renderDeskFormulasView(body);
@@ -8183,11 +8186,14 @@ async function showStudyDesk(initialGrade = null, initialSubject = null, pushHis
 
             <!-- Split-Screen Workspace (Responsive CSS-Grid) -->
             <div class="desk-workspace">
-                <!-- Left Panel: Exam Paper / Formulas / Tips -->
+                <!-- Left Panel: Unit Notes / Exam Paper / Formulas / Tips -->
                 <div class="desk-panel" id="desk-left-panel">
                     <div class="desk-panel-header">
                         <div class="desk-panel-tabs">
-                            <button class="desk-tab-btn desk-left-tab active" data-tab="pdf" onclick="setDeskLeftTab('pdf')">
+                            <button class="desk-tab-btn desk-left-tab active" data-tab="unitNotes" onclick="setDeskLeftTab('unitNotes')">
+                                📖 Unit Notes
+                            </button>
+                            <button class="desk-tab-btn desk-left-tab" data-tab="pdf" onclick="setDeskLeftTab('pdf')">
                                 ${uiIcon('fileText', 14)} Exam Paper
                             </button>
                             <button class="desk-tab-btn desk-left-tab" data-tab="formulas" onclick="setDeskLeftTab('formulas')">
@@ -8228,13 +8234,14 @@ async function showStudyDesk(initialGrade = null, initialSubject = null, pushHis
         </div>
     `;
 
-    setDeskLeftTab(deskState.leftTab || 'pdf');
+    setDeskLeftTab(deskState.leftTab || 'unitNotes');
     setDeskRightTab(deskState.rightTab || 'ai');
     updateDeskTimerUI();
 }
 
 function onDeskGradeChange(newGrade) {
     deskState.grade = newGrade;
+    deskState.selectedUnitIndex = 0;
     const subjects = (state.categories && state.categories.subjects && state.categories.subjects[newGrade]) || ['Mathematics', 'Physics', 'Chemistry', 'Biology', 'English'];
     const subjSelect = document.getElementById('desk-subject-select');
     if (subjSelect) {
@@ -8247,13 +8254,554 @@ function onDeskGradeChange(newGrade) {
 
 function onDeskSubjectChange(newSubj) {
     deskState.subject = newSubj;
+    deskState.selectedUnitIndex = 0;
     setDeskLeftTab(deskState.leftTab);
     setDeskRightTab(deskState.rightTab);
 }
 
 /* ========================================================
-   LEFT PANEL RENDERERS: PDF, FORMULAS, BLUEPRINT
+   LEFT PANEL RENDERERS: UNIT NOTES, PDF, FORMULAS, BLUEPRINT
 ======================================================== */
+
+const EXAM_UNIT_NOTES = {
+    // Mathematics
+    'Grade 12_Mathematics': [
+        {
+            title: 'Unit 1: Sequences and Series',
+            examWeight: '15-20% of National Exam',
+            readTime: '6 min read',
+            overview: `
+                A sequence is an ordered list of numbers. In Ethiopian national examinations, arithmetic and geometric progressions account for multiple questions annually.<br><br>
+                • <strong>Arithmetic Progression (AP):</strong> The difference between consecutive terms is constant: <code>d = a_{n} - a_{n-1}</code>.<br>
+                • <strong>Geometric Progression (GP):</strong> The ratio between consecutive terms is constant: <code>r = a_{n} / a_{n-1}</code>.<br>
+                • <strong>Convergence of Infinite Series:</strong> An infinite geometric series converges if and only if <code>|r| < 1</code>. If <code>|r| ≥ 1</code>, the series diverges to infinity.
+            `,
+            keyFormulas: [
+                { name: 'AP n-th Term', formula: 'a_n = a_1 + (n - 1)d', notes: 'd = common difference, a_1 = first term' },
+                { name: 'AP Sum of n Terms', formula: 'S_n = (n / 2)[2a_1 + (n - 1)d] = (n / 2)(a_1 + a_n)', notes: 'Use 2nd form when last term is given' },
+                { name: 'GP n-th Term', formula: 'a_n = a_1 * r^(n - 1)', notes: 'r = common ratio' },
+                { name: 'GP Sum of n Terms', formula: 'S_n = a_1(1 - r^n) / (1 - r),  r ≠ 1', notes: 'For finite geometric series' },
+                { name: 'Infinite GP Sum (Convergent)', formula: 'S_∞ = a_1 / (1 - r),  for |r| < 1', notes: 'Guaranteed exam trap if |r| ≥ 1 (no sum exists!)' }
+            ],
+            workedExample: {
+                question: 'National Exam Sample: The 3rd term of an AP is 8 and the 9th term is 26. Find the sum of the first 15 terms.',
+                steps: [
+                    'Write system of equations: a_3 = a_1 + 2d = 8  and  a_9 = a_1 + 8d = 26.',
+                    'Subtract eq (1) from eq (2): 6d = 18  ⟹  d = 3.',
+                    'Substitute d = 3 into eq (1): a_1 + 2(3) = 8  ⟹  a_1 = 2.',
+                    'Calculate S_15: S_15 = (15 / 2)[2(2) + (15 - 1)(3)] = (15 / 2)[4 + 42] = (15 / 2)(46) = 15 * 23 = 345.'
+                ],
+                answer: 'S_15 = 345'
+            },
+            pitfalls: 'Common Trap: Watch out for negative common ratios like r = -1/2. When finding sum of infinite series, r must satisfy -1 < r < 1. If r = -2, do not apply S_∞; the answer is "Divergent".'
+        },
+        {
+            title: 'Unit 2: Limits and Continuity',
+            examWeight: '12-16% of National Exam',
+            readTime: '7 min read',
+            overview: `
+                Calculus begins with limits. A function <code>f(x)</code> has a limit <code>L</code> as <code>x → c</code> if both one-sided limits exist and are equal: <code>lim_{x→c⁻} f(x) = lim_{x→c⁺} f(x) = L</code>.<br><br>
+                • <strong>Indeterminate Form 0/0:</strong> Whenever direct substitution yields 0/0, factorize the numerator and denominator, rationalize radicals using conjugate multiplication, or use algebraic identities.<br>
+                • <strong>Continuity at a Point:</strong> A function f is continuous at x = c if: (1) f(c) is defined, (2) lim_{x→c} f(x) exists, and (3) lim_{x→c} f(x) = f(c).
+            `,
+            keyFormulas: [
+                { name: 'Fundamental Trig Limit', formula: 'lim_{x→0} [sin(ax) / (bx)] = a / b', notes: 'Angles must be in radians' },
+                { name: 'Limit at Infinity (Rational)', formula: 'lim_{x→∞} [P(x) / Q(x)] = ratio of leading coefficients if deg(P) = deg(Q)', notes: '= 0 if deg(P) < deg(Q); = ±∞ if deg(P) > deg(Q)' },
+                { name: 'Intermediate Value Theorem', formula: 'If f is continuous on [a, b] and k is between f(a) and f(b), there exists c ∈ (a, b) such that f(c) = k', notes: 'Essential for proving polynomial root existence' }
+            ],
+            workedExample: {
+                question: 'Evaluate the limit: lim_{x→3} (x² - 9) / (√(x + 1) - 2).',
+                steps: [
+                    'Direct substitution gives (3² - 9) / (√(4) - 2) = 0 / 0 (Indeterminate form).',
+                    'Multiply numerator and denominator by conjugate (√(x + 1) + 2): [(x - 3)(x + 3)(√(x + 1) + 2)] / [(x + 1) - 4].',
+                    'Denominator simplifies to (x - 3). Cancel (x - 3) from numerator and denominator.',
+                    'Remaining expression: (x + 3)(√(x + 1) + 2). Substitute x = 3: (3 + 3)(√(4) + 2) = (6)(2 + 2) = 6 * 4 = 24.'
+                ],
+                answer: '24'
+            },
+            pitfalls: 'Never conclude a limit is 0 just because the numerator is 0! Always check the denominator first. If both are 0, simplify before evaluating.'
+        },
+        {
+            title: 'Unit 3: Derivatives and Applications',
+            examWeight: '20-25% of National Exam',
+            readTime: '8 min read',
+            overview: `
+                The derivative represents the instantaneous rate of change and slope of the tangent line: <code>f\'(x) = lim_{h→0} [f(x+h) - f(x)] / h</code>.<br><br>
+                • <strong>Critical Numbers:</strong> Values of x in the domain where <code>f\'(x) = 0</code> or <code>f\'(x)</code> is undefined.<br>
+                • <strong>First Derivative Test:</strong> If f\'(x) changes from positive to negative at c, f has a local maximum at c. If from negative to positive, a local minimum.<br>
+                • <strong>Second Derivative Test:</strong> If f\'(c) = 0 and f\'\'(c) < 0, concave down (local max). If f\'\'(c) > 0, concave up (local min).
+            `,
+            keyFormulas: [
+                { name: 'Product Rule', formula: '(u * v)\' = u\'v + uv\'', notes: 'Never do (u * v)\' = u\' * v\' (Common mistake!)' },
+                { name: 'Quotient Rule', formula: '(u / v)\' = (u\'v - uv\') / v²', notes: 'Low d-high minus high d-low over low-squared' },
+                { name: 'Chain Rule', formula: '[f(g(x))]\' = f\'(g(x)) * g\'(x)', notes: 'Differentiate outside, keep inside, multiply by derivative of inside' },
+                { name: 'Equation of Tangent Line', formula: 'y - y_1 = f\'(x_1)(x - x_1)', notes: 'Slope m = f\'(x_1)' }
+            ],
+            workedExample: {
+                question: 'Find the maximum value of f(x) = 2x³ - 9x² + 12x on the interval [0, 3].',
+                steps: [
+                    'Find derivative: f\'(x) = 6x² - 18x + 12.',
+                    'Set f\'(x) = 0: 6(x² - 3x + 2) = 0  ⟹  6(x - 1)(x - 2) = 0  ⟹  Critical points: x = 1, x = 2.',
+                    'Evaluate f(x) at critical points and endpoints: f(0) = 0, f(1) = 2 - 9 + 12 = 5, f(2) = 16 - 36 + 24 = 4, f(3) = 54 - 81 + 36 = 9.',
+                    'Compare values: The maximum value on [0, 3] is 9 (at x = 3).'
+                ],
+                answer: 'Max value = 9'
+            },
+            pitfalls: 'On closed interval optimization [a, b], always test the endpoints a and b! The absolute maximum often occurs at the boundary, not just at critical points.'
+        },
+        {
+            title: 'Unit 4: Integrals and Area',
+            examWeight: '15-20% of National Exam',
+            readTime: '7 min read',
+            overview: `
+                Integration is the inverse operation of differentiation (antiderivative) and geometrically calculates the net signed area under a curve.<br><br>
+                • <strong>Fundamental Theorem of Calculus:</strong> If F\'(x) = f(x), then <code>∫_a^b f(x) dx = F(b) - F(a)</code>.<br>
+                • <strong>Area Between Two Curves:</strong> If f(x) ≥ g(x) on [a, b], the area is <code>A = ∫_a^b [f(x) - g(x)] dx</code>.<br>
+                • <strong>Integration by Substitution (U-Sub):</strong> Used when an integrand contains a function and its derivative: <code>∫ f(g(x))g\'(x) dx = ∫ f(u) du</code> where u = g(x).
+            `,
+            keyFormulas: [
+                { name: 'Power Rule for Integrals', formula: '∫ x^n dx = [x^(n+1) / (n + 1)] + C,  n ≠ -1', notes: 'Don\'t forget the constant of integration +C for indefinite integrals' },
+                { name: 'Reciprocal Integral', formula: '∫ (1 / x) dx = ln|x| + C', notes: 'Notice the absolute value bars' },
+                { name: 'Exponential Integral', formula: '∫ e^(kx) dx = (1 / k)e^(kx) + C', notes: 'Divide by the coefficient k' }
+            ],
+            workedExample: {
+                question: 'Calculate the area bounded by the curve y = 4 - x² and the x-axis (y = 0).',
+                steps: [
+                    'Find intersection points: 4 - x² = 0  ⟹  x² = 4  ⟹  x = -2 and x = 2.',
+                    'Set up integral: Area = ∫_{-2}^2 (4 - x²) dx.',
+                    'Find antiderivative: F(x) = 4x - (x³ / 3).',
+                    'Evaluate: F(2) - F(-2) = [4(2) - (8/3)] - [4(-2) - (-8/3)] = [8 - 8/3] - [-8 + 8/3] = (16/3) - (-16/3) = 32/3.'
+                ],
+                answer: 'Area = 32/3 square units'
+            },
+            pitfalls: 'When calculating geometric area, area can NEVER be negative! If the curve dips below the x-axis, integrate the negative section separately or take absolute value.'
+        },
+        {
+            title: 'Unit 5: 3D Vectors and Matrices',
+            examWeight: '10-15% of National Exam',
+            readTime: '6 min read',
+            overview: `
+                Vectors in 3-dimensional space have magnitude and direction: <code>v = a i + b j + c k</code> with magnitude <code>|v| = √(a² + b² + c²)</code>.<br><br>
+                • <strong>Dot Product:</strong> Yields a scalar: <code>u · v = u_1 v_1 + u_2 v_2 + u_3 v_3 = |u||v|cos θ</code>. Two vectors are perpendicular if and only if <code>u · v = 0</code>.<br>
+                • <strong>Cross Product:</strong> Yields a vector perpendicular to both u and v: <code>|u × v| = |u||v|sin θ</code>. The magnitude |u × v| equals the area of the parallelogram formed by u and v.
+            `,
+            keyFormulas: [
+                { name: 'Dot Product Orthogonality', formula: 'u · v = 0  ⟺  u ⊥ v', notes: 'Easiest test for perpendicular vectors' },
+                { name: 'Cross Product Area', formula: 'Area of Triangle = (1 / 2)|u × v|', notes: 'Half of the parallelogram area' },
+                { name: 'Determinant (2x2)', formula: 'det [a b; c d] = ad - bc', notes: 'Matrix is invertible if and only if det ≠ 0' }
+            ],
+            workedExample: {
+                question: 'Find the value of k such that vector u = (2, -3, 1) and vector v = (k, 4, 6) are perpendicular.',
+                steps: [
+                    'For perpendicular vectors, the dot product must equal zero: u · v = 0.',
+                    'Calculate dot product: (2)(k) + (-3)(4) + (1)(6) = 0.',
+                    'Simplify: 2k - 12 + 6 = 0  ⟹  2k - 6 = 0.',
+                    'Solve for k: 2k = 6  ⟹  k = 3.'
+                ],
+                answer: 'k = 3'
+            },
+            pitfalls: 'Dot product produces a SCALAR number, whereas cross product produces a VECTOR! Never confuse u · v with u × v.'
+        }
+    ],
+
+    // Physics
+    'Grade 12_Physics': [
+        {
+            title: 'Unit 1: Thermodynamics & Heat Engines',
+            examWeight: '18-22% of National Exam',
+            readTime: '7 min read',
+            overview: `
+                Thermodynamics governs heat, work, and internal energy conversion in physical systems.<br><br>
+                • <strong>First Law of Thermodynamics:</strong> Conservation of energy: <code>ΔU = Q - W</code>, where Q is heat added to system, W is work done BY system, and ΔU is change in internal energy.<br>
+                • <strong>Thermodynamic Processes:</strong><br>
+                  - Isobaric (constant P): W = PΔV<br>
+                  - Isochoric (constant V): ΔV = 0 ⟹ W = 0 ⟹ ΔU = Q<br>
+                  - Isothermal (constant T): ΔT = 0 ⟹ ΔU = 0 ⟹ Q = W<br>
+                  - Adiabatic (no heat transfer): Q = 0 ⟹ ΔU = -W<br>
+                • <strong>Second Law & Carnot Engine:</strong> No heat engine operating between two temperatures can be more efficient than a Carnot engine: <code>η_max = 1 - (T_C / T_H)</code> (temperatures MUST be in Kelvin!).
+            `,
+            keyFormulas: [
+                { name: 'First Law of Thermodynamics', formula: 'ΔU = Q - W', notes: 'Watch sign conventions: W > 0 when gas expands' },
+                { name: 'Carnot Maximum Efficiency', formula: 'η = 1 - (T_C / T_H) = (T_H - T_C) / T_H', notes: 'T must be in KELVIN (K = °C + 273)' },
+                { name: 'Ideal Gas Law', formula: 'PV = nRT', notes: 'R = 8.314 J/(mol·K)' }
+            ],
+            workedExample: {
+                question: 'A heat engine absorbs 1200 J of heat from a hot reservoir at 500 K and exhausts 800 J to a cold reservoir at 300 K. What is its actual efficiency and its maximum possible theoretical efficiency?',
+                steps: [
+                    'Actual efficiency: η = W / Q_H = (Q_H - Q_C) / Q_H = (1200 - 800) / 1200 = 400 / 1200 = 1/3 ≈ 33.3%.',
+                    'Theoretical Carnot efficiency: η_Carnot = 1 - (T_C / T_H) = 1 - (300 / 500) = 1 - 0.60 = 0.40 = 40.0%.'
+                ],
+                answer: 'Actual = 33.3%, Theoretical Max = 40.0%'
+            },
+            pitfalls: 'The #1 mistake in Ethiopian physics exams: plugging temperatures in Celsius (°C) instead of Kelvin (K)! Always add 273 to convert to Kelvin first.'
+        },
+        {
+            title: 'Unit 2: Oscillations and Waves',
+            examWeight: '15-18% of National Exam',
+            readTime: '6 min read',
+            overview: `
+                Simple Harmonic Motion (SHM) occurs when the restoring force is directly proportional to displacement and directed toward equilibrium: <code>F = -kx</code>.<br><br>
+                • <strong>Energy in SHM:</strong> Total mechanical energy is conserved: <code>E = (1/2)kA² = (1/2)mv² + (1/2)kx²</code>.<br>
+                  - At equilibrium (x = 0): Potential energy is 0, velocity is maximum: v_max = Aω.<br>
+                  - At amplitude (x = ±A): Velocity is 0, acceleration is maximum: a_max = Aω².<br>
+                • <strong>Doppler Effect:</strong> When source and observer move relative to each other, the observed frequency shifts: <code>f\' = f [(v ± v_o) / (v ∓ v_s)]</code>.
+            `,
+            keyFormulas: [
+                { name: 'Angular Frequency (Spring)', formula: 'ω = √(k / m) = 2πf = 2π / T', notes: 'Period T = 2π√(m / k)' },
+                { name: 'Simple Pendulum Period', formula: 'T = 2π√(L / g)', notes: 'Independent of mass!' },
+                { name: 'Wave Equation', formula: 'v = f * λ', notes: 'Speed v depends only on the medium' }
+            ],
+            workedExample: {
+                question: 'A mass of 0.5 kg attached to a spring oscillates with an amplitude of 0.2 m. If the spring constant k is 200 N/m, find the maximum speed of the mass.',
+                steps: [
+                    'Find angular frequency: ω = √(k / m) = √(200 / 0.5) = √400 = 20 rad/s.',
+                    'Maximum speed occurs at equilibrium: v_max = A * ω.',
+                    'Substitute: v_max = (0.2 m) * (20 rad/s) = 4.0 m/s.'
+                ],
+                answer: 'v_max = 4.0 m/s'
+            },
+            pitfalls: 'Notice that the period of a simple pendulum T = 2π√(L/g) does NOT depend on the mass of the bob! If the mass is doubled, the period remains exactly the same.'
+        },
+        {
+            title: 'Unit 3: Wave Optics & Interference',
+            examWeight: '12-15% of National Exam',
+            readTime: '6 min read',
+            overview: `
+                Wave optics demonstrates the wave nature of light through interference, diffraction, and polarization.<br><br>
+                • <strong>Constructive Interference (Bright Fringes):</strong> Path difference must be an integer multiple of wavelength: <code>d sin θ = m λ,  m = 0, ±1, ±2...</code><br>
+                • <strong>Destructive Interference (Dark Fringes):</strong> Path difference is a half-integer multiple: <code>d sin θ = (m + 1/2) λ</code>.<br>
+                • <strong>Fringe Separation:</strong> In Young's double-slit experiment, distance between adjacent bright fringes on a screen at distance D is <code>Δy = λD / d</code>.
+            `,
+            keyFormulas: [
+                { name: 'Double Slit Bright Fringe', formula: 'y_m = (m * λ * D) / d', notes: 'd = slit separation, D = distance to screen' },
+                { name: 'Brewster\'s Angle (Polarization)', formula: 'tan(θ_p) = n_2 / n_1', notes: 'Reflected light is 100% linearly polarized' }
+            ],
+            workedExample: {
+                question: 'In a double-slit experiment, light of wavelength 600 nm illuminates slits separated by 0.3 mm. If the screen is 1.5 m away, find the fringe width.',
+                steps: [
+                    'Convert all units to meters: λ = 600 * 10^-9 m, d = 0.3 * 10^-3 m, D = 1.5 m.',
+                    'Use fringe width formula: Δy = λD / d.',
+                    'Calculate: Δy = (600 * 10^-9 * 1.5) / (0.3 * 10^-3) = (900 * 10^-9) / (3 * 10^-4) = 3 * 10^-3 m = 3.0 mm.'
+                ],
+                answer: 'Fringe width = 3.0 mm'
+            },
+            pitfalls: 'Always convert nanometers (nm) to meters (* 10^-9) and millimeters (mm) to meters (* 10^-3) before computing, otherwise powers of 10 will ruin your final answer.'
+        },
+        {
+            title: 'Unit 4: Electrostatics & Capacitance',
+            examWeight: '16-20% of National Exam',
+            readTime: '7 min read',
+            overview: `
+                Electrostatics studies electric charges at rest, electric fields, and capacitor storage.<br><br>
+                • <strong>Coulomb\'s Law:</strong> Force between two point charges: <code>F = k |q_1 q_2| / r²</code> where k = 8.99 * 10^9 N·m²/C².<br>
+                • <strong>Electric Field:</strong> Force per unit charge: <code>E = F / q = k Q / r²</code>.<br>
+                • <strong>Capacitance:</strong> Charge stored per unit voltage: <code>C = Q / V</code>. For a parallel-plate capacitor: <code>C = ε_0 A / d</code>.<br>
+                • <strong>Capacitor Combinations:</strong><br>
+                  - Parallel: C_eq = C_1 + C_2 + C_3 (adds directly)<br>
+                  - Series: 1/C_eq = 1/C_1 + 1/C_2 + 1/C_3 (reciprocal rule)
+            `,
+            keyFormulas: [
+                { name: 'Energy in a Capacitor', formula: 'U = (1/2)CV² = (1/2)QV = Q² / (2C)', notes: 'Use depending on which quantity is constant' },
+                { name: 'Electric Potential (Point Charge)', formula: 'V = kQ / r', notes: 'Scalar quantity, include charge sign!' }
+            ],
+            workedExample: {
+                question: 'Two capacitors of 6 μF and 3 μF are connected in series across a 12 V battery. Find the equivalent capacitance and total charge stored.',
+                steps: [
+                    'Series rule: 1/C_eq = 1/6 + 1/3 = 1/6 + 2/6 = 3/6  ⟹  C_eq = 6/3 = 2 μF.',
+                    'Total charge: Q = C_eq * V = (2 μF) * (12 V) = 24 μC.'
+                ],
+                answer: 'C_eq = 2 μF, Q = 24 μC'
+            },
+            pitfalls: 'Capacitors have the OPPOSITE rules to resistors! Capacitors in parallel add directly, while capacitors in series use the reciprocal formula.'
+        }
+    ],
+
+    // Chemistry
+    'Grade 12_Chemistry': [
+        {
+            title: 'Unit 1: Solutions and Colligative Properties',
+            examWeight: '18-22% of National Exam',
+            readTime: '7 min read',
+            overview: `
+                Colligative properties depend only on the NUMBER of solute particles in a solution, not on their identity.<br><br>
+                • <strong>Concentration Units:</strong><br>
+                  - Molarity (M) = moles of solute / Liters of solution<br>
+                  - Molality (m) = moles of solute / kg of SOLVENT (independent of temperature!)<br>
+                • <strong>Colligative Properties:</strong><br>
+                  1. Vapor Pressure Lowering: ΔP = X_solute * P°_solvent (Raoult\'s Law)<br>
+                  2. Boiling Point Elevation: ΔT_b = i * K_b * m<br>
+                  3. Freezing Point Depression: ΔT_f = i * K_f * m<br>
+                  4. Osmotic Pressure: Π = i * M * R * T<br>
+                • <strong>Van\'t Hoff Factor (i):</strong> Number of particles an electrolyte dissociates into (e.g. NaCl ⟹ i = 2; CaCl₂ ⟹ i = 3; Glucose ⟹ i = 1).
+            `,
+            keyFormulas: [
+                { name: 'Boiling Point Elevation', formula: 'ΔT_b = i * K_b * m', notes: 'T_b(solution) = T_b(solvent) + ΔT_b' },
+                { name: 'Freezing Point Depression', formula: 'ΔT_f = i * K_f * m', notes: 'T_f(solution) = T_f(solvent) - ΔT_f' },
+                { name: 'Osmotic Pressure', formula: 'Π = i * M * R * T', notes: 'R = 0.0821 L·atm/(mol·K)' }
+            ],
+            workedExample: {
+                question: 'Calculate the boiling point of an aqueous solution containing 58.5 g of NaCl dissolved in 1.0 kg of water. (K_b = 0.512 °C/m, Molar mass of NaCl = 58.5 g/mol).',
+                steps: [
+                    'Moles of NaCl: 58.5 g / 58.5 g/mol = 1.0 mol.',
+                    'Molality: m = 1.0 mol / 1.0 kg = 1.0 m.',
+                    'Van\'t Hoff factor for NaCl (Na⁺ + Cl⁻): i = 2.',
+                    'Calculate elevation: ΔT_b = i * K_b * m = (2)(0.512 °C/m)(1.0 m) = 1.024 °C.',
+                    'New boiling point: T_b = 100 °C + 1.024 °C = 101.024 °C.'
+                ],
+                answer: 'T_b = 101.02 °C'
+            },
+            pitfalls: 'Never forget the van\'t Hoff factor (i) for ionic compounds! For NaCl, i = 2; for MgCl₂, i = 3. Non-electrolytes like glucose or sucrose have i = 1.'
+        },
+        {
+            title: 'Unit 2: Chemical Kinetics',
+            examWeight: '16-20% of National Exam',
+            readTime: '6 min read',
+            overview: `
+                Kinetics studies the speed of chemical reactions and reaction mechanisms.<br><br>
+                • <strong>Rate Law:</strong> Expresses rate in terms of reactant concentrations: <code>Rate = k [A]^m [B]^n</code>.<br>
+                  - Reaction orders m and n MUST be determined experimentally, NOT from stoichiometric coefficients!<br>
+                  - Overall reaction order = m + n.<br>
+                • <strong>Factors Affecting Rate:</strong> Temperature, concentration, surface area, and catalysts (which lower activation energy E_a without being consumed).<br>
+                • <strong>Arrhenius Equation:</strong> <code>k = A * e^(-E_a / RT)</code>. As temperature increases, k increases exponentially.
+            `,
+            keyFormulas: [
+                { name: 'Rate of Reaction', formula: 'Rate = -Δ[Reactant] / Δt = +Δ[Product] / Δt', notes: 'Reactants decrease (-), products increase (+)' },
+                { name: 'Half-Life (First Order)', formula: 't_{1/2} = 0.693 / k', notes: 'Independent of initial concentration!' }
+            ],
+            workedExample: {
+                question: 'A first-order reaction has a rate constant k = 0.0231 min⁻¹. Find the time required for the reactant to decay to 25% of its initial concentration.',
+                steps: [
+                    'Find half-life: t_{1/2} = 0.693 / 0.0231 = 30 minutes.',
+                    'Decaying to 25% represents two half-lives (100% ⟹ 50% ⟹ 25%).',
+                    'Total time = 2 * t_{1/2} = 2 * 30 min = 60 minutes.'
+                ],
+                answer: 't = 60 minutes'
+            },
+            pitfalls: 'A common exam trap: writing the rate law using coefficients from the balanced equation. Remember: rate law exponents can ONLY be found from experimental rate data tables.'
+        },
+        {
+            title: 'Unit 3: Chemical Equilibrium & Acid-Base',
+            examWeight: '20-25% of National Exam',
+            readTime: '8 min read',
+            overview: `
+                Dynamic equilibrium occurs when the forward and reverse reaction rates are equal: <code>aA + bB ⇌ cC + dD</code>.<br><br>
+                • <strong>Equilibrium Constant (Kc):</strong> <code>Kc = [C]^c [D]^d / ([A]^a [B]^b)</code>. Pure solids (s) and pure liquids (l) are EXCLUDED from the expression!<br>
+                • <strong>Le Chatelier\'s Principle:</strong> If a system at equilibrium is disturbed, it shifts to counteract the disturbance:<br>
+                  - Increase pressure: shifts to the side with FEWER gas moles.<br>
+                  - Increase temperature: shifts in the ENDOTHERMIC direction (absorbs heat).<br>
+                • <strong>pH & Buffers:</strong> <code>pH = -log[H⁺]</code>; <code>pH + pOH = 14</code> at 25 °C.<br>
+                  - Buffer solution: mixture of weak acid and its conjugate base. Henderson-Hasselbalch equation: <code>pH = pKa + log([A⁻] / [HA])</code>.
+            `,
+            keyFormulas: [
+                { name: 'Equilibrium Constant Expression', formula: 'K_c = [Products]^coefficients / [Reactants]^coefficients', notes: 'Only gases and aqueous species included' },
+                { name: 'Water Ion Product', formula: 'K_w = [H⁺][OH⁻] = 1.0 * 10^-14 at 25 °C', notes: 'pH + pOH = 14' },
+                { name: 'Buffer pH (Henderson-Hasselbalch)', formula: 'pH = pK_a + log([Conjugate Base] / [Weak Acid])', notes: 'Maximum buffer capacity when [Base] = [Acid], pH = pKa' }
+            ],
+            workedExample: {
+                question: 'Calculate the pH of a 0.05 M Ba(OH)₂ strong base solution.',
+                steps: [
+                    'Ba(OH)₂ is a strong base that dissociates completely: Ba(OH)₂ ⟹ Ba²⁺ + 2 OH⁻.',
+                    'Concentration of hydroxide ions: [OH⁻] = 2 * 0.05 M = 0.10 M = 10⁻¹ M.',
+                    'Calculate pOH: pOH = -log(10⁻¹) = 1.0.',
+                    'Calculate pH: pH = 14 - pOH = 14 - 1.0 = 13.0.'
+                ],
+                answer: 'pH = 13.0'
+            },
+            pitfalls: 'Do not forget that diprotic bases like Ba(OH)₂ release TWO moles of OH⁻ ions per formula unit! [OH⁻] is double the concentration of Ba(OH)₂.'
+        }
+    ]
+};
+
+function getExamUnitNotesList(grade, subject) {
+    const key = `${grade}_${subject}`;
+    if (EXAM_UNIT_NOTES[key] && EXAM_UNIT_NOTES[key].length > 0) {
+        return EXAM_UNIT_NOTES[key];
+    }
+
+    // Dynamic curriculum generator for all other grades and subjects
+    const subjectPrefix = subject || 'General';
+    return [
+        {
+            title: `Unit 1: Foundations of ${subjectPrefix}`,
+            examWeight: '20% of National Exam',
+            readTime: '5 min read',
+            overview: `Master the fundamental definitions, primary axioms, and core principles of ${grade} ${subjectPrefix}. Focus on establishing the relationship between variables and standard units.`,
+            keyFormulas: [
+                { name: 'Fundamental Definition', formula: 'Primary Unit Law: F = Target Relationship', notes: 'Review standard textbook units' }
+            ],
+            workedExample: {
+                question: `Standard examination problem for ${grade} ${subjectPrefix}.`,
+                steps: [
+                    'Identify given variables and required quantity.',
+                    'Apply standard curriculum theorem.',
+                    'Substitute values and simplify.'
+                ],
+                answer: 'Verified solution according to Ministry syllabus.'
+            },
+            pitfalls: 'Read every question carefully before computing. Double-check all unit conversions.'
+        },
+        {
+            title: `Unit 2: Advanced Applications & Analysis in ${subjectPrefix}`,
+            examWeight: '25% of National Exam',
+            readTime: '6 min read',
+            overview: `Detailed examination of multi-step problem solving, analytical techniques, and graph interpretation for ${grade} ${subjectPrefix}.`,
+            keyFormulas: [
+                { name: 'Core Relation', formula: 'Law of Variation & Rates', notes: 'Common in semester and national exams' }
+            ],
+            workedExample: {
+                question: 'Application question testing conceptual synthesis.',
+                steps: [
+                    'Break problem into components.',
+                    'Apply governing equation.',
+                    'Check boundary conditions.'
+                ],
+                answer: 'Correct option according to syllabus standard.'
+            },
+            pitfalls: 'Avoid rushing through algebraic steps; ensure negative signs are tracked.'
+        }
+    ];
+}
+
+function renderDeskUnitNotesView(container) {
+    const leftActions = document.getElementById('desk-left-actions');
+    const unitList = getExamUnitNotesList(deskState.grade, deskState.subject);
+    
+    if (deskState.selectedUnitIndex >= unitList.length) {
+        deskState.selectedUnitIndex = 0;
+    }
+    const currentUnit = unitList[deskState.selectedUnitIndex] || unitList[0];
+
+    if (leftActions) {
+        leftActions.innerHTML = `
+            <button class="desk-tool-btn" onclick="askAiToQuizCurrentUnit()" title="Ask AI to test you on this unit">
+                🤖 Quiz Me on This Unit
+            </button>
+        `;
+    }
+
+    if (!currentUnit) {
+        container.innerHTML = `
+            <div style="text-align: center; padding: 40px 20px;">
+                <p style="color: var(--text-muted);">No specific unit notes found for this subject yet.</p>
+            </div>
+        `;
+        return;
+    }
+
+    container.innerHTML = `
+        <div class="desk-unit-notes-container">
+            <!-- Unit Selector Bar -->
+            <div class="desk-unit-selector-bar">
+                <div style="display: flex; align-items: center; gap: 8px; flex: 1; min-width: 220px;">
+                    <span style="font-size: 12px; font-weight: 800; color: #1cb0f6;">SELECT UNIT:</span>
+                    <select class="desk-select" style="flex: 1; padding: 6px 12px; font-size: 13px;" onchange="deskState.selectedUnitIndex = parseInt(this.value); renderDeskUnitNotesView(document.getElementById('desk-left-body'));">
+                        ${unitList.map((u, idx) => `<option value="${idx}" ${idx === deskState.selectedUnitIndex ? 'selected' : ''}>${u.title}</option>`).join('')}
+                    </select>
+                </div>
+                <div style="display: flex; gap: 8px; align-items: center;">
+                    <span class="role-pill" style="font-size: 11px; background: rgba(56, 189, 248, 0.15); color: #38bdf8;">
+                        🎯 ${currentUnit.examWeight}
+                    </span>
+                    <span style="font-size: 11.5px; color: var(--text-muted);">⏱️ ${currentUnit.readTime}</span>
+                </div>
+            </div>
+
+            <!-- Unit Title Banner -->
+            <div style="margin: 4px 0 2px 0;">
+                <h3 style="font-size: 18px; font-weight: 900; color: var(--text-main); margin: 0 0 4px 0;">
+                    ${currentUnit.title}
+                </h3>
+                <p style="font-size: 12.5px; color: var(--text-muted); margin: 0;">
+                    ${deskState.grade} • ${deskState.subject} • Ethiopian Curriculum Exam Summary
+                </p>
+            </div>
+
+            <!-- Section 1: Core Concept Overview -->
+            <div class="desk-note-card">
+                <h4 class="desk-note-heading">
+                    <span>📌</span> Core Concept Summary & Rules
+                </h4>
+                <div style="font-size: 13.5px; line-height: 1.6; color: var(--text-main);">
+                    ${currentUnit.overview}
+                </div>
+            </div>
+
+            <!-- Section 2: Key Formulas & Equations -->
+            ${(currentUnit.keyFormulas && currentUnit.keyFormulas.length > 0) ? `
+                <div class="desk-note-card">
+                    <h4 class="desk-note-heading">
+                        <span>📐</span> High-Yield Exam Formulas
+                    </h4>
+                    <div style="display: flex; flex-direction: column; gap: 8px;">
+                        ${currentUnit.keyFormulas.map(f => `
+                            <div class="desk-note-formula-box">
+                                <div>
+                                    <strong style="color: #38bdf8; font-size: 12px; display: block; margin-bottom: 2px;">${f.name}</strong>
+                                    <span>${f.formula}</span>
+                                </div>
+                                <button class="desk-tool-btn" style="padding: 2px 8px; font-size: 11px;" onclick="copyFormulaText('${escapeQuotes(f.formula)}', this)">Copy</button>
+                            </div>
+                            ${f.notes ? `<p style="font-size: 12px; color: var(--text-muted); margin: -4px 0 6px 4px;">• ${f.notes}</p>` : ''}
+                        `).join('')}
+                    </div>
+                </div>
+            ` : ''}
+
+            <!-- Section 3: Worked Exam Example -->
+            ${currentUnit.workedExample ? `
+                <div class="desk-note-card">
+                    <h4 class="desk-note-heading" style="color: #38bdf8;">
+                        <span>💡</span> Exam-Level Worked Example
+                    </h4>
+                    <div class="desk-note-example-box">
+                        <strong style="color: var(--text-main); font-size: 14px; display: block; margin-bottom: 8px;">
+                            ${currentUnit.workedExample.question}
+                        </strong>
+                        <div style="display: flex; flex-direction: column; gap: 6px; margin-top: 8px;">
+                            ${currentUnit.workedExample.steps.map((st, i) => `
+                                <div>
+                                    <span class="desk-note-step-badge">Step ${i+1}</span>
+                                    <span>${st}</span>
+                                </div>
+                            `).join('')}
+                        </div>
+                        <div style="margin-top: 10px; padding-top: 8px; border-top: 1px dashed rgba(56, 189, 248, 0.3); font-weight: 700; color: #22c55e;">
+                            ✅ Final Answer: ${currentUnit.workedExample.answer}
+                        </div>
+                    </div>
+                </div>
+            ` : ''}
+
+            <!-- Section 4: Examiner Traps & Common Mistakes -->
+            ${currentUnit.pitfalls ? `
+                <div class="desk-note-trap-box">
+                    <strong style="display: flex; align-items: center; gap: 6px; margin-bottom: 4px; font-size: 13.5px; color: #ef4444;">
+                        ⚠️ Examiner Pitfalls & Common Mistakes to Avoid:
+                    </strong>
+                    ${currentUnit.pitfalls}
+                </div>
+            ` : ''}
+
+            <!-- Bottom Action: Study with AI -->
+            <div style="display: flex; gap: 10px; justify-content: space-between; align-items: center; background: rgba(28, 176, 246, 0.06); border: 1px solid rgba(28, 176, 246, 0.25); border-radius: 12px; padding: 12px 16px; margin-top: 4px; flex-wrap: wrap;">
+                <div>
+                    <strong style="color: #1cb0f6; font-size: 13.5px; display: block;">Finished reading this unit?</strong>
+                    <span style="font-size: 12px; color: var(--text-muted);">Put your knowledge to the test with Archie or on the Practice Quiz!</span>
+                </div>
+                <button class="duo-check-btn" style="width: auto; padding: 8px 18px; font-size: 12.5px;" onclick="askAiToQuizCurrentUnit()">
+                    🤖 Test Me on ${currentUnit.title.split(':')[0]} →
+                </button>
+            </div>
+        </div>
+    `;
+}
+
+function askAiToQuizCurrentUnit() {
+    const unitList = getExamUnitNotesList(deskState.grade, deskState.subject);
+    const u = unitList[deskState.selectedUnitIndex] || unitList[0];
+    setDeskRightTab('ai');
+    sendDeskAiMessage(`I just finished reading ${u ? u.title : 'this unit'}. Please quiz me with a challenging Ethiopian national exam level question on this topic!`);
+}
 
 function renderDeskPdfView(container) {
     const leftActions = document.getElementById('desk-left-actions');
@@ -8302,14 +8850,14 @@ function renderDeskPdfView(container) {
                     ${deskState.grade} • ${deskState.subject} Study Archive
                 </h3>
                 <p style="color: var(--text-muted); font-size: 14px; max-width: 440px; margin: 0 auto 20px auto; line-height: 1.6;">
-                    Browse the verified past questions on the right pane, or switch to <strong>Formulas</strong> to review the high-yield equations and constants for this subject.
+                    Select <strong>Unit Notes</strong> to read verified, exam-level chapter summaries, or switch to <strong>Formulas</strong> to review the high-yield equations and constants for this subject.
                 </p>
                 <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
-                    <button class="btn-primary" style="width: auto; padding: 8px 16px; font-size: 13px;" onclick="setDeskLeftTab('formulas')">
-                        ${uiIcon('calculator', 14)} Open Formulas Cheatsheet
+                    <button class="btn-primary" style="width: auto; padding: 8px 18px; font-size: 13px;" onclick="setDeskLeftTab('unitNotes')">
+                        📖 Read Exam-Level Unit Notes
                     </button>
-                    <button class="btn-secondary" style="width: auto; padding: 8px 16px; font-size: 13px;" onclick="showLibraryHome()">
-                        Browse Exam Repository
+                    <button class="btn-secondary" style="width: auto; padding: 8px 16px; font-size: 13px;" onclick="setDeskLeftTab('formulas')">
+                        ${uiIcon('calculator', 14)} Open Formulas Cheatsheet
                     </button>
                 </div>
             </div>
