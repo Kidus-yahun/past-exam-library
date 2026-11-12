@@ -856,6 +856,8 @@ window.addEventListener('popstate', (e) => {
         showFormulaGrades(false);
     } else if (s.view === 'studyhub') {
         showStudyHubView(false);
+    } else if (s.view === 'studydesk') {
+        showStudyDesk(s.grade, s.subject, false);
     } else {
         showLibraryHome(false);
     }
@@ -1023,6 +1025,8 @@ function setView(viewName) {
         showFormulaGrades();
     } else if (viewName === 'studyhub') {
         showStudyHubView();
+    } else if (viewName === 'studydesk' || viewName === 'desk') {
+        showStudyDesk();
     }
 }
 
@@ -2062,6 +2066,7 @@ function renderHeader() {
     const isLibraryActive = state.currentView === 'library' || state.currentView === 'grade' || state.currentView === 'semester' || state.currentView === 'examType' || state.currentView === 'hub';
     const isFormulasActive = state.currentView === 'formulas' || state.currentView === 'formulaGrades' || state.currentView === 'formulaSubjects' || state.currentView === 'formulaSheet';
     const isStudyHubActive = state.currentView === 'studyhub';
+    const isStudyDeskActive = state.currentView === 'studydesk';
 
     const telegramBtn = `
         <a href="https://t.me/BGMCS1236" target="_blank" rel="noopener noreferrer" class="nav-btn nav-btn-telegram" data-tooltip="Join Telegram Channel (@BGMCS1236)" aria-label="Join our Telegram Channel @BGMCS1236">
@@ -2078,6 +2083,10 @@ function renderHeader() {
             <button class="nav-btn ${isLibraryActive ? 'active' : ''}" onclick="setView('library')" data-tooltip="Exam library" aria-label="Exam library">
                 ${uiIcon('book', 15)}
                 <span class="nav-btn-label">Exam library</span>
+            </button>
+            <button class="nav-btn ${isStudyDeskActive ? 'active' : ''}" onclick="showStudyDesk()" data-tooltip="Focus Study Room" aria-label="Focus Study Room">
+                ${uiIcon('zap', 15)}
+                <span class="nav-btn-label">Study Room</span>
             </button>
             <button class="nav-btn ${isFormulasActive ? 'active' : ''}" onclick="setView('formulas')" data-tooltip="Formula sheets" aria-label="Formula sheets">
                 ${uiIcon('calculator', 15)}
@@ -2116,6 +2125,10 @@ function renderHeader() {
         <button class="nav-btn ${isLibraryActive ? 'active' : ''}" onclick="setView('library')" data-tooltip="Exam library" aria-label="Exam library">
             ${uiIcon('book', 15)}
             <span class="nav-btn-label">Exam library</span>
+        </button>
+        <button class="nav-btn ${isStudyDeskActive ? 'active' : ''}" onclick="showStudyDesk()" data-tooltip="Focus Study Room" aria-label="Focus Study Room">
+            ${uiIcon('zap', 15)}
+            <span class="nav-btn-label">Study Room</span>
         </button>
         <button class="nav-btn ${isFormulasActive ? 'active' : ''}" onclick="setView('formulas')" data-tooltip="Formula sheets" aria-label="Formula sheets">
             ${uiIcon('calculator', 15)}
@@ -4302,6 +4315,16 @@ function renderHomeModeTabs(activeMode = 'exams') {
                     ${uiIcon('calculator', 15)} 
                     <span class="tab-label-full">Formula Sheets</span>
                     <span class="tab-label-short">Formulas</span>
+                </button>
+                <button class="home-mode-tab ${activeMode === 'studydesk' ? 'active' : ''}" 
+                        onclick="showStudyDesk()" 
+                        role="tab" 
+                        aria-selected="${activeMode === 'studydesk'}" 
+                        title="Interactive Study Desk: Split-Screen Exam Papers, Formulas, Pomodoro Timer & Scratchpad">
+                    ${uiIcon('zap', 15)} 
+                    <span class="tab-label-full">Focus Study Desk</span>
+                    <span class="tab-label-short">Study Room</span>
+                    <span class="pill-badge-new" style="margin-left: 4px; font-size: 9px; padding: 1px 5px;">New</span>
                 </button>
             </nav>
         </div>
@@ -7937,6 +7960,817 @@ function copyFormulaText(text, btnElement) {
 
 function printFormulaSheet() {
     window.print();
+}
+
+/* ========================================================
+   FOCUS STUDY DESK / ALL-IN-ONE STUDY ROOM SYSTEM
+======================================================== */
+
+const deskState = {
+    grade: 'Grade 12',
+    subject: 'Mathematics',
+    paperIndex: 0,
+    availablePapers: [],
+    leftTab: 'pdf', // 'pdf', 'formulas', 'tips'
+    rightTab: 'practice', // 'practice', 'scratchpad', 'notes'
+    // Pomodoro
+    pomodoroMinutes: 25,
+    pomodoroSeconds: 0,
+    pomodoroRunning: false,
+    pomodoroTimer: null,
+    pomodoroMode: 'study', // 'study' (25m) or 'break' (5m)
+    // Scratchpad
+    canvas: null,
+    ctx: null,
+    drawing: false,
+    penColor: '#38bdf8',
+    penSize: 3,
+    tool: 'pen',
+    // Practice Questions
+    questions: [],
+    currentQIndex: 0,
+    selectedOption: null,
+    isChecked: false,
+    score: 0
+};
+
+function playDeskChime(type = 'success') {
+    try {
+        const AudioCtx = window.AudioContext || window.webkitAudioContext;
+        if (!AudioCtx) return;
+        const ctx = new AudioCtx();
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        
+        if (type === 'fanfare') {
+            osc.type = 'triangle';
+            osc.frequency.setValueAtTime(523.25, ctx.currentTime);
+            osc.frequency.setValueAtTime(659.25, ctx.currentTime + 0.15);
+            osc.frequency.setValueAtTime(783.99, ctx.currentTime + 0.3);
+            osc.frequency.setValueAtTime(1046.50, ctx.currentTime + 0.45);
+            gain.gain.setValueAtTime(0.3, ctx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.8);
+            osc.start();
+            osc.stop(ctx.currentTime + 0.85);
+        } else if (type === 'correct') {
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(587.33, ctx.currentTime);
+            osc.frequency.setValueAtTime(880.00, ctx.currentTime + 0.12);
+            gain.gain.setValueAtTime(0.25, ctx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.4);
+            osc.start();
+            osc.stop(ctx.currentTime + 0.42);
+        }
+    } catch(e) {}
+}
+
+function toggleDeskTimer() {
+    if (deskState.pomodoroRunning) {
+        clearInterval(deskState.pomodoroTimer);
+        deskState.pomodoroRunning = false;
+        updateDeskTimerUI();
+    } else {
+        deskState.pomodoroRunning = true;
+        updateDeskTimerUI();
+        deskState.pomodoroTimer = setInterval(() => {
+            if (deskState.pomodoroSeconds > 0) {
+                deskState.pomodoroSeconds--;
+            } else if (deskState.pomodoroMinutes > 0) {
+                deskState.pomodoroMinutes--;
+                deskState.pomodoroSeconds = 59;
+            } else {
+                clearInterval(deskState.pomodoroTimer);
+                deskState.pomodoroRunning = false;
+                playDeskChime('fanfare');
+                
+                if (deskState.pomodoroMode === 'study') {
+                    recordStudyStreakActivity();
+                    showToast('🎉 Focus sprint completed! Streak boosted and 50 XP awarded!', 'success');
+                    if (typeof showSessionEndStreakCelebration === 'function') {
+                        showSessionEndStreakCelebration();
+                    }
+                    deskState.pomodoroMode = 'break';
+                    deskState.pomodoroMinutes = 5;
+                    deskState.pomodoroSeconds = 0;
+                } else {
+                    showToast('☕ Break time over! Ready for another focus session?', 'info');
+                    deskState.pomodoroMode = 'study';
+                    deskState.pomodoroMinutes = 25;
+                    deskState.pomodoroSeconds = 0;
+                }
+            }
+            updateDeskTimerUI();
+        }, 1000);
+    }
+}
+
+function switchDeskTimerMode() {
+    if (deskState.pomodoroTimer) clearInterval(deskState.pomodoroTimer);
+    deskState.pomodoroRunning = false;
+    if (deskState.pomodoroMode === 'study') {
+        deskState.pomodoroMode = 'break';
+        deskState.pomodoroMinutes = 5;
+        deskState.pomodoroSeconds = 0;
+    } else {
+        deskState.pomodoroMode = 'study';
+        deskState.pomodoroMinutes = 25;
+        deskState.pomodoroSeconds = 0;
+    }
+    updateDeskTimerUI();
+}
+
+function updateDeskTimerUI() {
+    const el = document.getElementById('desk-timer-clock');
+    const btn = document.getElementById('desk-timer-toggle');
+    const modeBtn = document.getElementById('desk-timer-mode-btn');
+    if (el) {
+        const m = String(deskState.pomodoroMinutes).padStart(2, '0');
+        const s = String(deskState.pomodoroSeconds).padStart(2, '0');
+        el.textContent = `${m}:${s}`;
+    }
+    if (btn) {
+        btn.textContent = deskState.pomodoroRunning ? 'PAUSE' : 'START';
+    }
+    if (modeBtn) {
+        modeBtn.textContent = deskState.pomodoroMode === 'study' ? '25m Focus' : '5m Break';
+    }
+}
+
+function setDeskLeftTab(tab) {
+    deskState.leftTab = tab;
+    document.querySelectorAll('.desk-left-tab').forEach(b => {
+        b.classList.toggle('active', b.dataset.tab === tab);
+    });
+    const body = document.getElementById('desk-left-body');
+    if (!body) return;
+    
+    if (tab === 'pdf') {
+        renderDeskPdfView(body);
+    } else if (tab === 'formulas') {
+        renderDeskFormulasView(body);
+    } else if (tab === 'tips') {
+        renderDeskTipsView(body);
+    }
+}
+
+function setDeskRightTab(tab) {
+    deskState.rightTab = tab;
+    document.querySelectorAll('.desk-right-tab').forEach(b => {
+        b.classList.toggle('active', b.dataset.tab === tab);
+    });
+    const body = document.getElementById('desk-right-body');
+    if (!body) return;
+    
+    if (tab === 'practice') {
+        renderDeskPracticeWrapper(body);
+        loadDeskPracticeQuestions();
+    } else if (tab === 'scratchpad') {
+        renderDeskScratchpadWrapper(body);
+        setTimeout(initDeskScratchpad, 50);
+    } else if (tab === 'notes') {
+        renderDeskNotesWrapper(body);
+        loadDeskNotes();
+    }
+}
+
+async function showStudyDesk(initialGrade = null, initialSubject = null, pushHistory = true) {
+    if (pushHistory) {
+        pushNavState({ view: 'studydesk', grade: initialGrade, subject: initialSubject }, 'Focus Study Room');
+    }
+    state.currentView = 'studydesk';
+    renderHeader();
+
+    if (initialGrade) deskState.grade = initialGrade;
+    if (initialSubject) deskState.subject = initialSubject;
+
+    const grades = (state.categories && state.categories.grades) ? state.categories.grades.map(g => g.id) : ['Grade 9', 'Grade 10', 'Grade 11', 'Grade 12'];
+    const subjects = (state.categories && state.categories.subjects && state.categories.subjects[deskState.grade]) || ['Mathematics', 'Physics', 'Chemistry', 'Biology', 'English'];
+    
+    if (!subjects.includes(deskState.subject)) {
+        deskState.subject = subjects[0] || 'Mathematics';
+    }
+
+    const streak = getStudyStreakData();
+
+    app.innerHTML = `
+        <div class="study-desk-wrapper">
+            <!-- Top Controls Bar -->
+            <div class="desk-topbar">
+                <div class="desk-controls-group">
+                    <button class="back-button" onclick="showLibraryHome()" style="margin: 0; padding: 7px 14px; font-size: 13px;">
+                        ${uiIcon('home', 14)} Exit to Library
+                    </button>
+                    
+                    <select class="desk-select" id="desk-grade-select" onchange="onDeskGradeChange(this.value)">
+                        ${grades.map(g => `<option value="${g}" ${g === deskState.grade ? 'selected' : ''}>${g}</option>`).join('')}
+                    </select>
+
+                    <select class="desk-select" id="desk-subject-select" onchange="onDeskSubjectChange(this.value)">
+                        ${subjects.map(s => `<option value="${s}" ${s === deskState.subject ? 'selected' : ''}>${s}</option>`).join('')}
+                    </select>
+                </div>
+
+                <div class="desk-controls-group">
+                    <!-- Duolingo Style Pomodoro Timer -->
+                    <div class="desk-pomodoro-pill">
+                        <span style="font-size: 16px;">⏱️</span>
+                        <span class="desk-timer-display" id="desk-timer-clock">25:00</span>
+                        <button id="desk-timer-toggle" class="desk-timer-toggle-btn" onclick="toggleDeskTimer()">START</button>
+                        <button id="desk-timer-mode-btn" class="desk-tool-btn" style="padding: 3px 8px; font-size: 11px;" onclick="switchDeskTimerMode()">25m Focus</button>
+                    </div>
+
+                    <!-- Streak Flame Pill -->
+                    <button type="button" class="hero-growth-pill hero-streak-pill" style="margin: 0; padding: 6px 14px;" onclick="openStreakModal()">
+                        <span class="streak-flame">🔥</span>
+                        <span class="pill-title">${streak.count}d</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Split-Screen Workspace (Responsive CSS-Grid) -->
+            <div class="desk-workspace">
+                <!-- Left Panel: Exam Paper / Formulas / Tips -->
+                <div class="desk-panel" id="desk-left-panel">
+                    <div class="desk-panel-header">
+                        <div class="desk-panel-tabs">
+                            <button class="desk-tab-btn desk-left-tab active" data-tab="pdf" onclick="setDeskLeftTab('pdf')">
+                                ${uiIcon('fileText', 14)} Exam Paper
+                            </button>
+                            <button class="desk-tab-btn desk-left-tab" data-tab="formulas" onclick="setDeskLeftTab('formulas')">
+                                ${uiIcon('calculator', 14)} Formulas
+                            </button>
+                            <button class="desk-tab-btn desk-left-tab" data-tab="tips" onclick="setDeskLeftTab('tips')">
+                                ${uiIcon('book', 14)} Blueprint
+                            </button>
+                        </div>
+                        <div id="desk-left-actions" style="display: flex; gap: 8px;"></div>
+                    </div>
+                    <div class="desk-panel-body" id="desk-left-body">
+                        <!-- Loaded dynamically -->
+                    </div>
+                </div>
+
+                <!-- Right Panel: Practice Quiz / Scratchpad / Notes -->
+                <div class="desk-panel" id="desk-right-panel">
+                    <div class="desk-panel-header">
+                        <div class="desk-panel-tabs">
+                            <button class="desk-tab-btn desk-right-tab active" data-tab="practice" onclick="setDeskRightTab('practice')">
+                                ${uiIcon('target', 14)} Practice Quiz
+                            </button>
+                            <button class="desk-tab-btn desk-right-tab" data-tab="scratchpad" onclick="setDeskRightTab('scratchpad')">
+                                ✍️ Scratchpad
+                            </button>
+                            <button class="desk-tab-btn desk-right-tab" data-tab="notes" onclick="setDeskRightTab('notes')">
+                                📝 Notes
+                            </button>
+                        </div>
+                        <div id="desk-right-actions" style="display: flex; gap: 8px;"></div>
+                    </div>
+                    <div class="desk-panel-body" id="desk-right-body">
+                        <!-- Loaded dynamically -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+
+    setDeskLeftTab(deskState.leftTab || 'pdf');
+    setDeskRightTab(deskState.rightTab || 'practice');
+    updateDeskTimerUI();
+}
+
+function onDeskGradeChange(newGrade) {
+    deskState.grade = newGrade;
+    const subjects = (state.categories && state.categories.subjects && state.categories.subjects[newGrade]) || ['Mathematics', 'Physics', 'Chemistry', 'Biology', 'English'];
+    const subjSelect = document.getElementById('desk-subject-select');
+    if (subjSelect) {
+        subjSelect.innerHTML = subjects.map(s => `<option value="${s}">${s}</option>`).join('');
+    }
+    deskState.subject = subjects[0] || 'Mathematics';
+    setDeskLeftTab(deskState.leftTab);
+    setDeskRightTab(deskState.rightTab);
+}
+
+function onDeskSubjectChange(newSubj) {
+    deskState.subject = newSubj;
+    setDeskLeftTab(deskState.leftTab);
+    setDeskRightTab(deskState.rightTab);
+}
+
+/* ========================================================
+   LEFT PANEL RENDERERS: PDF, FORMULAS, BLUEPRINT
+======================================================== */
+
+function renderDeskPdfView(container) {
+    const leftActions = document.getElementById('desk-left-actions');
+    const examKey = `${deskState.grade}_${deskState.subject}`;
+    
+    // Find matching exam papers in cachedExams or static mappings
+    let matchedPapers = [];
+    if (typeof cachedExams !== 'undefined' && Array.isArray(cachedExams)) {
+        matchedPapers = cachedExams.filter(e => {
+            const gMatch = (e.grade || '').toLowerCase() === deskState.grade.toLowerCase();
+            const sMatch = (e.subject || '').toLowerCase() === deskState.subject.toLowerCase();
+            return gMatch && sMatch;
+        });
+    }
+
+    let activePaper = matchedPapers[deskState.paperIndex] || matchedPapers[0];
+
+    if (leftActions) {
+        leftActions.innerHTML = `
+            ${matchedPapers.length > 1 ? `
+                <select class="desk-select" style="padding: 4px 10px; font-size: 12px;" onchange="deskState.paperIndex = parseInt(this.value); setDeskLeftTab('pdf');">
+                    ${matchedPapers.map((p, idx) => `<option value="${idx}" ${idx === deskState.paperIndex ? 'selected' : ''}>${p.title || `Paper ${idx+1}`}</option>`).join('')}
+                </select>
+            ` : ''}
+            ${activePaper && activePaper.filePath ? `
+                <button class="desk-tool-btn" onclick="downloadExamPaper('${activePaper.filePath}', '${escapeQuotes(activePaper.title || 'Exam')}.pdf')">
+                    ${uiIcon('download', 12)} PDF
+                </button>
+            ` : ''}
+        `;
+    }
+
+    if (activePaper && activePaper.filePath) {
+        container.innerHTML = `
+            <div style="margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center;">
+                <h4 style="margin: 0; font-size: 15px; color: var(--text-main); font-weight: 700;">${activePaper.title || `${deskState.grade} ${deskState.subject}`}</h4>
+                <span class="role-pill" style="font-size: 11px;">Official Archive Paper</span>
+            </div>
+            <iframe class="desk-iframe-frame" src="${activePaper.filePath}" title="${activePaper.title || 'Exam Document'}"></iframe>
+        `;
+    } else {
+        container.innerHTML = `
+            <div style="text-align: center; padding: 48px 24px; margin: auto;">
+                <div style="font-size: 48px; margin-bottom: 16px;">📖</div>
+                <h3 style="font-size: 18px; font-weight: 800; color: var(--text-main); margin-bottom: 8px;">
+                    ${deskState.grade} • ${deskState.subject} Study Archive
+                </h3>
+                <p style="color: var(--text-muted); font-size: 14px; max-width: 440px; margin: 0 auto 20px auto; line-height: 1.6;">
+                    Browse the verified past questions on the right pane, or switch to <strong>Formulas</strong> to review the high-yield equations and constants for this subject.
+                </p>
+                <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
+                    <button class="btn-primary" style="width: auto; padding: 8px 16px; font-size: 13px;" onclick="setDeskLeftTab('formulas')">
+                        ${uiIcon('calculator', 14)} Open Formulas Cheatsheet
+                    </button>
+                    <button class="btn-secondary" style="width: auto; padding: 8px 16px; font-size: 13px;" onclick="showLibraryHome()">
+                        Browse Exam Repository
+                    </button>
+                </div>
+            </div>
+        `;
+    }
+}
+
+function renderDeskFormulasView(container) {
+    const leftActions = document.getElementById('desk-left-actions');
+    if (leftActions) leftActions.innerHTML = '';
+
+    const subjectMap = {
+        'Mathematics': 'math',
+        'Physics': 'physics',
+        'Chemistry': 'chem',
+        'Biology': 'bio'
+    };
+    const sKey = subjectMap[deskState.subject] || 'math';
+    const formulas = (typeof FORMULA_DATA !== 'undefined' && FORMULA_DATA[sKey]) || [];
+    const matched = formulas.filter(f => f.grades && f.grades.includes(deskState.grade));
+
+    if (matched.length === 0) {
+        container.innerHTML = `
+            <div style="text-align: center; padding: 40px 20px;">
+                <p style="color: var(--text-muted);">No specific formula cards for ${deskState.grade} ${deskState.subject}.</p>
+                <button class="btn-secondary" style="margin-top: 10px;" onclick="showFormulaGrades()">View Global Formula Sheets</button>
+            </div>
+        `;
+        return;
+    }
+
+    container.innerHTML = `
+        <div style="margin-bottom: 14px; display: flex; justify-content: space-between; align-items: center;">
+            <h4 style="margin: 0; font-size: 14.5px; font-weight: 700;">${deskState.grade} ${deskState.subject} Key Formulas</h4>
+            <span style="font-size: 12px; color: var(--text-muted);">${matched.length} formulas loaded</span>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 12px;">
+            ${matched.map(f => `
+                <div class="desk-formula-card">
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 6px;">
+                        <span style="font-weight: 700; font-size: 14px; color: #38bdf8;">${f.title}</span>
+                        <span style="font-size: 11px; padding: 2px 7px; background: rgba(56, 189, 248, 0.12); border-radius: 9999px; color: #38bdf8; font-weight: 700;">${f.topic}</span>
+                    </div>
+                    <div style="background: rgba(0,0,0,0.25); padding: 10px 14px; border-radius: 8px; font-family: monospace; font-size: 15px; font-weight: 700; color: #22c55e; margin: 8px 0; display: flex; justify-content: space-between; align-items: center;">
+                        <span>${f.displayMath}</span>
+                        <button class="desk-tool-btn" style="padding: 2px 8px; font-size: 11px;" onclick="copyFormulaText('${escapeQuotes(f.displayMath)}', this)">Copy</button>
+                    </div>
+                    <p style="font-size: 12.5px; color: var(--text-muted); margin: 4px 0 0 0; line-height: 1.4;">
+                        <strong>Variables:</strong> ${f.variables}
+                    </p>
+                    ${f.tip ? `<p style="font-size: 12px; color: #f59e0b; margin: 4px 0 0 0;">💡 <em>${f.tip}</em></p>` : ''}
+                </div>
+            `).join('')}
+        </div>
+    `;
+}
+
+function renderDeskTipsView(container) {
+    const leftActions = document.getElementById('desk-left-actions');
+    if (leftActions) leftActions.innerHTML = '';
+
+    container.innerHTML = `
+        <div style="display: flex; flex-direction: column; gap: 16px;">
+            <div class="desk-formula-card" style="border-left: 4px solid #1cb0f6;">
+                <h4 style="margin: 0 0 6px 0; font-size: 15px; color: #1cb0f6;">🎯 The 25-Minute Pomodoro Rule</h4>
+                <p style="margin: 0; font-size: 13.5px; color: var(--text-muted); line-height: 1.5;">
+                    Dedicate 25 minutes of zero phone interruptions. Work through 5 to 10 past questions actively on your scratchpad before checking the answer. Take a full 5-minute break when the timer dings.
+                </p>
+            </div>
+            
+            <div class="desk-formula-card" style="border-left: 4px solid #22c55e;">
+                <h4 style="margin: 0 0 6px 0; font-size: 15px; color: #22c55e;">✍️ Use the Scratchpad for Every Calculation</h4>
+                <p style="margin: 0; font-size: 13.5px; color: var(--text-muted); line-height: 1.5;">
+                    Studies show writing out calculations by hand increases retention by 73%. Switch to the Scratchpad tab on the right to sketch diagrams, free-body drawings, and algebraic steps.
+                </p>
+            </div>
+
+            <div class="desk-formula-card" style="border-left: 4px solid #f59e0b;">
+                <h4 style="margin: 0 0 6px 0; font-size: 15px; color: #f59e0b;">🔥 Maintain Your Streak Habit</h4>
+                <p style="margin: 0; font-size: 13.5px; color: var(--text-muted); line-height: 1.5;">
+                    Completing even 1 session per day locks in your streak status. Challenge a friend to a 1v1 study duel from the home screen to keep each other accountable!
+                </p>
+            </div>
+        </div>
+    `;
+}
+
+/* ========================================================
+   RIGHT PANEL RENDERERS: PRACTICE QUIZ, SCRATCHPAD, NOTES
+======================================================== */
+
+function renderDeskPracticeWrapper(container) {
+    const rightActions = document.getElementById('desk-right-actions');
+    if (rightActions) rightActions.innerHTML = '';
+    container.innerHTML = `<div id="desk-practice-container" style="display: flex; flex-direction: column; height: 100%;"></div>`;
+}
+
+async function loadDeskPracticeQuestions() {
+    const container = document.getElementById('desk-practice-container');
+    if (!container) return;
+    
+    container.innerHTML = `
+        <div style="text-align: center; padding: 40px;">
+            <div class="loading-spinner"></div>
+            <p style="margin-top: 12px; color: var(--text-muted); font-size: 13.5px;">Loading ${deskState.grade} ${deskState.subject} practice bank...</p>
+        </div>
+    `;
+
+    let questions = [];
+    try {
+        const res = await fetch(`/api/practice?grade=${encodeURIComponent(deskState.grade)}&subject=${encodeURIComponent(deskState.subject)}`);
+        const data = await res.json();
+        questions = data.questions || [];
+    } catch(e) {}
+
+    if (questions.length === 0) {
+        try {
+            const raw = localStorage.getItem('pel_offline_questions');
+            if (raw) {
+                const all = JSON.parse(raw);
+                const clean = s => (s || '').toLowerCase().replace(/[\s_-]+/g, '');
+                questions = all.filter(q => clean(q.grade) === clean(deskState.grade) && clean(q.subject) === clean(deskState.subject));
+            }
+        } catch(e) {}
+    }
+
+    deskState.questions = questions;
+    deskState.currentQIndex = 0;
+    deskState.selectedOption = null;
+    deskState.isChecked = false;
+
+    renderDeskPracticeQuestion();
+}
+
+function renderDeskPracticeQuestion() {
+    const container = document.getElementById('desk-practice-container');
+    if (!container) return;
+
+    if (!deskState.questions || deskState.questions.length === 0) {
+        container.innerHTML = `
+            <div style="text-align: center; padding: 40px 20px; margin: auto;">
+                <div style="font-size: 40px; margin-bottom: 12px;">📝</div>
+                <h4 style="font-size: 16px; font-weight: 700; color: var(--text-main);">No Questions Available Yet</h4>
+                <p style="font-size: 13px; color: var(--text-muted); max-width: 320px; margin: 8px auto 16px auto;">
+                    We are currently digitizing past questions for ${deskState.grade} ${deskState.subject}.
+                </p>
+                <button class="btn-secondary" style="font-size: 13px;" onclick="setDeskRightTab('notes')">
+                    Open Study Notes Instead
+                </button>
+            </div>
+        `;
+        return;
+    }
+
+    const q = deskState.questions[deskState.currentQIndex];
+    const total = deskState.questions.length;
+    const progress = Math.round(((deskState.currentQIndex + 1) / total) * 100);
+    const letters = ['A', 'B', 'C', 'D'];
+
+    container.innerHTML = `
+        <!-- Duolingo Shiny Progress Bar -->
+        <div style="margin-bottom: 16px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                <span style="font-size: 12px; font-weight: 800; color: #1cb0f6; text-transform: uppercase;">Question ${deskState.currentQIndex + 1} of ${total}</span>
+                <span style="font-size: 12px; font-weight: 800; color: #22c55e;">Score: ${deskState.score}</span>
+            </div>
+            <div class="duo-progress-container" style="height: 12px;">
+                <div class="duo-progress-fill" style="width: ${progress}%;"></div>
+            </div>
+        </div>
+
+        <!-- Question Text -->
+        <div style="margin-bottom: 20px;">
+            <h3 style="font-size: 16px; font-weight: 700; color: var(--text-main); line-height: 1.5; margin-bottom: 8px;">
+                ${q.questionText}
+            </h3>
+        </div>
+
+        <!-- Duolingo 3D Tactile Option Cards -->
+        <div class="quiz-options-grid" style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px;">
+            ${(q.options || []).map((opt, idx) => {
+                const letter = letters[idx] || String(idx + 1);
+                const isSelected = deskState.selectedOption === idx;
+                let optClass = '';
+                if (deskState.isChecked) {
+                    if (idx === q.correctAnswer) {
+                        optClass = 'correct';
+                    } else if (isSelected) {
+                        optClass = 'incorrect';
+                    }
+                } else if (isSelected) {
+                    optClass = 'selected';
+                }
+
+                return `
+                    <div class="duo-option-card ${optClass}" onclick="selectDeskOption(${idx})">
+                        <div class="duo-option-key">${letter}</div>
+                        <div class="duo-option-text">${opt}</div>
+                        ${deskState.isChecked && idx === q.correctAnswer ? '<span style="font-size: 18px; margin-left: auto;">✅</span>' : ''}
+                        ${deskState.isChecked && isSelected && idx !== q.correctAnswer ? '<span style="font-size: 18px; margin-left: auto;">❌</span>' : ''}
+                    </div>
+                `;
+            }).join('')}
+        </div>
+
+        <!-- Explanation & Feedback (if checked) -->
+        ${deskState.isChecked ? `
+            <div style="background: rgba(255, 255, 255, 0.04); border: 1px solid var(--border-glass); border-radius: 12px; padding: 14px; margin-bottom: 16px; animation: fadeIn 0.2s ease;">
+                <strong style="color: ${deskState.selectedOption === q.correctAnswer ? '#22c55e' : '#ef4444'}; font-size: 13.5px;">
+                    ${deskState.selectedOption === q.correctAnswer ? '🎉 Correct Answer!' : '💡 Correct Answer: Option ' + letters[q.correctAnswer]}
+                </strong>
+                ${q.explanation ? `<p style="font-size: 13px; color: var(--text-muted); margin: 6px 0 0 0; line-height: 1.5;">${q.explanation}</p>` : ''}
+            </div>
+        ` : ''}
+
+        <!-- Bottom Action Button -->
+        <div style="margin-top: auto; padding-top: 10px;">
+            ${!deskState.isChecked ? `
+                <button class="duo-check-btn" ${deskState.selectedOption === null ? 'disabled' : ''} onclick="checkDeskAnswer()">
+                    CHECK ANSWER
+                </button>
+            ` : `
+                <button class="duo-continue-btn" onclick="nextDeskQuestion()">
+                    ${deskState.currentQIndex + 1 < total ? 'NEXT QUESTION →' : 'FINISH PRACTICE 🎉'}
+                </button>
+            `}
+        </div>
+    `;
+}
+
+function selectDeskOption(index) {
+    if (deskState.isChecked) return;
+    deskState.selectedOption = index;
+    renderDeskPracticeQuestion();
+}
+
+function checkDeskAnswer() {
+    if (deskState.selectedOption === null || deskState.isChecked) return;
+    const q = deskState.questions[deskState.currentQIndex];
+    deskState.isChecked = true;
+    
+    if (deskState.selectedOption === q.correctAnswer) {
+        deskState.score++;
+        playDeskChime('correct');
+        showToast('🎯 Spot on! Keep the momentum going!', 'success');
+    } else {
+        showToast('Not quite, but reviewing mistakes is how you master it!', 'info');
+    }
+    
+    renderDeskPracticeQuestion();
+}
+
+function nextDeskQuestion() {
+    if (deskState.currentQIndex + 1 < deskState.questions.length) {
+        deskState.currentQIndex++;
+        deskState.selectedOption = null;
+        deskState.isChecked = false;
+        renderDeskPracticeQuestion();
+    } else {
+        // Finished set!
+        showToast(`🏆 Practice complete! You scored ${deskState.score} out of ${deskState.questions.length}!`, 'success');
+        recordStudyStreakActivity();
+        if (typeof showSessionEndStreakCelebration === 'function') {
+            showSessionEndStreakCelebration();
+        }
+        deskState.currentQIndex = 0;
+        deskState.selectedOption = null;
+        deskState.isChecked = false;
+        renderDeskPracticeQuestion();
+    }
+}
+
+/* ========================================================
+   SCRATCHPAD (HTML5 CANVAS WITH TOUCH & MOUSE)
+======================================================== */
+
+function renderDeskScratchpadWrapper(container) {
+    const rightActions = document.getElementById('desk-right-actions');
+    if (rightActions) {
+        rightActions.innerHTML = `
+            <button class="desk-tool-btn" onclick="clearDeskScratchpad()">
+                ${uiIcon('trash', 12)} Clear Canvas
+            </button>
+        `;
+    }
+
+    container.innerHTML = `
+        <div class="desk-canvas-toolbar">
+            <span style="font-size: 12px; font-weight: 700; color: var(--text-muted); align-self: center; margin-right: 4px;">Pen:</span>
+            <button class="desk-color-dot active" style="background: #38bdf8;" onclick="setDeskPenColor('#38bdf8', this)" title="Cyan Pen"></button>
+            <button class="desk-color-dot" style="background: #22c55e;" onclick="setDeskPenColor('#22c55e', this)" title="Emerald Pen"></button>
+            <button class="desk-color-dot" style="background: #f59e0b;" onclick="setDeskPenColor('#f59e0b', this)" title="Amber Pen"></button>
+            <button class="desk-color-dot" style="background: #ffffff;" onclick="setDeskPenColor('#ffffff', this)" title="White Pen"></button>
+            
+            <span style="border-left: 1px solid var(--border-glass); margin: 0 4px;"></span>
+            
+            <button class="desk-tool-btn" id="desk-eraser-btn" onclick="setDeskEraser(this)">
+                🧹 Eraser
+            </button>
+        </div>
+        <div class="desk-canvas-container" id="desk-canvas-box">
+            <canvas id="desk-scratchpad-canvas"></canvas>
+        </div>
+        <p style="font-size: 11.5px; color: var(--text-muted); margin: 8px 0 0 0; text-align: center;">
+            ✍️ Supports stylus, finger touch, and mouse drawing. Perfect for rough calculations and scratch math.
+        </p>
+    `;
+}
+
+function initDeskScratchpad() {
+    const canvas = document.getElementById('desk-scratchpad-canvas');
+    const box = document.getElementById('desk-canvas-box');
+    if (!canvas || !box) return;
+
+    deskState.canvas = canvas;
+    deskState.ctx = canvas.getContext('2d');
+
+    canvas.width = box.clientWidth || 500;
+    canvas.height = box.clientHeight || 450;
+
+    deskState.ctx.lineCap = 'round';
+    deskState.ctx.lineJoin = 'round';
+
+    function getPos(e) {
+        const r = canvas.getBoundingClientRect();
+        if (e.touches && e.touches.length > 0) {
+            return {
+                x: e.touches[0].clientX - r.left,
+                y: e.touches[0].clientY - r.top
+            };
+        }
+        return {
+            x: e.clientX - r.left,
+            y: e.clientY - r.top
+        };
+    }
+
+    function startDraw(e) {
+        deskState.drawing = true;
+        const pos = getPos(e);
+        deskState.ctx.beginPath();
+        deskState.ctx.moveTo(pos.x, pos.y);
+        if (e.type === 'touchstart') e.preventDefault();
+    }
+
+    function draw(e) {
+        if (!deskState.drawing) return;
+        const pos = getPos(e);
+        if (deskState.tool === 'eraser') {
+            deskState.ctx.strokeStyle = state.theme === 'light' ? '#ffffff' : '#0a0d14';
+            deskState.ctx.lineWidth = deskState.penSize * 5;
+        } else {
+            deskState.ctx.strokeStyle = deskState.penColor;
+            deskState.ctx.lineWidth = deskState.penSize;
+        }
+        deskState.ctx.lineTo(pos.x, pos.y);
+        deskState.ctx.stroke();
+        if (e.type === 'touchmove') e.preventDefault();
+    }
+
+    function stopDraw() {
+        if (deskState.drawing) {
+            deskState.ctx.closePath();
+            deskState.drawing = false;
+        }
+    }
+
+    canvas.onmousedown = startDraw;
+    canvas.onmousemove = draw;
+    window.onmouseup = stopDraw;
+
+    canvas.ontouchstart = startDraw;
+    canvas.ontouchmove = draw;
+    window.ontouchend = stopDraw;
+}
+
+function setDeskPenColor(color, btn) {
+    deskState.penColor = color;
+    deskState.tool = 'pen';
+    document.querySelectorAll('.desk-color-dot').forEach(d => d.classList.remove('active'));
+    if (btn) btn.classList.add('active');
+    const eraserBtn = document.getElementById('desk-eraser-btn');
+    if (eraserBtn) eraserBtn.classList.remove('active');
+}
+
+function setDeskEraser(btn) {
+    deskState.tool = 'eraser';
+    document.querySelectorAll('.desk-color-dot').forEach(d => d.classList.remove('active'));
+    if (btn) btn.classList.add('active');
+}
+
+function clearDeskScratchpad() {
+    if (deskState.ctx && deskState.canvas) {
+        deskState.ctx.clearRect(0, 0, deskState.canvas.width, deskState.canvas.height);
+        showToast('Scratchpad canvas cleared', 'info');
+    }
+}
+
+/* ========================================================
+   STUDY NOTES (AUTO-SAVING PER GRADE & SUBJECT)
+======================================================== */
+
+function renderDeskNotesWrapper(container) {
+    const rightActions = document.getElementById('desk-right-actions');
+    if (rightActions) {
+        rightActions.innerHTML = `
+            <button class="desk-tool-btn" onclick="copyDeskNotes()">
+                ${uiIcon('check', 12)} Copy Notes
+            </button>
+        `;
+    }
+
+    container.innerHTML = `
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+            <h4 style="margin: 0; font-size: 14px; font-weight: 700;">Personal Notes for ${deskState.grade} • ${deskState.subject}</h4>
+            <span id="desk-notes-save-status" style="font-size: 11.5px; color: var(--text-muted);">Auto-saves as you type</span>
+        </div>
+        <textarea id="desk-notes-input" class="desk-notes-area" style="flex: 1; min-height: 380px;" oninput="saveDeskNotes()" placeholder="Type your personal summary, formula derivations, and revision notes here..."></textarea>
+    `;
+}
+
+function saveDeskNotes() {
+    const textarea = document.getElementById('desk-notes-input');
+    if (!textarea) return;
+    const key = `pel_desk_notes_${deskState.grade}_${deskState.subject}`;
+    localStorage.setItem(key, textarea.value);
+    const indicator = document.getElementById('desk-notes-save-status');
+    if (indicator) {
+        indicator.textContent = '✅ Saved';
+        setTimeout(() => {
+            if (indicator) indicator.textContent = 'Auto-saves as you type';
+        }, 1500);
+    }
+}
+
+function loadDeskNotes() {
+    const textarea = document.getElementById('desk-notes-input');
+    if (!textarea) return;
+    const key = `pel_desk_notes_${deskState.grade}_${deskState.subject}`;
+    textarea.value = localStorage.getItem(key) || '';
+}
+
+function copyDeskNotes() {
+    const textarea = document.getElementById('desk-notes-input');
+    if (!textarea || !textarea.value) {
+        showToast('No notes to copy yet', 'info');
+        return;
+    }
+    if (navigator.clipboard) {
+        navigator.clipboard.writeText(textarea.value).then(() => {
+            showToast('Notes copied to clipboard!', 'success');
+        });
+    }
 }
 
 // Start the application
