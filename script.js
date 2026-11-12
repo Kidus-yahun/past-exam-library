@@ -920,11 +920,15 @@ async function initApp() {
         }
     } catch (e) {}
 
-    // 4. Check for incoming 1v1 Telegram Duel challenge in URL
+    // 4. Check for incoming 1v1 Telegram Duel challenge or Shared Streak in URL
     const urlParams = new URLSearchParams(window.location.search);
     const duelParam = urlParams.get('duel');
+    const sharedStreakParam = urlParams.get('shared_streak');
+
     if (duelParam && handleIncomingDuelUrl(duelParam)) {
         // Duel lobby rendered
+    } else if (sharedStreakParam && handleIncomingSharedStreakUrl(sharedStreakParam)) {
+        setView('library');
     } else if (state.user && state.user.role === 'admin' && window.location.hash === '#admin') {
         setView('admin');
     } else {
@@ -1132,27 +1136,156 @@ function updateStudyStreak() {
     }
 }
 
-function openStreakModal() {
+function getDuolingoFlameSvg(size = 90) {
+    return `
+        <svg width="${size}" height="${size}" viewBox="0 0 120 120" fill="none" class="duolingo-flame-svg" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+                <radialGradient id="flameGradOuter" cx="50%" cy="80%" r="65%">
+                    <stop offset="0%" stop-color="#fdba74"/>
+                    <stop offset="35%" stop-color="#f97316"/>
+                    <stop offset="85%" stop-color="#ea580c"/>
+                    <stop offset="100%" stop-color="#c2410c"/>
+                </radialGradient>
+                <radialGradient id="flameGradInner" cx="50%" cy="85%" r="55%">
+                    <stop offset="0%" stop-color="#ffffff"/>
+                    <stop offset="30%" stop-color="#fef08a"/>
+                    <stop offset="70%" stop-color="#facc15"/>
+                    <stop offset="100%" stop-color="#f97316"/>
+                </radialGradient>
+            </defs>
+            <path d="M60 6C60 6 78 30 78 52C78 64 74 72 70 78C78 68 88 64 88 50C98 62 104 78 104 92C104 110 84 118 60 118C36 118 16 110 16 92C16 75 25 58 38 46C36 56 40 68 46 72C44 60 48 40 60 6Z" fill="url(#flameGradOuter)" />
+            <path d="M60 38C60 38 70 54 70 70C70 78 66 84 64 88C69 82 74 80 74 70C81 78 84 88 84 98C84 110 73 114 60 114C47 114 36 110 36 98C36 86 42 74 50 66C49 72 52 80 56 82C54 74 56 60 60 38Z" fill="url(#flameGradInner)" />
+            <ellipse cx="51" cy="74" rx="4.5" ry="6" fill="#1e1b4b" />
+            <circle cx="53" cy="72" r="2" fill="#ffffff" />
+            <ellipse cx="69" cy="74" rx="4.5" ry="6" fill="#1e1b4b" />
+            <circle cx="71" cy="72" r="2" fill="#ffffff" />
+            <ellipse cx="44" cy="82" rx="4" ry="2.5" fill="#ef4444" opacity="0.6" />
+            <ellipse cx="76" cy="82" rx="4" ry="2.5" fill="#ef4444" opacity="0.6" />
+            <path d="M56 83 C58 86, 62 86, 64 83" stroke="#1e1b4b" stroke-width="2.5" stroke-linecap="round" fill="none" />
+        </svg>
+    `;
+}
+
+function getSharedStreaksData() {
+    try {
+        const raw = localStorage.getItem('pel_shared_streaks');
+        if (raw) return JSON.parse(raw);
+    } catch (e) {}
+    return [
+        { id: 'ss_demo1', partnerName: 'Eddy', streakCount: 3, lastActiveDate: new Date().toISOString().slice(0, 10), avatarColor: '#3b82f6', initial: 'E' },
+        { id: 'ss_demo2', partnerName: 'Lily', streakCount: 32, lastActiveDate: new Date().toISOString().slice(0, 10), avatarColor: '#a855f7', initial: 'L' },
+        { id: 'ss_demo3', partnerName: 'Jane', streakCount: 14, lastActiveDate: new Date().toISOString().slice(0, 10), avatarColor: '#10b981', initial: 'J' }
+    ];
+}
+
+function saveSharedStreaksData(list) {
+    try {
+        localStorage.setItem('pel_shared_streaks', JSON.stringify(list));
+    } catch (e) {}
+}
+
+let pendingSharedStreakInvite = null;
+
+function handleIncomingSharedStreakUrl(encoded) {
+    try {
+        const decoded = JSON.parse(decodeURIComponent(escape(atob(encoded))));
+        if (decoded && decoded.creator) {
+            pendingSharedStreakInvite = decoded;
+            setTimeout(() => {
+                openStreakModal('shared');
+            }, 300);
+            return true;
+        }
+    } catch (e) {
+        console.warn('Could not parse shared streak invite', e);
+    }
+    return false;
+}
+
+function openStreakModal(activeTab = 'personal') {
     const streak = getStudyStreakData();
-    const telegramShareText = encodeURIComponent(`I'm on a ${streak.count}-day study streak on Past Exam Library! 🔥 58+ past exams, answer-free PDFs, and formula sheets for high schoolers:`);
-    const telegramShareUrl = `https://t.me/share/url?url=${encodeURIComponent('https://past-exam-library.vercel.app')}&text=${telegramShareText}`;
+    const sharedStreaks = getSharedStreaksData();
 
     const bodyHtml = `
-        <div style="text-align: center; padding: 6px 0 10px 0;">
-            <div style="width: 68px; height: 68px; margin: 0 auto 14px auto; background: linear-gradient(135deg, #f97316, #ef4444); border-radius: 20px; display: flex; align-items: center; justify-content: center; box-shadow: 0 10px 24px rgba(249, 115, 22, 0.4); font-size: 32px;">
-                🔥
+        <div class="duolingo-streak-container">
+            <!-- Duolingo Streak Navigation Segmented Tabs (Screen 3) -->
+            <div class="duolingo-streak-nav">
+                <button type="button" id="tab-btn-personal" class="duolingo-nav-btn ${activeTab === 'personal' ? 'active' : ''}" onclick="switchStreakModalTab('personal')">
+                    🔥 PERSONAL
+                </button>
+                <button type="button" id="tab-btn-shared" class="duolingo-nav-btn ${activeTab === 'shared' ? 'active' : ''}" onclick="switchStreakModalTab('shared')">
+                    👥 SHARED ${sharedStreaks.length > 0 ? `<span style="font-size: 11px; background: #f97316; color: #fff; padding: 1px 6px; border-radius: 9999px;">${sharedStreaks.length}</span>` : ''}
+                </button>
             </div>
-            <h3 style="font-size: 24px; font-weight: 800; margin-bottom: 4px; color: var(--text-main);">
-                ${streak.count} Day Study Streak!
+
+            <div id="duolingo-streak-tab-content">
+                <!-- Rendered dynamically -->
+            </div>
+        </div>
+    `;
+
+    showModal('Study Streak', bodyHtml);
+    switchStreakModalTab(activeTab);
+}
+
+function switchStreakModalTab(tab) {
+    const container = document.getElementById('duolingo-streak-tab-content');
+    const btnPersonal = document.getElementById('tab-btn-personal');
+    const btnShared = document.getElementById('tab-btn-shared');
+    if (!container) return;
+
+    if (btnPersonal && btnShared) {
+        btnPersonal.className = `duolingo-nav-btn ${tab === 'personal' ? 'active' : ''}`;
+        btnShared.className = `duolingo-nav-btn ${tab === 'shared' ? 'active' : ''}`;
+    }
+
+    const streak = getStudyStreakData();
+
+    if (tab === 'personal') {
+        const days = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
+        const todayIdx = (new Date().getDay() + 6) % 7; // 0 = Mon ... 6 = Sun
+        const telegramShareText = encodeURIComponent(`I'm on a ${streak.count}-day study streak on Past Exam Library! 🔥 Studying past papers and preparing for finals:`);
+        const telegramShareUrl = `https://t.me/share/url?url=${encodeURIComponent('https://past-exam-library.vercel.app')}&text=${telegramShareText}`;
+
+        container.innerHTML = `
+            <!-- Duolingo Animated Flame Hero Stage -->
+            <div class="duolingo-flame-stage">
+                <div class="duolingo-flame-aura"></div>
+                <div class="duolingo-spark"></div>
+                <div class="duolingo-spark"></div>
+                <div class="duolingo-spark"></div>
+                ${getDuolingoFlameSvg(110)}
+            </div>
+
+            <div class="duolingo-streak-count">${streak.count}</div>
+            <h3 style="font-size: 21px; font-weight: 800; color: var(--text-main); margin-bottom: 6px;">
+                ${streak.count > 1 ? `${streak.count}-Day Study Streak!` : 'Study Streak Started!'}
             </h3>
-            <p style="font-size: 13.5px; color: var(--text-muted); line-height: 1.5; max-width: 380px; margin: 0 auto 20px auto;">
-                ${streak.count > 1 ? "Consistency is your superpower. You've shown up day after day to prepare!" : "You've officially started your study streak! Come back tomorrow to keep the flame alive."}
+            <p style="font-size: 13.5px; color: var(--text-muted); line-height: 1.5; max-width: 380px; margin: 0 auto 16px auto;">
+                ${streak.count > 1 ? "Way to go! Consistency is your superpower. Your study flame is blazing!" : "You took the first step today! Keep coming back every day to build a legendary streak."}
             </p>
 
+            <!-- 7-Day Weekly Calendar Track -->
+            <div class="duolingo-week-track">
+                ${days.map((d, i) => {
+                    const isToday = i === todayIdx;
+                    const isLit = i <= todayIdx;
+                    return `
+                        <div class="duolingo-day-col">
+                            <span class="duolingo-day-label">${d}</span>
+                            <div class="duolingo-day-circle ${isToday ? 'today-active' : (isLit ? 'lit' : '')}">
+                                ${isLit ? '🔥' : '•'}
+                            </div>
+                        </div>
+                    `;
+                }).join('')}
+            </div>
+
+            <!-- Stats 3-Column Grid -->
             <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 22px;">
                 <div style="background: rgba(255, 255, 255, 0.04); border: 1px solid var(--border-glass); border-radius: 14px; padding: 12px 8px;">
                     <div style="font-size: 20px; font-weight: 800; color: #f97316;">${streak.count}</div>
-                    <div style="font-size: 11px; color: var(--text-muted); margin-top: 2px;">Current Days</div>
+                    <div style="font-size: 11px; color: var(--text-muted); margin-top: 2px;">Days Active</div>
                 </div>
                 <div style="background: rgba(255, 255, 255, 0.04); border: 1px solid var(--border-glass); border-radius: 14px; padding: 12px 8px;">
                     <div style="font-size: 20px; font-weight: 800; color: #eab308;">${streak.bestStreak}</div>
@@ -1160,23 +1293,200 @@ function openStreakModal() {
                 </div>
                 <div style="background: rgba(255, 255, 255, 0.04); border: 1px solid var(--border-glass); border-radius: 14px; padding: 12px 8px;">
                     <div style="font-size: 20px; font-weight: 800; color: #38bdf8;">${streak.totalDays || streak.count}</div>
-                    <div style="font-size: 11px; color: var(--text-muted); margin-top: 2px;">Total Active</div>
+                    <div style="font-size: 11px; color: var(--text-muted); margin-top: 2px;">Total Study Days</div>
                 </div>
             </div>
 
+            <!-- Action Buttons -->
             <div style="display: flex; flex-direction: column; gap: 10px;">
-                <a href="${telegramShareUrl}" target="_blank" rel="noopener noreferrer" class="btn-primary" style="display: flex; align-items: center; justify-content: center; gap: 9px; padding: 12px 18px; font-size: 14px; text-decoration: none; border-radius: 10px; background: linear-gradient(135deg, #0284c7, #2563eb);">
+                <a href="${telegramShareUrl}" target="_blank" rel="noopener noreferrer" class="duolingo-btn-action" style="background: #2563eb; box-shadow: 0 4px 0 #1d4ed8;">
                     <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/></svg>
-                    <span>Share Streak on Telegram</span>
+                    <span>Share Flame on Telegram</span>
                 </a>
-                <button class="btn-secondary" onclick="closeModal()" style="padding: 10px; font-size: 13px;">
-                    Back to Studying
+                <button type="button" class="duolingo-btn-action duolingo-btn-orange" onclick="closeModal(); setView('library');">
+                    Continue Studying →
                 </button>
             </div>
+        `;
+    } else {
+        const sharedStreaks = getSharedStreaksData();
+        const userName = state.user?.fullName || state.user?.username || 'Student';
+
+        container.innerHTML = `
+            ${pendingSharedStreakInvite ? `
+                <!-- Pending Invitation Card (Screen 3 in screenshot) -->
+                <div style="background: linear-gradient(135deg, rgba(249, 115, 22, 0.15), rgba(59, 130, 246, 0.15)); border: 1.5px solid #f97316; border-radius: 16px; padding: 16px; margin-bottom: 20px; text-align: left;">
+                    <div style="font-size: 12px; font-weight: 800; text-transform: uppercase; color: #fdba74; margin-bottom: 8px;">Pending Shared Streak</div>
+                    <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 14px;">
+                        <div style="width: 44px; height: 44px; border-radius: 50%; background: #3b82f6; display: flex; align-items: center; justify-content: center; font-size: 20px; color: #fff; font-weight: 800;">
+                            ${(pendingSharedStreakInvite.creator || 'F').charAt(0).toUpperCase()}
+                        </div>
+                        <div>
+                            <div style="font-size: 14px; font-weight: 700; color: #ffffff;">${escapeQuotes(pendingSharedStreakInvite.creator)} invited you!</div>
+                            <div style="font-size: 12px; color: var(--text-muted);">Start a shared daily study streak together</div>
+                        </div>
+                    </div>
+                    <div style="display: flex; gap: 10px;">
+                        <button type="button" class="btn-secondary" style="flex: 1; padding: 9px; font-size: 12.5px; text-transform: uppercase; font-weight: 700;" onclick="declineSharedStreak()">
+                            Decline
+                        </button>
+                        <button type="button" class="duolingo-btn-action" style="flex: 1; padding: 9px; font-size: 12.5px;" onclick="acceptSharedStreak('${escapeQuotes(pendingSharedStreakInvite.creator)}')">
+                            Accept 🔥
+                        </button>
+                    </div>
+                </div>
+            ` : ''}
+
+            <!-- Duolingo Shared Hero Header (Screen 1 in screenshot) -->
+            <div class="duolingo-shared-hero">
+                <div class="duolingo-avatar-bubble">🎓</div>
+                <div style="font-size: 30px; animation: duolingoFlameDance 2s ease-in-out infinite;">🔥</div>
+                <div class="duolingo-avatar-bubble" style="background: linear-gradient(135deg, #f97316, #ef4444);">🤝</div>
+            </div>
+
+            <h3 style="font-size: 20px; font-weight: 800; color: #ffffff; margin-bottom: 6px;">
+                Learn with a friend with a Shared Streak!
+            </h3>
+            <p style="font-size: 13px; color: var(--text-muted); line-height: 1.5; max-width: 360px; margin: 0 auto 20px auto;">
+                Keep each other accountable every single day. When either of you studies, your shared flame stays alive!
+            </p>
+
+            <!-- Active Shared Streaks List (Screen 3 in screenshot) -->
+            <div style="text-align: left; margin-bottom: 20px;">
+                <div style="font-size: 12px; font-weight: 800; text-transform: uppercase; color: var(--text-muted); margin-bottom: 10px; letter-spacing: 0.5px;">
+                    Active Shared Streaks
+                </div>
+                ${sharedStreaks.length > 0 ? `
+                    ${sharedStreaks.map(s => `
+                        <div class="duolingo-shared-card">
+                            <div style="display: flex; align-items: center; gap: 12px;">
+                                <div style="width: 40px; height: 40px; border-radius: 50%; background: ${s.avatarColor || '#3b82f6'}; display: flex; align-items: center; justify-content: center; font-weight: 800; color: #ffffff; font-size: 16px;">
+                                    ${s.initial || s.partnerName.charAt(0).toUpperCase()}
+                                </div>
+                                <div>
+                                    <div style="font-weight: 700; color: #ffffff; font-size: 14px;">with ${escapeQuotes(s.partnerName)}</div>
+                                    <div style="font-size: 12px; color: #fdba74; display: flex; align-items: center; gap: 4px; font-weight: 600;">
+                                        🔥 ${s.streakCount} Day Streak
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="button" class="duolingo-nudge-btn" onclick="nudgeSharedStreak('${escapeQuotes(s.partnerName)}', ${s.streakCount})">
+                                🔔 Nudge
+                            </button>
+                        </div>
+                    `).join('')}
+                ` : `
+                    <div style="padding: 16px; border: 1px dashed var(--border-glass); border-radius: 12px; text-align: center; color: var(--text-muted); font-size: 13px;">
+                        No shared streaks yet. Invite a classmate below!
+                    </div>
+                `}
+            </div>
+
+            <!-- Start New Shared Streak Form (Screen 1 Match Screen) -->
+            <div style="background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-glass); border-radius: 16px; padding: 16px; text-align: left;">
+                <div style="font-size: 12px; font-weight: 800; text-transform: uppercase; color: #38bdf8; margin-bottom: 10px; letter-spacing: 0.5px;">
+                    + Add New Study Partner
+                </div>
+                <div style="display: flex; gap: 8px; margin-bottom: 10px;">
+                    <input type="text" id="shared-partner-input" class="search-input" style="flex: 1;" placeholder="Classmate or friend's name (e.g. Kidist)">
+                </div>
+                <button type="button" class="duolingo-btn-action" style="background: #0284c7; box-shadow: 0 4px 0 #0369a1;" onclick="createSharedStreakInvite()">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/></svg>
+                    <span>Invite via Telegram Link</span>
+                </button>
+            </div>
+        `;
+    }
+}
+
+function nudgeSharedStreak(partnerName, streakCount) {
+    const text = encodeURIComponent(`Hey ${partnerName}! 🔥 Our ${streakCount}-day shared study streak on Past Exam Library is active! Don't let our streak break today:`);
+    const tgUrl = `https://t.me/share/url?url=${encodeURIComponent('https://past-exam-library.vercel.app')}&text=${text}`;
+    window.open(tgUrl, '_blank');
+    showToast(`Nudge sent to ${partnerName}! 🔔`, 'success');
+}
+
+function createSharedStreakInvite() {
+    const input = document.getElementById('shared-partner-input');
+    const partnerName = (input?.value || '').trim() || 'Classmate';
+    const creatorName = state.user?.fullName || state.user?.username || 'A friend';
+
+    const payload = {
+        creator: creatorName,
+        partner: partnerName,
+        date: new Date().toISOString().slice(0, 10)
+    };
+    const encoded = btoa(unescape(encodeURIComponent(JSON.stringify(payload))));
+    const inviteUrl = `${window.location.origin}?shared_streak=${encoded}`;
+
+    const text = encodeURIComponent(`Hey ${partnerName}! Start a Shared Study Streak with me on Past Exam Library! 🔥 Keep each other accountable:`);
+    const tgUrl = `https://t.me/share/url?url=${encodeURIComponent(inviteUrl)}&text=${text}`;
+
+    copyToClipboard(inviteUrl, 'Shared streak invite link copied to clipboard!');
+    window.open(tgUrl, '_blank');
+}
+
+function acceptSharedStreak(creatorName) {
+    const current = getSharedStreaksData();
+    const cleanName = creatorName || 'Study Buddy';
+    
+    // Add to list
+    if (!current.some(s => s.partnerName.toLowerCase() === cleanName.toLowerCase())) {
+        current.push({
+            id: 'ss_' + Date.now(),
+            partnerName: cleanName,
+            streakCount: 1,
+            lastActiveDate: new Date().toISOString().slice(0, 10),
+            avatarColor: '#10b981',
+            initial: cleanName.charAt(0).toUpperCase()
+        });
+        saveSharedStreaksData(current);
+    }
+
+    pendingSharedStreakInvite = null;
+    showToast(`Shared streak with ${cleanName} accepted! 🔥 Day 1 started.`, 'success');
+    switchStreakModalTab('shared');
+}
+
+function declineSharedStreak() {
+    pendingSharedStreakInvite = null;
+    showToast('Shared streak invite declined', 'info');
+    switchStreakModalTab('shared');
+}
+
+function showSessionEndStreakCelebration(streakCount, partnerName = '') {
+    const streak = streakCount || getStudyStreakData().count;
+    const bodyHtml = `
+        <div style="text-align: center; padding: 12px 6px;">
+            <!-- Screen 2 Session End Avatars + Fire from screenshot -->
+            <div class="duolingo-shared-hero" style="margin-bottom: 14px;">
+                <div class="duolingo-avatar-bubble">🎓</div>
+                <div style="position: relative;">
+                    ${getDuolingoFlameSvg(80)}
+                </div>
+                <div class="duolingo-avatar-bubble" style="background: linear-gradient(135deg, #f97316, #ef4444);">
+                    ${partnerName ? partnerName.charAt(0).toUpperCase() : '🔥'}
+                </div>
+            </div>
+
+            <div class="duolingo-streak-count" style="font-size: 68px; margin-bottom: 4px;">
+                ${streak}
+            </div>
+
+            <h3 style="font-size: 22px; font-weight: 800; color: #ffffff; margin-bottom: 8px;">
+                Way to go!
+            </h3>
+            <p style="font-size: 14.5px; color: var(--text-muted); line-height: 1.5; max-width: 320px; margin: 0 auto 24px auto;">
+                ${partnerName ? `You and ${partnerName} extended your Shared Streak today.` : "You extended your Daily Study Streak today."}
+            </p>
+
+            <button type="button" class="duolingo-btn-action" style="padding: 14px; font-size: 15px;" onclick="closeModal()">
+                CONTINUE
+            </button>
         </div>
     `;
 
-    showModal('Study Streak', bodyHtml);
+    showModal('Streak Extended!', bodyHtml);
 }
 
 function copyToClipboard(text, msg) {
@@ -5638,6 +5948,18 @@ function finishQuiz() {
             </div>
 
             <h3 style="color: #e9d5ff; font-size: 20px; font-weight: 700; margin-bottom: 20px;">${verdict}</h3>
+
+            <!-- Duolingo Streak Extended Banner -->
+            <div style="background: linear-gradient(135deg, rgba(249, 115, 22, 0.15), rgba(239, 68, 68, 0.15)); border: 1.5px solid rgba(249, 115, 22, 0.4); border-radius: 14px; padding: 14px 18px; margin-bottom: 16px; display: flex; align-items: center; justify-content: space-between; cursor: pointer; text-align: left; box-shadow: 0 4px 16px rgba(249, 115, 22, 0.15);" onclick="openStreakModal('personal')">
+                <div style="display: flex; align-items: center; gap: 12px;">
+                    <div style="font-size: 28px; animation: duolingoFlameDance 2.2s infinite ease-in-out;">🔥</div>
+                    <div>
+                        <div style="font-size: 14px; font-weight: 800; color: #ffedd5;">Daily Study Streak Extended!</div>
+                        <div style="font-size: 12px; color: #fdba74;">You practiced today and kept your study flame blazing. Tap to view →</div>
+                    </div>
+                </div>
+                <div style="font-size: 20px; font-weight: 900; color: #f97316;">${streak.count}🔥</div>
+            </div>
 
             <!-- 1v1 Telegram Study Duel Challenge Banner -->
             <div class="duel-prompt-card">
