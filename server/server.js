@@ -847,6 +847,102 @@ app.get('/api/admin/students', authenticateToken, requireAdmin, async (req, res)
     }
 });
 
+// ========================================================
+// COMMUNITY TOPIC NOTES API (Open Peer Revision & Tips)
+// ========================================================
+const TOPIC_NOTES_FILE = path.join(DATA_DIR, 'topic_notes.json');
+let inMemoryTopicNotes = [];
+try {
+    if (fs.existsSync(TOPIC_NOTES_FILE)) {
+        inMemoryTopicNotes = JSON.parse(fs.readFileSync(TOPIC_NOTES_FILE, 'utf8')) || [];
+    }
+} catch (e) {
+    console.warn('Could not load topic notes file:', e.message);
+}
+
+function persistTopicNotes() {
+    try {
+        fs.writeFileSync(TOPIC_NOTES_FILE, JSON.stringify(inMemoryTopicNotes, null, 2), 'utf8');
+    } catch (e) {
+        console.warn('Could not persist topic notes:', e.message);
+    }
+}
+
+app.get('/api/topic-notes', (req, res) => {
+    try {
+        const { grade, subject, unitIndex } = req.query;
+        let notes = inMemoryTopicNotes;
+        if (grade) {
+            notes = notes.filter(n => n.grade === grade);
+        }
+        if (subject) {
+            notes = notes.filter(n => n.subject === subject);
+        }
+        if (unitIndex !== undefined && unitIndex !== '') {
+            notes = notes.filter(n => String(n.unitIndex) === String(unitIndex));
+        }
+        res.json({ success: true, count: notes.length, notes });
+    } catch (err) {
+        res.status(500).json({ success: false, message: err.message });
+    }
+});
+
+app.post('/api/topic-notes', (req, res) => {
+    try {
+        const { grade, subject, unitIndex, author, tag, content } = req.body;
+        if (!content || !content.trim()) {
+            return res.status(400).json({ success: false, message: 'Note content cannot be empty' });
+        }
+        const newNote = {
+            id: 'note_' + Date.now() + '_' + Math.random().toString(36).substr(2, 6),
+            grade: grade || 'Grade 12',
+            subject: subject || 'Mathematics',
+            unitIndex: parseInt(unitIndex) || 0,
+            author: (author && author.trim()) || 'Student Contributor',
+            tag: tag || '⚡ Exam Shortcut',
+            content: content.trim(),
+            likes: 0,
+            timestamp: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
+            createdAt: new Date().toISOString()
+        };
+        inMemoryTopicNotes.unshift(newNote);
+        persistTopicNotes();
+        res.status(201).json({ success: true, message: 'Note added successfully', note: newNote });
+    } catch (err) {
+        res.status(500).json({ success: false, message: err.message });
+    }
+});
+
+app.post('/api/topic-notes/:id/like', (req, res) => {
+    try {
+        const { id } = req.params;
+        const note = inMemoryTopicNotes.find(n => n.id === id);
+        if (!note) {
+            return res.status(404).json({ success: false, message: 'Note not found' });
+        }
+        note.likes = (note.likes || 0) + 1;
+        persistTopicNotes();
+        res.json({ success: true, likes: note.likes });
+    } catch (err) {
+        res.status(500).json({ success: false, message: err.message });
+    }
+});
+
+app.delete('/api/topic-notes/:id', (req, res) => {
+    try {
+        const { id } = req.params;
+        const initialLen = inMemoryTopicNotes.length;
+        inMemoryTopicNotes = inMemoryTopicNotes.filter(n => n.id !== id);
+        if (inMemoryTopicNotes.length !== initialLen) {
+            persistTopicNotes();
+            return res.json({ success: true, message: 'Note deleted successfully' });
+        }
+        res.status(404).json({ success: false, message: 'Note not found' });
+    } catch (err) {
+        res.status(500).json({ success: false, message: err.message });
+    }
+});
+
 // AI Study Coach / Mentor API
 app.post('/api/ai-tutor', async (req, res) => {
     try {

@@ -7970,7 +7970,10 @@ const deskState = {
     grade: 'Grade 12',
     subject: 'Mathematics',
     selectedUnitIndex: 0,
-    activeNoteSection: 'overview', // 'overview', 'formulas', 'example', 'pitfalls'
+    activeNoteSection: 'overview', // 'overview', 'formulas', 'example', 'pitfalls', 'community'
+    topicNoteFilter: 'all', // 'all', 'shortcut', 'mnemonic', 'top', 'mine'
+    topicNoteComposerOpen: false,
+    topicNotePrefill: '',
     paperIndex: 0,
     availablePapers: [],
     leftTab: 'unitNotes', // 'unitNotes' (default), 'pdf', 'formulas', 'tips'
@@ -8720,8 +8723,263 @@ function setDeskNoteSection(section) {
     }
 }
 
+// ========================================================
+// OPEN TOPIC NOTES & PEER TIPS SYSTEM
+// ========================================================
+const DEFAULT_SEEDED_TOPIC_NOTES = {
+    'Grade 12_Mathematics_0': [
+        {
+            id: 'seed_math_1',
+            author: 'Dawit B. (Top Scorer)',
+            tag: '⚡ Exam Shortcut',
+            content: 'For arithmetic sequence questions with $a_n = 4n - 3$, the common difference $d$ is ALWAYS the coefficient of $n$ (here $d = 4$). The first term is $a_1 = 4(1) - 3 = 1$. This saves 2 minutes of solving simultaneous equations!',
+            likes: 34,
+            likedByMe: false,
+            timestamp: '2 days ago',
+            isOwner: false
+        },
+        {
+            id: 'seed_math_2',
+            author: 'Selamawit T.',
+            tag: '⚠️ Exam Trap',
+            content: 'Convergence trap: an infinite GP converges if and only if $|r| < 1$. If $r = -1/2$, it converges (sum exists!). If $r = -2$, $|-2| = 2 \\ge 1$ so it diverges. Watch out for negative $r$ signs!',
+            likes: 21,
+            likedByMe: false,
+            timestamp: '5 days ago',
+            isOwner: false
+        },
+        {
+            id: 'seed_math_3',
+            author: 'Kidus Y.',
+            tag: '🧠 Mnemonic Trick',
+            content: 'Sigma shortcut: $\\sum_{k=1}^n k = \\frac{n(n+1)}{2}$. For first 100 integers: $100 \\times 101 / 2 = 5050$. Saves tons of calculation time on Section A.',
+            likes: 18,
+            likedByMe: false,
+            timestamp: 'Nov 9',
+            isOwner: false
+        }
+    ],
+    'Grade 12_Physics_0': [
+        {
+            id: 'seed_phys_1',
+            author: 'Natnael K. (Engineering)',
+            tag: '⚡ Exam Shortcut',
+            content: 'Always convert Celsius to Kelvin before calculating Carnot efficiency! $\\eta = 1 - \\frac{T_C}{T_H}$. Never use Celsius degrees directly or you will fall into the examiner trap.',
+            likes: 27,
+            likedByMe: false,
+            timestamp: '3 days ago',
+            isOwner: false
+        },
+        {
+            id: 'seed_phys_2',
+            author: 'Hanna G.',
+            tag: '🧠 Mnemonic Trick',
+            content: 'First Law of Thermodynamics: $\\Delta U = Q - W$. Remember: $Q$ is heat IN (positive) and $W$ is work done BY gas (positive when expanding). If gas is compressed, $W$ is negative!',
+            likes: 19,
+            likedByMe: false,
+            timestamp: 'Nov 8',
+            isOwner: false
+        }
+    ],
+    'Grade 12_Chemistry_0': [
+        {
+            id: 'seed_chem_1',
+            author: 'Bethlehem M.',
+            tag: '⚡ Exam Shortcut',
+            content: 'For conjugate acid-base pairs: $K_a \\times K_b = K_w = 1.0 \\times 10^{-14}$ at $25^\\circ C$. If $pK_a = 4.75$, then $pK_b = 14 - 4.75 = 9.25$ instantly!',
+            likes: 25,
+            likedByMe: false,
+            timestamp: '4 days ago',
+            isOwner: false
+        }
+    ],
+    'Grade 12_Biology_0': [
+        {
+            id: 'seed_bio_1',
+            author: 'Dr. Michael (Alumni)',
+            tag: '⚡ Exam Shortcut',
+            content: 'Competitive vs Non-competitive inhibition: Competitive increases $K_m$ but leaves $V_{max}$ unchanged (can be overcome by adding more substrate). Non-competitive lowers $V_{max}$ with no change to $K_m$!',
+            likes: 31,
+            likedByMe: false,
+            timestamp: '1 week ago',
+            isOwner: false
+        }
+    ],
+    'Grade 12_English_0': [
+        {
+            id: 'seed_eng_1',
+            author: 'Amen A.',
+            tag: '⚡ Exam Shortcut',
+            content: 'Third Conditional formula: If + past perfect (had done), would + have + past participle. Example: "If I had studied harder, I would have scored 650+". Almost always tested in Section B!',
+            likes: 20,
+            likedByMe: false,
+            timestamp: 'Nov 6',
+            isOwner: false
+        }
+    ]
+};
+
+function getTopicNotesStorageKey(grade, subject, unitIndex) {
+    return `pel_topic_notes_${grade || 'Grade 12'}_${subject || 'Mathematics'}_${unitIndex || 0}`;
+}
+
+function getTopicNotes(grade, subject, unitIndex) {
+    const key = getTopicNotesStorageKey(grade, subject, unitIndex);
+    const raw = localStorage.getItem(key);
+    if (raw) {
+        try {
+            return JSON.parse(raw);
+        } catch(e) {}
+    }
+    // Pre-seed with defaults if available
+    const seedKey = `${grade}_${subject}_${unitIndex}`;
+    const seeds = DEFAULT_SEEDED_TOPIC_NOTES[seedKey] ? JSON.parse(JSON.stringify(DEFAULT_SEEDED_TOPIC_NOTES[seedKey])) : [];
+    localStorage.setItem(key, JSON.stringify(seeds));
+    return seeds;
+}
+
+function saveTopicNotesLocally(grade, subject, unitIndex, notes) {
+    const key = getTopicNotesStorageKey(grade, subject, unitIndex);
+    localStorage.setItem(key, JSON.stringify(notes));
+}
+
+function addTopicNote(grade, subject, unitIndex, author, tag, content) {
+    if (!content || !content.trim()) {
+        showToast('Please type your note before posting', 'info');
+        return;
+    }
+    const notes = getTopicNotes(grade, subject, unitIndex);
+    const authorName = (author && author.trim()) || (state && state.user && state.user.fullName) || 'Student Contributor';
+    // Remember student name
+    try { localStorage.setItem('pel_last_student_author', authorName); } catch(e) {}
+
+    const newNote = {
+        id: 'note_' + Date.now() + '_' + Math.random().toString(36).substr(2, 6),
+        author: authorName,
+        tag: tag || '⚡ Exam Shortcut',
+        content: content.trim(),
+        likes: 1,
+        likedByMe: true,
+        timestamp: 'Just now',
+        isOwner: true
+    };
+
+    notes.unshift(newNote);
+    saveTopicNotesLocally(grade, subject, unitIndex, notes);
+
+    // Boost study streak and award 20 XP
+    if (typeof recordStudyStreakActivity === 'function') {
+        recordStudyStreakActivity();
+    }
+    playDeskChime('success');
+    showToast('🎉 Note posted to topic! +20 XP awarded to your streak!', 'success');
+
+    // Asynchronously sync with server if available
+    try {
+        fetch('/api/topic-notes', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                grade,
+                subject,
+                unitIndex,
+                author: authorName,
+                tag: newNote.tag,
+                content: newNote.content
+            })
+        }).catch(() => {});
+    } catch(e) {}
+
+    deskState.topicNoteComposerOpen = false;
+    deskState.topicNotePrefill = '';
+
+    const body = document.getElementById('desk-left-body');
+    if (body) {
+        renderDeskUnitNotesView(body);
+    }
+}
+
+function toggleLikeTopicNote(grade, subject, unitIndex, noteId) {
+    const notes = getTopicNotes(grade, subject, unitIndex);
+    const note = notes.find(n => n.id === noteId);
+    if (!note) return;
+
+    if (note.likedByMe) {
+        note.likedByMe = false;
+        note.likes = Math.max(0, (note.likes || 1) - 1);
+    } else {
+        note.likedByMe = true;
+        note.likes = (note.likes || 0) + 1;
+        playDeskChime('ding');
+        showToast('❤️ Marked as helpful!', 'info');
+        try {
+            fetch(`/api/topic-notes/${noteId}/like`, { method: 'POST' }).catch(() => {});
+        } catch(e) {}
+    }
+
+    saveTopicNotesLocally(grade, subject, unitIndex, notes);
+    const body = document.getElementById('desk-left-body');
+    if (body) {
+        renderDeskUnitNotesView(body);
+    }
+}
+
+function deleteTopicNote(grade, subject, unitIndex, noteId) {
+    if (!confirm('Are you sure you want to remove this note?')) return;
+    let notes = getTopicNotes(grade, subject, unitIndex);
+    notes = notes.filter(n => n.id !== noteId);
+    saveTopicNotesLocally(grade, subject, unitIndex, notes);
+    try {
+        fetch(`/api/topic-notes/${noteId}`, { method: 'DELETE' }).catch(() => {});
+    } catch(e) {}
+    showToast('Note removed', 'info');
+    const body = document.getElementById('desk-left-body');
+    if (body) {
+        renderDeskUnitNotesView(body);
+    }
+}
+
+function toggleTopicNoteComposer(forceState = null) {
+    if (forceState !== null) {
+        deskState.topicNoteComposerOpen = forceState;
+    } else {
+        deskState.topicNoteComposerOpen = !deskState.topicNoteComposerOpen;
+    }
+    const body = document.getElementById('desk-left-body');
+    if (body) {
+        renderDeskUnitNotesView(body);
+    }
+}
+
+function setDeskTopicNoteFilter(filter) {
+    deskState.topicNoteFilter = filter;
+    const body = document.getElementById('desk-left-body');
+    if (body) {
+        renderDeskUnitNotesView(body);
+    }
+}
+
+function postPersonalNotesToTopic() {
+    const textarea = document.getElementById('desk-notes-input');
+    const text = textarea ? textarea.value.trim() : '';
+    if (!text) {
+        showToast('Please type your notes on the right first before sharing!', 'info');
+        return;
+    }
+    setDeskLeftTab('unitNotes');
+    deskState.activeNoteSection = 'community';
+    deskState.topicNoteComposerOpen = true;
+    deskState.topicNotePrefill = text;
+    const body = document.getElementById('desk-left-body');
+    if (body) {
+        renderDeskUnitNotesView(body);
+        body.scrollTop = 0;
+    }
+    showToast('Ready to post! Review your note and tap "Post Note".', 'success');
+}
+
 function changeDeskNoteSection(direction) {
-    const sections = ['overview', 'formulas', 'example', 'pitfalls'];
+    const sections = ['overview', 'formulas', 'example', 'pitfalls', 'community'];
     let currentIdx = sections.indexOf(deskState.activeNoteSection || 'overview');
     if (currentIdx === -1) currentIdx = 0;
     const nextIdx = currentIdx + direction;
@@ -8741,13 +8999,19 @@ function renderDeskUnitNotesView(container) {
     }
     const currentUnit = unitList[deskState.selectedUnitIndex] || unitList[0];
     const activeSec = deskState.activeNoteSection || 'overview';
-    const sections = ['overview', 'formulas', 'example', 'pitfalls'];
+    const sections = ['overview', 'formulas', 'example', 'pitfalls', 'community'];
     const currentSecIdx = sections.indexOf(activeSec);
+
+    const topicNotes = getTopicNotes(deskState.grade, deskState.subject, deskState.selectedUnitIndex);
+    const savedAuthorName = localStorage.getItem('pel_last_student_author') || (state && state.user && state.user.fullName) || '';
 
     if (leftActions) {
         leftActions.innerHTML = `
+            <button class="desk-tool-btn" onclick="setDeskNoteSection('community'); toggleTopicNoteComposer(true);" title="Add your own note or exam tip on this unit" style="color: #58cc02; border-color: rgba(88, 204, 2, 0.4);">
+                ➕ Add Note
+            </button>
             <button class="desk-tool-btn" onclick="askAiToQuizCurrentUnit()" title="Ask AI to test you on this unit">
-                🤖 Quiz Me on This Unit
+                🤖 Quiz Me
             </button>
         `;
     }
@@ -8761,13 +9025,26 @@ function renderDeskUnitNotesView(container) {
         return;
     }
 
+    // Filter notes if in community tab
+    const filter = deskState.topicNoteFilter || 'all';
+    let filteredNotes = topicNotes;
+    if (filter === 'shortcut') {
+        filteredNotes = topicNotes.filter(n => (n.tag || '').includes('Shortcut'));
+    } else if (filter === 'mnemonic') {
+        filteredNotes = topicNotes.filter(n => (n.tag || '').includes('Mnemonic'));
+    } else if (filter === 'top') {
+        filteredNotes = [...topicNotes].sort((a, b) => (b.likes || 0) - (a.likes || 0));
+    } else if (filter === 'mine') {
+        filteredNotes = topicNotes.filter(n => n.isOwner);
+    }
+
     container.innerHTML = `
         <div class="desk-unit-notes-container">
             <!-- Unit Selector Bar -->
             <div class="desk-unit-selector-bar">
                 <div style="display: flex; align-items: center; gap: 8px; flex: 1; min-width: 200px;">
                     <span style="font-size: 12px; font-weight: 800; color: #1cb0f6;">UNIT:</span>
-                    <select class="desk-select" style="flex: 1; padding: 6px 12px; font-size: 13px;" onchange="deskState.selectedUnitIndex = parseInt(this.value); deskState.activeNoteSection = 'overview'; renderDeskUnitNotesView(document.getElementById('desk-left-body')); document.getElementById('desk-left-body').scrollTop = 0;">
+                    <select class="desk-select" style="flex: 1; padding: 6px 12px; font-size: 13px;" onchange="deskState.selectedUnitIndex = parseInt(this.value); deskState.activeNoteSection = 'overview'; deskState.topicNoteComposerOpen = false; renderDeskUnitNotesView(document.getElementById('desk-left-body')); document.getElementById('desk-left-body').scrollTop = 0;">
                         ${unitList.map((u, idx) => `<option value="${idx}" ${idx === deskState.selectedUnitIndex ? 'selected' : ''}>${u.title}</option>`).join('')}
                     </select>
                 </div>
@@ -8788,10 +9065,13 @@ function renderDeskUnitNotesView(container) {
                     📐 Formulas (${(currentUnit.keyFormulas || []).length})
                 </button>
                 <button type="button" class="desk-note-deck-btn ${activeSec === 'example' ? 'active' : ''}" onclick="setDeskNoteSection('example')">
-                    💡 Exam Example
+                    💡 Example
                 </button>
                 <button type="button" class="desk-note-deck-btn ${activeSec === 'pitfalls' ? 'active' : ''}" onclick="setDeskNoteSection('pitfalls')">
-                    ⚠️ Traps & Pitfalls
+                    ⚠️ Traps
+                </button>
+                <button type="button" class="desk-note-deck-btn ${activeSec === 'community' ? 'active' : ''}" onclick="setDeskNoteSection('community')">
+                    💬 Notes (${topicNotes.length})
                 </button>
             </div>
 
@@ -8866,16 +9146,142 @@ function renderDeskUnitNotesView(container) {
                 </div>
             ` : ''}
 
+            ${activeSec === 'community' ? `
+                <div class="desk-note-card desk-community-notes-card">
+                    <!-- Community Notes Header Bar -->
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 14px; flex-wrap: wrap; gap: 10px;">
+                        <div>
+                            <h4 class="desk-note-heading" style="margin-bottom: 4px;">
+                                <span>💬</span> Open Student Notes on ${currentUnit.title.split(':')[0]}
+                            </h4>
+                            <p style="font-size: 12.5px; color: var(--text-muted); margin: 0;">
+                                Community-submitted shortcuts, mnemonics, and teacher tips for this specific unit.
+                            </p>
+                        </div>
+                        <button type="button" class="desk-duo-action-btn" onclick="toggleTopicNoteComposer()" style="background: #58cc02; border-bottom: 3px solid #46a302; padding: 7px 14px; font-size: 12.5px;">
+                            ${deskState.topicNoteComposerOpen ? '✕ Close Composer' : '➕ Add Note / Tip'}
+                        </button>
+                    </div>
+
+                    <!-- Add Note Composer Form -->
+                    ${deskState.topicNoteComposerOpen ? `
+                        <div class="desk-topic-composer-box">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                                <span style="font-size: 13px; font-weight: 800; color: #58cc02;">✍️ Share Note on ${currentUnit.title.split(':')[0]}</span>
+                                <span style="font-size: 11px; font-weight: 700; color: #f59e0b;">+20 XP Reward</span>
+                            </div>
+                            <div style="display: flex; gap: 8px; margin-bottom: 10px; flex-wrap: wrap;">
+                                <input type="text" id="topic-note-author-input" class="desk-select" style="flex: 1; min-width: 140px; padding: 6px 12px;" placeholder="Your Name or Handle" value="${savedAuthorName ? escapeQuotes(savedAuthorName) : ''}">
+                                <select id="topic-note-tag-select" class="desk-select" style="flex: 1; min-width: 160px; padding: 6px 12px;">
+                                    <option value="⚡ Exam Shortcut">⚡ Exam Shortcut</option>
+                                    <option value="🧠 Mnemonic Trick">🧠 Mnemonic Trick</option>
+                                    <option value="📝 Key Summary">📝 Key Summary</option>
+                                    <option value="⚠️ Traps & Tips">⚠️ Traps & Tips</option>
+                                </select>
+                            </div>
+                            <textarea id="topic-note-content-input" class="desk-notes-area" style="min-height: 90px; width: 100%; margin-bottom: 10px; font-size: 13.5px;" placeholder="Write your exam shortcut, formula derivation, or memory trick for this unit... (Math formulas like $S_n = n/2(a_1+a_n)$ supported)">${deskState.topicNotePrefill ? escapeQuotes(deskState.topicNotePrefill) : ''}</textarea>
+                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                <span style="font-size: 11px; color: var(--text-muted);">Everyone studying this unit can view and learn from your note!</span>
+                                <div style="display: flex; gap: 8px;">
+                                    <button type="button" class="desk-tool-btn" onclick="toggleTopicNoteComposer(false)">Cancel</button>
+                                    <button type="button" class="desk-duo-action-btn" style="background: #58cc02; border-bottom: 3px solid #46a302; padding: 6px 16px; font-size: 12.5px;" onclick="addTopicNote(deskState.grade, deskState.subject, deskState.selectedUnitIndex, document.getElementById('topic-note-author-input').value, document.getElementById('topic-note-tag-select').value, document.getElementById('topic-note-content-input').value)">
+                                        🚀 Post Note (+20 XP)
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    ` : ''}
+
+                    <!-- Filter Chips -->
+                    <div class="desk-topic-filter-bar">
+                        <button type="button" class="desk-filter-chip ${filter === 'all' ? 'active' : ''}" onclick="setDeskTopicNoteFilter('all')">
+                            All (${topicNotes.length})
+                        </button>
+                        <button type="button" class="desk-filter-chip ${filter === 'shortcut' ? 'active' : ''}" onclick="setDeskTopicNoteFilter('shortcut')">
+                            ⚡ Shortcuts
+                        </button>
+                        <button type="button" class="desk-filter-chip ${filter === 'mnemonic' ? 'active' : ''}" onclick="setDeskTopicNoteFilter('mnemonic')">
+                            🧠 Mnemonics
+                        </button>
+                        <button type="button" class="desk-filter-chip ${filter === 'top' ? 'active' : ''}" onclick="setDeskTopicNoteFilter('top')">
+                            ❤️ Top Helpful
+                        </button>
+                        <button type="button" class="desk-filter-chip ${filter === 'mine' ? 'active' : ''}" onclick="setDeskTopicNoteFilter('mine')">
+                            ✨ My Notes
+                        </button>
+                    </div>
+
+                    <!-- Notes Feed List -->
+                    <div class="desk-topic-notes-feed">
+                        ${filteredNotes.length === 0 ? `
+                            <div style="text-align: center; padding: 32px 16px; border: 1.5px dashed var(--border-glass); border-radius: 12px; margin-top: 10px;">
+                                <div style="font-size: 28px; margin-bottom: 8px;">📝</div>
+                                <h5 style="margin: 0 0 6px 0; font-size: 14.5px;">No student notes in this filter</h5>
+                                <p style="font-size: 12.5px; color: var(--text-muted); margin: 0 0 14px 0;">
+                                    Be the first student to add an exam trick or summary for ${currentUnit.title}!
+                                </p>
+                                <button type="button" class="desk-duo-action-btn" style="background: #58cc02; border-bottom: 3px solid #46a302; padding: 7px 16px; font-size: 12px;" onclick="toggleTopicNoteComposer(true)">
+                                    ➕ Write First Note
+                                </button>
+                            </div>
+                        ` : `
+                            <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 10px;">
+                                ${filteredNotes.map(note => `
+                                    <div class="desk-topic-note-card ${note.isOwner ? 'my-note' : ''}">
+                                        <div class="desk-topic-note-header">
+                                            <div class="desk-topic-note-author-info">
+                                                <div class="desk-topic-note-avatar">
+                                                    ${(note.author || 'S').charAt(0).toUpperCase()}
+                                                </div>
+                                                <div>
+                                                    <div style="display: flex; align-items: center; gap: 6px;">
+                                                        <strong style="font-size: 13px; color: var(--text-main);">${escapeQuotes(note.author)}</strong>
+                                                        ${note.isOwner ? '<span class="role-pill" style="font-size: 10px; background: rgba(88, 204, 2, 0.2); color: #58cc02;">You</span>' : ''}
+                                                    </div>
+                                                    <span style="font-size: 11px; color: var(--text-muted);">${note.timestamp || 'Recent'}</span>
+                                                </div>
+                                            </div>
+                                            <span class="desk-topic-tag-badge">${note.tag || '⚡ Exam Shortcut'}</span>
+                                        </div>
+
+                                        <div class="desk-topic-note-body">
+                                            ${escapeQuotes(note.content).replace(/\n/g, '<br>')}
+                                        </div>
+
+                                        <div class="desk-topic-note-footer">
+                                            <button type="button" class="desk-like-btn ${note.likedByMe ? 'liked' : ''}" onclick="toggleLikeTopicNote(deskState.grade, deskState.subject, deskState.selectedUnitIndex, '${note.id}')" title="Mark as helpful">
+                                                <span>${note.likedByMe ? '❤️' : '🤍'}</span>
+                                                <span>Helpful (${note.likes || 0})</span>
+                                            </button>
+                                            <div style="display: flex; gap: 6px;">
+                                                <button type="button" class="desk-tool-btn" style="padding: 3px 8px; font-size: 11px;" onclick="copyFormulaText('${escapeQuotes(note.content)}', this)">
+                                                    Copy
+                                                </button>
+                                                ${note.isOwner ? `
+                                                    <button type="button" class="desk-tool-btn" style="padding: 3px 8px; font-size: 11px; color: #ef4444; border-color: rgba(239, 68, 68, 0.4);" onclick="deleteTopicNote(deskState.grade, deskState.subject, deskState.selectedUnitIndex, '${note.id}')" title="Delete your note">
+                                                        Delete
+                                                    </button>
+                                                ` : ''}
+                                            </div>
+                                        </div>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        `}
+                    </div>
+                </div>
+            ` : ''}
+
             <!-- Bottom Deck Controller (Flips Upward Without Scrolling) -->
             <div class="desk-deck-bottom-bar">
                 <button type="button" class="desk-tool-btn" ${currentSecIdx === 0 ? 'disabled' : ''} onclick="changeDeskNoteSection(-1)">
                     ◀ Previous
                 </button>
                 <span style="font-size: 12px; font-weight: 800; color: #1cb0f6;">
-                    ${currentSecIdx + 1} / 4 • ${sections[currentSecIdx].toUpperCase()}
+                    ${currentSecIdx + 1} / 5 • ${sections[currentSecIdx].toUpperCase()}
                 </span>
                 <button type="button" class="desk-tool-btn" style="color: #1cb0f6; border-color: rgba(28, 176, 246, 0.4);" onclick="changeDeskNoteSection(1)">
-                    ${currentSecIdx === 3 ? '🤖 Test Me on Unit →' : 'Next Card ▶'}
+                    ${currentSecIdx === 4 ? '🤖 Test Me on Unit →' : 'Next Card ▶'}
                 </button>
             </div>
         </div>
@@ -9538,10 +9944,17 @@ function generateLocalAiStudyResponse(query, grade, subject, currentQ) {
 
 function renderDeskNotesWrapper(container) {
     const rightActions = document.getElementById('desk-right-actions');
+    const unitList = getExamUnitNotesList(deskState.grade, deskState.subject);
+    const currentUnit = unitList[deskState.selectedUnitIndex] || unitList[0];
+    const unitTitleShort = currentUnit ? currentUnit.title.split(':')[0] : 'Unit';
+
     if (rightActions) {
         rightActions.innerHTML = `
+            <button class="desk-tool-btn" onclick="postPersonalNotesToTopic()" title="Share these notes to the public unit topic on the left" style="color: #58cc02; border-color: rgba(88, 204, 2, 0.4);">
+                💬 Share to ${unitTitleShort} ↗
+            </button>
             <button class="desk-tool-btn" onclick="copyDeskNotes()">
-                ${uiIcon('check', 12)} Copy Notes
+                ${uiIcon('check', 12)} Copy
             </button>
         `;
     }
