@@ -9015,7 +9015,9 @@ function renderDeskPracticeQuestion() {
     const q = deskState.questions[deskState.currentQIndex];
     const total = deskState.questions.length;
     const progress = Math.round(((deskState.currentQIndex + 1) / total) * 100);
-    const letters = ['A', 'B', 'C', 'D'];
+    const letters = ['A', 'B', 'C', 'D', 'E', 'F'];
+    const qText = q.question || q.questionText || 'Practice Question';
+    const correctIdx = Number(q.correctAnswer);
 
     container.innerHTML = `
         <!-- Duolingo Shiny Progress Bar -->
@@ -9031,45 +9033,46 @@ function renderDeskPracticeQuestion() {
 
         <!-- Question Text -->
         <div style="margin-bottom: 20px;">
-            <h3 style="font-size: 16px; font-weight: 700; color: var(--text-main); line-height: 1.5; margin-bottom: 8px;">
-                ${q.questionText}
+            <h3 style="font-size: 16.5px; font-weight: 700; color: var(--text-main); line-height: 1.55; margin-bottom: 8px;">
+                ${qText}
             </h3>
         </div>
 
         <!-- Duolingo 3D Tactile Option Cards -->
-        <div class="quiz-options-grid" style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px;">
+        <div class="options-grid" style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px;">
             ${(q.options || []).map((opt, idx) => {
-                const letter = letters[idx] || String(idx + 1);
+                const letter = letters[idx] || (idx + 1);
                 const isSelected = deskState.selectedOption === idx;
-                let optClass = '';
+                let optClass = 'option-btn';
+                if (isSelected) optClass += ' selected';
                 if (deskState.isChecked) {
-                    if (idx === q.correctAnswer) {
-                        optClass = 'correct';
+                    if (idx === correctIdx) {
+                        optClass += ' correct';
                     } else if (isSelected) {
-                        optClass = 'incorrect';
+                        optClass += ' incorrect';
                     }
-                } else if (isSelected) {
-                    optClass = 'selected';
                 }
 
                 return `
-                    <div class="duo-option-card ${optClass}" onclick="selectDeskOption(${idx})">
-                        <div class="duo-option-key">${letter}</div>
-                        <div class="duo-option-text">${opt}</div>
-                        ${deskState.isChecked && idx === q.correctAnswer ? '<span style="font-size: 18px; margin-left: auto;">✅</span>' : ''}
-                        ${deskState.isChecked && isSelected && idx !== q.correctAnswer ? '<span style="font-size: 18px; margin-left: auto;">❌</span>' : ''}
-                    </div>
+                    <button type="button" class="${optClass}" onclick="selectDeskOption(${idx})" ${deskState.isChecked ? 'disabled' : ''} style="cursor: pointer; width: 100%;">
+                        <div class="option-letter">${letter}</div>
+                        <span style="font-size: 14.5px; text-align: left; flex: 1; font-weight: 600;">${opt}</span>
+                        ${deskState.isChecked && idx === correctIdx ? '<span style="font-size: 18px; margin-left: auto;">✅</span>' : ''}
+                        ${deskState.isChecked && isSelected && idx !== correctIdx ? '<span style="font-size: 18px; margin-left: auto;">❌</span>' : ''}
+                    </button>
                 `;
             }).join('')}
         </div>
 
         <!-- Explanation & Feedback (if checked) -->
         ${deskState.isChecked ? `
-            <div style="background: rgba(255, 255, 255, 0.04); border: 1px solid var(--border-glass); border-radius: 12px; padding: 14px; margin-bottom: 16px; animation: fadeIn 0.2s ease;">
-                <strong style="color: ${deskState.selectedOption === q.correctAnswer ? '#22c55e' : '#ef4444'}; font-size: 13.5px;">
-                    ${deskState.selectedOption === q.correctAnswer ? '🎉 Correct Answer!' : '💡 Correct Answer: Option ' + letters[q.correctAnswer]}
-                </strong>
-                ${q.explanation ? `<p style="font-size: 13px; color: var(--text-muted); margin: 6px 0 0 0; line-height: 1.5;">${q.explanation}</p>` : ''}
+            <div class="explanation-box" style="margin-top: 10px; margin-bottom: 16px;">
+                <div class="explanation-title" style="display: flex; align-items: center; gap: 7px; font-weight: 800; font-size: 14px; color: ${Number(deskState.selectedOption) === correctIdx ? '#58cc02' : '#ea2b2b'};">
+                    ${Number(deskState.selectedOption) === correctIdx ? `${uiIcon('checkCircle', 16)} Correct Answer!` : `💡 Correct Answer: Option ${letters[correctIdx] || (correctIdx + 1)}`}
+                </div>
+                <div class="explanation-text" style="font-size: 13.5px; margin-top: 6px; line-height: 1.5; color: var(--text-main);">
+                    ${q.explanation || ('The correct option is ' + (letters[correctIdx] || (correctIdx + 1)) + ': ' + q.options[correctIdx])}
+                </div>
             </div>
         ` : ''}
 
@@ -9083,15 +9086,15 @@ function renderDeskPracticeQuestion() {
             </button>
         </div>
 
-        <!-- Bottom Action Button -->
+        <!-- Bottom Duolingo Action Button -->
         <div style="margin-top: auto; padding-top: 10px;">
             ${!deskState.isChecked ? `
-                <button class="duo-check-btn" ${deskState.selectedOption === null ? 'disabled' : ''} onclick="checkDeskAnswer()">
+                <button type="button" class="duolingo-btn-action" style="width: 100%; min-width: 0; padding: 14px 20px; font-size: 15px; font-weight: 800; border-radius: 14px;" ${deskState.selectedOption === null ? 'disabled' : ''} onclick="checkDeskAnswer()">
                     CHECK ANSWER
                 </button>
             ` : `
-                <button class="duo-continue-btn" onclick="nextDeskQuestion()">
-                    ${deskState.currentQIndex + 1 < total ? 'NEXT QUESTION →' : 'FINISH PRACTICE 🎉'}
+                <button type="button" class="duolingo-btn-action" style="width: 100%; min-width: 0; padding: 14px 20px; font-size: 15px; font-weight: 800; border-radius: 14px; background: ${Number(deskState.selectedOption) === correctIdx ? '#58cc02' : '#1cb0f6'}; box-shadow: 0 4px 0 ${Number(deskState.selectedOption) === correctIdx ? '#46a302' : '#0284c7'};" onclick="nextDeskQuestion()">
+                    ${deskState.currentQIndex + 1 < total ? 'CONTINUE →' : 'FINISH PRACTICE 🎉'}
                 </button>
             `}
         </div>
@@ -9109,7 +9112,8 @@ function checkDeskAnswer() {
     const q = deskState.questions[deskState.currentQIndex];
     deskState.isChecked = true;
     
-    if (deskState.selectedOption === q.correctAnswer) {
+    const correctIdx = Number(q.correctAnswer);
+    if (Number(deskState.selectedOption) === correctIdx) {
         deskState.score++;
         playDeskChime('correct');
         showToast('🎯 Spot on! Keep the momentum going!', 'success');
@@ -9334,7 +9338,8 @@ function askAiAboutCurrentQuestion() {
         : null;
 
     if (currentQ) {
-        sendDeskAiMessage(`Can you explain Question #${deskState.currentQIndex + 1} ("${currentQ.questionText.slice(0, 50)}...") step-by-step and show me the concept to solve it?`);
+        const qText = currentQ.question || currentQ.questionText || '';
+        sendDeskAiMessage(`Can you explain Question #${deskState.currentQIndex + 1} ("${qText.slice(0, 60)}...") step-by-step and show me the concept to solve it?`);
     } else {
         sendDeskAiMessage('Can you break down the core exam concepts for this subject?');
     }
@@ -9362,12 +9367,13 @@ function clearDeskAiChat() {
 
 function generateLocalAiStudyResponse(query, grade, subject, currentQ) {
     const qLower = query.toLowerCase();
+    const currentQText = currentQ ? (currentQ.question || currentQ.questionText || '') : '';
 
     // 1. Current Question Socratic Breakdown
     if ((qLower.includes('explain') || qLower.includes('question') || qLower.includes('step')) && currentQ) {
         return `
             <strong>🎯 Step-by-Step Breakdown for Question #${deskState.currentQIndex + 1}:</strong><br><br>
-            <strong>Problem:</strong> <em>"${currentQ.questionText}"</em><br><br>
+            <strong>Problem:</strong> <em>"${currentQText}"</em><br><br>
             <strong>1. Identify What's Being Asked:</strong><br>
             Focus on the primary variable or relationship. What fundamental law or definition in <strong>${subject}</strong> connects these quantities?<br><br>
             <strong>2. Core Concept:</strong><br>
