@@ -1177,7 +1177,7 @@ function openStreakModal() {
     showModal('Study Streak', bodyHtml);
 }
 
-function copySupportText(text, msg) {
+function copyToClipboard(text, msg) {
     if (navigator.clipboard && navigator.clipboard.writeText) {
         navigator.clipboard.writeText(text).then(() => {
             showToast(msg, 'success');
@@ -1563,7 +1563,7 @@ function triggerTelegramDuelShare(score, total, grade, subject, qIdsJson) {
 
 function copyDuelDirectLink(score, total, grade, subject, qIdsJson) {
     const { duelUrl } = getDuelShareDetails(score, total, grade, subject, qIdsJson);
-    copySupportText(duelUrl, '1v1 Duel challenge link copied to clipboard!');
+    copyToClipboard(duelUrl, '1v1 Duel challenge link copied to clipboard!');
 }
 
 function renderDuelResultsArena(duel, userScore, total) {
