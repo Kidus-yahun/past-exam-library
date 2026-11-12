@@ -1177,153 +1177,6 @@ function openStreakModal() {
     showModal('Study Streak', bodyHtml);
 }
 
-/* ========================================================
-   STUDENT TIP JAR & SPONSOR MODAL (MONETIZATION)
-======================================================== */
-function openSupportModal(activeTab = 'tip') {
-    const tipActive = activeTab === 'tip';
-    const sponsorActive = activeTab === 'sponsor';
-    const shareActive = activeTab === 'share';
-
-    const bodyHtml = `
-        <div style="padding: 4px 0 8px 0;">
-            <!-- Tabs -->
-            <div style="display: flex; gap: 6px; margin-bottom: 20px; background: rgba(255, 255, 255, 0.05); padding: 5px; border-radius: 12px; border: 1px solid var(--border-glass);">
-                <button type="button" id="tab-btn-tip" class="btn-secondary" onclick="switchSupportTab('tip')" style="flex: 1; padding: 9px; font-size: 13px; font-weight: 700; border-radius: 8px; display: inline-flex; align-items: center; justify-content: center; gap: 6px; ${tipActive ? 'background: #4f46e5; color: #ffffff; border-color: transparent;' : 'background: transparent; color: var(--text-muted); border: none;'}">
-                    <span>☕</span> Tip Archive
-                </button>
-                <button type="button" id="tab-btn-sponsor" class="btn-secondary" onclick="switchSupportTab('sponsor')" style="flex: 1; padding: 9px; font-size: 13px; font-weight: 700; border-radius: 8px; display: inline-flex; align-items: center; justify-content: center; gap: 6px; ${sponsorActive ? 'background: #4f46e5; color: #ffffff; border-color: transparent;' : 'background: transparent; color: var(--text-muted); border: none;'}">
-                    <span>📢</span> Tutors &amp; Ads
-                </button>
-                <button type="button" id="tab-btn-share" class="btn-secondary" onclick="switchSupportTab('share')" style="flex: 1; padding: 9px; font-size: 13px; font-weight: 700; border-radius: 8px; display: inline-flex; align-items: center; justify-content: center; gap: 6px; ${shareActive ? 'background: #4f46e5; color: #ffffff; border-color: transparent;' : 'background: transparent; color: var(--text-muted); border: none;'}">
-                    <span>🚀</span> Share Free
-                </button>
-            </div>
-
-            <!-- TIP TAB -->
-            <div id="support-tab-tip" style="${tipActive ? 'display: block;' : 'display: none;'} text-align: center;">
-                <div style="width: 54px; height: 54px; margin: 0 auto 12px auto; background: linear-gradient(135deg, #10b981, #06b6d4); border-radius: 16px; display: flex; align-items: center; justify-content: center; box-shadow: 0 8px 20px rgba(16, 185, 129, 0.35); font-size: 26px;">
-                    ❤️
-                </div>
-                <h4 style="font-size: 18px; font-weight: 700; margin-bottom: 6px; color: var(--text-main);">Support the Student Archive</h4>
-                <p style="font-size: 13px; color: var(--text-muted); line-height: 1.5; max-width: 420px; margin: 0 auto 18px auto;">
-                    We keep 100% of exam papers, formula sheets, and practice modes free for all students. Your tip covers server fees, paper scanning, and quiz typing!
-                </p>
-
-                <!-- Payment Options -->
-                <div style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px;">
-                    <!-- Telebirr Box -->
-                    <div style="background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-glass); border-radius: 14px; padding: 14px 16px; text-align: left; display: flex; align-items: center; justify-content: space-between; gap: 14px;">
-                        <div>
-                            <div style="display: flex; align-items: center; gap: 6px;">
-                                <span style="background: #0284c7; color: #ffffff; font-size: 10px; font-weight: 800; padding: 2px 7px; border-radius: 4px; text-transform: uppercase; letter-spacing: 0.5px;">Telebirr</span>
-                                <span style="font-weight: 700; font-size: 14.5px; color: var(--text-main);">0988849492</span>
-                            </div>
-                            <div style="font-size: 12px; color: var(--text-muted); margin-top: 3px;">
-                                Name: <strong>Kidus Yahunsew</strong>
-                            </div>
-                        </div>
-                        <button class="btn-secondary" onclick="copySupportText('0988849492', 'Telebirr number copied!')" style="padding: 7px 12px; font-size: 12.5px; display: inline-flex; align-items: center; gap: 5px; flex-shrink: 0;">
-                            ${uiIcon('copy', 13)} Copy
-                        </button>
-                    </div>
-
-                    <!-- CBE Box -->
-                    <div style="background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-glass); border-radius: 14px; padding: 14px 16px; text-align: left; display: flex; align-items: center; justify-content: space-between; gap: 14px;">
-                        <div>
-                            <div style="display: flex; align-items: center; gap: 6px;">
-                                <span style="background: #7c3aed; color: #ffffff; font-size: 10px; font-weight: 800; padding: 2px 7px; border-radius: 4px; text-transform: uppercase; letter-spacing: 0.5px;">CBE Bank</span>
-                                <span style="font-weight: 700; font-size: 14px; color: var(--text-main);">1000543892716</span>
-                            </div>
-                            <div style="font-size: 12px; color: var(--text-muted); margin-top: 3px;">
-                                Name: <strong>Kidus Yahunsew</strong> (Commercial Bank of Ethiopia)
-                            </div>
-                        </div>
-                        <button class="btn-secondary" onclick="copySupportText('1000543892716', 'CBE Account copied!')" style="padding: 7px 12px; font-size: 12.5px; display: inline-flex; align-items: center; gap: 5px; flex-shrink: 0;">
-                            ${uiIcon('copy', 13)} Copy
-                        </button>
-                    </div>
-                </div>
-
-                <div style="padding: 10px 14px; border-radius: 10px; background: rgba(16, 185, 129, 0.08); border: 1px solid rgba(16, 185, 129, 0.2); font-size: 12px; color: #10b981; line-height: 1.5; text-align: left;">
-                    ✨ <b>Even 50 or 100 ETB makes a huge difference</b> in digitizing upcoming midterms, finals, and university entrance exams. Ameseginalehu!
-                </div>
-            </div>
-
-            <!-- SPONSOR TAB -->
-            <div id="support-tab-sponsor" style="${sponsorActive ? 'display: block;' : 'display: none;'} text-align: center;">
-                <div style="width: 54px; height: 54px; margin: 0 auto 12px auto; background: linear-gradient(135deg, #8b5cf6, #ec4899); border-radius: 16px; display: flex; align-items: center; justify-content: center; box-shadow: 0 8px 20px rgba(139, 92, 246, 0.35); font-size: 26px;">
-                    📢
-                </div>
-                <h4 style="font-size: 18px; font-weight: 700; margin-bottom: 6px; color: var(--text-main);">Promote Your Tutoring or Channel</h4>
-                <p style="font-size: 13px; color: var(--text-muted); line-height: 1.5; max-width: 420px; margin: 0 auto 16px auto;">
-                    Reach <strong>1,600+ high school students</strong> actively preparing for exams every week. Perfect for tutorial programs, private teachers, and educational services.
-                </p>
-
-                <div style="display: grid; gap: 8px; margin-bottom: 18px; text-align: left; background: var(--bg-card); border: 1px solid var(--border-glass); border-radius: 12px; padding: 12px 14px; font-size: 12.5px; color: var(--text-muted);">
-                    <div style="display: flex; align-items: center; gap: 8px; color: var(--text-main);">
-                        ${uiIcon('checkCircle', 14, '', 2.5)} <span>Dedicated Subject Banners (Math, Physics, Chemistry, etc.)</span>
-                    </div>
-                    <div style="display: flex; align-items: center; gap: 8px; color: var(--text-main);">
-                        ${uiIcon('checkCircle', 14, '', 2.5)} <span>Shoutouts to our 1.6k+ Telegram student audience</span>
-                    </div>
-                    <div style="display: flex; align-items: center; gap: 8px; color: var(--text-main);">
-                        ${uiIcon('checkCircle', 14, '', 2.5)} <span>Affordable student-friendly rates starting from 250 ETB</span>
-                    </div>
-                </div>
-
-                <a href="https://t.me/BGMCS1236" target="_blank" rel="noopener noreferrer" class="btn-primary" style="display: flex; align-items: center; justify-content: center; gap: 9px; padding: 12px 16px; font-size: 14px; text-decoration: none; border-radius: 10px; background: linear-gradient(135deg, #8b5cf6, #6366f1);">
-                    <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/></svg>
-                    <span>Inquire via Telegram (@BGMCS1236)</span>
-                </a>
-            </div>
-
-            <!-- SHARE TAB -->
-            <div id="support-tab-share" style="${shareActive ? 'display: block;' : 'display: none;'} text-align: center;">
-                <div style="width: 54px; height: 54px; margin: 0 auto 12px auto; background: linear-gradient(135deg, #0ea5e9, #3b82f6); border-radius: 16px; display: flex; align-items: center; justify-content: center; box-shadow: 0 8px 20px rgba(14, 165, 233, 0.35); font-size: 26px;">
-                    🚀
-                </div>
-                <h4 style="font-size: 18px; font-weight: 700; margin-bottom: 6px; color: var(--text-main);">Share with Your Classmates</h4>
-                <p style="font-size: 13px; color: var(--text-muted); line-height: 1.5; max-width: 400px; margin: 0 auto 18px auto;">
-                    Can't tip financially? Sharing the archive with your section, school group, or study circle helps your peers pass and keeps the library growing!
-                </p>
-
-                <div style="display: flex; flex-direction: column; gap: 10px;">
-                    <a href="https://t.me/share/url?url=${encodeURIComponent('https://past-exam-library.vercel.app')}&text=${encodeURIComponent('All Grades 9-12 Past Exam Papers, Answer-free practice PDFs & Formula Sheets are here! Free study archive:')}" target="_blank" rel="noopener noreferrer" class="btn-primary" style="display: flex; align-items: center; justify-content: center; gap: 9px; padding: 12px 16px; font-size: 14px; text-decoration: none; border-radius: 10px;">
-                        <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/></svg>
-                        <span>Share on Telegram Group</span>
-                    </a>
-                    <button class="btn-secondary" onclick="copySupportText('https://past-exam-library.vercel.app', 'Website link copied to clipboard!')" style="display: flex; align-items: center; justify-content: center; gap: 8px; padding: 10px; font-size: 13px;">
-                        ${uiIcon('link', 14)} <span>Copy Website Link</span>
-                    </button>
-                </div>
-            </div>
-        </div>
-    `;
-
-    showModal('Support Past Exam Library', bodyHtml);
-}
-
-function switchSupportTab(tab) {
-    const tabs = ['tip', 'sponsor', 'share'];
-    tabs.forEach(t => {
-        const div = document.getElementById('support-tab-' + t);
-        const btn = document.getElementById('tab-btn-' + t);
-        if (div) div.style.display = (t === tab) ? 'block' : 'none';
-        if (btn) {
-            if (t === tab) {
-                btn.style.background = '#4f46e5';
-                btn.style.color = '#ffffff';
-                btn.style.borderColor = 'transparent';
-            } else {
-                btn.style.background = 'transparent';
-                btn.style.color = 'var(--text-muted)';
-                btn.style.borderColor = 'transparent';
-            }
-        }
-    });
-}
-
 function copySupportText(text, msg) {
     if (navigator.clipboard && navigator.clipboard.writeText) {
         navigator.clipboard.writeText(text).then(() => {
@@ -1907,13 +1760,6 @@ function renderHeader() {
         </a>
     `;
 
-    const supportBtn = `
-        <button class="nav-btn nav-btn-support" onclick="openSupportModal()" data-tooltip="Support Archive (Telebirr & CBE)" aria-label="Support the Archive">
-            ${uiIcon('heart', 15)}
-            <span class="nav-btn-label">Support</span>
-        </button>
-    `;
-
     if (!state.user) {
         headerNav.innerHTML = `
             ${pwaControls}
@@ -1930,7 +1776,6 @@ function renderHeader() {
                 <span class="nav-btn-label">My study hub</span>
             </button>
             ${telegramBtn}
-            ${supportBtn}
             ${themeToggleBtn}
             <button class="nav-btn nav-btn-signin" onclick="setView('login')" data-tooltip="Sign in" aria-label="Sign in">
                 ${uiIcon('user', 15)}
@@ -1977,7 +1822,6 @@ function renderHeader() {
         ` : ''}
 
         ${telegramBtn}
-        ${supportBtn}
         ${themeToggleBtn}
 
         <button class="nav-btn" onclick="logout()" data-tooltip="Sign out" aria-label="Sign out">
@@ -3937,11 +3781,6 @@ function showLibraryHome(pushHistory = true) {
                 <span class="pill-title">1v1 Study Duel</span>
                 <span class="pill-badge-new">New</span>
             </button>
-            <button type="button" class="hero-growth-pill hero-support-pill" onclick="openSupportModal()" data-tooltip="Support hosting & past exam scanning">
-                <span class="support-heart">❤️</span>
-                <span class="pill-title">Support Archive</span>
-                <span class="pill-sub-tag">Telebirr / CBE</span>
-            </button>
             <a href="https://t.me/BGMCS1236" target="_blank" rel="noopener noreferrer" class="hero-growth-pill hero-tg-pill" data-tooltip="Join 1,600+ students on Telegram">
                 <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink:0;"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/></svg>
                 <span class="pill-title">1.6k+ Students</span>
@@ -5087,16 +4926,6 @@ async function showExamHub(grade, semester, examType, subject, filePath, examTit
                     </button>
                 </div>
             </div>
-        </div>
-
-        <div style="margin-top: 18px; padding: 14px 18px; border-radius: 12px; background: rgba(99, 102, 241, 0.05); border: 1px solid var(--border-glass); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;">
-            <div style="display: flex; align-items: center; gap: 10px;">
-                <span style="font-size: 18px;">❤️</span>
-                <span style="font-size: 13px; color: var(--text-muted);">Finding these exam papers helpful? Help keep the archive fast and 100% free for your peers.</span>
-            </div>
-            <button class="btn-secondary" style="padding: 6px 14px; font-size: 12.5px; border-radius: 20px; display: inline-flex; align-items: center; gap: 6px;" onclick="openSupportModal()">
-                <span>Tip via Telebirr / CBE</span> →
-            </button>
         </div>
     `;
 }

@@ -2522,27 +2522,6 @@ header {
     box-shadow: 0 4px 16px rgba(14, 165, 233, 0.35);
 }
 
-/* Support Nav Button */
-.nav-btn.nav-btn-support {
-    background: rgba(239, 68, 68, 0.12);
-    border-color: rgba(239, 68, 68, 0.35);
-    color: #f87171;
-}
-
-.nav-btn.nav-btn-support:hover,
-.nav-btn.nav-btn-support:focus-visible {
-    background: rgba(239, 68, 68, 0.25);
-    border-color: #ef4444;
-    color: #ffffff;
-    box-shadow: 0 4px 16px rgba(239, 68, 68, 0.35);
-}
-
-[data-theme="light"] .nav-btn.nav-btn-support {
-    background: rgba(239, 68, 68, 0.1);
-    border-color: rgba(239, 68, 68, 0.3);
-    color: #b91c1c;
-}
-
 /* ========================================================
    HERO GROWTH & RETENTION BAR
 ======================================================== */
@@ -2589,30 +2568,6 @@ header {
     border-color: #f97316;
     color: #ffedd5;
     box-shadow: 0 4px 18px rgba(249, 115, 22, 0.3);
-}
-
-.hero-support-pill {
-    background: rgba(239, 68, 68, 0.12);
-    border-color: rgba(239, 68, 68, 0.35);
-    color: #fca5a5;
-}
-
-.hero-support-pill:hover {
-    background: rgba(239, 68, 68, 0.22);
-    border-color: #ef4444;
-    color: #fee2e2;
-    box-shadow: 0 4px 18px rgba(239, 68, 68, 0.3);
-}
-
-.hero-support-pill .pill-sub-tag {
-    font-size: 10px;
-    text-transform: uppercase;
-    font-weight: 700;
-    padding: 1px 6px;
-    border-radius: 4px;
-    background: rgba(239, 68, 68, 0.25);
-    color: #ffffff;
-    letter-spacing: 0.3px;
 }
 
 .hero-tg-pill {
@@ -2842,46 +2797,10 @@ header {
     border-color: rgba(239, 68, 68, 0.2);
 }
 
-.footer-support-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 7px;
-    padding: 6px 14px;
-    border-radius: 9999px;
-    font-size: 12.5px;
-    font-weight: 600;
-    background: rgba(239, 68, 68, 0.12);
-    border: 1px solid rgba(239, 68, 68, 0.35);
-    color: #fca5a5;
-    cursor: pointer;
-    transition: all 0.2s ease;
-}
-
-.footer-support-btn:hover {
-    background: rgba(239, 68, 68, 0.22);
-    border-color: #ef4444;
-    color: #ffffff;
-    box-shadow: 0 4px 16px rgba(239, 68, 68, 0.3);
-}
-
 [data-theme="light"] .hero-streak-pill {
     background: rgba(249, 115, 22, 0.1);
     border-color: rgba(249, 115, 22, 0.3);
     color: #c2410c;
-}
-[data-theme="light"] .hero-support-pill {
-    background: rgba(239, 68, 68, 0.1);
-    border-color: rgba(239, 68, 68, 0.3);
-    color: #b91c1c;
-}
-[data-theme="light"] .hero-support-pill .pill-sub-tag {
-    background: #ef4444;
-    color: #ffffff;
-}
-[data-theme="light"] .footer-support-btn {
-    background: rgba(239, 68, 68, 0.08);
-    border-color: rgba(239, 68, 68, 0.25);
-    color: #b91c1c;
 }
 
 [data-theme="light"] .telegram-banner {
