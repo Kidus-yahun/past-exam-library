@@ -6529,6 +6529,64 @@ footer {
     margin-right: 6px;
 }
 
+/* Compact Sub-Tab Navigation (Upward Deck View) */
+.desk-note-deck-pills {
+    display: flex;
+    gap: 6px;
+    background: rgba(255, 255, 255, 0.04);
+    padding: 4px;
+    border-radius: 12px;
+    margin-bottom: 12px;
+    overflow-x: auto;
+    border: 1px solid var(--border-glass);
+}
+
+[data-theme="light"] .desk-note-deck-pills {
+    background: #e2e8f0;
+    border-color: #cbd5e1;
+}
+
+.desk-note-deck-btn {
+    flex: 1;
+    min-width: fit-content;
+    background: transparent;
+    border: none;
+    padding: 7px 12px;
+    border-radius: 9px;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text-muted);
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.15s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+}
+
+.desk-note-deck-btn:hover {
+    color: var(--text-main);
+}
+
+.desk-note-deck-btn.active {
+    background: #1cb0f6;
+    color: #ffffff;
+    box-shadow: 0 2px 8px rgba(28, 176, 246, 0.35);
+}
+
+.desk-deck-bottom-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 14px;
+    padding-top: 12px;
+    border-top: 1px solid var(--border-glass);
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+
 
 
 

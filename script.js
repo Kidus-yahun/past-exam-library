@@ -7970,6 +7970,7 @@ const deskState = {
     grade: 'Grade 12',
     subject: 'Mathematics',
     selectedUnitIndex: 0,
+    activeNoteSection: 'overview', // 'overview', 'formulas', 'example', 'pitfalls'
     paperIndex: 0,
     availablePapers: [],
     leftTab: 'unitNotes', // 'unitNotes' (default), 'pdf', 'formulas', 'tips'
@@ -8662,6 +8663,27 @@ function getExamUnitNotesList(grade, subject) {
     ];
 }
 
+function setDeskNoteSection(section) {
+    deskState.activeNoteSection = section;
+    const body = document.getElementById('desk-left-body');
+    if (body) {
+        renderDeskUnitNotesView(body);
+        body.scrollTop = 0;
+    }
+}
+
+function changeDeskNoteSection(direction) {
+    const sections = ['overview', 'formulas', 'example', 'pitfalls'];
+    let currentIdx = sections.indexOf(deskState.activeNoteSection || 'overview');
+    if (currentIdx === -1) currentIdx = 0;
+    const nextIdx = currentIdx + direction;
+    if (nextIdx >= 0 && nextIdx < sections.length) {
+        setDeskNoteSection(sections[nextIdx]);
+    } else if (nextIdx >= sections.length) {
+        askAiToQuizCurrentUnit();
+    }
+}
+
 function renderDeskUnitNotesView(container) {
     const leftActions = document.getElementById('desk-left-actions');
     const unitList = getExamUnitNotesList(deskState.grade, deskState.subject);
@@ -8670,6 +8692,9 @@ function renderDeskUnitNotesView(container) {
         deskState.selectedUnitIndex = 0;
     }
     const currentUnit = unitList[deskState.selectedUnitIndex] || unitList[0];
+    const activeSec = deskState.activeNoteSection || 'overview';
+    const sections = ['overview', 'formulas', 'example', 'pitfalls'];
+    const currentSecIdx = sections.indexOf(activeSec);
 
     if (leftActions) {
         leftActions.innerHTML = `
@@ -8692,9 +8717,9 @@ function renderDeskUnitNotesView(container) {
         <div class="desk-unit-notes-container">
             <!-- Unit Selector Bar -->
             <div class="desk-unit-selector-bar">
-                <div style="display: flex; align-items: center; gap: 8px; flex: 1; min-width: 220px;">
-                    <span style="font-size: 12px; font-weight: 800; color: #1cb0f6;">SELECT UNIT:</span>
-                    <select class="desk-select" style="flex: 1; padding: 6px 12px; font-size: 13px;" onchange="deskState.selectedUnitIndex = parseInt(this.value); renderDeskUnitNotesView(document.getElementById('desk-left-body'));">
+                <div style="display: flex; align-items: center; gap: 8px; flex: 1; min-width: 200px;">
+                    <span style="font-size: 12px; font-weight: 800; color: #1cb0f6;">UNIT:</span>
+                    <select class="desk-select" style="flex: 1; padding: 6px 12px; font-size: 13px;" onchange="deskState.selectedUnitIndex = parseInt(this.value); deskState.activeNoteSection = 'overview'; renderDeskUnitNotesView(document.getElementById('desk-left-body')); document.getElementById('desk-left-body').scrollTop = 0;">
                         ${unitList.map((u, idx) => `<option value="${idx}" ${idx === deskState.selectedUnitIndex ? 'selected' : ''}>${u.title}</option>`).join('')}
                     </select>
                 </div>
@@ -8706,90 +8731,103 @@ function renderDeskUnitNotesView(container) {
                 </div>
             </div>
 
-            <!-- Unit Title Banner -->
-            <div style="margin: 4px 0 2px 0;">
-                <h3 style="font-size: 18px; font-weight: 900; color: var(--text-main); margin: 0 0 4px 0;">
-                    ${currentUnit.title}
-                </h3>
-                <p style="font-size: 12.5px; color: var(--text-muted); margin: 0;">
-                    ${deskState.grade} • ${deskState.subject} • Ethiopian Curriculum Exam Summary
-                </p>
+            <!-- Upward Section Navigator Pills (Zero Scrolling Down Required) -->
+            <div class="desk-note-deck-pills">
+                <button type="button" class="desk-note-deck-btn ${activeSec === 'overview' ? 'active' : ''}" onclick="setDeskNoteSection('overview')">
+                    📌 Overview
+                </button>
+                <button type="button" class="desk-note-deck-btn ${activeSec === 'formulas' ? 'active' : ''}" onclick="setDeskNoteSection('formulas')">
+                    📐 Formulas (${(currentUnit.keyFormulas || []).length})
+                </button>
+                <button type="button" class="desk-note-deck-btn ${activeSec === 'example' ? 'active' : ''}" onclick="setDeskNoteSection('example')">
+                    💡 Exam Example
+                </button>
+                <button type="button" class="desk-note-deck-btn ${activeSec === 'pitfalls' ? 'active' : ''}" onclick="setDeskNoteSection('pitfalls')">
+                    ⚠️ Traps & Pitfalls
+                </button>
             </div>
 
-            <!-- Section 1: Core Concept Overview -->
-            <div class="desk-note-card">
-                <h4 class="desk-note-heading">
-                    <span>📌</span> Core Concept Summary & Rules
-                </h4>
-                <div style="font-size: 13.5px; line-height: 1.6; color: var(--text-main);">
-                    ${currentUnit.overview}
-                </div>
-            </div>
-
-            <!-- Section 2: Key Formulas & Equations -->
-            ${(currentUnit.keyFormulas && currentUnit.keyFormulas.length > 0) ? `
+            <!-- Active Deck Section (Positioned Directly at Top) -->
+            ${activeSec === 'overview' ? `
                 <div class="desk-note-card">
                     <h4 class="desk-note-heading">
-                        <span>📐</span> High-Yield Exam Formulas
+                        <span>📌</span> ${currentUnit.title}: Core Concepts & Rules
                     </h4>
-                    <div style="display: flex; flex-direction: column; gap: 8px;">
-                        ${currentUnit.keyFormulas.map(f => `
-                            <div class="desk-note-formula-box">
-                                <div>
-                                    <strong style="color: #38bdf8; font-size: 12px; display: block; margin-bottom: 2px;">${f.name}</strong>
-                                    <span>${f.formula}</span>
-                                </div>
-                                <button class="desk-tool-btn" style="padding: 2px 8px; font-size: 11px;" onclick="copyFormulaText('${escapeQuotes(f.formula)}', this)">Copy</button>
-                            </div>
-                            ${f.notes ? `<p style="font-size: 12px; color: var(--text-muted); margin: -4px 0 6px 4px;">• ${f.notes}</p>` : ''}
-                        `).join('')}
+                    <div style="font-size: 14px; line-height: 1.65; color: var(--text-main);">
+                        ${currentUnit.overview}
                     </div>
                 </div>
             ` : ''}
 
-            <!-- Section 3: Worked Exam Example -->
-            ${currentUnit.workedExample ? `
+            ${activeSec === 'formulas' ? `
                 <div class="desk-note-card">
-                    <h4 class="desk-note-heading" style="color: #38bdf8;">
-                        <span>💡</span> Exam-Level Worked Example
+                    <h4 class="desk-note-heading">
+                        <span>📐</span> High-Yield Exam Formulas (${currentUnit.title.split(':')[0]})
                     </h4>
-                    <div class="desk-note-example-box">
-                        <strong style="color: var(--text-main); font-size: 14px; display: block; margin-bottom: 8px;">
-                            ${currentUnit.workedExample.question}
-                        </strong>
-                        <div style="display: flex; flex-direction: column; gap: 6px; margin-top: 8px;">
-                            ${currentUnit.workedExample.steps.map((st, i) => `
-                                <div>
-                                    <span class="desk-note-step-badge">Step ${i+1}</span>
-                                    <span>${st}</span>
+                    ${(currentUnit.keyFormulas && currentUnit.keyFormulas.length > 0) ? `
+                        <div style="display: flex; flex-direction: column; gap: 10px;">
+                            ${currentUnit.keyFormulas.map(f => `
+                                <div class="desk-note-formula-box">
+                                    <div>
+                                        <strong style="color: #38bdf8; font-size: 12.5px; display: block; margin-bottom: 2px;">${f.name}</strong>
+                                        <span style="font-size: 15px;">${f.formula}</span>
+                                    </div>
+                                    <button class="desk-tool-btn" style="padding: 2px 8px; font-size: 11px;" onclick="copyFormulaText('${escapeQuotes(f.formula)}', this)">Copy</button>
                                 </div>
+                                ${f.notes ? `<p style="font-size: 12px; color: var(--text-muted); margin: -4px 0 6px 4px;">• ${f.notes}</p>` : ''}
                             `).join('')}
                         </div>
-                        <div style="margin-top: 10px; padding-top: 8px; border-top: 1px dashed rgba(56, 189, 248, 0.3); font-weight: 700; color: #22c55e;">
-                            ✅ Final Answer: ${currentUnit.workedExample.answer}
+                    ` : '<p style="color: var(--text-muted); font-size: 13.5px;">No formula cards listed for this unit.</p>'}
+                </div>
+            ` : ''}
+
+            ${activeSec === 'example' ? `
+                <div class="desk-note-card">
+                    <h4 class="desk-note-heading" style="color: #38bdf8;">
+                        <span>💡</span> National Exam Worked Example
+                    </h4>
+                    ${currentUnit.workedExample ? `
+                        <div class="desk-note-example-box">
+                            <strong style="color: var(--text-main); font-size: 14.5px; display: block; margin-bottom: 10px; line-height: 1.5;">
+                                ${currentUnit.workedExample.question}
+                            </strong>
+                            <div style="display: flex; flex-direction: column; gap: 8px; margin-top: 10px;">
+                                ${currentUnit.workedExample.steps.map((st, i) => `
+                                    <div style="display: flex; align-items: flex-start; gap: 6px;">
+                                        <span class="desk-note-step-badge">Step ${i+1}</span>
+                                        <span style="font-size: 13.5px; line-height: 1.5;">${st}</span>
+                                    </div>
+                                `).join('')}
+                            </div>
+                            <div style="margin-top: 12px; padding-top: 10px; border-top: 1px dashed rgba(56, 189, 248, 0.3); font-weight: 800; color: #22c55e; font-size: 14px;">
+                                ✅ Final Answer: ${currentUnit.workedExample.answer}
+                            </div>
                         </div>
+                    ` : '<p style="color: var(--text-muted); font-size: 13.5px;">Example being transcribed.</p>'}
+                </div>
+            ` : ''}
+
+            ${activeSec === 'pitfalls' ? `
+                <div class="desk-note-trap-box" style="margin-top: 0;">
+                    <strong style="display: flex; align-items: center; gap: 6px; margin-bottom: 8px; font-size: 14px; color: #ef4444;">
+                        ⚠️ Examiner Pitfalls & Common Mistakes to Avoid:
+                    </strong>
+                    <div style="font-size: 13.5px; line-height: 1.6;">
+                        ${currentUnit.pitfalls || 'Read questions carefully and always verify SI units before calculating.'}
                     </div>
                 </div>
             ` : ''}
 
-            <!-- Section 4: Examiner Traps & Common Mistakes -->
-            ${currentUnit.pitfalls ? `
-                <div class="desk-note-trap-box">
-                    <strong style="display: flex; align-items: center; gap: 6px; margin-bottom: 4px; font-size: 13.5px; color: #ef4444;">
-                        ⚠️ Examiner Pitfalls & Common Mistakes to Avoid:
-                    </strong>
-                    ${currentUnit.pitfalls}
-                </div>
-            ` : ''}
-
-            <!-- Bottom Action: Study with AI -->
-            <div style="display: flex; gap: 10px; justify-content: space-between; align-items: center; background: rgba(28, 176, 246, 0.06); border: 1px solid rgba(28, 176, 246, 0.25); border-radius: 12px; padding: 12px 16px; margin-top: 4px; flex-wrap: wrap;">
-                <div>
-                    <strong style="color: #1cb0f6; font-size: 13.5px; display: block;">Finished reading this unit?</strong>
-                    <span style="font-size: 12px; color: var(--text-muted);">Put your knowledge to the test with Archie or on the Practice Quiz!</span>
-                </div>
-                <button class="duo-check-btn" style="width: auto; padding: 8px 18px; font-size: 12.5px;" onclick="askAiToQuizCurrentUnit()">
-                    🤖 Test Me on ${currentUnit.title.split(':')[0]} →
+            <!-- Bottom Deck Controller (Flips Upward Without Scrolling) -->
+            <div class="desk-deck-bottom-bar">
+                <button type="button" class="desk-tool-btn" ${currentSecIdx === 0 ? 'disabled' : ''} onclick="changeDeskNoteSection(-1)">
+                    ◀ Previous
+                </button>
+                <span style="font-size: 12px; font-weight: 800; color: #1cb0f6;">
+                    ${currentSecIdx + 1} / 4 • ${sections[currentSecIdx].toUpperCase()}
+                </span>
+                <button type="button" class="desk-tool-btn" style="color: #1cb0f6; border-color: rgba(28, 176, 246, 0.4);" onclick="changeDeskNoteSection(1)">
+                    ${currentSecIdx === 3 ? '🤖 Test Me on Unit →' : 'Next Card ▶'}
                 </button>
             </div>
         </div>
