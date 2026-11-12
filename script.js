@@ -1611,10 +1611,10 @@ function showDuelLobby(duelData) {
             </div>
 
             <div style="display: flex; flex-direction: column; gap: 12px; max-width: 360px; margin: 0 auto;">
-                <button class="btn-primary duel-launch-btn" style="justify-content: center; width: 100%; padding: 14px; font-size: 15px;" onclick="acceptDuelChallenge('${escapeQuotes(JSON.stringify(duelData))}')">
-                    ⚔️ Accept Challenge &amp; Start (5 Qs) →
+                <button class="duolingo-btn-action" style="background: #58cc02; box-shadow: 0 4px 0 #46a302; padding: 15px; font-size: 15px;" onclick="acceptDuelChallenge('${escapeQuotes(JSON.stringify(duelData))}')">
+                    ⚔️ START 5-QUESTION BATTLE →
                 </button>
-                <button class="btn-secondary" style="justify-content: center; width: 100%; padding: 10px;" onclick="showLibraryHome()">
+                <button class="btn-secondary" style="justify-content: center; width: 100%; padding: 12px; font-weight: 700; border-radius: 12px;" onclick="showLibraryHome()">
                     Decline &amp; Browse Library
                 </button>
             </div>
@@ -1973,15 +1973,15 @@ function renderDuelResultsArena(duel, userScore, total) {
                 </div>
             </div>
 
-            <div style="display: flex; flex-direction: column; gap: 10px; max-width: 400px; margin: 24px auto 0;">
-                <a href="${tgShareUrl}" target="_blank" rel="noopener noreferrer" class="btn-primary duel-launch-btn" style="justify-content: center; text-decoration: none; padding: 13px;">
-                    <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/></svg>
-                    <span>Send Duel Result on Telegram</span>
+            <div style="display: flex; flex-direction: column; gap: 12px; max-width: 400px; margin: 24px auto 0;">
+                <a href="${tgShareUrl}" target="_blank" rel="noopener noreferrer" class="duolingo-btn-action" style="background: #58cc02; box-shadow: 0 4px 0 #46a302; padding: 14px 20px;">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/></svg>
+                    <span>SEND RESULTS ON TELEGRAM</span>
                 </a>
-                <button class="btn-secondary" style="padding: 11px; justify-content: center;" onclick="openStartDuelModal('${duel.grade}', '${escapeQuotes(duel.subject)}')">
-                    ⚔️ Start a New 1v1 Challenge
+                <button class="duolingo-btn-action duolingo-btn-orange" style="padding: 13px 20px;" onclick="openStartDuelModal('${duel.grade}', '${escapeQuotes(duel.subject)}')">
+                    ⚔️ START A NEW 1V1 DUEL
                 </button>
-                <button class="btn-secondary" style="padding: 10px; justify-content: center;" onclick="showLibraryHome()">
+                <button class="btn-secondary" style="padding: 12px; justify-content: center; font-weight: 700; border-radius: 12px;" onclick="showLibraryHome()">
                     Back to Library Home
                 </button>
             </div>
@@ -5697,28 +5697,30 @@ function renderQuizScreen() {
                     </div>
                 ` : ''}
 
-                <!-- Bottom Question Navigation Buttons -->
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 32px; padding-top: 20px; border-top: 1px solid var(--border-glass); flex-wrap: wrap; gap: 12px;">
-                    <button class="btn-secondary" onclick="prevQuizQuestion()" ${currentQuiz.currentIndex === 0 ? 'disabled style="opacity: 0.4;"' : ''}>
-                        ← Previous
+                <!-- Bottom Duolingo-Style Action Area -->
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 32px; padding-top: 20px; border-top: 1px solid var(--border-glass); flex-wrap: wrap; gap: 14px;">
+                    <button class="btn-secondary" style="padding: 12px 18px; font-weight: 700; border-radius: 12px;" onclick="prevQuizQuestion()" ${currentQuiz.currentIndex === 0 ? 'disabled style="opacity: 0.4;"' : ''}>
+                        ← Back
                     </button>
 
-                    <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                    <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center;">
                         ${!isTimed && !isChecked && !isHiddenMode ? `
-                            <button id="quiz-check-answer-btn" class="btn-primary" style="width: auto; padding: 10px 22px; display: inline-flex; align-items: center; gap: 6px; ${selected === undefined ? 'opacity: 0.5; pointer-events: none;' : ''}" onclick="checkCurrentAnswer('${q.id}')" ${selected === undefined ? 'disabled' : ''}>
-                                Check Answer ${uiIcon('check', 14)}
+                            <button id="quiz-check-answer-btn" class="duolingo-btn-action" style="background: #58cc02; box-shadow: 0 4px 0 #46a302; width: auto; min-width: 190px; padding: 12px 28px; font-size: 14px; font-weight: 800; border-radius: 14px; ${selected === undefined ? 'opacity: 0.5; pointer-events: none;' : ''}" onclick="checkCurrentAnswer('${q.id}')" ${selected === undefined ? 'disabled' : ''}>
+                                CHECK ANSWER
                             </button>
                         ` : ''}
 
-                        ${currentQuiz.currentIndex < total - 1 ? `
-                            <button class="btn-primary" style="width: auto; padding: 10px 22px;" onclick="nextQuizQuestion()">
-                                Next Question →
-                            </button>
-                        ` : `
-                            <button class="btn-primary" style="width: auto; padding: 10px 22px;" onclick="finishQuiz()">
-                                Submit Assessment →
-                            </button>
-                        `}
+                        ${isChecked || isHiddenMode || isTimed ? `
+                            ${currentQuiz.currentIndex < total - 1 ? `
+                                <button class="duolingo-btn-action" style="background: ${isChecked && selected === q.correctAnswer ? '#58cc02' : '#1cb0f6'}; box-shadow: 0 4px 0 ${isChecked && selected === q.correctAnswer ? '#46a302' : '#0284c7'}; width: auto; min-width: 190px; padding: 12px 28px; font-size: 14px; font-weight: 800; border-radius: 14px;" onclick="nextQuizQuestion()">
+                                    CONTINUE →
+                                </button>
+                            ` : `
+                                <button class="duolingo-btn-action duolingo-btn-orange" style="width: auto; min-width: 190px; padding: 12px 28px; font-size: 14px; font-weight: 800; border-radius: 14px;" onclick="finishQuiz()">
+                                    COMPLETE QUIZ →
+                                </button>
+                            `}
+                        ` : ''}
                     </div>
                 </div>
             </div>
