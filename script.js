@@ -588,8 +588,8 @@ function switchDownloadAuthTab(tab) {
         container.innerHTML = `
             <form id="dl-signin-form" onsubmit="handleDownloadAuthSignIn(event)">
                 <div class="auth-form-group">
-                    <label>Username</label>
-                    <input type="text" id="dl-login-username" autocomplete="username" required placeholder="Your username" autofocus>
+                    <label>Email Address or Username</label>
+                    <input type="text" id="dl-login-username" autocomplete="username" required placeholder="student@example.com or username" autofocus>
                 </div>
                 <div class="auth-form-group">
                     <label>Password</label>
@@ -604,20 +604,16 @@ function switchDownloadAuthTab(tab) {
         container.innerHTML = `
             <form id="dl-reg-form" onsubmit="handleDownloadAuthRegister(event)">
                 <div class="auth-form-group">
-                    <label>Student Full Name (First & Last Name) *</label>
-                    <input type="text" id="dl-reg-fullname" required placeholder="e.g. Kidist Solomon" autofocus>
+                    <label>Email Address or Username *</label>
+                    <input type="text" id="dl-reg-identifier" required placeholder="e.g. kidist@gmail.com or kidist" autofocus>
                 </div>
                 <div class="auth-form-group">
-                    <label>Username</label>
-                    <input type="text" id="dl-reg-username" required placeholder="Pick a username">
+                    <label>Password *</label>
+                    <input type="password" id="dl-reg-password" autocomplete="new-password" required placeholder="At least 4 characters">
                 </div>
                 <div class="auth-form-group">
-                    <label>Email Address</label>
-                    <input type="email" id="dl-reg-email" required placeholder="student@example.com">
-                </div>
-                <div class="auth-form-group">
-                    <label>Password</label>
-                    <input type="password" id="dl-reg-password" autocomplete="new-password" required placeholder="At least 6 characters">
+                    <label>Full Name <span style="font-size: 11px; opacity: 0.7;">(Optional)</span></label>
+                    <input type="text" id="dl-reg-fullname" placeholder="e.g. Kidist Solomon">
                 </div>
                 <button type="submit" class="btn-primary" id="btn-dl-reg-submit">
                     Create Account & Download PDF →
@@ -674,19 +670,25 @@ async function handleDownloadAuthSignIn(e) {
 async function handleDownloadAuthRegister(e) {
     e.preventDefault();
     const btn = document.getElementById('btn-dl-reg-submit');
-    const fullName = document.getElementById('dl-reg-fullname').value.trim();
-    const username = document.getElementById('dl-reg-username').value.trim();
-    const email = document.getElementById('dl-reg-email').value.trim();
+    const identifier = (document.getElementById('dl-reg-identifier')?.value || '').trim();
     const password = document.getElementById('dl-reg-password').value;
+    const fullName = (document.getElementById('dl-reg-fullname')?.value || '').trim();
 
     btn.disabled = true;
     btn.innerHTML = 'Creating account...';
 
     try {
+        const isEmail = identifier.includes('@');
         const res = await fetch('/api/auth/register', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ fullName, username, email, password, role: 'student' })
+            body: JSON.stringify({
+                email: isEmail ? identifier : '',
+                username: identifier,
+                password,
+                fullName: fullName || identifier,
+                role: 'student'
+            })
         });
         const data = await res.json();
 
@@ -697,7 +699,7 @@ async function handleDownloadAuthRegister(e) {
             localStorage.setItem('pel_user', JSON.stringify(data.user));
             renderHeader();
             closeModal();
-            showToast(`Account created! Starting download for ${fullName}...`, 'success');
+            showToast(`Account created! Starting download for ${data.user.fullName || data.user.username}...`, 'success');
             broadcastStatsUpdate('activity_updated');
 
             if (window._pendingDownload) {
@@ -1980,8 +1982,8 @@ function showLoginView(activeTab = 'signin') {
                 ${activeTab === 'signin' ? `
                     <form id="signin-form" onsubmit="handleSignIn(event)">
                         <div class="auth-form-group">
-                            <label>Username</label>
-                            <input type="text" id="login-username" autocomplete="username" required placeholder="Your username" autofocus>
+                            <label>Email Address or Username</label>
+                            <input type="text" id="login-username" autocomplete="username" required placeholder="student@example.com or username" autofocus>
                         </div>
 
                         <div class="auth-form-group">
@@ -1996,23 +1998,18 @@ function showLoginView(activeTab = 'signin') {
                 ` : `
                     <form id="register-form" onsubmit="handleRegister(event)">
                         <div class="auth-form-group">
-                            <label>Student Full Name (First & Last Name) *</label>
-                            <input type="text" id="reg-fullname" required placeholder="e.g. Kidist Solomon">
+                            <label>Email Address or Username *</label>
+                            <input type="text" id="reg-identifier" required placeholder="student@example.com or pick a username" autofocus>
                         </div>
 
                         <div class="auth-form-group">
-                            <label>Username</label>
-                            <input type="text" id="reg-username" required placeholder="Pick a username">
+                            <label>Password *</label>
+                            <input type="password" id="reg-password" autocomplete="new-password" required placeholder="At least 4 characters">
                         </div>
 
                         <div class="auth-form-group">
-                            <label>Email Address</label>
-                            <input type="email" id="reg-email" required placeholder="student@example.com">
-                        </div>
-
-                        <div class="auth-form-group">
-                            <label>Password</label>
-                            <input type="password" id="reg-password" autocomplete="new-password" required placeholder="At least 6 characters">
+                            <label>Full Name <span style="font-size: 11px; opacity: 0.7;">(Optional)</span></label>
+                            <input type="text" id="reg-fullname" placeholder="e.g. Kidist Solomon">
                         </div>
 
                         <button type="submit" class="btn-primary" id="btn-reg-submit">
@@ -2077,19 +2074,25 @@ async function handleSignIn(e) {
 async function handleRegister(e) {
     e.preventDefault();
     const btn = document.getElementById('btn-reg-submit');
-    const fullName = document.getElementById('reg-fullname').value.trim();
-    const username = document.getElementById('reg-username').value.trim();
-    const email = document.getElementById('reg-email').value.trim();
+    const identifier = (document.getElementById('reg-identifier')?.value || '').trim();
     const password = document.getElementById('reg-password').value;
+    const fullName = (document.getElementById('reg-fullname')?.value || '').trim();
 
     btn.disabled = true;
     btn.innerHTML = 'Creating account...';
 
     try {
+        const isEmail = identifier.includes('@');
         const res = await fetch('/api/auth/register', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ fullName, username, email, password, role: 'student' })
+            body: JSON.stringify({
+                email: isEmail ? identifier : '',
+                username: identifier,
+                password,
+                fullName: fullName || identifier,
+                role: 'student'
+            })
         });
         const data = await res.json();
 
@@ -2188,6 +2191,10 @@ async function showAdminDashboard() {
                         onclick="switchAdminTab('activity')">
                     ${uiIcon('activity', 15)} Activity & Student Logs
                 </button>
+                <button class="admin-tab ${activeTab === 'students' ? 'active' : ''}" 
+                        onclick="switchAdminTab('students')">
+                    ${uiIcon('users', 15)} Registered Students
+                </button>
                 <button class="admin-tab ${activeTab === 'categories' ? 'active' : ''}" 
                         onclick="switchAdminTab('categories')">
                     ${uiIcon('layers', 15)} Categories & Subjects
@@ -2218,6 +2225,8 @@ async function showAdminDashboard() {
         renderAdminQuestionsTab();
     } else if (activeTab === 'activity') {
         renderAdminActivityTab();
+    } else if (activeTab === 'students') {
+        renderAdminStudentsTab();
     } else if (activeTab === 'categories') {
         renderAdminCategoriesTab();
     } else if (activeTab === 'overview') {
@@ -2246,6 +2255,8 @@ function switchAdminTab(tab) {
         renderAdminQuestionsTab();
     } else if (tab === 'activity') {
         renderAdminActivityTab();
+    } else if (tab === 'students') {
+        renderAdminStudentsTab();
     } else if (tab === 'categories') {
         renderAdminCategoriesTab();
     } else if (tab === 'overview') {
@@ -3714,6 +3725,237 @@ function formatUserAgent(ua) {
     if (ua.includes('Safari')) return `<span style="display: inline-flex; align-items: center; gap: 4px;">${uiIcon('monitor', 12)} Safari</span>`;
     if (ua.includes('Edge')) return `<span style="display: inline-flex; align-items: center; gap: 4px;">${uiIcon('monitor', 12)} Edge</span>`;
     return `<span style="display: inline-flex; align-items: center; gap: 4px;">${uiIcon('monitor', 12)} Desktop</span>`;
+}
+
+/* ========================================================
+   ADMIN REGISTERED STUDENTS TAB & DATABASE MANAGER
+======================================================== */
+let cachedRegisteredStudents = [];
+let studentsSearchTimeout = null;
+
+function renderAdminStudentsTab() {
+    const container = document.getElementById('admin-tab-content');
+    if (!container) return;
+
+    container.innerHTML = `
+        <div class="admin-section">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 14px;">
+                <div>
+                    <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 4px; flex-wrap: wrap;">
+                        <h3 style="font-size: 20px; color: #ffffff; margin: 0;">Registered Students Directory</h3>
+                        <span id="students-db-badge" class="live-pill" style="border-color: rgba(99, 102, 241, 0.4); background: rgba(99, 102, 241, 0.15); color: #a5b4fc;">
+                            Checking Database...
+                        </span>
+                    </div>
+                    <p style="color: var(--text-muted); font-size: 14px; margin: 0;">
+                        Persistent student accounts recorded in the database. Filter, view exam engagement, or export student rosters.
+                    </p>
+                </div>
+                <div style="display: flex; gap: 10px; align-items: center;">
+                    <button class="btn-secondary" style="padding: 8px 16px; font-size: 13px; display: inline-flex; align-items: center; gap: 7px;" onclick="loadAdminStudents()">
+                        <span id="students-refresh-icon">${uiIcon('refresh', 14)}</span> Refresh Roster
+                    </button>
+                    <button class="btn-secondary" style="padding: 8px 16px; font-size: 13px; display: inline-flex; align-items: center; gap: 7px;" onclick="exportStudentsCsv()">
+                        ${uiIcon('export', 14)} Export Students CSV
+                    </button>
+                </div>
+            </div>
+
+            <!-- Roster Stats Overview -->
+            <div class="stats-grid" style="grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); margin-bottom: 24px;">
+                <div class="stat-card" style="border-left: 4px solid #10b981;">
+                    <div class="stat-icon" style="background: rgba(16, 185, 129, 0.15); color: #34d399;">${uiIcon('users', 22)}</div>
+                    <div>
+                        <div class="stat-value" id="students-total-count">...</div>
+                        <div class="stat-label">Total Registered Students</div>
+                    </div>
+                </div>
+                <div class="stat-card" style="border-left: 4px solid #6366f1;">
+                    <div class="stat-icon" style="background: rgba(99, 102, 241, 0.15); color: #818cf8;">${uiIcon('database', 22)}</div>
+                    <div>
+                        <div class="stat-value" id="students-cloud-status" style="font-size: 16px; line-height: 28px;">...</div>
+                        <div class="stat-label">Cloud Database Store</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Search Bar -->
+            <div style="display: flex; gap: 12px; margin-bottom: 20px; flex-wrap: wrap;">
+                <div style="flex: 1; min-width: 260px; position: relative;">
+                    <input type="text" id="students-search-input" class="search-input" style="width: 100%;"
+                           placeholder="Search student email, username, or name..." 
+                           oninput="debounceStudentsSearch()">
+                </div>
+            </div>
+
+            <!-- Students Table Container -->
+            <div id="students-table-container">
+                <div style="text-align: center; padding: 40px; color: var(--text-muted);">
+                    Loading registered student records...
+                </div>
+            </div>
+        </div>
+    `;
+
+    loadAdminStudents();
+}
+
+async function loadAdminStudents() {
+    const tableContainer = document.getElementById('students-table-container');
+    const badgeEl = document.getElementById('students-db-badge');
+    const totalEl = document.getElementById('students-total-count');
+    const cloudEl = document.getElementById('students-cloud-status');
+    const searchVal = document.getElementById('students-search-input')?.value?.trim() || '';
+
+    try {
+        const res = await fetch(`/api/admin/students?search=${encodeURIComponent(searchVal)}`, {
+            headers: { 'Authorization': `Bearer ${state.token}` }
+        });
+        const data = await res.json();
+
+        if (res.ok && data.success) {
+            cachedRegisteredStudents = data.students || [];
+
+            if (totalEl) totalEl.textContent = data.total;
+            if (badgeEl) {
+                if (data.isCloudConnected) {
+                    badgeEl.innerHTML = `⚡ Supabase Cloud Connected`;
+                    badgeEl.style.color = '#34d399';
+                    badgeEl.style.borderColor = 'rgba(16, 185, 129, 0.4)';
+                    badgeEl.style.background = 'rgba(16, 185, 129, 0.12)';
+                } else {
+                    badgeEl.innerHTML = `💾 Local Cache Mode`;
+                    badgeEl.style.color = '#fbbf24';
+                    badgeEl.style.borderColor = 'rgba(245, 158, 11, 0.4)';
+                    badgeEl.style.background = 'rgba(245, 158, 11, 0.12)';
+                }
+            }
+            if (cloudEl) {
+                cloudEl.textContent = data.isCloudConnected ? 'Supabase (Live)' : 'Local File';
+                cloudEl.style.color = data.isCloudConnected ? '#34d399' : '#fbbf24';
+            }
+
+            renderStudentsTable(cachedRegisteredStudents, data.isCloudConnected);
+        } else {
+            if (tableContainer) {
+                tableContainer.innerHTML = uiEmptyState('alert', 'Failed to load students', data.message || 'Unauthorized or server error');
+            }
+        }
+    } catch (err) {
+        if (tableContainer) {
+            tableContainer.innerHTML = uiEmptyState('alert', 'Connection error', 'Could not retrieve registered students roster.');
+        }
+    }
+}
+
+function renderStudentsTable(students, isCloud) {
+    const container = document.getElementById('students-table-container');
+    if (!container) return;
+
+    if (!students || students.length === 0) {
+        container.innerHTML = uiEmptyState('users', 'No registered students found', 'When students create an account to download exams or save scores, they will be listed here permanently.');
+        return;
+    }
+
+    container.innerHTML = `
+        <div style="overflow-x: auto;">
+            <table class="custom-table" style="width: 100%;">
+                <thead>
+                    <tr>
+                        <th style="width: 50px;">#</th>
+                        <th style="width: 220px;">Student / Email</th>
+                        <th style="width: 180px;">Display Name</th>
+                        <th style="width: 160px;">Registration Date</th>
+                        <th style="width: 120px; text-align: center;">Downloads</th>
+                        <th style="width: 120px; text-align: center;">Quizzes</th>
+                        <th style="width: 110px;">Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    ${students.map((student, idx) => {
+                        const dateStr = student.createdAt ? new Date(student.createdAt).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' }) : 'Earlier';
+                        const initial = (student.username || student.email || 'S').trim().charAt(0).toUpperCase();
+
+                        return `
+                            <tr>
+                                <td style="color: var(--text-muted); font-size: 13px;">${idx + 1}</td>
+                                <td>
+                                    <div style="display: flex; align-items: center; gap: 10px;">
+                                        <div style="width: 32px; height: 32px; border-radius: 50%; background: rgba(99, 102, 241, 0.2); border: 1px solid rgba(99, 102, 241, 0.4); display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; color: #818cf8;">
+                                            ${initial}
+                                        </div>
+                                        <div>
+                                            <div style="font-weight: 600; color: #ffffff; font-size: 13.5px;">${escapeQuotes(student.username || 'student')}</div>
+                                            <div style="font-size: 12px; color: var(--text-muted);">${escapeQuotes(student.email || '')}</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td style="color: #ffffff; font-size: 13.5px;">${escapeQuotes(student.fullName || student.username || '-')}</td>
+                                <td style="color: var(--text-muted); font-size: 12.5px;">${dateStr}</td>
+                                <td style="text-align: center;">
+                                    <span class="act-badge act-badge-download" style="font-size: 11px; padding: 2px 8px;">
+                                        ${student.downloadsCount || 0}
+                                    </span>
+                                </td>
+                                <td style="text-align: center;">
+                                    <span class="act-badge act-badge-practice" style="font-size: 11px; padding: 2px 8px;">
+                                        ${student.quizzesCount || 0}
+                                    </span>
+                                </td>
+                                <td>
+                                    <span style="display: inline-flex; align-items: center; gap: 5px; font-size: 12px; color: #34d399; font-weight: 500;">
+                                        <span style="width: 7px; height: 7px; border-radius: 50%; background: #10b981;"></span>
+                                        Active
+                                    </span>
+                                </td>
+                            </tr>
+                        `;
+                    }).join('')}
+                </tbody>
+            </table>
+        </div>
+        <div style="margin-top: 14px; font-size: 12.5px; color: var(--text-muted); display: flex; justify-content: space-between; align-items: center;">
+            <span>Total: <b>${students.length}</b> registered students</span>
+            <span>${isCloud ? '⚡ Backed by Supabase Cloud' : '💾 Local File Store'}</span>
+        </div>
+    `;
+}
+
+function debounceStudentsSearch() {
+    clearTimeout(studentsSearchTimeout);
+    studentsSearchTimeout = setTimeout(() => {
+        loadAdminStudents();
+    }, 250);
+}
+
+function exportStudentsCsv() {
+    if (!cachedRegisteredStudents || cachedRegisteredStudents.length === 0) {
+        showToast('No student records available to export', 'warning');
+        return;
+    }
+
+    const headers = ['ID', 'Username', 'Email', 'Full Name', 'Registered At', 'Downloads Count', 'Quizzes Count'];
+    const rows = cachedRegisteredStudents.map(s => [
+        `"${(s.id || '').replace(/"/g, '""')}"`,
+        `"${(s.username || '').replace(/"/g, '""')}"`,
+        `"${(s.email || '').replace(/"/g, '""')}"`,
+        `"${(s.fullName || '').replace(/"/g, '""')}"`,
+        `"${s.createdAt ? new Date(s.createdAt).toISOString() : ''}"`,
+        s.downloadsCount || 0,
+        s.quizzesCount || 0
+    ]);
+
+    const csvContent = [headers.join(','), ...rows.map(r => r.join(','))].join('\n');
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.setAttribute('href', url);
+    link.setAttribute('download', `registered_students_${new Date().toISOString().slice(0, 10)}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+    showToast('Students directory exported to CSV successfully!', 'success');
 }
 
 /* ========================================================

@@ -284,14 +284,15 @@ function rateLimitAuth(req, res, next) {
 ======================================================== */
 
 // Login (Protected with Rate Limiting)
-app.post('/api/auth/login', rateLimitAuth, (req, res) => {
+app.post('/api/auth/login', rateLimitAuth, async (req, res) => {
     try {
-        const { username, password } = req.body;
-        if (!username || !password) {
-            return res.status(400).json({ success: false, message: 'Username and password are required' });
+        const { username, email, password } = req.body;
+        const loginIdentifier = (username || email || '').trim();
+        if (!loginIdentifier || !password) {
+            return res.status(400).json({ success: false, message: 'Email/username and password are required' });
         }
 
-        const user = db.findUserByUsername(username);
+        const user = (await db.findUserByUsernameAsync(loginIdentifier)) || (await db.findUserByEmailAsync(loginIdentifier));
         if (!user) {
             return res.status(401).json({ success: false, message: 'Invalid username or password' });
         }
@@ -339,19 +340,43 @@ app.post('/api/auth/login', rateLimitAuth, (req, res) => {
 });
 
 // Register (Protected with Rate Limiting)
-app.post('/api/auth/register', rateLimitAuth, (req, res) => {
+app.post('/api/auth/register', rateLimitAuth, async (req, res) => {
     try {
-        const { username, email, password, fullName, role } = req.body;
-        if (!username || !password || !email) {
-            return res.status(400).json({ success: false, message: 'Username, email and password are required' });
+        let { username, email, password, fullName } = req.body;
+
+        if (!password || password.trim().length < 4) {
+            return res.status(400).json({ success: false, message: 'Password must be at least 4 characters long' });
         }
 
-        if (db.findUserByUsername(username)) {
-            return res.status(400).json({ success: false, message: 'Username is already taken' });
+        const identifier = (email || username || '').trim();
+        if (!identifier) {
+            return res.status(400).json({ success: false, message: 'Email or username is required' });
         }
 
-        if (db.findUserByEmail(email)) {
-            return res.status(400).json({ success: false, message: 'Email is already registered' });
+        // If identifier contains @, treat as email
+        if (identifier.includes('@')) {
+            email = identifier;
+            if (!username) {
+                username = identifier.split('@')[0].replace(/[^a-zA-Z0-9_.]/g, '');
+            }
+        } else {
+            if (!username) username = identifier;
+            if (!email) email = `${username.toLowerCase()}@student.library`;
+        }
+
+        username = username.trim();
+        email = email.trim();
+
+        if (await db.findUserByUsernameAsync(username)) {
+            // If auto-generated from email, try appending random suffix
+            username = `${username}_${Math.floor(100 + Math.random() * 900)}`;
+            if (await db.findUserByUsernameAsync(username)) {
+                return res.status(400).json({ success: false, message: 'Username is already taken' });
+            }
+        }
+
+        if (await db.findUserByEmailAsync(email)) {
+            return res.status(400).json({ success: false, message: 'This email is already registered. Please sign in.' });
         }
 
         const salt = bcrypt.genSaltSync(10);
@@ -360,23 +385,23 @@ app.post('/api/auth/register', rateLimitAuth, (req, res) => {
         // Public registration strictly assigns student role (prevents role elevation)
         const assignedRole = 'student';
 
-        const newUser = db.createUser({
-            username: username.trim(),
-            email: email.trim(),
+        const newUser = await db.createUserAsync({
+            username,
+            email,
             passwordHash,
             role: assignedRole,
-            fullName: fullName || username
+            fullName: fullName ? fullName.trim() : username
         });
 
         // Record new student registration in activity logs
         try {
             db.addActivityLog({
-                type: 'login',
+                type: 'register',
                 userId: newUser.id,
                 username: newUser.username,
                 fullName: newUser.fullName || newUser.username,
                 role: newUser.role,
-                details: 'New student account registered & signed in',
+                details: 'New student registered and signed in',
                 ip: req.ip || req.headers['x-forwarded-for'] || '',
                 userAgent: req.headers['user-agent'] || '',
                 timestamp: new Date().toISOString()
@@ -393,7 +418,7 @@ app.post('/api/auth/register', rateLimitAuth, (req, res) => {
                 username: newUser.username,
                 email: newUser.email,
                 role: newUser.role,
-                fullName: newUser.fullName
+                fullName: newUser.fullName || newUser.username
             }
         });
     } catch (err) {
@@ -787,6 +812,37 @@ app.get('/api/stats', authenticateToken, requireAdmin, (req, res) => {
         const stats = db.getStats();
         res.json({ success: true, stats });
     } catch (err) {
+        res.status(500).json({ success: false, message: err.message });
+    }
+});
+
+// Admin Route: Directory of All Registered Students
+app.get('/api/admin/students', authenticateToken, requireAdmin, async (req, res) => {
+    try {
+        const search = (req.query.search || '').trim();
+        const students = await db.getAllStudentsAsync(search);
+
+        const allLogs = db.data.activityLogs || [];
+        const enriched = students.map(student => {
+            const studentLogs = allLogs.filter(l => l.userId === student.id || (student.username && l.username === student.username));
+            const downloads = studentLogs.filter(l => l.type === 'download' || l.type === 'preview').length;
+            const quizzes = studentLogs.filter(l => l.type === 'practice').length;
+            return {
+                ...student,
+                downloadsCount: downloads,
+                quizzesCount: quizzes
+            };
+        });
+
+        const supabaseStore = require('./supabase');
+        res.json({
+            success: true,
+            total: enriched.length,
+            isCloudConnected: supabaseStore.isConfigured(),
+            students: enriched
+        });
+    } catch (err) {
+        console.error('Error fetching registered students:', err);
         res.status(500).json({ success: false, message: err.message });
     }
 });

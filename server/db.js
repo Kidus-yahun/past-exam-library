@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const bcrypt = require('bcryptjs');
+const supabaseStore = require('./supabase');
 
 let bundledSeedData;
 try {
@@ -211,12 +212,51 @@ class Database {
         return this.data.users.find(u => u.username.toLowerCase() === username.toLowerCase());
     }
 
+    async findUserByUsernameAsync(username) {
+        if (!username) return null;
+        let user = this.data.users.find(u => u.username.toLowerCase() === username.toLowerCase());
+        if (!user && supabaseStore.isConfigured()) {
+            user = await supabaseStore.findUserByUsername(username);
+            if (user && !this.data.users.some(u => u.id === user.id)) {
+                this.data.users.push(user);
+                this.save();
+            }
+        }
+        return user;
+    }
+
     findUserByEmail(email) {
         return this.data.users.find(u => u.email.toLowerCase() === email.toLowerCase());
     }
 
+    async findUserByEmailAsync(email) {
+        if (!email) return null;
+        let user = this.data.users.find(u => u.email.toLowerCase() === email.toLowerCase());
+        if (!user && supabaseStore.isConfigured()) {
+            user = await supabaseStore.findUserByEmail(email);
+            if (user && !this.data.users.some(u => u.id === user.id)) {
+                this.data.users.push(user);
+                this.save();
+            }
+        }
+        return user;
+    }
+
     findUserById(id) {
         return this.data.users.find(u => u.id === id);
+    }
+
+    async findUserByIdAsync(id) {
+        if (!id) return null;
+        let user = this.data.users.find(u => u.id === id);
+        if (!user && supabaseStore.isConfigured()) {
+            user = await supabaseStore.findUserById(id);
+            if (user && !this.data.users.some(u => u.id === user.id)) {
+                this.data.users.push(user);
+                this.save();
+            }
+        }
+        return user;
     }
 
     createUser(userData) {
@@ -227,7 +267,52 @@ class Database {
         };
         this.data.users.push(newUser);
         this.save();
+        if (supabaseStore.isConfigured()) {
+            supabaseStore.createUser(newUser).catch(err => {
+                console.error('[Supabase async save error]:', err.message);
+            });
+        }
         return newUser;
+    }
+
+    async createUserAsync(userData) {
+        const newUser = {
+            id: userData.id || ('u_' + Date.now() + '_' + Math.random().toString(36).substr(2, 5)),
+            ...userData,
+            createdAt: userData.createdAt || new Date().toISOString()
+        };
+        this.data.users.push(newUser);
+        this.save();
+        if (supabaseStore.isConfigured()) {
+            try {
+                await supabaseStore.createUser(newUser);
+            } catch (err) {
+                console.error('[Supabase createUser error]:', err.message);
+            }
+        }
+        return newUser;
+    }
+
+    async getAllStudentsAsync(searchTerm = '') {
+        if (supabaseStore.isConfigured()) {
+            const cloudUsers = await supabaseStore.getAllStudents(searchTerm);
+            if (cloudUsers && Array.isArray(cloudUsers)) {
+                return cloudUsers.filter(u => u.role === 'student');
+            }
+        }
+        let students = this.data.users
+            .filter(u => u.role === 'student')
+            .map(({ passwordHash, ...safeUser }) => safeUser);
+        
+        if (searchTerm) {
+            const term = searchTerm.toLowerCase();
+            students = students.filter(s => 
+                (s.username && s.username.toLowerCase().includes(term)) ||
+                (s.email && s.email.toLowerCase().includes(term)) ||
+                (s.fullName && s.fullName.toLowerCase().includes(term))
+            );
+        }
+        return students.sort((a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0));
     }
 
     getUsers() {
@@ -489,6 +574,12 @@ class Database {
             this.data.activityLogs = this.data.activityLogs.slice(0, 1500);
         }
         this.save();
+
+        if (supabaseStore.isConfigured()) {
+            supabaseStore.addActivityLog(newLog).catch(err => {
+                console.error('[Supabase activityLog save error]:', err.message);
+            });
+        }
         return newLog;
     }
 
