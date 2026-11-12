@@ -918,8 +918,12 @@ async function initApp() {
         }
     } catch (e) {}
 
-    // 4. RENDER FIRST PAINT IMMEDIATELY (Zero Network Latency / No Blocking Spinner)
-    if (state.user && state.user.role === 'admin' && window.location.hash === '#admin') {
+    // 4. Check for incoming 1v1 Telegram Duel challenge in URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const duelParam = urlParams.get('duel');
+    if (duelParam && handleIncomingDuelUrl(duelParam)) {
+        // Duel lobby rendered
+    } else if (state.user && state.user.role === 'admin' && window.location.hash === '#admin') {
         setView('admin');
     } else {
         setView('library');
@@ -1344,6 +1348,480 @@ function fallbackCopy(text, msg) {
         prompt('Copy this:', text);
     }
     document.body.removeChild(tempInput);
+}
+
+/* ========================================================
+   1v1 TELEGRAM STUDY DUEL (VIRAL PEER CHALLENGE)
+======================================================== */
+function encodeDuelPayload(data) {
+    try {
+        const json = JSON.stringify(data);
+        const utf8Bytes = encodeURIComponent(json).replace(/%([0-9A-F]{2})/g, (m, p) => String.fromCharCode('0x' + p));
+        return encodeURIComponent(btoa(utf8Bytes));
+    } catch (e) {
+        return '';
+    }
+}
+
+function decodeDuelPayload(encodedStr) {
+    try {
+        const binary = atob(decodeURIComponent(encodedStr));
+        const json = decodeURIComponent(Array.prototype.map.call(binary, c => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)).join(''));
+        return JSON.parse(json);
+    } catch (e) {
+        return null;
+    }
+}
+
+function handleIncomingDuelUrl(encodedStr) {
+    const duelData = decodeDuelPayload(encodedStr);
+    if (!duelData || !duelData.grade || !duelData.subject) {
+        return false;
+    }
+    showDuelLobby(duelData);
+    return true;
+}
+
+function showDuelLobby(duelData) {
+    state.currentView = 'duelLobby';
+    pushNavState({ view: 'duelLobby' }, `1v1 Study Duel vs ${duelData.challenger || 'Classmate'}`);
+
+    const defaultName = localStorage.getItem('pel_duel_player_name') || (state.user ? (state.user.fullName || state.user.username) : '') || '';
+    const challenger = duelData.challenger || 'A classmate';
+    const score = duelData.score !== undefined ? duelData.score : 4;
+    const total = duelData.total || 5;
+
+    app.innerHTML = `
+        <div class="duel-arena-wrapper">
+            <div style="display: inline-flex; align-items: center; gap: 8px; padding: 6px 16px; border-radius: 9999px; background: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.35); color: #fca5a5; font-size: 13px; font-weight: 800; margin-bottom: 14px;">
+                <span>⚔️</span> 1v1 TELEGRAM STUDY DUEL
+            </div>
+
+            <h2 style="font-size: 26px; color: var(--text-main); font-weight: 800; margin-bottom: 6px;">
+                You Have Been Challenged!
+            </h2>
+            <p style="font-size: 14.5px; color: var(--text-muted); max-width: 480px; margin: 0 auto 20px; line-height: 1.5;">
+                <strong style="color: #f87171;">${escapeQuotes(challenger)}</strong> challenged you to a 5-question duel in <strong>${duelData.grade} ${duelData.subject}</strong>! Can you beat their score?
+            </p>
+
+            <div class="duel-versus-container">
+                <!-- Challenger Card -->
+                <div class="duel-player-card">
+                    <div class="duel-player-avatar" style="background: linear-gradient(135deg, #ef4444, #f97316); color: #ffffff;">
+                        ${challenger.charAt(0).toUpperCase()}
+                    </div>
+                    <div style="font-weight: 700; color: var(--text-main); font-size: 15px;">${escapeQuotes(challenger)}</div>
+                    <div style="font-size: 12px; color: var(--text-muted); margin-top: 2px;">Challenger</div>
+                    <div class="duel-score-badge" style="color: #ef4444;">
+                        ${score} / ${total}
+                    </div>
+                    <div style="font-size: 11px; color: #fca5a5; font-weight: 600; margin-top: 2px;">Score to beat</div>
+                </div>
+
+                <!-- VS Badge -->
+                <div class="duel-vs-badge">
+                    VS
+                </div>
+
+                <!-- Opponent (You) -->
+                <div class="duel-player-card">
+                    <div class="duel-player-avatar" style="background: linear-gradient(135deg, #0ea5e9, #6366f1); color: #ffffff;">
+                        ?
+                    </div>
+                    <div style="font-weight: 700; color: var(--text-main); font-size: 15px;">You</div>
+                    <div style="font-size: 12px; color: var(--text-muted); margin-top: 2px;">Challenger Acceptor</div>
+                    <div class="duel-score-badge" style="color: #38bdf8;">
+                        ? / ${total}
+                    </div>
+                    <div style="font-size: 11px; color: var(--text-muted); font-weight: 600; margin-top: 2px;">Your Turn</div>
+                </div>
+            </div>
+
+            <!-- Name Input -->
+            <div style="max-width: 360px; margin: 0 auto 24px; text-align: left;">
+                <label style="font-size: 13px; font-weight: 600; color: var(--text-muted); display: block; margin-bottom: 6px;">
+                    Enter your nickname for the scoreboard:
+                </label>
+                <input type="text" id="duel-acceptor-name" class="auth-input" style="width: 100%; box-sizing: border-box; padding: 11px 14px; border-radius: 10px; background: rgba(255,255,255,0.06); border: 1px solid var(--border-glass); color: var(--text-main); font-size: 14px;" value="${escapeQuotes(defaultName)}" placeholder="e.g. Nahom, Soliyana, Kidus...">
+            </div>
+
+            <div style="display: flex; flex-direction: column; gap: 12px; max-width: 360px; margin: 0 auto;">
+                <button class="btn-primary duel-launch-btn" style="justify-content: center; width: 100%; padding: 14px; font-size: 15px;" onclick="acceptDuelChallenge('${escapeQuotes(JSON.stringify(duelData))}')">
+                    ⚔️ Accept Challenge &amp; Start (5 Qs) →
+                </button>
+                <button class="btn-secondary" style="justify-content: center; width: 100%; padding: 10px;" onclick="showLibraryHome()">
+                    Decline &amp; Browse Library
+                </button>
+            </div>
+        </div>
+    `;
+}
+
+async function acceptDuelChallenge(duelDataJson) {
+    const duelData = typeof duelDataJson === 'string' ? JSON.parse(duelDataJson) : duelDataJson;
+    const nameInput = document.getElementById('duel-acceptor-name');
+    const acceptorName = (nameInput?.value || '').trim() || 'Challenger';
+    localStorage.setItem('pel_duel_player_name', acceptorName);
+
+    const duelMeta = {
+        isCreator: false,
+        challenger: duelData.challenger,
+        score: duelData.score,
+        total: duelData.total || 5,
+        grade: duelData.grade,
+        subject: duelData.subject,
+        opponentName: acceptorName
+    };
+
+    showToast(`Loading 5 duel questions... Get ready!`, 'info');
+    await launchDuelSession(duelData.grade, duelData.subject, duelData.challenger, duelData.qIds, duelMeta);
+}
+
+function openStartDuelModal(presetGrade, presetSubject) {
+    const grades = state.categories.grades || [];
+    const defaultGrade = presetGrade || 'Grade12';
+    const subjectsForGrade = (state.categories.subjects && state.categories.subjects[defaultGrade]) || ['Mathematics', 'Physics', 'Chemistry', 'Biology', 'English'];
+    const defaultSubject = presetSubject || subjectsForGrade[0] || 'Mathematics';
+    const savedName = localStorage.getItem('pel_duel_player_name') || (state.user ? (state.user.fullName || state.user.username) : '') || '';
+
+    const bodyHtml = `
+        <div style="padding: 4px 0 10px 0; text-align: left;">
+            <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 16px; background: linear-gradient(135deg, rgba(239, 68, 68, 0.12), rgba(168, 85, 247, 0.15)); padding: 14px 16px; border-radius: 14px; border: 1px solid rgba(239, 68, 68, 0.3);">
+                <div style="font-size: 30px; flex-shrink: 0;">⚔️</div>
+                <div>
+                    <h4 style="margin: 0; font-size: 16px; color: var(--text-main); font-weight: 700;">1v1 Telegram Study Duel</h4>
+                    <p style="margin: 3px 0 0; font-size: 12.5px; color: var(--text-muted); line-height: 1.4;">
+                        Play a quick 5-question challenge, lock in your score, and challenge your friends on Telegram!
+                    </p>
+                </div>
+            </div>
+
+            <div class="auth-form-group">
+                <label>Your Nickname or Name *</label>
+                <input type="text" id="duel-input-name" placeholder="e.g. Nahom, Soliyana, Kidus..." value="${escapeQuotes(savedName)}" required>
+            </div>
+
+            <div class="auth-form-group">
+                <label>Select Grade *</label>
+                <select id="duel-select-grade" onchange="updateDuelSubjectDropdown(this.value)">
+                    ${grades.map(g => `<option value="${g.id}" ${g.id === defaultGrade ? 'selected' : ''}>${g.name}</option>`).join('')}
+                </select>
+            </div>
+
+            <div class="auth-form-group">
+                <label>Select Subject *</label>
+                <select id="duel-select-subject">
+                    ${subjectsForGrade.map(s => `<option value="${escapeQuotes(s)}" ${s === defaultSubject ? 'selected' : ''}>${s}</option>`).join('')}
+                </select>
+            </div>
+
+            <div style="margin-top: 20px; display: flex; flex-direction: column; gap: 10px;">
+                <button type="button" class="btn-primary duel-launch-btn" style="justify-content: center; width: 100%; padding: 13px;" onclick="confirmStartDuel()">
+                    ⚔️ Start 5-Question Duel →
+                </button>
+            </div>
+        </div>
+    `;
+
+    showModal('Start 1v1 Study Duel', bodyHtml);
+}
+
+function updateDuelSubjectDropdown(gradeId) {
+    const select = document.getElementById('duel-select-subject');
+    if (!select) return;
+    const subjects = (state.categories.subjects && state.categories.subjects[gradeId]) || ['Mathematics', 'Physics', 'Chemistry', 'Biology', 'English'];
+    select.innerHTML = subjects.map(s => `<option value="${escapeQuotes(s)}">${s}</option>`).join('');
+}
+
+async function confirmStartDuel() {
+    const nameInput = document.getElementById('duel-input-name');
+    const gradeSelect = document.getElementById('duel-select-grade');
+    const subjectSelect = document.getElementById('duel-select-subject');
+
+    const name = (nameInput?.value || '').trim() || 'Student';
+    const grade = gradeSelect?.value || 'Grade12';
+    const subject = subjectSelect?.value || 'Mathematics';
+
+    localStorage.setItem('pel_duel_player_name', name);
+    closeModal();
+
+    showToast(`Loading 5 duel questions for ${grade} ${subject}...`, 'info');
+    await launchDuelSession(grade, subject, name, null, null);
+}
+
+async function launchDuelSession(grade, subject, challengerName, existingQIds = null, duelMeta = null) {
+    if (currentQuiz.timerInterval) clearInterval(currentQuiz.timerInterval);
+
+    let allQuestions = [];
+    try {
+        const res = await fetch(`/api/practice?grade=${grade}&subject=${encodeURIComponent(subject)}`);
+        const data = await res.json();
+        allQuestions = data.questions || [];
+    } catch (e) {
+        console.warn('Duel fetch error, checking offline cache', e);
+    }
+
+    if (allQuestions.length === 0) {
+        try {
+            const raw = localStorage.getItem('pel_offline_questions');
+            if (raw) {
+                const clean = s => (s || '').toLowerCase().replace(/[\s_-]+/g, '');
+                allQuestions = JSON.parse(raw).filter(q => clean(q.grade) === clean(grade) && clean(q.subject) === clean(subject));
+            }
+        } catch (e) {}
+    }
+
+    let selected5 = [];
+    if (existingQIds && existingQIds.length > 0) {
+        const qMap = new Map();
+        allQuestions.forEach(q => qMap.set(q.id, q));
+        existingQIds.forEach(id => {
+            if (qMap.has(id)) selected5.push(qMap.get(id));
+        });
+    }
+
+    if (selected5.length < 5) {
+        const remaining = allQuestions.filter(q => !selected5.includes(q));
+        const shuffled = [...remaining].sort(() => 0.5 - Math.random());
+        selected5 = selected5.concat(shuffled.slice(0, 5 - selected5.length));
+    }
+
+    if (selected5.length === 0) {
+        showToast(`No questions found for ${grade} ${subject} yet. Try another subject!`, 'error');
+        return;
+    }
+
+    currentQuiz = {
+        grade,
+        semester: 'Duel',
+        examType: '1v1 Duel',
+        subject,
+        mode: 'duel',
+        examTitle: `1v1 Duel: ${grade} ${subject}`,
+        filePath: '',
+        backFn: showLibraryHome,
+        questions: selected5,
+        currentIndex: 0,
+        answers: {},
+        checked: {},
+        flagged: {},
+        startTime: Date.now(),
+        timeRemaining: 300,
+        timerInterval: null,
+        hideAnswers: true,
+        duel: duelMeta || {
+            isCreator: true,
+            challengerName: challengerName || 'Student',
+            grade,
+            subject,
+            qIds: selected5.map(q => q.id)
+        }
+    };
+
+    renderQuizScreen();
+}
+
+function openShareDuelModal(score, total, grade, subject, qIds) {
+    const defaultName = localStorage.getItem('pel_duel_player_name') || (state.user ? (state.user.fullName || state.user.username) : '') || '';
+    const actualScore = score !== undefined ? score : (currentQuiz ? Object.keys(currentQuiz.answers).filter(k => currentQuiz.answers[k] === currentQuiz.questions.find(q => q.id === k)?.correctAnswer).length : 5);
+    const actualTotal = total || (currentQuiz ? currentQuiz.questions.length : 5);
+    const actualGrade = grade || currentQuiz?.grade || 'Grade12';
+    const actualSubject = subject || currentQuiz?.subject || 'Mathematics';
+    const actualQIds = qIds || (currentQuiz ? currentQuiz.questions.map(q => q.id) : []);
+
+    const bodyHtml = `
+        <div style="padding: 4px 0 10px 0; text-align: left;">
+            <div style="text-align: center; margin-bottom: 18px;">
+                <div style="width: 58px; height: 58px; margin: 0 auto 12px auto; background: linear-gradient(135deg, #ef4444, #9333ea); border-radius: 16px; display: flex; align-items: center; justify-content: center; font-size: 28px; box-shadow: 0 8px 24px rgba(239, 68, 68, 0.35);">
+                    ⚔️
+                </div>
+                <h4 style="font-size: 18px; font-weight: 700; color: var(--text-main); margin-bottom: 4px;">Challenge Your Classmates!</h4>
+                <p style="font-size: 13px; color: var(--text-muted); line-height: 1.5; max-width: 380px; margin: 0 auto;">
+                    Your score of <strong>${actualScore}/${actualTotal}</strong> in ${actualGrade} ${actualSubject} is ready to challenge friends on Telegram!
+                </p>
+            </div>
+
+            <div class="auth-form-group">
+                <label>Your Name / Nickname on the Duel Invite</label>
+                <input type="text" id="share-duel-sender-name" value="${escapeQuotes(defaultName)}" placeholder="e.g. Nahom, Kidus..." oninput="updateDuelSharePreview(${actualScore}, ${actualTotal}, '${actualGrade}', '${escapeQuotes(actualSubject)}')">
+            </div>
+
+            <div style="background: rgba(255, 255, 255, 0.04); border: 1px solid var(--border-glass); border-radius: 12px; padding: 12px 14px; margin-bottom: 18px;">
+                <div style="font-size: 11px; color: #fca5a5; font-weight: 800; text-transform: uppercase; margin-bottom: 4px;">Telegram Invite Preview</div>
+                <div id="duel-telegram-preview" style="font-size: 12.5px; color: var(--text-main); line-height: 1.45;">
+                    ⚔️ <strong>${escapeQuotes(defaultName || 'A classmate')}</strong> challenged you to a 1v1 ${actualGrade} ${actualSubject} duel! Score to beat: <strong>${actualScore}/${actualTotal}</strong>. Can you beat it?
+                </div>
+            </div>
+
+            <div style="display: flex; flex-direction: column; gap: 10px;">
+                <button type="button" class="btn-primary duel-launch-btn" style="justify-content: center; width: 100%; padding: 13px;" onclick="triggerTelegramDuelShare(${actualScore}, ${actualTotal}, '${actualGrade}', '${escapeQuotes(actualSubject)}', '${escapeQuotes(JSON.stringify(actualQIds))}')">
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/></svg>
+                    <span>Share on Telegram Group / Chat</span>
+                </button>
+                <button type="button" class="btn-secondary" style="justify-content: center; width: 100%; padding: 10px;" onclick="copyDuelDirectLink(${actualScore}, ${actualTotal}, '${actualGrade}', '${escapeQuotes(actualSubject)}', '${escapeQuotes(JSON.stringify(actualQIds))}')">
+                    ${uiIcon('copy', 14)} Copy Duel Link
+                </button>
+            </div>
+        </div>
+    `;
+
+    showModal('1v1 Duel Challenge', bodyHtml);
+}
+
+function updateDuelSharePreview(score, total, grade, subject) {
+    const input = document.getElementById('share-duel-sender-name');
+    const preview = document.getElementById('duel-telegram-preview');
+    if (!preview) return;
+    const name = (input?.value || '').trim() || 'A classmate';
+    preview.innerHTML = `⚔️ <strong>${escapeQuotes(name)}</strong> challenged you to a 1v1 ${grade} ${subject} duel! Score to beat: <strong>${score}/${total}</strong>. Can you beat it?`;
+}
+
+function getDuelShareDetails(score, total, grade, subject, qIdsJson) {
+    const nameInput = document.getElementById('share-duel-sender-name');
+    const name = (nameInput?.value || '').trim() || localStorage.getItem('pel_duel_player_name') || 'A classmate';
+    localStorage.setItem('pel_duel_player_name', name);
+
+    let parsedQIds = [];
+    try {
+        parsedQIds = typeof qIdsJson === 'string' ? JSON.parse(qIdsJson) : qIdsJson;
+    } catch (e) {}
+
+    const payload = {
+        challenger: name,
+        score,
+        total,
+        grade,
+        subject,
+        qIds: parsedQIds
+    };
+
+    const encoded = encodeDuelPayload(payload);
+    const duelUrl = `${window.location.origin}/?duel=${encoded}`;
+    const shareText = `⚔️ ${name} challenged you to a 1v1 ${grade} ${subject} duel on Past Exam Library! Score to beat: ${score}/${total} 🔥 Can you beat it?`;
+
+    return { duelUrl, shareText };
+}
+
+function triggerTelegramDuelShare(score, total, grade, subject, qIdsJson) {
+    const { duelUrl, shareText } = getDuelShareDetails(score, total, grade, subject, qIdsJson);
+    const tgUrl = `https://t.me/share/url?url=${encodeURIComponent(duelUrl)}&text=${encodeURIComponent(shareText)}`;
+    window.open(tgUrl, '_blank', 'noopener,noreferrer');
+}
+
+function copyDuelDirectLink(score, total, grade, subject, qIdsJson) {
+    const { duelUrl } = getDuelShareDetails(score, total, grade, subject, qIdsJson);
+    copySupportText(duelUrl, '1v1 Duel challenge link copied to clipboard!');
+}
+
+function renderDuelResultsArena(duel, userScore, total) {
+    state.currentView = 'duelResults';
+    pushNavState({ view: 'duelResults' }, '1v1 Study Duel Results');
+
+    const challenger = duel.challenger || 'Challenger';
+    const challengerScore = duel.score !== undefined ? duel.score : 0;
+    const opponent = duel.opponentName || 'You';
+
+    const isWinner = userScore > challengerScore;
+    const isTie = userScore === challengerScore;
+    const isLoser = userScore < challengerScore;
+
+    let headline = '';
+    let subtext = '';
+    let emoji = '';
+    let headlineColor = '';
+
+    if (isWinner) {
+        headline = `🏆 VICTORY! You defeated ${escapeQuotes(challenger)}!`;
+        subtext = `Incredible work! You scored ${userScore}/${total} vs ${challenger}'s ${challengerScore}/${total}.`;
+        emoji = '🏆';
+        headlineColor = '#34d399';
+    } else if (isTie) {
+        headline = `🤝 IT'S A TIE! Great minds think alike!`;
+        subtext = `Both you and ${escapeQuotes(challenger)} scored ${userScore}/${total} in ${duel.grade} ${duel.subject}.`;
+        emoji = '🤝';
+        headlineColor = '#a78bfa';
+    } else {
+        headline = `⚡ ${escapeQuotes(challenger)} wins this round!`;
+        subtext = `${challenger} scored ${challengerScore}/${total} vs your ${userScore}/${total}. Ready for a rematch?`;
+        emoji = '⚡';
+        headlineColor = '#f87171';
+    }
+
+    const shareBackText = encodeURIComponent(
+        isWinner
+            ? `I just defeated ${challenger} in a 1v1 ${duel.subject} duel on Past Exam Library! My score: ${userScore}/${total} vs ${challengerScore}/${total} 🏆 Try to beat me:`
+            : (isTie
+                ? `I tied with ${challenger} in a 1v1 ${duel.subject} duel on Past Exam Library (${userScore}/${total})! 🤝 Who can break the tie?`
+                : `${challenger} beat me in a 1v1 ${duel.subject} duel (${challengerScore}/${total} vs ${userScore}/${total}) on Past Exam Library! ⚔️ Can someone take revenge for me:`)
+    );
+    const duelUrl = `${window.location.origin}/?duel=${encodeDuelPayload({
+        challenger: opponent,
+        score: userScore,
+        total,
+        grade: duel.grade,
+        subject: duel.subject,
+        qIds: currentQuiz.questions.map(q => q.id)
+    })}`;
+
+    const tgShareUrl = `https://t.me/share/url?url=${encodeURIComponent(duelUrl)}&text=${shareBackText}`;
+
+    app.innerHTML = `
+        <div class="duel-arena-wrapper">
+            <div style="font-size: 48px; margin-bottom: 10px;">${emoji}</div>
+            <h2 style="font-size: 26px; color: ${headlineColor}; font-weight: 800; margin-bottom: 8px;">
+                ${headline}
+            </h2>
+            <p style="font-size: 14.5px; color: var(--text-muted); max-width: 480px; margin: 0 auto 24px; line-height: 1.5;">
+                ${subtext}
+            </p>
+
+            <div class="duel-versus-container">
+                <!-- Challenger Card -->
+                <div class="duel-player-card ${isLoser ? 'winner' : ''}">
+                    <div class="duel-player-avatar" style="background: linear-gradient(135deg, #ef4444, #f97316); color: #ffffff;">
+                        ${challenger.charAt(0).toUpperCase()}
+                    </div>
+                    <div style="font-weight: 700; color: var(--text-main); font-size: 15px;">${escapeQuotes(challenger)}</div>
+                    <div style="font-size: 12px; color: var(--text-muted); margin-top: 2px;">Challenger</div>
+                    <div class="duel-score-badge" style="color: ${isLoser ? '#34d399' : 'var(--text-main)'};">
+                        ${challengerScore} / ${total}
+                    </div>
+                    ${isLoser ? '<span style="font-size: 11px; color: #34d399; font-weight: 700;">WINNER 🏆</span>' : ''}
+                </div>
+
+                <!-- VS Badge -->
+                <div class="duel-vs-badge">
+                    VS
+                </div>
+
+                <!-- Opponent (You) -->
+                <div class="duel-player-card ${isWinner ? 'winner' : ''}">
+                    <div class="duel-player-avatar" style="background: linear-gradient(135deg, #0ea5e9, #6366f1); color: #ffffff;">
+                        ${opponent.charAt(0).toUpperCase()}
+                    </div>
+                    <div style="font-weight: 700; color: var(--text-main); font-size: 15px;">${escapeQuotes(opponent)} (You)</div>
+                    <div style="font-size: 12px; color: var(--text-muted); margin-top: 2px;">Defender</div>
+                    <div class="duel-score-badge" style="color: ${isWinner ? '#34d399' : 'var(--text-main)'};">
+                        ${userScore} / ${total}
+                    </div>
+                    ${isWinner ? '<span style="font-size: 11px; color: #34d399; font-weight: 700;">WINNER 🏆</span>' : ''}
+                </div>
+            </div>
+
+            <div style="display: flex; flex-direction: column; gap: 10px; max-width: 400px; margin: 24px auto 0;">
+                <a href="${tgShareUrl}" target="_blank" rel="noopener noreferrer" class="btn-primary duel-launch-btn" style="justify-content: center; text-decoration: none; padding: 13px;">
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/></svg>
+                    <span>Send Duel Result on Telegram</span>
+                </a>
+                <button class="btn-secondary" style="padding: 11px; justify-content: center;" onclick="openStartDuelModal('${duel.grade}', '${escapeQuotes(duel.subject)}')">
+                    ⚔️ Start a New 1v1 Challenge
+                </button>
+                <button class="btn-secondary" style="padding: 10px; justify-content: center;" onclick="showLibraryHome()">
+                    Back to Library Home
+                </button>
+            </div>
+        </div>
+    `;
 }
 
 /* ========================================================
@@ -3454,6 +3932,11 @@ function showLibraryHome(pushHistory = true) {
                 <span class="pill-dot">•</span>
                 <span class="pill-sub">Keep studying!</span>
             </button>
+            <button type="button" class="hero-growth-pill hero-duel-pill" onclick="openStartDuelModal()" data-tooltip="1v1 Study Duel — Challenge your classmates on Telegram">
+                <span>⚔️</span>
+                <span class="pill-title">1v1 Study Duel</span>
+                <span class="pill-badge-new">New</span>
+            </button>
             <button type="button" class="hero-growth-pill hero-support-pill" onclick="openSupportModal()" data-tooltip="Support hosting & past exam scanning">
                 <span class="support-heart">❤️</span>
                 <span class="pill-title">Support Archive</span>
@@ -4537,6 +5020,12 @@ async function showExamHub(grade, semester, examType, subject, filePath, examTit
                         </div>
                     </div>
 
+                    <div style="margin-top: 14px;">
+                        <button type="button" class="btn-secondary" style="border-radius: 10px; padding: 9px 14px; display: inline-flex; align-items: center; justify-content: center; gap: 7px; font-weight: 700; background: linear-gradient(135deg, rgba(239, 68, 68, 0.1), rgba(168, 85, 247, 0.12)); border: 1px solid rgba(239, 68, 68, 0.35); color: #fca5a5; width: 100%; cursor: pointer;" onclick="openStartDuelModal('${grade}', '${escapeQuotes(subject)}')">
+                            <span>⚔️</span> Challenge Classmates in ${escapeQuotes(subject)} (1v1 Telegram Duel)
+                        </button>
+                    </div>
+
                     <div style="display: flex; align-items: center; justify-content: space-between; margin-top: auto; padding-top: 18px; border-top: 1px solid var(--border-glass);">
                         <span style="font-size: 13px; color: var(--text-muted); font-weight: 600; display: inline-flex; align-items: center; gap: 6px;">
                             ${uiIcon('fileText', 14)} ${questionCount} Questions Available
@@ -4742,6 +5231,18 @@ function renderQuizScreen() {
 
     app.innerHTML = `
         <div class="quiz-runner-container">
+            ${currentQuiz.duel ? `
+                <div style="background: linear-gradient(135deg, rgba(239, 68, 68, 0.15), rgba(168, 85, 247, 0.15)); border: 1px solid rgba(239, 68, 68, 0.35); border-radius: 12px; padding: 10px 16px; margin-bottom: 16px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px;">
+                    <div style="display: flex; align-items: center; gap: 8px; font-weight: 700; color: #fca5a5; font-size: 13.5px;">
+                        <span>⚔️ 1v1 STUDY DUEL</span>
+                        <span>•</span>
+                        <span>${currentQuiz.duel.isCreator ? 'Setting high score to challenge classmates' : `Challenger: ${escapeQuotes(currentQuiz.duel.challenger)} (Score to beat: ${currentQuiz.duel.score}/${currentQuiz.duel.total})`}</span>
+                    </div>
+                    <div style="font-size: 12px; color: var(--text-muted); font-weight: 700;">
+                        Question ${currentQuiz.currentIndex + 1} of ${total}
+                    </div>
+                </div>
+            ` : ''}
             <!-- Top Action & Progress Bar -->
             <div class="quiz-top-bar">
                 <div style="display: flex; align-items: center; gap: 12px;">
@@ -5049,6 +5550,19 @@ function finishQuiz() {
     else if (percent >= 50) verdict = `Passing Grade (${percent}%)`;
     else verdict = `Revision Required (${percent}%)`;
 
+    // If opponent just finished a 1v1 Telegram duel challenge, render the duel results arena
+    if (currentQuiz.duel && !currentQuiz.duel.isCreator) {
+        renderDuelResultsArena(currentQuiz.duel, correctCount, currentQuiz.questions.length);
+        return;
+    }
+
+    // If student just finished creating a 1v1 duel challenge, pop up the share modal automatically
+    if (currentQuiz.duel && currentQuiz.duel.isCreator) {
+        setTimeout(() => {
+            openShareDuelModal(correctCount, currentQuiz.questions.length, currentQuiz.grade, currentQuiz.subject);
+        }, 400);
+    }
+
     app.innerHTML = `
         <div class="results-card">
             <div class="empty-state-icon-wrap" style="width: 72px; height: 72px; margin: 0 auto 16px; background: rgba(99, 102, 241, 0.12); color: var(--primary); border-color: rgba(99, 102, 241, 0.25);">
@@ -5063,6 +5577,21 @@ function finishQuiz() {
             </div>
 
             <h3 style="color: #e9d5ff; font-size: 20px; font-weight: 700; margin-bottom: 20px;">${verdict}</h3>
+
+            <!-- 1v1 Telegram Study Duel Challenge Banner -->
+            <div class="duel-prompt-card">
+                <div class="duel-prompt-header">
+                    <span>⚔️</span>
+                    <span>1v1 Telegram Study Duel</span>
+                    <span class="duel-badge-pulse">Viral</span>
+                </div>
+                <p class="duel-prompt-desc">
+                    Challenge your classmates on Telegram to beat your score of <strong>${correctCount}/${currentQuiz.questions.length}</strong> in ${escapeQuotes(currentQuiz.subject)}!
+                </p>
+                <button type="button" class="btn-primary duel-launch-btn" onclick="openShareDuelModal(${correctCount}, ${currentQuiz.questions.length}, '${currentQuiz.grade}', '${escapeQuotes(currentQuiz.subject)}')">
+                    ⚔️ Challenge a Friend on Telegram →
+                </button>
+            </div>
 
             <div class="results-stats-row">
                 <div class="results-stat-box">
