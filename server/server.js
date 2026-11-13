@@ -258,12 +258,35 @@ function authenticateToken(req, res, next) {
         return res.status(401).json({ success: false, message: 'Authentication required' });
     }
 
+    // 1. Try local application JWT verification
     jwt.verify(token, JWT_SECRET, (err, decoded) => {
-        if (err) {
-            return res.status(403).json({ success: false, message: 'Invalid or expired session' });
+        if (!err && decoded) {
+            req.user = decoded;
+            return next();
         }
-        req.user = decoded;
-        next();
+
+        // 2. Fallback: decode Supabase / Google OAuth JWT token
+        try {
+            const decodedSupabase = jwt.decode(token);
+            if (decodedSupabase && (decodedSupabase.iss?.includes('supabase') || decodedSupabase.sub)) {
+                // Check token expiration if present
+                if (decodedSupabase.exp && decodedSupabase.exp < Math.floor(Date.now() / 1000)) {
+                    return res.status(401).json({ success: false, message: 'Session expired. Please sign in again.' });
+                }
+                const email = decodedSupabase.email || '';
+                const fullName = (decodedSupabase.user_metadata && (decodedSupabase.user_metadata.full_name || decodedSupabase.user_metadata.name)) || (email ? email.split('@')[0] : 'Student');
+                req.user = {
+                    id: decodedSupabase.sub,
+                    username: email ? email.split('@')[0] : 'student',
+                    email: email,
+                    fullName: fullName,
+                    role: 'student'
+                };
+                return next();
+            }
+        } catch (decErr) {}
+
+        return res.status(403).json({ success: false, message: 'Invalid or expired session' });
     });
 }
 

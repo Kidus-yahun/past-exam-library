@@ -916,9 +916,8 @@ async function signInWithGoogle() {
         showToast('Supabase client is loading. Please try again in a moment.', 'info');
         return;
     }
-    const redirectUrl = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
-        ? window.location.origin
-        : 'https://past-exam-library.vercel.app';
+    // Dynamic redirect URL preserving current origin
+    const redirectUrl = window.location.origin;
     try {
         const { error } = await sb.auth.signInWithOAuth({
             provider: 'google',
@@ -1228,110 +1227,7 @@ function completeStudentOnboarding(skipped = false) {
 }
 
 async function initApp() {
-    // 0. Update Study Streak & Initialize Telegram Banner
-    updateStudyStreak();
-    initTelegramBanner();
-
-    // Load saved student preferences if available
-    try {
-        const savedPrefs = localStorage.getItem('pel_student_preferences');
-        if (savedPrefs) {
-            const parsed = JSON.parse(savedPrefs);
-            if (parsed.grade) deskState.grade = parsed.grade;
-            if (parsed.subject) deskState.subject = parsed.subject;
-            if (parsed.stream) onboardingState.stream = parsed.stream;
-            if (parsed.dailyGoal) onboardingState.dailyGoal = parsed.dailyGoal;
-        }
-    } catch(e) {}
-
-    // 0b. Check for active Supabase OAuth session (e.g. redirected from Google Sign-In)
-    const sb = getSupabaseClient();
-    if (sb) {
-        try {
-            const { data: { session } } = await sb.auth.getSession();
-            if (session && session.user) {
-                const u = session.user;
-                const googleName = (u.user_metadata && (u.user_metadata.full_name || u.user_metadata.name)) || (u.email ? u.email.split('@')[0] : 'Student');
-                state.token = session.access_token;
-                state.user = {
-                    id: u.id,
-                    username: u.email ? u.email.split('@')[0] : 'student',
-                    email: u.email || '',
-                    fullName: googleName,
-                    role: 'student'
-                };
-                localStorage.setItem('pel_token', state.token);
-                localStorage.setItem('pel_user', JSON.stringify(state.user));
-
-                // Save or update user profile in Supabase database
-                sb.from('users').upsert({
-                    id: u.id,
-                    username: u.email ? u.email.split('@')[0] : 'student',
-                    email: u.email || '',
-                    password_hash: 'GOOGLE_OAUTH_USER',
-                    role: 'student',
-                    full_name: googleName,
-                    last_login_at: new Date().toISOString()
-                }, { onConflict: 'email' }).then(() => {}).catch(() => {});
-
-                // Trigger onboarding if first-time user
-                if (!localStorage.getItem('pel_onboarding_completed')) {
-                    setTimeout(() => {
-                        openStudentOnboardingModal(1);
-                    }, 500);
-                }
-            }
-
-            // Listen for OAuth sign-in events
-            sb.auth.onAuthStateChange((event, session) => {
-                if (event === 'SIGNED_IN' && session && session.user) {
-                    const u = session.user;
-                    const googleName = (u.user_metadata && (u.user_metadata.full_name || u.user_metadata.name)) || (u.email ? u.email.split('@')[0] : 'Student');
-                    state.token = session.access_token;
-                    state.user = {
-                        id: u.id,
-                        username: u.email ? u.email.split('@')[0] : 'student',
-                        email: u.email || '',
-                        fullName: googleName,
-                        role: 'student'
-                    };
-                    localStorage.setItem('pel_token', state.token);
-                    localStorage.setItem('pel_user', JSON.stringify(state.user));
-
-                    sb.from('users').upsert({
-                        id: u.id,
-                        username: u.email ? u.email.split('@')[0] : 'student',
-                        email: u.email || '',
-                        password_hash: 'GOOGLE_OAUTH_USER',
-                        role: 'student',
-                        full_name: googleName,
-                        last_login_at: new Date().toISOString()
-                    }, { onConflict: 'email' }).then(() => {}).catch(() => {});
-
-                    if (state.currentView === 'login') {
-                        showToast(`Welcome, ${googleName}! 👋`, 'success');
-                        setView('library');
-                    }
-
-                    // Trigger onboarding if first-time user
-                    if (!localStorage.getItem('pel_onboarding_completed')) {
-                        setTimeout(() => {
-                            openStudentOnboardingModal(1);
-                        }, 500);
-                    }
-                }
-            });
-        } catch(e) {
-            console.warn('OAuth session check error:', e);
-        }
-    }
-
-    // 1. Initialize Theme synchronously (zero flash)
-    const currentTheme = getTheme();
-    document.documentElement.setAttribute('data-theme', currentTheme);
-    state.theme = currentTheme;
-
-    // 2. Load saved session synchronously from local cache
+    // 1. Immediately & synchronously restore saved user credentials from localStorage
     const savedToken = localStorage.getItem('pel_token');
     const savedUser = localStorage.getItem('pel_user');
     if (savedToken && savedUser) {
@@ -1343,7 +1239,61 @@ async function initApp() {
         }
     }
 
-    // 3. Load cached offline categories synchronously if present
+    // 2. Immediate extraction of OAuth access token from URL hash (if returning from Google redirect)
+    if (window.location.hash && window.location.hash.includes('access_token=')) {
+        try {
+            const hashParams = new URLSearchParams(window.location.hash.substring(1));
+            const accessToken = hashParams.get('access_token');
+            if (accessToken) {
+                state.token = accessToken;
+                localStorage.setItem('pel_token', accessToken);
+                try {
+                    const base64Url = accessToken.split('.')[1];
+                    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+                    const jsonPayload = decodeURIComponent(atob(base64).split('').map(c => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)).join(''));
+                    const payload = JSON.parse(jsonPayload);
+                    if (payload && payload.sub) {
+                        const email = payload.email || '';
+                        const fullName = (payload.user_metadata && (payload.user_metadata.full_name || payload.user_metadata.name)) || (email ? email.split('@')[0] : 'Student');
+                        const existingUser = localStorage.getItem('pel_user') ? JSON.parse(localStorage.getItem('pel_user')) : {};
+                        state.user = {
+                            ...existingUser,
+                            id: payload.sub,
+                            username: email ? email.split('@')[0] : 'student',
+                            email: email,
+                            fullName: existingUser.fullName || fullName,
+                            role: existingUser.role || 'student',
+                            avatarId: existingUser.avatarId || 'valedictorian'
+                        };
+                        localStorage.setItem('pel_user', JSON.stringify(state.user));
+                    }
+                } catch(e) {}
+                try {
+                    history.replaceState(null, '', window.location.pathname + window.location.search);
+                } catch(e) {}
+            }
+        } catch (e) {
+            console.warn('OAuth hash extraction error:', e);
+        }
+    }
+
+    // 3. Initialize Theme synchronously (zero flash)
+    const currentTheme = getTheme();
+    document.documentElement.setAttribute('data-theme', currentTheme);
+    state.theme = currentTheme;
+
+    // 4. Restore saved student preferences & categories synchronously if present
+    try {
+        const savedPrefs = localStorage.getItem('pel_student_preferences');
+        if (savedPrefs) {
+            const parsed = JSON.parse(savedPrefs);
+            if (parsed.grade) deskState.grade = parsed.grade;
+            if (parsed.subject) deskState.subject = parsed.subject;
+            if (parsed.stream) onboardingState.stream = parsed.stream;
+            if (parsed.dailyGoal) onboardingState.dailyGoal = parsed.dailyGoal;
+        }
+    } catch(e) {}
+
     try {
         const cachedCat = localStorage.getItem('pel_offline_categories');
         if (cachedCat) {
@@ -1354,7 +1304,7 @@ async function initApp() {
         }
     } catch (e) {}
 
-    // 4. Check for incoming 1v1 Telegram Duel challenge or Shared Streak in URL
+    // 5. Initial View Route
     const urlParams = new URLSearchParams(window.location.search);
     const duelParam = urlParams.get('duel');
     const sharedStreakParam = urlParams.get('shared_streak');
@@ -1369,9 +1319,70 @@ async function initApp() {
         setView('library');
     }
 
-    // 5. Non-blocking Background Sync (Token verification & Category refresh)
+    // 6. Background Asynchronous OAuth Verification & Synchronization (Non-blocking)
     setTimeout(async () => {
-        // Verify token validity in background if logged in
+        const sb = getSupabaseClient();
+        if (sb) {
+            try {
+                const { data: { session } } = await sb.auth.getSession();
+                if (session && session.user) {
+                    const u = session.user;
+                    const googleName = (u.user_metadata && (u.user_metadata.full_name || u.user_metadata.name)) || (u.email ? u.email.split('@')[0] : 'Student');
+                    const existingUser = state.user || (localStorage.getItem('pel_user') ? JSON.parse(localStorage.getItem('pel_user')) : {});
+                    state.token = session.access_token;
+                    state.user = {
+                        ...existingUser,
+                        id: u.id,
+                        username: u.email ? u.email.split('@')[0] : 'student',
+                        email: u.email || '',
+                        fullName: existingUser.fullName || googleName,
+                        role: existingUser.role || 'student',
+                        avatarId: existingUser.avatarId || 'valedictorian'
+                    };
+                    localStorage.setItem('pel_token', state.token);
+                    localStorage.setItem('pel_user', JSON.stringify(state.user));
+                    renderHeader();
+
+                    if (!localStorage.getItem('pel_onboarding_completed')) {
+                        setTimeout(() => openStudentOnboardingModal(1), 500);
+                    }
+                }
+
+                sb.auth.onAuthStateChange((event, session) => {
+                    if (event === 'SIGNED_IN' && session && session.user) {
+                        const u = session.user;
+                        const googleName = (u.user_metadata && (u.user_metadata.full_name || u.user_metadata.name)) || (u.email ? u.email.split('@')[0] : 'Student');
+                        const existingUser = state.user || (localStorage.getItem('pel_user') ? JSON.parse(localStorage.getItem('pel_user')) : {});
+                        state.token = session.access_token;
+                        state.user = {
+                            ...existingUser,
+                            id: u.id,
+                            username: u.email ? u.email.split('@')[0] : 'student',
+                            email: u.email || '',
+                            fullName: existingUser.fullName || googleName,
+                            role: existingUser.role || 'student',
+                            avatarId: existingUser.avatarId || 'valedictorian'
+                        };
+                        localStorage.setItem('pel_token', state.token);
+                        localStorage.setItem('pel_user', JSON.stringify(state.user));
+                        renderHeader();
+
+                        if (state.currentView === 'login') {
+                            showToast(`Welcome, ${state.user.fullName}! 👋`, 'success');
+                            setView('library');
+                        }
+
+                        if (!localStorage.getItem('pel_onboarding_completed')) {
+                            setTimeout(() => openStudentOnboardingModal(1), 500);
+                        }
+                    }
+                });
+            } catch(e) {
+                console.warn('OAuth session check error:', e);
+            }
+        }
+
+        // Verify token with backend in background without clearing session on error
         if (state.token) {
             try {
                 const res = await fetch('/api/auth/me', {
@@ -1379,22 +1390,22 @@ async function initApp() {
                 });
                 if (res.ok) {
                     const data = await res.json();
-                    state.user = data.user;
-                    localStorage.setItem('pel_user', JSON.stringify(data.user));
-                    renderHeader();
-                } else if (res.status === 401) {
-                    logout(false);
+                    if (data && data.user) {
+                        state.user = { ...state.user, ...data.user };
+                        localStorage.setItem('pel_user', JSON.stringify(state.user));
+                        renderHeader();
+                    }
                 }
-            } catch (e) {
+            } catch(e) {
                 console.warn('Background token check fallback', e);
             }
         }
 
         // Fetch fresh categories from backend in background
         await fetchCategories();
-    }, 60);
+    }, 100);
 
-    // 6. Non-blocking Service Worker registration (delayed so page load is 100% smooth)
+    // 7. Non-blocking Service Worker registration (delayed so page load is 100% smooth)
     if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
             setTimeout(() => {
@@ -1407,7 +1418,7 @@ async function initApp() {
         });
     }
 
-    // 7. Idle prefetch PDF.js (warm up browser cache for instant preview later)
+    // 8. Idle prefetch PDF.js (warm up browser cache for instant preview later)
     setTimeout(() => {
         if (typeof ensurePdfJsLoaded === 'function') {
             ensurePdfJsLoaded();

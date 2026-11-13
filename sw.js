@@ -1,7 +1,7 @@
 // sw.js - Service Worker for Past Exam Library (Blessed G/Michael Catholic Secondary School)
 // Provides 100% offline practice, low-data caching, and fast PDF study access
 
-const CACHE_VERSION = 'v3.0.0';
+const CACHE_VERSION = 'v3.1.0';
 const STATIC_CACHE = `past-exam-static-${CACHE_VERSION}`;
 const API_CACHE = `past-exam-api-${CACHE_VERSION}`;
 const PDF_CACHE = `past-exam-pdf-${CACHE_VERSION}`;
@@ -64,8 +64,8 @@ self.addEventListener('fetch', (event) => {
     // A. API Requests (/api/practice, /api/categories, /api/exams)
     // Strategy: Stale-While-Revalidate (Instant response from cache, background refresh when online)
     if (url.pathname.startsWith('/api/')) {
-        // Do not cache sensitive auth check or stats mutations aggressively
-        if (url.pathname.includes('/auth/login') || url.pathname.includes('/auth/register')) {
+        // Do not cache sensitive auth checks, sessions, or profile mutations
+        if (url.pathname.includes('/auth/')) {
             return;
         }
 
