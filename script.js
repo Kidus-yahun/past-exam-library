@@ -916,11 +916,14 @@ async function signInWithGoogle() {
         showToast('Supabase client is loading. Please try again in a moment.', 'info');
         return;
     }
+    const redirectUrl = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
+        ? window.location.origin
+        : 'https://past-exam-library.vercel.app';
     try {
         const { error } = await sb.auth.signInWithOAuth({
             provider: 'google',
             options: {
-                redirectTo: window.location.origin
+                redirectTo: redirectUrl
             }
         });
         if (error) {
