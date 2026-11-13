@@ -2480,11 +2480,15 @@ function renderHeader() {
     const isAdminActive = state.currentView === 'admin';
     const displayName = state.user.fullName || state.user.username || 'Student';
     const userInitial = displayName.trim().charAt(0).toUpperCase() || 'S';
+    const currentAvatarId = state.user.avatarId || 'valedictorian';
+    const avatarBadgeHtml = (typeof renderStudentAvatarSvg === 'function')
+        ? `<div style="width: 30px; height: 30px; border-radius: 50%; overflow: hidden; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 6px rgba(0,0,0,0.4); border: 1.5px solid rgba(255,255,255,0.25); flex-shrink: 0;">${renderStudentAvatarSvg(currentAvatarId, 30)}</div>`
+        : `<div class="activity-user-avatar" style="width: 28px; height: 28px; font-size: 12px; margin-right: 2px;">${userInitial}</div>`;
 
     headerNav.innerHTML = `
         ${pwaControls}
-        <div class="user-badge" onclick="openProfileModal()" style="cursor: pointer; display: flex; align-items: center; gap: 8px;" title="Registered Name: ${escapeQuotes(displayName)} (Click to view or edit)" data-tooltip="Student Profile: ${escapeQuotes(displayName)}">
-            <div class="activity-user-avatar" style="width: 28px; height: 28px; font-size: 12px; margin-right: 2px;">${userInitial}</div>
+        <div class="user-badge" onclick="openProfileModal()" style="cursor: pointer; display: flex; align-items: center; gap: 8px;" title="Student Identity Card: ${escapeQuotes(displayName)} (Click to view, customize avatar, or edit)" data-tooltip="Student Profile: ${escapeQuotes(displayName)}">
+            ${avatarBadgeHtml}
             <div style="display: flex; flex-direction: column; text-align: left; line-height: 1.2;">
                 <span class="user-name" style="font-weight: 700; color: var(--text-main); font-size: 13.5px;">${displayName}</span>
                 <span class="role-pill ${isAdmin ? 'admin' : ''}" style="font-size: 9.5px; padding: 1px 6px; align-self: flex-start;">${isAdmin ? 'Admin' : 'Student'}</span>
@@ -2543,58 +2547,648 @@ function updateMobileBottomNav() {
     setItemActive('mob-nav-studyhub', isStudyHubActive);
 }
 
-function openProfileModal() {
-    if (!state.user) return;
-    const currentFullName = state.user.fullName || '';
-    const currentUsername = state.user.username || '';
-    const currentRole = state.user.role === 'admin' ? 'Administrator' : 'Student';
-    const email = state.user.email || 'Not provided';
-    const initial = (currentFullName || currentUsername || 'S').trim().charAt(0).toUpperCase();
+// ========================================================
+// STUDENT IDENTITY, DISTINCTIVE AVATAR & CHARACTER SYSTEM
+// ========================================================
+const STUDENT_AVATARS = {
+    valedictorian: {
+        id: 'valedictorian',
+        name: 'The Valedictorian',
+        title: 'National Top Scorer',
+        badge: '🎓',
+        roleHint: 'National Exam Honors & University Entrance',
+        color: '#6366f1',
+        render: (s) => `
+            <svg viewBox="0 0 100 100" width="${s}" height="${s}" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <linearGradient id="v-bg-${s}" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#1e1b4b"/><stop offset="100%" stop-color="#312e81"/></linearGradient>
+                    <linearGradient id="v-skin-${s}" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#f5d0b0"/><stop offset="100%" stop-color="#e2b189"/></linearGradient>
+                    <linearGradient id="v-gold-${s}" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#facc15"/><stop offset="100%" stop-color="#eab308"/></linearGradient>
+                    <linearGradient id="v-gown-${s}" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#1e293b"/><stop offset="100%" stop-color="#0f172a"/></linearGradient>
+                </defs>
+                <circle cx="50" cy="50" r="48" fill="url(#v-bg-${s})" stroke="#6366f1" stroke-width="2.5"/>
+                <circle cx="20" cy="25" r="1.5" fill="#facc15" opacity="0.8"/>
+                <circle cx="80" cy="22" r="1.5" fill="#facc15" opacity="0.8"/>
+                <circle cx="85" cy="55" r="1" fill="#ffffff" opacity="0.6"/>
+                <path d="M 20 96 C 20 74, 36 68, 50 68 C 64 68, 80 74, 80 96 Z" fill="url(#v-gown-${s})"/>
+                <path d="M 38 68 L 44 96 L 50 96 L 46 68 Z" fill="url(#v-gold-${s})"/>
+                <path d="M 62 68 L 56 96 L 50 96 L 54 68 Z" fill="url(#v-gold-${s})"/>
+                <polygon points="50,72 52,76 56,76 53,79 54,83 50,81 46,83 47,79 44,76 48,76" fill="#facc15"/>
+                <rect x="44" y="58" width="12" height="13" rx="4" fill="#e2b189"/>
+                <ellipse cx="50" cy="46" rx="18" ry="20" fill="url(#v-skin-${s})"/>
+                <ellipse cx="43" cy="46" rx="2.5" ry="3" fill="#1e293b"/>
+                <ellipse cx="57" cy="46" rx="2.5" ry="3" fill="#1e293b"/>
+                <circle cx="44" cy="45" r="0.8" fill="#ffffff"/>
+                <circle cx="58" cy="45" r="0.8" fill="#ffffff"/>
+                <circle cx="43" cy="46" r="6" stroke="#facc15" stroke-width="1.4" fill="none" opacity="0.9"/>
+                <circle cx="57" cy="46" r="6" stroke="#facc15" stroke-width="1.4" fill="none" opacity="0.9"/>
+                <line x1="49" y1="46" x2="51" y2="46" stroke="#facc15" stroke-width="1.4"/>
+                <path d="M 45 54 Q 50 58 55 54" stroke="#9a3412" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+                <polygon points="50,18 78,28 50,38 22,28" fill="#0f172a" stroke="#facc15" stroke-width="1.2"/>
+                <rect x="36" y="29" width="28" height="6" rx="3" fill="#1e293b"/>
+                <circle cx="50" cy="28" r="2.5" fill="#facc15"/>
+                <path d="M 50 28 Q 66 30 68 44" stroke="#facc15" stroke-width="1.8" fill="none"/>
+                <circle cx="68" cy="45" r="2" fill="#eab308"/>
+            </svg>`
+    },
+    physicist: {
+        id: 'physicist',
+        name: 'The Quantum Physicist',
+        title: 'STEM & Formula Prodigy',
+        badge: '⚡',
+        roleHint: 'Math, Physics & Chemical Reactions',
+        color: '#14b8a6',
+        render: (s) => `
+            <svg viewBox="0 0 100 100" width="${s}" height="${s}" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <linearGradient id="p-bg-${s}" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#042f2e"/><stop offset="100%" stop-color="#0f766e"/></linearGradient>
+                    <linearGradient id="p-skin-${s}" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#e8b896"/><stop offset="100%" stop-color="#cf9770"/></linearGradient>
+                </defs>
+                <circle cx="50" cy="50" r="48" fill="url(#p-bg-${s})" stroke="#14b8a6" stroke-width="2.5"/>
+                <ellipse cx="50" cy="48" rx="42" ry="14" fill="none" stroke="#22d3ee" stroke-width="1" stroke-dasharray="3,3" opacity="0.6" transform="rotate(-25 50 48)"/>
+                <ellipse cx="50" cy="48" rx="42" ry="14" fill="none" stroke="#a7f3d0" stroke-width="1" stroke-dasharray="3,3" opacity="0.6" transform="rotate(25 50 48)"/>
+                <circle cx="22" cy="38" r="2.5" fill="#22d3ee"/>
+                <circle cx="78" cy="58" r="2.5" fill="#34d399"/>
+                <path d="M 20 96 C 20 74, 36 68, 50 68 C 64 68, 80 74, 80 96 Z" fill="#f8fafc"/>
+                <path d="M 40 70 L 50 96 L 60 70 Z" fill="#0f766e"/>
+                <rect x="44" y="58" width="12" height="13" rx="4" fill="#cf9770"/>
+                <ellipse cx="50" cy="46" rx="18" ry="20" fill="url(#p-skin-${s})"/>
+                <path d="M 30 38 Q 36 22 50 24 Q 64 22 70 38 Q 62 30 50 32 Q 38 30 30 38 Z" fill="#1e293b"/>
+                <rect x="33" y="30" width="34" height="10" rx="5" fill="#0f172a" stroke="#22d3ee" stroke-width="1.5"/>
+                <circle cx="41" cy="35" r="4" fill="#06b6d4" opacity="0.85"/>
+                <circle cx="59" cy="35" r="4" fill="#06b6d4" opacity="0.85"/>
+                <ellipse cx="43" cy="48" rx="2.5" ry="3" fill="#0f172a"/>
+                <ellipse cx="57" cy="48" rx="2.5" ry="3" fill="#0f172a"/>
+                <circle cx="44" cy="47" r="0.8" fill="#ffffff"/>
+                <circle cx="58" cy="47" r="0.8" fill="#ffffff"/>
+                <path d="M 45 56 Q 50 59 55 56" stroke="#9a3412" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+            </svg>`
+    },
+    astronaut: {
+        id: 'astronaut',
+        name: 'The Cosmic Explorer',
+        title: 'High Horizons Pioneer',
+        badge: '🚀',
+        roleHint: 'Astronomy, Universal Limits & Focus',
+        color: '#38bdf8',
+        render: (s) => `
+            <svg viewBox="0 0 100 100" width="${s}" height="${s}" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <linearGradient id="a-bg-${s}" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#090d16"/><stop offset="100%" stop-color="#1e1b4b"/></linearGradient>
+                    <linearGradient id="a-visor-${s}" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#38bdf8"/><stop offset="50%" stop-color="#818cf8"/><stop offset="100%" stop-color="#c084fc"/></linearGradient>
+                </defs>
+                <circle cx="50" cy="50" r="48" fill="url(#a-bg-${s})" stroke="#38bdf8" stroke-width="2.5"/>
+                <polygon points="25,20 26,23 29,24 26,25 25,28 24,25 21,24 24,23" fill="#38bdf8"/>
+                <polygon points="76,28 77,30 79,31 77,32 76,34 75,32 73,31 75,30" fill="#facc15"/>
+                <path d="M 18 96 C 18 72, 34 66, 50 66 C 66 66, 82 72, 82 96 Z" fill="#f1f5f9"/>
+                <rect x="42" y="74" width="16" height="8" rx="2" fill="#0284c7"/>
+                <circle cx="50" cy="44" r="24" fill="#e2e8f0" stroke="#94a3b8" stroke-width="2"/>
+                <ellipse cx="50" cy="44" rx="19" ry="16" fill="url(#a-visor-${s})"/>
+                <path d="M 36 34 Q 48 30 62 36 Q 52 33 38 40 Z" fill="#ffffff" opacity="0.6"/>
+                <rect x="23" y="40" width="5" height="10" rx="2" fill="#0284c7"/>
+                <rect x="72" y="40" width="5" height="10" rx="2" fill="#0284c7"/>
+            </svg>`
+    },
+    cyber_architect: {
+        id: 'cyber_architect',
+        name: 'The Cyber Architect',
+        title: 'Digital & Logic Master',
+        badge: '💻',
+        roleHint: 'Computer Science, Algorithms & Logic',
+        color: '#ec4899',
+        render: (s) => `
+            <svg viewBox="0 0 100 100" width="${s}" height="${s}" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <linearGradient id="c-bg-${s}" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#2e1065"/><stop offset="100%" stop-color="#4c1d95"/></linearGradient>
+                    <linearGradient id="c-skin-${s}" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#e2b490"/><stop offset="100%" stop-color="#c69572"/></linearGradient>
+                </defs>
+                <circle cx="50" cy="50" r="48" fill="url(#c-bg-${s})" stroke="#ec4899" stroke-width="2.5"/>
+                <path d="M 12 30 L 26 30 L 32 40" stroke="#a855f7" stroke-width="1.2" fill="none" opacity="0.7"/>
+                <path d="M 88 35 L 74 35 L 68 45" stroke="#06b6d4" stroke-width="1.2" fill="none" opacity="0.7"/>
+                <path d="M 20 96 C 20 74, 36 66, 50 66 C 64 66, 80 74, 80 96 Z" fill="#0f172a"/>
+                <path d="M 36 68 L 50 88 L 64 68" stroke="#ec4899" stroke-width="2" fill="none"/>
+                <rect x="44" y="56" width="12" height="14" rx="4" fill="#c69572"/>
+                <ellipse cx="50" cy="44" rx="18" ry="20" fill="url(#c-skin-${s})"/>
+                <path d="M 32 38 Q 36 18 50 18 Q 66 18 68 38 Q 62 26 50 26 Q 38 26 32 38 Z" fill="#06b6d4"/>
+                <rect x="30" y="38" width="40" height="13" rx="4" fill="#09090b" stroke="#ec4899" stroke-width="2"/>
+                <line x1="34" y1="44" x2="66" y2="44" stroke="#06b6d4" stroke-width="1.5" stroke-dasharray="4,2"/>
+                <circle cx="50" cy="44" r="2" fill="#ec4899"/>
+                <path d="M 46 54 Q 52 57 56 53" stroke="#9a3412" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+            </svg>`
+    },
+    lion_champion: {
+        id: 'lion_champion',
+        name: 'The St. Michael Champion',
+        title: 'School Heritage Scholar',
+        badge: '🦁',
+        roleHint: 'Blessed G/Michael Pride & Excellence',
+        color: '#f59e0b',
+        render: (s) => `
+            <svg viewBox="0 0 100 100" width="${s}" height="${s}" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <linearGradient id="l-bg-${s}" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#451a03"/><stop offset="100%" stop-color="#78350f"/></linearGradient>
+                </defs>
+                <circle cx="50" cy="50" r="48" fill="url(#l-bg-${s})" stroke="#facc15" stroke-width="2.5"/>
+                <path d="M 16 35 A 40 40 0 0 1 84 35" fill="none" stroke="#22c55e" stroke-width="2" opacity="0.7"/>
+                <path d="M 19 32 A 40 40 0 0 1 81 32" fill="none" stroke="#eab308" stroke-width="2" opacity="0.7"/>
+                <path d="M 22 29 A 40 40 0 0 1 78 29" fill="none" stroke="#ef4444" stroke-width="2" opacity="0.7"/>
+                <path d="M 20 96 C 20 74, 36 68, 50 68 C 64 68, 80 74, 80 96 Z" fill="#1e293b"/>
+                <path d="M 26 96 L 46 68 L 54 68 L 34 96 Z" fill="#b91c1c"/>
+                <circle cx="50" cy="46" r="24" fill="#b45309"/>
+                <circle cx="50" cy="47" r="18" fill="#f59e0b"/>
+                <circle cx="34" cy="32" r="6" fill="#b45309"/>
+                <circle cx="34" cy="32" r="3.5" fill="#fef08a"/>
+                <circle cx="66" cy="32" r="6" fill="#b45309"/>
+                <circle cx="66" cy="32" r="3.5" fill="#fef08a"/>
+                <ellipse cx="50" cy="53" rx="8" ry="6" fill="#fef08a"/>
+                <polygon points="50,51 46,47 54,47" fill="#78350f"/>
+                <ellipse cx="43" cy="44" rx="2.8" ry="3" fill="#451a03"/>
+                <ellipse cx="57" cy="44" rx="2.8" ry="3" fill="#451a03"/>
+                <circle cx="44" cy="43" r="0.9" fill="#ffffff"/>
+                <circle cx="58" cy="43" r="0.9" fill="#ffffff"/>
+                <polygon points="50,18 52,24 57,21 54,26 58,28 52,29 50,34 48,29 42,28 46,26 43,21 48,24" fill="#facc15"/>
+            </svg>`
+    },
+    medic: {
+        id: 'medic',
+        name: 'The Medical Prodigy',
+        title: 'Biology & Health Lead',
+        badge: '🩺',
+        roleHint: 'Biology, Genetics & Medical Sciences',
+        color: '#10b981',
+        render: (s) => `
+            <svg viewBox="0 0 100 100" width="${s}" height="${s}" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <linearGradient id="m-bg-${s}" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#064e3b"/><stop offset="100%" stop-color="#047857"/></linearGradient>
+                    <linearGradient id="m-skin-${s}" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#f2cfad"/><stop offset="100%" stop-color="#d9a87e"/></linearGradient>
+                </defs>
+                <circle cx="50" cy="50" r="48" fill="url(#m-bg-${s})" stroke="#34d399" stroke-width="2.5"/>
+                <path d="M 20 96 C 20 74, 36 68, 50 68 C 64 68, 80 74, 80 96 Z" fill="#0d9488"/>
+                <path d="M 38 68 Q 38 88 50 88 Q 62 88 62 68" stroke="#334155" stroke-width="3" fill="none"/>
+                <circle cx="50" cy="88" r="4" fill="#94a3b8" stroke="#f8fafc" stroke-width="1.2"/>
+                <rect x="44" y="58" width="12" height="13" rx="4" fill="#d9a87e"/>
+                <ellipse cx="50" cy="46" rx="18" ry="20" fill="url(#m-skin-${s})"/>
+                <path d="M 32 38 Q 36 24 50 24 Q 64 24 68 38 Q 62 30 50 30 Q 38 30 32 38 Z" fill="#1e293b"/>
+                <rect x="31" y="27" width="38" height="6" rx="2" fill="#ffffff"/>
+                <rect x="48" y="28" width="4" height="4" fill="#ef4444"/>
+                <ellipse cx="43" cy="46" rx="2.5" ry="3" fill="#1e293b"/>
+                <ellipse cx="57" cy="46" rx="2.5" ry="3" fill="#1e293b"/>
+                <circle cx="44" cy="45" r="0.8" fill="#ffffff"/>
+                <circle cx="58" cy="45" r="0.8" fill="#ffffff"/>
+                <path d="M 44 54 Q 50 58 56 54" stroke="#9a3412" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+            </svg>`
+    },
+    mastermind: {
+        id: 'mastermind',
+        name: 'The Master Strategist',
+        title: 'Critical Reasoner',
+        badge: '🧠',
+        roleHint: 'Analytical Strategy & Exam Tactics',
+        color: '#a855f7',
+        render: (s) => `
+            <svg viewBox="0 0 100 100" width="${s}" height="${s}" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <linearGradient id="t-bg-${s}" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#3b0764"/><stop offset="100%" stop-color="#581c87"/></linearGradient>
+                    <linearGradient id="t-skin-${s}" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#e8bd9b"/><stop offset="100%" stop-color="#cb966e"/></linearGradient>
+                </defs>
+                <circle cx="50" cy="50" r="48" fill="url(#t-bg-${s})" stroke="#c084fc" stroke-width="2.5"/>
+                <circle cx="24" cy="28" r="2" fill="#c084fc"/>
+                <circle cx="76" cy="26" r="2" fill="#e879f9"/>
+                <path d="M 20 96 C 20 74, 36 68, 50 68 C 64 68, 80 74, 80 96 Z" fill="#334155"/>
+                <ellipse cx="50" cy="69" rx="16" ry="6" fill="#c084fc"/>
+                <rect x="44" y="58" width="12" height="11" rx="4" fill="#cb966e"/>
+                <ellipse cx="50" cy="46" rx="18" ry="20" fill="url(#t-skin-${s})"/>
+                <path d="M 31 38 Q 34 22 50 22 Q 66 22 69 38 Q 63 28 50 28 Q 37 28 31 38 Z" fill="#3f2314"/>
+                <circle cx="43" cy="46" r="6" stroke="#b45309" stroke-width="1.8" fill="none"/>
+                <circle cx="57" cy="46" r="6" stroke="#b45309" stroke-width="1.8" fill="none"/>
+                <line x1="49" y1="46" x2="51" y2="46" stroke="#b45309" stroke-width="1.8"/>
+                <ellipse cx="43" cy="46" rx="2" ry="2.5" fill="#1e293b"/>
+                <ellipse cx="57" cy="46" rx="2.5" ry="2.5" fill="#1e293b"/>
+                <polygon points="66,38 72,34 74,37 68,41" fill="#facc15"/>
+                <path d="M 46 55 Q 51 58 55 54" stroke="#9a3412" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+            </svg>`
+    },
+    titan: {
+        id: 'titan',
+        name: 'The Streak Titan',
+        title: 'Exam Sprint Runner',
+        badge: '⚡',
+        roleHint: 'Endurance, Speed Quizzing & Streaks',
+        color: '#f97316',
+        render: (s) => `
+            <svg viewBox="0 0 100 100" width="${s}" height="${s}" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <linearGradient id="ti-bg-${s}" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#7c2d12"/><stop offset="100%" stop-color="#ea580c"/></linearGradient>
+                    <linearGradient id="ti-skin-${s}" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#f0c29f"/><stop offset="100%" stop-color="#d49a70"/></linearGradient>
+                </defs>
+                <circle cx="50" cy="50" r="48" fill="url(#ti-bg-${s})" stroke="#fb923c" stroke-width="2.5"/>
+                <polygon points="20,30 24,38 21,39 26,48 18,42 22,41" fill="#facc15"/>
+                <polygon points="80,26 84,34 81,35 86,44 78,38 82,37" fill="#facc15"/>
+                <path d="M 20 96 C 20 74, 36 68, 50 68 C 64 68, 80 74, 80 96 Z" fill="#18181b"/>
+                <path d="M 36 68 L 44 96 L 56 96 L 64 68 Z" fill="#ea580c"/>
+                <rect x="31" y="32" width="38" height="7" rx="3" fill="#ea580c"/>
+                <polygon points="50,33 48,36 51,36 49,39 53,35 50,35" fill="#fef08a"/>
+                <rect x="44" y="58" width="12" height="13" rx="4" fill="#d49a70"/>
+                <ellipse cx="50" cy="46" rx="18" ry="20" fill="url(#ti-skin-${s})"/>
+                <ellipse cx="43" cy="46" rx="2.5" ry="3" fill="#ea580c"/>
+                <ellipse cx="57" cy="46" rx="2.5" ry="3" fill="#ea580c"/>
+                <path d="M 44 54 Q 50 59 56 54" stroke="#9a3412" stroke-width="2" fill="none" stroke-linecap="round"/>
+            </svg>`
+    },
+    polymath: {
+        id: 'polymath',
+        name: 'The Renaissance Polymath',
+        title: 'Creative Arts & Essayist',
+        badge: '🎨',
+        roleHint: 'English, History, Geography & Arts',
+        color: '#f472b6',
+        render: (s) => `
+            <svg viewBox="0 0 100 100" width="${s}" height="${s}" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <linearGradient id="po-bg-${s}" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#831843"/><stop offset="100%" stop-color="#be185d"/></linearGradient>
+                    <linearGradient id="po-skin-${s}" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#f5d0b0"/><stop offset="100%" stop-color="#e0a67c"/></linearGradient>
+                </defs>
+                <circle cx="50" cy="50" r="48" fill="url(#po-bg-${s})" stroke="#f472b6" stroke-width="2.5"/>
+                <circle cx="22" cy="24" r="3" fill="#38bdf8"/>
+                <circle cx="82" cy="28" r="3" fill="#facc15"/>
+                <path d="M 20 96 C 20 74, 36 68, 50 68 C 64 68, 80 74, 80 96 Z" fill="#374151"/>
+                <circle cx="36" cy="82" r="3" fill="#ec4899" opacity="0.8"/>
+                <rect x="44" y="58" width="12" height="13" rx="4" fill="#e0a67c"/>
+                <ellipse cx="50" cy="46" rx="18" ry="20" fill="url(#po-skin-${s})"/>
+                <ellipse cx="50" cy="28" rx="22" ry="8" fill="#1e1b4b" transform="rotate(-8 50 28)"/>
+                <circle cx="50" cy="22" r="2" fill="#be185d"/>
+                <ellipse cx="43" cy="46" rx="2.5" ry="3" fill="#1e1b4b"/>
+                <ellipse cx="57" cy="46" rx="2.5" ry="3" fill="#1e1b4b"/>
+                <circle cx="44" cy="45" r="0.8" fill="#ffffff"/>
+                <circle cx="58" cy="45" r="0.8" fill="#ffffff"/>
+                <path d="M 44 54 Q 50 58 56 54" stroke="#9a3412" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+            </svg>`
+    }
+};
 
-    const bodyHtml = `
-        <div style="text-align: center; margin-bottom: 20px;">
-            <div class="activity-user-avatar" style="width: 56px; height: 56px; font-size: 22px; margin: 0 auto 12px; box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);">
-                ${initial}
-            </div>
-            <h4 style="margin: 0; color: #ffffff; font-size: 17px;">${currentFullName || currentUsername}</h4>
-            <div style="margin-top: 5px; display: flex; justify-content: center; gap: 8px; align-items: center;">
-                <span style="font-size: 12px; color: var(--text-muted);">@${currentUsername}</span>
-                <span class="role-pill ${state.user.role === 'admin' ? 'admin' : ''}" style="font-size: 10px; padding: 2px 7px;">${currentRole}</span>
-            </div>
-        </div>
+const BANNER_THEMES = {
+    gold: { name: 'Imperial Gold', bg: 'linear-gradient(135deg, #d97706, #78350f 60%, #1e1b4b)' },
+    cosmic: { name: 'Cosmic Nebula', bg: 'linear-gradient(135deg, #090d16, #1e1b4b 45%, #312e81 80%, #0284c7)' },
+    aurora: { name: 'Emerald Aurora', bg: 'linear-gradient(135deg, #022c22, #047857 55%, #10b981)' },
+    crimson: { name: 'St. Michael Crimson', bg: 'linear-gradient(135deg, #7f1d1d, #991b1b 55%, #d97706)' },
+    cyber: { name: 'Cyber Neon', bg: 'linear-gradient(135deg, #3b0764, #701a75 50%, #0284c7)' }
+};
 
-        <form id="profile-edit-form" onsubmit="saveProfileName(event)">
-            <div class="auth-form-group">
-                <label>Student Full Name (Registered Name) *</label>
-                <input type="text" id="profile-fullname" required value="${escapeQuotes(currentFullName)}" placeholder="e.g. Kidist Solomon" autofocus>
-                <p style="font-size: 12px; color: var(--text-muted); margin-top: 5px;">
-                    This registered name appears on the top navigation bar, exam progress, and in the teacher & admin activity logs.
-                </p>
-            </div>
-
-            <div class="auth-form-group">
-                <label>Account Username</label>
-                <input type="text" value="${escapeQuotes(currentUsername)}" disabled style="opacity: 0.6; cursor: not-allowed;">
-            </div>
-
-            <div class="auth-form-group">
-                <label>Account Email</label>
-                <input type="text" value="${escapeQuotes(email)}" disabled style="opacity: 0.6; cursor: not-allowed;">
-            </div>
-
-            <div style="display: flex; gap: 10px; margin-top: 20px;">
-                <button type="button" class="btn-secondary" onclick="closeModal()" style="flex: 1;">Cancel</button>
-                <button type="submit" class="btn-primary" id="btn-save-profile" style="flex: 2;">Save Registered Name</button>
-            </div>
-        </form>
-    `;
-    showModal('Student Profile & Registered Name', bodyHtml);
+function getStudentAvatarDef(id) {
+    return STUDENT_AVATARS[id] || STUDENT_AVATARS.valedictorian;
 }
 
-async function saveProfileName(e) {
+function renderStudentAvatarSvg(id, size = 100) {
+    const def = getStudentAvatarDef(id);
+    return def.render(size);
+}
+
+let activeProfileTab = 'avatars';
+
+function openProfileModal(tab = null) {
+    if (!state.user) return;
+    if (tab) activeProfileTab = tab;
+
+    const user = state.user;
+    const currentFullName = user.fullName || user.username || 'Student';
+    const currentUsername = user.username || 'student';
+    const currentRole = user.role === 'admin' ? 'Administrator' : 'Student';
+    const email = user.email || 'Not provided';
+    const avatarId = user.avatarId || 'valedictorian';
+    const bannerTheme = user.bannerTheme || 'gold';
+    const avatarData = getStudentAvatarDef(avatarId);
+
+    // Live Gamified Metrics
+    const streakData = getStudyStreakData();
+    const streakDays = streakData.count || 1;
+    let solvedExamsCount = 0;
+    try {
+        const attempts = JSON.parse(localStorage.getItem('pel_quiz_attempts') || '[]');
+        solvedExamsCount = Array.isArray(attempts) ? attempts.length : 0;
+    } catch(e) {}
+    if (solvedExamsCount === 0 && streakData.totalDays > 1) {
+        solvedExamsCount = Math.min(24, Math.floor(streakData.totalDays * 1.5));
+    }
+    const xpPoints = (streakDays * 25) + (solvedExamsCount * 30) + 50;
+    const scholarLevel = Math.max(1, Math.floor(xpPoints / 100) + 1);
+
+    // Preferences
+    let prefs = { grade: 'Grade 12', stream: 'natural', dailyGoal: 25 };
+    try {
+        const saved = JSON.parse(localStorage.getItem('pel_student_preferences') || '{}');
+        if (saved.grade) prefs.grade = saved.grade;
+        if (saved.stream) prefs.stream = saved.stream;
+        if (saved.dailyGoal) prefs.dailyGoal = saved.dailyGoal;
+    } catch(e) {}
+    const streamTitle = prefs.stream === 'social' ? 'Social Science' : 'Natural Science';
+
+    const bodyHtml = `
+        <div class="profile-card-container">
+            <!-- Top Banner -->
+            <div class="profile-banner theme-${bannerTheme}" id="profile-banner-el">
+                <span class="role-pill" style="background: rgba(0,0,0,0.45); backdrop-filter: blur(8px); border: 1px solid rgba(255,255,255,0.2); font-size: 11px; color: #facc15; font-weight: 800;">
+                    ⭐ LEVEL ${scholarLevel} SCHOLAR
+                </span>
+                <div style="display: flex; gap: 8px;">
+                    <button type="button" class="profile-icon-btn" onclick="openProfileModal('settings')" title="Edit Profile Details">
+                        ⚙️
+                    </button>
+                    <button type="button" class="profile-icon-btn" onclick="closeModal()" title="Close">
+                        ✕
+                    </button>
+                </div>
+            </div>
+
+            <!-- Protruding Character Avatar Bust (Duolingo horizon-overlap style) -->
+            <div class="profile-avatar-protruding">
+                <div class="profile-avatar-circle" onclick="openProfileModal('avatars')" title="Click to customize your character persona">
+                    <div id="profile-avatar-render">
+                        ${renderStudentAvatarSvg(avatarId, 104)}
+                    </div>
+                    <div class="profile-avatar-badge-icon" id="profile-avatar-badge-el">
+                        ${avatarData.badge}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Student Identity & Meta -->
+            <div class="profile-identity-section">
+                <h3 class="profile-student-name">${escapeQuotes(currentFullName)}</h3>
+                <div class="profile-student-meta">
+                    <span style="font-weight: 700; color: #38bdf8;">@${escapeQuotes(currentUsername)}</span>
+                    <span>•</span>
+                    <span>${avatarData.title}</span>
+                    <span>•</span>
+                    <span class="role-pill ${user.role === 'admin' ? 'admin' : ''}" style="font-size: 10px; padding: 1px 7px;">${currentRole}</span>
+                </div>
+                <div class="profile-school-tag">
+                    Blessed G/Michael Catholic Secondary School • ${prefs.grade} (${streamTitle})
+                </div>
+            </div>
+
+            <!-- 3-Column Gamified Metric Strip -->
+            <div class="profile-stats-strip">
+                <div class="profile-stat-box" onclick="setView('library'); closeModal();" title="View past exam papers">
+                    <div class="profile-stat-val">📚 ${solvedExamsCount}</div>
+                    <div class="profile-stat-lbl">Exams Solved</div>
+                </div>
+                <div class="profile-stat-box" onclick="showStreakDetailsModal()" title="View study streak details">
+                    <div class="profile-stat-val" style="color: #f97316;">🔥 ${streakDays} <span style="font-size: 11px;">Days</span></div>
+                    <div class="profile-stat-lbl">Active Streak</div>
+                </div>
+                <div class="profile-stat-box" title="Study experience points">
+                    <div class="profile-stat-val" style="color: #eab308;">⚡ ${xpPoints}</div>
+                    <div class="profile-stat-lbl">Study XP</div>
+                </div>
+            </div>
+
+            <!-- Quick Action Bar -->
+            <div class="profile-action-bar">
+                <button type="button" class="desk-tool-btn ${activeProfileTab === 'avatars' ? 'active' : ''}" onclick="openProfileModal('avatars')">
+                    🎭 Avatar Vault
+                </button>
+                <button type="button" class="desk-tool-btn" onclick="shareStudentCard()" title="Copy student ID card to clipboard to share on Telegram">
+                    📤 Share Card
+                </button>
+                <button type="button" class="desk-tool-btn ${activeProfileTab === 'achievements' ? 'active' : ''}" onclick="openProfileModal('achievements')">
+                    🏆 Badges
+                </button>
+                <button type="button" class="desk-tool-btn ${activeProfileTab === 'settings' ? 'active' : ''}" onclick="openProfileModal('settings')">
+                    ✏️ Edit Info
+                </button>
+            </div>
+
+            <!-- Tab Content -->
+            <div class="profile-tab-content">
+                ${renderProfileTabContent(activeProfileTab, user, prefs, avatarId, bannerTheme, { streakDays, solvedExamsCount, xpPoints })}
+            </div>
+        </div>
+    `;
+
+    showModal('Student Identity & Character Card', bodyHtml);
+}
+
+function renderProfileTabContent(tab, user, prefs, currentAvatarId, currentTheme, stats) {
+    if (tab === 'avatars') {
+        const themePills = Object.keys(BANNER_THEMES).map(k => {
+            const t = BANNER_THEMES[k];
+            const isAct = currentTheme === k ? 'active' : '';
+            return `
+                <div class="profile-theme-chip ${isAct}" style="background: ${t.bg};" onclick="setStudentBannerTheme('${k}')">
+                    ${t.name} ${isAct ? '✓' : ''}
+                </div>
+            `;
+        }).join('');
+
+        const avatarCards = Object.values(STUDENT_AVATARS).map(av => {
+            const isAct = currentAvatarId === av.id ? 'active' : '';
+            return `
+                <div class="profile-avatar-card ${isAct}" onclick="setStudentAvatar('${av.id}')">
+                    <div style="width: 64px; height: 64px; border-radius: 50%; overflow: hidden; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 10px rgba(0,0,0,0.35);">
+                        ${av.render(64)}
+                    </div>
+                    <strong style="font-size: 12.5px; color: var(--text-main); margin-top: 4px; line-height: 1.2;">${av.name}</strong>
+                    <span style="font-size: 10.5px; color: var(--text-muted);">${av.badge} ${av.title}</span>
+                    <span class="role-pill" style="font-size: 9px; padding: 1px 6px; margin-top: 2px; ${isAct ? 'background: rgba(56, 189, 248, 0.2); color: #38bdf8;' : ''}">
+                        ${isAct ? '✓ Equipped' : 'Equip'}
+                    </span>
+                </div>
+            `;
+        }).join('');
+
+        return `
+            <div>
+                <span style="font-size: 11.5px; font-weight: 800; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; display: block; margin-bottom: 6px;">
+                    🎨 Banner Backdrop Theme
+                </span>
+                <div class="profile-theme-picker">
+                    ${themePills}
+                </div>
+
+                <span style="font-size: 11.5px; font-weight: 800; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; display: block; margin: 12px 0 6px 0;">
+                    🎭 Select Your Character Persona
+                </span>
+                <div class="profile-avatar-grid">
+                    ${avatarCards}
+                </div>
+            </div>
+        `;
+    } else if (tab === 'achievements') {
+        const badges = [
+            { icon: '🦉', title: 'Night Owl Scholar', desc: 'Active evening study & exam preparation', unlocked: true, color: '#6366f1' },
+            { icon: '⚡', title: 'Streak Sentinel', desc: `${stats.streakDays} consecutive study days logged`, unlocked: stats.streakDays >= 2, color: '#f97316' },
+            { icon: '📘', title: 'Formula Master', desc: 'Saved key formula sheets for quick revision', unlocked: true, color: '#38bdf8' },
+            { icon: '🎯', title: 'Past Paper Crusher', desc: `${stats.solvedExamsCount} past examination sets solved`, unlocked: stats.solvedExamsCount >= 1, color: '#22c55e' },
+            { icon: '🦁', title: 'BGMCS Champion', desc: 'Blessed G/Michael Catholic Pride & Academic Honesty', unlocked: true, color: '#eab308' },
+            { icon: '🤝', title: 'Open Community Notes', desc: 'Shared knowledge with classmates & study partners', unlocked: true, color: '#ec4899' }
+        ];
+
+        const cards = badges.map(b => `
+            <div class="profile-badge-card" style="${b.unlocked ? '' : 'opacity: 0.5; filter: grayscale(0.8);'}">
+                <div class="profile-badge-icon-box" style="background: ${b.color}22; border: 1.5px solid ${b.color}55;">
+                    ${b.icon}
+                </div>
+                <div>
+                    <strong style="font-size: 13.5px; color: var(--text-main); display: block;">${b.title}</strong>
+                    <span style="font-size: 11.5px; color: var(--text-muted);">${b.desc}</span>
+                    <span style="display: block; font-size: 10px; font-weight: 800; color: ${b.unlocked ? '#22c55e' : '#94a3b8'}; margin-top: 3px;">
+                        ${b.unlocked ? '✓ UNLOCKED' : '🔒 IN PROGRESS'}
+                    </span>
+                </div>
+            </div>
+        `).join('');
+
+        return `
+            <div>
+                <span style="font-size: 11.5px; font-weight: 800; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; display: block; margin-bottom: 10px;">
+                    🏆 Student Milestones & Honors
+                </span>
+                <div class="profile-badge-grid">
+                    ${cards}
+                </div>
+            </div>
+        `;
+    } else if (tab === 'settings') {
+        return `
+            <form id="profile-edit-form" onsubmit="saveProfileDetails(event)">
+                <div class="auth-form-group" style="margin-bottom: 12px;">
+                    <label style="font-size: 13px; font-weight: 700;">Student Full Name (Registered Name) *</label>
+                    <input type="text" id="profile-fullname" required value="${escapeQuotes(user.fullName || '')}" placeholder="e.g. Kidus Yahun" style="font-size: 14px;">
+                    <span style="font-size: 11.5px; color: var(--text-muted); margin-top: 4px; display: block;">
+                        This registered name appears on the top navigation bar, exam progress, and in school logs.
+                    </span>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px;">
+                    <div class="auth-form-group" style="margin: 0;">
+                        <label style="font-size: 12px; font-weight: 700;">Target Grade</label>
+                        <select id="profile-grade" class="desk-select" style="width: 100%; height: 38px;">
+                            <option value="Grade 12" ${prefs.grade === 'Grade 12' ? 'selected' : ''}>Grade 12</option>
+                            <option value="Grade 11" ${prefs.grade === 'Grade 11' ? 'selected' : ''}>Grade 11</option>
+                            <option value="Grade 10" ${prefs.grade === 'Grade 10' ? 'selected' : ''}>Grade 10</option>
+                            <option value="Grade 9" ${prefs.grade === 'Grade 9' ? 'selected' : ''}>Grade 9</option>
+                        </select>
+                    </div>
+                    <div class="auth-form-group" style="margin: 0;">
+                        <label style="font-size: 12px; font-weight: 700;">Academic Stream</label>
+                        <select id="profile-stream" class="desk-select" style="width: 100%; height: 38px;">
+                            <option value="natural" ${prefs.stream === 'natural' ? 'selected' : ''}>Natural Science 🔬</option>
+                            <option value="social" ${prefs.stream === 'social' ? 'selected' : ''}>Social Science 📚</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="auth-form-group" style="margin-bottom: 12px;">
+                    <label style="font-size: 12px; font-weight: 700;">Account Credentials (Read-only)</label>
+                    <div style="display: flex; gap: 8px;">
+                        <input type="text" value="@${escapeQuotes(user.username || '')}" disabled style="opacity: 0.6; cursor: not-allowed; flex: 1; font-size: 13px;">
+                        <input type="text" value="${escapeQuotes(user.email || 'No email')}" disabled style="opacity: 0.6; cursor: not-allowed; flex: 1.5; font-size: 13px;">
+                    </div>
+                </div>
+
+                <div style="display: flex; gap: 10px; margin-top: 18px;">
+                    <button type="button" class="btn-secondary" onclick="closeModal()" style="flex: 1;">Cancel</button>
+                    <button type="submit" class="btn-primary" id="btn-save-profile" style="flex: 2; font-weight: 800;">Save Registered Information</button>
+                </div>
+            </form>
+        `;
+    }
+    return '';
+}
+
+function setStudentAvatar(avatarId) {
+    if (!state.user) return;
+    state.user.avatarId = avatarId;
+    try {
+        localStorage.setItem('pel_user', JSON.stringify(state.user));
+    } catch(e) {}
+
+    playDeskChime('correct');
+    const av = getStudentAvatarDef(avatarId);
+    showToast(`✨ Equipped "${av.name}" avatar!`, 'success');
+
+    // Update live DOM inside open modal
+    const avatarRender = document.getElementById('profile-avatar-render');
+    const avatarBadge = document.getElementById('profile-avatar-badge-el');
+    if (avatarRender) avatarRender.innerHTML = renderStudentAvatarSvg(avatarId, 104);
+    if (avatarBadge) avatarBadge.innerHTML = av.badge;
+
+    renderHeader();
+    openProfileModal('avatars');
+
+    // Sync to backend & Supabase
+    fetch('/api/auth/profile', {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${state.token}`
+        },
+        body: JSON.stringify({ avatarId })
+    }).catch(() => {});
+
+    const sb = getSupabaseClient();
+    if (sb && state.user && state.user.id) {
+        sb.from('users').update({
+            full_name: state.user.fullName || state.user.username
+        }).eq('id', state.user.id).then(() => {}).catch(() => {});
+    }
+}
+
+function setStudentBannerTheme(themeKey) {
+    if (!state.user) return;
+    state.user.bannerTheme = themeKey;
+    try {
+        localStorage.setItem('pel_user', JSON.stringify(state.user));
+    } catch(e) {}
+
+    const bannerEl = document.getElementById('profile-banner-el');
+    if (bannerEl) {
+        bannerEl.className = `profile-banner theme-${themeKey}`;
+    }
+    showToast(`🎨 Theme changed to ${BANNER_THEMES[themeKey].name}!`, 'info');
+    openProfileModal('avatars');
+
+    // Sync to backend
+    fetch('/api/auth/profile', {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${state.token}`
+        },
+        body: JSON.stringify({ bannerTheme: themeKey })
+    }).catch(() => {});
+}
+
+function shareStudentCard() {
+    if (!state.user) return;
+    const user = state.user;
+    const displayName = user.fullName || user.username || 'Student';
+    const av = getStudentAvatarDef(user.avatarId || 'valedictorian');
+    const streak = getStudyStreakData();
+    let prefs = { grade: 'Grade 12', stream: 'Natural Science' };
+    try {
+        const s = JSON.parse(localStorage.getItem('pel_student_preferences') || '{}');
+        if (s.grade) prefs.grade = s.grade;
+        if (s.stream) prefs.stream = s.stream === 'social' ? 'Social Science' : 'Natural Science';
+    } catch(e) {}
+
+    const text = `🎓 BLESSED G/MICHAEL CATHOLIC SECONDARY SCHOOL\nSTUDENT IDENTITY CARD\n━━━━━━━━━━━━━━━━━━━━\n👤 Student: ${displayName} (@${user.username})\n🎭 Persona: ${av.badge} ${av.name} (${av.title})\n📚 Focus: ${prefs.grade} • ${prefs.stream}\n🔥 Streak: ${streak.count} Days Active\n━━━━━━━━━━━━━━━━━━━━\nPractice past exams & download PDFs:\nhttps://past-exam-library.vercel.app`;
+
+    navigator.clipboard.writeText(text).then(() => {
+        playDeskChime('fanfare');
+        showToast('📋 Student Card copied! Share on Telegram (@BGMCS1236) or WhatsApp!', 'success');
+    }).catch(() => {
+        showToast('Student Card ready! Copy from your screen.', 'info');
+    });
+}
+
+async function saveProfileDetails(e) {
     e.preventDefault();
     const btn = document.getElementById('btn-save-profile');
     const newFullName = document.getElementById('profile-fullname').value.trim();
+    const newGrade = document.getElementById('profile-grade').value;
+    const newStream = document.getElementById('profile-stream').value;
+
     if (!newFullName) {
         showToast('Please enter your registered name', 'warning');
         return;
@@ -2606,6 +3200,16 @@ async function saveProfileName(e) {
     }
 
     try {
+        // Save preferences
+        let prefs = {};
+        try {
+            prefs = JSON.parse(localStorage.getItem('pel_student_preferences') || '{}');
+        } catch(e) {}
+        prefs.grade = newGrade;
+        prefs.stream = newStream;
+        localStorage.setItem('pel_student_preferences', JSON.stringify(prefs));
+        deskState.grade = newGrade;
+
         const res = await fetch('/api/auth/profile', {
             method: 'PUT',
             headers: {
@@ -2620,21 +3224,27 @@ async function saveProfileName(e) {
             localStorage.setItem('pel_user', JSON.stringify(state.user));
             renderHeader();
             closeModal();
-            showToast('Registered name updated successfully!', 'success');
+            playDeskChime('correct');
+            showToast('Registered student information saved successfully!', 'success');
         } else {
             showToast(data.message || 'Failed to update registered name', 'error');
             if (btn) {
                 btn.disabled = false;
-                btn.textContent = 'Save Registered Name';
+                btn.textContent = 'Save Registered Information';
             }
         }
     } catch (err) {
-        showToast('Network error while saving registered name', 'error');
+        showToast('Network error while saving registered info', 'error');
         if (btn) {
             btn.disabled = false;
-            btn.textContent = 'Save Registered Name';
+            btn.textContent = 'Save Registered Information';
         }
     }
+}
+
+// Backward-compatible alias
+async function saveProfileName(e) {
+    return saveProfileDetails(e);
 }
 
 function logout(notify = true) {

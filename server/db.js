@@ -324,6 +324,8 @@ class Database {
         if (!user) return null;
         if (updateData.fullName) user.fullName = updateData.fullName.trim();
         if (updateData.email) user.email = updateData.email.trim();
+        if (updateData.avatarId) user.avatarId = updateData.avatarId;
+        if (updateData.bannerTheme) user.bannerTheme = updateData.bannerTheme;
         this.save();
         return user;
     }

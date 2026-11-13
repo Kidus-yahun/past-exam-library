@@ -7104,6 +7104,376 @@ footer {
     border-top-color: #e2e8f0;
 }
 
+/* ========================================================
+   STUDENT PROFILE & CHARACTER CARD (GAMIFIED PRESTIGE ID)
+======================================================== */
+.modal-dialog:has(.profile-card-container) {
+    max-width: 560px;
+    padding: 0;
+    overflow: hidden;
+    background: #0b1120;
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    box-shadow: 0 25px 70px rgba(0, 0, 0, 0.85), 0 0 35px rgba(99, 102, 241, 0.25);
+}
+
+.modal-dialog:has(.profile-card-container) .modal-header {
+    display: none;
+}
+
+.modal-dialog:has(.profile-card-container) .modal-body {
+    padding: 0;
+}
+
+.profile-card-container {
+    background: #0b1120;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.profile-banner {
+    height: 126px;
+    position: relative;
+    padding: 16px 18px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    transition: background 0.35s ease;
+}
+
+.profile-banner.theme-gold {
+    background: linear-gradient(135deg, #d97706, #78350f 60%, #1e1b4b);
+}
+
+.profile-banner.theme-cosmic {
+    background: linear-gradient(135deg, #090d16, #1e1b4b 45%, #312e81 80%, #0284c7);
+}
+
+.profile-banner.theme-aurora {
+    background: linear-gradient(135deg, #022c22, #047857 55%, #10b981);
+}
+
+.profile-banner.theme-crimson {
+    background: linear-gradient(135deg, #7f1d1d, #991b1b 55%, #d97706);
+}
+
+.profile-banner.theme-cyber {
+    background: linear-gradient(135deg, #3b0764, #701a75 50%, #0284c7);
+}
+
+.profile-icon-btn {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.profile-icon-btn:hover {
+    transform: scale(1.1);
+    background: rgba(0, 0, 0, 0.65);
+    border-color: rgba(255, 255, 255, 0.4);
+}
+
+.profile-avatar-protruding {
+    position: relative;
+    margin-top: -55px;
+    display: flex;
+    justify-content: center;
+    z-index: 5;
+}
+
+.profile-avatar-circle {
+    width: 104px;
+    height: 104px;
+    border-radius: 50%;
+    border: 4px solid #0b1120;
+    background: #0f172a;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.7), 0 0 20px rgba(99, 102, 241, 0.4);
+    position: relative;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.profile-avatar-circle:hover {
+    transform: scale(1.05);
+}
+
+.profile-avatar-badge-icon {
+    position: absolute;
+    bottom: -2px;
+    right: 2px;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: #0f172a;
+    border: 2px solid #6366f1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
+}
+
+.profile-identity-section {
+    text-align: center;
+    padding: 10px 22px 2px 22px;
+}
+
+.profile-student-name {
+    margin: 0;
+    font-size: 21px;
+    font-weight: 800;
+    color: #ffffff;
+    letter-spacing: -0.3px;
+    font-family: 'Outfit', sans-serif;
+}
+
+.profile-student-meta {
+    margin-top: 5px;
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    align-items: center;
+    font-size: 12.5px;
+    color: var(--text-muted);
+}
+
+.profile-school-tag {
+    margin-top: 6px;
+    font-size: 11px;
+    font-weight: 700;
+    color: #38bdf8;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+}
+
+.profile-stats-strip {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin: 14px 20px;
+}
+
+.profile-stat-box {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1.5px solid rgba(255, 255, 255, 0.09);
+    border-radius: 14px;
+    padding: 11px 8px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.profile-stat-box:hover {
+    background: rgba(255, 255, 255, 0.08);
+    transform: translateY(-2px);
+    border-color: rgba(99, 102, 241, 0.5);
+}
+
+.profile-stat-val {
+    font-size: 17px;
+    font-weight: 800;
+    color: #ffffff;
+    font-family: 'Outfit', sans-serif;
+}
+
+.profile-stat-lbl {
+    font-size: 11px;
+    color: var(--text-muted);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    margin-top: 2px;
+}
+
+.profile-action-bar {
+    display: flex;
+    gap: 8px;
+    padding: 0 20px 14px 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.profile-tab-content {
+    padding: 16px 20px 22px 20px;
+    max-height: 330px;
+    overflow-y: auto;
+}
+
+/* Avatar Vault Grid */
+.profile-avatar-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.profile-avatar-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 2px solid rgba(255, 255, 255, 0.08);
+    border-radius: 14px;
+    padding: 12px 6px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+}
+
+.profile-avatar-card:hover {
+    transform: translateY(-3px);
+    border-color: rgba(99, 102, 241, 0.6);
+    background: rgba(255, 255, 255, 0.07);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
+}
+
+.profile-avatar-card.active {
+    border-color: #38bdf8;
+    background: rgba(56, 189, 248, 0.12);
+    box-shadow: 0 0 16px rgba(56, 189, 248, 0.35);
+}
+
+.profile-theme-picker {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 12px;
+    overflow-x: auto;
+    padding-bottom: 6px;
+}
+
+.profile-theme-chip {
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 11.5px;
+    font-weight: 700;
+    color: #ffffff;
+    cursor: pointer;
+    border: 1.5px solid transparent;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+}
+
+.profile-theme-chip.active {
+    border-color: #ffffff;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.4);
+    transform: scale(1.05);
+}
+
+/* Badges Grid */
+.profile-badge-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+}
+
+.profile-badge-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1.5px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    padding: 12px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.profile-badge-icon-box {
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    flex-shrink: 0;
+}
+
+/* Light Mode Overrides */
+[data-theme="light"] .modal-dialog:has(.profile-card-container) {
+    background: #ffffff;
+    border-color: #e2e8f0;
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.15);
+}
+
+[data-theme="light"] .profile-card-container {
+    background: #ffffff;
+}
+
+[data-theme="light"] .profile-avatar-circle {
+    border-color: #ffffff;
+    background: #f8fafc;
+}
+
+[data-theme="light"] .profile-student-name {
+    color: #0f172a;
+}
+
+[data-theme="light"] .profile-stat-box {
+    background: #f8fafc;
+    border-color: #e2e8f0;
+}
+
+[data-theme="light"] .profile-stat-val {
+    color: #0f172a;
+}
+
+[data-theme="light"] .profile-action-bar {
+    border-bottom-color: #e2e8f0;
+}
+
+[data-theme="light"] .profile-avatar-card {
+    background: #f8fafc;
+    border-color: #e2e8f0;
+}
+
+[data-theme="light"] .profile-avatar-card:hover {
+    background: #f1f5f9;
+}
+
+[data-theme="light"] .profile-badge-card {
+    background: #f8fafc;
+    border-color: #e2e8f0;
+}
+
+@media (max-width: 520px) {
+    .profile-avatar-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .profile-badge-grid {
+        grid-template-columns: 1fr;
+    }
+    .profile-banner {
+        height: 110px;
+    }
+    .profile-avatar-circle {
+        width: 90px;
+        height: 90px;
+    }
+    .profile-avatar-protruding {
+        margin-top: -45px;
+    }
+    .profile-stat-val {
+        font-size: 15px;
+    }
+}
+
+
 
 
 

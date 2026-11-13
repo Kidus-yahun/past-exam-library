@@ -470,14 +470,19 @@ app.get('/api/auth/me', authenticateToken, (req, res) => {
     });
 });
 
-// Update Student / User Profile (e.g. Registered Full Name)
+// Update Student / User Profile (e.g. Registered Full Name, Avatar, Banner)
 app.put('/api/auth/profile', authenticateToken, (req, res) => {
     try {
-        const { fullName, email } = req.body;
-        if (!fullName || !fullName.trim()) {
+        const { fullName, email, avatarId, bannerTheme } = req.body;
+        if (fullName !== undefined && !fullName.trim()) {
             return res.status(400).json({ success: false, message: 'Full name cannot be empty' });
         }
-        const updated = db.updateUserProfile(req.user.id, { fullName: fullName.trim(), email });
+        const updated = db.updateUserProfile(req.user.id, {
+            fullName: fullName ? fullName.trim() : undefined,
+            email,
+            avatarId,
+            bannerTheme
+        });
         if (!updated) {
             return res.status(404).json({ success: false, message: 'User not found' });
         }
@@ -489,7 +494,9 @@ app.put('/api/auth/profile', authenticateToken, (req, res) => {
                 username: updated.username,
                 email: updated.email,
                 role: updated.role,
-                fullName: updated.fullName
+                fullName: updated.fullName,
+                avatarId: updated.avatarId,
+                bannerTheme: updated.bannerTheme
             }
         });
     } catch (err) {
