@@ -2610,284 +2610,357 @@ function updateMobileBottomNav() {
     setItemActive('mob-nav-studyhub', isStudyHubActive);
 }
 
+// =======================================================// ========================================================
+// STUDENT IDENTITY & CUSTOM AVATAR CREATOR STUDIO
 // ========================================================
-// STUDENT IDENTITY, DISTINCTIVE AVATAR & CHARACTER SYSTEM
-// ========================================================
-const STUDENT_AVATARS = {
+const AVATAR_OPTIONS = {
+    skinTones: [
+        { id: 'dark-deep', color: '#452b1f', shadow: '#2e1c14', name: 'Deep Espresso' },
+        { id: 'dark-rich', color: '#68402c', shadow: '#482a1b', name: 'Rich Bronze' },
+        { id: 'medium-warm', color: '#8d5524', shadow: '#6b3c14', name: 'Warm Amber' },
+        { id: 'caramel', color: '#c68642', shadow: '#9e6428', name: 'Golden Caramel' },
+        { id: 'honey', color: '#e0ac69', shadow: '#b88344', name: 'Warm Honey' },
+        { id: 'fair', color: '#f1c27d', shadow: '#c49655', name: 'Light Fair' }
+    ],
+    hairStyles: [
+        { id: 'afro', name: 'Classic Afro' },
+        { id: 'fade', name: 'High-Top Fade' },
+        { id: 'curls', name: 'Curly Waves' },
+        { id: 'locs', name: 'Dreadlocks' },
+        { id: 'braids', name: 'Cornrow Braids' },
+        { id: 'short', name: 'Scholar Part' },
+        { id: 'wavy', name: 'Flowing Waves' },
+        { id: 'buzz', name: 'Clean Buzz' }
+    ],
+    hairColors: [
+        { id: 'black', color: '#171717', highlight: '#2e2e2e', name: 'Jet Black' },
+        { id: 'dark-brown', color: '#382216', highlight: '#543624', name: 'Dark Brown' },
+        { id: 'chestnut', color: '#593217', highlight: '#784622', name: 'Chestnut' },
+        { id: 'golden', color: '#d97706', highlight: '#f59e0b', name: 'Golden Honey' },
+        { id: 'burgundy', color: '#831843', highlight: '#9d174d', name: 'Deep Burgundy' },
+        { id: 'cyan', color: '#0891b2', highlight: '#06b6d4', name: 'Cyber Cyan' }
+    ],
+    expressions: [
+        { id: 'confident', name: 'Confident Smirk' },
+        { id: 'happy', name: 'Warm Smile' },
+        { id: 'grin', name: 'Big Grin' },
+        { id: 'wink', name: 'Playful Wink' }
+    ],
+    eyewear: [
+        { id: 'none', name: 'None' },
+        { id: 'round', name: 'Scholar Specs 👓' },
+        { id: 'sunglasses', name: 'Cool Shades 🕶️' },
+        { id: 'cyber', name: 'Cyber HUD 💻' },
+        { id: 'goggles', name: 'Lab Goggles 🥽' }
+    ],
+    headwear: [
+        { id: 'none', name: 'None' },
+        { id: 'cap', name: 'Graduation Cap 🎓' },
+        { id: 'headphones', name: 'Headphones 🎧' },
+        { id: 'headband', name: 'Ethiopian Band 🇪🇹' },
+        { id: 'beanie', name: 'Cozy Beanie 🧢' }
+    ],
+    outfits: [
+        { id: 'blazer', name: 'Blazer & Tie 👔' },
+        { id: 'labcoat', name: 'Lab Coat 🥼' },
+        { id: 'hoodie', name: 'Student Hoodie 🧥' },
+        { id: 'gown', name: 'Honor Gown 🎓' },
+        { id: 'varsity', name: 'Varsity Jacket 🏅' }
+    ],
+    outfitColors: [
+        { id: 'navy', color: '#1e3a8a', trim: '#3b82f6', name: 'Royal Navy' },
+        { id: 'crimson', color: '#991b1b', trim: '#ef4444', name: 'Crimson' },
+        { id: 'emerald', color: '#065f46', trim: '#10b981', name: 'Emerald' },
+        { id: 'amber', color: '#b45309', trim: '#f59e0b', name: 'Gold Amber' },
+        { id: 'purple', color: '#581c87', trim: '#a855f7', name: 'Purple' },
+        { id: 'dark', color: '#18181b', trim: '#71717a', name: 'Onyx' }
+    ],
+    bgGradients: [
+        { id: 'navy-indigo', from: '#1e1b4b', to: '#312e81', border: '#6366f1', name: 'Royal Academy' },
+        { id: 'galaxy', from: '#090d16', to: '#1e1b4b', border: '#38bdf8', name: 'Cosmic Nebula' },
+        { id: 'forest', from: '#022c22', to: '#064e3b', border: '#10b981', name: 'Emerald Forest' },
+        { id: 'sunset', from: '#7c2d12', to: '#b45309', border: '#f59e0b', name: 'Amber Sunset' },
+        { id: 'cyber', from: '#3b0764', to: '#701a75', border: '#ec4899', name: 'Cyber Neon' },
+        { id: 'fire', from: '#450a0a', to: '#991b1b', border: '#ef4444', name: 'St. Michael Crimson' }
+    ]
+};
+
+const DEFAULT_AVATAR_CONFIG = {
+    skin: 'medium-warm',
+    hair: 'afro',
+    hairColor: 'black',
+    expression: 'confident',
+    eyewear: 'round',
+    headwear: 'cap',
+    outfit: 'blazer',
+    outfitColor: 'navy',
+    bg: 'navy-indigo'
+};
+
+const AVATAR_PRESETS = {
     valedictorian: {
-        id: 'valedictorian',
         name: 'The Valedictorian',
-        title: 'National Top Scorer',
         badge: '🎓',
-        roleHint: 'National Exam Honors & University Entrance',
-        color: '#6366f1',
-        render: (s) => `
-            <svg viewBox="0 0 100 100" width="${s}" height="${s}" xmlns="http://www.w3.org/2000/svg">
-                <defs>
-                    <linearGradient id="v-bg-${s}" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#1e1b4b"/><stop offset="100%" stop-color="#312e81"/></linearGradient>
-                    <linearGradient id="v-skin-${s}" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#f5d0b0"/><stop offset="100%" stop-color="#e2b189"/></linearGradient>
-                    <linearGradient id="v-gold-${s}" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#facc15"/><stop offset="100%" stop-color="#eab308"/></linearGradient>
-                    <linearGradient id="v-gown-${s}" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#1e293b"/><stop offset="100%" stop-color="#0f172a"/></linearGradient>
-                </defs>
-                <circle cx="50" cy="50" r="48" fill="url(#v-bg-${s})" stroke="#6366f1" stroke-width="2.5"/>
-                <circle cx="20" cy="25" r="1.5" fill="#facc15" opacity="0.8"/>
-                <circle cx="80" cy="22" r="1.5" fill="#facc15" opacity="0.8"/>
-                <circle cx="85" cy="55" r="1" fill="#ffffff" opacity="0.6"/>
-                <path d="M 20 96 C 20 74, 36 68, 50 68 C 64 68, 80 74, 80 96 Z" fill="url(#v-gown-${s})"/>
-                <path d="M 38 68 L 44 96 L 50 96 L 46 68 Z" fill="url(#v-gold-${s})"/>
-                <path d="M 62 68 L 56 96 L 50 96 L 54 68 Z" fill="url(#v-gold-${s})"/>
-                <polygon points="50,72 52,76 56,76 53,79 54,83 50,81 46,83 47,79 44,76 48,76" fill="#facc15"/>
-                <rect x="44" y="58" width="12" height="13" rx="4" fill="#e2b189"/>
-                <ellipse cx="50" cy="46" rx="18" ry="20" fill="url(#v-skin-${s})"/>
-                <ellipse cx="43" cy="46" rx="2.5" ry="3" fill="#1e293b"/>
-                <ellipse cx="57" cy="46" rx="2.5" ry="3" fill="#1e293b"/>
-                <circle cx="44" cy="45" r="0.8" fill="#ffffff"/>
-                <circle cx="58" cy="45" r="0.8" fill="#ffffff"/>
-                <circle cx="43" cy="46" r="6" stroke="#facc15" stroke-width="1.4" fill="none" opacity="0.9"/>
-                <circle cx="57" cy="46" r="6" stroke="#facc15" stroke-width="1.4" fill="none" opacity="0.9"/>
-                <line x1="49" y1="46" x2="51" y2="46" stroke="#facc15" stroke-width="1.4"/>
-                <path d="M 45 54 Q 50 58 55 54" stroke="#9a3412" stroke-width="1.8" fill="none" stroke-linecap="round"/>
-                <polygon points="50,18 78,28 50,38 22,28" fill="#0f172a" stroke="#facc15" stroke-width="1.2"/>
-                <rect x="36" y="29" width="28" height="6" rx="3" fill="#1e293b"/>
-                <circle cx="50" cy="28" r="2.5" fill="#facc15"/>
-                <path d="M 50 28 Q 66 30 68 44" stroke="#facc15" stroke-width="1.8" fill="none"/>
-                <circle cx="68" cy="45" r="2" fill="#eab308"/>
-            </svg>`
+        config: { skin: 'medium-warm', hair: 'short', hairColor: 'black', expression: 'confident', eyewear: 'round', headwear: 'cap', outfit: 'blazer', outfitColor: 'navy', bg: 'navy-indigo' }
     },
     physicist: {
-        id: 'physicist',
         name: 'The Quantum Physicist',
-        title: 'STEM & Formula Prodigy',
         badge: '⚡',
-        roleHint: 'Math, Physics & Chemical Reactions',
-        color: '#14b8a6',
-        render: (s) => `
-            <svg viewBox="0 0 100 100" width="${s}" height="${s}" xmlns="http://www.w3.org/2000/svg">
-                <defs>
-                    <linearGradient id="p-bg-${s}" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#042f2e"/><stop offset="100%" stop-color="#0f766e"/></linearGradient>
-                    <linearGradient id="p-skin-${s}" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#e8b896"/><stop offset="100%" stop-color="#cf9770"/></linearGradient>
-                </defs>
-                <circle cx="50" cy="50" r="48" fill="url(#p-bg-${s})" stroke="#14b8a6" stroke-width="2.5"/>
-                <ellipse cx="50" cy="48" rx="42" ry="14" fill="none" stroke="#22d3ee" stroke-width="1" stroke-dasharray="3,3" opacity="0.6" transform="rotate(-25 50 48)"/>
-                <ellipse cx="50" cy="48" rx="42" ry="14" fill="none" stroke="#a7f3d0" stroke-width="1" stroke-dasharray="3,3" opacity="0.6" transform="rotate(25 50 48)"/>
-                <circle cx="22" cy="38" r="2.5" fill="#22d3ee"/>
-                <circle cx="78" cy="58" r="2.5" fill="#34d399"/>
-                <path d="M 20 96 C 20 74, 36 68, 50 68 C 64 68, 80 74, 80 96 Z" fill="#f8fafc"/>
-                <path d="M 40 70 L 50 96 L 60 70 Z" fill="#0f766e"/>
-                <rect x="44" y="58" width="12" height="13" rx="4" fill="#cf9770"/>
-                <ellipse cx="50" cy="46" rx="18" ry="20" fill="url(#p-skin-${s})"/>
-                <path d="M 30 38 Q 36 22 50 24 Q 64 22 70 38 Q 62 30 50 32 Q 38 30 30 38 Z" fill="#1e293b"/>
-                <rect x="33" y="30" width="34" height="10" rx="5" fill="#0f172a" stroke="#22d3ee" stroke-width="1.5"/>
-                <circle cx="41" cy="35" r="4" fill="#06b6d4" opacity="0.85"/>
-                <circle cx="59" cy="35" r="4" fill="#06b6d4" opacity="0.85"/>
-                <ellipse cx="43" cy="48" rx="2.5" ry="3" fill="#0f172a"/>
-                <ellipse cx="57" cy="48" rx="2.5" ry="3" fill="#0f172a"/>
-                <circle cx="44" cy="47" r="0.8" fill="#ffffff"/>
-                <circle cx="58" cy="47" r="0.8" fill="#ffffff"/>
-                <path d="M 45 56 Q 50 59 55 56" stroke="#9a3412" stroke-width="1.8" fill="none" stroke-linecap="round"/>
-            </svg>`
-    },
-    astronaut: {
-        id: 'astronaut',
-        name: 'The Cosmic Explorer',
-        title: 'High Horizons Pioneer',
-        badge: '🚀',
-        roleHint: 'Astronomy, Universal Limits & Focus',
-        color: '#38bdf8',
-        render: (s) => `
-            <svg viewBox="0 0 100 100" width="${s}" height="${s}" xmlns="http://www.w3.org/2000/svg">
-                <defs>
-                    <linearGradient id="a-bg-${s}" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#090d16"/><stop offset="100%" stop-color="#1e1b4b"/></linearGradient>
-                    <linearGradient id="a-visor-${s}" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#38bdf8"/><stop offset="50%" stop-color="#818cf8"/><stop offset="100%" stop-color="#c084fc"/></linearGradient>
-                </defs>
-                <circle cx="50" cy="50" r="48" fill="url(#a-bg-${s})" stroke="#38bdf8" stroke-width="2.5"/>
-                <polygon points="25,20 26,23 29,24 26,25 25,28 24,25 21,24 24,23" fill="#38bdf8"/>
-                <polygon points="76,28 77,30 79,31 77,32 76,34 75,32 73,31 75,30" fill="#facc15"/>
-                <path d="M 18 96 C 18 72, 34 66, 50 66 C 66 66, 82 72, 82 96 Z" fill="#f1f5f9"/>
-                <rect x="42" y="74" width="16" height="8" rx="2" fill="#0284c7"/>
-                <circle cx="50" cy="44" r="24" fill="#e2e8f0" stroke="#94a3b8" stroke-width="2"/>
-                <ellipse cx="50" cy="44" rx="19" ry="16" fill="url(#a-visor-${s})"/>
-                <path d="M 36 34 Q 48 30 62 36 Q 52 33 38 40 Z" fill="#ffffff" opacity="0.6"/>
-                <rect x="23" y="40" width="5" height="10" rx="2" fill="#0284c7"/>
-                <rect x="72" y="40" width="5" height="10" rx="2" fill="#0284c7"/>
-            </svg>`
+        config: { skin: 'dark-rich', hair: 'afro', hairColor: 'black', expression: 'confident', eyewear: 'goggles', headwear: 'none', outfit: 'labcoat', outfitColor: 'navy', bg: 'galaxy' }
     },
     cyber_architect: {
-        id: 'cyber_architect',
         name: 'The Cyber Architect',
-        title: 'Digital & Logic Master',
         badge: '💻',
-        roleHint: 'Computer Science, Algorithms & Logic',
-        color: '#ec4899',
-        render: (s) => `
-            <svg viewBox="0 0 100 100" width="${s}" height="${s}" xmlns="http://www.w3.org/2000/svg">
-                <defs>
-                    <linearGradient id="c-bg-${s}" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#2e1065"/><stop offset="100%" stop-color="#4c1d95"/></linearGradient>
-                    <linearGradient id="c-skin-${s}" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#e2b490"/><stop offset="100%" stop-color="#c69572"/></linearGradient>
-                </defs>
-                <circle cx="50" cy="50" r="48" fill="url(#c-bg-${s})" stroke="#ec4899" stroke-width="2.5"/>
-                <path d="M 12 30 L 26 30 L 32 40" stroke="#a855f7" stroke-width="1.2" fill="none" opacity="0.7"/>
-                <path d="M 88 35 L 74 35 L 68 45" stroke="#06b6d4" stroke-width="1.2" fill="none" opacity="0.7"/>
-                <path d="M 20 96 C 20 74, 36 66, 50 66 C 64 66, 80 74, 80 96 Z" fill="#0f172a"/>
-                <path d="M 36 68 L 50 88 L 64 68" stroke="#ec4899" stroke-width="2" fill="none"/>
-                <rect x="44" y="56" width="12" height="14" rx="4" fill="#c69572"/>
-                <ellipse cx="50" cy="44" rx="18" ry="20" fill="url(#c-skin-${s})"/>
-                <path d="M 32 38 Q 36 18 50 18 Q 66 18 68 38 Q 62 26 50 26 Q 38 26 32 38 Z" fill="#06b6d4"/>
-                <rect x="30" y="38" width="40" height="13" rx="4" fill="#09090b" stroke="#ec4899" stroke-width="2"/>
-                <line x1="34" y1="44" x2="66" y2="44" stroke="#06b6d4" stroke-width="1.5" stroke-dasharray="4,2"/>
-                <circle cx="50" cy="44" r="2" fill="#ec4899"/>
-                <path d="M 46 54 Q 52 57 56 53" stroke="#9a3412" stroke-width="1.8" fill="none" stroke-linecap="round"/>
-            </svg>`
-    },
-    lion_champion: {
-        id: 'lion_champion',
-        name: 'The St. Michael Champion',
-        title: 'School Heritage Scholar',
-        badge: '🦁',
-        roleHint: 'Blessed G/Michael Pride & Excellence',
-        color: '#f59e0b',
-        render: (s) => `
-            <svg viewBox="0 0 100 100" width="${s}" height="${s}" xmlns="http://www.w3.org/2000/svg">
-                <defs>
-                    <linearGradient id="l-bg-${s}" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#451a03"/><stop offset="100%" stop-color="#78350f"/></linearGradient>
-                </defs>
-                <circle cx="50" cy="50" r="48" fill="url(#l-bg-${s})" stroke="#facc15" stroke-width="2.5"/>
-                <path d="M 16 35 A 40 40 0 0 1 84 35" fill="none" stroke="#22c55e" stroke-width="2" opacity="0.7"/>
-                <path d="M 19 32 A 40 40 0 0 1 81 32" fill="none" stroke="#eab308" stroke-width="2" opacity="0.7"/>
-                <path d="M 22 29 A 40 40 0 0 1 78 29" fill="none" stroke="#ef4444" stroke-width="2" opacity="0.7"/>
-                <path d="M 20 96 C 20 74, 36 68, 50 68 C 64 68, 80 74, 80 96 Z" fill="#1e293b"/>
-                <path d="M 26 96 L 46 68 L 54 68 L 34 96 Z" fill="#b91c1c"/>
-                <circle cx="50" cy="46" r="24" fill="#b45309"/>
-                <circle cx="50" cy="47" r="18" fill="#f59e0b"/>
-                <circle cx="34" cy="32" r="6" fill="#b45309"/>
-                <circle cx="34" cy="32" r="3.5" fill="#fef08a"/>
-                <circle cx="66" cy="32" r="6" fill="#b45309"/>
-                <circle cx="66" cy="32" r="3.5" fill="#fef08a"/>
-                <ellipse cx="50" cy="53" rx="8" ry="6" fill="#fef08a"/>
-                <polygon points="50,51 46,47 54,47" fill="#78350f"/>
-                <ellipse cx="43" cy="44" rx="2.8" ry="3" fill="#451a03"/>
-                <ellipse cx="57" cy="44" rx="2.8" ry="3" fill="#451a03"/>
-                <circle cx="44" cy="43" r="0.9" fill="#ffffff"/>
-                <circle cx="58" cy="43" r="0.9" fill="#ffffff"/>
-                <polygon points="50,18 52,24 57,21 54,26 58,28 52,29 50,34 48,29 42,28 46,26 43,21 48,24" fill="#facc15"/>
-            </svg>`
+        config: { skin: 'caramel', hair: 'fade', hairColor: 'cyan', expression: 'confident', eyewear: 'cyber', headwear: 'headphones', outfit: 'hoodie', outfitColor: 'purple', bg: 'cyber' }
     },
     medic: {
-        id: 'medic',
         name: 'The Medical Prodigy',
-        title: 'Biology & Health Lead',
         badge: '🩺',
-        roleHint: 'Biology, Genetics & Medical Sciences',
-        color: '#10b981',
-        render: (s) => `
-            <svg viewBox="0 0 100 100" width="${s}" height="${s}" xmlns="http://www.w3.org/2000/svg">
-                <defs>
-                    <linearGradient id="m-bg-${s}" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#064e3b"/><stop offset="100%" stop-color="#047857"/></linearGradient>
-                    <linearGradient id="m-skin-${s}" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#f2cfad"/><stop offset="100%" stop-color="#d9a87e"/></linearGradient>
-                </defs>
-                <circle cx="50" cy="50" r="48" fill="url(#m-bg-${s})" stroke="#34d399" stroke-width="2.5"/>
-                <path d="M 20 96 C 20 74, 36 68, 50 68 C 64 68, 80 74, 80 96 Z" fill="#0d9488"/>
-                <path d="M 38 68 Q 38 88 50 88 Q 62 88 62 68" stroke="#334155" stroke-width="3" fill="none"/>
-                <circle cx="50" cy="88" r="4" fill="#94a3b8" stroke="#f8fafc" stroke-width="1.2"/>
-                <rect x="44" y="58" width="12" height="13" rx="4" fill="#d9a87e"/>
-                <ellipse cx="50" cy="46" rx="18" ry="20" fill="url(#m-skin-${s})"/>
-                <path d="M 32 38 Q 36 24 50 24 Q 64 24 68 38 Q 62 30 50 30 Q 38 30 32 38 Z" fill="#1e293b"/>
-                <rect x="31" y="27" width="38" height="6" rx="2" fill="#ffffff"/>
-                <rect x="48" y="28" width="4" height="4" fill="#ef4444"/>
-                <ellipse cx="43" cy="46" rx="2.5" ry="3" fill="#1e293b"/>
-                <ellipse cx="57" cy="46" rx="2.5" ry="3" fill="#1e293b"/>
-                <circle cx="44" cy="45" r="0.8" fill="#ffffff"/>
-                <circle cx="58" cy="45" r="0.8" fill="#ffffff"/>
-                <path d="M 44 54 Q 50 58 56 54" stroke="#9a3412" stroke-width="1.8" fill="none" stroke-linecap="round"/>
-            </svg>`
+        config: { skin: 'dark-deep', hair: 'curls', hairColor: 'black', expression: 'happy', eyewear: 'none', headwear: 'none', outfit: 'labcoat', outfitColor: 'emerald', bg: 'forest' }
     },
-    mastermind: {
-        id: 'mastermind',
-        name: 'The Master Strategist',
-        title: 'Critical Reasoner',
-        badge: '🧠',
-        roleHint: 'Analytical Strategy & Exam Tactics',
-        color: '#a855f7',
-        render: (s) => `
-            <svg viewBox="0 0 100 100" width="${s}" height="${s}" xmlns="http://www.w3.org/2000/svg">
-                <defs>
-                    <linearGradient id="t-bg-${s}" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#3b0764"/><stop offset="100%" stop-color="#581c87"/></linearGradient>
-                    <linearGradient id="t-skin-${s}" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#e8bd9b"/><stop offset="100%" stop-color="#cb966e"/></linearGradient>
-                </defs>
-                <circle cx="50" cy="50" r="48" fill="url(#t-bg-${s})" stroke="#c084fc" stroke-width="2.5"/>
-                <circle cx="24" cy="28" r="2" fill="#c084fc"/>
-                <circle cx="76" cy="26" r="2" fill="#e879f9"/>
-                <path d="M 20 96 C 20 74, 36 68, 50 68 C 64 68, 80 74, 80 96 Z" fill="#334155"/>
-                <ellipse cx="50" cy="69" rx="16" ry="6" fill="#c084fc"/>
-                <rect x="44" y="58" width="12" height="11" rx="4" fill="#cb966e"/>
-                <ellipse cx="50" cy="46" rx="18" ry="20" fill="url(#t-skin-${s})"/>
-                <path d="M 31 38 Q 34 22 50 22 Q 66 22 69 38 Q 63 28 50 28 Q 37 28 31 38 Z" fill="#3f2314"/>
-                <circle cx="43" cy="46" r="6" stroke="#b45309" stroke-width="1.8" fill="none"/>
-                <circle cx="57" cy="46" r="6" stroke="#b45309" stroke-width="1.8" fill="none"/>
-                <line x1="49" y1="46" x2="51" y2="46" stroke="#b45309" stroke-width="1.8"/>
-                <ellipse cx="43" cy="46" rx="2" ry="2.5" fill="#1e293b"/>
-                <ellipse cx="57" cy="46" rx="2.5" ry="2.5" fill="#1e293b"/>
-                <polygon points="66,38 72,34 74,37 68,41" fill="#facc15"/>
-                <path d="M 46 55 Q 51 58 55 54" stroke="#9a3412" stroke-width="1.8" fill="none" stroke-linecap="round"/>
-            </svg>`
+    bgmcs_champion: {
+        name: 'BGMCS Champion',
+        badge: '🦁',
+        config: { skin: 'dark-rich', hair: 'locs', hairColor: 'black', expression: 'grin', eyewear: 'none', headwear: 'headband', outfit: 'varsity', outfitColor: 'crimson', bg: 'fire' }
     },
-    titan: {
-        id: 'titan',
-        name: 'The Streak Titan',
-        title: 'Exam Sprint Runner',
-        badge: '⚡',
-        roleHint: 'Endurance, Speed Quizzing & Streaks',
-        color: '#f97316',
-        render: (s) => `
-            <svg viewBox="0 0 100 100" width="${s}" height="${s}" xmlns="http://www.w3.org/2000/svg">
-                <defs>
-                    <linearGradient id="ti-bg-${s}" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#7c2d12"/><stop offset="100%" stop-color="#ea580c"/></linearGradient>
-                    <linearGradient id="ti-skin-${s}" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#f0c29f"/><stop offset="100%" stop-color="#d49a70"/></linearGradient>
-                </defs>
-                <circle cx="50" cy="50" r="48" fill="url(#ti-bg-${s})" stroke="#fb923c" stroke-width="2.5"/>
-                <polygon points="20,30 24,38 21,39 26,48 18,42 22,41" fill="#facc15"/>
-                <polygon points="80,26 84,34 81,35 86,44 78,38 82,37" fill="#facc15"/>
-                <path d="M 20 96 C 20 74, 36 68, 50 68 C 64 68, 80 74, 80 96 Z" fill="#18181b"/>
-                <path d="M 36 68 L 44 96 L 56 96 L 64 68 Z" fill="#ea580c"/>
-                <rect x="31" y="32" width="38" height="7" rx="3" fill="#ea580c"/>
-                <polygon points="50,33 48,36 51,36 49,39 53,35 50,35" fill="#fef08a"/>
-                <rect x="44" y="58" width="12" height="13" rx="4" fill="#d49a70"/>
-                <ellipse cx="50" cy="46" rx="18" ry="20" fill="url(#ti-skin-${s})"/>
-                <ellipse cx="43" cy="46" rx="2.5" ry="3" fill="#ea580c"/>
-                <ellipse cx="57" cy="46" rx="2.5" ry="3" fill="#ea580c"/>
-                <path d="M 44 54 Q 50 59 56 54" stroke="#9a3412" stroke-width="2" fill="none" stroke-linecap="round"/>
-            </svg>`
-    },
-    polymath: {
-        id: 'polymath',
-        name: 'The Renaissance Polymath',
-        title: 'Creative Arts & Essayist',
-        badge: '🎨',
-        roleHint: 'English, History, Geography & Arts',
-        color: '#f472b6',
-        render: (s) => `
-            <svg viewBox="0 0 100 100" width="${s}" height="${s}" xmlns="http://www.w3.org/2000/svg">
-                <defs>
-                    <linearGradient id="po-bg-${s}" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#831843"/><stop offset="100%" stop-color="#be185d"/></linearGradient>
-                    <linearGradient id="po-skin-${s}" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#f5d0b0"/><stop offset="100%" stop-color="#e0a67c"/></linearGradient>
-                </defs>
-                <circle cx="50" cy="50" r="48" fill="url(#po-bg-${s})" stroke="#f472b6" stroke-width="2.5"/>
-                <circle cx="22" cy="24" r="3" fill="#38bdf8"/>
-                <circle cx="82" cy="28" r="3" fill="#facc15"/>
-                <path d="M 20 96 C 20 74, 36 68, 50 68 C 64 68, 80 74, 80 96 Z" fill="#374151"/>
-                <circle cx="36" cy="82" r="3" fill="#ec4899" opacity="0.8"/>
-                <rect x="44" y="58" width="12" height="13" rx="4" fill="#e0a67c"/>
-                <ellipse cx="50" cy="46" rx="18" ry="20" fill="url(#po-skin-${s})"/>
-                <ellipse cx="50" cy="28" rx="22" ry="8" fill="#1e1b4b" transform="rotate(-8 50 28)"/>
-                <circle cx="50" cy="22" r="2" fill="#be185d"/>
-                <ellipse cx="43" cy="46" rx="2.5" ry="3" fill="#1e1b4b"/>
-                <ellipse cx="57" cy="46" rx="2.5" ry="3" fill="#1e1b4b"/>
-                <circle cx="44" cy="45" r="0.8" fill="#ffffff"/>
-                <circle cx="58" cy="45" r="0.8" fill="#ffffff"/>
-                <path d="M 44 54 Q 50 58 56 54" stroke="#9a3412" stroke-width="1.8" fill="none" stroke-linecap="round"/>
-            </svg>`
+    varsity_scholar: {
+        name: 'Varsity Scholar',
+        badge: '🏅',
+        config: { skin: 'honey', hair: 'wavy', hairColor: 'dark-brown', expression: 'confident', eyewear: 'sunglasses', headwear: 'beanie', outfit: 'varsity', outfitColor: 'amber', bg: 'sunset' }
     }
 };
+
+function buildCustomAvatarSvg(cfg = {}, size = 100) {
+    const s = size;
+    const skinTone = AVATAR_OPTIONS.skinTones.find(x => x.id === cfg.skin) || AVATAR_OPTIONS.skinTones[2];
+    const hairStyle = cfg.hair || 'afro';
+    const hairColorObj = AVATAR_OPTIONS.hairColors.find(x => x.id === cfg.hairColor) || AVATAR_OPTIONS.hairColors[0];
+    const expr = cfg.expression || 'confident';
+    const eyewear = cfg.eyewear || 'none';
+    const headwear = cfg.headwear || 'none';
+    const outfit = cfg.outfit || 'blazer';
+    const outfitColorObj = AVATAR_OPTIONS.outfitColors.find(x => x.id === cfg.outfitColor) || AVATAR_OPTIONS.outfitColors[0];
+    const bgObj = AVATAR_OPTIONS.bgGradients.find(x => x.id === cfg.bg) || AVATAR_OPTIONS.bgGradients[0];
+
+    const uid = 'av_' + Math.floor(Math.random() * 1000000);
+
+    let outfitSvg = '';
+    const oc = outfitColorObj.color;
+    const ot = outfitColorObj.trim;
+
+    if (outfit === 'blazer') {
+        outfitSvg = '<path d="M 20 96 C 20 73, 35 67, 50 67 C 65 67, 80 73, 80 96 Z" fill="' + oc + '"/>' +
+            '<polygon points="50,68 44,96 56,96" fill="#f8fafc"/>' +
+            '<polygon points="50,73 47,88 50,96 53,88" fill="' + ot + '"/>' +
+            '<path d="M 36 68 L 47 96 L 43 96 L 31 72 Z" fill="#0f172a" opacity="0.3"/>' +
+            '<path d="M 64 68 L 53 96 L 57 96 L 69 72 Z" fill="#0f172a" opacity="0.3"/>' +
+            '<circle cx="50" cy="74" r="2" fill="' + ot + '"/>';
+    } else if (outfit === 'labcoat') {
+        outfitSvg = '<path d="M 20 96 C 20 73, 35 67, 50 67 C 65 67, 80 73, 80 96 Z" fill="#f8fafc"/>' +
+            '<polygon points="50,68 43,96 57,96" fill="' + oc + '"/>' +
+            '<line x1="50" y1="76" x2="50" y2="96" stroke="#cbd5e1" stroke-width="1.5"/>' +
+            '<rect x="29" y="80" width="8" height="10" rx="1.5" fill="#e2e8f0" stroke="#94a3b8" stroke-width="1"/>' +
+            '<rect x="31" y="77" width="2" height="5" fill="' + ot + '"/>' +
+            '<rect x="34" y="76" width="2" height="6" fill="#ef4444"/>';
+    } else if (outfit === 'hoodie') {
+        outfitSvg = '<path d="M 20 96 C 20 72, 34 66, 50 66 C 66 66, 80 72, 80 96 Z" fill="' + oc + '"/>' +
+            '<path d="M 35 68 C 35 78, 65 78, 65 68" stroke="' + ot + '" stroke-width="3" fill="none"/>' +
+            '<line x1="45" y1="74" x2="44" y2="86" stroke="#ffffff" stroke-width="1.8" stroke-linecap="round"/>' +
+            '<line x1="55" y1="74" x2="56" y2="86" stroke="#ffffff" stroke-width="1.8" stroke-linecap="round"/>';
+    } else if (outfit === 'gown') {
+        outfitSvg = '<path d="M 18 96 C 18 72, 34 66, 50 66 C 66 66, 82 72, 82 96 Z" fill="#0f172a"/>' +
+            '<path d="M 37 66 L 44 96 L 50 96 L 46 66 Z" fill="#facc15"/>' +
+            '<path d="M 63 66 L 56 96 L 50 96 L 54 66 Z" fill="#facc15"/>' +
+            '<polygon points="50,71 52,75 56,75 53,78 54,82 50,80 46,82 47,78 44,75 48,75" fill="#eab308"/>';
+    } else if (outfit === 'varsity') {
+        outfitSvg = '<path d="M 20 96 C 20 72, 35 66, 50 66 C 65 66, 80 72, 80 96 Z" fill="' + oc + '"/>' +
+            '<path d="M 20 96 C 20 75, 28 70, 34 72 L 31 96 Z" fill="#f8fafc"/>' +
+            '<path d="M 80 96 C 80 75, 72 70, 66 72 L 69 96 Z" fill="#f8fafc"/>' +
+            '<path d="M 36 67 Q 50 74 64 67" stroke="' + ot + '" stroke-width="3" fill="none"/>' +
+            '<text x="36" y="86" font-family="sans-serif" font-weight="900" font-size="10" fill="#facc15">M</text>';
+    }
+
+    let hairBackSvg = '';
+    const hc = hairColorObj.color;
+    const hh = hairColorObj.highlight;
+
+    if (hairStyle === 'afro') {
+        hairBackSvg = '<circle cx="50" cy="42" r="26" fill="' + hc + '"/>' +
+            '<circle cx="32" cy="40" r="14" fill="' + hc + '"/>' +
+            '<circle cx="68" cy="40" r="14" fill="' + hc + '"/>' +
+            '<circle cx="50" cy="24" r="15" fill="' + hh + '" opacity="0.4"/>';
+    } else if (hairStyle === 'curls') {
+        hairBackSvg = '<circle cx="50" cy="42" r="24" fill="' + hc + '"/>' +
+            '<circle cx="34" cy="36" r="10" fill="' + hc + '"/>' +
+            '<circle cx="66" cy="36" r="10" fill="' + hc + '"/>' +
+            '<circle cx="42" cy="25" r="9" fill="' + hh + '"/>' +
+            '<circle cx="58" cy="25" r="9" fill="' + hh + '"/>';
+    } else if (hairStyle === 'locs') {
+        hairBackSvg = '<circle cx="50" cy="42" r="24" fill="' + hc + '"/>' +
+            '<rect x="25" y="34" width="7" height="26" rx="3.5" fill="' + hc + '"/>' +
+            '<rect x="30" y="36" width="6" height="28" rx="3" fill="' + hh + '"/>' +
+            '<rect x="68" y="34" width="7" height="26" rx="3.5" fill="' + hc + '"/>' +
+            '<rect x="64" y="36" width="6" height="28" rx="3" fill="' + hh + '"/>';
+    }
+
+    let hairTopSvg = '';
+    if (hairStyle === 'short') {
+        hairTopSvg = '<path d="M 31 40 Q 33 22 50 22 Q 67 22 69 40 Q 64 30 50 30 Q 36 30 31 40 Z" fill="' + hc + '"/>' +
+            '<path d="M 38 28 Q 50 24 62 28" stroke="' + hh + '" stroke-width="2" fill="none" opacity="0.6"/>';
+    } else if (hairStyle === 'fade') {
+        hairTopSvg = '<path d="M 33 36 L 33 24 Q 50 21 67 24 L 67 36 Q 50 31 33 36 Z" fill="' + hc + '"/>' +
+            '<line x1="36" y1="26" x2="64" y2="26" stroke="' + hh + '" stroke-width="1.5" opacity="0.5"/>';
+    } else if (hairStyle === 'braids') {
+        hairTopSvg = '<path d="M 32 38 Q 35 24 50 24 Q 65 24 68 38 Q 60 30 50 30 Q 40 30 32 38 Z" fill="' + hc + '"/>' +
+            '<line x1="38" y1="26" x2="42" y2="38" stroke="' + hh + '" stroke-width="1.5"/>' +
+            '<line x1="44" y1="24" x2="46" y2="38" stroke="' + hh + '" stroke-width="1.5"/>' +
+            '<line x1="50" y1="24" x2="50" y2="38" stroke="' + hh + '" stroke-width="1.5"/>' +
+            '<line x1="56" y1="24" x2="54" y2="38" stroke="' + hh + '" stroke-width="1.5"/>' +
+            '<line x1="62" y1="26" x2="58" y2="38" stroke="' + hh + '" stroke-width="1.5"/>';
+    } else if (hairStyle === 'wavy') {
+        hairTopSvg = '<path d="M 30 42 Q 32 20 50 20 Q 68 20 70 42 Q 65 28 52 28 Q 38 28 30 42 Z" fill="' + hc + '"/>' +
+            '<path d="M 30 42 Q 26 50 29 58 Q 32 50 33 44 Z" fill="' + hc + '"/>' +
+            '<path d="M 70 42 Q 74 50 71 58 Q 68 50 67 44 Z" fill="' + hc + '"/>';
+    } else if (hairStyle === 'buzz') {
+        hairTopSvg = '<path d="M 32 38 Q 35 25 50 25 Q 65 25 68 38 Q 60 32 50 32 Q 40 32 32 38 Z" fill="' + hc + '" opacity="0.8"/>';
+    }
+
+    const skinCol = skinTone.color;
+    const skinShad = skinTone.shadow;
+
+    let browsSvg = '<path d="M 38 41 Q 43 38 47 41" stroke="' + hc + '" stroke-width="1.8" fill="none" stroke-linecap="round"/>' +
+        '<path d="M 53 41 Q 57 38 62 41" stroke="' + hc + '" stroke-width="1.8" fill="none" stroke-linecap="round"/>';
+
+    let eyesSvg = '';
+    if (expr === 'wink') {
+        eyesSvg = '<ellipse cx="43" cy="46" rx="2.5" ry="3" fill="#171717"/>' +
+            '<circle cx="44" cy="45" r="0.8" fill="#ffffff"/>' +
+            '<path d="M 54 46 Q 58 43 62 46" stroke="#171717" stroke-width="2" fill="none" stroke-linecap="round"/>';
+    } else if (expr === 'happy') {
+        eyesSvg = '<path d="M 40 46 Q 43 43 46 46" stroke="#171717" stroke-width="2" fill="none" stroke-linecap="round"/>' +
+            '<path d="M 54 46 Q 57 43 60 46" stroke="#171717" stroke-width="2" fill="none" stroke-linecap="round"/>';
+    } else {
+        eyesSvg = '<ellipse cx="43" cy="46" rx="2.6" ry="3.1" fill="#171717"/>' +
+            '<ellipse cx="57" cy="46" rx="2.6" ry="3.1" fill="#171717"/>' +
+            '<circle cx="44" cy="45" r="0.9" fill="#ffffff"/>' +
+            '<circle cx="58" cy="45" r="0.9" fill="#ffffff"/>';
+    }
+
+    let mouthSvg = '';
+    if (expr === 'grin') {
+        mouthSvg = '<path d="M 43 54 Q 50 61 57 54 Z" fill="#ffffff" stroke="#9a3412" stroke-width="1.2"/>';
+    } else if (expr === 'happy') {
+        mouthSvg = '<path d="M 44 54 Q 50 59 56 54" stroke="#9a3412" stroke-width="2" fill="none" stroke-linecap="round"/>';
+    } else {
+        mouthSvg = '<path d="M 45 55 Q 51 58 56 54" stroke="#9a3412" stroke-width="2" fill="none" stroke-linecap="round"/>';
+    }
+
+    const faceFeaturesSvg = browsSvg + eyesSvg + mouthSvg;
+
+    let eyewearSvg = '';
+    if (eyewear === 'round') {
+        eyewearSvg = '<circle cx="43" cy="46" r="6" stroke="#facc15" stroke-width="1.6" fill="rgba(255,255,255,0.15)"/>' +
+            '<circle cx="57" cy="46" r="6" stroke="#facc15" stroke-width="1.6" fill="rgba(255,255,255,0.15)"/>' +
+            '<line x1="49" y1="46" x2="51" y2="46" stroke="#facc15" stroke-width="1.6"/>' +
+            '<line x1="37" y1="46" x2="33" y2="45" stroke="#facc15" stroke-width="1.4"/>' +
+            '<line x1="63" y1="46" x2="67" y2="45" stroke="#facc15" stroke-width="1.4"/>';
+    } else if (eyewear === 'sunglasses') {
+        eyewearSvg = '<path d="M 36 43 L 49 43 L 48 50 Q 42 52 37 49 Z" fill="#0f172a"/>' +
+            '<path d="M 51 43 L 64 43 L 63 49 Q 58 52 52 50 Z" fill="#0f172a"/>' +
+            '<line x1="48" y1="44" x2="52" y2="44" stroke="#334155" stroke-width="2"/>' +
+            '<line x1="38" y1="45" x2="46" y2="45" stroke="#ffffff" stroke-width="1" opacity="0.6"/>' +
+            '<line x1="54" y1="45" x2="62" y2="45" stroke="#ffffff" stroke-width="1" opacity="0.6"/>';
+    } else if (eyewear === 'cyber') {
+        eyewearSvg = '<rect x="31" y="39" width="38" height="13" rx="3.5" fill="#09090b" stroke="#ec4899" stroke-width="2"/>' +
+            '<line x1="34" y1="45" x2="66" y2="45" stroke="#06b6d4" stroke-width="1.5" stroke-dasharray="3,2"/>' +
+            '<circle cx="50" cy="45" r="2" fill="#ec4899"/>';
+    } else if (eyewear === 'goggles') {
+        eyewearSvg = '<rect x="33" y="40" width="34" height="12" rx="5" fill="#0f172a" stroke="#22d3ee" stroke-width="1.5"/>' +
+            '<circle cx="41" cy="46" r="4.5" fill="#06b6d4" opacity="0.85"/>' +
+            '<circle cx="59" cy="46" r="4.5" fill="#06b6d4" opacity="0.85"/>' +
+            '<line x1="45" y1="46" x2="55" y2="46" stroke="#22d3ee" stroke-width="2"/>';
+    }
+
+    let headwearSvg = '';
+    if (headwear === 'cap') {
+        headwearSvg = '<polygon points="50,17 78,27 50,37 22,27" fill="#0f172a" stroke="#facc15" stroke-width="1.2"/>' +
+            '<rect x="36" y="28" width="28" height="6" rx="3" fill="#1e293b"/>' +
+            '<circle cx="50" cy="27" r="2.5" fill="#facc15"/>' +
+            '<path d="M 50 27 Q 66 29 68 43" stroke="#facc15" stroke-width="1.8" fill="none"/>' +
+            '<circle cx="68" cy="44" r="2" fill="#eab308"/>';
+    } else if (headwear === 'headphones') {
+        headwearSvg = '<path d="M 28 46 A 23 23 0 0 1 72 46" fill="none" stroke="#0284c7" stroke-width="3.5"/>' +
+            '<rect x="25" y="40" width="6" height="14" rx="3" fill="#38bdf8"/>' +
+            '<rect x="69" y="40" width="6" height="14" rx="3" fill="#38bdf8"/>';
+    } else if (headwear === 'headband') {
+        headwearSvg = '<rect x="30" y="32" width="40" height="7" rx="3" fill="#15803d"/>' +
+            '<rect x="30" y="34.5" width="40" height="2.5" fill="#facc15"/>' +
+            '<rect x="30" y="37" width="40" height="2" fill="#dc2626"/>';
+    } else if (headwear === 'beanie') {
+        headwearSvg = '<ellipse cx="50" cy="26" rx="20" ry="12" fill="#475569"/>' +
+            '<rect x="30" y="26" width="40" height="7" rx="3.5" fill="#334155"/>' +
+            '<circle cx="50" cy="14" r="3.5" fill="#f8fafc"/>';
+    }
+
+    return '<svg viewBox="0 0 100 100" width="' + s + '" height="' + s + '" xmlns="http://www.w3.org/2000/svg">' +
+        '<defs>' +
+            '<linearGradient id="' + uid + '-bg" x1="0" y1="0" x2="1" y2="1">' +
+                '<stop offset="0%" stop-color="' + bgObj.from + '"/>' +
+                '<stop offset="100%" stop-color="' + bgObj.to + '"/>' +
+            '</linearGradient>' +
+            '<linearGradient id="' + uid + '-skin" x1="0" y1="0" x2="0" y2="1">' +
+                '<stop offset="0%" stop-color="' + skinCol + '"/>' +
+                '<stop offset="100%" stop-color="' + skinShad + '"/>' +
+            '</linearGradient>' +
+        '</defs>' +
+        '<circle cx="50" cy="50" r="48" fill="url(#' + uid + '-bg)" stroke="' + bgObj.border + '" stroke-width="2.5"/>' +
+        hairBackSvg +
+        outfitSvg +
+        '<rect x="44" y="58" width="12" height="13" rx="4" fill="' + skinShad + '"/>' +
+        '<circle cx="31" cy="47" r="4" fill="' + skinShad + '"/>' +
+        '<circle cx="69" cy="47" r="4" fill="' + skinShad + '"/>' +
+        '<ellipse cx="50" cy="46" rx="18" ry="20" fill="url(#' + uid + '-skin)"/>' +
+        faceFeaturesSvg +
+        eyewearSvg +
+        hairTopSvg +
+        headwearSvg +
+    '</svg>';
+}
+
+function getStudentAvatarConfig(user) {
+    if (user && user.avatarConfig) {
+        return user.avatarConfig;
+    }
+    if (user && user.avatarId && AVATAR_PRESETS[user.avatarId]) {
+        return AVATAR_PRESETS[user.avatarId].config;
+    }
+    return DEFAULT_AVATAR_CONFIG;
+}
+
+function renderStudentAvatarSvg(input, size = 100) {
+    if (typeof input === 'object' && input !== null) {
+        return buildCustomAvatarSvg(input, size);
+    }
+    if (typeof input === 'string' && AVATAR_PRESETS[input]) {
+        return buildCustomAvatarSvg(AVATAR_PRESETS[input].config, size);
+    }
+    if (state.user) {
+        return buildCustomAvatarSvg(getStudentAvatarConfig(state.user), size);
+    }
+    return buildCustomAvatarSvg(DEFAULT_AVATAR_CONFIG, size);
+}
+
+function getStudentAvatarDef(id) {
+    if (AVATAR_PRESETS[id]) {
+        return AVATAR_PRESETS[id];
+    }
+    return {
+        name: 'Custom Scholar',
+        badge: '✨',
+        title: 'BGMCS Scholar',
+        config: DEFAULT_AVATAR_CONFIG
+    };
+}
 
 const BANNER_THEMES = {
     gold: { name: 'Imperial Gold', bg: 'linear-gradient(135deg, #d97706, #78350f 60%, #1e1b4b)' },
@@ -2897,16 +2970,88 @@ const BANNER_THEMES = {
     cyber: { name: 'Cyber Neon', bg: 'linear-gradient(135deg, #3b0764, #701a75 50%, #0284c7)' }
 };
 
-function getStudentAvatarDef(id) {
-    return STUDENT_AVATARS[id] || STUDENT_AVATARS.valedictorian;
-}
-
-function renderStudentAvatarSvg(id, size = 100) {
-    const def = getStudentAvatarDef(id);
-    return def.render(size);
-}
-
+let studioAvatarConfig = null;
+let studioCategory = 'skin';
 let activeProfileTab = 'avatars';
+
+function initStudioAvatarConfig() {
+    if (!studioAvatarConfig) {
+        studioAvatarConfig = JSON.parse(JSON.stringify(getStudentAvatarConfig(state.user)));
+    }
+}
+
+function setStudioCategory(cat) {
+    studioCategory = cat;
+    openProfileModal('avatars');
+}
+
+function updateStudioAvatar(key, value) {
+    initStudioAvatarConfig();
+    studioAvatarConfig[key] = value;
+    const previewEl = document.getElementById('studio-avatar-preview');
+    if (previewEl) {
+        previewEl.innerHTML = buildCustomAvatarSvg(studioAvatarConfig, 96);
+    }
+    openProfileModal('avatars');
+}
+
+function randomizeCustomAvatar() {
+    initStudioAvatarConfig();
+    const pick = (arr) => arr[Math.floor(Math.random() * arr.length)];
+    studioAvatarConfig = {
+        skin: pick(AVATAR_OPTIONS.skinTones).id,
+        hair: pick(AVATAR_OPTIONS.hairStyles).id,
+        hairColor: pick(AVATAR_OPTIONS.hairColors).id,
+        expression: pick(AVATAR_OPTIONS.expressions).id,
+        eyewear: pick(AVATAR_OPTIONS.eyewear).id,
+        headwear: pick(AVATAR_OPTIONS.headwear).id,
+        outfit: pick(AVATAR_OPTIONS.outfits).id,
+        outfitColor: pick(AVATAR_OPTIONS.outfitColors).id,
+        bg: pick(AVATAR_OPTIONS.bgGradients).id
+    };
+    playDeskChime('correct');
+    openProfileModal('avatars');
+}
+
+function applyAvatarPreset(presetId) {
+    if (AVATAR_PRESETS[presetId]) {
+        studioAvatarConfig = JSON.parse(JSON.stringify(AVATAR_PRESETS[presetId].config));
+        playDeskChime('correct');
+        openProfileModal('avatars');
+    }
+}
+
+function saveCustomAvatarStudio() {
+    if (!state.user) return;
+    initStudioAvatarConfig();
+    state.user.avatarConfig = JSON.parse(JSON.stringify(studioAvatarConfig));
+    state.user.avatarId = 'custom';
+    
+    try {
+        localStorage.setItem('pel_user', JSON.stringify(state.user));
+    } catch(e) {}
+
+    playDeskChime('fanfare');
+    showToast('🎉 Your custom student avatar was saved & equipped!', 'success');
+    renderHeader();
+    openProfileModal('avatars');
+
+    fetch('/api/auth/profile', {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + state.token
+        },
+        body: JSON.stringify({ avatarId: 'custom', avatarConfig: state.user.avatarConfig })
+    }).catch(() => {});
+
+    const sb = getSupabaseClient();
+    if (sb && state.user && state.user.id) {
+        sb.from('users').update({
+            full_name: state.user.fullName || state.user.username
+        }).eq('id', state.user.id).then(() => {}).catch(() => {});
+    }
+}
 
 function openProfileModal(tab = null) {
     if (!state.user) return;
@@ -3033,49 +3178,177 @@ function openProfileModal(tab = null) {
 
 function renderProfileTabContent(tab, user, prefs, currentAvatarId, currentTheme, stats) {
     if (tab === 'avatars') {
-        const themePills = Object.keys(BANNER_THEMES).map(k => {
-            const t = BANNER_THEMES[k];
-            const isAct = currentTheme === k ? 'active' : '';
-            return `
-                <div class="profile-theme-chip ${isAct}" style="background: ${t.bg};" onclick="setStudentBannerTheme('${k}')">
-                    ${t.name} ${isAct ? '✓' : ''}
+        initStudioAvatarConfig();
+        const currentCfg = studioAvatarConfig;
+
+        // Category tabs
+        const catTabs = [
+            { id: 'skin', label: '🎨 Skin' },
+            { id: 'hair', label: '✂️ Hair' },
+            { id: 'hairColor', label: '🎨 Hair Color' },
+            { id: 'face', label: '👀 Face' },
+            { id: 'eyewear', label: '👓 Glasses' },
+            { id: 'headwear', label: '🎓 Hats' },
+            { id: 'outfit', label: '👔 Outfit' },
+            { id: 'outfitColor', label: '🎨 Color' },
+            { id: 'bg', label: '🌌 Aura' }
+        ].map(c => `
+            <button type="button" class="avatar-builder-tab ${studioCategory === c.id ? 'active' : ''}" onclick="setStudioCategory('${c.id}')">
+                ${c.label}
+            </button>
+        `).join('');
+
+        // Options picker content based on studioCategory
+        let optionsHtml = '';
+        if (studioCategory === 'skin') {
+            optionsHtml = `
+                <div class="avatar-swatch-grid">
+                    ${AVATAR_OPTIONS.skinTones.map(s => `
+                        <div class="avatar-swatch-item ${currentCfg.skin === s.id ? 'active' : ''}" onclick="updateStudioAvatar('skin', '${s.id}')">
+                            <span class="avatar-color-dot" style="background: ${s.color};"></span>
+                            <span>${s.name}</span>
+                        </div>
+                    `).join('')}
                 </div>
             `;
-        }).join('');
-
-        const avatarCards = Object.values(STUDENT_AVATARS).map(av => {
-            const isAct = currentAvatarId === av.id ? 'active' : '';
-            return `
-                <div class="profile-avatar-card ${isAct}" onclick="setStudentAvatar('${av.id}')">
-                    <div style="width: 64px; height: 64px; border-radius: 50%; overflow: hidden; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 10px rgba(0,0,0,0.35);">
-                        ${av.render(64)}
-                    </div>
-                    <strong style="font-size: 12.5px; color: var(--text-main); margin-top: 4px; line-height: 1.2;">${av.name}</strong>
-                    <span style="font-size: 10.5px; color: var(--text-muted);">${av.badge} ${av.title}</span>
-                    <span class="role-pill" style="font-size: 9px; padding: 1px 6px; margin-top: 2px; ${isAct ? 'background: rgba(56, 189, 248, 0.2); color: #38bdf8;' : ''}">
-                        ${isAct ? '✓ Equipped' : 'Equip'}
-                    </span>
+        } else if (studioCategory === 'hair') {
+            optionsHtml = `
+                <div class="avatar-swatch-grid">
+                    ${AVATAR_OPTIONS.hairStyles.map(h => `
+                        <div class="avatar-swatch-item ${currentCfg.hair === h.id ? 'active' : ''}" onclick="updateStudioAvatar('hair', '${h.id}')">
+                            <span>${h.name}</span>
+                        </div>
+                    `).join('')}
                 </div>
+            `;
+        } else if (studioCategory === 'hairColor') {
+            optionsHtml = `
+                <div class="avatar-swatch-grid">
+                    ${AVATAR_OPTIONS.hairColors.map(c => `
+                        <div class="avatar-swatch-item ${currentCfg.hairColor === c.id ? 'active' : ''}" onclick="updateStudioAvatar('hairColor', '${c.id}')">
+                            <span class="avatar-color-dot" style="background: ${c.color};"></span>
+                            <span>${c.name}</span>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+        } else if (studioCategory === 'face') {
+            optionsHtml = `
+                <div class="avatar-swatch-grid">
+                    ${AVATAR_OPTIONS.expressions.map(e => `
+                        <div class="avatar-swatch-item ${currentCfg.expression === e.id ? 'active' : ''}" onclick="updateStudioAvatar('expression', '${e.id}')">
+                            <span>${e.name}</span>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+        } else if (studioCategory === 'eyewear') {
+            optionsHtml = `
+                <div class="avatar-swatch-grid">
+                    ${AVATAR_OPTIONS.eyewear.map(e => `
+                        <div class="avatar-swatch-item ${currentCfg.eyewear === e.id ? 'active' : ''}" onclick="updateStudioAvatar('eyewear', '${e.id}')">
+                            <span>${e.name}</span>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+        } else if (studioCategory === 'headwear') {
+            optionsHtml = `
+                <div class="avatar-swatch-grid">
+                    ${AVATAR_OPTIONS.headwear.map(h => `
+                        <div class="avatar-swatch-item ${currentCfg.headwear === h.id ? 'active' : ''}" onclick="updateStudioAvatar('headwear', '${h.id}')">
+                            <span>${h.name}</span>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+        } else if (studioCategory === 'outfit') {
+            optionsHtml = `
+                <div class="avatar-swatch-grid">
+                    ${AVATAR_OPTIONS.outfits.map(o => `
+                        <div class="avatar-swatch-item ${currentCfg.outfit === o.id ? 'active' : ''}" onclick="updateStudioAvatar('outfit', '${o.id}')">
+                            <span>${o.name}</span>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+        } else if (studioCategory === 'outfitColor') {
+            optionsHtml = `
+                <div class="avatar-swatch-grid">
+                    ${AVATAR_OPTIONS.outfitColors.map(c => `
+                        <div class="avatar-swatch-item ${currentCfg.outfitColor === c.id ? 'active' : ''}" onclick="updateStudioAvatar('outfitColor', '${c.id}')">
+                            <span class="avatar-color-dot" style="background: ${c.color};"></span>
+                            <span>${c.name}</span>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+        } else if (studioCategory === 'bg') {
+            optionsHtml = `
+                <div class="avatar-swatch-grid">
+                    ${AVATAR_OPTIONS.bgGradients.map(b => `
+                        <div class="avatar-swatch-item ${currentCfg.bg === b.id ? 'active' : ''}" onclick="updateStudioAvatar('bg', '${b.id}')">
+                            <span class="avatar-color-dot" style="background: ${b.border};"></span>
+                            <span>${b.name}</span>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+        }
+
+        // Quick Preset Starters
+        const presetChips = Object.keys(AVATAR_PRESETS).map(pid => {
+            const p = AVATAR_PRESETS[pid];
+            return `
+                <button type="button" class="avatar-preset-chip" onclick="applyAvatarPreset('${pid}')">
+                    ${p.badge} ${p.name}
+                </button>
             `;
         }).join('');
 
         return `
-            <div>
-                <span style="font-size: 11.5px; font-weight: 800; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; display: block; margin-bottom: 6px;">
-                    🎨 Banner Backdrop Theme
-                </span>
-                <div class="profile-theme-picker">
-                    ${themePills}
+            <div class="avatar-studio-container">
+                <!-- Live Interactive Preview Stage -->
+                <div class="avatar-preview-stage">
+                    <div class="avatar-preview-circle" id="studio-avatar-preview">
+                        ${buildCustomAvatarSvg(currentCfg, 96)}
+                    </div>
+                    <div class="avatar-preview-controls">
+                        <div style="font-size: 13.5px; font-weight: 800; color: #ffffff;">🎨 Character Studio</div>
+                        <span style="font-size: 11.5px; color: var(--text-muted);">Customize your skin, hair, clothes & gear</span>
+                        <div style="display: flex; gap: 8px; margin-top: 4px;">
+                            <button type="button" class="desk-tool-btn" onclick="randomizeCustomAvatar()" style="font-size: 11.5px; padding: 6px 12px;">
+                                🎲 Randomize
+                            </button>
+                            <button type="button" class="btn-primary" onclick="saveCustomAvatarStudio()" style="font-size: 12px; padding: 6px 16px; font-weight: 800; background: #58cc02; border-bottom: 2px solid #46a302; width: auto;">
+                                💾 Save Avatar
+                            </button>
+                        </div>
+                    </div>
                 </div>
 
-                <span style="font-size: 11.5px; font-weight: 800; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; display: block; margin: 12px 0 6px 0;">
-                    🎭 Select Your Character Persona
-                </span>
-                <div class="profile-avatar-grid">
-                    ${avatarCards}
+                <!-- Customization Tabs -->
+                <div class="avatar-builder-tabs">
+                    ${catTabs}
+                </div>
+
+                <!-- Options Picker Box -->
+                <div class="avatar-options-picker">
+                    ${optionsHtml}
+                </div>
+
+                <!-- Quick Starter Templates -->
+                <div class="avatar-presets-quick-bar">
+                    <span style="font-size: 11px; font-weight: 800; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; display: block; margin-bottom: 6px;">
+                        ⚡ Quick Starter Templates
+                    </span>
+                    <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+                        ${presetChips}
+                    </div>
                 </div>
             </div>
         `;
+    
     } else if (tab === 'achievements') {
         const badges = [
             { icon: '🦉', title: 'Night Owl Scholar', desc: 'Active evening study & exam preparation', unlocked: true, color: '#6366f1' },
