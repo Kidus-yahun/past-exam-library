@@ -1,56 +1,116 @@
-# Past Exam Library & Management Portal
+# 📚 Past Exam Library & Focus Study Room
 
-An accessible, student-led learning resource that organizes past examination papers by grade, semester, exam type, and subject—helping students find the resources they need to prepare with confidence.
+> **An intelligent, gamified, and offline-resilient exam preparation platform for Ethiopian secondary school students (Grades 9–12). Built for students, by students.**
 
----
-
-## 🚀 Key Features
-
-### 1. 🔐 Authentication & Role-Based Access
-- **Login-First Landing Flow**: Visitors land on a modern authentication screen with Sign In and Account Creation.
-- **Roles**:
-  - **Admin**: Full access to upload exam papers, create/remove grade categories, and manage curriculum subjects.
-  - **Student**: Access to browse past papers, search by keyword, preview exams in the viewer, and download PDF files.
-- **Quick Demo Access**: 1-click credential prefill for testing (`Admin Demo`, `Student Demo`, or `Guest Student`).
-
-### 2. ⚙️ Admin Management Dashboard
-- **Analytics & Overview**: Live metrics tracking total exam papers, categories/grades, subjects, and registered users.
-- **Exam Paper Uploads**:
-  - Upload PDF files directly (up to 50MB via Multer storage) or link external PDF URLs.
-  - Specify Exam Title, Grade Category, Semester, Exam Type (Mid 1, Mid 2, Final, Pre-test, Model Exam), Subject, and Academic Year.
-  - Manage existing exam papers with live search/filters, PDF preview, download, and permanent deletion.
-- **Category & Taxonomy Management**:
-  - Add and delete custom Grades (e.g., Grade 8, Grade 9, Grade 10, Grade 11, Grade 12, University).
-  - Manage curriculum subjects per grade (add new subjects with one click or remove obsolete ones).
-
-### 3. 📚 Dynamic Student Library & PDF Viewer
-- **Search Engine**: Search examination papers by subject, keyword, grade, or semester with instant results.
-- **Interactive Browsing**: Dynamic grade and semester navigation matching the original clean aesthetic.
-- **Embedded PDF Viewer**: Fullscreen document preview iframe with direct download and new-tab view options.
+[![Live Demo](https://img.shields.io/badge/Demo-past--exam--library.vercel.app-brightgreen?style=for-the-badge&logo=vercel)](https://past-exam-library.vercel.app)
+[![Telegram Community](https://img.shields.io/badge/Telegram-%40BGMCS1236-blue?style=for-the-badge&logo=telegram)](https://t.me/BGMCS1236)
+[![PWA Ready](https://img.shields.io/badge/PWA-100%25%20Offline%20Ready-orange?style=for-the-badge&logo=pwa)](https://past-exam-library.vercel.app)
+[![Node.js](https://img.shields.io/badge/Backend-Node.js%20%2F%20Express-green?style=for-the-badge&logo=node.js)](https://nodejs.org/)
 
 ---
 
-## 🔑 Default Credentials
+## 🌟 What's New: The All-in-One Focus Study Platform
 
-| Role | Username | Password | Access Level |
+Past Exam Library has evolved from a simple PDF repository into a full **interactive study ecosystem** designed to keep students focused, motivated, and exam-ready.
+
+---
+
+### 1. 🎯 Focus Study Room (Split-Screen Study Desk)
+A distraction-free, split-pane study environment tailored for deep revision:
+- **Left Pane**: Read built-in unit notes, high-yield formula cheatsheets, blueprints, or original PDF exam papers.
+- **Right Pane**: Interact with your personal AI Study Coach, solve practice questions, or take auto-saving revision notes.
+- **Responsive Layout**: Adapts gracefully across laptops, tablets, and mobile screens.
+
+---
+
+### 2. 📖 Upward Interactive Unit Notes Deck
+Say goodbye to long, tiring vertical scrolls. The new **Upward Card Deck** lets you flip seamlessly through 5 high-yield revision modules:
+- 📌 **Overview**: Core rules, syllabus outlines, and fundamental concepts.
+- 📐 **High-Yield Formulas**: Must-memorize equations with one-click copy.
+- 💡 **National Exam Worked Examples**: Real Ethiopian exam questions solved step-by-step with final answer badges.
+- ⚠️ **Examiner Traps & Common Pitfalls**: Critical warning signs and mistakes to avoid under exam pressure.
+- 💬 **Student Notes & Community Tips**: Open crowd-sourced insights from peers.
+
+---
+
+### 3. 💬 Open Community Topic Notes & Peer Tips
+Students can now contribute their own knowledge directly to each unit topic:
+- **Share Knowledge**: Add exam shortcuts, teacher tricks, and mnemonic aids (+20 XP reward).
+- **Tagging**: Categorize notes as `⚡ Exam Shortcut`, `🧠 Mnemonic Trick`, `📝 Key Summary`, or `⚠️ Traps & Tips`.
+- **Peer Upvoting**: Click `❤️ Helpful` on peer notes to highlight top-rated contributions.
+- **Seamless 1-Click Publishing**: Draft thoughts in your private study scratchpad and publish them to the community topic with a single tap.
+
+---
+
+### 4. 🤖 Archie: Socratic AI Study Coach & Mentor
+Meet Archie, an energetic, curriculum-aligned study mentor:
+- **Socratic Guidance**: Doesn't just give answers away—offers hints, clues, and formula reminders first.
+- **Dual Engine**: Works **100% offline out-of-the-box** using built-in Ethiopian curriculum heuristics, with an optional cloud Google Gemini API upgrade.
+- **Unit Quizzes**: Ask Archie to test you on any unit you just finished studying.
+
+---
+
+### 5. ⏱️ 25-Minute Focus Pomodoro Sprint Timer
+Based on proven active recall and spaced repetition techniques:
+- **Default 25-Minute Sprint**: Starts at `25:00 min` with a 5-minute break cycle.
+- **Quick Controls**: Instant `START`, `PAUSE`, `↺ 25m` reset, and mode toggle (`25m Focus / 5m Break`).
+- **Live Tab Countdown**: Tab title updates in real-time (e.g. `(24:35 min) 🎯 Focus Study Room`) so you can keep track of time while multitasking.
+- **Pulsing Focus Glow**: Tactile visual feedback when running.
+
+---
+
+### 6. 🔥 Duolingo-Style Gamified Learning
+- **Daily Study Streaks**: Earn fire flame badges (`🔥 7d`) and XP for daily focus sprints and practice drills.
+- **Shared Streaks with Friends**: Invite classmates, maintain shared streaks, and send study nudges.
+- **⚔️ 1v1 Telegram Study Duels**: Challenge classmates on Telegram to a fast 5-question exam battle and see who comes out on top!
+- **Session Celebrations**: Fun confetti, fanfare chimes, and streak milestone popups.
+
+---
+
+### 7. 🧪 Interactive Practice Bank & Tactile 3D Cards
+- National exam and model exam questions categorized by grade, subject, and unit.
+- Tactile 3D option cards with instant validation, detailed explanations, and score tracking.
+
+---
+
+### 8. 📱 Progressive Web App (PWA) & 100% Offline Readiness
+- Powered by Service Worker (`v2.2.0`).
+- Installable on **Android**, **iOS**, **Windows**, and **macOS**.
+- Study notes, formulas, practice bank, and offline AI coach work seamlessly even when the internet drops.
+
+---
+
+## 🔑 Default Demo Credentials
+
+| Role | Username | Password | Privileges |
 |---|---|---|---|
-| **Administrator** | `admin` | `admin123` | Full access (Upload papers, manage categories, admin dashboard) |
-| **Student** | `student` | `student123` | Student access (Browse, search, view & download papers) |
-
-*You can also create new student accounts directly using the **Create Account** tab or click **Continue as Guest**.*
+| **Administrator** | `admin` | `admin123` | Upload exam papers, manage grades/subjects, view student analytics |
+| **Student** | `student` | `student123` | Browse archives, study in desk, earn streaks, take quizzes |
+| **Guest Access** | *No login needed* | *N/A* | Instant 1-click access to all public study tools |
 
 ---
 
-## 🛠️ Quick Start
+## 🛠️ Tech Stack
+
+- **Frontend**: Vanilla JavaScript (ES6+), Modern Glassmorphism CSS, Service Worker (PWA)
+- **Backend**: Node.js, Express.js
+- **Storage**: JSON File Persistence / LocalStorage / Supabase integration ready
+- **Deployment**: Vercel Serverless Hosting
+- **AI Engine**: Local Ethiopian Curriculum Rules Engine + Gemini Interactions API
+
+---
+
+## 🚀 Quick Start (Local Development)
 
 ### Prerequisites
-- [Node.js](https://nodejs.org/) (v18 or higher recommended)
+- [Node.js](https://nodejs.org/) (v18.0 or newer recommended)
 - `npm`
 
-### Installation & Run
+### Installation
 
-1. Clone or navigate to the repository:
+1. Clone repository:
    ```bash
+   git clone https://github.com/Kidus-yahun/past-exam-library.git
    cd past-exam-library
    ```
 
@@ -59,43 +119,49 @@ An accessible, student-led learning resource that organizes past examination pap
    npm install
    ```
 
-3. Start the application:
+3. Start server:
    ```bash
    npm start
+   # or with live reload:
+   npm run dev
    ```
 
-4. Open your browser and navigate to:
+4. Open in browser:
    ```
    http://localhost:3000
    ```
 
 ---
 
-## 📡 API Endpoints
+## 📡 Key API Endpoints
 
-### Authentication
-- `POST /api/auth/login` - Authenticate user & return JWT session
-- `POST /api/auth/register` - Register a new student account
-- `GET /api/auth/me` - Validate active token
+### Community Topic Notes
+- `GET /api/topic-notes?grade=Grade 12&subject=Mathematics&unitIndex=0` - Fetch community notes for a topic
+- `POST /api/topic-notes` - Contribute a new note or tip
+- `POST /api/topic-notes/:id/like` - Upvote a helpful note
 
-### Categories & Subjects (Admin Only for Mutations)
-- `GET /api/categories` - Fetch all grades, semesters, exam types, and subjects
-- `POST /api/categories/grade` - Add a new grade category
-- `DELETE /api/categories/grade/:gradeId` - Remove a grade category and associated papers
-- `POST /api/categories/subject` - Add a subject to a grade
-- `DELETE /api/categories/subject` - Remove a subject from a grade
+### AI Study Coach
+- `POST /api/ai-tutor` - Query Archie with student question, grade, and subject context
 
-### Examination Papers
-- `GET /api/exams` - Query exam papers (supports `?grade=`, `?semester=`, `?subject=`, `?search=`)
-- `POST /api/exams` - Upload a new exam paper (Multipart/form-data with PDF file or URL)
-- `DELETE /api/exams/:id` - Delete an exam paper and its stored file
+### Examination Repository
+- `GET /api/exams` - Filter and retrieve exam papers
+- `POST /api/exams` - Upload new PDF paper (Admin only)
+- `DELETE /api/exams/:id` - Delete paper (Admin only)
 
-### Metrics
-- `GET /api/stats` - Summary statistics for dashboard
+### Practice Bank
+- `GET /api/practice` - Retrieve curriculum questions
+- `POST /api/practice/questions` - Add new practice questions (Admin only)
 
 ---
 
-## 👥 Contributors & Credits
-- **Created by**: **Soliyana Tewodros**, **Nahom Temesgen** & **Kidus Yahunsew**
-- **Repository**: [https://github.com/soliyana-dev/past-exam-library](https://github.com/soliyana-dev/past-exam-library)
-- Built for students, by students.
+## 👥 Community & Telegram Channel
+
+Join the official Telegram channel for newly uploaded model exams, national exam answer keys, and study group discussions:
+
+👉 **Telegram Channel**: [@BGMCS1236](https://t.me/BGMCS1236)  
+👉 **Live Web Platform**: [past-exam-library.vercel.app](https://past-exam-library.vercel.app)
+
+---
+
+## 📄 License
+Crafted with ❤️ for Ethiopian students. Released under the ISC License.
