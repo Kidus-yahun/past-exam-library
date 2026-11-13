@@ -955,7 +955,51 @@ async function initApp() {
                 };
                 localStorage.setItem('pel_token', state.token);
                 localStorage.setItem('pel_user', JSON.stringify(state.user));
+
+                // Save or update user profile in Supabase database
+                sb.from('users').upsert({
+                    id: u.id,
+                    username: u.email ? u.email.split('@')[0] : 'student',
+                    email: u.email || '',
+                    password_hash: 'GOOGLE_OAUTH_USER',
+                    role: 'student',
+                    full_name: googleName,
+                    last_login_at: new Date().toISOString()
+                }, { onConflict: 'email' }).then(() => {}).catch(() => {});
             }
+
+            // Listen for OAuth sign-in events
+            sb.auth.onAuthStateChange((event, session) => {
+                if (event === 'SIGNED_IN' && session && session.user) {
+                    const u = session.user;
+                    const googleName = (u.user_metadata && (u.user_metadata.full_name || u.user_metadata.name)) || (u.email ? u.email.split('@')[0] : 'Student');
+                    state.token = session.access_token;
+                    state.user = {
+                        id: u.id,
+                        username: u.email ? u.email.split('@')[0] : 'student',
+                        email: u.email || '',
+                        fullName: googleName,
+                        role: 'student'
+                    };
+                    localStorage.setItem('pel_token', state.token);
+                    localStorage.setItem('pel_user', JSON.stringify(state.user));
+
+                    sb.from('users').upsert({
+                        id: u.id,
+                        username: u.email ? u.email.split('@')[0] : 'student',
+                        email: u.email || '',
+                        password_hash: 'GOOGLE_OAUTH_USER',
+                        role: 'student',
+                        full_name: googleName,
+                        last_login_at: new Date().toISOString()
+                    }, { onConflict: 'email' }).then(() => {}).catch(() => {});
+
+                    if (state.currentView === 'login') {
+                        showToast(`Welcome, ${googleName}! 👋`, 'success');
+                        setView('library');
+                    }
+                }
+            });
         } catch(e) {
             console.warn('OAuth session check error:', e);
         }
