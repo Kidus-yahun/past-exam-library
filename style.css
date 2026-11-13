@@ -6957,6 +6957,153 @@ footer {
     border-color: #94a3b8;
 }
 
+/* ========================================================
+   STUDENT ONBOARDING SURVEY STYLES (Duolingo Aesthetic)
+======================================================== */
+.onboarding-modal-wrap {
+    padding: 6px 0;
+}
+
+.onboarding-step-header {
+    margin-bottom: 18px;
+}
+
+.onboarding-options-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.onboarding-card {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 2px solid var(--border-glass, rgba(255, 255, 255, 0.1));
+    border-radius: 14px;
+    padding: 14px 16px;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+    user-select: none;
+}
+
+.onboarding-card:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(28, 176, 246, 0.4);
+    transform: translateY(-2px);
+}
+
+.onboarding-card.active {
+    background: rgba(28, 176, 246, 0.12);
+    border-color: #1cb0f6;
+    box-shadow: 0 0 16px rgba(28, 176, 246, 0.25);
+}
+
+.onboarding-card-icon {
+    font-size: 24px;
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.05);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.onboarding-card.active .onboarding-card-icon {
+    background: rgba(28, 176, 246, 0.2);
+}
+
+.onboarding-tag-popular {
+    font-size: 10.5px;
+    font-weight: 800;
+    text-transform: uppercase;
+    background: rgba(88, 204, 2, 0.2);
+    color: #58cc02;
+    padding: 2px 8px;
+    border-radius: 9999px;
+    border: 1px solid rgba(88, 204, 2, 0.35);
+}
+
+.onboarding-chips-wrap {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 22px;
+}
+
+.onboarding-chip {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1.5px solid var(--border-glass, rgba(255, 255, 255, 0.1));
+    color: var(--text-main);
+    font-size: 13px;
+    font-weight: 700;
+    padding: 8px 14px;
+    border-radius: 9999px;
+    cursor: pointer;
+    transition: all 0.18s ease;
+}
+
+.onboarding-chip:hover {
+    border-color: #1cb0f6;
+    background: rgba(28, 176, 246, 0.08);
+}
+
+.onboarding-chip.active {
+    background: #1cb0f6;
+    border-color: #1cb0f6;
+    color: #ffffff;
+    box-shadow: 0 2px 10px rgba(28, 176, 246, 0.4);
+}
+
+.onboarding-actions-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 14px;
+    border-top: 1px solid var(--border-glass, rgba(255, 255, 255, 0.08));
+    gap: 12px;
+}
+
+[data-theme="light"] .onboarding-card {
+    background: #ffffff;
+    border-color: #e2e8f0;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+}
+
+[data-theme="light"] .onboarding-card:hover {
+    background: #f8fafc;
+    border-color: #93c5fd;
+}
+
+[data-theme="light"] .onboarding-card.active {
+    background: #f0f9ff;
+    border-color: #0284c7;
+    box-shadow: 0 2px 10px rgba(2, 132, 199, 0.15);
+}
+
+[data-theme="light"] .onboarding-card-icon {
+    background: #f1f5f9;
+}
+
+[data-theme="light"] .onboarding-chip {
+    background: #f8fafc;
+    border-color: #cbd5e1;
+    color: #334155;
+}
+
+[data-theme="light"] .onboarding-chip.active {
+    background: #0284c7;
+    border-color: #0284c7;
+    color: #ffffff;
+}
+
+[data-theme="light"] .onboarding-actions-footer {
+    border-top-color: #e2e8f0;
+}
+
 
 
 

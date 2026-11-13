@@ -935,10 +935,251 @@ async function signInWithGoogle() {
     }
 }
 
+// ========================================================
+// STUDENT ONBOARDING & PERSONALIZATION SURVEY
+// ========================================================
+let onboardingState = {
+    grade: 'Grade 12',
+    stream: 'natural',
+    subject: 'Mathematics',
+    dailyGoal: 25
+};
+
+function openStudentOnboardingModal(step = 1) {
+    let bodyHtml = '';
+    const studentName = (state.user && state.user.fullName) ? state.user.fullName.split(' ')[0] : 'Student';
+
+    if (step === 1) {
+        bodyHtml = `
+            <div class="onboarding-modal-wrap">
+                <div class="onboarding-step-header">
+                    <span class="role-pill" style="font-size: 11px; background: rgba(56, 189, 248, 0.15); color: #38bdf8;">STEP 1 OF 3</span>
+                    <h3 style="margin: 8px 0 4px 0; font-size: 18px; font-weight: 800;">Welcome, ${studentName}! 🎓</h3>
+                    <p style="margin: 0 0 16px 0; font-size: 13.5px; color: var(--text-muted);">
+                        Which grade are you preparing for? We'll tune your past papers, formulas, and notes right away.
+                    </p>
+                </div>
+
+                <div class="onboarding-options-grid">
+                    <div class="onboarding-card ${onboardingState.grade === 'Grade 12' ? 'active' : ''}" onclick="setOnboardingGrade('Grade 12')">
+                        <div class="onboarding-card-icon">🏆</div>
+                        <div style="flex: 1;">
+                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                <strong style="font-size: 15px; color: var(--text-main);">Grade 12</strong>
+                                <span class="onboarding-tag-popular">Recommended</span>
+                            </div>
+                            <span style="font-size: 12px; color: var(--text-muted);">National Examination, Model Exams & University Prep</span>
+                        </div>
+                    </div>
+
+                    <div class="onboarding-card ${onboardingState.grade === 'Grade 11' ? 'active' : ''}" onclick="setOnboardingGrade('Grade 11')">
+                        <div class="onboarding-card-icon">📘</div>
+                        <div style="flex: 1;">
+                            <strong style="font-size: 15px; color: var(--text-main); display: block;">Grade 11</strong>
+                            <span style="font-size: 12px; color: var(--text-muted);">Preparatory curriculum, Semester Midterms & Finals</span>
+                        </div>
+                    </div>
+
+                    <div class="onboarding-card ${onboardingState.grade === 'Grade 10' ? 'active' : ''}" onclick="setOnboardingGrade('Grade 10')">
+                        <div class="onboarding-card-icon">📗</div>
+                        <div style="flex: 1;">
+                            <strong style="font-size: 15px; color: var(--text-main); display: block;">Grade 10</strong>
+                            <span style="font-size: 12px; color: var(--text-muted);">Secondary school past exams and formula sheets</span>
+                        </div>
+                    </div>
+
+                    <div class="onboarding-card ${onboardingState.grade === 'Grade 9' ? 'active' : ''}" onclick="setOnboardingGrade('Grade 9')">
+                        <div class="onboarding-card-icon">📙</div>
+                        <div style="flex: 1;">
+                            <strong style="font-size: 15px; color: var(--text-main); display: block;">Grade 9</strong>
+                            <span style="font-size: 12px; color: var(--text-muted);">High school foundations & subject revision</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="onboarding-actions-footer">
+                    <button type="button" class="desk-tool-btn" onclick="completeStudentOnboarding(true)">Skip for now</button>
+                    <button type="button" class="btn-primary" style="width: auto; padding: 10px 24px; font-weight: 800;" onclick="openStudentOnboardingModal(2)">
+                        Continue to Step 2 →
+                    </button>
+                </div>
+            </div>
+        `;
+    } else if (step === 2) {
+        bodyHtml = `
+            <div class="onboarding-modal-wrap">
+                <div class="onboarding-step-header">
+                    <span class="role-pill" style="font-size: 11px; background: rgba(56, 189, 248, 0.15); color: #38bdf8;">STEP 2 OF 3</span>
+                    <h3 style="margin: 8px 0 4px 0; font-size: 18px; font-weight: 800;">Academic Stream & Subject 🔬</h3>
+                    <p style="margin: 0 0 16px 0; font-size: 13.5px; color: var(--text-muted);">
+                        Choose your focus stream so Archie AI and your Study Room give you relevant questions.
+                    </p>
+                </div>
+
+                <label style="font-size: 12px; font-weight: 800; color: #1cb0f6; text-transform: uppercase; letter-spacing: 0.5px; display: block; margin-bottom: 8px;">
+                    Select Stream:
+                </label>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 18px;">
+                    <div class="onboarding-card ${onboardingState.stream === 'natural' ? 'active' : ''}" style="padding: 12px;" onclick="setOnboardingStream('natural')">
+                        <div class="onboarding-card-icon">🔬</div>
+                        <div>
+                            <strong style="font-size: 13.5px; color: var(--text-main); display: block;">Natural Science</strong>
+                            <span style="font-size: 11px; color: var(--text-muted);">STEM / Medicine / Tech</span>
+                        </div>
+                    </div>
+                    <div class="onboarding-card ${onboardingState.stream === 'social' ? 'active' : ''}" style="padding: 12px;" onclick="setOnboardingStream('social')">
+                        <div class="onboarding-card-icon">📊</div>
+                        <div>
+                            <strong style="font-size: 13.5px; color: var(--text-main); display: block;">Social Science</strong>
+                            <span style="font-size: 11px; color: var(--text-muted);">Business / Law / Arts</span>
+                        </div>
+                    </div>
+                </div>
+
+                <label style="font-size: 12px; font-weight: 800; color: #1cb0f6; text-transform: uppercase; letter-spacing: 0.5px; display: block; margin-bottom: 8px;">
+                    Priority Focus Subject:
+                </label>
+                <div class="onboarding-chips-wrap">
+                    ${['Mathematics', 'Physics', 'Chemistry', 'Biology', 'English'].map(s => `
+                        <button type="button" class="onboarding-chip ${onboardingState.subject === s ? 'active' : ''}" onclick="setOnboardingSubject('${s}')">
+                            ${s === 'Mathematics' ? '📐' : s === 'Physics' ? '⚡' : s === 'Chemistry' ? '🧪' : s === 'Biology' ? '🧬' : '📖'} ${s}
+                        </button>
+                    `).join('')}
+                </div>
+
+                <div class="onboarding-actions-footer">
+                    <button type="button" class="desk-tool-btn" onclick="openStudentOnboardingModal(1)">← Back</button>
+                    <div style="display: flex; gap: 8px;">
+                        <button type="button" class="desk-tool-btn" onclick="completeStudentOnboarding(true)">Skip</button>
+                        <button type="button" class="btn-primary" style="width: auto; padding: 10px 24px; font-weight: 800;" onclick="openStudentOnboardingModal(3)">
+                            Continue to Step 3 →
+                        </button>
+                    </div>
+                </div>
+            </div>
+        `;
+    } else if (step === 3) {
+        bodyHtml = `
+            <div class="onboarding-modal-wrap">
+                <div class="onboarding-step-header">
+                    <span class="role-pill" style="font-size: 11px; background: rgba(56, 189, 248, 0.15); color: #38bdf8;">STEP 3 OF 3</span>
+                    <h3 style="margin: 8px 0 4px 0; font-size: 18px; font-weight: 800;">Daily Study Goal ⏱️</h3>
+                    <p style="margin: 0 0 16px 0; font-size: 13.5px; color: var(--text-muted);">
+                        How much time do you want to spend practicing each day?
+                    </p>
+                </div>
+
+                <div class="onboarding-options-grid">
+                    <div class="onboarding-card ${onboardingState.dailyGoal === 15 ? 'active' : ''}" onclick="setOnboardingDailyGoal(15)">
+                        <div class="onboarding-card-icon">⚡</div>
+                        <div style="flex: 1;">
+                            <strong style="font-size: 14.5px; color: var(--text-main); display: block;">15 Minutes / Day</strong>
+                            <span style="font-size: 12px; color: var(--text-muted);">Casual • Quick formula & unit review</span>
+                        </div>
+                    </div>
+
+                    <div class="onboarding-card ${onboardingState.dailyGoal === 25 ? 'active' : ''}" onclick="setOnboardingDailyGoal(25)">
+                        <div class="onboarding-card-icon">🎯</div>
+                        <div style="flex: 1;">
+                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                <strong style="font-size: 14.5px; color: var(--text-main);">25 Minutes / Day</strong>
+                                <span class="onboarding-tag-popular">Recommended</span>
+                            </div>
+                            <span style="font-size: 12px; color: var(--text-muted);">1 Pomodoro Sprint • Most effective for retention</span>
+                        </div>
+                    </div>
+
+                    <div class="onboarding-card ${onboardingState.dailyGoal === 50 ? 'active' : ''}" onclick="setOnboardingDailyGoal(50)">
+                        <div class="onboarding-card-icon">🔥</div>
+                        <div style="flex: 1;">
+                            <strong style="font-size: 14.5px; color: var(--text-main); display: block;">50 Minutes / Day</strong>
+                            <span style="font-size: 12px; color: var(--text-muted);">Intensive • High scorers targeting 600+ on National Exam</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Reward banner -->
+                <div style="margin: 16px 0; padding: 12px 14px; background: rgba(88, 204, 2, 0.12); border: 1.5px solid rgba(88, 204, 2, 0.4); border-radius: 12px; display: flex; align-items: center; gap: 12px;">
+                    <span style="font-size: 26px;">🎁</span>
+                    <div>
+                        <strong style="font-size: 13.5px; color: #58cc02; display: block;">Claim Your Welcome Reward!</strong>
+                        <span style="font-size: 12px; color: var(--text-muted);">Complete onboarding now to receive a <strong>+50 XP</strong> study streak starter pack!</span>
+                    </div>
+                </div>
+
+                <div class="onboarding-actions-footer">
+                    <button type="button" class="desk-tool-btn" onclick="openStudentOnboardingModal(2)">← Back</button>
+                    <button type="button" class="btn-primary" style="background: #58cc02; border-bottom: 3px solid #46a302; width: auto; padding: 11px 26px; font-weight: 800; font-size: 14px;" onclick="completeStudentOnboarding(false)">
+                        🎉 Claim +50 XP & Start Studying →
+                    </button>
+                </div>
+            </div>
+        `;
+    }
+
+    showModal('Personalize Your Exam Preparation', bodyHtml);
+}
+
+function setOnboardingGrade(grade) {
+    onboardingState.grade = grade;
+    openStudentOnboardingModal(1);
+}
+
+function setOnboardingStream(stream) {
+    onboardingState.stream = stream;
+    openStudentOnboardingModal(2);
+}
+
+function setOnboardingSubject(subject) {
+    onboardingState.subject = subject;
+    openStudentOnboardingModal(2);
+}
+
+function setOnboardingDailyGoal(minutes) {
+    onboardingState.dailyGoal = minutes;
+    openStudentOnboardingModal(3);
+}
+
+function completeStudentOnboarding(skipped = false) {
+    closeModal();
+    try {
+        localStorage.setItem('pel_onboarding_completed', 'true');
+        if (!skipped) {
+            localStorage.setItem('pel_student_preferences', JSON.stringify(onboardingState));
+            deskState.grade = onboardingState.grade;
+            deskState.subject = onboardingState.subject;
+            updateStudyStreak();
+            playDeskChime('fanfare');
+            showToast('🎉 Onboarding completed! +50 XP Welcome bonus added to your streak!', 'success');
+            
+            // Sync with Supabase users table
+            const sb = getSupabaseClient();
+            if (sb && state.user && state.user.id) {
+                sb.from('users').update({
+                    full_name: state.user.fullName || state.user.username,
+                    role: 'student'
+                }).eq('id', state.user.id).then(() => {}).catch(() => {});
+            }
+        }
+    } catch(e) {}
+}
+
 async function initApp() {
     // 0. Update Study Streak & Initialize Telegram Banner
     updateStudyStreak();
     initTelegramBanner();
+
+    // Load saved student preferences if available
+    try {
+        const savedPrefs = localStorage.getItem('pel_student_preferences');
+        if (savedPrefs) {
+            const parsed = JSON.parse(savedPrefs);
+            if (parsed.grade) deskState.grade = parsed.grade;
+            if (parsed.subject) deskState.subject = parsed.subject;
+            if (parsed.stream) onboardingState.stream = parsed.stream;
+            if (parsed.dailyGoal) onboardingState.dailyGoal = parsed.dailyGoal;
+        }
+    } catch(e) {}
 
     // 0b. Check for active Supabase OAuth session (e.g. redirected from Google Sign-In)
     const sb = getSupabaseClient();
@@ -969,6 +1210,13 @@ async function initApp() {
                     full_name: googleName,
                     last_login_at: new Date().toISOString()
                 }, { onConflict: 'email' }).then(() => {}).catch(() => {});
+
+                // Trigger onboarding if first-time user
+                if (!localStorage.getItem('pel_onboarding_completed')) {
+                    setTimeout(() => {
+                        openStudentOnboardingModal(1);
+                    }, 500);
+                }
             }
 
             // Listen for OAuth sign-in events
@@ -1000,6 +1248,13 @@ async function initApp() {
                     if (state.currentView === 'login') {
                         showToast(`Welcome, ${googleName}! 👋`, 'success');
                         setView('library');
+                    }
+
+                    // Trigger onboarding if first-time user
+                    if (!localStorage.getItem('pel_onboarding_completed')) {
+                        setTimeout(() => {
+                            openStudentOnboardingModal(1);
+                        }, 500);
                     }
                 }
             });
