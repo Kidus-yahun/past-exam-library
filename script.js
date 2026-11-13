@@ -643,8 +643,7 @@ async function handleDownloadAuthSignIn(e) {
         if (res.ok && data.success) {
             state.token = data.token;
             state.user = data.user;
-            localStorage.setItem('pel_token', data.token);
-            localStorage.setItem('pel_user', JSON.stringify(data.user));
+            setPersistentSession(data.token, data.user);
             renderHeader();
             closeModal();
             showToast(`Welcome back, ${data.user.fullName || data.user.username}! Starting download...`, 'success');
@@ -695,8 +694,7 @@ async function handleDownloadAuthRegister(e) {
         if (res.ok && data.success) {
             state.token = data.token;
             state.user = data.user;
-            localStorage.setItem('pel_token', data.token);
-            localStorage.setItem('pel_user', JSON.stringify(data.user));
+            setPersistentSession(data.token, data.user);
             renderHeader();
             closeModal();
             showToast(`Account created! Starting download for ${data.user.fullName || data.user.username}...`, 'success');
@@ -1226,63 +1224,100 @@ function completeStudentOnboarding(skipped = false) {
     } catch(e) {}
 }
 
+// ========================================================
+// PERSISTENT MULTI-TIER SESSION MANAGEMENT (LOCALSTORAGE + SECURE COOKIES)
+// ========================================================
+function setPersistentSession(token, user) {
+    if (token) {
+        state.token = token;
+        try { localStorage.setItem('pel_token', token); } catch(e) {}
+        try { document.cookie = 'pel_token=' + encodeURIComponent(token) + '; max-age=31536000; path=/; SameSite=Lax'; } catch(e) {}
+    }
+    if (user) {
+        state.user = user;
+        try { localStorage.setItem('pel_user', JSON.stringify(user)); } catch(e) {}
+        try { document.cookie = 'pel_user=' + encodeURIComponent(JSON.stringify(user)) + '; max-age=31536000; path=/; SameSite=Lax'; } catch(e) {}
+    }
+}
+
+function getPersistentSession() {
+    let token = null;
+    let user = null;
+    try { token = localStorage.getItem('pel_token'); } catch(e) {}
+    try { user = localStorage.getItem('pel_user'); } catch(e) {}
+
+    if (!token) {
+        const m = document.cookie.match(/(?:^|;\s*)pel_token=([^;]*)/);
+        if (m) {
+            try { token = decodeURIComponent(m[1]); } catch(e) {}
+        }
+    }
+    if (!user) {
+        const m = document.cookie.match(/(?:^|;\s*)pel_user=([^;]*)/);
+        if (m) {
+            try { user = decodeURIComponent(m[1]); } catch(e) {}
+        }
+    }
+
+    let parsedUser = null;
+    if (user) {
+        try { parsedUser = JSON.parse(user); } catch(e) {}
+    }
+    return { token, user: parsedUser };
+}
+
+function clearPersistentSession() {
+    state.token = null;
+    state.user = null;
+    try { localStorage.removeItem('pel_token'); } catch(e) {}
+    try { localStorage.removeItem('pel_user'); } catch(e) {}
+    try { document.cookie = 'pel_token=; max-age=0; path=/; SameSite=Lax'; } catch(e) {}
+    try { document.cookie = 'pel_user=; max-age=0; path=/; SameSite=Lax'; } catch(e) {}
+}
+
+function syncSupabaseUser(session) {
+    if (!session || !session.user) return;
+    const u = session.user;
+    const googleName = (u.user_metadata && (u.user_metadata.full_name || u.user_metadata.name)) || (u.email ? u.email.split('@')[0] : 'Student');
+    const existingUser = state.user || {};
+    const updatedUser = {
+        ...existingUser,
+        id: u.id,
+        username: u.email ? u.email.split('@')[0] : (existingUser.username || 'student'),
+        email: u.email || existingUser.email || '',
+        fullName: existingUser.fullName || googleName,
+        role: existingUser.role || 'student',
+        avatarId: existingUser.avatarId || 'valedictorian'
+    };
+    setPersistentSession(session.access_token, updatedUser);
+    renderHeader();
+
+    if (state.currentView === 'login') {
+        showToast('Welcome back, ' + updatedUser.fullName + '! 👋', 'success');
+        setView('library');
+    }
+
+    if (!localStorage.getItem('pel_onboarding_completed')) {
+        setTimeout(() => openStudentOnboardingModal(1), 500);
+    }
+}
+
 async function initApp() {
-    // 1. Immediately & synchronously restore saved user credentials from localStorage
-    const savedToken = localStorage.getItem('pel_token');
-    const savedUser = localStorage.getItem('pel_user');
-    if (savedToken && savedUser) {
-        try {
-            state.token = savedToken;
-            state.user = JSON.parse(savedUser);
-        } catch (e) {
-            console.warn('Session parse error', e);
-        }
+    // 1. Immediately & synchronously restore saved user credentials from localStorage or persistent cookie
+    const saved = getPersistentSession();
+    if (saved.user) {
+        state.user = saved.user;
+    }
+    if (saved.token) {
+        state.token = saved.token;
     }
 
-    // 2. Immediate extraction of OAuth access token from URL hash (if returning from Google redirect)
-    if (window.location.hash && window.location.hash.includes('access_token=')) {
-        try {
-            const hashParams = new URLSearchParams(window.location.hash.substring(1));
-            const accessToken = hashParams.get('access_token');
-            if (accessToken) {
-                state.token = accessToken;
-                localStorage.setItem('pel_token', accessToken);
-                try {
-                    const base64Url = accessToken.split('.')[1];
-                    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-                    const jsonPayload = decodeURIComponent(atob(base64).split('').map(c => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)).join(''));
-                    const payload = JSON.parse(jsonPayload);
-                    if (payload && payload.sub) {
-                        const email = payload.email || '';
-                        const fullName = (payload.user_metadata && (payload.user_metadata.full_name || payload.user_metadata.name)) || (email ? email.split('@')[0] : 'Student');
-                        const existingUser = localStorage.getItem('pel_user') ? JSON.parse(localStorage.getItem('pel_user')) : {};
-                        state.user = {
-                            ...existingUser,
-                            id: payload.sub,
-                            username: email ? email.split('@')[0] : 'student',
-                            email: email,
-                            fullName: existingUser.fullName || fullName,
-                            role: existingUser.role || 'student',
-                            avatarId: existingUser.avatarId || 'valedictorian'
-                        };
-                        localStorage.setItem('pel_user', JSON.stringify(state.user));
-                    }
-                } catch(e) {}
-                try {
-                    history.replaceState(null, '', window.location.pathname + window.location.search);
-                } catch(e) {}
-            }
-        } catch (e) {
-            console.warn('OAuth hash extraction error:', e);
-        }
-    }
-
-    // 3. Initialize Theme synchronously (zero flash)
+    // 2. Initialize Theme synchronously (zero flash)
     const currentTheme = getTheme();
     document.documentElement.setAttribute('data-theme', currentTheme);
     state.theme = currentTheme;
 
-    // 4. Restore saved student preferences & categories synchronously if present
+    // 3. Restore saved student preferences & categories synchronously if present
     try {
         const savedPrefs = localStorage.getItem('pel_student_preferences');
         if (savedPrefs) {
@@ -1304,7 +1339,7 @@ async function initApp() {
         }
     } catch (e) {}
 
-    // 5. Initial View Route
+    // 4. Initial View Route
     const urlParams = new URLSearchParams(window.location.search);
     const duelParam = urlParams.get('duel');
     const sharedStreakParam = urlParams.get('shared_streak');
@@ -1319,80 +1354,71 @@ async function initApp() {
         setView('library');
     }
 
-    // 6. Background Asynchronous OAuth Verification & Synchronization (Non-blocking)
-    setTimeout(async () => {
-        const sb = getSupabaseClient();
-        if (sb) {
-            try {
-                const { data: { session } } = await sb.auth.getSession();
-                if (session && session.user) {
-                    const u = session.user;
-                    const googleName = (u.user_metadata && (u.user_metadata.full_name || u.user_metadata.name)) || (u.email ? u.email.split('@')[0] : 'Student');
-                    const existingUser = state.user || (localStorage.getItem('pel_user') ? JSON.parse(localStorage.getItem('pel_user')) : {});
-                    state.token = session.access_token;
-                    state.user = {
-                        ...existingUser,
-                        id: u.id,
-                        username: u.email ? u.email.split('@')[0] : 'student',
-                        email: u.email || '',
-                        fullName: existingUser.fullName || googleName,
-                        role: existingUser.role || 'student',
-                        avatarId: existingUser.avatarId || 'valedictorian'
-                    };
-                    localStorage.setItem('pel_token', state.token);
-                    localStorage.setItem('pel_user', JSON.stringify(state.user));
-                    renderHeader();
-
-                    if (!localStorage.getItem('pel_onboarding_completed')) {
-                        setTimeout(() => openStudentOnboardingModal(1), 500);
-                    }
-                }
-
-                sb.auth.onAuthStateChange((event, session) => {
-                    if (event === 'SIGNED_IN' && session && session.user) {
-                        const u = session.user;
-                        const googleName = (u.user_metadata && (u.user_metadata.full_name || u.user_metadata.name)) || (u.email ? u.email.split('@')[0] : 'Student');
-                        const existingUser = state.user || (localStorage.getItem('pel_user') ? JSON.parse(localStorage.getItem('pel_user')) : {});
-                        state.token = session.access_token;
-                        state.user = {
+    // 5. Direct Fallback: Parse URL hash if access_token is present in Google OAuth redirect URL
+    if (window.location.hash && window.location.hash.includes('access_token=')) {
+        try {
+            const hashParams = new URLSearchParams(window.location.hash.substring(1));
+            const accessToken = hashParams.get('access_token');
+            if (accessToken) {
+                try {
+                    const base64Url = accessToken.split('.')[1];
+                    let base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+                    while (base64.length % 4 !== 0) base64 += '=';
+                    const jsonPayload = decodeURIComponent(atob(base64).split('').map(c => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)).join(''));
+                    const payload = JSON.parse(jsonPayload);
+                    if (payload && payload.sub) {
+                        const email = payload.email || '';
+                        const fullName = (payload.user_metadata && (payload.user_metadata.full_name || payload.user_metadata.name)) || (email ? email.split('@')[0] : 'Student');
+                        const existingUser = state.user || {};
+                        const userObj = {
                             ...existingUser,
-                            id: u.id,
-                            username: u.email ? u.email.split('@')[0] : 'student',
-                            email: u.email || '',
-                            fullName: existingUser.fullName || googleName,
+                            id: payload.sub,
+                            username: email ? email.split('@')[0] : (existingUser.username || 'student'),
+                            email: email || existingUser.email || '',
+                            fullName: existingUser.fullName || fullName,
                             role: existingUser.role || 'student',
                             avatarId: existingUser.avatarId || 'valedictorian'
                         };
-                        localStorage.setItem('pel_token', state.token);
-                        localStorage.setItem('pel_user', JSON.stringify(state.user));
+                        setPersistentSession(accessToken, userObj);
                         renderHeader();
-
-                        if (state.currentView === 'login') {
-                            showToast(`Welcome, ${state.user.fullName}! 👋`, 'success');
-                            setView('library');
-                        }
-
-                        if (!localStorage.getItem('pel_onboarding_completed')) {
-                            setTimeout(() => openStudentOnboardingModal(1), 500);
-                        }
                     }
-                });
-            } catch(e) {
-                console.warn('OAuth session check error:', e);
+                } catch(e) {}
             }
-        }
+        } catch(e) {}
+    }
 
-        // Verify token with backend in background without clearing session on error
+    // 6. Supabase OAuth Session Listener & Verification (Non-blocking)
+    const sb = getSupabaseClient();
+    if (sb) {
+        try {
+            sb.auth.getSession().then(({ data: { session } }) => {
+                if (session && session.user) {
+                    syncSupabaseUser(session);
+                }
+            }).catch(() => {});
+
+            sb.auth.onAuthStateChange((event, session) => {
+                if ((event === 'SIGNED_IN' || event === 'INITIAL_SESSION' || event === 'TOKEN_REFRESHED') && session && session.user) {
+                    syncSupabaseUser(session);
+                }
+            });
+        } catch(e) {
+            console.warn('OAuth session setup error:', e);
+        }
+    }
+
+    // 7. Background Async Validation (Never logs user out on cold-start or offline)
+    setTimeout(async () => {
         if (state.token) {
             try {
                 const res = await fetch('/api/auth/me', {
-                    headers: { 'Authorization': `Bearer ${state.token}` }
+                    headers: { 'Authorization': 'Bearer ' + state.token }
                 });
                 if (res.ok) {
                     const data = await res.json();
                     if (data && data.user) {
                         state.user = { ...state.user, ...data.user };
-                        localStorage.setItem('pel_user', JSON.stringify(state.user));
+                        setPersistentSession(null, state.user);
                         renderHeader();
                     }
                 }
@@ -1401,11 +1427,15 @@ async function initApp() {
             }
         }
 
-        // Fetch fresh categories from backend in background
-        await fetchCategories();
-    }, 100);
+        // Clean access_token from address bar URL once initialization is complete
+        if (window.location.hash && window.location.hash.includes('access_token=')) {
+            try { history.replaceState(null, '', window.location.pathname + window.location.search); } catch(e) {}
+        }
 
-    // 7. Non-blocking Service Worker registration (delayed so page load is 100% smooth)
+        await fetchCategories();
+    }, 150);
+
+    // 8. Service worker registration
     if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
             setTimeout(() => {
@@ -1418,7 +1448,7 @@ async function initApp() {
         });
     }
 
-    // 8. Idle prefetch PDF.js (warm up browser cache for instant preview later)
+    // 9. Idle prefetch PDF.js
     setTimeout(() => {
         if (typeof ensurePdfJsLoaded === 'function') {
             ensurePdfJsLoaded();
@@ -3029,7 +3059,7 @@ function saveCustomAvatarStudio() {
     state.user.avatarId = 'custom';
     
     try {
-        localStorage.setItem('pel_user', JSON.stringify(state.user));
+        setPersistentSession(null, state.user);
     } catch(e) {}
 
     playDeskChime('fanfare');
@@ -3437,7 +3467,7 @@ function setStudentAvatar(avatarId) {
     if (!state.user) return;
     state.user.avatarId = avatarId;
     try {
-        localStorage.setItem('pel_user', JSON.stringify(state.user));
+        setPersistentSession(null, state.user);
     } catch(e) {}
 
     playDeskChime('correct');
@@ -3475,7 +3505,7 @@ function setStudentBannerTheme(themeKey) {
     if (!state.user) return;
     state.user.bannerTheme = themeKey;
     try {
-        localStorage.setItem('pel_user', JSON.stringify(state.user));
+        setPersistentSession(null, state.user);
     } catch(e) {}
 
     const bannerEl = document.getElementById('profile-banner-el');
@@ -3558,7 +3588,7 @@ async function saveProfileDetails(e) {
         const data = await res.json();
         if (res.ok && data.success) {
             state.user.fullName = newFullName;
-            localStorage.setItem('pel_user', JSON.stringify(state.user));
+            setPersistentSession(null, state.user);
             renderHeader();
             closeModal();
             playDeskChime('correct');
@@ -3705,8 +3735,7 @@ async function handleSignIn(e) {
         if (res.ok && data.success) {
             state.token = data.token;
             state.user = data.user;
-            localStorage.setItem('pel_token', data.token);
-            localStorage.setItem('pel_user', JSON.stringify(data.user));
+            setPersistentSession(data.token, data.user);
 
             showToast(`Welcome back, ${data.user.fullName || data.user.username}!`, 'success');
             broadcastStatsUpdate('activity_updated');
@@ -3756,8 +3785,7 @@ async function handleRegister(e) {
         if (res.ok && data.success) {
             state.token = data.token;
             state.user = data.user;
-            localStorage.setItem('pel_token', data.token);
-            localStorage.setItem('pel_user', JSON.stringify(data.user));
+            setPersistentSession(data.token, data.user);
 
             showToast('Account created successfully!', 'success');
             broadcastStatsUpdate('activity_updated');
