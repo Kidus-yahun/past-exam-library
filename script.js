@@ -939,6 +939,7 @@ async function signInWithGoogle() {
 // STUDENT ONBOARDING & PERSONALIZATION SURVEY
 // ========================================================
 let onboardingState = {
+    referral: 'telegram',
     grade: 'Grade 12',
     stream: 'natural',
     subject: 'Mathematics',
@@ -953,46 +954,43 @@ function openStudentOnboardingModal(step = 1) {
         bodyHtml = `
             <div class="onboarding-modal-wrap">
                 <div class="onboarding-step-header">
-                    <span class="role-pill" style="font-size: 11px; background: rgba(56, 189, 248, 0.15); color: #38bdf8;">STEP 1 OF 3</span>
+                    <span class="role-pill" style="font-size: 11px; background: rgba(56, 189, 248, 0.15); color: #38bdf8; font-weight: 800;">STEP 1 OF 4 • DISCOVERY</span>
                     <h3 style="margin: 8px 0 4px 0; font-size: 18px; font-weight: 800;">Welcome, ${studentName}! 🎓</h3>
                     <p style="margin: 0 0 16px 0; font-size: 13.5px; color: var(--text-muted);">
-                        Which grade are you preparing for? We'll tune your past papers, formulas, and notes right away.
+                        Where did you first find out about our Past Exam Library?
                     </p>
                 </div>
 
                 <div class="onboarding-options-grid">
-                    <div class="onboarding-card ${onboardingState.grade === 'Grade 12' ? 'active' : ''}" onclick="setOnboardingGrade('Grade 12')">
-                        <div class="onboarding-card-icon">🏆</div>
+                    <div class="onboarding-card ${onboardingState.referral === 'telegram' ? 'active' : ''}" onclick="setOnboardingReferral('telegram')">
+                        <div class="onboarding-card-icon">📢</div>
                         <div style="flex: 1;">
-                            <div style="display: flex; justify-content: space-between; align-items: center;">
-                                <strong style="font-size: 15px; color: var(--text-main);">Grade 12</strong>
-                                <span class="onboarding-tag-popular">Recommended</span>
-                            </div>
-                            <span style="font-size: 12px; color: var(--text-muted);">National Examination, Model Exams & University Prep</span>
+                            <strong style="font-size: 15px; color: var(--text-main); display: block;">School Telegram Channel</strong>
+                            <span style="font-size: 12px; color: var(--text-muted);">@BGMCS1236 announcements & exam updates</span>
                         </div>
                     </div>
 
-                    <div class="onboarding-card ${onboardingState.grade === 'Grade 11' ? 'active' : ''}" onclick="setOnboardingGrade('Grade 11')">
-                        <div class="onboarding-card-icon">📘</div>
+                    <div class="onboarding-card ${onboardingState.referral === 'friend' ? 'active' : ''}" onclick="setOnboardingReferral('friend')">
+                        <div class="onboarding-card-icon">👥</div>
                         <div style="flex: 1;">
-                            <strong style="font-size: 15px; color: var(--text-main); display: block;">Grade 11</strong>
-                            <span style="font-size: 12px; color: var(--text-muted);">Preparatory curriculum, Semester Midterms & Finals</span>
+                            <strong style="font-size: 15px; color: var(--text-main); display: block;">Classmate or School Friend</strong>
+                            <span style="font-size: 12px; color: var(--text-muted);">Recommended by a student at Blessed G/Michael</span>
                         </div>
                     </div>
 
-                    <div class="onboarding-card ${onboardingState.grade === 'Grade 10' ? 'active' : ''}" onclick="setOnboardingGrade('Grade 10')">
-                        <div class="onboarding-card-icon">📗</div>
+                    <div class="onboarding-card ${onboardingState.referral === 'teacher' ? 'active' : ''}" onclick="setOnboardingReferral('teacher')">
+                        <div class="onboarding-card-icon">👨‍🏫</div>
                         <div style="flex: 1;">
-                            <strong style="font-size: 15px; color: var(--text-main); display: block;">Grade 10</strong>
-                            <span style="font-size: 12px; color: var(--text-muted);">Secondary school past exams and formula sheets</span>
+                            <strong style="font-size: 15px; color: var(--text-main); display: block;">Teacher or School Faculty</strong>
+                            <span style="font-size: 12px; color: var(--text-muted);">Recommended in class or school bulletin</span>
                         </div>
                     </div>
 
-                    <div class="onboarding-card ${onboardingState.grade === 'Grade 9' ? 'active' : ''}" onclick="setOnboardingGrade('Grade 9')">
-                        <div class="onboarding-card-icon">📙</div>
+                    <div class="onboarding-card ${onboardingState.referral === 'search' ? 'active' : ''}" onclick="setOnboardingReferral('search')">
+                        <div class="onboarding-card-icon">🔍</div>
                         <div style="flex: 1;">
-                            <strong style="font-size: 15px; color: var(--text-main); display: block;">Grade 9</strong>
-                            <span style="font-size: 12px; color: var(--text-muted);">High school foundations & subject revision</span>
+                            <strong style="font-size: 15px; color: var(--text-main); display: block;">Online Search or Self Discovery</strong>
+                            <span style="font-size: 12px; color: var(--text-muted);">Discovered online while searching for past exams</span>
                         </div>
                     </div>
                 </div>
@@ -1009,42 +1007,45 @@ function openStudentOnboardingModal(step = 1) {
         bodyHtml = `
             <div class="onboarding-modal-wrap">
                 <div class="onboarding-step-header">
-                    <span class="role-pill" style="font-size: 11px; background: rgba(56, 189, 248, 0.15); color: #38bdf8;">STEP 2 OF 3</span>
-                    <h3 style="margin: 8px 0 4px 0; font-size: 18px; font-weight: 800;">Academic Stream & Subject 🔬</h3>
+                    <span class="role-pill" style="font-size: 11px; background: rgba(56, 189, 248, 0.15); color: #38bdf8; font-weight: 800;">STEP 2 OF 4 • YOUR GRADE</span>
+                    <h3 style="margin: 8px 0 4px 0; font-size: 18px; font-weight: 800;">Which grade are you in? 📚</h3>
                     <p style="margin: 0 0 16px 0; font-size: 13.5px; color: var(--text-muted);">
-                        Choose your focus stream so Archie AI and your Study Room give you relevant questions.
+                        Select your current grade to load your past exams, national papers, and formula sheets.
                     </p>
                 </div>
 
-                <label style="font-size: 12px; font-weight: 800; color: #1cb0f6; text-transform: uppercase; letter-spacing: 0.5px; display: block; margin-bottom: 8px;">
-                    Select Stream:
-                </label>
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 18px;">
-                    <div class="onboarding-card ${onboardingState.stream === 'natural' ? 'active' : ''}" style="padding: 12px;" onclick="setOnboardingStream('natural')">
-                        <div class="onboarding-card-icon">🔬</div>
-                        <div>
-                            <strong style="font-size: 13.5px; color: var(--text-main); display: block;">Natural Science</strong>
-                            <span style="font-size: 11px; color: var(--text-muted);">STEM / Medicine / Tech</span>
+                <div class="onboarding-options-grid">
+                    <div class="onboarding-card ${onboardingState.grade === 'Grade 12' ? 'active' : ''}" onclick="setOnboardingGrade('Grade 12')">
+                        <div class="onboarding-card-icon">🏆</div>
+                        <div style="flex: 1;">
+                            <strong style="font-size: 15px; color: var(--text-main); display: block;">Grade 12</strong>
+                            <span style="font-size: 12px; color: var(--text-muted);">National Examination, University Entrance & Model Papers</span>
                         </div>
                     </div>
-                    <div class="onboarding-card ${onboardingState.stream === 'social' ? 'active' : ''}" style="padding: 12px;" onclick="setOnboardingStream('social')">
-                        <div class="onboarding-card-icon">📊</div>
-                        <div>
-                            <strong style="font-size: 13.5px; color: var(--text-main); display: block;">Social Science</strong>
-                            <span style="font-size: 11px; color: var(--text-muted);">Business / Law / Arts</span>
-                        </div>
-                    </div>
-                </div>
 
-                <label style="font-size: 12px; font-weight: 800; color: #1cb0f6; text-transform: uppercase; letter-spacing: 0.5px; display: block; margin-bottom: 8px;">
-                    Priority Focus Subject:
-                </label>
-                <div class="onboarding-chips-wrap">
-                    ${['Mathematics', 'Physics', 'Chemistry', 'Biology', 'English'].map(s => `
-                        <button type="button" class="onboarding-chip ${onboardingState.subject === s ? 'active' : ''}" onclick="setOnboardingSubject('${s}')">
-                            ${s === 'Mathematics' ? '📐' : s === 'Physics' ? '⚡' : s === 'Chemistry' ? '🧪' : s === 'Biology' ? '🧬' : '📖'} ${s}
-                        </button>
-                    `).join('')}
+                    <div class="onboarding-card ${onboardingState.grade === 'Grade 11' ? 'active' : ''}" onclick="setOnboardingGrade('Grade 11')">
+                        <div class="onboarding-card-icon">📘</div>
+                        <div style="flex: 1;">
+                            <strong style="font-size: 15px; color: var(--text-main); display: block;">Grade 11</strong>
+                            <span style="font-size: 12px; color: var(--text-muted);">Preparatory Natural Science & Semester Finals</span>
+                        </div>
+                    </div>
+
+                    <div class="onboarding-card ${onboardingState.grade === 'Grade 10' ? 'active' : ''}" onclick="setOnboardingGrade('Grade 10')">
+                        <div class="onboarding-card-icon">📗</div>
+                        <div style="flex: 1;">
+                            <strong style="font-size: 15px; color: var(--text-main); display: block;">Grade 10</strong>
+                            <span style="font-size: 12px; color: var(--text-muted);">Secondary Natural Science foundations & exams</span>
+                        </div>
+                    </div>
+
+                    <div class="onboarding-card ${onboardingState.grade === 'Grade 9' ? 'active' : ''}" onclick="setOnboardingGrade('Grade 9')">
+                        <div class="onboarding-card-icon">📙</div>
+                        <div style="flex: 1;">
+                            <strong style="font-size: 15px; color: var(--text-main); display: block;">Grade 9</strong>
+                            <span style="font-size: 12px; color: var(--text-muted);">High school foundations & subject revision</span>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="onboarding-actions-footer">
@@ -1062,7 +1063,47 @@ function openStudentOnboardingModal(step = 1) {
         bodyHtml = `
             <div class="onboarding-modal-wrap">
                 <div class="onboarding-step-header">
-                    <span class="role-pill" style="font-size: 11px; background: rgba(56, 189, 248, 0.15); color: #38bdf8;">STEP 3 OF 3</span>
+                    <span class="role-pill" style="font-size: 11px; background: rgba(56, 189, 248, 0.15); color: #38bdf8; font-weight: 800;">STEP 3 OF 4 • NATURAL SCIENCE FOCUS</span>
+                    <h3 style="margin: 8px 0 4px 0; font-size: 18px; font-weight: 800;">Priority Natural Science Subject 🔬</h3>
+                    <p style="margin: 0 0 16px 0; font-size: 13.5px; color: var(--text-muted);">
+                        Blessed G/Michael is a dedicated Natural Science school. Choose your priority subject to practice:
+                    </p>
+                </div>
+
+                <div class="onboarding-options-grid">
+                    ${[
+                        { id: 'Mathematics', icon: '📐', desc: 'Calculus, Vectors, Coordinate Geometry & Algebra' },
+                        { id: 'Physics', icon: '⚡', desc: 'Mechanics, Electrodynamics, Thermodynamics & Optics' },
+                        { id: 'Chemistry', icon: '🧪', desc: 'Stoichiometry, Organic Chemistry, Kinetics & Equilibrium' },
+                        { id: 'Biology', icon: '🧬', desc: 'Genetics, Cell Biology, Human Physiology & Ecology' },
+                        { id: 'English', icon: '📖', desc: 'Reading Comprehension, Grammar, Vocabulary & Writing' }
+                    ].map(s => `
+                        <div class="onboarding-card ${onboardingState.subject === s.id ? 'active' : ''}" onclick="setOnboardingSubject('${s.id}')">
+                            <div class="onboarding-card-icon">${s.icon}</div>
+                            <div style="flex: 1;">
+                                <strong style="font-size: 15px; color: var(--text-main); display: block;">${s.id}</strong>
+                                <span style="font-size: 12px; color: var(--text-muted);">${s.desc}</span>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+
+                <div class="onboarding-actions-footer">
+                    <button type="button" class="desk-tool-btn" onclick="openStudentOnboardingModal(2)">← Back</button>
+                    <div style="display: flex; gap: 8px;">
+                        <button type="button" class="desk-tool-btn" onclick="completeStudentOnboarding(true)">Skip</button>
+                        <button type="button" class="btn-primary" style="width: auto; padding: 10px 24px; font-weight: 800;" onclick="openStudentOnboardingModal(4)">
+                            Continue to Step 4 →
+                        </button>
+                    </div>
+                </div>
+            </div>
+        `;
+    } else if (step === 4) {
+        bodyHtml = `
+            <div class="onboarding-modal-wrap">
+                <div class="onboarding-step-header">
+                    <span class="role-pill" style="font-size: 11px; background: rgba(56, 189, 248, 0.15); color: #38bdf8; font-weight: 800;">STEP 4 OF 4 • DAILY TARGET</span>
                     <h3 style="margin: 8px 0 4px 0; font-size: 18px; font-weight: 800;">Daily Study Goal ⏱️</h3>
                     <p style="margin: 0 0 16px 0; font-size: 13.5px; color: var(--text-muted);">
                         How much time do you want to spend practicing each day?
@@ -1074,18 +1115,15 @@ function openStudentOnboardingModal(step = 1) {
                         <div class="onboarding-card-icon">⚡</div>
                         <div style="flex: 1;">
                             <strong style="font-size: 14.5px; color: var(--text-main); display: block;">15 Minutes / Day</strong>
-                            <span style="font-size: 12px; color: var(--text-muted);">Casual • Quick formula & unit review</span>
+                            <span style="font-size: 12px; color: var(--text-muted);">Quick daily drill • Formula check & 5 practice questions</span>
                         </div>
                     </div>
 
                     <div class="onboarding-card ${onboardingState.dailyGoal === 25 ? 'active' : ''}" onclick="setOnboardingDailyGoal(25)">
                         <div class="onboarding-card-icon">🎯</div>
                         <div style="flex: 1;">
-                            <div style="display: flex; justify-content: space-between; align-items: center;">
-                                <strong style="font-size: 14.5px; color: var(--text-main);">25 Minutes / Day</strong>
-                                <span class="onboarding-tag-popular">Recommended</span>
-                            </div>
-                            <span style="font-size: 12px; color: var(--text-muted);">1 Pomodoro Sprint • Most effective for retention</span>
+                            <strong style="font-size: 14.5px; color: var(--text-main); display: block;">25 Minutes / Day</strong>
+                            <span style="font-size: 12px; color: var(--text-muted);">1 Pomodoro Sprint • High-yield practice session</span>
                         </div>
                     </div>
 
@@ -1093,7 +1131,7 @@ function openStudentOnboardingModal(step = 1) {
                         <div class="onboarding-card-icon">🔥</div>
                         <div style="flex: 1;">
                             <strong style="font-size: 14.5px; color: var(--text-main); display: block;">50 Minutes / Day</strong>
-                            <span style="font-size: 12px; color: var(--text-muted);">Intensive • High scorers targeting 600+ on National Exam</span>
+                            <span style="font-size: 12px; color: var(--text-muted);">Intensive Exam Prep • Deep paper solving & question analysis</span>
                         </div>
                     </div>
                 </div>
@@ -1108,7 +1146,7 @@ function openStudentOnboardingModal(step = 1) {
                 </div>
 
                 <div class="onboarding-actions-footer">
-                    <button type="button" class="desk-tool-btn" onclick="openStudentOnboardingModal(2)">← Back</button>
+                    <button type="button" class="desk-tool-btn" onclick="openStudentOnboardingModal(3)">← Back</button>
                     <button type="button" class="btn-primary" style="background: #58cc02; border-bottom: 3px solid #46a302; width: auto; padding: 11px 26px; font-weight: 800; font-size: 14px;" onclick="completeStudentOnboarding(false)">
                         🎉 Claim +50 XP & Start Studying →
                     </button>
@@ -1120,24 +1158,49 @@ function openStudentOnboardingModal(step = 1) {
     showModal('Personalize Your Exam Preparation', bodyHtml);
 }
 
-function setOnboardingGrade(grade) {
-    onboardingState.grade = grade;
+function setOnboardingReferral(ref) {
+    onboardingState.referral = ref;
     openStudentOnboardingModal(1);
 }
 
-function setOnboardingStream(stream) {
-    onboardingState.stream = stream;
+function setOnboardingGrade(grade) {
+    onboardingState.grade = grade;
     openStudentOnboardingModal(2);
 }
 
 function setOnboardingSubject(subject) {
     onboardingState.subject = subject;
-    openStudentOnboardingModal(2);
+    openStudentOnboardingModal(3);
 }
 
 function setOnboardingDailyGoal(minutes) {
     onboardingState.dailyGoal = minutes;
-    openStudentOnboardingModal(3);
+    openStudentOnboardingModal(4);
+}
+
+function completeStudentOnboarding(skipped = false) {
+    closeModal();
+    try {
+        localStorage.setItem('pel_onboarding_completed', 'true');
+        if (!skipped) {
+            onboardingState.stream = 'natural';
+            localStorage.setItem('pel_student_preferences', JSON.stringify(onboardingState));
+            deskState.grade = onboardingState.grade;
+            deskState.subject = onboardingState.subject;
+            updateStudyStreak();
+            playDeskChime('fanfare');
+            showToast('🎉 Onboarding completed! +50 XP Welcome bonus added to your streak!', 'success');
+            
+            // Sync with Supabase users table
+            const sb = getSupabaseClient();
+            if (sb && state.user && state.user.id) {
+                sb.from('users').update({
+                    full_name: state.user.fullName || state.user.username,
+                    role: 'student'
+                }).eq('id', state.user.id).then(() => {}).catch(() => {});
+            }
+        }
+    } catch(e) {}
 }
 
 function completeStudentOnboarding(skipped = false) {
@@ -2880,7 +2943,7 @@ function openProfileModal(tab = null) {
         if (saved.stream) prefs.stream = saved.stream;
         if (saved.dailyGoal) prefs.dailyGoal = saved.dailyGoal;
     } catch(e) {}
-    const streamTitle = prefs.stream === 'social' ? 'Social Science' : 'Natural Science';
+    const streamTitle = 'Natural Science';
 
     const bodyHtml = `
         <div class="profile-card-container">
@@ -3071,10 +3134,10 @@ function renderProfileTabContent(tab, user, prefs, currentAvatarId, currentTheme
                     </div>
                     <div class="auth-form-group" style="margin: 0;">
                         <label style="font-size: 12px; font-weight: 700;">Academic Stream</label>
-                        <select id="profile-stream" class="desk-select" style="width: 100%; height: 38px;">
-                            <option value="natural" ${prefs.stream === 'natural' ? 'selected' : ''}>Natural Science 🔬</option>
-                            <option value="social" ${prefs.stream === 'social' ? 'selected' : ''}>Social Science 📚</option>
-                        </select>
+                        <div style="height: 38px; display: flex; align-items: center; padding: 0 12px; background: rgba(56, 189, 248, 0.08); border: 1.5px solid rgba(56, 189, 248, 0.3); border-radius: 8px; font-size: 12.5px; font-weight: 700; color: #38bdf8;">
+                            🔬 Natural Science (BGMCS)
+                        </div>
+                        <input type="hidden" id="profile-stream" value="natural">
                     </div>
                 </div>
 
@@ -3169,7 +3232,7 @@ function shareStudentCard() {
     try {
         const s = JSON.parse(localStorage.getItem('pel_student_preferences') || '{}');
         if (s.grade) prefs.grade = s.grade;
-        if (s.stream) prefs.stream = s.stream === 'social' ? 'Social Science' : 'Natural Science';
+        prefs.stream = 'Natural Science';
     } catch(e) {}
 
     const text = `🎓 BLESSED G/MICHAEL CATHOLIC SECONDARY SCHOOL\nSTUDENT IDENTITY CARD\n━━━━━━━━━━━━━━━━━━━━\n👤 Student: ${displayName} (@${user.username})\n🎭 Persona: ${av.badge} ${av.name} (${av.title})\n📚 Focus: ${prefs.grade} • ${prefs.stream}\n🔥 Streak: ${streak.count} Days Active\n━━━━━━━━━━━━━━━━━━━━\nPractice past exams & download PDFs:\nhttps://past-exam-library.vercel.app`;
