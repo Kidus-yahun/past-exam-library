@@ -7,3 +7,6 @@ exam_cache/
 .exam_cache/
 *.apk
 build-artifacts/
+.env
+.env.*
+*.env

@@ -2,6 +2,28 @@ const express = require('express');
 const cors = require('cors');
 const path = require('path');
 const fs = require('fs');
+
+// Auto-load local .env file if present
+try {
+    const envFile = path.join(__dirname, '..', '.env');
+    if (fs.existsSync(envFile)) {
+        const envContent = fs.readFileSync(envFile, 'utf8');
+        envContent.split(/\r?\n/).forEach(line => {
+            const trimmed = line.trim();
+            if (trimmed && !trimmed.startsWith('#')) {
+                const eqIdx = trimmed.indexOf('=');
+                if (eqIdx !== -1) {
+                    const k = trimmed.slice(0, eqIdx).trim();
+                    const v = trimmed.slice(eqIdx + 1).trim().replace(/^['"]|['"]$/g, '');
+                    if (!process.env[k]) {
+                        process.env[k] = v;
+                    }
+                }
+            }
+        });
+    }
+} catch (e) {}
+
 const https = require('https');
 const multer = require('multer');
 const bcrypt = require('bcryptjs');
