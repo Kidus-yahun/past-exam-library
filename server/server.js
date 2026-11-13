@@ -872,7 +872,7 @@ app.get('/api/admin/students', authenticateToken, requireAdmin, async (req, res)
 // ========================================================
 // COMMUNITY TOPIC NOTES API (Open Peer Revision & Tips)
 // ========================================================
-const TOPIC_NOTES_FILE = path.join(DATA_DIR, 'topic_notes.json');
+const TOPIC_NOTES_FILE = IS_VERCEL ? path.join('/tmp', 'topic_notes.json') : path.join(ROOT_DIR, 'topic_notes.json');
 let inMemoryTopicNotes = [];
 try {
     if (fs.existsSync(TOPIC_NOTES_FILE)) {
