@@ -9751,356 +9751,1203 @@ function onDeskSubjectChange(newSubj) {
 ======================================================== */
 
 const EXAM_UNIT_NOTES = {
-    // Mathematics
-    'Grade 12_Mathematics': [
+    "Grade 12_Mathematics": [
         {
-            title: 'Unit 1: Sequences and Series',
-            examWeight: '15-20% of National Exam',
-            readTime: '6 min read',
-            overview: `
-                A sequence is an ordered list of numbers. In Ethiopian national examinations, arithmetic and geometric progressions account for multiple questions annually.<br><br>
-                • <strong>Arithmetic Progression (AP):</strong> The difference between consecutive terms is constant: <code>d = a_{n} - a_{n-1}</code>.<br>
-                • <strong>Geometric Progression (GP):</strong> The ratio between consecutive terms is constant: <code>r = a_{n} / a_{n-1}</code>.<br>
-                • <strong>Convergence of Infinite Series:</strong> An infinite geometric series converges if and only if <code>|r| < 1</code>. If <code>|r| ≥ 1</code>, the series diverges to infinity.
-            `,
-            keyFormulas: [
-                { name: 'AP n-th Term', formula: 'a_n = a_1 + (n - 1)d', notes: 'd = common difference, a_1 = first term' },
-                { name: 'AP Sum of n Terms', formula: 'S_n = (n / 2)[2a_1 + (n - 1)d] = (n / 2)(a_1 + a_n)', notes: 'Use 2nd form when last term is given' },
-                { name: 'GP n-th Term', formula: 'a_n = a_1 * r^(n - 1)', notes: 'r = common ratio' },
-                { name: 'GP Sum of n Terms', formula: 'S_n = a_1(1 - r^n) / (1 - r),  r ≠ 1', notes: 'For finite geometric series' },
-                { name: 'Infinite GP Sum (Convergent)', formula: 'S_∞ = a_1 / (1 - r),  for |r| < 1', notes: 'Guaranteed exam trap if |r| ≥ 1 (no sum exists!)' }
+            "title": "Unit 1: Sequence and Series",
+            "examWeight": "22-26% of National Exam",
+            "readTime": "7 min read",
+            "overview": "\n                A sequence is an ordered list of real numbers denoted as <code>{a_n}</code>. In the Ethiopian national examination, sequences and series are fundamental, focusing on arithmetic sequences, geometric sequences, sigma notation, partial sums, and infinite geometric series.<br><br>\n                • <strong>Arithmetic Sequences (AP):</strong> Defined by a common difference <code>d = a_{n} - a_{n-1}</code>. The general term is <code>a_n = a_1 + (n - 1)d</code>.<br>\n                • <strong>Geometric Sequences (GP):</strong> Defined by a common ratio <code>r = a_n / a_{n-1}</code>. The general term is <code>a_n = a_1 \\cdot r^{n-1}</code>.<br>\n                • <strong>Sigma Notation (∑):</strong> Compact representation of partial sums <code>S_n = \\sum_{i=1}^n a_i</code>.<br>\n                • <strong>Convergence of Infinite Series:</strong> An infinite geometric series converges to <code>S_\\infty = \\frac{a_1}{1 - r}</code> if and only if <code>|r| < 1</code>. If <code>|r| \\ge 1</code>, the series diverges.\n            ",
+            "keyFormulas": [
+                {
+                    "name": "AP n-th Term",
+                    "formula": "a_n = a_1 + (n - 1)d",
+                    "notes": "d = common difference, a_1 = first term"
+                },
+                {
+                    "name": "AP Sum of n Terms",
+                    "formula": "S_n = \\frac{n}{2}[2a_1 + (n - 1)d] = \\frac{n}{2}(a_1 + a_n)",
+                    "notes": "Use second form when last term a_n is known"
+                },
+                {
+                    "name": "GP n-th Term",
+                    "formula": "a_n = a_1 \\cdot r^{n-1}",
+                    "notes": "r = common ratio"
+                },
+                {
+                    "name": "GP Sum of n Terms",
+                    "formula": "S_n = \\frac{a_1(1 - r^n)}{1 - r}, \\quad r \\ne 1",
+                    "notes": "Finite geometric progression sum"
+                },
+                {
+                    "name": "Infinite GP Sum (Convergent)",
+                    "formula": "S_\\infty = \\frac{a_1}{1 - r}, \\quad \\text{for } |r| < 1",
+                    "notes": "Diverges if |r| >= 1"
+                }
             ],
-            workedExample: {
-                question: 'National Exam Sample: The 3rd term of an AP is 8 and the 9th term is 26. Find the sum of the first 15 terms.',
-                steps: [
-                    'Write system of equations: a_3 = a_1 + 2d = 8  and  a_9 = a_1 + 8d = 26.',
-                    'Subtract eq (1) from eq (2): 6d = 18  ⟹  d = 3.',
-                    'Substitute d = 3 into eq (1): a_1 + 2(3) = 8  ⟹  a_1 = 2.',
-                    'Calculate S_15: S_15 = (15 / 2)[2(2) + (15 - 1)(3)] = (15 / 2)[4 + 42] = (15 / 2)(46) = 15 * 23 = 345.'
+            "workedExample": {
+                "question": "National Exam Sample: The 3rd term of an AP is 8 and the 9th term is 26. Find the sum of the first 15 terms.",
+                "steps": [
+                    "Write system of equations: a_3 = a_1 + 2d = 8 and a_9 = a_1 + 8d = 26.",
+                    "Subtract the first from the second: 6d = 18 ⟹ d = 3.",
+                    "Substitute d = 3 into a_1 + 2(3) = 8 ⟹ a_1 = 2.",
+                    "Compute S_15 = (15 / 2)[2(2) + (14)(3)] = (15 / 2)[4 + 42] = (15 / 2)(46) = 15 * 23 = 345."
                 ],
-                answer: 'S_15 = 345'
+                "answer": "S_15 = 345"
             },
-            pitfalls: 'Common Trap: Watch out for negative common ratios like r = -1/2. When finding sum of infinite series, r must satisfy -1 < r < 1. If r = -2, do not apply S_∞; the answer is "Divergent".'
+            "pitfalls": "Common Trap: For an infinite geometric series with r = -2 or r = 1.5, never plug into S_∞ = a_1 / (1 - r)! It is strictly divergent because |r| >= 1."
         },
         {
-            title: 'Unit 2: Limits and Continuity',
-            examWeight: '12-16% of National Exam',
-            readTime: '7 min read',
-            overview: `
-                Calculus begins with limits. A function <code>f(x)</code> has a limit <code>L</code> as <code>x → c</code> if both one-sided limits exist and are equal: <code>lim_{x→c⁻} f(x) = lim_{x→c⁺} f(x) = L</code>.<br><br>
-                • <strong>Indeterminate Form 0/0:</strong> Whenever direct substitution yields 0/0, factorize the numerator and denominator, rationalize radicals using conjugate multiplication, or use algebraic identities.<br>
-                • <strong>Continuity at a Point:</strong> A function f is continuous at x = c if: (1) f(c) is defined, (2) lim_{x→c} f(x) exists, and (3) lim_{x→c} f(x) = f(c).
-            `,
-            keyFormulas: [
-                { name: 'Fundamental Trig Limit', formula: 'lim_{x→0} [sin(ax) / (bx)] = a / b', notes: 'Angles must be in radians' },
-                { name: 'Limit at Infinity (Rational)', formula: 'lim_{x→∞} [P(x) / Q(x)] = ratio of leading coefficients if deg(P) = deg(Q)', notes: '= 0 if deg(P) < deg(Q); = ±∞ if deg(P) > deg(Q)' },
-                { name: 'Intermediate Value Theorem', formula: 'If f is continuous on [a, b] and k is between f(a) and f(b), there exists c ∈ (a, b) such that f(c) = k', notes: 'Essential for proving polynomial root existence' }
+            "title": "Unit 2: Introduction to Calculus",
+            "examWeight": "25-30% of National Exam",
+            "readTime": "8 min read",
+            "overview": "\n                Calculus is the mathematical study of continuous change, combining differential calculus and integral calculus.<br><br>\n                • <strong>Limits and Continuity:</strong> A function f has a limit L as x → c if both one-sided limits exist and equal L. If direct substitution yields 0/0, factorize or rationalize.<br>\n                • <strong>Derivatives:</strong> The instantaneous rate of change and tangent slope: <code>f'(x) = \\lim_{h \\to 0} \\frac{f(x+h) - f(x)}{h}</code>.<br>\n                • <strong>Rules of Differentiation:</strong> Power rule, product rule <code>(uv)' = u'v + uv'</code>, quotient rule, and chain rule <code>[f(g(x))]' = f'(g(x))g'(x)</code>.<br>\n                • <strong>Applications of Derivatives:</strong> Critical points (f'(x) = 0), increasing/decreasing intervals, local extrema, and optimization.<br>\n                • <strong>Integration:</strong> Reverse of differentiation (antiderivative). Fundamental Theorem of Calculus: <code>\\int_a^b f(x)dx = F(b) - F(a)</code>. Used to determine the exact area under curves.\n            ",
+            "keyFormulas": [
+                {
+                    "name": "Power Rule (Derivative)",
+                    "formula": "\\frac{d}{dx}[x^n] = n x^{n-1}",
+                    "notes": "Valid for all real exponents n"
+                },
+                {
+                    "name": "Chain Rule",
+                    "formula": "\\frac{d}{dx}[f(g(x))] = f'(g(x)) \\cdot g'(x)",
+                    "notes": "Differentiate outer function, multiply by inner derivative"
+                },
+                {
+                    "name": "Fundamental Theorem of Calculus",
+                    "formula": "\\int_a^b f(x) dx = F(b) - F(a)",
+                    "notes": "Where F'(x) = f(x)"
+                },
+                {
+                    "name": "Area Under Curve",
+                    "formula": "A = \\int_a^b [f(x) - g(x)] dx",
+                    "notes": "f(x) is upper curve, g(x) is lower curve"
+                }
             ],
-            workedExample: {
-                question: 'Evaluate the limit: lim_{x→3} (x² - 9) / (√(x + 1) - 2).',
-                steps: [
-                    'Direct substitution gives (3² - 9) / (√(4) - 2) = 0 / 0 (Indeterminate form).',
-                    'Multiply numerator and denominator by conjugate (√(x + 1) + 2): [(x - 3)(x + 3)(√(x + 1) + 2)] / [(x + 1) - 4].',
-                    'Denominator simplifies to (x - 3). Cancel (x - 3) from numerator and denominator.',
-                    'Remaining expression: (x + 3)(√(x + 1) + 2). Substitute x = 3: (3 + 3)(√(4) + 2) = (6)(2 + 2) = 6 * 4 = 24.'
+            "workedExample": {
+                "question": "Evaluate the definite integral: ∫_1^3 (3x² - 4x + 1) dx.",
+                "steps": [
+                    "Find the antiderivative: F(x) = x³ - 2x² + x.",
+                    "Evaluate at upper limit x = 3: F(3) = 3³ - 2(3²) + 3 = 27 - 18 + 3 = 12.",
+                    "Evaluate at lower limit x = 1: F(1) = 1³ - 2(1²) + 1 = 1 - 2 + 1 = 0.",
+                    "Compute difference: F(3) - F(1) = 12 - 0 = 12."
                 ],
-                answer: '24'
+                "answer": "12"
             },
-            pitfalls: 'Never conclude a limit is 0 just because the numerator is 0! Always check the denominator first. If both are 0, simplify before evaluating.'
+            "pitfalls": "Never omit the negative sign in the quotient rule: (u/v)' = (u'v - uv') / v²! Adding instead of subtracting is a frequent source of lost marks."
         },
         {
-            title: 'Unit 3: Derivatives and Applications',
-            examWeight: '20-25% of National Exam',
-            readTime: '8 min read',
-            overview: `
-                The derivative represents the instantaneous rate of change and slope of the tangent line: <code>f\'(x) = lim_{h→0} [f(x+h) - f(x)] / h</code>.<br><br>
-                • <strong>Critical Numbers:</strong> Values of x in the domain where <code>f\'(x) = 0</code> or <code>f\'(x)</code> is undefined.<br>
-                • <strong>First Derivative Test:</strong> If f\'(x) changes from positive to negative at c, f has a local maximum at c. If from negative to positive, a local minimum.<br>
-                • <strong>Second Derivative Test:</strong> If f\'(c) = 0 and f\'\'(c) < 0, concave down (local max). If f\'\'(c) > 0, concave up (local min).
-            `,
-            keyFormulas: [
-                { name: 'Product Rule', formula: '(u * v)\' = u\'v + uv\'', notes: 'Never do (u * v)\' = u\' * v\' (Common mistake!)' },
-                { name: 'Quotient Rule', formula: '(u / v)\' = (u\'v - uv\') / v²', notes: 'Low d-high minus high d-low over low-squared' },
-                { name: 'Chain Rule', formula: '[f(g(x))]\' = f\'(g(x)) * g\'(x)', notes: 'Differentiate outside, keep inside, multiply by derivative of inside' },
-                { name: 'Equation of Tangent Line', formula: 'y - y_1 = f\'(x_1)(x - x_1)', notes: 'Slope m = f\'(x_1)' }
+            "title": "Unit 3: Statistics",
+            "examWeight": "18-22% of National Exam",
+            "readTime": "6 min read",
+            "overview": "\n                Unit 3 covers statistical analysis for single-variable and bivariate data in secondary science streams.<br><br>\n                • <strong>Measures of Absolute Dispersion:</strong> Range, Interquartile Range (IQR = Q_3 - Q_1), Mean Absolute Deviation, Variance (s² or σ²), and Standard Deviation (s or σ).<br>\n                • <strong>Measures of Relative Dispersion:</strong> Coefficient of Variation <code>CV = \\frac{\\sigma}{\\bar{x}} \\times 100\\%</code>, which compares relative variability across datasets with different units.<br>\n                • <strong>Frequency Curves:</strong> Normal distribution (bell curve), positively skewed (skewed right: Mean > Median > Mode), and negatively skewed (skewed left: Mean < Median < Mode).\n            ",
+            "keyFormulas": [
+                {
+                    "name": "Population Variance",
+                    "formula": "\\sigma^2 = \\frac{\\sum (x_i - \\mu)^2}{N}",
+                    "notes": "Square root gives population standard deviation σ"
+                },
+                {
+                    "name": "Sample Variance",
+                    "formula": "s^2 = \\frac{\\sum (x_i - \\bar{x})^2}{n - 1}",
+                    "notes": "Divided by n - 1 (Bessel's correction)"
+                },
+                {
+                    "name": "Coefficient of Variation",
+                    "formula": "CV = \\frac{s}{\\bar{x}} \\times 100\\%",
+                    "notes": "Lower CV indicates higher consistency / stability"
+                }
             ],
-            workedExample: {
-                question: 'Find the maximum value of f(x) = 2x³ - 9x² + 12x on the interval [0, 3].',
-                steps: [
-                    'Find derivative: f\'(x) = 6x² - 18x + 12.',
-                    'Set f\'(x) = 0: 6(x² - 3x + 2) = 0  ⟹  6(x - 1)(x - 2) = 0  ⟹  Critical points: x = 1, x = 2.',
-                    'Evaluate f(x) at critical points and endpoints: f(0) = 0, f(1) = 2 - 9 + 12 = 5, f(2) = 16 - 36 + 24 = 4, f(3) = 54 - 81 + 36 = 9.',
-                    'Compare values: The maximum value on [0, 3] is 9 (at x = 3).'
+            "workedExample": {
+                "question": "A student scores with standard deviation 6 on a test with mean 75. Another student scores with standard deviation 4 on a test with mean 40. Which student shows higher relative consistency?",
+                "steps": [
+                    "Calculate CV for first test: CV_1 = (6 / 75) * 100% = 8.0%.",
+                    "Calculate CV for second test: CV_2 = (4 / 40) * 100% = 10.0%.",
+                    "Lower CV means higher consistency: 8.0% < 10.0%."
                 ],
-                answer: 'Max value = 9'
+                "answer": "The first test (8.0% CV) shows higher consistency."
             },
-            pitfalls: 'On closed interval optimization [a, b], always test the endpoints a and b! The absolute maximum often occurs at the boundary, not just at critical points.'
+            "pitfalls": "Exam Trap: On skewed distributions, remember that the MEAN is always pulled farthest toward the tail! Right-skewed ⟹ Mean > Median > Mode. Left-skewed ⟹ Mean < Median < Mode."
         },
         {
-            title: 'Unit 4: Integrals and Area',
-            examWeight: '15-20% of National Exam',
-            readTime: '7 min read',
-            overview: `
-                Integration is the inverse operation of differentiation (antiderivative) and geometrically calculates the net signed area under a curve.<br><br>
-                • <strong>Fundamental Theorem of Calculus:</strong> If F\'(x) = f(x), then <code>∫_a^b f(x) dx = F(b) - F(a)</code>.<br>
-                • <strong>Area Between Two Curves:</strong> If f(x) ≥ g(x) on [a, b], the area is <code>A = ∫_a^b [f(x) - g(x)] dx</code>.<br>
-                • <strong>Integration by Substitution (U-Sub):</strong> Used when an integrand contains a function and its derivative: <code>∫ f(g(x))g\'(x) dx = ∫ f(u) du</code> where u = g(x).
-            `,
-            keyFormulas: [
-                { name: 'Power Rule for Integrals', formula: '∫ x^n dx = [x^(n+1) / (n + 1)] + C,  n ≠ -1', notes: 'Don\'t forget the constant of integration +C for indefinite integrals' },
-                { name: 'Reciprocal Integral', formula: '∫ (1 / x) dx = ln|x| + C', notes: 'Notice the absolute value bars' },
-                { name: 'Exponential Integral', formula: '∫ e^(kx) dx = (1 / k)e^(kx) + C', notes: 'Divide by the coefficient k' }
+            "title": "Unit 4: Introduction to Linear Programming",
+            "examWeight": "14-18% of National Exam",
+            "readTime": "6 min read",
+            "overview": "\n                Linear Programming (LP) is a mathematical optimization method used in resource allocation, industry, and economics.<br><br>\n                • <strong>Decision Variables:</strong> Non-negative quantities to be determined (e.g. x ≥ 0, y ≥ 0).<br>\n                • <strong>Objective Function:</strong> The linear formula to be maximized (profit) or minimized (cost): <code>Z = ax + by</code>.<br>\n                • <strong>Linear Constraints:</strong> System of linear inequalities representing constraints on labor, raw materials, or budgets.<br>\n                • <strong>Feasible Region:</strong> The intersection of all constraint half-planes in the xy-plane.<br>\n                • <strong>Corner-Point (Vertex) Theorem:</strong> The optimal value of the objective function always occurs at one of the vertices (corner points) of the feasible region.\n            ",
+            "keyFormulas": [
+                {
+                    "name": "Objective Function",
+                    "formula": "Z = ax + by",
+                    "notes": "Evaluate Z at each corner point of the feasible polygon"
+                },
+                {
+                    "name": "Corner Point Method",
+                    "formula": "Z_{opt} = \\max / \\min \\{ Z(P_1), Z(P_2), \\dots, Z(P_k) \\}",
+                    "notes": "P_i are vertices of the bounded feasible region"
+                }
             ],
-            workedExample: {
-                question: 'Calculate the area bounded by the curve y = 4 - x² and the x-axis (y = 0).',
-                steps: [
-                    'Find intersection points: 4 - x² = 0  ⟹  x² = 4  ⟹  x = -2 and x = 2.',
-                    'Set up integral: Area = ∫_{-2}^2 (4 - x²) dx.',
-                    'Find antiderivative: F(x) = 4x - (x³ / 3).',
-                    'Evaluate: F(2) - F(-2) = [4(2) - (8/3)] - [4(-2) - (-8/3)] = [8 - 8/3] - [-8 + 8/3] = (16/3) - (-16/3) = 32/3.'
+            "workedExample": {
+                "question": "Maximize Z = 4x + 3y subject to x + y ≤ 6, 2x + y ≤ 8, x ≥ 0, y ≥ 0.",
+                "steps": [
+                    "Find vertices of feasible region: (0,0), (4,0), (0,6), and the intersection of x + y = 6 and 2x + y = 8.",
+                    "Subtracting lines: (2x + y) - (x + y) = 8 - 6 ⟹ x = 2. Then y = 6 - 2 = 4. Intersection point is (2, 4).",
+                    "Evaluate Z at each corner point: Z(0,0)=0; Z(4,0)=16; Z(0,6)=18; Z(2,4)=4(2)+3(4)=8+12=20.",
+                    "Compare values: The maximum is 20 at vertex (2, 4)."
                 ],
-                answer: 'Area = 32/3 square units'
+                "answer": "Maximum Z = 20 at (x = 2, y = 4)"
             },
-            pitfalls: 'When calculating geometric area, area can NEVER be negative! If the curve dips below the x-axis, integrate the negative section separately or take absolute value.'
+            "pitfalls": "Always verify that the non-negativity conditions x ≥ 0 and y ≥ 0 are respected, which restricts the feasible region strictly to the first quadrant."
         },
         {
-            title: 'Unit 5: 3D Vectors and Matrices',
-            examWeight: '10-15% of National Exam',
-            readTime: '6 min read',
-            overview: `
-                Vectors in 3-dimensional space have magnitude and direction: <code>v = a i + b j + c k</code> with magnitude <code>|v| = √(a² + b² + c²)</code>.<br><br>
-                • <strong>Dot Product:</strong> Yields a scalar: <code>u · v = u_1 v_1 + u_2 v_2 + u_3 v_3 = |u||v|cos θ</code>. Two vectors are perpendicular if and only if <code>u · v = 0</code>.<br>
-                • <strong>Cross Product:</strong> Yields a vector perpendicular to both u and v: <code>|u × v| = |u||v|sin θ</code>. The magnitude |u × v| equals the area of the parallelogram formed by u and v.
-            `,
-            keyFormulas: [
-                { name: 'Dot Product Orthogonality', formula: 'u · v = 0  ⟺  u ⊥ v', notes: 'Easiest test for perpendicular vectors' },
-                { name: 'Cross Product Area', formula: 'Area of Triangle = (1 / 2)|u × v|', notes: 'Half of the parallelogram area' },
-                { name: 'Determinant (2x2)', formula: 'det [a b; c d] = ad - bc', notes: 'Matrix is invertible if and only if det ≠ 0' }
+            "title": "Unit 5: Mathematical Application in Business",
+            "examWeight": "12-16% of National Exam",
+            "readTime": "6 min read",
+            "overview": "\n                Applies mathematical principles to finance, commerce, and Ethiopian enterprise operations.<br><br>\n                • <strong>Simple and Compound Interest:</strong> Simple interest <code>I = Prt</code>. Compound interest with compounding n times annually: <code>A = P(1 + \\frac{r}{n})^{nt}</code>.<br>\n                • <strong>Cost, Revenue, and Profit Analysis:</strong> Total Cost <code>C(x) = \\text{Fixed Cost} + \\text{Variable Cost}(x)</code>. Total Revenue <code>R(x) = p \\cdot x</code>. Profit <code>P(x) = R(x) - C(x)</code>.<br>\n                • <strong>Break-Even Point:</strong> The production level where Total Revenue equals Total Cost: <code>R(x) = C(x) ⟹ P(x) = 0</code>.<br>\n                • <strong>Depreciation:</strong> Straight-line and declining-balance depreciation of business assets over time.\n            ",
+            "keyFormulas": [
+                {
+                    "name": "Compound Interest",
+                    "formula": "A = P\\left(1 + \\frac{r}{n}\\right)^{nt}",
+                    "notes": "P = principal, r = annual rate, n = times compounded per year"
+                },
+                {
+                    "name": "Continuously Compounded Interest",
+                    "formula": "A = P e^{rt}",
+                    "notes": "Euler's constant e ≈ 2.71828"
+                },
+                {
+                    "name": "Break-Even Point",
+                    "formula": "x_{BE} = \\frac{\\text{Fixed Cost}}{p - v}",
+                    "notes": "p = selling price per unit, v = variable cost per unit"
+                }
             ],
-            workedExample: {
-                question: 'Find the value of k such that vector u = (2, -3, 1) and vector v = (k, 4, 6) are perpendicular.',
-                steps: [
-                    'For perpendicular vectors, the dot product must equal zero: u · v = 0.',
-                    'Calculate dot product: (2)(k) + (-3)(4) + (1)(6) = 0.',
-                    'Simplify: 2k - 12 + 6 = 0  ⟹  2k - 6 = 0.',
-                    'Solve for k: 2k = 6  ⟹  k = 3.'
+            "workedExample": {
+                "question": "A business has fixed costs of 12,000 ETB. The variable cost per unit is 30 ETB, and the selling price is 50 ETB. Find the break-even quantity.",
+                "steps": [
+                    "Identify components: Fixed Cost = 12,000 ETB, p = 50 ETB, v = 30 ETB.",
+                    "Contribution margin per unit = p - v = 50 - 30 = 20 ETB.",
+                    "Break-even formula: x = Fixed Cost / (p - v) = 12,000 / 20 = 600 units."
                 ],
-                answer: 'k = 3'
+                "answer": "600 units"
             },
-            pitfalls: 'Dot product produces a SCALAR number, whereas cross product produces a VECTOR! Never confuse u · v with u × v.'
+            "pitfalls": "Be careful with interest rates: if r = 6%, always substitute r = 0.06 in formulas, not 6!"
         }
     ],
-
-    // Physics
-    'Grade 12_Physics': [
+    "Grade 12_Physics": [
         {
-            title: 'Unit 1: Thermodynamics & Heat Engines',
-            examWeight: '18-22% of National Exam',
-            readTime: '7 min read',
-            overview: `
-                Thermodynamics governs heat, work, and internal energy conversion in physical systems.<br><br>
-                • <strong>First Law of Thermodynamics:</strong> Conservation of energy: <code>ΔU = Q - W</code>, where Q is heat added to system, W is work done BY system, and ΔU is change in internal energy.<br>
-                • <strong>Thermodynamic Processes:</strong><br>
-                  - Isobaric (constant P): W = PΔV<br>
-                  - Isochoric (constant V): ΔV = 0 ⟹ W = 0 ⟹ ΔU = Q<br>
-                  - Isothermal (constant T): ΔT = 0 ⟹ ΔU = 0 ⟹ Q = W<br>
-                  - Adiabatic (no heat transfer): Q = 0 ⟹ ΔU = -W<br>
-                • <strong>Second Law & Carnot Engine:</strong> No heat engine operating between two temperatures can be more efficient than a Carnot engine: <code>η_max = 1 - (T_C / T_H)</code> (temperatures MUST be in Kelvin!).
-            `,
-            keyFormulas: [
-                { name: 'First Law of Thermodynamics', formula: 'ΔU = Q - W', notes: 'Watch sign conventions: W > 0 when gas expands' },
-                { name: 'Carnot Maximum Efficiency', formula: 'η = 1 - (T_C / T_H) = (T_H - T_C) / T_H', notes: 'T must be in KELVIN (K = °C + 273)' },
-                { name: 'Ideal Gas Law', formula: 'PV = nRT', notes: 'R = 8.314 J/(mol·K)' }
+            "title": "Unit 1: Application of Physics in Other Fields",
+            "examWeight": "12-15% of National Exam",
+            "readTime": "6 min read",
+            "overview": "\n                Explores how fundamental physics principles underpin modern interdisciplinary sciences, engineering, and national infrastructure.<br><br>\n                • <strong>Physics in Medicine:</strong> Medical imaging modalities including X-rays (attenuation), Ultrasound (Doppler effect & acoustic impedance), Magnetic Resonance Imaging (nuclear magnetic resonance), and radiation oncology.<br>\n                • <strong>Physics in Agriculture & Environment:</strong> Soil moisture sensor electronics, photovoltaic irrigation systems, remote sensing via satellite spectroscopy, and meteorological modeling.<br>\n                • <strong>Physics in Telecommunications & Defense:</strong> Electromagnetic spectrum utilization, fiber optic waveguides (total internal reflection), radar, and satellite communication links.\n            ",
+            "keyFormulas": [
+                {
+                    "name": "Acoustic Impedance",
+                    "formula": "Z = \\rho \\cdot v",
+                    "notes": "ρ = tissue density, v = ultrasound velocity"
+                },
+                {
+                    "name": "Photon Energy in Medical Physics",
+                    "formula": "E = h f = \\frac{hc}{\\lambda}",
+                    "notes": "h = 6.626 \\times 10^{-34} \\text{ J}\\cdot\\text{s}"
+                }
             ],
-            workedExample: {
-                question: 'A heat engine absorbs 1200 J of heat from a hot reservoir at 500 K and exhausts 800 J to a cold reservoir at 300 K. What is its actual efficiency and its maximum possible theoretical efficiency?',
-                steps: [
-                    'Actual efficiency: η = W / Q_H = (Q_H - Q_C) / Q_H = (1200 - 800) / 1200 = 400 / 1200 = 1/3 ≈ 33.3%.',
-                    'Theoretical Carnot efficiency: η_Carnot = 1 - (T_C / T_H) = 1 - (300 / 500) = 1 - 0.60 = 0.40 = 40.0%.'
+            "workedExample": {
+                "question": "Calculate the energy of an X-ray photon with frequency 3.0 × 10¹⁸ Hz.",
+                "steps": [
+                    "Use Planck's formula: E = h * f.",
+                    "Substitute: E = (6.626 × 10⁻³⁴ J·s) * (3.0 × 10¹⁸ s⁻¹).",
+                    "Multiply: E = 1.988 × 10⁻¹⁵ Joules (≈ 12.4 keV)."
                 ],
-                answer: 'Actual = 33.3%, Theoretical Max = 40.0%'
+                "answer": "1.99 × 10⁻¹⁵ J"
             },
-            pitfalls: 'The #1 mistake in Ethiopian physics exams: plugging temperatures in Celsius (°C) instead of Kelvin (K)! Always add 273 to convert to Kelvin first.'
+            "pitfalls": "Remember that ultrasound requires a coupling gel to eliminate the air-skin boundary because the acoustic impedance mismatch between air and skin causes almost 100% reflection."
         },
         {
-            title: 'Unit 2: Oscillations and Waves',
-            examWeight: '15-18% of National Exam',
-            readTime: '6 min read',
-            overview: `
-                Simple Harmonic Motion (SHM) occurs when the restoring force is directly proportional to displacement and directed toward equilibrium: <code>F = -kx</code>.<br><br>
-                • <strong>Energy in SHM:</strong> Total mechanical energy is conserved: <code>E = (1/2)kA² = (1/2)mv² + (1/2)kx²</code>.<br>
-                  - At equilibrium (x = 0): Potential energy is 0, velocity is maximum: v_max = Aω.<br>
-                  - At amplitude (x = ±A): Velocity is 0, acceleration is maximum: a_max = Aω².<br>
-                • <strong>Doppler Effect:</strong> When source and observer move relative to each other, the observed frequency shifts: <code>f\' = f [(v ± v_o) / (v ∓ v_s)]</code>.
-            `,
-            keyFormulas: [
-                { name: 'Angular Frequency (Spring)', formula: 'ω = √(k / m) = 2πf = 2π / T', notes: 'Period T = 2π√(m / k)' },
-                { name: 'Simple Pendulum Period', formula: 'T = 2π√(L / g)', notes: 'Independent of mass!' },
-                { name: 'Wave Equation', formula: 'v = f * λ', notes: 'Speed v depends only on the medium' }
+            "title": "Unit 2: Two-Dimensional Motion",
+            "examWeight": "22-26% of National Exam",
+            "readTime": "8 min read",
+            "overview": "\n                Two-dimensional kinematics analyzes motion where displacement, velocity, and acceleration exist in a plane.<br><br>\n                • <strong>Independence of Vertical and Horizontal Motions:</strong> The horizontal motion has zero acceleration (constant velocity: <code>v_x = v_0 \\cos\\theta</code>), while vertical motion is under constant gravitational acceleration <code>g = 9.8 \\text{ m/s}^2</code> downwards.<br>\n                • <strong>Key Projectile Quantities:</strong> Time of flight <code>t = \\frac{2 v_0 \\sin\\theta}{g}</code>, maximum height <code>H = \\frac{v_0^2 \\sin^2\\theta}{2g}</code>, and horizontal range <code>R = \\frac{v_0^2 \\sin 2\\theta}{g}</code>.<br>\n                • <strong>Uniform Circular Motion:</strong> Acceleration directed toward center: centripetal acceleration <code>a_c = \\frac{v^2}{r} = \\omega^2 r</code>, provided by centripetal force <code>F_c = \\frac{m v^2}{r}</code>.\n            ",
+            "keyFormulas": [
+                {
+                    "name": "Maximum Height",
+                    "formula": "H = \\frac{v_0^2 \\sin^2\\theta}{2g}",
+                    "notes": "Vertical velocity is momentarily 0 at peak"
+                },
+                {
+                    "name": "Horizontal Range",
+                    "formula": "R = \\frac{v_0^2 \\sin(2\\theta)}{g}",
+                    "notes": "Maximum range occurs at launching angle θ = 45°"
+                },
+                {
+                    "name": "Centripetal Acceleration",
+                    "formula": "a_c = \\frac{v^2}{r} = \\omega^2 r",
+                    "notes": "Perpendicular to velocity vector, points toward center"
+                }
             ],
-            workedExample: {
-                question: 'A mass of 0.5 kg attached to a spring oscillates with an amplitude of 0.2 m. If the spring constant k is 200 N/m, find the maximum speed of the mass.',
-                steps: [
-                    'Find angular frequency: ω = √(k / m) = √(200 / 0.5) = √400 = 20 rad/s.',
-                    'Maximum speed occurs at equilibrium: v_max = A * ω.',
-                    'Substitute: v_max = (0.2 m) * (20 rad/s) = 4.0 m/s.'
+            "workedExample": {
+                "question": "A ball is launched from ground level at 20 m/s at an angle of 30° above the horizontal. Find its time of flight (take g = 10 m/s²).",
+                "steps": [
+                    "Vertical initial velocity: v_{0y} = v_0 * sin(30°) = 20 * 0.5 = 10 m/s.",
+                    "Time to peak: t_{peak} = v_{0y} / g = 10 / 10 = 1.0 s.",
+                    "Total time of flight: t_{total} = 2 * t_{peak} = 2.0 s."
                 ],
-                answer: 'v_max = 4.0 m/s'
+                "answer": "2.0 seconds"
             },
-            pitfalls: 'Notice that the period of a simple pendulum T = 2π√(L/g) does NOT depend on the mass of the bob! If the mass is doubled, the period remains exactly the same.'
+            "pitfalls": "At the maximum height of projectile motion, the speed is NOT zero! The vertical velocity is zero, but horizontal velocity v_x = v_0 cos θ remains constant."
         },
         {
-            title: 'Unit 3: Wave Optics & Interference',
-            examWeight: '12-15% of National Exam',
-            readTime: '6 min read',
-            overview: `
-                Wave optics demonstrates the wave nature of light through interference, diffraction, and polarization.<br><br>
-                • <strong>Constructive Interference (Bright Fringes):</strong> Path difference must be an integer multiple of wavelength: <code>d sin θ = m λ,  m = 0, ±1, ±2...</code><br>
-                • <strong>Destructive Interference (Dark Fringes):</strong> Path difference is a half-integer multiple: <code>d sin θ = (m + 1/2) λ</code>.<br>
-                • <strong>Fringe Separation:</strong> In Young's double-slit experiment, distance between adjacent bright fringes on a screen at distance D is <code>Δy = λD / d</code>.
-            `,
-            keyFormulas: [
-                { name: 'Double Slit Bright Fringe', formula: 'y_m = (m * λ * D) / d', notes: 'd = slit separation, D = distance to screen' },
-                { name: 'Brewster\'s Angle (Polarization)', formula: 'tan(θ_p) = n_2 / n_1', notes: 'Reflected light is 100% linearly polarized' }
+            "title": "Unit 3: Fluid Mechanics",
+            "examWeight": "18-22% of National Exam",
+            "readTime": "7 min read",
+            "overview": "\n                Fluid mechanics analyzes the behavior of fluids (liquids and gases) at rest (hydrostatics) and in motion (hydrodynamics).<br><br>\n                • <strong>Pressure in Fluids:</strong> Hydrostatic pressure increases with depth: <code>P = P_0 + \\rho g h</code>.<br>\n                • <strong>Pascal's Principle:</strong> Pressure applied to an enclosed incompressible fluid is transmitted undiminished: <code>\\frac{F_1}{A_1} = \\frac{F_2}{A_2}</code>.<br>\n                • <strong>Archimedes' Principle:</strong> Buoyant force equals weight of displaced fluid: <code>F_B = \\rho_{fluid} V_{sub} g</code>.<br>\n                • <strong>Continuity Equation:</strong> Incompressible flow: <code>A_1 v_1 = A_2 v_2</code>.<br>\n                • <strong>Bernoulli's Equation:</strong> Conservation of energy in fluid flow: <code>P + \\frac{1}{2}\\rho v^2 + \\rho g y = \\text{constant}</code>. High speed corresponds to lower pressure.\n            ",
+            "keyFormulas": [
+                {
+                    "name": "Hydrostatic Pressure",
+                    "formula": "P = \\rho g h",
+                    "notes": "h = depth below surface"
+                },
+                {
+                    "name": "Continuity Equation",
+                    "formula": "A_1 v_1 = A_2 v_2",
+                    "notes": "Speed increases as cross-sectional area narrows"
+                },
+                {
+                    "name": "Bernoulli's Equation",
+                    "formula": "P_1 + \\frac{1}{2}\\rho v_1^2 + \\rho g y_1 = P_2 + \\frac{1}{2}\\rho v_2^2 + \\rho g y_2",
+                    "notes": "For laminar, non-viscous, incompressible fluid"
+                }
             ],
-            workedExample: {
-                question: 'In a double-slit experiment, light of wavelength 600 nm illuminates slits separated by 0.3 mm. If the screen is 1.5 m away, find the fringe width.',
-                steps: [
-                    'Convert all units to meters: λ = 600 * 10^-9 m, d = 0.3 * 10^-3 m, D = 1.5 m.',
-                    'Use fringe width formula: Δy = λD / d.',
-                    'Calculate: Δy = (600 * 10^-9 * 1.5) / (0.3 * 10^-3) = (900 * 10^-9) / (3 * 10^-4) = 3 * 10^-3 m = 3.0 mm.'
+            "workedExample": {
+                "question": "Water flows through a horizontal pipe. At point 1, diameter is 4 cm and speed is 2 m/s. At constriction point 2, diameter is 2 cm. Find the flow speed at point 2.",
+                "steps": [
+                    "Calculate cross-sectional area ratio: A = π(d/2)², so A ∝ d².",
+                    "A_1 / A_2 = (d_1 / d_2)² = (4 / 2)² = 4.",
+                    "By continuity equation: v_2 = v_1 * (A_1 / A_2) = 2 m/s * 4 = 8 m/s."
                 ],
-                answer: 'Fringe width = 3.0 mm'
+                "answer": "8.0 m/s"
             },
-            pitfalls: 'Always convert nanometers (nm) to meters (* 10^-9) and millimeters (mm) to meters (* 10^-3) before computing, otherwise powers of 10 will ruin your final answer.'
+            "pitfalls": "Remember that when pipe diameter doubles, area increases by a factor of 4, so fluid velocity drops to 1/4th, not 1/2!"
         },
         {
-            title: 'Unit 4: Electrostatics & Capacitance',
-            examWeight: '16-20% of National Exam',
-            readTime: '7 min read',
-            overview: `
-                Electrostatics studies electric charges at rest, electric fields, and capacitor storage.<br><br>
-                • <strong>Coulomb\'s Law:</strong> Force between two point charges: <code>F = k |q_1 q_2| / r²</code> where k = 8.99 * 10^9 N·m²/C².<br>
-                • <strong>Electric Field:</strong> Force per unit charge: <code>E = F / q = k Q / r²</code>.<br>
-                • <strong>Capacitance:</strong> Charge stored per unit voltage: <code>C = Q / V</code>. For a parallel-plate capacitor: <code>C = ε_0 A / d</code>.<br>
-                • <strong>Capacitor Combinations:</strong><br>
-                  - Parallel: C_eq = C_1 + C_2 + C_3 (adds directly)<br>
-                  - Series: 1/C_eq = 1/C_1 + 1/C_2 + 1/C_3 (reciprocal rule)
-            `,
-            keyFormulas: [
-                { name: 'Energy in a Capacitor', formula: 'U = (1/2)CV² = (1/2)QV = Q² / (2C)', notes: 'Use depending on which quantity is constant' },
-                { name: 'Electric Potential (Point Charge)', formula: 'V = kQ / r', notes: 'Scalar quantity, include charge sign!' }
+            "title": "Unit 4: Electromagnetism",
+            "examWeight": "22-26% of National Exam",
+            "readTime": "8 min read",
+            "overview": "\n                Electromagnetism deals with the unified relationship between moving electric charges and magnetic fields.<br><br>\n                • <strong>Magnetic Force:</strong> On a charge moving in a magnetic field: <code>F = q v B \\sin\\theta</code>. On a current-carrying wire: <code>F = I L B \\sin\\theta</code>.<br>\n                • <strong>Magnetic Flux:</strong> <code>\\Phi_B = B A \\cos\\theta</code>, measured in Webers (Wb).<br>\n                • <strong>Faraday's Law of Electromagnetic Induction:</strong> Induced electromotive force (EMF) is proportional to rate of change of magnetic flux: <code>\\mathcal{E} = -N \\frac{d\\Phi_B}{dt}</code>.<br>\n                • <strong>Lenz's Law:</strong> The induced current creates a magnetic field that OPPOSES the change in flux that produced it (accounting for the negative sign).<br>\n                • <strong>Alternating Current (AC) Circuits:</strong> Transformers: <code>\\frac{V_s}{V_p} = \\frac{N_s}{N_p} = \\frac{I_p}{I_s}</code>.\n            ",
+            "keyFormulas": [
+                {
+                    "name": "Lorentz Magnetic Force",
+                    "formula": "F = q v B \\sin\\theta",
+                    "notes": "Force is zero if charge moves parallel to B (θ = 0)"
+                },
+                {
+                    "name": "Magnetic Force on Wire",
+                    "formula": "F = I L B \\sin\\theta",
+                    "notes": "Right-hand rule gives direction of force"
+                },
+                {
+                    "name": "Faraday's Law",
+                    "formula": "\\mathcal{E} = -N \\frac{\\Delta \\Phi_B}{\\Delta t}",
+                    "notes": "Minus sign reflects Lenz's law of opposition"
+                },
+                {
+                    "name": "Transformer Equation",
+                    "formula": "\\frac{V_s}{V_p} = \\frac{N_s}{N_p}",
+                    "notes": "Step-up if N_s > N_p, step-down if N_s < N_p"
+                }
             ],
-            workedExample: {
-                question: 'Two capacitors of 6 μF and 3 μF are connected in series across a 12 V battery. Find the equivalent capacitance and total charge stored.',
-                steps: [
-                    'Series rule: 1/C_eq = 1/6 + 1/3 = 1/6 + 2/6 = 3/6  ⟹  C_eq = 6/3 = 2 μF.',
-                    'Total charge: Q = C_eq * V = (2 μF) * (12 V) = 24 μC.'
+            "workedExample": {
+                "question": "A step-down transformer converts 220 V mains electricity to 11 V. If the primary coil has 800 turns, how many turns are on the secondary coil?",
+                "steps": [
+                    "Use transformer ratio: V_s / V_p = N_s / N_p.",
+                    "Substitute: 11 / 220 = N_s / 800.",
+                    "Simplify: 1 / 20 = N_s / 800  ⟹  N_s = 800 / 20 = 40 turns."
                 ],
-                answer: 'C_eq = 2 μF, Q = 24 μC'
+                "answer": "40 turns"
             },
-            pitfalls: 'Capacitors have the OPPOSITE rules to resistors! Capacitors in parallel add directly, while capacitors in series use the reciprocal formula.'
+            "pitfalls": "Transformers ONLY work with Alternating Current (AC)! If a direct current (DC) battery is connected to a transformer, the induced secondary voltage is ZERO after the initial switch-on."
+        },
+        {
+            "title": "Unit 5: Basics of Electronics",
+            "examWeight": "15-18% of National Exam",
+            "readTime": "6 min read",
+            "overview": "\n                Electronics studies electron transport through semiconductors, p-n junction devices, and digital logic circuits.<br><br>\n                • <strong>Semiconductors:</strong> Intrinsic (pure silicon/germanium) vs. Extrinsic (doped). N-type has majority electrons (Group 15 dopants like Phosphorus), P-type has majority holes (Group 13 dopants like Boron).<br>\n                • <strong>p-n Junction Diode:</strong> Forward bias conducts current with low resistance (barrier voltage ≈ 0.7 V for Si). Reverse bias blocks current, acting as a rectifier.<br>\n                • <strong>Rectification:</strong> Half-wave (1 diode) and full-wave bridge rectifier (4 diodes) convert AC to DC.<br>\n                • <strong>Bipolar Junction Transistors (BJT):</strong> npn and pnp configurations used as electronic switches and signal amplifiers.<br>\n                • <strong>Digital Logic Gates:</strong> AND, OR, NOT, NAND, NOR, and XOR truth tables.\n            ",
+            "keyFormulas": [
+                {
+                    "name": "Transistor Current Law",
+                    "formula": "I_E = I_B + I_C",
+                    "notes": "Emitter current equals base plus collector current"
+                },
+                {
+                    "name": "Transistor Current Gain",
+                    "formula": "\\beta = \\frac{I_C}{I_B}",
+                    "notes": "Common-emitter amplification factor"
+                }
+            ],
+            "workedExample": {
+                "question": "Which logic gate produces an output of 1 (HIGH) ONLY when both inputs A and B are 1 (HIGH)?",
+                "steps": [
+                    "Review logic gate definitions: OR gives 1 if either input is 1. XOR gives 1 if inputs differ.",
+                    "AND gate gives 1 only if A = 1 and B = 1 simultaneously."
+                ],
+                "answer": "AND Gate"
+            },
+            "pitfalls": "NAND and NOR are universal gates! Any digital circuit can be constructed solely using NAND gates or solely using NOR gates."
         }
     ],
-
-    // Chemistry
-    'Grade 12_Chemistry': [
+    "Grade 12_Chemistry": [
         {
-            title: 'Unit 1: Solutions and Colligative Properties',
-            examWeight: '18-22% of National Exam',
-            readTime: '7 min read',
-            overview: `
-                Colligative properties depend only on the NUMBER of solute particles in a solution, not on their identity.<br><br>
-                • <strong>Concentration Units:</strong><br>
-                  - Molarity (M) = moles of solute / Liters of solution<br>
-                  - Molality (m) = moles of solute / kg of SOLVENT (independent of temperature!)<br>
-                • <strong>Colligative Properties:</strong><br>
-                  1. Vapor Pressure Lowering: ΔP = X_solute * P°_solvent (Raoult\'s Law)<br>
-                  2. Boiling Point Elevation: ΔT_b = i * K_b * m<br>
-                  3. Freezing Point Depression: ΔT_f = i * K_f * m<br>
-                  4. Osmotic Pressure: Π = i * M * R * T<br>
-                • <strong>Van\'t Hoff Factor (i):</strong> Number of particles an electrolyte dissociates into (e.g. NaCl ⟹ i = 2; CaCl₂ ⟹ i = 3; Glucose ⟹ i = 1).
-            `,
-            keyFormulas: [
-                { name: 'Boiling Point Elevation', formula: 'ΔT_b = i * K_b * m', notes: 'T_b(solution) = T_b(solvent) + ΔT_b' },
-                { name: 'Freezing Point Depression', formula: 'ΔT_f = i * K_f * m', notes: 'T_f(solution) = T_f(solvent) - ΔT_f' },
-                { name: 'Osmotic Pressure', formula: 'Π = i * M * R * T', notes: 'R = 0.0821 L·atm/(mol·K)' }
+            "title": "Unit 1: Acid-Base Equilibria",
+            "examWeight": "22-26% of National Exam",
+            "readTime": "7 min read",
+            "overview": "\n                Acid-base chemistry in Grade 12 investigates aqueous equilibria, ionization, buffers, and titration calculations.<br><br>\n                • <strong>Acid-Base Theories:</strong> Arrhenius, Brønsted-Lowry (proton donor/acceptor, conjugate acid-base pairs), and Lewis (electron-pair donor/acceptor).<br>\n                • <strong>Autoionization of Water:</strong> <code>K_w = [H_3O^+][OH^-] = 1.0 \\times 10^{-14}</code> at 25°C. <code>pH + pOH = 14</code>.<br>\n                • <strong>Weak Acids & Bases:</strong> <code>K_a = \\frac{[H^+][A^-]}{[HA]}</code> and <code>K_b = \\frac{[BH^+][OH^-]}{[B]}</code>. <code>K_a \\times K_b = K_w</code>.<br>\n                • <strong>Buffer Solutions:</strong> Resist pH change upon addition of small amounts of acid/base: Henderson-Hasselbalch equation <code>pH = pK_a + \\log\\frac{[A^-]}{[HA]}</code>.<br>\n                • <strong>Salt Hydrolysis:</strong> Strong acid + strong base = neutral (pH 7). Strong acid + weak base = acidic (pH < 7). Weak acid + strong base = basic (pH > 7).\n            ",
+            "keyFormulas": [
+                {
+                    "name": "pH and pOH",
+                    "formula": "pH = -\\log[H^+], \\quad pOH = -\\log[OH^-]",
+                    "notes": "pH + pOH = 14 at 25°C"
+                },
+                {
+                    "name": "Henderson-Hasselbalch Equation",
+                    "formula": "pH = pK_a + \\log\\left(\\frac{[\\text{conjugate base}]}{[\\text{weak acid}]}\\right)",
+                    "notes": "For buffer systems"
+                },
+                {
+                    "name": "Acid Ionization Constant",
+                    "formula": "K_a = \\frac{[H^+][A^-]}{[HA]}",
+                    "notes": "Higher Ka indicates stronger acid"
+                }
             ],
-            workedExample: {
-                question: 'Calculate the boiling point of an aqueous solution containing 58.5 g of NaCl dissolved in 1.0 kg of water. (K_b = 0.512 °C/m, Molar mass of NaCl = 58.5 g/mol).',
-                steps: [
-                    'Moles of NaCl: 58.5 g / 58.5 g/mol = 1.0 mol.',
-                    'Molality: m = 1.0 mol / 1.0 kg = 1.0 m.',
-                    'Van\'t Hoff factor for NaCl (Na⁺ + Cl⁻): i = 2.',
-                    'Calculate elevation: ΔT_b = i * K_b * m = (2)(0.512 °C/m)(1.0 m) = 1.024 °C.',
-                    'New boiling point: T_b = 100 °C + 1.024 °C = 101.024 °C.'
+            "workedExample": {
+                "question": "Calculate the pH of a 0.05 M Ba(OH)₂ solution at 25°C.",
+                "steps": [
+                    "Ba(OH)₂ dissociates completely into Ba²⁺ + 2 OH⁻.",
+                    "[OH⁻] = 2 * 0.05 M = 0.10 M = 10⁻¹ M.",
+                    "Calculate pOH: pOH = -log(10⁻¹) = 1.0.",
+                    "Calculate pH: pH = 14 - pOH = 14 - 1.0 = 13.0."
                 ],
-                answer: 'T_b = 101.02 °C'
+                "answer": "pH = 13.0"
             },
-            pitfalls: 'Never forget the van\'t Hoff factor (i) for ionic compounds! For NaCl, i = 2; for MgCl₂, i = 3. Non-electrolytes like glucose or sucrose have i = 1.'
+            "pitfalls": "Always account for stoichiometry! Ba(OH)₂ yields 2 moles of OH⁻ ions per formula unit, doubling [OH⁻]."
         },
         {
-            title: 'Unit 2: Chemical Kinetics',
-            examWeight: '16-20% of National Exam',
-            readTime: '6 min read',
-            overview: `
-                Kinetics studies the speed of chemical reactions and reaction mechanisms.<br><br>
-                • <strong>Rate Law:</strong> Expresses rate in terms of reactant concentrations: <code>Rate = k [A]^m [B]^n</code>.<br>
-                  - Reaction orders m and n MUST be determined experimentally, NOT from stoichiometric coefficients!<br>
-                  - Overall reaction order = m + n.<br>
-                • <strong>Factors Affecting Rate:</strong> Temperature, concentration, surface area, and catalysts (which lower activation energy E_a without being consumed).<br>
-                • <strong>Arrhenius Equation:</strong> <code>k = A * e^(-E_a / RT)</code>. As temperature increases, k increases exponentially.
-            `,
-            keyFormulas: [
-                { name: 'Rate of Reaction', formula: 'Rate = -Δ[Reactant] / Δt = +Δ[Product] / Δt', notes: 'Reactants decrease (-), products increase (+)' },
-                { name: 'Half-Life (First Order)', formula: 't_{1/2} = 0.693 / k', notes: 'Independent of initial concentration!' }
+            "title": "Unit 2: Electrochemistry",
+            "examWeight": "22-25% of National Exam",
+            "readTime": "7 min read",
+            "overview": "\n                Electrochemistry studies chemical reactions involving electron transfer between electrodes.<br><br>\n                • <strong>Redox Reactions:</strong> Oxidation is loss of electrons (increase in oxidation state) occurring at the ANODE. Reduction is gain of electrons occurring at the CATHODE.<br>\n                • <strong>Galvanic (Voltaic) Cells:</strong> Spontaneous chemical energy converted to electrical energy (ΔG < 0, E°_cell > 0). Standard cell potential: <code>E^\\circ_{cell} = E^\\circ_{cathode} - E^\\circ_{anode}</code>.<br>\n                • <strong>Electrolytic Cells:</strong> Non-spontaneous reaction driven by external electrical energy (e.g. molten NaCl, electroplating).<br>\n                • <strong>Faraday's Laws of Electrolysis:</strong> <code>m = \\frac{M \\cdot I \\cdot t}{n \\cdot F}</code>, where F = 96,500 C/mol e⁻.\n            ",
+            "keyFormulas": [
+                {
+                    "name": "Standard Cell Potential",
+                    "formula": "E^\\circ_{cell} = E^\\circ_{\\text{cathode}} - E^\\circ_{\\text{anode}}",
+                    "notes": "Must be positive for spontaneous galvanic cell"
+                },
+                {
+                    "name": "Faraday's Law of Electrolysis",
+                    "formula": "m = \\frac{M \\cdot I \\cdot t}{n \\cdot F}",
+                    "notes": "F = 96,500 C/mol, n = electrons transferred"
+                }
             ],
-            workedExample: {
-                question: 'A first-order reaction has a rate constant k = 0.0231 min⁻¹. Find the time required for the reactant to decay to 25% of its initial concentration.',
-                steps: [
-                    'Find half-life: t_{1/2} = 0.693 / 0.0231 = 30 minutes.',
-                    'Decaying to 25% represents two half-lives (100% ⟹ 50% ⟹ 25%).',
-                    'Total time = 2 * t_{1/2} = 2 * 30 min = 60 minutes.'
+            "workedExample": {
+                "question": "How many grams of copper (M = 63.5 g/mol) are deposited by a current of 2.0 A running for 965 seconds through a CuSO₄ solution (Cu²⁺ + 2e⁻ → Cu)?",
+                "steps": [
+                    "Total charge: Q = I * t = 2.0 A * 965 s = 1930 C.",
+                    "Moles of electrons: n_e = 1930 / 96500 = 0.020 mol.",
+                    "Moles of Cu deposited: 0.020 / 2 = 0.010 mol.",
+                    "Mass of Cu: 0.010 mol * 63.5 g/mol = 0.635 g."
                 ],
-                answer: 't = 60 minutes'
+                "answer": "0.635 g"
             },
-            pitfalls: 'A common exam trap: writing the rate law using coefficients from the balanced equation. Remember: rate law exponents can ONLY be found from experimental rate data tables.'
+            "pitfalls": "Anode is always where OXIDATION occurs in both galvanic and electrolytic cells (Mnemonic: An Ox, Red Cat)."
         },
         {
-            title: 'Unit 3: Chemical Equilibrium & Acid-Base',
-            examWeight: '20-25% of National Exam',
-            readTime: '8 min read',
-            overview: `
-                Dynamic equilibrium occurs when the forward and reverse reaction rates are equal: <code>aA + bB ⇌ cC + dD</code>.<br><br>
-                • <strong>Equilibrium Constant (Kc):</strong> <code>Kc = [C]^c [D]^d / ([A]^a [B]^b)</code>. Pure solids (s) and pure liquids (l) are EXCLUDED from the expression!<br>
-                • <strong>Le Chatelier\'s Principle:</strong> If a system at equilibrium is disturbed, it shifts to counteract the disturbance:<br>
-                  - Increase pressure: shifts to the side with FEWER gas moles.<br>
-                  - Increase temperature: shifts in the ENDOTHERMIC direction (absorbs heat).<br>
-                • <strong>pH & Buffers:</strong> <code>pH = -log[H⁺]</code>; <code>pH + pOH = 14</code> at 25 °C.<br>
-                  - Buffer solution: mixture of weak acid and its conjugate base. Henderson-Hasselbalch equation: <code>pH = pKa + log([A⁻] / [HA])</code>.
-            `,
-            keyFormulas: [
-                { name: 'Equilibrium Constant Expression', formula: 'K_c = [Products]^coefficients / [Reactants]^coefficients', notes: 'Only gases and aqueous species included' },
-                { name: 'Water Ion Product', formula: 'K_w = [H⁺][OH⁻] = 1.0 * 10^-14 at 25 °C', notes: 'pH + pOH = 14' },
-                { name: 'Buffer pH (Henderson-Hasselbalch)', formula: 'pH = pK_a + log([Conjugate Base] / [Weak Acid])', notes: 'Maximum buffer capacity when [Base] = [Acid], pH = pKa' }
+            "title": "Unit 3: Industrial Chemistry",
+            "examWeight": "16-20% of National Exam",
+            "readTime": "6 min read",
+            "overview": "\n                Focuses on the commercial chemical manufacturing processes and natural resource industrialization in Ethiopia.<br><br>\n                • <strong>Manufacturing of Essential Chemicals:</strong><br>\n                  - Ammonia (Haber-Bosch Process): N₂ + 3H₂ ⇌ 2NH₃ (Fe catalyst, 450°C, 200 atm).<br>\n                  - Nitric Acid (Ostwald Process): Ammonia oxidation over Pt-Rh gauze.<br>\n                  - Sulfuric Acid (Contact Process): SO₂ + O₂ ⇌ 2SO₃ over V₂O₅ catalyst, producing oleum.<br>\n                • <strong>Key Ethiopian Manufacturing Industries:</strong> Sugar manufacturing (Wonji, Metehara), Cement (Muger, Dangote - limestone calcination into clinker), Glass, Caustic Soda, Soap/Detergents, and Beer/beverages.\n            ",
+            "keyFormulas": [
+                {
+                    "name": "Haber Process Equilibrium",
+                    "formula": "N_2(g) + 3H_2(g) \\rightleftharpoons 2NH_3(g), \\quad \\Delta H < 0",
+                    "notes": "Exothermic; optimal yield at high P, moderate T"
+                },
+                {
+                    "name": "Contact Process Key Reaction",
+                    "formula": "2SO_2 + O_2 \\xrightarrow{V_2O_5} 2SO_3",
+                    "notes": "Key catalytic step in sulfuric acid production"
+                }
             ],
-            workedExample: {
-                question: 'Calculate the pH of a 0.05 M Ba(OH)₂ strong base solution.',
-                steps: [
-                    'Ba(OH)₂ is a strong base that dissociates completely: Ba(OH)₂ ⟹ Ba²⁺ + 2 OH⁻.',
-                    'Concentration of hydroxide ions: [OH⁻] = 2 * 0.05 M = 0.10 M = 10⁻¹ M.',
-                    'Calculate pOH: pOH = -log(10⁻¹) = 1.0.',
-                    'Calculate pH: pH = 14 - pOH = 14 - 1.0 = 13.0.'
+            "workedExample": {
+                "question": "Which catalyst is used in the Contact Process for the conversion of sulfur dioxide to sulfur trioxide?",
+                "steps": [
+                    "Review industrial processes: Haber process uses Iron (Fe).",
+                    "Contact process uses Vanadium(V) oxide (V₂O₅) as catalyst."
                 ],
-                answer: 'pH = 13.0'
+                "answer": "Vanadium(V) oxide (V₂O₅)"
             },
-            pitfalls: 'Do not forget that diprotic bases like Ba(OH)₂ release TWO moles of OH⁻ ions per formula unit! [OH⁻] is double the concentration of Ba(OH)₂.'
+            "pitfalls": "In sulfuric acid production, SO₃ is NOT dissolved directly in water because it forms a dense, dangerous acid mist; it is dissolved in concentrated H₂SO₄ to form oleum (H₂S₂O₇)."
+        },
+        {
+            "title": "Unit 4: Polymers",
+            "examWeight": "14-18% of National Exam",
+            "readTime": "6 min read",
+            "overview": "\n                Polymers are large macromolecules composed of repeating structural monomer units linked by covalent bonds.<br><br>\n                • <strong>Classification of Polymers:</strong> Natural (proteins, DNA, cellulose, starch, natural rubber) vs. Synthetic (polyethylene, nylon, Dacron, PVC, Teflon).<br>\n                • <strong>Polymerization Mechanisms:</strong><br>\n                  1. Addition Polymerization: Monomers with double bonds join without loss of atoms (e.g. ethylene → polyethylene, vinyl chloride → PVC).<br>\n                  2. Condensation Polymerization: Bifunctional monomers join with elimination of small molecules like H₂O (e.g. Nylon 6,6, Polyesters).<br>\n                • <strong>Thermoplastics vs. Thermosetting Plastics:</strong> Thermoplastics soften upon heating and can be remolded (recyclable); thermosetting plastics decompose upon heating and cannot be remolded.\n            ",
+            "keyFormulas": [
+                {
+                    "name": "Addition Polymerization",
+                    "formula": "n(CH_2=CH_2) \\rightarrow [-CH_2-CH_2-]_n",
+                    "notes": "Polyethylene formation from ethylene"
+                }
+            ],
+            "workedExample": {
+                "question": "What type of polymerization produces Nylon 6,6, and what small molecule is eliminated during the reaction?",
+                "steps": [
+                    "Nylon 6,6 is formed from hexamethylenediamine and adipic acid.",
+                    "The amine and carboxylic acid groups react to form amide linkages while eliminating water molecules (H₂O).",
+                    "Therefore, it is a condensation polymerization."
+                ],
+                "answer": "Condensation polymerization; water (H₂O) is eliminated."
+            },
+            "pitfalls": "Bakelite is a thermosetting polymer, meaning it cannot be reshaped by heating; do not confuse it with thermoplastics like PVC or Polystyrene."
+        },
+        {
+            "title": "Unit 5: Introduction to Environmental Chemistry",
+            "examWeight": "12-16% of National Exam",
+            "readTime": "5 min read",
+            "overview": "\n                Environmental chemistry examines chemical processes occurring in the air, water, and soil segments.<br><br>\n                • <strong>Atmospheric Chemistry:</strong> Troposphere, Stratosphere (ozone layer absorbs UV-B and UV-C radiation: O₃ + hν → O₂ + O). Ozone depletion caused by Chlorofluorocarbons (CFCs).<br>\n                • <strong>Air Pollution & Greenhouse Effect:</strong> Greenhouse gases (CO₂, CH₄, N₂O, H₂O) trap infrared radiation. Acid rain (pH < 5.6) caused by SO₂ and NO_x emissions forming H₂SO₄ and HNO₃.<br>\n                • <strong>Water Pollution & Treatment:</strong> Biochemical Oxygen Demand (BOD), eutrophication (algal blooms from agricultural fertilizer runoff), and sewage water purification methods.\n            ",
+            "keyFormulas": [
+                {
+                    "name": "Acid Rain Formation",
+                    "formula": "SO_3 + H_2O \\rightarrow H_2SO_4, \\quad 2NO_2 + H_2O \\rightarrow HNO_3 + HNO_2",
+                    "notes": "Lowers soil and aquatic pH"
+                }
+            ],
+            "workedExample": {
+                "question": "Which gas is primarily responsible for the depletion of the stratospheric ozone layer?",
+                "steps": [
+                    "Greenhouse effect is driven by CO₂ and CH₄.",
+                    "Ozone layer depletion is catalyzed by chlorine radicals released from Chlorofluorocarbons (CFCs)."
+                ],
+                "answer": "Chlorofluorocarbons (CFCs)"
+            },
+            "pitfalls": "Do not confuse the Greenhouse Effect with Ozone Depletion! Carbon dioxide causes global warming, whereas CFCs destroy the ozone shield."
+        }
+    ],
+    "Grade 12_Biology": [
+        {
+            "title": "Unit 1: Application of Biology",
+            "examWeight": "16-20% of National Exam",
+            "readTime": "6 min read",
+            "overview": "\n                Examines modern biotechnological, agricultural, and biomedical applications in Ethiopia.<br><br>\n                • <strong>Natural Resource Conservation:</strong> In-situ conservation (National parks like Semien, Bale) vs. ex-situ conservation (seed banks, botanical gardens).<br>\n                • <strong>Biotechnology & Genetic Engineering:</strong> Recombinant DNA technology, restriction enzymes (molecular scissors), DNA ligase, plasmids as cloning vectors, and transgenic crops (Bt crops).<br>\n                • <strong>Food Security & Public Health:</strong> Biofortification, tissue culture propagation of disease-free enset and coffee seedlings, and epidemiology.\n            ",
+            "keyFormulas": [
+                {
+                    "name": "Recombinant DNA Tools",
+                    "formula": "\\text{Restriction Enzyme} + \\text{Ligase} + \\text{Plasmid Vector}",
+                    "notes": "Produces genetically modified organisms (GMOs)"
+                }
+            ],
+            "workedExample": {
+                "question": "What enzyme is used to join foreign DNA fragments into a bacterial plasmid vector during recombinant DNA technology?",
+                "steps": [
+                    "Restriction endonuclease cuts DNA at specific palindromic sequences.",
+                    "DNA Ligase catalyzes the formation of phosphodiester bonds, sealing the DNA fragments together."
+                ],
+                "answer": "DNA Ligase"
+            },
+            "pitfalls": "Restriction enzymes cut DNA; DNA ligase pastes/joins DNA. Never swap their roles in exam questions."
+        },
+        {
+            "title": "Unit 2: Microorganisms",
+            "examWeight": "16-18% of National Exam",
+            "readTime": "6 min read",
+            "overview": "\n                Microorganisms encompass bacteria, archaea, viruses, protozoa, and microscopic fungi.<br><br>\n                • <strong>Bacterial Structure & Reproduction:</strong> Peptidoglycan cell wall (Gram-positive vs. Gram-negative), circular nucleoid DNA, plasmids, and binary fission.<br>\n                • <strong>Viruses:</strong> Acellular obligate intracellular parasites consisting of genetic material (DNA or RNA) enclosed in a protein capsid (e.g. HIV, bacteriophages).<br>\n                • <strong>Economic & Ecological Significance:</strong> Nitrogen fixation (Rhizobium in leguminous root nodules), decomposition, fermentation (injera fermentation, yeast baking, brewing), and antibiotics production (Penicillium).\n            ",
+            "keyFormulas": [
+                {
+                    "name": "Binary Fission Growth",
+                    "formula": "N = N_0 \\times 2^n",
+                    "notes": "N_0 = initial population, n = number of generations"
+                }
+            ],
+            "workedExample": {
+                "question": "Which bacterium forms symbiotic root nodules in leguminous crops to fix atmospheric nitrogen in Ethiopian soils?",
+                "steps": [
+                    "Review nitrogen fixing organisms: Free living includes Azotobacter.",
+                    "Symbiotic bacterium living in legume root nodules is Rhizobium."
+                ],
+                "answer": "Rhizobium"
+            },
+            "pitfalls": "Viruses are not killed by antibiotics! Antibiotics specifically target bacterial structures like peptidoglycan synthesis or 70S ribosomes."
+        },
+        {
+            "title": "Unit 3: Energy Transformation",
+            "examWeight": "22-26% of National Exam",
+            "readTime": "8 min read",
+            "overview": "\n                Cellular energetics explores photosynthesis and cellular respiration.<br><br>\n                • <strong>Photosynthesis:</strong> <code>6CO_2 + 6H_2O + \\text{light} \\rightarrow C_6H_{12}O_6 + 6O_2</code>.<br>\n                  - Light Reactions (Thylakoid membranes): Photolysis of water releases O₂, producing ATP and NADPH.<br>\n                  - Calvin Cycle (Stroma): CO₂ fixation catalyzed by RuBisCO enzyme into G3P/glucose.<br>\n                • <strong>Cellular Respiration:</strong> <code>C_6H_{12}O_6 + 6O_2 \\rightarrow 6CO_2 + 6H_2O + 36\\text{-}38\\text{ ATP}</code>.<br>\n                  - Glycolysis (Cytoplasm): Glucose → 2 Pyruvate + 2 ATP + 2 NADH.<br>\n                  - Krebs Cycle (Mitochondrial Matrix): Generates NADH, FADH₂, and 2 ATP.<br>\n                  - Electron Transport Chain & Oxidative Phosphorylation (Inner Mitochondrial Membrane): Oxygen acts as final electron acceptor, producing ~32-34 ATP.\n            ",
+            "keyFormulas": [
+                {
+                    "name": "Overall Respiration Equation",
+                    "formula": "C_6H_{12}O_6 + 6O_2 \\rightarrow 6CO_2 + 6H_2O + 36\\text{-}38\\text{ ATP}",
+                    "notes": "Aerobic respiration"
+                },
+                {
+                    "name": "Oxygen Source in Photosynthesis",
+                    "formula": "2H_2O \\xrightarrow{h\\nu} 4H^+ + 4e^- + O_2",
+                    "notes": "Oxygen byproduct comes from water photolysis, NOT CO₂"
+                }
+            ],
+            "workedExample": {
+                "question": "During photosynthesis, what is the source of the oxygen gas (O₂) released into the atmosphere?",
+                "steps": [
+                    "Classic isotope experiments using O-18 proved that oxygen originates from water (H₂O).",
+                    "Photolysis of water in Photosystem II splits water into protons, electrons, and O₂."
+                ],
+                "answer": "Photolysis of water (H₂O)"
+            },
+            "pitfalls": "A very common exam trap: students mistakenly think oxygen released by plants comes from carbon dioxide (CO₂). It strictly comes from water (H₂O)!"
+        },
+        {
+            "title": "Unit 4: Evolution",
+            "examWeight": "14-18% of National Exam",
+            "readTime": "6 min read",
+            "overview": "\n                Evolution explains the biological mechanisms responsible for the diversity of life on Earth.<br><br>\n                • <strong>Theories of Evolution:</strong> Lamarckism (inheritance of acquired characteristics - disproven) vs. Darwinism (natural selection based on variation, overproduction, struggle for existence, and differential reproduction).<br>\n                • <strong>Evidence for Evolution:</strong> Fossil records, homologous structures (common ancestry, divergent evolution), analogous structures (convergent evolution), and molecular biology (DNA & cytochrome c comparison).<br>\n                • <strong>Human Origins in Ethiopia:</strong> Ethiopia is known as the \"Cradle of Humankind\". Key fossil discoveries in the Afar region including Lucy (Australopithecus afarensis - 3.2 million years old) and Ardi (Ardipithecus ramidus - 4.4 million years old).\n            ",
+            "keyFormulas": [
+                {
+                    "name": "Hardy-Weinberg Equilibrium",
+                    "formula": "p^2 + 2pq + q^2 = 1, \\quad p + q = 1",
+                    "notes": "p = dominant allele freq, q = recessive allele freq"
+                }
+            ],
+            "workedExample": {
+                "question": "What type of structures are bird wings and insect wings: homologous or analogous, and what type of evolution do they represent?",
+                "steps": [
+                    "Bird wings and insect wings have different internal anatomical structures but perform the same function (flying).",
+                    "Structures with different origin but similar function are analogous.",
+                    "This is a result of convergent evolution."
+                ],
+                "answer": "Analogous structures; convergent evolution."
+            },
+            "pitfalls": "Homologous structures share a common ancestor but may have different functions (e.g. human arm and whale flipper); analogous structures have similar functions but different evolutionary origins."
+        },
+        {
+            "title": "Unit 5: Human Body System",
+            "examWeight": "18-22% of National Exam",
+            "readTime": "7 min read",
+            "overview": "\n                Examines physiological coordination, nervous communication, and homeostasis in humans.<br><br>\n                • <strong>The Nervous System:</strong> Central Nervous System (Brain and Spinal cord) vs. Peripheral Nervous System (Somatic and Autonomic).<br>\n                • <strong>The Neuron & Action Potential:</strong> Resting potential (-70 mV maintained by Na⁺/K⁺ pump: 3 Na⁺ out, 2 K⁺ in). Depolarization (Na⁺ influx), Repolarization (K⁺ efflux). Synaptic transmission via neurotransmitters.<br>\n                • <strong>Sense Organs:</strong> Eye (refraction, retina rods & cones), Ear (hearing via cochlea, balance via semicircular canals).<br>\n                • <strong>Homeostasis:</strong> Negative feedback loops regulating blood glucose (Insulin lowers, Glucagon raises), body temperature (hypothalamus), and osmoregulation (ADH in kidneys).\n            ",
+            "keyFormulas": [
+                {
+                    "name": "Resting Membrane Potential",
+                    "formula": "-70\\text{ mV}",
+                    "notes": "Maintained by 3 Na⁺ pumped out for every 2 K⁺ pumped in"
+                }
+            ],
+            "workedExample": {
+                "question": "Which hormone is secreted by the beta cells of the islets of Langerhans in the pancreas when blood glucose levels rise?",
+                "steps": [
+                    "Pancreatic islets contain alpha and beta cells.",
+                    "Beta cells secrete insulin to stimulate glucose uptake and glycogen synthesis, lowering blood sugar."
+                ],
+                "answer": "Insulin"
+            },
+            "pitfalls": "Insulin LOWERS blood glucose; glucagon RAISES blood glucose. Remember: Gluca-GONE means glucose is gone, so glucagon brings it back up."
+        },
+        {
+            "title": "Unit 6: Climate Change",
+            "examWeight": "10-14% of National Exam",
+            "readTime": "5 min read",
+            "overview": "\n                Climate change investigates global warming dynamics, anthropogenic greenhouse emissions, and ecological impact.<br><br>\n                • <strong>Causes of Climate Change:</strong> Fossil fuel combustion, industrial emissions, deforestation, and methane release from livestock.<br>\n                • <strong>Ecological Consequences:</strong> Rising global temperatures, polar ice cap melting, sea level rise, extreme weather events (severe droughts, flooding), and biodiversity loss.<br>\n                • <strong>Impact in Ethiopia:</strong> Prolonged droughts in pastoralist regions (Borana, Somali), shifting agricultural zones, and vector-borne disease expansion (malaria into highland zones).<br>\n                • <strong>Mitigation & Adaptation:</strong> Green Legacy Initiative reforestation in Ethiopia, transition to renewable hydroelectric and geothermal energy, and climate-smart agriculture.\n            ",
+            "keyFormulas": [
+                {
+                    "name": "Carbon Cycle Balance",
+                    "formula": "\\text{Photosynthesis} \\rightleftharpoons \\text{Respiration} + \\text{Combustion}",
+                    "notes": "Disrupted by excessive fossil fuel combustion"
+                }
+            ],
+            "workedExample": {
+                "question": "Name Ethiopia's flagship nationwide tree-planting initiative designed to mitigate climate change and desertification.",
+                "steps": [
+                    "The national campaign launched to restore forest cover and combat climate change.",
+                    "Known officially as the Green Legacy Initiative."
+                ],
+                "answer": "Green Legacy Initiative"
+            },
+            "pitfalls": "Global warming and climate change are not identical: global warming refers to the rise in global mean temperatures, while climate change encompasses broader weather shifts, droughts, and sea level changes."
+        }
+    ],
+    "Grade 12_English": [
+        {
+            "title": "Unit 1: Sustainable Development",
+            "examWeight": "10-12% of National Exam",
+            "readTime": "5 min read",
+            "overview": "Focuses on vocabulary, reading comprehension, and grammar relating to environmental sustainability, renewable resources, and development goals in Ethiopia."
+        },
+        {
+            "title": "Unit 2: Time Management",
+            "examWeight": "10-12% of National Exam",
+            "readTime": "5 min read",
+            "overview": "Covers conditional sentences, modals, discourse markers, and effective study and life scheduling vocabulary."
+        },
+        {
+            "title": "Unit 3: Evidence on Traffic Accidents",
+            "examWeight": "10-12% of National Exam",
+            "readTime": "5 min read",
+            "overview": "Passive voice transformations, cause-and-effect linkers, and analytical reporting skills."
+        },
+        {
+            "title": "Unit 4: Natural Resource Management",
+            "examWeight": "10-12% of National Exam",
+            "readTime": "5 min read",
+            "overview": "Relative clauses, vocabulary on conservation, and argumentative essay drafting."
+        },
+        {
+            "title": "Unit 5: Mechanized Agriculture",
+            "examWeight": "10-12% of National Exam",
+            "readTime": "5 min read",
+            "overview": "Agricultural terminology, report writing, and passive voice in scientific descriptions."
+        },
+        {
+            "title": "Unit 6: Green Economies",
+            "examWeight": "10-12% of National Exam",
+            "readTime": "5 min read",
+            "overview": "Economic collocations, modal verbs of necessity and obligation, and reading for specific detail."
+        },
+        {
+            "title": "Unit 7: National Pride",
+            "examWeight": "10-12% of National Exam",
+            "readTime": "5 min read",
+            "overview": "Historical texts, patriotic speeches analysis, narrative tenses, and indirect speech."
+        },
+        {
+            "title": "Unit 8: Telemedicine",
+            "examWeight": "10-12% of National Exam",
+            "readTime": "5 min read",
+            "overview": "Digital healthcare vocabulary, formal letter writing, and technology-focused reading texts."
+        },
+        {
+            "title": "Unit 9: Conflict Management",
+            "examWeight": "10-12% of National Exam",
+            "readTime": "5 min read",
+            "overview": "Phrasal verbs, persuasive language, and conflict resolution communication strategies."
+        },
+        {
+            "title": "Unit 10: Robotics",
+            "examWeight": "10-12% of National Exam",
+            "readTime": "5 min read",
+            "overview": "Future tenses, speculative modals, and technological advancements vocabulary."
+        }
+    ],
+    "Grade 11_Mathematics": [
+        {
+            "title": "Unit 1: Relations and Functions",
+            "examWeight": "14-16% of National Exam",
+            "readTime": "6 min read",
+            "overview": "Domain, range, one-to-one, onto functions, inverse functions, and function compositions f(g(x))."
+        },
+        {
+            "title": "Unit 2: Rational Expressions and Rational Functions",
+            "examWeight": "14-16% of National Exam",
+            "readTime": "6 min read",
+            "overview": "Simplifying rational expressions, vertical and horizontal asymptotes, and graphing rational functions."
+        },
+        {
+            "title": "Unit 3: Matrices",
+            "examWeight": "12-15% of National Exam",
+            "readTime": "6 min read",
+            "overview": "Matrix operations, matrix multiplication, transpose, and applications to linear systems."
+        },
+        {
+            "title": "Unit 4: Determinants and Their Properties",
+            "examWeight": "12-15% of National Exam",
+            "readTime": "6 min read",
+            "overview": "Determinants of 2x2 and 3x3 matrices, Cramer's rule, and matrix inverses."
+        },
+        {
+            "title": "Unit 5: Vectors",
+            "examWeight": "12-15% of National Exam",
+            "readTime": "6 min read",
+            "overview": "2D and 3D vectors, dot product, scalar and vector projections, and angle between vectors."
+        },
+        {
+            "title": "Unit 6: Transformations of the Plane",
+            "examWeight": "10-12% of National Exam",
+            "readTime": "5 min read",
+            "overview": "Isometries: translations, reflections, rotations, and dilations."
+        },
+        {
+            "title": "Unit 7: Statistics",
+            "examWeight": "10-12% of National Exam",
+            "readTime": "5 min read",
+            "overview": "Measures of position (quartiles, deciles, percentiles) and dispersion for grouped data."
+        },
+        {
+            "title": "Unit 8: Probability",
+            "examWeight": "12-15% of National Exam",
+            "readTime": "6 min read",
+            "overview": "Permutations, combinations, conditional probability, and independent events."
+        }
+    ],
+    "Grade 11_Physics": [
+        {
+            "title": "Unit 1: Physics and Human Society",
+            "examWeight": "10-12% of National Exam",
+            "readTime": "5 min read",
+            "overview": "Role of physics in societal advancement, scientific methods, and technological development."
+        },
+        {
+            "title": "Unit 2: Vectors",
+            "examWeight": "14-18% of National Exam",
+            "readTime": "6 min read",
+            "overview": "Resolution of vectors into components, vector addition, scalar dot product, and vector cross product."
+        },
+        {
+            "title": "Unit 3: Motion in One and Two Dimensions",
+            "examWeight": "18-22% of National Exam",
+            "readTime": "7 min read",
+            "overview": "Kinematic equations, free fall, projectile motion, and relative velocity."
+        },
+        {
+            "title": "Unit 4: Dynamics",
+            "examWeight": "20-24% of National Exam",
+            "readTime": "7 min read",
+            "overview": "Newton's laws of motion, friction, circular dynamics, work, kinetic and potential energy, and momentum conservation."
+        },
+        {
+            "title": "Unit 5: Heat Conduction and Calorimetry",
+            "examWeight": "12-15% of National Exam",
+            "readTime": "6 min read",
+            "overview": "Thermal expansion, specific heat capacity, latent heat, and calorimetry equations."
+        },
+        {
+            "title": "Unit 6: Electrostatics and Electric Circuit",
+            "examWeight": "16-20% of National Exam",
+            "readTime": "7 min read",
+            "overview": "Coulomb's law, electric fields, Ohm's law, resistor networks, and Kirchhoff's laws."
+        },
+        {
+            "title": "Unit 7: Nuclear Physics",
+            "examWeight": "10-12% of National Exam",
+            "readTime": "5 min read",
+            "overview": "Atomic nucleus structure, radioactive decay laws, half-life, fission, and fusion."
+        }
+    ],
+    "Grade 11_Chemistry": [
+        {
+            "title": "Unit 1: Atomic Structure and Periodic Properties of Elements",
+            "examWeight": "18-22% of National Exam",
+            "readTime": "7 min read",
+            "overview": "Quantum numbers, orbital electron configurations, and periodic trends (electronegativity, ionization energy, atomic radius)."
+        },
+        {
+            "title": "Unit 2: Chemical Bonding",
+            "examWeight": "18-22% of National Exam",
+            "readTime": "7 min read",
+            "overview": "Ionic, covalent, metallic bonding, VSEPR theory molecular geometry, and intermolecular forces."
+        },
+        {
+            "title": "Unit 3: Physical States of Matter",
+            "examWeight": "15-18% of National Exam",
+            "readTime": "6 min read",
+            "overview": "Ideal gas law (PV = nRT), Dalton's law of partial pressures, liquid properties, and crystalline solids."
+        },
+        {
+            "title": "Unit 4: Chemical Kinetics",
+            "examWeight": "16-20% of National Exam",
+            "readTime": "6 min read",
+            "overview": "Reaction rates, collision theory, activation energy, rate laws, and reaction mechanisms."
+        },
+        {
+            "title": "Unit 5: Chemical Equilibrium",
+            "examWeight": "16-20% of National Exam",
+            "readTime": "6 min read",
+            "overview": "Dynamic equilibrium, equilibrium constants Kc and Kp, and Le Chatelier's principle."
+        },
+        {
+            "title": "Unit 6: Some Important Oxygen-Containing Organic Compounds",
+            "examWeight": "15-18% of National Exam",
+            "readTime": "6 min read",
+            "overview": "Nomenclature, preparation, and reactions of alcohols, ethers, aldehydes, ketones, and carboxylic acids."
+        }
+    ],
+    "Grade 11_Biology": [
+        {
+            "title": "Unit 1: Biology and Technology",
+            "examWeight": "12-15% of National Exam",
+            "readTime": "5 min read",
+            "overview": "Biotechnology tools, scientific instruments, ethical considerations, and biological discoveries."
+        },
+        {
+            "title": "Unit 2: Characteristics of Animals",
+            "examWeight": "16-20% of National Exam",
+            "readTime": "6 min read",
+            "overview": "Invertebrate and vertebrate taxonomy, animal tissue types, and physiological adaptations."
+        },
+        {
+            "title": "Unit 3: Enzymes",
+            "examWeight": "18-22% of National Exam",
+            "readTime": "6 min read",
+            "overview": "Enzyme catalysis, active sites, lock-and-key model, induced fit, and factors affecting enzyme velocity (pH, temp, inhibitors)."
+        },
+        {
+            "title": "Unit 4: Genetics",
+            "examWeight": "20-25% of National Exam",
+            "readTime": "7 min read",
+            "overview": "Mendelian inheritance, monohybrid and dihybrid crosses, DNA structure and replication, transcription, and translation."
+        },
+        {
+            "title": "Unit 5: The Human Body Systems",
+            "examWeight": "18-22% of National Exam",
+            "readTime": "7 min read",
+            "overview": "Digestive, circulatory, respiratory, and excretory systems and metabolic homeostasis."
+        },
+        {
+            "title": "Unit 6: Population and Natural Resources",
+            "examWeight": "12-15% of National Exam",
+            "readTime": "5 min read",
+            "overview": "Population ecology, carrying capacity, environmental sustainability, and conservation."
+        }
+    ],
+    "Grade 10_Mathematics": [
+        {
+            "title": "Unit 1: Relations and Functions",
+            "examWeight": "14-16% of Curriculum",
+            "readTime": "5 min read",
+            "overview": "Cartesian coordinate review, relations, functions, domain, range, and graphs."
+        },
+        {
+            "title": "Unit 2: Polynomial Functions",
+            "examWeight": "16-18% of Curriculum",
+            "readTime": "6 min read",
+            "overview": "Polynomial operations, Remainder theorem, Factor theorem, and finding polynomial roots."
+        },
+        {
+            "title": "Unit 3: Exponential and Logarithmic Functions",
+            "examWeight": "16-18% of Curriculum",
+            "readTime": "6 min read",
+            "overview": "Properties of exponents, logarithmic laws, exponential growth/decay, and solving log equations."
+        },
+        {
+            "title": "Unit 4: Trigonometric Functions",
+            "examWeight": "16-18% of Curriculum",
+            "readTime": "6 min read",
+            "overview": "Radian measure, unit circle, sine, cosine, tangent graphs, and fundamental trig identities."
+        },
+        {
+            "title": "Unit 5: Circles",
+            "examWeight": "14-16% of Curriculum",
+            "readTime": "5 min read",
+            "overview": "Chords, secants, tangents, inscribed angle theorems, and the standard equation of a circle."
+        },
+        {
+            "title": "Unit 6: Solid Figures",
+            "examWeight": "12-14% of Curriculum",
+            "readTime": "5 min read",
+            "overview": "Surface area and volume of prisms, cylinders, pyramids, cones, and spheres."
+        },
+        {
+            "title": "Unit 7: Coordinate Geometry",
+            "examWeight": "14-16% of Curriculum",
+            "readTime": "5 min read",
+            "overview": "Distance formula, midpoint formula, slope, and equations of parallel/perpendicular lines."
+        }
+    ],
+    "Grade 10_Physics": [
+        {
+            "title": "Unit 1: Vector Quantities",
+            "examWeight": "16-18% of Curriculum",
+            "readTime": "6 min read",
+            "overview": "Scalars vs. vectors, parallelogram law of vector addition, and component resolution."
+        },
+        {
+            "title": "Unit 2: Uniformly Accelerated Motion",
+            "examWeight": "18-22% of Curriculum",
+            "readTime": "6 min read",
+            "overview": "Linear kinematics, acceleration equations, and introduction to projectile trajectory."
+        },
+        {
+            "title": "Unit 3: Elasticity and Static Equilibrium of Rigid Bodies",
+            "examWeight": "16-18% of Curriculum",
+            "readTime": "6 min read",
+            "overview": "Hooke's law, stress, strain, elastic modulus, torque, and translational/rotational equilibrium."
+        },
+        {
+            "title": "Unit 4: Static and Current Electricity",
+            "examWeight": "18-22% of Curriculum",
+            "readTime": "7 min read",
+            "overview": "Electric charges, Coulomb's law, electric current, resistance, series/parallel circuits, and electrical power."
+        },
+        {
+            "title": "Unit 5: Magnetism",
+            "examWeight": "15-18% of Curriculum",
+            "readTime": "6 min read",
+            "overview": "Magnetic materials, magnetic field patterns, and electromagnetic induction fundamentals."
+        },
+        {
+            "title": "Unit 6: Electromagnetic Waves and Geometrical Optics",
+            "examWeight": "16-20% of Curriculum",
+            "readTime": "6 min read",
+            "overview": "Electromagnetic spectrum, reflection, plane/curved mirrors, Snell's law, refraction, and lenses."
+        }
+    ],
+    "Grade 10_Chemistry": [
+        {
+            "title": "Unit 1: Chemical Reactions and Stoichiometry",
+            "examWeight": "18-22% of Curriculum",
+            "readTime": "6 min read",
+            "overview": "Balancing chemical equations, types of reactions, mole concept, and limiting reactants."
+        },
+        {
+            "title": "Unit 2: Solutions",
+            "examWeight": "18-20% of Curriculum",
+            "readTime": "6 min read",
+            "overview": "Solubility, factors affecting solubility, molarity, mass percent, and solution dilution."
+        },
+        {
+            "title": "Unit 3: Important Inorganic Compounds",
+            "examWeight": "18-22% of Curriculum",
+            "readTime": "6 min read",
+            "overview": "Classification, preparation, and reactions of oxides, acids, bases, and salts."
+        },
+        {
+            "title": "Unit 4: Energy Changes and Electrochemistry",
+            "examWeight": "16-18% of Curriculum",
+            "readTime": "6 min read",
+            "overview": "Exothermic and endothermic reactions, enthalpy, and simple voltaic/electrolytic cells."
+        },
+        {
+            "title": "Unit 5: Metals and Nonmetals",
+            "examWeight": "14-16% of Curriculum",
+            "readTime": "5 min read",
+            "overview": "Occurrence, extraction of iron and copper, reactivity series, and properties of nonmetals."
+        },
+        {
+            "title": "Unit 6: Hydrocarbons and Their Natural Sources",
+            "examWeight": "18-20% of Curriculum",
+            "readTime": "6 min read",
+            "overview": "Alkanes, alkenes, alkynes, benzene nomenclature, isomerism, and fractional distillation of petroleum."
+        }
+    ],
+    "Grade 10_Biology": [
+        {
+            "title": "Unit 1: Sub-Fields of Biology",
+            "examWeight": "12-14% of Curriculum",
+            "readTime": "5 min read",
+            "overview": "Branches of biology, pure and applied biological sciences, and prominent Ethiopian biological research."
+        },
+        {
+            "title": "Unit 2: Plants",
+            "examWeight": "18-20% of Curriculum",
+            "readTime": "6 min read",
+            "overview": "Plant anatomy (roots, stems, leaves, flowers), transport mechanisms (xylem/phloem), and plant reproduction."
+        },
+        {
+            "title": "Unit 3: Biochemical Molecules",
+            "examWeight": "18-20% of Curriculum",
+            "readTime": "6 min read",
+            "overview": "Carbohydrates, lipids, proteins, nucleic acids, and inorganic essential minerals."
+        },
+        {
+            "title": "Unit 4: Cell Division",
+            "examWeight": "18-20% of Curriculum",
+            "readTime": "6 min read",
+            "overview": "Cell cycle stages, mitosis (somatic division), and meiosis (gametogenesis and genetic crossing-over)."
+        },
+        {
+            "title": "Unit 5: Human Biology",
+            "examWeight": "18-22% of Curriculum",
+            "readTime": "7 min read",
+            "overview": "Nervous regulation, hormonal control, human reproduction, and reproductive health."
+        },
+        {
+            "title": "Unit 6: Ecological Interactions",
+            "examWeight": "14-16% of Curriculum",
+            "readTime": "5 min read",
+            "overview": "Trophic levels, food webs, ecological pyramids, and biogeochemical cycles (carbon, nitrogen, water)."
+        }
+    ],
+    "Grade 9_Mathematics": [
+        {
+            "title": "Unit 1: Further on Sets",
+            "examWeight": "10-12% of Curriculum",
+            "readTime": "5 min read",
+            "overview": "Set operations, Venn diagrams, Cartesian product, and practical applications of set theory."
+        },
+        {
+            "title": "Unit 2: The Number System",
+            "examWeight": "12-14% of Curriculum",
+            "readTime": "5 min read",
+            "overview": "Rational and irrational numbers, radical operations, and real number properties."
+        },
+        {
+            "title": "Unit 3: Solving Equations",
+            "examWeight": "14-16% of Curriculum",
+            "readTime": "6 min read",
+            "overview": "Linear equations in one variable, systems of linear equations, and quadratic equations."
+        },
+        {
+            "title": "Unit 4: Solving Inequalities",
+            "examWeight": "12-14% of Curriculum",
+            "readTime": "5 min read",
+            "overview": "Linear inequalities in one variable and graphical solutions of linear inequalities in two variables."
+        },
+        {
+            "title": "Unit 5: Introduction to Trigonometry",
+            "examWeight": "12-14% of Curriculum",
+            "readTime": "5 min read",
+            "overview": "Right-angled triangle trigonometry: sine, cosine, tangent ratios and special angles (30°, 45°, 60°)."
+        },
+        {
+            "title": "Unit 6: Regular Polygons",
+            "examWeight": "10-12% of Curriculum",
+            "readTime": "5 min read",
+            "overview": "Properties of regular polygons, interior and exterior angle sums, and perimeter/area."
+        },
+        {
+            "title": "Unit 7: Congruency and Similarity",
+            "examWeight": "12-14% of Curriculum",
+            "readTime": "5 min read",
+            "overview": "Criteria for triangle congruence (SSS, SAS, ASA, RHS) and triangle similarity theorems."
+        },
+        {
+            "title": "Unit 8: Vectors in Two Dimensions",
+            "examWeight": "10-12% of Curriculum",
+            "readTime": "5 min read",
+            "overview": "Vector notation, geometric and algebraic representation, and vector addition in a plane."
+        },
+        {
+            "title": "Unit 9: Statistics and Probability",
+            "examWeight": "12-14% of Curriculum",
+            "readTime": "5 min read",
+            "overview": "Data representation, mean, median, mode, range, and theoretical/experimental probability."
+        }
+    ],
+    "Grade 9_Physics": [
+        {
+            "title": "Unit 1: Physics and Human Society",
+            "examWeight": "12-14% of Curriculum",
+            "readTime": "5 min read",
+            "overview": "Definition of physics, historical landmarks, relationship with other natural sciences, and laboratory safety."
+        },
+        {
+            "title": "Unit 2: Physical Quantities",
+            "examWeight": "14-16% of Curriculum",
+            "readTime": "5 min read",
+            "overview": "Base and derived SI units, scientific notation, measurement accuracy, and measuring instruments."
+        },
+        {
+            "title": "Unit 3: Motion in a Straight Line",
+            "examWeight": "18-20% of Curriculum",
+            "readTime": "6 min read",
+            "overview": "Position, displacement, speed, velocity, uniform acceleration, and equations of motion."
+        },
+        {
+            "title": "Unit 4: Force, Work, Energy, and Power",
+            "examWeight": "18-22% of Curriculum",
+            "readTime": "7 min read",
+            "overview": "Newton's three laws of motion, friction, work done by a force, kinetic/potential energy, and power."
+        },
+        {
+            "title": "Unit 5: Simple Machines",
+            "examWeight": "14-16% of Curriculum",
+            "readTime": "5 min read",
+            "overview": "Mechanical advantage, velocity ratio, efficiency, levers, pulleys, inclined planes, and hydraulic press."
+        },
+        {
+            "title": "Unit 6: Mechanical Oscillation and Sound Wave",
+            "examWeight": "14-16% of Curriculum",
+            "readTime": "5 min read",
+            "overview": "Periodic motion, frequency, amplitude, wave characteristics, sound transmission, and pitch/loudness."
+        },
+        {
+            "title": "Unit 7: Temperature and Thermometry",
+            "examWeight": "12-14% of Curriculum",
+            "readTime": "5 min read",
+            "overview": "Temperature concepts, thermometers, Celsius and Kelvin scales, and thermal expansion of matter."
+        }
+    ],
+    "Grade 9_Chemistry": [
+        {
+            "title": "Unit 1: Chemistry and Its Importance",
+            "examWeight": "14-16% of Curriculum",
+            "readTime": "5 min read",
+            "overview": "Definition and scope of chemistry, chemical industries in Ethiopia, and laboratory safety."
+        },
+        {
+            "title": "Unit 2: Measurements and Scientific Methods",
+            "examWeight": "14-16% of Curriculum",
+            "readTime": "5 min read",
+            "overview": "Units of measurement, significant figures, scientific method, and experimental procedures."
+        },
+        {
+            "title": "Unit 3: Structure of the Atom",
+            "examWeight": "22-26% of Curriculum",
+            "readTime": "7 min read",
+            "overview": "Historical atomic models, subatomic particles (protons, neutrons, electrons), atomic number, mass number, and isotopes."
+        },
+        {
+            "title": "Unit 4: Periodic Classification of Elements",
+            "examWeight": "22-26% of Curriculum",
+            "readTime": "7 min read",
+            "overview": "Mendeleev's periodic table, modern periodic law, groups, periods, metals, nonmetals, and noble gases."
+        },
+        {
+            "title": "Unit 5: Chemical Bonding",
+            "examWeight": "20-24% of Curriculum",
+            "readTime": "7 min read",
+            "overview": "Octet rule, Lewis dot symbols, ionic bonding, covalent bonding, and metallic bonding."
+        }
+    ],
+    "Grade 9_Biology": [
+        {
+            "title": "Unit 1: Introduction to Biology",
+            "examWeight": "12-14% of Curriculum",
+            "readTime": "5 min read",
+            "overview": "Definition of biology, why study biology, scientific method, microscope usage, and laboratory safety."
+        },
+        {
+            "title": "Unit 2: Living Things and their Classification",
+            "examWeight": "16-18% of Curriculum",
+            "readTime": "6 min read",
+            "overview": "Characteristics of living organisms, taxonomy, binomial nomenclature, and the five kingdoms of life."
+        },
+        {
+            "title": "Unit 3: Cells",
+            "examWeight": "22-26% of Curriculum",
+            "readTime": "7 min read",
+            "overview": "Cell theory, prokaryotic vs. eukaryotic cells, plant vs. animal cells, and cell organelles."
+        },
+        {
+            "title": "Unit 4: Reproduction",
+            "examWeight": "18-20% of Curriculum",
+            "readTime": "6 min read",
+            "overview": "Asexual reproduction (fission, budding, vegetative propagation) and sexual reproduction."
+        },
+        {
+            "title": "Unit 5: Human Health, Nutrition, and Disease",
+            "examWeight": "18-22% of Curriculum",
+            "readTime": "7 min read",
+            "overview": "Balanced diet, food groups, deficiencies, infectious diseases, vectors, and immune defense."
+        },
+        {
+            "title": "Unit 6: Ecology",
+            "examWeight": "14-16% of Curriculum",
+            "readTime": "5 min read",
+            "overview": "Abiotic and biotic factors, habitats, populations, communities, ecosystems, and human impact."
         }
     ]
 };
 
 function getExamUnitNotesList(grade, subject) {
-    const key = `${grade}_${subject}`;
+    let cleanGrade = (grade || 'Grade 12').trim();
+    if (/^Grade\s*\d+$/i.test(cleanGrade)) {
+        const num = cleanGrade.replace(/\D/g, '');
+        cleanGrade = 'Grade ' + num;
+    } else if (/^\d+$/.test(cleanGrade)) {
+        cleanGrade = 'Grade ' + cleanGrade;
+    }
+
+    let cleanSubject = (subject || 'Mathematics').trim();
+    if (/^math/i.test(cleanSubject)) cleanSubject = 'Mathematics';
+    else if (/^phys/i.test(cleanSubject)) cleanSubject = 'Physics';
+    else if (/^chem/i.test(cleanSubject)) cleanSubject = 'Chemistry';
+    else if (/^bio/i.test(cleanSubject)) cleanSubject = 'Biology';
+    else if (/^eng/i.test(cleanSubject)) cleanSubject = 'English';
+
+    const key = cleanGrade + '_' + cleanSubject;
     if (EXAM_UNIT_NOTES[key] && EXAM_UNIT_NOTES[key].length > 0) {
         return EXAM_UNIT_NOTES[key];
     }
