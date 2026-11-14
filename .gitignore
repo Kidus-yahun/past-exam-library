@@ -8,5 +8,6 @@ exam_cache/
 *.apk
 build-artifacts/
 .env
-.env.*
+.env.local
 *.env
+!.env.example
