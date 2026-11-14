@@ -449,7 +449,15 @@ isOneToOne: false
                 }
           }
           Functions: {
-            "is_admin":
+            "admin_overview":
+{ Args: Record<PropertyKey, never>; Returns: Json
+                           },
+"admin_students":
+{ Args: { "search"?: string }; Returns: {
+              "answered": number,"correct": number,"display_name": string,"email": string,"grade": number,"id": string,"joined_at": string,"last_active": string
+            }[]
+                           },
+"is_admin":
 { Args: Record<PropertyKey, never>; Returns: boolean
                            },
 "my_progress":

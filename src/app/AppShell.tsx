@@ -1,7 +1,8 @@
 import { A } from "@solidjs/router";
-import { For, type ParentProps, Suspense } from "solid-js";
+import { For, type ParentProps, Show, Suspense } from "solid-js";
 import { css } from "styled-system/css";
 import { AccountChip } from "~/features/account/AccountChip";
+import { useProfile } from "~/features/account/useProfile";
 import { HomeIcon, LibraryIcon, PracticeIcon, ProgressIcon, StudyIcon } from "~/ui/icons";
 import { NavLink } from "~/ui/NavLink";
 import { ThemeSwitch } from "~/ui/ThemeSwitch";
@@ -87,6 +88,7 @@ const styles = {
 };
 
 export function AppShell(props: ParentProps) {
+  const profile = useProfile();
   return (
     <div class={styles.shell}>
       <aside class={styles.sidebar}>
@@ -108,6 +110,12 @@ export function AppShell(props: ParentProps) {
               </NavLink>
             )}
           </For>
+          <Show when={profile.data?.role === "admin"}>
+            <NavLink href="/admin" class={styles.sideLink}>
+              <ProgressIcon />
+              Admin
+            </NavLink>
+          </Show>
         </nav>
         <div class={styles.sideFooter}>
           <p class={styles.eyebrow}>Appearance</p>

@@ -96,6 +96,11 @@ function Account() {
           </Show>{" "}
           · daily goal {profile.data?.daily_goal_minutes ?? 25} min
         </p>
+        <Show when={profile.data?.role === "admin"}>
+          <A href="/admin" class={quietButton}>
+            Admin console
+          </A>
+        </Show>
         <button type="button" class={quietButton} onClick={leave}>
           Sign out
         </button>
