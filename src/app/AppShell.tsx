@@ -158,7 +158,6 @@ export function AppShell(props: ParentProps) {
         <TelegramBanner />
         <Suspense>{props.children}</Suspense>
       </main>
-      </main>
 
       <nav aria-label="Main" class={styles.tabbar}>
         <For each={NAV}>
