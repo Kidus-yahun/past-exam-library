@@ -1,11 +1,13 @@
+import { A } from "@solidjs/router";
 import { Show } from "solid-js";
 import { css } from "styled-system/css";
-import { DownloadIcon, FileIcon } from "~/ui/icons";
-import { paperUrl } from "./api";
+import { ChevronRightIcon, DownloadIcon, FileIcon } from "~/ui/icons";
+import { paperDownloadUrl } from "./api";
 import { formatBytes, LARGE_FILE_BYTES, type PaperSummary, paperTitle } from "./papers";
 
 const styles = {
   row: css({
+    position: "relative",
     display: "flex",
     alignItems: "center",
     gap: "12px",
@@ -13,6 +15,12 @@ const styles = {
     py: "10px",
     borderBottom: "1px solid {colors.line}",
     _last: { borderBottom: 0 },
+    // The whole row opens the paper; hover/focus show on the row.
+    "&:has(a[data-open]:hover)": { bg: "sunk" },
+    "&:has(a[data-open]:focus-visible)": {
+      outline: "2px solid {colors.focus}",
+      outlineOffset: "-2px",
+    },
   }),
   icon: css({
     flex: "none",
@@ -27,7 +35,13 @@ const styles = {
   }),
   iconNational: css({ bg: "brand.soft", color: "brand.strong" }),
   body: css({ flex: 1, minW: 0 }),
-  title: css({ fontSize: "15px", fontWeight: "600" }),
+  // Stretched link: its ::after covers the row, so tapping anywhere opens it.
+  title: css({
+    fontSize: "15px",
+    fontWeight: "600",
+    _focusVisible: { outline: "none" },
+    _after: { content: '""', position: "absolute", inset: 0 },
+  }),
   meta: css({
     mt: "3px",
     display: "flex",
@@ -38,23 +52,22 @@ const styles = {
     color: "ink.subtle",
   }),
   large: css({ color: "streak.ink", fontWeight: "600" }),
-  open: css({
+  save: css({
+    position: "relative",
+    zIndex: 1,
     flex: "none",
     display: "inline-flex",
     alignItems: "center",
     justifyContent: "center",
-    gap: "8px",
     minW: "44px",
     minH: "44px",
-    px: { base: 0, md: "14px" },
     rounded: "md",
-    fontSize: "14px",
-    fontWeight: "600",
-    color: "ink",
+    color: "ink.muted",
     boxShadow: "inset 0 0 0 1px {colors.line}",
-    _hover: { bg: "sunk" },
+    bg: "surface",
+    _hover: { color: "ink" },
   }),
-  openLabel: css({ hideBelow: "md" }),
+  chevron: css({ flex: "none", color: "ink.subtle", hideBelow: "md" }),
 };
 
 export function PaperRow(props: { paper: PaperSummary }) {
@@ -68,7 +81,9 @@ export function PaperRow(props: { paper: PaperSummary }) {
         <FileIcon size={18} />
       </span>
       <div class={styles.body}>
-        <p class={styles.title}>{title()}</p>
+        <A href={`/papers/${props.paper.id}`} class={styles.title} data-open>
+          {title()}
+        </A>
         <p class={styles.meta}>
           <span class="mono">{size()}</span>
           <span aria-hidden="true">·</span>
@@ -84,17 +99,13 @@ export function PaperRow(props: { paper: PaperSummary }) {
         </p>
       </div>
       <a
-        class={styles.open}
-        href={paperUrl(props.paper.storage_path)}
-        target="_blank"
-        rel="noopener"
-        aria-label={`Open ${title()} PDF, ${size()}`}
+        class={styles.save}
+        href={paperDownloadUrl(props.paper.storage_path)}
+        aria-label={`Save ${title()} PDF to device, ${size()}`}
       >
         <DownloadIcon />
-        <span class={styles.openLabel} aria-hidden="true">
-          Open PDF
-        </span>
       </a>
+      <ChevronRightIcon size={18} class={styles.chevron} />
     </li>
   );
 }

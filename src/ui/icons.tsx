@@ -55,6 +55,9 @@ export const DownloadIcon = icon(() => (
   </>
 ));
 export const ChevronRightIcon = icon(() => <path d="m9 6 6 6-6 6" />, { strokeWidth: 2 });
+export const ChevronLeftIcon = icon(() => <path d="m15 6-6 6 6 6" />, { strokeWidth: 2 });
+export const MinusIcon = icon(() => <path d="M5 12h14" />, { strokeWidth: 2 });
+export const PlusIcon = icon(() => <path d="M12 5v14M5 12h14" />, { strokeWidth: 2 });
 export const SunIcon = icon(() => (
   <>
     <circle cx="12" cy="12" r="4" />
