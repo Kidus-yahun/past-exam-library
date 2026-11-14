@@ -16,5 +16,6 @@ dist/
 styled-system/
 supabase/.temp/
 supabase/.branches/
+supabase/all_migrations.sql
 !.env.example
 .env.local

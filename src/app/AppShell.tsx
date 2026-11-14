@@ -3,8 +3,9 @@ import { For, type ParentProps, Show, Suspense } from "solid-js";
 import { css } from "styled-system/css";
 import { AccountChip } from "~/features/account/AccountChip";
 import { useProfile } from "~/features/account/useProfile";
-import { HomeIcon, LibraryIcon, PracticeIcon, ProgressIcon, StudyIcon } from "~/ui/icons";
+import { HomeIcon, LibraryIcon, PracticeIcon, ProgressIcon, StudyIcon, TelegramIcon } from "~/ui/icons";
 import { NavLink } from "~/ui/NavLink";
+import { TelegramBanner } from "~/ui/TelegramBanner";
 import { ThemeSwitch } from "~/ui/ThemeSwitch";
 
 const NAV = [
@@ -96,7 +97,12 @@ export function AppShell(props: ParentProps) {
           <span class={styles.brandMark}>
             <LibraryIcon size={18} strokeWidth={2} />
           </span>
-          <span class={styles.brandName}>Past Exam Library</span>
+          <div class={css({ display: "flex", flexDirection: "column" })}>
+            <span class={styles.brandName}>Catholic Exam Library</span>
+            <span class={css({ fontSize: "11px", color: "ink.subtle", fontWeight: "500" })}>
+              Blessed G/Michael Secondary
+            </span>
+          </div>
         </A>
         <nav
           aria-label="Main"
@@ -118,16 +124,40 @@ export function AppShell(props: ParentProps) {
           </Show>
         </nav>
         <div class={styles.sideFooter}>
+          <a
+            href="https://t.me/BGMCS1236"
+            target="_blank"
+            rel="noopener noreferrer"
+            class={css({
+              display: "flex",
+              alignItems: "center",
+              gap: "8px",
+              px: "10px",
+              py: "8px",
+              rounded: "md",
+              fontSize: "12.5px",
+              fontWeight: "600",
+              color: "brand",
+              bg: "brand.soft",
+              textDecoration: "none",
+              _hover: { bg: "brand.soft" },
+            })}
+          >
+            <TelegramIcon size={14} />
+            Telegram Community
+          </a>
           <p class={styles.eyebrow}>Appearance</p>
           <ThemeSwitch />
-          <div class={css({ mt: "12px", pt: "12px", borderTop: "1px solid {colors.line}" })}>
+          <div class={css({ mt: "8px", pt: "10px", borderTop: "1px solid {colors.line}" })}>
             <AccountChip />
           </div>
         </div>
       </aside>
 
       <main class={styles.main}>
+        <TelegramBanner />
         <Suspense>{props.children}</Suspense>
+      </main>
       </main>
 
       <nav aria-label="Main" class={styles.tabbar}>

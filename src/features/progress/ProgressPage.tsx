@@ -4,7 +4,8 @@ import { createMemo, For, Match, Show, Switch } from "solid-js";
 import { css } from "styled-system/css";
 import { useProfile } from "~/features/account/useProfile";
 import { authReady, session, signOut } from "~/lib/auth";
-import { FlameIcon } from "~/ui/icons";
+import { CountdownWidget } from "~/ui/CountdownWidget";
+import { ChevronRightIcon, FlameIcon, PracticeIcon, StudyIcon, ZapIcon } from "~/ui/icons";
 import { button, Page, panel, quietButton } from "~/ui/Page";
 import { ListSkeleton } from "~/ui/Skeleton";
 import { ThemeSwitch } from "~/ui/ThemeSwitch";
@@ -12,9 +13,22 @@ import { useProgress } from "./api";
 import { streakFrom, strengthOf, weekStrip } from "./progress";
 import { StrengthMeter, WeekStrip } from "./widgets";
 
+const CURRICULUM_SUBJECTS = [
+  { name: "Mathematics", am: "ሒሳብ", desc: "Calculus, Vectors, Probability & Geometry" },
+  { name: "Physics", am: "ፊዚክስ", desc: "Mechanics, Electricity, Waves & Modern Physics" },
+  { name: "Chemistry", am: "ኬሚስትሪ", desc: "Chemical Bonding, Equilibrium & Organic Chem" },
+  { name: "Biology", am: "ባዮሎጂ", desc: "Cell Biology, Genetics, Human Physiology & Ecology" },
+  { name: "English", am: "እንግሊዝኛ", desc: "Reading Comprehension, Grammar & Vocabulary" },
+  { name: "Civics", am: "ስነ-ዜጋ", desc: "Constitutional Principles, Ethics & Rule of Law" },
+  { name: "History", am: "ታሪክ", desc: "Ethiopian History, World Civilizations & Modern Era" },
+  { name: "Geography", am: "ጂኦግራፊ", desc: "Physical Geography, Climate, Map Reading & Ethiopia" },
+  { name: "Information Technology", am: "አይቲ", desc: "Computer Architecture, Programming & Databases" },
+  { name: "Agriculture", am: "ግብርና", desc: "Crop Production, Animal Husbandry & Soil Science" },
+];
+
 const styles = {
   eyebrow: css({ textStyle: "eyebrow", color: "ink.subtle", mb: "10px" }),
-  card: css({ p: "16px", display: "flex", flexDirection: "column", gap: "16px" }),
+  card: css({ p: "18px", display: "flex", flexDirection: "column", gap: "16px" }),
   stats: css({ display: "flex", flexWrap: "wrap", rowGap: "12px" }),
   stat: css({
     display: "flex",
@@ -30,6 +44,7 @@ const styles = {
   row: css({
     display: "flex",
     alignItems: "center",
+    justifyContent: "space-between",
     gap: "12px",
     minH: "60px",
     px: "16px",
@@ -43,24 +58,155 @@ const styles = {
     alignItems: "start",
   }),
   column: css({ display: "flex", flexDirection: "column", gap: "24px" }),
-  muted: css({ fontSize: "14.5px", color: "ink.muted" }),
+  muted: css({ fontSize: "14.5px", color: "ink.muted", lineHeight: "1.5" }),
+  subjectGrid: css({
+    display: "grid",
+    gridTemplateColumns: { base: "1fr", sm: "repeat(2, minmax(0, 1fr))" },
+    gap: "12px",
+  }),
+  subjectCard: css({
+    p: "14px",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "space-between",
+    gap: "12px",
+    border: "1px solid {colors.line}",
+    rounded: "md",
+    bg: "surface",
+    transition: "border-color 140ms ease-out, background-color 140ms ease-out",
+    _hover: { bg: "hover", borderColor: "brand" },
+  }),
 };
 
-function SignedOut() {
+function GuestDashboard() {
   return (
-    <section class={`${panel} ${styles.card}`}>
-      <p class={styles.muted}>
-        Sign in to keep a streak, earn XP and see which subjects need more practice.
-      </p>
-      <div class={css({ display: "flex", gap: "10px", flexWrap: "wrap" })}>
-        <A href="/signin?mode=create&next=/progress" class={button}>
-          Create a free account
-        </A>
-        <A href="/signin?next=/progress" class={quietButton}>
-          Sign in
-        </A>
-      </div>
-    </section>
+    <div class={styles.column}>
+      {/* Live Exam Countdown */}
+      <CountdownWidget />
+
+      {/* Guest Scholar Stats & Motivation */}
+      <section class={`${panel} ${styles.card}`} aria-labelledby="guest-status-heading">
+        <div class={css({ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "10px" })}>
+          <div>
+            <span class={styles.eyebrow}>Student Desk</span>
+            <h2 id="guest-status-heading" class={css({ fontSize: "20px", fontWeight: "700", letterSpacing: "-0.01em" })}>
+              Guest Scholar
+            </h2>
+          </div>
+          <span class={css({ fontSize: "12px", color: "brand", bg: "brand.soft", px: "10px", py: "4px", rounded: "md", fontWeight: "600" })}>
+            Grade 9–12 Prep
+          </span>
+        </div>
+
+        <div class={styles.stats}>
+          <div class={styles.stat}>
+            <div class={css({ display: "flex", alignItems: "center", gap: "6px" })}>
+              <FlameIcon size={18} />
+              <span class={styles.statValue}>0 Days</span>
+            </div>
+            <span class={styles.statLabel}>Current Streak</span>
+          </div>
+
+          <div class={styles.stat}>
+            <div class={css({ display: "flex", alignItems: "center", gap: "6px" })}>
+              <ZapIcon size={16} />
+              <span class={styles.statValue}>Level 1</span>
+            </div>
+            <span class={styles.statLabel}>Scholar Rank</span>
+          </div>
+
+          <div class={styles.stat}>
+            <span class={styles.statValue}>25m</span>
+            <span class={styles.statLabel}>Daily Goal</span>
+          </div>
+        </div>
+
+        <p class={styles.muted}>
+          Start a 25-minute Pomodoro study sprint or practice authentic exam drills. When you create an account, all your progress is backed up securely to your profile.
+        </p>
+
+        <div class={css({ display: "flex", gap: "10px", flexWrap: "wrap" })}>
+          <A href="/study" class={button}>
+            <StudyIcon size={18} />
+            Start Focus Sprint
+          </A>
+          <A href="/practice" class={quietButton}>
+            <PracticeIcon size={18} />
+            Start Practice Drill
+          </A>
+        </div>
+      </section>
+
+      {/* Curriculum Subject Explorer */}
+      <section aria-labelledby="subjects-heading">
+        <div class={css({ mb: "12px", display: "flex", justifyContent: "space-between", alignItems: "baseline" })}>
+          <h2 id="subjects-heading" class={styles.eyebrow}>
+            Curriculum Subject Matrix
+          </h2>
+          <span class={css({ fontSize: "12.5px", color: "ink.subtle" })}>Ethiopian Secondary Syllabus</span>
+        </div>
+
+        <div class={styles.subjectGrid}>
+          <For each={CURRICULUM_SUBJECTS}>
+            {(s) => (
+              <div class={styles.subjectCard}>
+                <div>
+                  <div class={css({ display: "flex", justifyContent: "space-between", alignItems: "baseline", mb: "4px" })}>
+                    <h3 class={css({ fontSize: "15px", fontWeight: "600", color: "ink" })}>{s.name}</h3>
+                    <span class={css({ fontSize: "13px", color: "brand", fontFamily: "ethiopic", fontWeight: "500" })}>
+                      {s.am}
+                    </span>
+                  </div>
+                  <p class={css({ fontSize: "12.5px", color: "ink.subtle", lineHeight: "1.4" })}>{s.desc}</p>
+                </div>
+                <A
+                  href="/practice"
+                  class={css({
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: "6px",
+                    fontSize: "12.5px",
+                    fontWeight: "600",
+                    color: "brand",
+                    textDecoration: "none",
+                    _hover: { color: "brand.strong" },
+                  })}
+                >
+                  Practise Questions
+                  <ChevronRightIcon size={14} />
+                </A>
+              </div>
+            )}
+          </For>
+        </div>
+      </section>
+
+      {/* Cloud Account Sync Card */}
+      <section class={`${panel} ${styles.card}`}>
+        <h3 class={css({ fontSize: "17px", fontWeight: "650", letterSpacing: "-0.01em" })}>
+          Sync Across Devices
+        </h3>
+        <p class={styles.muted}>
+          Create a free account to track your accuracy per unit, save your daily study streaks, and see detailed explanations for every missed question.
+        </p>
+        <div class={css({ display: "flex", gap: "10px", flexWrap: "wrap" })}>
+          <A href="/signin?mode=create&next=/progress" class={button}>
+            Create a free account
+          </A>
+          <A href="/signin?next=/progress" class={quietButton}>
+            Sign in
+          </A>
+        </div>
+      </section>
+
+      {/* Mobile-only Appearance Switch */}
+      <section aria-labelledby="appearance" class={css({ hideFrom: "lg" })}>
+        <h2 id="appearance" class={styles.eyebrow}>
+          Appearance
+        </h2>
+        <ThemeSwitch />
+      </section>
+    </div>
   );
 }
 
@@ -101,7 +247,7 @@ function Account() {
             Admin console
           </A>
         </Show>
-        <button type="button" class={quietButton} onClick={leave}>
+        <button type="button" onClick={leave} class={quietButton}>
           Sign out
         </button>
       </div>
@@ -111,70 +257,58 @@ function Account() {
 
 function SignedIn() {
   const progress = useProgress();
+
   const streak = createMemo(() =>
     progress.data ? streakFrom(progress.data.days, progress.data.today) : null,
   );
-  const accuracy = () =>
-    progress.data && progress.data.answered > 0
-      ? Math.round((progress.data.correct / progress.data.answered) * 100)
-      : null;
+  const week = createMemo(() => (progress.data ? weekStrip(progress.data.days) : []));
+
+  const totalAnswered = createMemo(() =>
+    progress.data ? progress.data.subjects.reduce((sum, s) => sum + s.answered, 0) : 0,
+  );
+  const totalCorrect = createMemo(() =>
+    progress.data ? progress.data.subjects.reduce((sum, s) => sum + s.correct, 0) : 0,
+  );
+  const accuracy = createMemo(() => {
+    const answered = totalAnswered();
+    if (answered === 0) return null;
+    return Math.round((totalCorrect() / answered) * 100);
+  });
 
   return (
     <div class={styles.grid}>
       <div class={styles.column}>
+        <CountdownWidget />
+
         <Switch>
-          <Match when={progress.isError}>
-            <p class={`${panel} ${styles.card} ${styles.muted}`} role="alert">
-              Couldn't load your progress. Check your connection.
-            </p>
-          </Match>
           <Match when={progress.data}>
             {(p) => (
               <>
-                <section aria-labelledby="streak" class={`${panel} ${styles.card}`}>
-                  <div
-                    class={css({
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "space-between",
-                      gap: "12px",
-                    })}
-                  >
-                    <h2
-                      id="streak"
-                      class={css({
-                        display: "flex",
-                        alignItems: "center",
-                        gap: "8px",
-                        fontSize: "17px",
-                        fontWeight: "650",
-                      })}
-                    >
-                      <FlameIcon size={22} />
-                      <span>
-                        <span class="mono">{streak()?.current ?? 0}</span>-day streak
-                      </span>
+                <section class={`${panel} ${styles.card}`} aria-labelledby="streak">
+                  <div class={css({ display: "flex", justifyContent: "space-between", alignItems: "center" })}>
+                    <h2 id="streak" class={styles.eyebrow}>
+                      Daily goal
                     </h2>
-                    <span class={css({ fontSize: "13px", color: "ink.subtle" })}>
-                      Longest <span class="mono">{streak()?.longest ?? 0}</span>
-                    </span>
+                    <Show when={streak()}>
+                      {(s) => (
+                        <span class={css({ display: "inline-flex", alignItems: "center", gap: "6px", fontSize: "14px", fontWeight: "600", color: "streak.ink" })}>
+                          <FlameIcon size={18} />
+                          {s().count} {s().count === 1 ? "day" : "days"}
+                        </span>
+                      )}
+                    </Show>
                   </div>
-                  <WeekStrip days={weekStrip(p().days, p().today)} />
-                  <Show when={streak() && !streak()?.activeToday}>
-                    <p class={css({ fontSize: "13.5px", color: "streak.ink" })}>
-                      Answer one question today to keep your streak going.
-                    </p>
-                  </Show>
+                  <WeekStrip days={week()} goalMinutes={p().goalMinutes} />
                 </section>
 
                 <div class={styles.stats}>
                   <div class={styles.stat}>
-                    <span class={styles.statValue}>{p().xp.toLocaleString()}</span>
-                    <span class={styles.statLabel}>XP earned</span>
+                    <span class={styles.statValue}>{p().today.questionsAnswered}</span>
+                    <span class={styles.statLabel}>today</span>
                   </div>
                   <div class={styles.stat}>
-                    <span class={styles.statValue}>{p().answered.toLocaleString()}</span>
-                    <span class={styles.statLabel}>questions answered</span>
+                    <span class={styles.statValue}>{totalAnswered()}</span>
+                    <span class={styles.statLabel}>total answered</span>
                   </div>
                   <div class={styles.stat}>
                     <span class={styles.statValue}>
@@ -232,7 +366,7 @@ function SignedIn() {
 
       <div class={styles.column}>
         <Account />
-        <section aria-labelledby="appearance">
+        <section aria-labelledby="appearance" class={css({ hideFrom: "lg" })}>
           <h2 id="appearance" class={styles.eyebrow}>
             Appearance
           </h2>
@@ -245,22 +379,9 @@ function SignedIn() {
 
 export default function ProgressPage() {
   return (
-    <Page title="Progress">
+    <Page title="Progress" lede="Your curriculum strengths, exam countdown and daily study streaks.">
       <Show when={authReady()}>
-        <Show
-          when={session()}
-          fallback={
-            <>
-              <SignedOut />
-              <section aria-labelledby="appearance" class={css({ maxW: "420px" })}>
-                <h2 id="appearance" class={styles.eyebrow}>
-                  Appearance
-                </h2>
-                <ThemeSwitch />
-              </section>
-            </>
-          }
-        >
+        <Show when={session()} fallback={<GuestDashboard />}>
           <SignedIn />
         </Show>
       </Show>

@@ -11,6 +11,7 @@ import { useProgress } from "~/features/progress/api";
 import { minutesFromAnswers, streakFrom, weakestSubjects } from "~/features/progress/progress";
 import { StreakChip, StrengthMeter } from "~/features/progress/widgets";
 import { authReady, session, userId } from "~/lib/auth";
+import { CountdownWidget } from "~/ui/CountdownWidget";
 import { ChevronRightIcon, LibraryIcon, PracticeIcon } from "~/ui/icons";
 import { button, panel, quietButton } from "~/ui/Page";
 
@@ -87,6 +88,7 @@ function Welcome() {
           </A>
         </div>
       </section>
+      <CountdownWidget />
       <section class={`${panel} ${styles.card}`}>
         <p class={styles.muted}>
           Create a free account to save your practice, keep a streak and see which subjects need
