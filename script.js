@@ -7375,6 +7375,9 @@ function finishQuiz() {
         }, 400);
     }
 
+    const missedQuestions = currentQuiz.questions.filter(q => currentQuiz.answers[q.id] !== q.correctAnswer);
+    const hasMissed = missedQuestions.length > 0;
+
     app.innerHTML = `
         <div class="results-card">
             <div class="empty-state-icon-wrap" style="width: 72px; height: 72px; margin: 0 auto 16px; background: rgba(99, 102, 241, 0.12); color: var(--primary); border-color: rgba(99, 102, 241, 0.25);">
@@ -7433,11 +7436,16 @@ function finishQuiz() {
             </div>
 
             <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-top: 28px;">
+                ${hasMissed ? `
+                <button class="btn-primary" style="background: linear-gradient(135deg, #f59e0b, #d97706); border-color: #f59e0b; width: auto; padding: 12px 24px; display: inline-flex; align-items: center; gap: 8px; font-weight: 700; color: #fff; box-shadow: 0 4px 14px rgba(217, 119, 6, 0.35);" onclick="retryMissedQuestions()">
+                    ${uiIcon('refresh', 15)} Retry ${missedQuestions.length} Missed Question${missedQuestions.length > 1 ? 's' : ''}
+                </button>
+                ` : ''}
                 <button class="btn-primary" style="width: auto; padding: 12px 24px; display: inline-flex; align-items: center; gap: 8px;" onclick="reviewQuizAnswers()">
                     ${uiIcon('bookOpen', 15)} Review Questions & Explanations
                 </button>
                 <button class="btn-secondary" style="display: inline-flex; align-items: center; gap: 7px;" onclick="startPracticeSession('${currentQuiz.grade}', '${currentQuiz.semester}', '${currentQuiz.examType}', '${escapeQuotes(currentQuiz.subject)}', '${currentQuiz.mode}', '${escapeQuotes(currentQuiz.examTitle)}', '${currentQuiz.filePath}', currentQuiz.backFn)">
-                    ${uiIcon('refresh', 14)} Retake Practice Test
+                    ${uiIcon('refresh', 14)} Retake Full Test
                 </button>
                 <button class="btn-secondary" style="display: inline-flex; align-items: center; gap: 7px; cursor: pointer;"
                    onclick="downloadExamPaper('${currentQuiz.filePath}', '${escapeQuotes(currentQuiz.examTitle)}.pdf', { grade: '${currentQuiz.grade}', subject: '${escapeQuotes(currentQuiz.subject)}', semester: '${currentQuiz.semester}', examType: '${currentQuiz.examType}', examTitle: '${escapeQuotes(currentQuiz.examTitle)}' })">
@@ -7449,6 +7457,39 @@ function finishQuiz() {
             </div>
         </div>
     `;
+}
+
+function retryMissedQuestions() {
+    if (!currentQuiz || !currentQuiz.questions) return;
+    const missed = currentQuiz.questions.filter(q => currentQuiz.answers[q.id] !== q.correctAnswer);
+    if (!missed || missed.length === 0) {
+        showToast('All questions answered correctly! Great job!', 'success');
+        return;
+    }
+    if (currentQuiz.timerInterval) clearInterval(currentQuiz.timerInterval);
+
+    currentQuiz.questions = missed;
+    currentQuiz.currentIndex = 0;
+    currentQuiz.answers = {};
+    currentQuiz.checked = {};
+    currentQuiz.flagged = {};
+    currentQuiz.startTime = Date.now();
+    currentQuiz.timeRemaining = Math.max(missed.length * 90, 300);
+
+    if (currentQuiz.mode === 'timed') {
+        currentQuiz.timerInterval = setInterval(() => {
+            currentQuiz.timeRemaining--;
+            updateTimerDisplay();
+            if (currentQuiz.timeRemaining <= 0) {
+                clearInterval(currentQuiz.timerInterval);
+                showToast('Time is up! Submitting exam...', 'info');
+                finishQuiz();
+            }
+        }, 1000);
+    }
+
+    showToast(`Starting drill for ${missed.length} missed question${missed.length > 1 ? 's' : ''}!`, 'info');
+    renderQuizScreen();
 }
 
 function reviewQuizAnswers() {
@@ -7781,8 +7822,10 @@ async function loadPdfDocument(fileUrl) {
     const progressBar = document.getElementById('pdf-progress-bar');
 
     const urlsToTry = [fileUrl];
-    if (fileUrl.startsWith('/exams/')) {
-        urlsToTry.push(`https://cdn.jsdelivr.net/gh/soliyana-dev/past-exam-library@main${fileUrl}`);
+    const cleanExamPath = fileUrl.startsWith('/') ? fileUrl : `/${fileUrl}`;
+    if (cleanExamPath.startsWith('/exams/')) {
+        urlsToTry.push(`https://cdn.jsdelivr.net/gh/Kidus-yahun/past-exam-library@main${cleanExamPath}`);
+        urlsToTry.push(`https://cdn.jsdelivr.net/gh/soliyana-dev/past-exam-library@main${cleanExamPath}`);
     }
 
     let pdfDoc = null;
