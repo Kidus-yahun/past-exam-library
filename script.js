@@ -1559,9 +1559,7 @@ function setView(viewName) {
         showLibraryHome();
     } else if (viewName === 'formulas') {
         showFormulaGrades();
-    } else if (viewName === 'studyhub') {
-        showStudyHubView();
-    } else if (viewName === 'studydesk' || viewName === 'desk') {
+    } else if (viewName === 'studyhub' || viewName === 'studydesk' || viewName === 'desk') {
         showStudyDesk();
     }
 }
@@ -2614,15 +2612,11 @@ if (!state.user) {
             </button>
             <button class="nav-btn ${isStudyDeskActive ? 'active' : ''}" onclick="showStudyDesk()" data-tooltip="Focus Study Room" aria-label="Focus Study Room">
                 ${uiIcon('zap', 15)}
-                <span class="nav-btn-label">Study Room</span>
+                <span class="nav-btn-label">Focus Study Room</span>
             </button>
             <button class="nav-btn ${isFormulasActive ? 'active' : ''}" onclick="setView('formulas')" data-tooltip="Formula sheets" aria-label="Formula sheets">
                 ${uiIcon('calculator', 15)}
                 <span class="nav-btn-label">Formula sheets</span>
-            </button>
-            <button class="nav-btn ${isStudyHubActive ? 'active' : ''}" onclick="setView('studyhub')" data-tooltip="My study hub" aria-label="My study hub">
-                ${uiIcon('bookmark', 15)}
-                <span class="nav-btn-label">My study hub</span>
             </button>
             ${themeToggleBtn}
             <button class="nav-btn nav-btn-signin" onclick="setView('login')" data-tooltip="Sign in" aria-label="Sign in">
@@ -2659,15 +2653,11 @@ if (!state.user) {
         </button>
         <button class="nav-btn ${isStudyDeskActive ? 'active' : ''}" onclick="showStudyDesk()" data-tooltip="Focus Study Room" aria-label="Focus Study Room">
             ${uiIcon('zap', 15)}
-            <span class="nav-btn-label">Study Room</span>
+            <span class="nav-btn-label">Focus Study Room</span>
         </button>
         <button class="nav-btn ${isFormulasActive ? 'active' : ''}" onclick="setView('formulas')" data-tooltip="Formula sheets" aria-label="Formula sheets">
             ${uiIcon('calculator', 15)}
             <span class="nav-btn-label">Formula sheets</span>
-        </button>
-        <button class="nav-btn ${isStudyHubActive ? 'active' : ''}" onclick="setView('studyhub')" data-tooltip="My study hub" aria-label="My study hub">
-            ${uiIcon('bookmark', 15)}
-            <span class="nav-btn-label">My study hub</span>
         </button>
 
         ${isAdmin ? `
@@ -2691,7 +2681,7 @@ function updateMobileBottomNav() {
     const isLibraryActive = state.currentView === 'library' || state.currentView === 'grade' || state.currentView === 'semester' || state.currentView === 'examType' || state.currentView === 'hub';
     const isPracticeActive = state.currentView === 'practiceGradeCatalog' || state.currentView === 'practiceExamTypeCatalog' || state.currentView === 'practiceSubjectCatalog' || state.currentView === 'quiz' || state.currentView === 'quizSummary';
     const isFormulasActive = state.currentView === 'formulas' || state.currentView === 'formulaGrades' || state.currentView === 'formulaSubjects' || state.currentView === 'formulaSheet';
-    const isStudyHubActive = state.currentView === 'studyhub';
+    const isStudyDeskActive = state.currentView === 'studydesk' || state.currentView === 'desk' || state.currentView === 'studyhub';
 
     const setItemActive = (id, active) => {
         const el = document.getElementById(id);
@@ -2701,7 +2691,8 @@ function updateMobileBottomNav() {
     setItemActive('mob-nav-exams', isLibraryActive);
     setItemActive('mob-nav-practice', isPracticeActive);
     setItemActive('mob-nav-formulas', isFormulasActive);
-    setItemActive('mob-nav-studyhub', isStudyHubActive);
+    setItemActive('mob-nav-desk', isStudyDeskActive);
+    setItemActive('mob-nav-studyhub', isStudyDeskActive);
 }
 
 // =======================================================// ========================================================
@@ -8148,122 +8139,7 @@ function updateBookmarkStatus(id, newStatus) {
 }
 
 function showStudyHubView(pushHistory = true) {
-    if (pushHistory) {
-        pushNavState({ view: 'studyhub' }, 'My Study Hub — Past Exam Library');
-    }
-
-    const bookmarks = getStudyBookmarks();
-    const total = bookmarks.length;
-    const mastered = bookmarks.filter(b => b.status === 'mastered').length;
-    const inProgress = bookmarks.filter(b => b.status === 'in_progress').length;
-    const notStarted = bookmarks.filter(b => b.status === 'not_started' || !b.status).length;
-    const percent = total > 0 ? Math.round((mastered / total) * 100) : 0;
-
-    app.innerHTML = `
-        <div class="nav-breadcrumbs-bar">
-            <button class="back-button back-button-home" onclick="showLibraryHome()" style="margin: 0; display: inline-flex; align-items: center; gap: 6px;" title="Go back to the website home page where you choose your grade">
-                ${uiIcon('home', 14)} Back to Grades (Home)
-            </button>
-        </div>
-
-        <section class="hero" style="margin-bottom: 24px;">
-            <p class="label">Personal Revision Dashboard</p>
-            <h1>My Study <span>Hub</span></h1>
-            <p class="description">
-                Organize your targeted examination papers, monitor your revision checklist, and track exam readiness.
-            </p>
-        </section>
-
-        <!-- Live Countdown Widget -->
-        ${renderCountdownWidgetHtml()}
-
-        <!-- Progress Overview Card -->
-        <div class="stat-card" style="margin-bottom: 24px; border-left: 4px solid #6366f1; padding: 22px;">
-            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; margin-bottom: 8px;">
-                <div>
-                    <h3 style="font-size: 18px; color: #ffffff; margin: 0 0 4px 0;">Target Revision Progress</h3>
-                    <p style="font-size: 13.5px; color: var(--text-muted); margin: 0;">
-                        ${mastered} of ${total} saved examination papers mastered
-                    </p>
-                </div>
-                <div style="font-size: 26px; font-weight: 800; color: #a5b4fc;">${percent}%</div>
-            </div>
-
-            <div class="study-progress-bar-wrap">
-                <div class="study-progress-bar-fill" style="width: ${percent}%;"></div>
-            </div>
-
-            <div style="display: flex; gap: 14px; flex-wrap: wrap; margin-top: 10px;">
-                <span class="status-badge mastered">${mastered} Mastered</span>
-                <span class="status-badge in_progress">${inProgress} In Review</span>
-                <span class="status-badge not_started">${notStarted} Not Started</span>
-            </div>
-        </div>
-
-        <!-- Bookmarked Papers Grid -->
-        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; margin-bottom: 16px;">
-            <h3 style="font-size: 20px; color: #ffffff; margin: 0;">Saved Examination Papers (${total})</h3>
-            <button class="btn-secondary" style="font-size: 13px; padding: 7px 14px; display: inline-flex; align-items: center; gap: 6px;" onclick="showLibraryHome()">
-                ${uiIcon('book', 14)} Browse More Papers
-            </button>
-        </div>
-
-        ${total === 0 ? `
-            <div style="text-align: center; padding: 50px 20px; background: var(--surface-glass); border: 1px dashed var(--border-glass); border-radius: 16px;">
-                <div style="width: 54px; height: 54px; border-radius: 50%; background: rgba(99, 102, 241, 0.15); display: inline-flex; align-items: center; justify-content: center; color: #818cf8; margin-bottom: 14px;">
-                    ${uiIcon('bookmark', 24)}
-                </div>
-                <h4 style="font-size: 18px; color: #ffffff; margin-bottom: 6px;">No saved papers in your hub yet</h4>
-                <p style="color: var(--text-muted); font-size: 14px; max-width: 440px; margin: 0 auto 18px; line-height: 1.5;">
-                    While browsing through grades and subjects, tap the <strong>"Save to Study Hub"</strong> button on any paper to build your personal revision schedule.
-                </p>
-                <button class="btn-primary" style="padding: 10px 22px; font-size: 14px;" onclick="showLibraryHome()">
-                    Explore Exam Papers Now →
-                </button>
-            </div>
-        ` : `
-            <div class="study-hub-grid">
-                ${bookmarks.map(b => `
-                    <div class="study-card status-${b.status || 'not_started'}">
-                        <div>
-                            <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; margin-bottom: 8px;">
-                                <span class="badge badge-blue">${b.grade} • ${b.subject}</span>
-                                <button class="btn-icon" onclick="toggleBookmarkExam('${b.id}', '${escapeQuotes(b.title)}')" title="Remove from Study Hub" style="color: var(--text-muted); padding: 4px;">
-                                    ${uiIcon('trash', 14)}
-                                </button>
-                            </div>
-                            <h4 style="font-size: 17px; color: #ffffff; margin-bottom: 4px; font-weight: 700;">${b.title}</h4>
-                            <p style="font-size: 12.5px; color: var(--text-muted); margin-bottom: 14px;">${b.semester} • ${b.examType}</p>
-                        </div>
-
-                        <div>
-                            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 14px; background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-glass); border-radius: 8px; padding: 6px 10px;">
-                                <span style="font-size: 12px; color: var(--text-muted); font-weight: 600;">Status:</span>
-                                <select class="admin-select" style="margin: 0; padding: 4px 8px; font-size: 12px; width: auto; flex: 1;" onchange="updateBookmarkStatus('${b.id}', this.value)">
-                                    <option value="not_started" ${b.status === 'not_started' || !b.status ? 'selected' : ''}>Not Started</option>
-                                    <option value="in_progress" ${b.status === 'in_progress' ? 'selected' : ''}>In Progress</option>
-                                    <option value="mastered" ${b.status === 'mastered' ? 'selected' : ''}>Completed</option>
-                                </select>
-                            </div>
-
-                            <div style="display: flex; gap: 8px;">
-                                <button class="btn-secondary" style="flex: 1; padding: 8px 10px; font-size: 12.5px; justify-content: center; display: inline-flex; align-items: center; gap: 5px;" 
-                                        onclick="showExamHub('${b.grade}', '${b.semester}', '${b.examType}', '${escapeQuotes(b.subject)}', '${b.filePath}', '${escapeQuotes(b.title)}', () => showStudyHubView())">
-                                    ${uiIcon('target', 13)} Practice
-                                </button>
-                                <button class="btn-primary" style="flex: 1; padding: 8px 10px; font-size: 12.5px; justify-content: center; display: inline-flex; align-items: center; gap: 5px;" 
-                                        onclick="downloadExamPaper('${b.filePath}', '${escapeQuotes(b.title)}.pdf', { grade: '${b.grade}', subject: '${escapeQuotes(b.subject)}', examTitle: '${escapeQuotes(b.title)}' })">
-                                    ${uiIcon('download', 13)} Download
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                `).join('')}
-            </div>
-        `}
-    `;
-
-    startCountdownLiveTimer();
+    showStudyDesk(null, null, pushHistory);
 }
 
 /* ========================================================
