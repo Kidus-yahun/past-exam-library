@@ -9683,12 +9683,6 @@ async function showStudyDesk(initialGrade = null, initialSubject = null, pushHis
                             <button class="desk-tab-btn desk-left-tab" data-tab="pdf" onclick="setDeskLeftTab('pdf')">
                                 ${uiIcon('fileText', 14)} Exam Paper
                             </button>
-                            <button class="desk-tab-btn desk-left-tab" data-tab="formulas" onclick="setDeskLeftTab('formulas')">
-                                ${uiIcon('calculator', 14)} Formulas
-                            </button>
-                            <button class="desk-tab-btn desk-left-tab" data-tab="tips" onclick="setDeskLeftTab('tips')">
-                                ${uiIcon('book', 14)} Blueprint
-                            </button>
                         </div>
                         <div id="desk-left-actions" style="display: flex; gap: 8px;"></div>
                     </div>
@@ -11280,19 +11274,14 @@ function renderDeskUnitNotesView(container) {
         deskState.selectedUnitIndex = 0;
     }
     const currentUnit = unitList[deskState.selectedUnitIndex] || unitList[0];
-    const activeSec = deskState.activeNoteSection || 'overview';
-    const sections = ['overview', 'formulas', 'example', 'pitfalls', 'community'];
-    const currentSecIdx = sections.indexOf(activeSec);
 
     const topicNotes = getTopicNotes(deskState.grade, deskState.subject, deskState.selectedUnitIndex);
     const savedAuthorName = localStorage.getItem('pel_last_student_author') || (state && state.user && state.user.fullName) || '';
 
+    // Clean, focused single action button
     if (leftActions) {
         leftActions.innerHTML = `
-            <button class="desk-tool-btn" onclick="setDeskNoteSection('community'); toggleTopicNoteComposer(true);" title="Add your own note or exam tip on this unit" style="color: #58cc02; border-color: rgba(88, 204, 2, 0.4);">
-                ➕ Add Note
-            </button>
-            <button class="desk-tool-btn" onclick="askAiToQuizCurrentUnit()" title="Ask AI to test you on this unit">
+            <button class="desk-tool-btn" onclick="askAiToQuizCurrentUnit()" title="Ask AI to test you on this unit" style="background: rgba(56, 189, 248, 0.12); color: #38bdf8; border-color: rgba(56, 189, 248, 0.35);">
                 🤖 Quiz Me
             </button>
         `;
@@ -11307,7 +11296,6 @@ function renderDeskUnitNotesView(container) {
         return;
     }
 
-    // Filter notes if in community tab
     const filter = deskState.topicNoteFilter || 'all';
     let filteredNotes = topicNotes;
     if (filter === 'shortcut') {
@@ -11322,249 +11310,197 @@ function renderDeskUnitNotesView(container) {
 
     container.innerHTML = `
         <div class="desk-unit-notes-container">
-            <!-- Unit Selector Bar -->
+            <!-- Unit Selector Bar (Clean & Focused) -->
             <div class="desk-unit-selector-bar">
                 <div style="display: flex; align-items: center; gap: 8px; flex: 1; min-width: 200px;">
                     <span style="font-size: 12px; font-weight: 800; color: #1cb0f6;">UNIT:</span>
-                    <select class="desk-select" style="flex: 1; padding: 6px 12px; font-size: 13px;" onchange="deskState.selectedUnitIndex = parseInt(this.value); deskState.activeNoteSection = 'overview'; deskState.topicNoteComposerOpen = false; renderDeskUnitNotesView(document.getElementById('desk-left-body')); document.getElementById('desk-left-body').scrollTop = 0;">
+                    <select class="desk-select" style="flex: 1; padding: 7px 12px; font-size: 13.5px; font-weight: 600;" onchange="deskState.selectedUnitIndex = parseInt(this.value); renderDeskUnitNotesView(document.getElementById('desk-left-body')); document.getElementById('desk-left-body').scrollTop = 0;">
                         ${unitList.map((u, idx) => `<option value="${idx}" ${idx === deskState.selectedUnitIndex ? 'selected' : ''}>${u.title}</option>`).join('')}
                     </select>
                 </div>
                 <div style="display: flex; gap: 8px; align-items: center;">
-                    <span class="role-pill" style="font-size: 11px; background: rgba(56, 189, 248, 0.15); color: #38bdf8;">
-                        🎯 ${currentUnit.examWeight}
-                    </span>
-                    <span style="font-size: 11.5px; color: var(--text-muted);">⏱️ ${currentUnit.readTime}</span>
+                    ${currentUnit.examWeight ? `
+                        <span class="role-pill" style="font-size: 11px; background: rgba(56, 189, 248, 0.15); color: #38bdf8;">
+                            🎯 ${currentUnit.examWeight}
+                        </span>
+                    ` : ''}
+                    ${currentUnit.readTime ? `
+                        <span style="font-size: 11.5px; color: var(--text-muted);">⏱️ ${currentUnit.readTime}</span>
+                    ` : ''}
                 </div>
             </div>
 
-            <!-- Upward Section Navigator Pills (Zero Scrolling Down Required) -->
-            <div class="desk-note-deck-pills">
-                <button type="button" class="desk-note-deck-btn ${activeSec === 'overview' ? 'active' : ''}" onclick="setDeskNoteSection('overview')">
-                    📌 Overview
-                </button>
-                <button type="button" class="desk-note-deck-btn ${activeSec === 'formulas' ? 'active' : ''}" onclick="setDeskNoteSection('formulas')">
-                    📐 Formulas (${(currentUnit.keyFormulas || []).length})
-                </button>
-                <button type="button" class="desk-note-deck-btn ${activeSec === 'example' ? 'active' : ''}" onclick="setDeskNoteSection('example')">
-                    💡 Example
-                </button>
-                <button type="button" class="desk-note-deck-btn ${activeSec === 'pitfalls' ? 'active' : ''}" onclick="setDeskNoteSection('pitfalls')">
-                    ⚠️ Traps
-                </button>
-                <button type="button" class="desk-note-deck-btn ${activeSec === 'community' ? 'active' : ''}" onclick="setDeskNoteSection('community')">
-                    💬 Notes (${topicNotes.length})
-                </button>
+            <!-- Single Seamless Unit Study Guide (No fragmented tab pills!) -->
+            <div class="desk-note-card">
+                <h4 class="desk-note-heading">
+                    <span>📌</span> ${currentUnit.title}: Core Concepts & Rules
+                </h4>
+                <div style="font-size: 14px; line-height: 1.65; color: var(--text-main);">
+                    ${currentUnit.overview}
+                </div>
             </div>
 
-            <!-- Active Deck Section (Positioned Directly at Top) -->
-            ${activeSec === 'overview' ? `
-                <div class="desk-note-card">
+            <!-- Key Formulas (Directly visible if available) -->
+            ${(currentUnit.keyFormulas && currentUnit.keyFormulas.length > 0) ? `
+                <div class="desk-note-card" style="margin-top: 14px;">
                     <h4 class="desk-note-heading">
-                        <span>📌</span> ${currentUnit.title}: Core Concepts & Rules
+                        <span>📐</span> High-Yield Exam Formulas
                     </h4>
-                    <div style="font-size: 14px; line-height: 1.65; color: var(--text-main);">
-                        ${currentUnit.overview}
+                    <div style="display: flex; flex-direction: column; gap: 10px;">
+                        ${currentUnit.keyFormulas.map(f => `
+                            <div class="desk-note-formula-box">
+                                <div>
+                                    <strong style="color: #38bdf8; font-size: 12.5px; display: block; margin-bottom: 2px;">${f.name}</strong>
+                                    <span style="font-size: 15px;">${f.formula}</span>
+                                </div>
+                                <button class="desk-tool-btn" style="padding: 2px 8px; font-size: 11px;" onclick="copyFormulaText('${escapeQuotes(f.formula)}', this)">Copy</button>
+                            </div>
+                            ${f.notes ? `<p style="font-size: 12px; color: var(--text-muted); margin: -4px 0 6px 4px;">• ${f.notes}</p>` : ''}
+                        `).join('')}
                     </div>
                 </div>
             ` : ''}
 
-            ${activeSec === 'formulas' ? `
-                <div class="desk-note-card">
-                    <h4 class="desk-note-heading">
-                        <span>📐</span> High-Yield Exam Formulas (${currentUnit.title.split(':')[0]})
-                    </h4>
-                    ${(currentUnit.keyFormulas && currentUnit.keyFormulas.length > 0) ? `
-                        <div style="display: flex; flex-direction: column; gap: 10px;">
-                            ${currentUnit.keyFormulas.map(f => `
-                                <div class="desk-note-formula-box">
-                                    <div>
-                                        <strong style="color: #38bdf8; font-size: 12.5px; display: block; margin-bottom: 2px;">${f.name}</strong>
-                                        <span style="font-size: 15px;">${f.formula}</span>
-                                    </div>
-                                    <button class="desk-tool-btn" style="padding: 2px 8px; font-size: 11px;" onclick="copyFormulaText('${escapeQuotes(f.formula)}', this)">Copy</button>
-                                </div>
-                                ${f.notes ? `<p style="font-size: 12px; color: var(--text-muted); margin: -4px 0 6px 4px;">• ${f.notes}</p>` : ''}
-                            `).join('')}
-                        </div>
-                    ` : '<p style="color: var(--text-muted); font-size: 13.5px;">No formula cards listed for this unit.</p>'}
-                </div>
-            ` : ''}
-
-            ${activeSec === 'example' ? `
-                <div class="desk-note-card">
+            <!-- National Exam Worked Example (Directly visible) -->
+            ${currentUnit.workedExample ? `
+                <div class="desk-note-card" style="margin-top: 14px;">
                     <h4 class="desk-note-heading" style="color: #38bdf8;">
                         <span>💡</span> National Exam Worked Example
                     </h4>
-                    ${currentUnit.workedExample ? `
-                        <div class="desk-note-example-box">
-                            <strong style="color: var(--text-main); font-size: 14.5px; display: block; margin-bottom: 10px; line-height: 1.5;">
-                                ${currentUnit.workedExample.question}
-                            </strong>
-                            <div style="display: flex; flex-direction: column; gap: 8px; margin-top: 10px;">
-                                ${currentUnit.workedExample.steps.map((st, i) => `
-                                    <div style="display: flex; align-items: flex-start; gap: 6px;">
-                                        <span class="desk-note-step-badge">Step ${i+1}</span>
-                                        <span style="font-size: 13.5px; line-height: 1.5;">${st}</span>
-                                    </div>
-                                `).join('')}
-                            </div>
-                            <div style="margin-top: 12px; padding-top: 10px; border-top: 1px dashed rgba(56, 189, 248, 0.3); font-weight: 800; color: #22c55e; font-size: 14px;">
-                                ✅ Final Answer: ${currentUnit.workedExample.answer}
-                            </div>
+                    <div class="desk-note-example-box">
+                        <strong style="color: var(--text-main); font-size: 14.5px; display: block; margin-bottom: 10px; line-height: 1.5;">
+                            ${currentUnit.workedExample.question}
+                        </strong>
+                        <div style="display: flex; flex-direction: column; gap: 8px; margin-top: 10px;">
+                            ${currentUnit.workedExample.steps.map((st, i) => `
+                                <div style="display: flex; align-items: flex-start; gap: 6px;">
+                                    <span class="desk-note-step-badge">Step ${i+1}</span>
+                                    <span style="font-size: 13.5px; line-height: 1.5;">${st}</span>
+                                </div>
+                            `).join('')}
                         </div>
-                    ` : '<p style="color: var(--text-muted); font-size: 13.5px;">Example being transcribed.</p>'}
+                        <div style="margin-top: 12px; padding-top: 10px; border-top: 1px dashed rgba(56, 189, 248, 0.3); font-weight: 800; color: #22c55e; font-size: 14px;">
+                            ✅ Final Answer: ${currentUnit.workedExample.answer}
+                        </div>
+                    </div>
                 </div>
             ` : ''}
 
-            ${activeSec === 'pitfalls' ? `
-                <div class="desk-note-trap-box" style="margin-top: 0;">
+            <!-- Examiner Traps & Pitfalls (Directly visible) -->
+            ${currentUnit.pitfalls ? `
+                <div class="desk-note-trap-box" style="margin-top: 14px;">
                     <strong style="display: flex; align-items: center; gap: 6px; margin-bottom: 8px; font-size: 14px; color: #ef4444;">
                         ⚠️ Examiner Pitfalls & Common Mistakes to Avoid:
                     </strong>
                     <div style="font-size: 13.5px; line-height: 1.6;">
-                        ${currentUnit.pitfalls || 'Read questions carefully and always verify SI units before calculating.'}
+                        ${currentUnit.pitfalls}
                     </div>
                 </div>
             ` : ''}
 
-            ${activeSec === 'community' ? `
-                <div class="desk-note-card desk-community-notes-card">
-                    <!-- Community Notes Header Bar -->
-                    <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 14px; flex-wrap: wrap; gap: 10px;">
-                        <div>
-                            <h4 class="desk-note-heading" style="margin-bottom: 4px;">
-                                <span>💬</span> Open Student Notes on ${currentUnit.title.split(':')[0]}
-                            </h4>
-                            <p style="font-size: 12.5px; color: var(--text-muted); margin: 0;">
-                                Community-submitted shortcuts, mnemonics, and teacher tips for this specific unit.
-                            </p>
-                        </div>
-                        <button type="button" class="desk-duo-action-btn" onclick="toggleTopicNoteComposer()" style="background: #58cc02; border-bottom: 3px solid #46a302; padding: 7px 14px; font-size: 12.5px;">
-                            ${deskState.topicNoteComposerOpen ? '✕ Close Composer' : '➕ Add Note / Tip'}
-                        </button>
+            <!-- Student Discussion & Notes (Clean Collapsible Section) -->
+            <div class="desk-note-card desk-community-notes-card" style="margin-top: 16px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 10px;">
+                    <div>
+                        <h4 class="desk-note-heading" style="margin-bottom: 2px;">
+                            <span>💬</span> Student Notes & Tips (${topicNotes.length})
+                        </h4>
+                        <span style="font-size: 12px; color: var(--text-muted);">
+                            Shortcuts and mnemonics for ${currentUnit.title.split(':')[0]}
+                        </span>
                     </div>
+                    <button type="button" class="desk-duo-action-btn" onclick="toggleTopicNoteComposer()" style="background: #0284c7; border-bottom: 3px solid #0369a1; padding: 6px 14px; font-size: 12px;">
+                        ${deskState.topicNoteComposerOpen ? '✕ Close' : '➕ Add Tip'}
+                    </button>
+                </div>
 
-                    <!-- Add Note Composer Form -->
-                    ${deskState.topicNoteComposerOpen ? `
-                        <div class="desk-topic-composer-box">
-                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-                                <span style="font-size: 13px; font-weight: 800; color: #58cc02;">✍️ Share Note on ${currentUnit.title.split(':')[0]}</span>
-                                <span style="font-size: 11px; font-weight: 700; color: #f59e0b;">+20 XP Reward</span>
-                            </div>
-                            <div style="display: flex; gap: 8px; margin-bottom: 10px; flex-wrap: wrap;">
-                                <input type="text" id="topic-note-author-input" class="desk-select" style="flex: 1; min-width: 140px; padding: 6px 12px;" placeholder="Your Name or Handle" value="${savedAuthorName ? escapeQuotes(savedAuthorName) : ''}">
-                                <select id="topic-note-tag-select" class="desk-select" style="flex: 1; min-width: 160px; padding: 6px 12px;">
-                                    <option value="⚡ Exam Shortcut">⚡ Exam Shortcut</option>
-                                    <option value="🧠 Mnemonic Trick">🧠 Mnemonic Trick</option>
-                                    <option value="📝 Key Summary">📝 Key Summary</option>
-                                    <option value="⚠️ Traps & Tips">⚠️ Traps & Tips</option>
-                                </select>
-                            </div>
-                            <textarea id="topic-note-content-input" class="desk-notes-area" style="min-height: 90px; width: 100%; margin-bottom: 10px; font-size: 13.5px;" placeholder="Write your exam shortcut, formula derivation, or memory trick for this unit... (Math formulas like $S_n = n/2(a_1+a_n)$ supported)">${deskState.topicNotePrefill ? escapeQuotes(deskState.topicNotePrefill) : ''}</textarea>
-                            <div style="display: flex; justify-content: space-between; align-items: center;">
-                                <span style="font-size: 11px; color: var(--text-muted);">Everyone studying this unit can view and learn from your note!</span>
-                                <div style="display: flex; gap: 8px;">
-                                    <button type="button" class="desk-tool-btn" onclick="toggleTopicNoteComposer(false)">Cancel</button>
-                                    <button type="button" class="desk-duo-action-btn" style="background: #58cc02; border-bottom: 3px solid #46a302; padding: 6px 16px; font-size: 12.5px;" onclick="addTopicNote(deskState.grade, deskState.subject, deskState.selectedUnitIndex, document.getElementById('topic-note-author-input').value, document.getElementById('topic-note-tag-select').value, document.getElementById('topic-note-content-input').value)">
-                                        🚀 Post Note (+20 XP)
-                                    </button>
-                                </div>
-                            </div>
+                <!-- Add Note Composer Form -->
+                ${deskState.topicNoteComposerOpen ? `
+                    <div class="desk-topic-composer-box">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                            <span style="font-size: 13px; font-weight: 800; color: #38bdf8;">✍️ Share Tip on ${currentUnit.title.split(':')[0]}</span>
+                            <span style="font-size: 11px; font-weight: 700; color: #f59e0b;">+20 XP Reward</span>
                         </div>
-                    ` : ''}
-
-                    <!-- Filter Chips -->
-                    <div class="desk-topic-filter-bar">
-                        <button type="button" class="desk-filter-chip ${filter === 'all' ? 'active' : ''}" onclick="setDeskTopicNoteFilter('all')">
-                            All (${topicNotes.length})
-                        </button>
-                        <button type="button" class="desk-filter-chip ${filter === 'shortcut' ? 'active' : ''}" onclick="setDeskTopicNoteFilter('shortcut')">
-                            ⚡ Shortcuts
-                        </button>
-                        <button type="button" class="desk-filter-chip ${filter === 'mnemonic' ? 'active' : ''}" onclick="setDeskTopicNoteFilter('mnemonic')">
-                            🧠 Mnemonics
-                        </button>
-                        <button type="button" class="desk-filter-chip ${filter === 'top' ? 'active' : ''}" onclick="setDeskTopicNoteFilter('top')">
-                            ❤️ Top Helpful
-                        </button>
-                        <button type="button" class="desk-filter-chip ${filter === 'mine' ? 'active' : ''}" onclick="setDeskTopicNoteFilter('mine')">
-                            ✨ My Notes
-                        </button>
-                    </div>
-
-                    <!-- Notes Feed List -->
-                    <div class="desk-topic-notes-feed">
-                        ${filteredNotes.length === 0 ? `
-                            <div style="text-align: center; padding: 32px 16px; border: 1.5px dashed var(--border-glass); border-radius: 12px; margin-top: 10px;">
-                                <div style="font-size: 28px; margin-bottom: 8px;">📝</div>
-                                <h5 style="margin: 0 0 6px 0; font-size: 14.5px;">No student notes in this filter</h5>
-                                <p style="font-size: 12.5px; color: var(--text-muted); margin: 0 0 14px 0;">
-                                    Be the first student to add an exam trick or summary for ${currentUnit.title}!
-                                </p>
-                                <button type="button" class="desk-duo-action-btn" style="background: #58cc02; border-bottom: 3px solid #46a302; padding: 7px 16px; font-size: 12px;" onclick="toggleTopicNoteComposer(true)">
-                                    ➕ Write First Note
+                        <div style="display: flex; gap: 8px; margin-bottom: 10px; flex-wrap: wrap;">
+                            <input type="text" id="topic-note-author-input" class="desk-select" style="flex: 1; min-width: 140px; padding: 6px 12px;" placeholder="Your Name or Handle" value="${savedAuthorName ? escapeQuotes(savedAuthorName) : ''}">
+                            <select id="topic-note-tag-select" class="desk-select" style="flex: 1; min-width: 160px; padding: 6px 12px;">
+                                <option value="⚡ Exam Shortcut">⚡ Exam Shortcut</option>
+                                <option value="🧠 Mnemonic Trick">🧠 Mnemonic Trick</option>
+                                <option value="📝 Key Summary">📝 Key Summary</option>
+                                <option value="⚠️ Traps & Tips">⚠️ Traps & Tips</option>
+                            </select>
+                        </div>
+                        <textarea id="topic-note-content-input" class="desk-notes-area" style="min-height: 90px; width: 100%; margin-bottom: 10px; font-size: 13.5px;" placeholder="Write your exam shortcut or memory trick for this unit...">${deskState.topicNotePrefill ? escapeQuotes(deskState.topicNotePrefill) : ''}</textarea>
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <span style="font-size: 11px; color: var(--text-muted);">Everyone studying this unit can view your tip!</span>
+                            <div style="display: flex; gap: 8px;">
+                                <button type="button" class="desk-tool-btn" onclick="toggleTopicNoteComposer(false)">Cancel</button>
+                                <button type="button" class="desk-duo-action-btn" style="background: #0284c7; border-bottom: 3px solid #0369a1; padding: 6px 16px; font-size: 12.5px;" onclick="addTopicNote(deskState.grade, deskState.subject, deskState.selectedUnitIndex, document.getElementById('topic-note-author-input').value, document.getElementById('topic-note-tag-select').value, document.getElementById('topic-note-content-input').value)">
+                                    🚀 Post Tip (+20 XP)
                                 </button>
                             </div>
-                        ` : `
-                            <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 10px;">
-                                ${filteredNotes.map(note => `
-                                    <div class="desk-topic-note-card ${note.isOwner ? 'my-note' : ''}">
-                                        <div class="desk-topic-note-header">
-                                            <div class="desk-topic-note-author-info">
-                                                <div class="desk-topic-note-avatar">
-                                                    ${(note.author || 'S').charAt(0).toUpperCase()}
-                                                </div>
-                                                <div>
-                                                    <div style="display: flex; align-items: center; gap: 6px;">
-                                                        <strong style="font-size: 13px; color: var(--text-main);">${escapeQuotes(note.author)}</strong>
-                                                        ${note.isOwner ? '<span class="role-pill" style="font-size: 10px; background: rgba(88, 204, 2, 0.2); color: #58cc02;">You</span>' : ''}
-                                                    </div>
-                                                    <span style="font-size: 11px; color: var(--text-muted);">${note.timestamp || 'Recent'}</span>
-                                                </div>
-                                            </div>
-                                            <span class="desk-topic-tag-badge">${note.tag || '⚡ Exam Shortcut'}</span>
-                                        </div>
-
-                                        <div class="desk-topic-note-body">
-                                            ${escapeQuotes(note.content).replace(/\n/g, '<br>')}
-                                        </div>
-
-                                        <div class="desk-topic-note-footer">
-                                            <button type="button" class="desk-like-btn ${note.likedByMe ? 'liked' : ''}" onclick="toggleLikeTopicNote(deskState.grade, deskState.subject, deskState.selectedUnitIndex, '${note.id}')" title="Mark as helpful">
-                                                <span>${note.likedByMe ? '❤️' : '🤍'}</span>
-                                                <span>Helpful (${note.likes || 0})</span>
-                                            </button>
-                                            <div style="display: flex; gap: 6px;">
-                                                <button type="button" class="desk-tool-btn" style="padding: 3px 8px; font-size: 11px;" onclick="copyFormulaText('${escapeQuotes(note.content)}', this)">
-                                                    Copy
-                                                </button>
-                                                ${note.isOwner ? `
-                                                    <button type="button" class="desk-tool-btn" style="padding: 3px 8px; font-size: 11px; color: #ef4444; border-color: rgba(239, 68, 68, 0.4);" onclick="deleteTopicNote(deskState.grade, deskState.subject, deskState.selectedUnitIndex, '${note.id}')" title="Delete your note">
-                                                        Delete
-                                                    </button>
-                                                ` : ''}
-                                            </div>
-                                        </div>
-                                    </div>
-                                `).join('')}
-                            </div>
-                        `}
+                        </div>
                     </div>
-                </div>
-            ` : ''}
+                ` : ''}
 
-            <!-- Bottom Deck Controller (Flips Upward Without Scrolling) -->
-            <div class="desk-deck-bottom-bar">
-                <button type="button" class="desk-tool-btn" ${currentSecIdx === 0 ? 'disabled' : ''} onclick="changeDeskNoteSection(-1)">
-                    ◀ Previous
-                </button>
-                <span style="font-size: 12px; font-weight: 800; color: #1cb0f6;">
-                    ${currentSecIdx + 1} / 5 • ${sections[currentSecIdx].toUpperCase()}
-                </span>
-                <button type="button" class="desk-tool-btn" style="color: #1cb0f6; border-color: rgba(28, 176, 246, 0.4);" onclick="changeDeskNoteSection(1)">
-                    ${currentSecIdx === 4 ? '🤖 Test Me on Unit →' : 'Next Card ▶'}
-                </button>
+                <!-- Filter Chips -->
+                ${topicNotes.length > 0 ? `
+                    <div class="desk-topic-filter-bar" style="margin-top: 6px;">
+                        <button type="button" class="desk-filter-chip ${filter === 'all' ? 'active' : ''}" onclick="setDeskTopicNoteFilter('all')">All (${topicNotes.length})</button>
+                        <button type="button" class="desk-filter-chip ${filter === 'shortcut' ? 'active' : ''}" onclick="setDeskTopicNoteFilter('shortcut')">⚡ Shortcuts</button>
+                        <button type="button" class="desk-filter-chip ${filter === 'mnemonic' ? 'active' : ''}" onclick="setDeskTopicNoteFilter('mnemonic')">🧠 Mnemonics</button>
+                        <button type="button" class="desk-filter-chip ${filter === 'top' ? 'active' : ''}" onclick="setDeskTopicNoteFilter('top')">❤️ Top Helpful</button>
+                        <button type="button" class="desk-filter-chip ${filter === 'mine' ? 'active' : ''}" onclick="setDeskTopicNoteFilter('mine')">✨ My Notes</button>
+                    </div>
+                ` : ''}
+
+                <!-- Notes Feed List -->
+                <div class="desk-topic-notes-feed">
+                    ${filteredNotes.length === 0 ? `
+                        <div style="text-align: center; padding: 20px 16px; border: 1.5px dashed var(--border-glass); border-radius: 12px; margin-top: 10px;">
+                            <p style="font-size: 12.5px; color: var(--text-muted); margin: 0 0 10px 0;">
+                                No student tips posted yet for this unit.
+                            </p>
+                            <button type="button" class="desk-duo-action-btn" style="background: #0284c7; border-bottom: 3px solid #0369a1; padding: 6px 14px; font-size: 12px;" onclick="toggleTopicNoteComposer(true)">
+                                ➕ Write First Tip
+                            </button>
+                        </div>
+                    ` : `
+                        <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 10px;">
+                            ${filteredNotes.map(note => `
+                                <div class="desk-topic-note-card ${note.isOwner ? 'my-note' : ''}">
+                                    <div class="desk-topic-note-header">
+                                        <div class="desk-topic-note-author-info">
+                                            <div class="desk-topic-note-avatar">
+                                                ${(note.author || 'S').charAt(0).toUpperCase()}
+                                            </div>
+                                            <div>
+                                                <strong style="font-size: 13px; color: var(--text-main);">${escapeQuotes(note.author)}</strong>
+                                                <span style="font-size: 11px; color: var(--text-muted); margin-left: 6px;">${formatRelativeTime(note.createdAt)}</span>
+                                            </div>
+                                        </div>
+                                        <span class="role-pill" style="font-size: 10.5px; background: rgba(56, 189, 248, 0.12); color: #38bdf8;">
+                                            ${note.tag || 'Tip'}
+                                        </span>
+                                    </div>
+                                    <div style="font-size: 13.5px; line-height: 1.55; margin: 8px 0; color: var(--text-main);">
+                                        ${escapeHtml(note.content)}
+                                    </div>
+                                    <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border-glass); padding-top: 6px; margin-top: 6px;">
+                                        <button class="desk-tool-btn" style="padding: 2px 8px; font-size: 11px;" onclick="likeTopicNote('${note.id}', '${deskState.grade}', '${deskState.subject}', ${deskState.selectedUnitIndex})">
+                                            ❤️ Helpful (${note.likes || 0})
+                                        </button>
+                                        ${note.isOwner ? `
+                                            <button class="desk-tool-btn" style="color: #ef4444; padding: 2px 8px; font-size: 11px;" onclick="deleteTopicNote('${note.id}', '${deskState.grade}', '${deskState.subject}', ${deskState.selectedUnitIndex})">
+                                                Delete
+                                            </button>
+                                        ` : ''}
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    `}
+                </div>
             </div>
         </div>
     `;
