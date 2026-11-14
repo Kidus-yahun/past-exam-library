@@ -1,6 +1,7 @@
 import { Route, Router } from "@solidjs/router";
 import { QueryClient, QueryClientProvider } from "@tanstack/solid-query";
 import { lazy } from "solid-js";
+import { OfflineBanner } from "~/ui/OfflineBanner";
 import { AppShell } from "./AppShell";
 
 const queryClient = new QueryClient({
@@ -23,6 +24,7 @@ const NotFoundPage = lazy(() => import("./NotFoundPage"));
 export function App() {
   return (
     <QueryClientProvider client={queryClient}>
+      <OfflineBanner />
       <Router>
         {/* Focused screens: full width, no app navigation. */}
         <Route path="/papers/:id" component={ReaderPage} />

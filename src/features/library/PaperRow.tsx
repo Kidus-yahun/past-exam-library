@@ -1,8 +1,9 @@
 import { A } from "@solidjs/router";
-import { Show } from "solid-js";
+import { createResource, Show } from "solid-js";
 import { css } from "styled-system/css";
+import { isPaperCached } from "~/lib/offline";
 import { BookmarkIcon, ChevronRightIcon, DownloadIcon, FileIcon } from "~/ui/icons";
-import { paperDownloadUrl } from "./api";
+import { paperDownloadUrl, paperUrl } from "./api";
 import { formatBytes, LARGE_FILE_BYTES, type PaperSummary, paperTitle } from "./papers";
 import { useBookmarks } from "./useBookmarks";
 
@@ -57,6 +58,7 @@ const styles = {
     color: "ink.subtle",
   }),
   large: css({ color: "streak.ink", fontWeight: "600" }),
+  offline: css({ color: "brand", fontWeight: "600" }),
   save: css({
     position: "relative",
     zIndex: 1,
@@ -86,6 +88,7 @@ export function PaperRow(props: { paper: PaperSummary; context?: string }) {
   const title = () => paperTitle(props.paper);
   const size = () => formatBytes(props.paper.size_bytes);
   const isLarge = () => props.paper.size_bytes > LARGE_FILE_BYTES;
+  const [cached] = createResource(() => paperUrl(props.paper.storage_path), isPaperCached);
 
   return (
     <li class={styles.row}>
@@ -104,9 +107,17 @@ export function PaperRow(props: { paper: PaperSummary; context?: string }) {
               ? `${props.paper.question_count} practice questions`
               : "PDF only"}
           </span>
-          <Show when={isLarge()}>
+          <Show
+            when={cached()}
+            fallback={
+              <Show when={isLarge()}>
+                <span aria-hidden="true">·</span>
+                <span class={styles.large}>Large file · use Wi-Fi</span>
+              </Show>
+            }
+          >
             <span aria-hidden="true">·</span>
-            <span class={styles.large}>Large file · use Wi-Fi</span>
+            <span class={styles.offline}>On this device</span>
           </Show>
         </p>
       </div>

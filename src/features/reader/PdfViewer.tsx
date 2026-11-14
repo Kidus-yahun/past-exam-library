@@ -84,6 +84,9 @@ export function PdfViewer(props: PdfViewerProps) {
   });
 
   onMount(() => {
+    // Measure now; the observer only reports during rendering, which a
+    // background tab may not do yet.
+    setWidth(scroller.clientWidth);
     const resize = new ResizeObserver(([entry]) => {
       if (entry) setWidth(entry.contentRect.width);
     });

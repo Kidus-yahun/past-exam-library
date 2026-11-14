@@ -1,6 +1,7 @@
 import type { IncomingMessage } from "node:http";
 import { fileURLToPath, URL } from "node:url";
 import { loadEnv, type Plugin } from "vite";
+import { VitePWA } from "vite-plugin-pwa";
 import solid from "vite-plugin-solid";
 import { defineConfig } from "vitest/config";
 
@@ -62,8 +63,95 @@ function apiFunctions(): Plugin {
   };
 }
 
+/**
+ * Offline support. Only shared catalog data is cached (subjects, papers,
+ * notes, questions); a student's own data never is, because phones are often
+ * shared and a cached response would show one student's data to the next.
+ */
+// Route matchers are copied into sw.js as source text, so they can only use
+// what they define themselves (no variables from this file).
+
+const pwa = VitePWA({
+  registerType: "autoUpdate",
+  includeAssets: ["icons/*.png"],
+  manifest: {
+    name: "Past Exam Library",
+    short_name: "Past Exams",
+    description: "Past exam papers and practice questions for Ethiopian Grade 9–12 students.",
+    lang: "en",
+    start_url: "/",
+    display: "standalone",
+    background_color: "#F6F8F7",
+    theme_color: "#0B6B4D",
+    icons: [
+      { src: "/icons/icon-192.png", sizes: "192x192", type: "image/png" },
+      { src: "/icons/icon-512.png", sizes: "512x512", type: "image/png" },
+      {
+        src: "/icons/icon-maskable-512.png",
+        sizes: "512x512",
+        type: "image/png",
+        purpose: "maskable",
+      },
+    ],
+  },
+  workbox: {
+    // Install only the app shell up front (data is expensive); heavy screens and
+    // extra font subsets are cached the first time they're used (rule below).
+    globPatterns: ["**/*.{js,mjs,css,html,woff2,png,svg}"],
+    globIgnores: [
+      "**/pdf.worker*",
+      "**/ReaderPage-*",
+      "**/StudyPage-*",
+      "**/*-cyrillic*",
+      "**/*-greek*",
+      "**/*-vietnamese*",
+      "**/*-latin-ext-*",
+      "**/noto-sans-ethiopic-*",
+    ],
+    maximumFileSizeToCacheInBytes: 3 * 1024 * 1024,
+    navigateFallback: "/index.html",
+    navigateFallbackDenylist: [/^\/api\//],
+    runtimeCaching: [
+      {
+        // Hashed build files never change, so a cached copy is always right.
+        urlPattern: ({ url, sameOrigin }) => sameOrigin && url.pathname.startsWith("/assets/"),
+        handler: "CacheFirst",
+        options: { cacheName: "assets", expiration: { maxEntries: 120 } },
+      },
+      {
+        // Papers a student opened stay readable offline (downloads excluded).
+        urlPattern: ({ url }) =>
+          url.pathname.startsWith("/storage/v1/object/public/papers/") &&
+          !url.searchParams.has("download"),
+        handler: "CacheFirst",
+        options: {
+          cacheName: "papers",
+          // Answer pdf.js byte-range reads from a cached whole file.
+          rangeRequests: true,
+          expiration: { maxEntries: 80, maxAgeSeconds: 60 * 60 * 24 * 120 },
+          cacheableResponse: { statuses: [200] },
+        },
+      },
+      {
+        urlPattern: ({ url, request }) =>
+          request.method === "GET" &&
+          /^\/rest\/v1\/(grade_subjects|subjects|papers|paper_summaries|units|formulas|questions)\b/.test(
+            url.pathname,
+          ),
+        handler: "NetworkFirst",
+        options: {
+          cacheName: "catalog",
+          networkTimeoutSeconds: 5,
+          expiration: { maxEntries: 400, maxAgeSeconds: 60 * 60 * 24 * 30 },
+          cacheableResponse: { statuses: [200] },
+        },
+      },
+    ],
+  },
+});
+
 export default defineConfig({
-  plugins: [solid(), apiFunctions()],
+  plugins: [solid(), apiFunctions(), pwa],
   resolve: {
     alias: {
       "~": fileURLToPath(new URL("./src", import.meta.url)),
@@ -71,5 +159,14 @@ export default defineConfig({
     },
   },
   server: { port: 5173 },
+  // Local-only: lets `vite preview` serve Supabase from its own origin, for
+  // testing the service worker where the browser blocks it from 127.0.0.1.
+  preview: {
+    proxy: {
+      "/rest": "http://127.0.0.1:54321",
+      "/storage": "http://127.0.0.1:54321",
+      "/auth": "http://127.0.0.1:54321",
+    },
+  },
   test: { environment: "node", include: ["src/**/*.test.ts"] },
 });
