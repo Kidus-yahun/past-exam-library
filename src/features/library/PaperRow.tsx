@@ -13,10 +13,14 @@ const styles = {
     gap: "12px",
     minH: "68px",
     py: "10px",
+    px: "14px",
     borderBottom: "1px solid {colors.line}",
+    transition: "background-color 120ms ease-out",
     _last: { borderBottom: 0 },
-    // The whole row opens the paper; hover/focus show on the row.
-    "&:has(a[data-open]:hover)": { bg: "sunk" },
+    // The whole row opens the paper, so hover and focus show on the whole row,
+    // edge to edge (the list clips it to its rounded corners).
+    "&:has(a[data-open]:hover)": { bg: "hover" },
+    "&:has(a[data-open]:hover) [data-chevron]": { color: "ink", transform: "translateX(2px)" },
     "&:has(a[data-open]:focus-visible)": {
       outline: "2px solid {colors.focus}",
       outlineOffset: "-2px",
@@ -64,10 +68,15 @@ const styles = {
     rounded: "md",
     color: "ink.muted",
     boxShadow: "inset 0 0 0 1px {colors.line}",
-    bg: "surface",
-    _hover: { color: "ink" },
+    transition: "background-color 120ms ease-out, color 120ms ease-out",
+    _hover: { color: "ink", bg: "hover" },
   }),
-  chevron: css({ flex: "none", color: "ink.subtle", hideBelow: "md" }),
+  chevron: css({
+    flex: "none",
+    color: "ink.subtle",
+    hideBelow: "md",
+    transition: "transform 160ms ease-out, color 120ms ease-out",
+  }),
 };
 
 export function PaperRow(props: { paper: PaperSummary }) {
@@ -85,7 +94,7 @@ export function PaperRow(props: { paper: PaperSummary }) {
           {title()}
         </A>
         <p class={styles.meta}>
-          <span class="mono">{size()}</span>
+          <span class={css({ fontVariantNumeric: "tabular-nums" })}>{size()}</span>
           <span aria-hidden="true">·</span>
           <span>
             {props.paper.question_count > 0
@@ -105,7 +114,9 @@ export function PaperRow(props: { paper: PaperSummary }) {
       >
         <DownloadIcon />
       </a>
-      <ChevronRightIcon size={18} class={styles.chevron} />
+      <span data-chevron class={styles.chevron}>
+        <ChevronRightIcon size={18} />
+      </span>
     </li>
   );
 }

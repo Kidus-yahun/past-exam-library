@@ -50,6 +50,8 @@ export default defineConfig({
           surface: { value: { base: "#FFFFFF", _dark: "#151D19" } },
           sunk: { value: { base: "#EDF2EF", _dark: "#1C2621" } },
           line: { value: { base: "#DDE5E0", _dark: "#2A3631" } },
+          /** Hover wash for rows and quiet buttons; lighter than `sunk` so tiles stay visible. */
+          hover: { value: { base: "rgba(16, 25, 20, 0.035)", _dark: "rgba(231, 238, 234, 0.04)" } },
           ink: {
             DEFAULT: { value: { base: "#101914", _dark: "#E7EEEA" } },
             muted: { value: { base: "#3F4B45", _dark: "#B6C3BC" } },

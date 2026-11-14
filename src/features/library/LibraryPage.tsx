@@ -68,9 +68,10 @@ const styles = {
     "&[data-focus-visible]": { outline: "2px solid {colors.focus}", outlineOffset: "2px" },
   }),
   groupLabel: css({ textStyle: "eyebrow", color: "ink.subtle", mb: "8px" }),
-  list: css({ listStyle: "none", px: "14px" }),
+  list: css({ listStyle: "none", overflow: "hidden" }),
   skeleton: css({
     h: "68px",
+    px: "14px",
     borderBottom: "1px solid {colors.line}",
     display: "flex",
     alignItems: "center",
