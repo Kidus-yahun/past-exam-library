@@ -472,6 +472,22 @@ async function logActivity(type, data = {}) {
     }
 
     try {
+        // Direct write to Supabase activity_logs table
+        const sb = getSupabaseClient();
+        if (sb) {
+            sb.from('activity_logs').insert([{
+                id: payload.id,
+                type: payload.type,
+                user_id: payload.userId || null,
+                username: payload.username || 'student',
+                full_name: payload.fullName || null,
+                grade: payload.grade || null,
+                subject: payload.subject || null,
+                details: payload.details || null,
+                timestamp: payload.timestamp
+            }]).then(() => {}).catch(() => {});
+        }
+
         await fetch('/api/activity/log', {
             method: 'POST',
             headers: {
@@ -5205,6 +5221,36 @@ async function loadActivityStatsAndLogs(isSilent = false) {
             }
         } catch (_) {}
 
+        // Fetch directly from Supabase activity_logs table for immediate real-time sync
+        let supabaseLogs = [];
+        const sb = getSupabaseClient();
+        if (sb) {
+            try {
+                let sbQuery = sb.from('activity_logs').select('*').order('timestamp', { ascending: false }).limit(200);
+                if (f.type && f.type !== 'all') sbQuery = sbQuery.eq('type', f.type);
+                if (f.grade && f.grade !== 'all') sbQuery = sbQuery.eq('grade', f.grade);
+                const { data, error } = await sbQuery;
+                if (!error && Array.isArray(data)) {
+                    supabaseLogs = data.map(d => ({
+                        id: d.id,
+                        type: d.type,
+                        userId: d.user_id,
+                        username: d.username,
+                        fullName: d.full_name || d.username,
+                        grade: d.grade,
+                        subject: d.subject,
+                        details: d.details,
+                        targetId: d.target_id,
+                        targetName: d.target_name,
+                        timestamp: d.timestamp,
+                        isCloud: true
+                    }));
+                }
+            } catch (err) {
+                console.warn('[Supabase client direct activity fetch error]:', err);
+            }
+        }
+
         // Merge with local persistent activity logs so recent user actions always appear
         let localLogs = [];
         try {
@@ -5214,12 +5260,47 @@ async function loadActivityStatsAndLogs(isSilent = false) {
 
         const seen = new Set();
         const combined = [];
-        [...localLogs, ...serverLogs].forEach(l => {
+        [...supabaseLogs, ...serverLogs, ...localLogs].forEach(l => {
             if (l && l.id && !seen.has(l.id)) {
                 seen.add(l.id);
                 combined.push(l);
             }
         });
+
+        // Compute live metrics directly from real logs
+        const logins = combined.filter(l => l.type === 'login' || l.type === 'register').length;
+        const downloads = combined.filter(l => l.type === 'download' || l.type === 'preview').length;
+        const practiceLogs = combined.filter(l => l.type === 'practice');
+        const practices = practiceLogs.length;
+
+        let scoreSum = 0;
+        let scoreCount = 0;
+        practiceLogs.forEach(l => {
+            if (typeof l.percentage === 'number') {
+                scoreSum += l.percentage;
+                scoreCount++;
+            } else if (l.details) {
+                const match = l.details.match(/\((\d+)%\)/);
+                if (match) {
+                    scoreSum += parseInt(match[1], 10);
+                    scoreCount++;
+                }
+            }
+        });
+        const avgScore = scoreCount > 0 ? `${Math.round(scoreSum / scoreCount)}%` : '—';
+
+        setMetricStable('act-metric-logins', logins);
+        setMetricStable('act-metric-downloads', downloads);
+        setMetricStable('act-metric-practices', practices);
+        setMetricStable('act-metric-avgscore', avgScore);
+
+        const liveInd = document.getElementById('activity-live-indicator');
+        if (liveInd) {
+            liveInd.innerHTML = `<span class="live-dot" style="background: #34d399;"></span> ⚡ Supabase Cloud Connected (${combined.length} Records)`;
+            liveInd.style.background = 'rgba(16, 185, 129, 0.15)';
+            liveInd.style.color = '#34d399';
+            liveInd.style.borderColor = 'rgba(16, 185, 129, 0.35)';
+        }
 
         // Apply filters to combined activity list
         let filteredLogs = combined;
@@ -5306,6 +5387,8 @@ function renderActivityTable(logs) {
                         let actionBadge = '';
                         if (log.type === 'login') {
                             actionBadge = `<span class="act-badge act-badge-login">${uiIcon('key', 12)} Login</span>`;
+                        } else if (log.type === 'register') {
+                            actionBadge = `<span class="act-badge" style="background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.3);">${uiIcon('users', 12)} Register</span>`;
                         } else if (log.type === 'download') {
                             actionBadge = `<span class="act-badge act-badge-download">${uiIcon('download', 12)} Download</span>`;
                         } else if (log.type === 'preview') {
@@ -5344,6 +5427,13 @@ function renderActivityTable(logs) {
                                     </div>
                                 </div>
                             `;
+                        } else if (log.type === 'register') {
+                            detailsHtml = `
+                                <div>
+                                    <div style="color: #ffffff; font-weight: 600; font-size: 13.5px;">New student account created</div>
+                                    <div style="font-size: 12px; color: #34d399;">${log.details || 'Registered and verified in Supabase'}</div>
+                                </div>
+                            `;
                         } else {
                             detailsHtml = `
                                 <div>
@@ -5376,7 +5466,8 @@ function renderActivityTable(logs) {
                                 <td>${detailsHtml}</td>
                                 <td style="font-size: 12px; color: var(--text-muted); font-family: monospace;">
                                     ${log.ip ? `<div>${log.ip}</div>` : ''}
-                                    <div style="font-size: 11px; opacity: 0.8;">${formatUserAgent(log.userAgent)}</div>
+                                    ${log.userAgent ? `<div style="font-size: 11px; opacity: 0.8;">${formatUserAgent(log.userAgent)}</div>` : ''}
+                                    ${log.isCloud ? `<div style="margin-top: 4px;"><span style="font-size: 10px; color: #34d399; background: rgba(16, 185, 129, 0.12); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 4px; padding: 1px 6px; font-weight: 600;">⚡ Supabase Cloud</span></div>` : ''}
                                 </td>
                             </tr>
                         `;

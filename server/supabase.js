@@ -255,6 +255,98 @@ async function recordQuizAttempt(quizData) {
     }
 }
 
+async function getActivityLogs(filters = {}) {
+    if (!supabase) return null;
+    try {
+        let query = supabase
+            .from('activity_logs')
+            .select('*')
+            .order('timestamp', { ascending: false });
+
+        const limit = filters.limit ? parseInt(filters.limit, 10) : 200;
+        query = query.limit(limit);
+
+        if (filters.type && filters.type !== 'all') {
+            query = query.eq('type', filters.type);
+        }
+        if (filters.grade && filters.grade !== 'all') {
+            query = query.eq('grade', filters.grade);
+        }
+        if (filters.subject && filters.subject !== 'all') {
+            query = query.ilike('subject', filters.subject);
+        }
+        if (filters.username) {
+            query = query.ilike('username', `%${filters.username.trim()}%`);
+        }
+        if (filters.search) {
+            const s = filters.search.trim();
+            query = query.or(`full_name.ilike.%${s}%,username.ilike.%${s}%,subject.ilike.%${s}%,details.ilike.%${s}%`);
+        }
+
+        const { data, error } = await query;
+        if (error) {
+            console.error('[Supabase getActivityLogs error]:', error.message);
+            return null;
+        }
+        return (data || []).map(d => ({
+            id: d.id,
+            type: d.type,
+            userId: d.user_id,
+            username: d.username,
+            fullName: d.full_name,
+            grade: d.grade,
+            subject: d.subject,
+            details: d.details,
+            targetId: d.target_id,
+            targetName: d.target_name,
+            timestamp: d.timestamp,
+            isCloud: true
+        }));
+    } catch (err) {
+        console.error('[Supabase getActivityLogs exception]:', err.message);
+        return null;
+    }
+}
+
+async function getActivityStats(filters = {}) {
+    if (!supabase) return null;
+    try {
+        const logs = await getActivityLogs({ ...filters, limit: 1000 });
+        if (!logs) return null;
+
+        const totalLogins = logs.filter(l => l.type === 'login' || l.type === 'register').length;
+        const totalDownloads = logs.filter(l => l.type === 'download' || l.type === 'preview').length;
+        const practiceLogs = logs.filter(l => l.type === 'practice');
+        const totalPractices = practiceLogs.length;
+
+        let scoreSum = 0;
+        let scoreCount = 0;
+        practiceLogs.forEach(l => {
+            if (typeof l.percentage === 'number') {
+                scoreSum += l.percentage;
+                scoreCount++;
+            } else if (l.details) {
+                const match = l.details.match(/\((\d+)%\)/);
+                if (match) {
+                    scoreSum += parseInt(match[1], 10);
+                    scoreCount++;
+                }
+            }
+        });
+        const avgScore = scoreCount > 0 ? Math.round(scoreSum / scoreCount) : 0;
+
+        return {
+            totalLogins,
+            totalDownloads,
+            totalPractices,
+            avgScore
+        };
+    } catch (err) {
+        console.error('[Supabase getActivityStats exception]:', err.message);
+        return null;
+    }
+}
+
 module.exports = {
     isConfigured,
     findUserByUsername,
@@ -264,5 +356,7 @@ module.exports = {
     updateUser,
     getAllStudents,
     addActivityLog,
+    getActivityLogs,
+    getActivityStats,
     recordQuizAttempt
 };

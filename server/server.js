@@ -29,6 +29,7 @@ const multer = require('multer');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const db = require('./db');
+const supabaseStore = require('./supabase');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -861,22 +862,34 @@ app.post('/api/activity/log', (req, res) => {
 });
 
 // Query activity logs with filtering (Admin only)
-app.get('/api/activity/logs', authenticateToken, requireAdmin, (req, res) => {
+app.get('/api/activity/logs', authenticateToken, requireAdmin, async (req, res) => {
     try {
         const { type, username, grade, subject, search, limit } = req.query;
-        const logs = db.getActivityLogs({ type, username, grade, subject, search, limit });
-        res.json({ success: true, count: logs.length, logs });
+        let logs = [];
+        if (supabaseStore.isConfigured()) {
+            logs = await supabaseStore.getActivityLogs({ type, username, grade, subject, search, limit });
+        }
+        if (!logs || logs.length === 0) {
+            logs = db.getActivityLogs({ type, username, grade, subject, search, limit });
+        }
+        res.json({ success: true, count: logs.length, logs, isCloud: supabaseStore.isConfigured() });
     } catch (err) {
         res.status(500).json({ success: false, message: err.message });
     }
 });
 
 // Aggregated activity statistics (Admin only) - supports active filters
-app.get('/api/activity/stats', authenticateToken, requireAdmin, (req, res) => {
+app.get('/api/activity/stats', authenticateToken, requireAdmin, async (req, res) => {
     try {
         const { type, username, grade, subject, search } = req.query;
-        const stats = db.getActivityStats({ type, username, grade, subject, search });
-        res.json({ success: true, stats });
+        let stats = null;
+        if (supabaseStore.isConfigured()) {
+            stats = await supabaseStore.getActivityStats({ type, username, grade, subject, search });
+        }
+        if (!stats) {
+            stats = db.getActivityStats({ type, username, grade, subject, search });
+        }
+        res.json({ success: true, stats, isCloud: supabaseStore.isConfigured() });
     } catch (err) {
         res.status(500).json({ success: false, message: err.message });
     }
