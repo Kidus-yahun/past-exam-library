@@ -46,23 +46,23 @@ export default defineConfig({
       },
       semanticTokens: {
         colors: {
-          bg: { value: { base: "#F6F8F7", _dark: "#0D1311" } },
-          surface: { value: { base: "#FFFFFF", _dark: "#151D19" } },
-          sunk: { value: { base: "#EDF2EF", _dark: "#1C2621" } },
-          line: { value: { base: "#DDE5E0", _dark: "#2A3631" } },
+          bg: { value: { base: "#F8FAFC", _dark: "#0B0F19" } },
+          surface: { value: { base: "#FFFFFF", _dark: "#131B2E" } },
+          sunk: { value: { base: "#F1F5F9", _dark: "#1B253D" } },
+          line: { value: { base: "#E2E8F0", _dark: "#263454" } },
           /** Hover wash for rows and quiet buttons; lighter than `sunk` so tiles stay visible. */
-          hover: { value: { base: "rgba(16, 25, 20, 0.035)", _dark: "rgba(231, 238, 234, 0.04)" } },
+          hover: { value: { base: "rgba(15, 23, 42, 0.035)", _dark: "rgba(241, 245, 249, 0.045)" } },
           ink: {
-            DEFAULT: { value: { base: "#101914", _dark: "#E7EEEA" } },
-            muted: { value: { base: "#3F4B45", _dark: "#B6C3BC" } },
-            subtle: { value: { base: "#5E6B64", _dark: "#8F9D96" } },
+            DEFAULT: { value: { base: "#0F172A", _dark: "#F1F5F9" } },
+            muted: { value: { base: "#334155", _dark: "#CBD5E1" } },
+            subtle: { value: { base: "#64748B", _dark: "#94A3B8" } },
           },
           brand: {
-            DEFAULT: { value: { base: "#0B6B4D", _dark: "#3CC08F" } },
+            DEFAULT: { value: { base: "#4F46E5", _dark: "#6366F1" } },
             /** Text and icons placed on a `brand` fill. */
-            fg: { value: { base: "#FFFFFF", _dark: "#03150E" } },
-            soft: { value: { base: "#DCEFE6", _dark: "#123628" } },
-            strong: { value: { base: "#084E38", _dark: "#86E3BE" } },
+            fg: { value: { base: "#FFFFFF", _dark: "#FFFFFF" } },
+            soft: { value: { base: "#EEF2FF", _dark: "rgba(99, 102, 241, 0.18)" } },
+            strong: { value: { base: "#3730A3", _dark: "#A5B4FC" } },
           },
           streak: {
             DEFAULT: { value: { base: "#F4B400", _dark: "#F4B400" } },
@@ -73,7 +73,7 @@ export default defineConfig({
             DEFAULT: { value: { base: "#B93C0B", _dark: "#FF8C5E" } },
             soft: { value: { base: "#FCE6DB", _dark: "#3B1C10" } },
           },
-          focus: { value: { base: "#0B6B4D", _dark: "#86E3BE" } },
+          focus: { value: { base: "#4F46E5", _dark: "#818CF8" } },
         },
         shadows: {
           raised: {
