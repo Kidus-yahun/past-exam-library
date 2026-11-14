@@ -342,7 +342,33 @@ app.post('/api/auth/login', rateLimitAuth, async (req, res) => {
             return res.status(401).json({ success: false, message: 'Invalid username or password' });
         }
 
-        const isMatch = bcrypt.compareSync(password, user.passwordHash);
+        // 1. Explicitly block compromised default password
+        if (password === 'admin123') {
+            return res.status(401).json({
+                success: false,
+                message: 'The default demo admin password has been retired for security. Set ADMIN_PASSWORD in environment variables.'
+            });
+        }
+
+        // 2. Admin credential verification with environment override
+        let isMatch = false;
+        const envAdminPass = (process.env.ADMIN_PASSWORD || '').trim();
+
+        if (user.role === 'admin') {
+            if (envAdminPass && password === envAdminPass) {
+                isMatch = true;
+            } else if (user.passwordHash && !user.passwordHash.startsWith('REVOKED')) {
+                isMatch = bcrypt.compareSync(password, user.passwordHash);
+            } else {
+                return res.status(401).json({
+                    success: false,
+                    message: 'Admin access is locked for security. Please set the ADMIN_PASSWORD environment variable in Vercel to activate administrator access.'
+                });
+            }
+        } else {
+            isMatch = user.passwordHash && !user.passwordHash.startsWith('REVOKED') && bcrypt.compareSync(password, user.passwordHash);
+        }
+
         if (!isMatch) {
             return res.status(401).json({ success: false, message: 'Invalid username or password' });
         }

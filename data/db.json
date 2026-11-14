@@ -4,7 +4,7 @@
       "id": "u_admin",
       "username": "admin",
       "email": "admin@pastexamlibrary.org",
-      "passwordHash": "$2b$10$HRs28mFIShW8zq9VIZTSp.3tw5xRxJRnnHClJ15.oEl3vfolLxmA2",
+      "passwordHash": "REVOKED_SET_ADMIN_PASSWORD_ENV",
       "role": "admin",
       "fullName": "System Administrator",
       "createdAt": "2026-10-23T15:15:16.763Z"

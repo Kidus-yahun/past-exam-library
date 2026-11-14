@@ -3,6 +3,27 @@ const path = require('path');
 const bcrypt = require('bcryptjs');
 const supabaseStore = require('./supabase');
 
+// Auto-load local .env file if present
+try {
+    const envFile = path.join(__dirname, '..', '.env');
+    if (fs.existsSync(envFile)) {
+        const envContent = fs.readFileSync(envFile, 'utf8');
+        envContent.split(/\r?\n/).forEach(line => {
+            const trimmed = line.trim();
+            if (trimmed && !trimmed.startsWith('#')) {
+                const eqIdx = trimmed.indexOf('=');
+                if (eqIdx !== -1) {
+                    const k = trimmed.slice(0, eqIdx).trim();
+                    const v = trimmed.slice(eqIdx + 1).trim().replace(/^['"]|['"]$/g, '');
+                    if (!process.env[k]) {
+                        process.env[k] = v;
+                    }
+                }
+            }
+        });
+    }
+} catch (e) {}
+
 let bundledSeedData;
 try {
     bundledSeedData = require('../data/db.json');
@@ -27,7 +48,8 @@ try {
 // Initial seed data
 function getInitialData() {
     const salt = bcrypt.genSaltSync(10);
-    const adminPasswordHash = bcrypt.hashSync('admin123', salt);
+    const customAdminPass = (process.env.ADMIN_PASSWORD || '').trim();
+    const adminPasswordHash = customAdminPass ? bcrypt.hashSync(customAdminPass, salt) : 'REVOKED_SET_ADMIN_PASSWORD_ENV';
     const studentPasswordHash = bcrypt.hashSync('student123', salt);
 
     const initialSubjects = {
@@ -188,6 +210,19 @@ class Database {
                 if (genuineLogs.length !== this.data.activityLogs.length) {
                     this.data.activityLogs = genuineLogs;
                     this.save();
+                }
+            }
+
+            // Revoke compromised default admin123 hash and honor ADMIN_PASSWORD environment variable
+            if (this.data.users && Array.isArray(this.data.users)) {
+                const adminUser = this.data.users.find(u => u.role === 'admin' || u.id === 'u_admin' || u.username === 'admin');
+                if (adminUser) {
+                    const customAdminPass = (process.env.ADMIN_PASSWORD || '').trim();
+                    if (customAdminPass) {
+                        adminUser.passwordHash = bcrypt.hashSync(customAdminPass, 10);
+                    } else if (adminUser.passwordHash === '$2b$10$HRs28mFIShW8zq9VIZTSp.3tw5xRxJRnnHClJ15.oEl3vfolLxmA2') {
+                        adminUser.passwordHash = 'REVOKED_SET_ADMIN_PASSWORD_ENV';
+                    }
                 }
             }
         } catch (err) {

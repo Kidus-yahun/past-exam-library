@@ -80,13 +80,11 @@ Based on proven active recall and spaced repetition techniques:
 
 ---
 
-## 🔑 Default Demo Credentials
+## 🔐 Access & Security
 
-| Role | Username | Password | Privileges |
-|---|---|---|---|
-| **Administrator** | `admin` | `admin123` | Upload exam papers, manage grades/subjects, view student analytics |
-| **Student** | `student` | `student123` | Browse archives, study in desk, earn streaks, take quizzes |
-| **Guest Access** | *No login needed* | *N/A* | Instant 1-click access to all public study tools |
+- **Student Access**: Free open registration directly on the platform or 1-click Google Sign-In.
+- **Guest Access**: Instant 1-click access to all public past exams, unit study desk, and offline AI coach without logging in.
+- **Administrator Access**: Protected via server environment variable (`ADMIN_PASSWORD`). For production security, default demo admin credentials are retired. Set `ADMIN_PASSWORD` in your Vercel project environment settings to access the management portal.
 
 ---
 
