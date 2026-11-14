@@ -10,3 +10,11 @@ build-artifacts/
 .env
 .env.*
 *.env
+
+# rewrite
+dist/
+styled-system/
+supabase/.temp/
+supabase/.branches/
+!.env.example
+.env.local
