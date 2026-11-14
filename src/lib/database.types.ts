@@ -291,6 +291,9 @@ isOneToOne: false
           Functions: {
             "is_admin":
 { Args: Record<PropertyKey, never>; Returns: boolean
+                           },
+"my_progress":
+{ Args: { "tz"?: string }; Returns: Json
                            }
           }
           Enums: {
