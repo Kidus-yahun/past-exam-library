@@ -5,7 +5,8 @@
  *
  * Needs a service-role key, so run it only against a database you control.
  * Locally it reads the key from `supabase status`:   bun run db:import
- * Against a hosted project, set SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY.
+ * Against a hosted project, set SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY in the
+ * shell and pass --yes (it refuses non-local databases without it).
  */
 import { existsSync, readFileSync, statSync } from "node:fs";
 import { join } from "node:path";
@@ -30,6 +31,13 @@ const { url, key: serviceKey } = fromEnv.url && fromEnv.key ? fromEnv : localSup
 if (!url || !serviceKey) {
   console.error(
     "Start local Supabase (bun run db:start) or set SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY.",
+  );
+  process.exit(1);
+}
+const isLocal = /^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?\b/.test(url);
+if (!isLocal && !process.argv.includes("--yes")) {
+  console.error(
+    `Refusing to import into ${url} without --yes. This uploads PDFs and writes rows to that database.`,
   );
   process.exit(1);
 }

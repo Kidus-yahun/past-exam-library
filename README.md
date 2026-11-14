@@ -23,6 +23,12 @@ its data (papers, questions, unit notes, formula sheets) is imported from there.
 Not carried over (yet): Telegram duels, shared streaks, the avatar studio and ID card, the
 national-exam countdown, Google Analytics and its cookie banner, the Android APK wrapper.
 
+## Docs
+
+- `docs/DEPLOYMENT.md`: putting it online (Supabase + Vercel)
+- `docs/HANDOFF.md`: context, open items, and working with AI agents
+- `AGENTS.md`: rules AI coding agents must follow in this repo
+
 ## Stack
 
 - **SolidJS** + **TypeScript** (strict), built with **Vite**
@@ -47,7 +53,7 @@ src/
   ui/           shared components, icons, forms, page layout
 supabase/
   migrations/   schema, RLS policies and database functions
-  seed.sql      grades, subjects, and local test accounts
+  seed.sql      local test accounts only (never run against production)
 scripts/
   import-legacy.ts    imports papers, PDFs, questions, unit notes and formula sheets
 ```
