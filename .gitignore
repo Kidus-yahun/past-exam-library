@@ -8,14 +8,6 @@ exam_cache/
 *.apk
 build-artifacts/
 .env
-.env.*
-*.env
-
-# rewrite
-dist/
-styled-system/
-supabase/.temp/
-supabase/.branches/
-supabase/all_migrations.sql
-!.env.example
 .env.local
+*.env
+!.env.example
