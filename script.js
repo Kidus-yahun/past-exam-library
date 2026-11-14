@@ -1454,6 +1454,79 @@ async function initApp() {
             ensurePdfJsLoaded();
         }
     }, 4500);
+
+    // 10. Check & display Cookie & Session Consent banner
+    checkCookieConsent();
+}
+
+/* ========================================================
+   COOKIE & PERSISTENT SESSION CONSENT BANNER
+======================================================== */
+function checkCookieConsent() {
+    const consent = localStorage.getItem('pel_cookie_consent') || (document.cookie.match(/(?:^|;\s*)pel_cookie_consent=([^;]*)/) || [])[1];
+    if (consent) return;
+
+    setTimeout(() => {
+        if (document.getElementById('cookie-consent-banner')) return;
+        const banner = document.createElement('div');
+        banner.id = 'cookie-consent-banner';
+        banner.className = 'cookie-consent-banner';
+        banner.setAttribute('role', 'dialog');
+        banner.setAttribute('aria-label', 'Cookie and Session Consent');
+        banner.innerHTML = `
+            <div class="cookie-consent-header">
+                <div class="cookie-consent-icon">🍪</div>
+                <div>
+                    <h4 class="cookie-consent-title">Remember Your Account & Streak</h4>
+                    <span style="font-size: 11px; color: #38bdf8; font-weight: 700; letter-spacing: 0.04em;">SECURE SESSION STORAGE</span>
+                </div>
+            </div>
+            <p class="cookie-consent-text">
+                We use cookies and local storage to keep you permanently signed in across tabs and browser restarts, remember your customized avatar, and save your daily study streaks.
+            </p>
+            <div class="cookie-consent-actions">
+                <button type="button" class="btn-cookie-accept" onclick="acceptAllCookies()">
+                    Accept All Cookies
+                </button>
+                <button type="button" class="btn-cookie-essential" onclick="acceptEssentialCookies()">
+                    Essential Only
+                </button>
+            </div>
+        `;
+        document.body.appendChild(banner);
+        requestAnimationFrame(() => banner.classList.add('visible'));
+    }, 1200);
+}
+
+function acceptAllCookies() {
+    try {
+        localStorage.setItem('pel_cookie_consent', 'all');
+        document.cookie = 'pel_cookie_consent=all; max-age=31536000; path=/; SameSite=Lax';
+        if (state.token || state.user) {
+            setPersistentSession(state.token, state.user);
+        }
+    } catch(e) {}
+    dismissCookieBanner();
+    showToast('Cookies accepted! Your login session is permanently remembered. 🔒', 'success');
+}
+
+function acceptEssentialCookies() {
+    try {
+        localStorage.setItem('pel_cookie_consent', 'essential');
+        document.cookie = 'pel_cookie_consent=essential; max-age=31536000; path=/; SameSite=Lax';
+        if (state.token || state.user) {
+            setPersistentSession(state.token, state.user);
+        }
+    } catch(e) {}
+    dismissCookieBanner();
+}
+
+function dismissCookieBanner() {
+    const banner = document.getElementById('cookie-consent-banner');
+    if (banner) {
+        banner.classList.remove('visible');
+        setTimeout(() => banner.remove(), 400);
+    }
 }
 
 async function fetchCategories() {
