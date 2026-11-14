@@ -87,6 +87,32 @@ isOneToOne: false
       referencedColumns: ["id"]
     }
                   ]
+                },"bookmarks": {
+                  Row: {
+                    "created_at": string,"paper_id": string,"user_id": string
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "created_at"?: string,"paper_id": string,"user_id"?: string
+                  }
+                  Update: {
+                    "created_at"?: string,"paper_id"?: string,"user_id"?: string
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "bookmarks_paper_id_fkey"
+      columns: ["paper_id"]
+isOneToOne: false
+      referencedRelation: "paper_summaries"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "bookmarks_paper_id_fkey"
+      columns: ["paper_id"]
+isOneToOne: false
+      referencedRelation: "papers"
+      referencedColumns: ["id"]
+    }
+                  ]
                 },"focus_sessions": {
                   Row: {
                     "ended_at": string,"id": string,"minutes": number,"user_id": string

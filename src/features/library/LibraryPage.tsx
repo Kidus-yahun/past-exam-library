@@ -1,12 +1,14 @@
 import { useQuery } from "@tanstack/solid-query";
-import { createMemo, For, Match, Switch } from "solid-js";
+import { createMemo, createSignal, For, Match, Show, Switch } from "solid-js";
 import { css } from "styled-system/css";
+import { input } from "~/ui/forms";
 import { Page, panel, quietButton } from "~/ui/Page";
 import { ListSkeleton } from "~/ui/Skeleton";
-import { fetchPapers } from "./api";
+import { fetchAllPapers, fetchPapers } from "./api";
 import { GradeSubjectPicker, useGradeSubject } from "./GradeSubjectPicker";
 import { PaperRow } from "./PaperRow";
 import { groupPapers } from "./papers";
+import { searchPapers } from "./search";
 
 const styles = {
   groupLabel: css({ textStyle: "eyebrow", color: "ink.subtle", mb: "8px" }),
@@ -33,11 +35,62 @@ export default function LibraryPage() {
 
   const groups = createMemo(() => groupPapers(papers.data ?? []));
 
+  const [query, setQuery] = createSignal("");
+  const searching = () => query().trim().length > 0;
+  const allPapers = useQuery(() => ({
+    queryKey: ["papers", "all"],
+    queryFn: fetchAllPapers,
+    enabled: searching(),
+  }));
+  const results = createMemo(() => searchPapers(allPapers.data ?? [], query()));
+
   return (
-    <Page title="Library" lede="Past papers by grade and subject.">
-      <GradeSubjectPicker state={picker} />
+    <Page
+      title="Library"
+      lede="Past papers by grade and subject."
+      actions={
+        <label class={css({ w: { base: "100%", md: "300px" } })}>
+          <span class={css({ srOnly: true })}>Search all papers</span>
+          <input
+            type="search"
+            class={`${input} ${css({ w: "100%" })}`}
+            placeholder="Search, e.g. g12 physics final"
+            value={query()}
+            onInput={(e) => setQuery(e.currentTarget.value)}
+          />
+        </label>
+      }
+    >
+      <Show when={!searching()}>
+        <GradeSubjectPicker state={picker} />
+      </Show>
 
       <Switch>
+        <Match when={searching()}>
+          <Show
+            when={results().length > 0}
+            fallback={
+              <Show when={allPapers.isSuccess}>
+                <div class={`${panel} ${styles.notice}`}>
+                  <p>No papers match “{query().trim()}”.</p>
+                </div>
+              </Show>
+            }
+          >
+            <section aria-label="Search results">
+              <h2 class={styles.groupLabel}>
+                {results().length} {results().length === 1 ? "paper" : "papers"}
+              </h2>
+              <ul class={`${panel} ${styles.list}`}>
+                <For each={results()}>
+                  {(paper) => (
+                    <PaperRow paper={paper} context={`Grade ${paper.grade} ${paper.subjectName}`} />
+                  )}
+                </For>
+              </ul>
+            </section>
+          </Show>
+        </Match>
         <Match when={picker.subjects.isError || papers.isError}>
           <div class={`${panel} ${styles.notice}`} role="alert">
             <p>Couldn't load papers. Check your connection and try again.</p>

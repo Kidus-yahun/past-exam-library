@@ -60,3 +60,46 @@ export function paperDownloadUrl(storagePath: string): string {
   return supabase.storage.from("papers").getPublicUrl(storagePath, { download: fileName }).data
     .publicUrl;
 }
+
+// --- Search and bookmarks ---------------------------------------------------
+
+const SearchRow = PaperSummary.extend({ subjects: z.object({ name: z.string() }) });
+const SUMMARY_COLUMNS =
+  "id, grade, subject, semester, exam_type, year, storage_path, size_bytes, question_count, subjects(name)";
+
+const withSubjectName = (rows: unknown) =>
+  z
+    .array(SearchRow)
+    .parse(rows)
+    .map(({ subjects, ...p }) => ({ ...p, subjectName: subjects.name }));
+
+/** Every paper with its subject name; the library is small enough to search on the device. */
+export async function fetchAllPapers() {
+  const { data, error } = await supabase.from("paper_summaries").select(SUMMARY_COLUMNS);
+  if (error) throw error;
+  return withSubjectName(data);
+}
+
+export async function fetchBookmarkIds(): Promise<Set<string>> {
+  const { data, error } = await supabase.from("bookmarks").select("paper_id");
+  if (error) throw error;
+  return new Set(data.map((row) => row.paper_id));
+}
+
+export async function fetchBookmarkedPapers() {
+  const ids = [...(await fetchBookmarkIds())];
+  if (ids.length === 0) return [];
+  const { data, error } = await supabase
+    .from("paper_summaries")
+    .select(SUMMARY_COLUMNS)
+    .in("id", ids);
+  if (error) throw error;
+  return withSubjectName(data);
+}
+
+export async function setBookmarked(paperId: string, on: boolean) {
+  const { error } = on
+    ? await supabase.from("bookmarks").insert({ paper_id: paperId })
+    : await supabase.from("bookmarks").delete().eq("paper_id", paperId);
+  if (error) throw error;
+}

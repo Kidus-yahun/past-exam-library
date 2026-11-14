@@ -78,6 +78,24 @@ export const MonitorIcon = icon(() => (
   </>
 ));
 
+export function BookmarkIcon(props: IconProps & { filled?: boolean }) {
+  return (
+    <svg
+      width={props.size ?? 20}
+      height={props.size ?? 20}
+      viewBox="0 0 24 24"
+      fill={props.filled ? "currentColor" : "none"}
+      stroke="currentColor"
+      stroke-width="1.9"
+      stroke-linejoin="round"
+      aria-hidden="true"
+      class={props.class}
+    >
+      <path d="M6 3h12v18l-6-4-6 4z" />
+    </svg>
+  );
+}
+
 export function FlameIcon(props: IconProps) {
   return (
     <svg

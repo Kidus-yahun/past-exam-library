@@ -1,9 +1,10 @@
 import { A } from "@solidjs/router";
 import { Show } from "solid-js";
 import { css } from "styled-system/css";
-import { ChevronRightIcon, DownloadIcon, FileIcon } from "~/ui/icons";
+import { BookmarkIcon, ChevronRightIcon, DownloadIcon, FileIcon } from "~/ui/icons";
 import { paperDownloadUrl } from "./api";
 import { formatBytes, LARGE_FILE_BYTES, type PaperSummary, paperTitle } from "./papers";
+import { useBookmarks } from "./useBookmarks";
 
 const styles = {
   row: css({
@@ -70,6 +71,7 @@ const styles = {
     boxShadow: "inset 0 0 0 1px {colors.line}",
     transition: "background-color 120ms ease-out, color 120ms ease-out",
     _hover: { color: "ink", bg: "hover" },
+    "&[aria-pressed=true]": { color: "brand" },
   }),
   chevron: css({
     flex: "none",
@@ -79,7 +81,8 @@ const styles = {
   }),
 };
 
-export function PaperRow(props: { paper: PaperSummary }) {
+export function PaperRow(props: { paper: PaperSummary; context?: string }) {
+  const bookmarks = useBookmarks();
   const title = () => paperTitle(props.paper);
   const size = () => formatBytes(props.paper.size_bytes);
   const isLarge = () => props.paper.size_bytes > LARGE_FILE_BYTES;
@@ -91,7 +94,7 @@ export function PaperRow(props: { paper: PaperSummary }) {
       </span>
       <div class={styles.body}>
         <A href={`/papers/${props.paper.id}`} class={styles.title} data-open>
-          {title()}
+          {props.context ? `${props.context} · ${title()}` : title()}
         </A>
         <p class={styles.meta}>
           <span class={css({ fontVariantNumeric: "tabular-nums" })}>{size()}</span>
@@ -107,6 +110,17 @@ export function PaperRow(props: { paper: PaperSummary }) {
           </Show>
         </p>
       </div>
+      <Show when={bookmarks.enabled()}>
+        <button
+          type="button"
+          class={styles.save}
+          aria-pressed={bookmarks.has(props.paper.id)}
+          aria-label={`Bookmark ${title()}`}
+          onClick={() => bookmarks.toggle(props.paper.id)}
+        >
+          <BookmarkIcon filled={bookmarks.has(props.paper.id)} />
+        </button>
+      </Show>
       <a
         class={styles.save}
         href={paperDownloadUrl(props.paper.storage_path)}

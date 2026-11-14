@@ -3,6 +3,8 @@ import { useQuery } from "@tanstack/solid-query";
 import { createMemo, For, Match, Show, Switch } from "solid-js";
 import { css } from "styled-system/css";
 import { useProfile } from "~/features/account/useProfile";
+import { fetchBookmarkedPapers } from "~/features/library/api";
+import { PaperRow } from "~/features/library/PaperRow";
 import { fetchUnfinishedAttempts } from "~/features/practice/api";
 import { attemptLabel } from "~/features/practice/PracticeHubPage";
 import { useProgress } from "~/features/progress/api";
@@ -123,6 +125,11 @@ function Dashboard() {
     (progress.data?.today_focus_minutes ?? 0);
   const review = createMemo(() => (progress.data ? weakestSubjects(progress.data) : []));
   const grade = () => profile.data?.grade ?? 12;
+  const bookmarked = useQuery(() => ({
+    queryKey: ["bookmarked-papers", userId()],
+    queryFn: fetchBookmarkedPapers,
+    enabled: userId() !== null,
+  }));
 
   return (
     <div class={styles.page}>
@@ -287,6 +294,20 @@ function Dashboard() {
                     <StrengthMeter strength={s.strength} />
                   </A>
                 </li>
+              )}
+            </For>
+          </ul>
+        </section>
+      </Show>
+      <Show when={(bookmarked.data?.length ?? 0) > 0}>
+        <section aria-labelledby="bookmarked">
+          <h2 id="bookmarked" class={styles.eyebrow}>
+            Bookmarked papers
+          </h2>
+          <ul class={`${panel} ${css({ listStyle: "none", overflow: "hidden" })}`}>
+            <For each={bookmarked.data}>
+              {(paper) => (
+                <PaperRow paper={paper} context={`Grade ${paper.grade} ${paper.subjectName}`} />
               )}
             </For>
           </ul>
