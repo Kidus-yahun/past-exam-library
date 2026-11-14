@@ -65,7 +65,9 @@ export const button = css({
   cursor: "pointer",
   bg: "brand",
   color: "brand.fg",
+  transition: "opacity 120ms ease-out",
   _hover: { opacity: 0.92 },
+  _disabled: { opacity: 0.5, cursor: "default", _hover: { opacity: 0.5 } },
 });
 
 export const quietButton = css({
@@ -83,5 +85,7 @@ export const quietButton = css({
   bg: "transparent",
   color: "ink",
   boxShadow: "inset 0 0 0 1px {colors.line}",
-  _hover: { bg: "sunk" },
+  transition: "background-color 120ms ease-out",
+  _hover: { bg: "hover" },
+  _disabled: { opacity: 0.5, cursor: "default" },
 });

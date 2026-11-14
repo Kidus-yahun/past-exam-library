@@ -1,6 +1,7 @@
 import { A } from "@solidjs/router";
 import { For, type ParentProps, Suspense } from "solid-js";
 import { css } from "styled-system/css";
+import { AccountChip } from "~/features/account/AccountChip";
 import { HomeIcon, LibraryIcon, PracticeIcon, ProgressIcon } from "~/ui/icons";
 import { NavLink } from "~/ui/NavLink";
 import { ThemeSwitch } from "~/ui/ThemeSwitch";
@@ -110,6 +111,9 @@ export function AppShell(props: ParentProps) {
         <div class={styles.sideFooter}>
           <p class={styles.eyebrow}>Appearance</p>
           <ThemeSwitch />
+          <div class={css({ mt: "12px", pt: "12px", borderTop: "1px solid {colors.line}" })}>
+            <AccountChip />
+          </div>
         </div>
       </aside>
 

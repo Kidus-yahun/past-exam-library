@@ -12,6 +12,8 @@ const queryClient = new QueryClient({
 const HomePage = lazy(() => import("~/features/home/HomePage"));
 const LibraryPage = lazy(() => import("~/features/library/LibraryPage"));
 const ReaderPage = lazy(() => import("~/features/reader/ReaderPage"));
+const SignInPage = lazy(() => import("~/features/account/SignInPage"));
+const WelcomePage = lazy(() => import("~/features/account/WelcomePage"));
 const PracticePage = lazy(() => import("~/features/practice/PracticePage"));
 const ProgressPage = lazy(() => import("~/features/progress/ProgressPage"));
 const NotFoundPage = lazy(() => import("./NotFoundPage"));
@@ -22,6 +24,8 @@ export function App() {
       <Router>
         {/* Focused screens: full width, no app navigation. */}
         <Route path="/papers/:id" component={ReaderPage} />
+        <Route path="/signin" component={SignInPage} />
+        <Route path="/welcome" component={WelcomePage} />
 
         <Route path="/" component={AppShell}>
           <Route path="/" component={HomePage} />

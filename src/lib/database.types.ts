@@ -143,14 +143,14 @@ isOneToOne: false
                   ]
                 },"profiles": {
                   Row: {
-                    "created_at": string,"display_name": string,"grade": number | null,"id": string,"role": Database["public"]['Enums']["user_role"],"stream": Database["public"]['Enums']["stream"] | null
+                    "created_at": string,"daily_goal_minutes": number,"display_name": string,"grade": number | null,"id": string,"onboarded_at": string | null,"role": Database["public"]['Enums']["user_role"],"stream": Database["public"]['Enums']["stream"] | null
                   }
                   ComputedFields: never
                   Insert: {
-                    "created_at"?: string,"display_name"?: string,"grade"?: number | null,"id": string,"role"?: Database["public"]['Enums']["user_role"],"stream"?: Database["public"]['Enums']["stream"] | null
+                    "created_at"?: string,"daily_goal_minutes"?: number,"display_name"?: string,"grade"?: number | null,"id": string,"onboarded_at"?: string | null,"role"?: Database["public"]['Enums']["user_role"],"stream"?: Database["public"]['Enums']["stream"] | null
                   }
                   Update: {
-                    "created_at"?: string,"display_name"?: string,"grade"?: number | null,"id"?: string,"role"?: Database["public"]['Enums']["user_role"],"stream"?: Database["public"]['Enums']["stream"] | null
+                    "created_at"?: string,"daily_goal_minutes"?: number,"display_name"?: string,"grade"?: number | null,"id"?: string,"onboarded_at"?: string | null,"role"?: Database["public"]['Enums']["user_role"],"stream"?: Database["public"]['Enums']["stream"] | null
                   }
                   Relationships: [
                     {
