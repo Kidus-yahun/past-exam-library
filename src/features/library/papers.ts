@@ -73,6 +73,12 @@ export function paperTitle(paper: PaperSummary): string {
   return isNational(paper) ? `${label} ${paper.year}` : label;
 }
 
+/** "Mid 1 · Semester 1 · 2024", or "Model exam 2024" for national prep papers. */
+export function paperLabel(p: { exam_type: ExamType; semester: number | null; year: number }) {
+  const type = EXAM_TYPE_LABEL[p.exam_type];
+  return p.semester === null ? `${type} ${p.year}` : `${type} · Semester ${p.semester} · ${p.year}`;
+}
+
 /** Human file size, 1024-based to match what phones show in their file managers. */
 export function formatBytes(bytes: number): string {
   if (bytes < 1024) return `${bytes} B`;

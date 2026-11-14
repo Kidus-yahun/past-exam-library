@@ -51,17 +51,23 @@ isOneToOne: false
                   ]
                 },"attempts": {
                   Row: {
-                    "finished_at": string | null,"id": string,"paper_id": string,"started_at": string,"user_id": string
+                    "finished_at": string | null,"grade": number,"id": string,"mode": string,"paper_id": string | null,"question_ids": (string)[],"started_at": string,"subject": string,"user_id": string
                   }
                   ComputedFields: never
                   Insert: {
-                    "finished_at"?: string | null,"id"?: string,"paper_id": string,"started_at"?: string,"user_id"?: string
+                    "finished_at"?: string | null,"grade": number,"id"?: string,"mode"?: string,"paper_id"?: string | null,"question_ids": (string)[],"started_at"?: string,"subject": string,"user_id"?: string
                   }
                   Update: {
-                    "finished_at"?: string | null,"id"?: string,"paper_id"?: string,"started_at"?: string,"user_id"?: string
+                    "finished_at"?: string | null,"grade"?: number,"id"?: string,"mode"?: string,"paper_id"?: string | null,"question_ids"?: (string)[],"started_at"?: string,"subject"?: string,"user_id"?: string
                   }
                   Relationships: [
                     {
+      foreignKeyName: "attempts_grade_fkey"
+      columns: ["grade"]
+isOneToOne: false
+      referencedRelation: "grades"
+      referencedColumns: ["id"]
+    },{
       foreignKeyName: "attempts_paper_id_fkey"
       columns: ["paper_id"]
 isOneToOne: false
@@ -72,6 +78,12 @@ isOneToOne: false
       columns: ["paper_id"]
 isOneToOne: false
       referencedRelation: "papers"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "attempts_subject_fkey"
+      columns: ["subject"]
+isOneToOne: false
+      referencedRelation: "subjects"
       referencedColumns: ["id"]
     }
                   ]

@@ -179,7 +179,10 @@ export default function ReaderPage() {
                 <DownloadIcon />
               </a>
               <Show when={p().question_count > 0}>
-                <A href={`/practice?paper=${p().id}`} class={`${button} ${styles.desktopPractice}`}>
+                <A
+                  href={`/practice/session?paper=${p().id}&mode=practice`}
+                  class={`${button} ${styles.desktopPractice}`}
+                >
                   <PracticeIcon size={18} />
                   Practice {p().question_count} questions
                 </A>
@@ -222,7 +225,10 @@ export default function ReaderPage() {
 
       <Show when={(paper.data?.question_count ?? 0) > 0}>
         <div class={styles.mobilePractice}>
-          <A href={`/practice?paper=${params.id}`} class={`${button} ${css({ w: "100%" })}`}>
+          <A
+            href={`/practice/session?paper=${params.id}&mode=practice`}
+            class={`${button} ${css({ w: "100%" })}`}
+          >
             <PracticeIcon size={18} />
             Practice {paper.data?.question_count} questions
           </A>
