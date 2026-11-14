@@ -959,7 +959,7 @@ function openStudentOnboardingModal(step = 1) {
                 </div>
 
                 <div class="onboarding-options-grid">
-                    <div class="onboarding-card ${onboardingState.referral === 'telegram' ? 'active' : ''}" onclick="setOnboardingReferral('telegram')">
+                    <div class="onboarding-card ${onboardingState.referral === 'telegram' ? 'active' : ''}" onclick="setOnboardingReferral('telegram', this)">
                         <div class="onboarding-card-icon">📢</div>
                         <div style="flex: 1;">
                             <strong style="font-size: 15px; color: var(--text-main); display: block;">School Telegram Channel</strong>
@@ -967,7 +967,7 @@ function openStudentOnboardingModal(step = 1) {
                         </div>
                     </div>
 
-                    <div class="onboarding-card ${onboardingState.referral === 'friend' ? 'active' : ''}" onclick="setOnboardingReferral('friend')">
+                    <div class="onboarding-card ${onboardingState.referral === 'friend' ? 'active' : ''}" onclick="setOnboardingReferral('friend', this)">
                         <div class="onboarding-card-icon">👥</div>
                         <div style="flex: 1;">
                             <strong style="font-size: 15px; color: var(--text-main); display: block;">Classmate or School Friend</strong>
@@ -975,7 +975,7 @@ function openStudentOnboardingModal(step = 1) {
                         </div>
                     </div>
 
-                    <div class="onboarding-card ${onboardingState.referral === 'teacher' ? 'active' : ''}" onclick="setOnboardingReferral('teacher')">
+                    <div class="onboarding-card ${onboardingState.referral === 'teacher' ? 'active' : ''}" onclick="setOnboardingReferral('teacher', this)">
                         <div class="onboarding-card-icon">👨‍🏫</div>
                         <div style="flex: 1;">
                             <strong style="font-size: 15px; color: var(--text-main); display: block;">Teacher or School Faculty</strong>
@@ -983,7 +983,7 @@ function openStudentOnboardingModal(step = 1) {
                         </div>
                     </div>
 
-                    <div class="onboarding-card ${onboardingState.referral === 'search' ? 'active' : ''}" onclick="setOnboardingReferral('search')">
+                    <div class="onboarding-card ${onboardingState.referral === 'search' ? 'active' : ''}" onclick="setOnboardingReferral('search', this)">
                         <div class="onboarding-card-icon">🔍</div>
                         <div style="flex: 1;">
                             <strong style="font-size: 15px; color: var(--text-main); display: block;">Online Search or Self Discovery</strong>
@@ -992,11 +992,8 @@ function openStudentOnboardingModal(step = 1) {
                     </div>
                 </div>
 
-                <div class="onboarding-actions-footer">
+                <div class="onboarding-actions-footer" style="justify-content: flex-end;">
                     <button type="button" class="desk-tool-btn" onclick="completeStudentOnboarding(true)">Skip for now</button>
-                    <button type="button" class="btn-primary" style="width: auto; padding: 10px 24px; font-weight: 800;" onclick="openStudentOnboardingModal(2)">
-                        Continue to Step 2 →
-                    </button>
                 </div>
             </div>
         `;
@@ -1012,7 +1009,7 @@ function openStudentOnboardingModal(step = 1) {
                 </div>
 
                 <div class="onboarding-options-grid">
-                    <div class="onboarding-card ${onboardingState.grade === 'Grade 12' ? 'active' : ''}" onclick="setOnboardingGrade('Grade 12')">
+                    <div class="onboarding-card ${onboardingState.grade === 'Grade 12' ? 'active' : ''}" onclick="setOnboardingGrade('Grade 12', this)">
                         <div class="onboarding-card-icon">🏆</div>
                         <div style="flex: 1;">
                             <strong style="font-size: 15px; color: var(--text-main); display: block;">Grade 12</strong>
@@ -1020,7 +1017,7 @@ function openStudentOnboardingModal(step = 1) {
                         </div>
                     </div>
 
-                    <div class="onboarding-card ${onboardingState.grade === 'Grade 11' ? 'active' : ''}" onclick="setOnboardingGrade('Grade 11')">
+                    <div class="onboarding-card ${onboardingState.grade === 'Grade 11' ? 'active' : ''}" onclick="setOnboardingGrade('Grade 11', this)">
                         <div class="onboarding-card-icon">📘</div>
                         <div style="flex: 1;">
                             <strong style="font-size: 15px; color: var(--text-main); display: block;">Grade 11</strong>
@@ -1028,7 +1025,7 @@ function openStudentOnboardingModal(step = 1) {
                         </div>
                     </div>
 
-                    <div class="onboarding-card ${onboardingState.grade === 'Grade 10' ? 'active' : ''}" onclick="setOnboardingGrade('Grade 10')">
+                    <div class="onboarding-card ${onboardingState.grade === 'Grade 10' ? 'active' : ''}" onclick="setOnboardingGrade('Grade 10', this)">
                         <div class="onboarding-card-icon">📗</div>
                         <div style="flex: 1;">
                             <strong style="font-size: 15px; color: var(--text-main); display: block;">Grade 10</strong>
@@ -1036,7 +1033,7 @@ function openStudentOnboardingModal(step = 1) {
                         </div>
                     </div>
 
-                    <div class="onboarding-card ${onboardingState.grade === 'Grade 9' ? 'active' : ''}" onclick="setOnboardingGrade('Grade 9')">
+                    <div class="onboarding-card ${onboardingState.grade === 'Grade 9' ? 'active' : ''}" onclick="setOnboardingGrade('Grade 9', this)">
                         <div class="onboarding-card-icon">📙</div>
                         <div style="flex: 1;">
                             <strong style="font-size: 15px; color: var(--text-main); display: block;">Grade 9</strong>
@@ -1047,12 +1044,7 @@ function openStudentOnboardingModal(step = 1) {
 
                 <div class="onboarding-actions-footer">
                     <button type="button" class="desk-tool-btn" onclick="openStudentOnboardingModal(1)">← Back</button>
-                    <div style="display: flex; gap: 8px;">
-                        <button type="button" class="desk-tool-btn" onclick="completeStudentOnboarding(true)">Skip</button>
-                        <button type="button" class="btn-primary" style="width: auto; padding: 10px 24px; font-weight: 800;" onclick="openStudentOnboardingModal(3)">
-                            Continue to Step 3 →
-                        </button>
-                    </div>
+                    <button type="button" class="desk-tool-btn" onclick="completeStudentOnboarding(true)">Skip</button>
                 </div>
             </div>
         `;
@@ -1075,7 +1067,7 @@ function openStudentOnboardingModal(step = 1) {
                         { id: 'Biology', icon: '🧬', desc: 'Genetics, Cell Biology, Human Physiology & Ecology' },
                         { id: 'English', icon: '📖', desc: 'Reading Comprehension, Grammar, Vocabulary & Writing' }
                     ].map(s => `
-                        <div class="onboarding-card ${onboardingState.subject === s.id ? 'active' : ''}" onclick="setOnboardingSubject('${s.id}')">
+                        <div class="onboarding-card ${onboardingState.subject === s.id ? 'active' : ''}" onclick="setOnboardingSubject('${s.id}', this)">
                             <div class="onboarding-card-icon">${s.icon}</div>
                             <div style="flex: 1;">
                                 <strong style="font-size: 15px; color: var(--text-main); display: block;">${s.id}</strong>
@@ -1087,12 +1079,7 @@ function openStudentOnboardingModal(step = 1) {
 
                 <div class="onboarding-actions-footer">
                     <button type="button" class="desk-tool-btn" onclick="openStudentOnboardingModal(2)">← Back</button>
-                    <div style="display: flex; gap: 8px;">
-                        <button type="button" class="desk-tool-btn" onclick="completeStudentOnboarding(true)">Skip</button>
-                        <button type="button" class="btn-primary" style="width: auto; padding: 10px 24px; font-weight: 800;" onclick="openStudentOnboardingModal(4)">
-                            Continue to Step 4 →
-                        </button>
-                    </div>
+                    <button type="button" class="desk-tool-btn" onclick="completeStudentOnboarding(true)">Skip</button>
                 </div>
             </div>
         `;
@@ -1108,7 +1095,7 @@ function openStudentOnboardingModal(step = 1) {
                 </div>
 
                 <div class="onboarding-options-grid">
-                    <div class="onboarding-card ${onboardingState.dailyGoal === 15 ? 'active' : ''}" onclick="setOnboardingDailyGoal(15)">
+                    <div class="onboarding-card ${onboardingState.dailyGoal === 15 ? 'active' : ''}" onclick="setOnboardingDailyGoal(15, this)">
                         <div class="onboarding-card-icon">⚡</div>
                         <div style="flex: 1;">
                             <strong style="font-size: 14.5px; color: var(--text-main); display: block;">15 Minutes / Day</strong>
@@ -1116,7 +1103,7 @@ function openStudentOnboardingModal(step = 1) {
                         </div>
                     </div>
 
-                    <div class="onboarding-card ${onboardingState.dailyGoal === 25 ? 'active' : ''}" onclick="setOnboardingDailyGoal(25)">
+                    <div class="onboarding-card ${onboardingState.dailyGoal === 25 ? 'active' : ''}" onclick="setOnboardingDailyGoal(25, this)">
                         <div class="onboarding-card-icon">🎯</div>
                         <div style="flex: 1;">
                             <strong style="font-size: 14.5px; color: var(--text-main); display: block;">25 Minutes / Day</strong>
@@ -1124,7 +1111,7 @@ function openStudentOnboardingModal(step = 1) {
                         </div>
                     </div>
 
-                    <div class="onboarding-card ${onboardingState.dailyGoal === 50 ? 'active' : ''}" onclick="setOnboardingDailyGoal(50)">
+                    <div class="onboarding-card ${onboardingState.dailyGoal === 50 ? 'active' : ''}" onclick="setOnboardingDailyGoal(50, this)">
                         <div class="onboarding-card-icon">🔥</div>
                         <div style="flex: 1;">
                             <strong style="font-size: 14.5px; color: var(--text-main); display: block;">50 Minutes / Day</strong>
@@ -1138,15 +1125,13 @@ function openStudentOnboardingModal(step = 1) {
                     <span style="font-size: 26px;">🎁</span>
                     <div>
                         <strong style="font-size: 13.5px; color: #58cc02; display: block;">Claim Your Welcome Reward!</strong>
-                        <span style="font-size: 12px; color: var(--text-muted);">Complete onboarding now to receive a <strong>+50 XP</strong> study streak starter pack!</span>
+                        <span style="font-size: 12px; color: var(--text-muted);">Select your daily goal above to receive your <strong>+50 XP</strong> study streak starter pack!</span>
                     </div>
                 </div>
 
                 <div class="onboarding-actions-footer">
                     <button type="button" class="desk-tool-btn" onclick="openStudentOnboardingModal(3)">← Back</button>
-                    <button type="button" class="btn-primary" style="background: #58cc02; border-bottom: 3px solid #46a302; width: auto; padding: 11px 26px; font-weight: 800; font-size: 14px;" onclick="completeStudentOnboarding(false)">
-                        🎉 Claim +50 XP & Start Studying →
-                    </button>
+                    <button type="button" class="desk-tool-btn" onclick="completeStudentOnboarding(true)">Skip</button>
                 </div>
             </div>
         `;
@@ -1155,24 +1140,52 @@ function openStudentOnboardingModal(step = 1) {
     showModal('Personalize Your Exam Preparation', bodyHtml);
 }
 
-function setOnboardingReferral(ref) {
+function setOnboardingReferral(ref, el) {
     onboardingState.referral = ref;
-    openStudentOnboardingModal(1);
+    if (el) {
+        const parent = el.closest('.onboarding-options-grid');
+        if (parent) parent.querySelectorAll('.onboarding-card').forEach(c => c.classList.remove('active'));
+        el.classList.add('active');
+    }
+    setTimeout(() => {
+        openStudentOnboardingModal(2);
+    }, 160);
 }
 
-function setOnboardingGrade(grade) {
+function setOnboardingGrade(grade, el) {
     onboardingState.grade = grade;
-    openStudentOnboardingModal(2);
+    if (el) {
+        const parent = el.closest('.onboarding-options-grid');
+        if (parent) parent.querySelectorAll('.onboarding-card').forEach(c => c.classList.remove('active'));
+        el.classList.add('active');
+    }
+    setTimeout(() => {
+        openStudentOnboardingModal(3);
+    }, 160);
 }
 
-function setOnboardingSubject(subject) {
+function setOnboardingSubject(subject, el) {
     onboardingState.subject = subject;
-    openStudentOnboardingModal(3);
+    if (el) {
+        const parent = el.closest('.onboarding-options-grid');
+        if (parent) parent.querySelectorAll('.onboarding-card').forEach(c => c.classList.remove('active'));
+        el.classList.add('active');
+    }
+    setTimeout(() => {
+        openStudentOnboardingModal(4);
+    }, 160);
 }
 
-function setOnboardingDailyGoal(minutes) {
+function setOnboardingDailyGoal(minutes, el) {
     onboardingState.dailyGoal = minutes;
-    openStudentOnboardingModal(4);
+    if (el) {
+        const parent = el.closest('.onboarding-options-grid');
+        if (parent) parent.querySelectorAll('.onboarding-card').forEach(c => c.classList.remove('active'));
+        el.classList.add('active');
+    }
+    setTimeout(() => {
+        completeStudentOnboarding(false);
+    }, 180);
 }
 
 function completeStudentOnboarding(skipped = false) {
@@ -1200,29 +1213,6 @@ function completeStudentOnboarding(skipped = false) {
     } catch(e) {}
 }
 
-function completeStudentOnboarding(skipped = false) {
-    closeModal();
-    try {
-        localStorage.setItem('pel_onboarding_completed', 'true');
-        if (!skipped) {
-            localStorage.setItem('pel_student_preferences', JSON.stringify(onboardingState));
-            deskState.grade = onboardingState.grade;
-            deskState.subject = onboardingState.subject;
-            updateStudyStreak();
-            playDeskChime('fanfare');
-            showToast('🎉 Onboarding completed! +50 XP Welcome bonus added to your streak!', 'success');
-            
-            // Sync with Supabase users table
-            const sb = getSupabaseClient();
-            if (sb && state.user && state.user.id) {
-                sb.from('users').update({
-                    full_name: state.user.fullName || state.user.username,
-                    role: 'student'
-                }).eq('id', state.user.id).then(() => {}).catch(() => {});
-            }
-        }
-    } catch(e) {}
-}
 
 // ========================================================
 // PERSISTENT MULTI-TIER SESSION MANAGEMENT (LOCALSTORAGE + SECURE COOKIES)
