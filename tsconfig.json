@@ -6,7 +6,7 @@
     "lib": ["ES2022", "DOM", "DOM.Iterable"],
     "jsx": "preserve",
     "jsxImportSource": "solid-js",
-    "types": ["vite/client"],
+    "types": ["vite/client", "bun"],
     "strict": true,
     "noUncheckedIndexedAccess": true,
     "noUnusedLocals": true,
@@ -22,5 +22,5 @@
       "styled-system/*": ["./styled-system/*"]
     }
   },
-  "include": ["src", "styled-system", "vite.config.ts", "panda.config.ts"]
+  "include": ["src", "api", "scripts", "styled-system", "vite.config.ts", "panda.config.ts"]
 }

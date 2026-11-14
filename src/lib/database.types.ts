@@ -87,6 +87,40 @@ isOneToOne: false
       referencedColumns: ["id"]
     }
                   ]
+                },"focus_sessions": {
+                  Row: {
+                    "ended_at": string,"id": string,"minutes": number,"user_id": string
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "ended_at"?: string,"id"?: string,"minutes": number,"user_id"?: string
+                  }
+                  Update: {
+                    "ended_at"?: string,"id"?: string,"minutes"?: number,"user_id"?: string
+                  }
+                  Relationships: [
+                    
+                  ]
+                },"formulas": {
+                  Row: {
+                    "display": string,"grades": (number)[],"id": string,"position": number,"subject": string,"tip": string | null,"title": string,"topic": string,"variables": string | null
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "display": string,"grades"?: (number)[],"id"?: string,"position"?: number,"subject": string,"tip"?: string | null,"title": string,"topic": string,"variables"?: string | null
+                  }
+                  Update: {
+                    "display"?: string,"grades"?: (number)[],"id"?: string,"position"?: number,"subject"?: string,"tip"?: string | null,"title"?: string,"topic"?: string,"variables"?: string | null
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "formulas_subject_fkey"
+      columns: ["subject"]
+isOneToOne: false
+      referencedRelation: "subjects"
+      referencedColumns: ["id"]
+    }
+                  ]
                 },"grade_subjects": {
                   Row: {
                     "grade": number,"position": number,"subject": string
@@ -217,6 +251,26 @@ isOneToOne: false
       referencedColumns: ["id"]
     }
                   ]
+                },"study_notes": {
+                  Row: {
+                    "body": string,"unit_id": string,"updated_at": string,"user_id": string
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "body"?: string,"unit_id": string,"updated_at"?: string,"user_id"?: string
+                  }
+                  Update: {
+                    "body"?: string,"unit_id"?: string,"updated_at"?: string,"user_id"?: string
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "study_notes_unit_id_fkey"
+      columns: ["unit_id"]
+isOneToOne: false
+      referencedRelation: "units"
+      referencedColumns: ["id"]
+    }
+                  ]
                 },"subjects": {
                   Row: {
                     "id": string,"name": string,"name_am": string | null
@@ -231,16 +285,76 @@ isOneToOne: false
                   Relationships: [
                     
                   ]
-                },"units": {
+                },"topic_note_likes": {
                   Row: {
-                    "exam_weight": string | null,"grade": number,"id": string,"position": number,"subject": string,"title": string
+                    "note_id": string,"user_id": string
                   }
                   ComputedFields: never
                   Insert: {
-                    "exam_weight"?: string | null,"grade": number,"id"?: string,"position": number,"subject": string,"title": string
+                    "note_id": string,"user_id"?: string
                   }
                   Update: {
-                    "exam_weight"?: string | null,"grade"?: number,"id"?: string,"position"?: number,"subject"?: string,"title"?: string
+                    "note_id"?: string,"user_id"?: string
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "topic_note_likes_note_id_fkey"
+      columns: ["note_id"]
+isOneToOne: false
+      referencedRelation: "topic_note_feed"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "topic_note_likes_note_id_fkey"
+      columns: ["note_id"]
+isOneToOne: false
+      referencedRelation: "topic_notes"
+      referencedColumns: ["id"]
+    }
+                  ]
+                },"topic_notes": {
+                  Row: {
+                    "author_id": string,"author_name": string,"body": string,"created_at": string,"id": string,"tag": string,"unit_id": string
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "author_id"?: string,"author_name"?: string,"body": string,"created_at"?: string,"id"?: string,"tag": string,"unit_id": string
+                  }
+                  Update: {
+                    "author_id"?: string,"author_name"?: string,"body"?: string,"created_at"?: string,"id"?: string,"tag"?: string,"unit_id"?: string
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "topic_notes_unit_id_fkey"
+      columns: ["unit_id"]
+isOneToOne: false
+      referencedRelation: "units"
+      referencedColumns: ["id"]
+    }
+                  ]
+                },"tutor_requests": {
+                  Row: {
+                    "created_at": string,"id": number,"user_id": string
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "created_at"?: string,"id"?: never,"user_id": string
+                  }
+                  Update: {
+                    "created_at"?: string,"id"?: never,"user_id"?: string
+                  }
+                  Relationships: [
+                    
+                  ]
+                },"units": {
+                  Row: {
+                    "exam_weight": string | null,"formulas": NonNullable<Json>,"grade": number,"id": string,"overview": string,"pitfall": string | null,"position": number,"read_minutes": number | null,"subject": string,"title": string,"worked_example": Json | null
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "exam_weight"?: string | null,"formulas"?: NonNullable<Json>,"grade": number,"id"?: string,"overview"?: string,"pitfall"?: string | null,"position": number,"read_minutes"?: number | null,"subject": string,"title": string,"worked_example"?: Json | null
+                  }
+                  Update: {
+                    "exam_weight"?: string | null,"formulas"?: NonNullable<Json>,"grade"?: number,"id"?: string,"overview"?: string,"pitfall"?: string | null,"position"?: number,"read_minutes"?: number | null,"subject"?: string,"title"?: string,"worked_example"?: Json | null
                   }
                   Relationships: [
                     {
@@ -283,6 +397,26 @@ isOneToOne: false
       columns: ["subject"]
 isOneToOne: false
       referencedRelation: "subjects"
+      referencedColumns: ["id"]
+    }
+                  ]
+                },"topic_note_feed": {
+                  Row: {
+                    "author_id": string,"author_name": string,"body": string,"created_at": string,"id": string,"likes": number | null,"tag": string,"unit_id": string
+                  }
+                  ComputedFields: never
+                  Insert: {
+                           "author_id"?: string | null,"author_name"?: string | null,"body"?: string | null,"created_at"?: string | null,"id"?: string | null,"likes"?: never,"tag"?: string | null,"unit_id"?: string | null
+                         }
+                        Update: {
+                           "author_id"?: string | null,"author_name"?: string | null,"body"?: string | null,"created_at"?: string | null,"id"?: string | null,"likes"?: never,"tag"?: string | null,"unit_id"?: string | null
+                         }
+                        Relationships: [
+                    {
+      foreignKeyName: "topic_notes_unit_id_fkey"
+      columns: ["unit_id"]
+isOneToOne: false
+      referencedRelation: "units"
       referencedColumns: ["id"]
     }
                   ]

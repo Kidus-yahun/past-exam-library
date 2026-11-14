@@ -69,6 +69,7 @@ describe("strength", () => {
       answered: 0,
       correct: 0,
       today_answered: 0,
+      today_focus_minutes: 0,
       today: "2026-11-14",
       days: [],
       subjects: [

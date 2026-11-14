@@ -16,6 +16,7 @@ const SignInPage = lazy(() => import("~/features/account/SignInPage"));
 const WelcomePage = lazy(() => import("~/features/account/WelcomePage"));
 const PracticeHubPage = lazy(() => import("~/features/practice/PracticeHubPage"));
 const SessionPage = lazy(() => import("~/features/practice/SessionPage"));
+const StudyPage = lazy(() => import("~/features/study/StudyPage"));
 const ProgressPage = lazy(() => import("~/features/progress/ProgressPage"));
 const NotFoundPage = lazy(() => import("./NotFoundPage"));
 
@@ -32,6 +33,7 @@ export function App() {
         <Route path="/" component={AppShell}>
           <Route path="/" component={HomePage} />
           <Route path="/library" component={LibraryPage} />
+          <Route path="/study" component={StudyPage} />
           <Route path="/practice" component={PracticeHubPage} />
           <Route path="/progress" component={ProgressPage} />
           <Route path="*404" component={NotFoundPage} />

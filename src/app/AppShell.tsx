@@ -2,13 +2,14 @@ import { A } from "@solidjs/router";
 import { For, type ParentProps, Suspense } from "solid-js";
 import { css } from "styled-system/css";
 import { AccountChip } from "~/features/account/AccountChip";
-import { HomeIcon, LibraryIcon, PracticeIcon, ProgressIcon } from "~/ui/icons";
+import { HomeIcon, LibraryIcon, PracticeIcon, ProgressIcon, StudyIcon } from "~/ui/icons";
 import { NavLink } from "~/ui/NavLink";
 import { ThemeSwitch } from "~/ui/ThemeSwitch";
 
 const NAV = [
   { href: "/", label: "Home", Icon: HomeIcon, end: true },
   { href: "/library", label: "Library", Icon: LibraryIcon, end: false },
+  { href: "/study", label: "Study", Icon: StudyIcon, end: false },
   { href: "/practice", label: "Practice", Icon: PracticeIcon, end: false },
   { href: "/progress", label: "Progress", Icon: ProgressIcon, end: false },
 ] as const;
@@ -65,7 +66,7 @@ const styles = {
     bottom: 0,
     zIndex: "nav",
     display: "grid",
-    gridTemplateColumns: "repeat(4, minmax(0, 1fr))",
+    gridTemplateColumns: "repeat(5, minmax(0, 1fr))",
     px: "8px",
     pb: "env(safe-area-inset-bottom)",
     bg: "surface",

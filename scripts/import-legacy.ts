@@ -12,6 +12,7 @@ import { join } from "node:path";
 import { createClient } from "@supabase/supabase-js";
 import { z } from "zod";
 import type { Database } from "../src/lib/database.types";
+import { readLegacyContent } from "./legacy-content";
 
 const ROOT = join(import.meta.dir, "..");
 
@@ -181,4 +182,19 @@ console.log(
 );
 console.log(
   `Questions imported: ${questionRows.length} (${flagged} flagged for review, ${invalid} invalid)`,
+);
+
+// --- Unit notes and formula sheets -------------------------------------------
+const content = readLegacyContent(join(ROOT, "legacy/script.js"));
+
+await inBatches(content.units, 200, async (batch) => {
+  const { error } = await db.from("units").upsert(batch, { onConflict: "grade,subject,position" });
+  if (error) throw new Error(`Units: ${error.message}`);
+});
+await inBatches(content.formulas, 200, async (batch) => {
+  const { error } = await db.from("formulas").upsert(batch, { onConflict: "subject,title" });
+  if (error) throw new Error(`Formulas: ${error.message}`);
+});
+console.log(
+  `Unit notes imported: ${content.units.length}; formula sheet entries: ${content.formulas.length}`,
 );

@@ -117,7 +117,10 @@ function Dashboard() {
   );
   const resume = () => unfinished.data?.[0];
   const goal = () => profile.data?.daily_goal_minutes ?? 25;
-  const minutesToday = () => minutesFromAnswers(progress.data?.today_answered ?? 0);
+  // Practice time (at exam pace) plus finished 25-minute focus sprints.
+  const minutesToday = () =>
+    minutesFromAnswers(progress.data?.today_answered ?? 0) +
+    (progress.data?.today_focus_minutes ?? 0);
   const review = createMemo(() => (progress.data ? weakestSubjects(progress.data) : []));
   const grade = () => profile.data?.grade ?? 12;
 

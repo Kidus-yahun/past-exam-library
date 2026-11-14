@@ -14,6 +14,7 @@
         "@tanstack/solid-query": "^5.107.1",
         "pdfjs-dist": "^6.5.438",
         "solid-js": "^1.9.19",
+        "temml": "^0.14.0",
         "zod": "^4.6.7",
       },
       "devDependencies": {
@@ -682,6 +683,8 @@
     "strip-ansi": ["strip-ansi@7.2.0", "", { "dependencies": { "ansi-regex": "^6.2.2" } }, "sha512-yDPMNjp4WyfYBkHnjIRLfca1i6KMyGCtsVgoKe/z1+6vukgaENdgGBZt+ZmKPc4gavvEZ5OgHfHdrazhgNyG7w=="],
 
     "supabase": ["supabase@3.1.0", "", { "dependencies": { "eciesjs": "^0.5.0", "jose": "^6.2.10" }, "optionalDependencies": { "@supabase/cli-darwin-arm64": "3.1.0", "@supabase/cli-darwin-x64": "3.1.0", "@supabase/cli-linux-arm64": "3.1.0", "@supabase/cli-linux-arm64-musl": "3.1.0", "@supabase/cli-linux-x64": "3.1.0", "@supabase/cli-linux-x64-musl": "3.1.0", "@supabase/cli-windows-arm64": "3.1.0", "@supabase/cli-windows-x64": "3.1.0" }, "bin": { "supabase": "dist/supabase.js" } }, "sha512-kv/vLnwcxxhkd+CvRjJhp5gP6juwzUUT0a6+JungfQyw9AcM2YSQTDDZwEVHdV85tFc7K975WGkzemw5He26/g=="],
+
+    "temml": ["temml@0.14.0", "", {}, "sha512-tz1LW/5IZpThK8c7ZpdTSH/n56eAj+ThirLieErtKxYC3EKCIiB4sKdRUehAgH+fQmvIKqMfP3gqTLBdLpy9zw=="],
 
     "tinybench": ["tinybench@6.2.3", "", {}, "sha512-Al01C2JIBnO2CXCAPbpAl6sUiOZHeThGtHYNTa51JRw9PyWOCdr+9Ong05R4qg/Sk3+H645E8ov1h2c58ityNw=="],
 

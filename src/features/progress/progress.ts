@@ -5,6 +5,7 @@ export const Progress = z.object({
   answered: z.number().int(),
   correct: z.number().int(),
   today_answered: z.number().int(),
+  today_focus_minutes: z.number().int().default(0),
   /** Today in Ethiopian time, YYYY-MM-DD. */
   today: z.string(),
   /** Days with at least one answer, newest first, YYYY-MM-DD. */

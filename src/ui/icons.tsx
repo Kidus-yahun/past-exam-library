@@ -37,6 +37,12 @@ export const PracticeIcon = icon(() => (
     <path d="m13.5 6.5 4 4" />
   </>
 ));
+export const StudyIcon = icon(() => (
+  <>
+    <path d="M2 5.5C4.5 4 8 4 12 6c4-2 7.5-2 10-.5V19c-2.5-1.5-6-1.5-10 .5-4-2-7.5-2-10-.5z" />
+    <path d="M12 6v13.5" />
+  </>
+));
 export const ProgressIcon = icon(() => <path d="M5 20V11M12 20V4M19 20v-6" />);
 export const FileIcon = icon(
   () => (
