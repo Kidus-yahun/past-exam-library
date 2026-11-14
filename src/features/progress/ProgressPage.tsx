@@ -261,7 +261,9 @@ function SignedIn() {
   const streak = createMemo(() =>
     progress.data ? streakFrom(progress.data.days, progress.data.today) : null,
   );
-  const week = createMemo(() => (progress.data ? weekStrip(progress.data.days) : []));
+  const week = createMemo(() =>
+    progress.data ? weekStrip(progress.data.days, progress.data.today) : [],
+  );
 
   const totalAnswered = createMemo(() =>
     progress.data ? progress.data.subjects.reduce((sum, s) => sum + s.answered, 0) : 0,
@@ -293,17 +295,17 @@ function SignedIn() {
                       {(s) => (
                         <span class={css({ display: "inline-flex", alignItems: "center", gap: "6px", fontSize: "14px", fontWeight: "600", color: "streak.ink" })}>
                           <FlameIcon size={18} />
-                          {s().count} {s().count === 1 ? "day" : "days"}
+                          {s().current} {s().current === 1 ? "day" : "days"}
                         </span>
                       )}
                     </Show>
                   </div>
-                  <WeekStrip days={week()} goalMinutes={p().goalMinutes} />
+                  <WeekStrip days={week()} />
                 </section>
 
                 <div class={styles.stats}>
                   <div class={styles.stat}>
-                    <span class={styles.statValue}>{p().today.questionsAnswered}</span>
+                    <span class={styles.statValue}>{p().today_answered}</span>
                     <span class={styles.statLabel}>today</span>
                   </div>
                   <div class={styles.stat}>

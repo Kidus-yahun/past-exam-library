@@ -1,4 +1,4 @@
-import { createEffect, createSignal, onCleanup } from "solid-js";
+import { createSignal, onCleanup } from "solid-js";
 import { css } from "styled-system/css";
 import { panel } from "~/ui/Page";
 import { TimerIcon } from "~/ui/icons";
@@ -124,13 +124,13 @@ const styles = {
 
 export function CountdownWidget() {
   const [selectedId, setSelectedId] = createSignal<string>("grade12_national");
-  const [now, setNow] = createSignal<number>(Date.now());
+  const [, setTick] = createSignal<number>(0);
 
-  const timer = setInterval(() => setNow(Date.now()), 1000);
+  const timer = setInterval(() => setTick((t) => t + 1), 1000);
   onCleanup(() => clearInterval(timer));
 
-  const currentTarget = () =>
-    TARGETS.find((t) => t.id === selectedId()) || TARGETS[0];
+  const currentTarget = (): CountdownTarget =>
+    TARGETS.find((t) => t.id === selectedId()) ?? TARGETS[0]!;
 
   const remaining = () => calculateRemaining(currentTarget().date);
 
