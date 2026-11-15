@@ -3112,6 +3112,90 @@ header {
     background: rgba(255, 255, 255, 0.1);
 }
 
+.tg-text-mobile {
+    display: none;
+}
+
+.tg-btn-label-mobile {
+    display: none;
+}
+
+.tg-text-desktop {
+    display: inline;
+}
+
+.tg-btn-label-desktop {
+    display: inline;
+}
+
+@media (max-width: 640px) {
+    .telegram-banner {
+        padding: 5px 8px 5px 10px !important;
+        font-size: 11px !important;
+        gap: 6px !important;
+        min-height: auto !important;
+    }
+
+    .telegram-banner-inner {
+        gap: 6px !important;
+        flex-wrap: nowrap !important;
+        justify-content: flex-start !important;
+        text-align: left !important;
+        padding-right: 4px !important;
+        overflow: hidden !important;
+    }
+
+    .tg-badge {
+        font-size: 8.5px !important;
+        padding: 2px 6px !important;
+        letter-spacing: 0.3px !important;
+        flex-shrink: 0 !important;
+    }
+
+    .tg-text-desktop {
+        display: none !important;
+    }
+
+    .tg-text-mobile {
+        display: inline !important;
+        font-size: 11px !important;
+        line-height: 1.25 !important;
+        color: var(--text-main) !important;
+        white-space: nowrap !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+        flex: 1 1 auto !important;
+        min-width: 0 !important;
+    }
+
+    .tg-banner-btn {
+        padding: 3px 8px !important;
+        font-size: 10.5px !important;
+        gap: 4px !important;
+        flex-shrink: 0 !important;
+        border-radius: 9999px !important;
+    }
+
+    .tg-banner-btn svg {
+        width: 10px !important;
+        height: 10px !important;
+    }
+
+    .tg-btn-label-desktop {
+        display: none !important;
+    }
+
+    .tg-btn-label-mobile {
+        display: inline !important;
+    }
+
+    .tg-banner-close {
+        padding: 2px 6px !important;
+        font-size: 13px !important;
+        flex-shrink: 0 !important;
+    }
+}
+
 /* Telegram Nav Button */
 .nav-btn.nav-btn-telegram {
     background: rgba(14, 165, 233, 0.12);
