@@ -5890,14 +5890,21 @@ function showLibraryHome(pushHistory = true) {
             <!-- 3D Open Book Slider (Inspired by Wawa Sensei's 3D Book Slider) -->
             <div class="hero-book-col" id="hero-book-col" aria-label="3D Interactive Study Book">
                 <div class="book-slider-wrapper">
+                    <!-- Ground shadow cast on desk -->
+                    <div class="book-ground-shadow"></div>
+
                     <div class="book-3d-scene" id="book-3d-scene">
-                        <div class="book-container-3d" id="book-container-3d">
+                        <div class="book-container-3d" id="book-container-3d" title="Drag across pages to slide">
                             <!-- Hardcover Base Layer -->
                             <div class="book-hardcover-base">
-                                <div class="hardcover-left"></div>
-                                <div class="hardcover-spine"></div>
-                                <div class="hardcover-right"></div>
+                                <div class="hardcover-spine-edge"></div>
                             </div>
+
+                            <!-- 3D Stacked Page Edges (Thickness of 200 pages) -->
+                            <div class="page-stack-edge left-stack-edge"></div>
+                            <div class="page-stack-edge right-stack-edge"></div>
+                            <div class="page-stack-edge bottom-stack-edge-left"></div>
+                            <div class="page-stack-edge bottom-stack-edge-right"></div>
 
                             <!-- Under Left Page (Static Left Backing) -->
                             <div class="book-sheet sheet-left-base">
@@ -5921,7 +5928,7 @@ function showLibraryHome(pushHistory = true) {
                             <!-- Sheet 1 (Flippable: Front = Formulas 1, Back = Formulas 2) -->
                             <div class="flippable-sheet" id="sheet-1" style="z-index: 4;">
                                 <!-- Front Face (Right side when closed, turns left) -->
-                                <div class="sheet-face sheet-face-front" onclick="flipBookNext()">
+                                <div class="sheet-face sheet-face-front">
                                     <div class="sheet-inner-card">
                                         <div class="sheet-kicker">📐 CORE MATHEMATICS</div>
                                         <div class="book-formula-row">
@@ -5936,12 +5943,12 @@ function showLibraryHome(pushHistory = true) {
                                             <span class="bf-title">Pythagorean Theorem</span>
                                             <code class="bf-code">a² + b² = c²</code>
                                         </div>
-                                        <div class="sheet-flip-hint">Click page to flip ➔</div>
+                                        <div class="sheet-flip-hint">Drag or click to slide ➔</div>
                                         <div class="sheet-bottom-num right-num">p. 2</div>
                                     </div>
                                 </div>
                                 <!-- Back Face (Left side once turned) -->
-                                <div class="sheet-face sheet-face-back" onclick="flipBookPrev()">
+                                <div class="sheet-face sheet-face-back">
                                     <div class="sheet-inner-card">
                                         <div class="sheet-kicker">⚡ PHYSICS CONSTANTS</div>
                                         <div class="book-formula-row">
@@ -5963,7 +5970,7 @@ function showLibraryHome(pushHistory = true) {
 
                             <!-- Sheet 2 (Flippable: Front = Strategy & Tips, Back = Chemistry) -->
                             <div class="flippable-sheet" id="sheet-2" style="z-index: 3;">
-                                <div class="sheet-face sheet-face-front" onclick="flipBookNext()">
+                                <div class="sheet-face sheet-face-front">
                                     <div class="sheet-inner-card">
                                         <div class="sheet-kicker">🎯 EXAM SUCCESS TIPS</div>
                                         <ul class="book-bullet-list">
@@ -5972,11 +5979,11 @@ function showLibraryHome(pushHistory = true) {
                                             <li><strong>Pacing Rule:</strong> Keep ~1 min per 1-point question.</li>
                                         </ul>
                                         <div class="sheet-tip-badge">💡 Practice 2 past papers every week!</div>
-                                        <div class="sheet-flip-hint">Click page to flip ➔</div>
+                                        <div class="sheet-flip-hint">Drag or click to slide ➔</div>
                                         <div class="sheet-bottom-num right-num">p. 4</div>
                                     </div>
                                 </div>
-                                <div class="sheet-face sheet-face-back" onclick="flipBookPrev()">
+                                <div class="sheet-face sheet-face-back">
                                     <div class="sheet-inner-card">
                                         <div class="sheet-kicker">🧪 CHEMISTRY & BIOLOGY</div>
                                         <div class="book-formula-row">
@@ -5998,7 +6005,7 @@ function showLibraryHome(pushHistory = true) {
 
                             <!-- Sheet 3 (Flippable: Front = Telegram Duel, Back = Study Desk) -->
                             <div class="flippable-sheet" id="sheet-3" style="z-index: 2;">
-                                <div class="sheet-face sheet-face-front" onclick="flipBookNext()">
+                                <div class="sheet-face sheet-face-front">
                                     <div class="sheet-inner-card">
                                         <div class="sheet-kicker">⚔️ 1V1 STUDY DUELS</div>
                                         <p class="sheet-p">Challenge your classmates on Telegram to beat your assessment score on authentic past papers!</p>
@@ -6007,11 +6014,11 @@ function showLibraryHome(pushHistory = true) {
                                                 ⚔️ Launch 1v1 Duel →
                                             </button>
                                         </div>
-                                        <div class="sheet-flip-hint">Click page to flip ➔</div>
+                                        <div class="sheet-flip-hint">Drag or click to slide ➔</div>
                                         <div class="sheet-bottom-num right-num">p. 6</div>
                                     </div>
                                 </div>
-                                <div class="sheet-face sheet-face-back" onclick="flipBookPrev()">
+                                <div class="sheet-face sheet-face-back">
                                     <div class="sheet-inner-card">
                                         <div class="sheet-kicker">🔥 DAILY HABITS</div>
                                         <p class="sheet-p">Consistency always beats last-minute cramming. Practicing even 5 questions a day locks in long-term memory.</p>
@@ -6042,20 +6049,19 @@ function showLibraryHome(pushHistory = true) {
                         </div>
                     </div>
 
-                    <!-- Book Slider Controls: Prev / Next / Dots Indicator -->
+                    <!-- Book Slider Controls: Dots Indicator & Drag Hint (No Prev/Next buttons) -->
                     <div class="book-slider-controls">
-                        <button type="button" class="book-slider-btn" onclick="flipBookPrev()" title="Previous Page Spread">
-                            ◀ Prev
-                        </button>
-                        <div class="book-slider-dots" id="book-slider-dots">
-                            <span class="bs-dot active" onclick="gotoBookPage(0)"></span>
-                            <span class="bs-dot" onclick="gotoBookPage(1)"></span>
-                            <span class="bs-dot" onclick="gotoBookPage(2)"></span>
-                            <span class="bs-dot" onclick="gotoBookPage(3)"></span>
+                        <div class="book-drag-hint">
+                            <span class="drag-arrow">‹</span>
+                            <span>Drag / swipe to slide pages</span>
+                            <span class="drag-arrow">›</span>
                         </div>
-                        <button type="button" class="book-slider-btn" onclick="flipBookNext()" title="Next Page Spread">
-                            Next ▶
-                        </button>
+                        <div class="book-slider-dots" id="book-slider-dots">
+                            <span class="bs-dot active" onclick="gotoBookPage(0)" title="Page 1-2"></span>
+                            <span class="bs-dot" onclick="gotoBookPage(1)" title="Page 3-4"></span>
+                            <span class="bs-dot" onclick="gotoBookPage(2)" title="Page 5-6"></span>
+                            <span class="bs-dot" onclick="gotoBookPage(3)" title="Page 7-8"></span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -12456,15 +12462,15 @@ function initHeroOpenBook() {
     const bookContainer = document.getElementById('book-container-3d');
     if (!bookCol || !bookContainer) return;
 
-    let targetRotX = 12;
-    let targetRotY = -4;
-    let currentRotX = 12;
-    let currentRotY = -4;
-    let isTracking = false;
+    let targetRotX = 22;
+    let targetRotY = -7;
+    let currentRotX = 22;
+    let currentRotY = -7;
+    let isTracking = true;
 
-    // Follow mouse cursor smoothly in 3D
+    // Follow mouse cursor smoothly in 3D across viewport
     window.addEventListener('mousemove', (e) => {
-        isTracking = true;
+        if (isDragging) return;
         const rect = bookContainer.getBoundingClientRect();
         const cx = rect.left + rect.width / 2;
         const cy = rect.top + rect.height / 2;
@@ -12472,31 +12478,173 @@ function initHeroOpenBook() {
         const dx = e.clientX - cx;
         const dy = e.clientY - cy;
 
-        // Bounded 3D tilt facing cursor
-        targetRotY = Math.max(-20, Math.min(20, (dx / window.innerWidth) * 40));
-        targetRotX = Math.max(-14, Math.min(14, -(dy / window.innerHeight) * 32));
+        // Realistic 3D desk tilt facing cursor
+        targetRotY = -7 + Math.max(-18, Math.min(18, (dx / window.innerWidth) * 36));
+        targetRotX = 22 + Math.max(-12, Math.min(12, -(dy / window.innerHeight) * 26));
     }, { passive: true });
 
     function renderBookTiltLoop() {
-        if (isTracking && document.getElementById('book-container-3d')) {
-            currentRotX += (targetRotX - currentRotX) * 0.08;
-            currentRotY += (targetRotY - currentRotY) * 0.08;
-            bookContainer.style.transform = `rotateX(${currentRotX.toFixed(2)}deg) rotateY(${currentRotY.toFixed(2)}deg)`;
+        const container = document.getElementById('book-container-3d');
+        if (container) {
+            if (!isDragging) {
+                currentRotX += (targetRotX - currentRotX) * 0.08;
+                currentRotY += (targetRotY - currentRotY) * 0.08;
+                container.style.transform = `rotateX(${currentRotX.toFixed(2)}deg) rotateY(${currentRotY.toFixed(2)}deg) rotateZ(1deg)`;
+            }
+            requestAnimationFrame(renderBookTiltLoop);
         }
-        requestAnimationFrame(renderBookTiltLoop);
     }
     requestAnimationFrame(renderBookTiltLoop);
 
-    // Touch swipe support for mobile
-    let touchStartX = 0;
-    bookCol.addEventListener('touchstart', (e) => {
-        touchStartX = e.touches[0].clientX;
+    // ========================================================
+    // CURSOR / TOUCH DRAG-TO-SLIDE SYSTEM (NO BUTTONS NEEDED)
+    // ========================================================
+    let isDragging = false;
+    let startX = 0;
+    let startY = 0;
+    let currentDragX = 0;
+    let activeSheet = null;
+    let dragMode = null; // 'next' or 'prev'
+    let dragProgress = 0;
+
+    function handleDragStart(clientX, clientY, targetEl) {
+        if (targetEl && (targetEl.closest('button') || targetEl.closest('a') || targetEl.closest('.bs-dot'))) {
+            return;
+        }
+
+        isDragging = true;
+        startX = clientX;
+        startY = clientY;
+        currentDragX = clientX;
+        dragProgress = 0;
+        dragMode = null;
+        activeSheet = null;
+
+        bookContainer.classList.add('is-dragging');
+    }
+
+    function handleDragMove(clientX, clientY) {
+        if (!isDragging) return;
+        currentDragX = clientX;
+        const deltaX = clientX - startX;
+        const rect = bookContainer.getBoundingClientRect();
+        const sheetWidth = rect.width * 0.5 || 220;
+
+        // Determine drag mode once small threshold is crossed
+        if (!dragMode && Math.abs(deltaX) > 6) {
+            if (deltaX < 0) {
+                // Dragging Left -> Turn NEXT sheet
+                if (currentBookPageIndex < TOTAL_BOOK_SHEETS) {
+                    dragMode = 'next';
+                    activeSheet = document.getElementById(`sheet-${currentBookPageIndex + 1}`);
+                }
+            } else {
+                // Dragging Right -> Turn PREV sheet
+                if (currentBookPageIndex > 0) {
+                    dragMode = 'prev';
+                    activeSheet = document.getElementById(`sheet-${currentBookPageIndex}`);
+                }
+            }
+        }
+
+        if (dragMode === 'next' && activeSheet) {
+            dragProgress = Math.max(0, Math.min(1, -deltaX / sheetWidth));
+            const angle = -dragProgress * 180;
+            const lift = Math.sin(dragProgress * Math.PI) * 24;
+            const curl = -Math.sin(dragProgress * Math.PI) * 4;
+            activeSheet.style.transition = 'none';
+            activeSheet.style.transform = `rotateY(${angle.toFixed(1)}deg) translateZ(${lift.toFixed(1)}px) rotateZ(${curl.toFixed(1)}deg)`;
+            activeSheet.style.zIndex = '35';
+        } else if (dragMode === 'prev' && activeSheet) {
+            dragProgress = Math.max(0, Math.min(1, deltaX / sheetWidth));
+            const angle = -180 + (dragProgress * 180);
+            const lift = Math.sin(dragProgress * Math.PI) * 24;
+            const curl = Math.sin(dragProgress * Math.PI) * 4;
+            activeSheet.style.transition = 'none';
+            activeSheet.style.transform = `rotateY(${angle.toFixed(1)}deg) translateZ(${lift.toFixed(1)}px) rotateZ(${curl.toFixed(1)}deg)`;
+            activeSheet.style.zIndex = '35';
+        }
+    }
+
+    function handleDragEnd() {
+        if (!isDragging) return;
+        isDragging = false;
+        bookContainer.classList.remove('is-dragging');
+
+        const deltaX = currentDragX - startX;
+
+        if (activeSheet) {
+            activeSheet.style.transition = 'transform 0.45s cubic-bezier(0.2, 0.8, 0.3, 1)';
+            const willFlip = dragProgress >= 0.22 || Math.abs(deltaX) > 55;
+
+            if (dragMode === 'next') {
+                if (willFlip) {
+                    currentBookPageIndex++;
+                    activeSheet.style.transform = 'rotateY(-180deg) translateZ(0px) rotateZ(0deg)';
+                } else {
+                    activeSheet.style.transform = 'rotateY(0deg) translateZ(0px) rotateZ(0deg)';
+                }
+            } else if (dragMode === 'prev') {
+                if (willFlip) {
+                    currentBookPageIndex--;
+                    activeSheet.style.transform = 'rotateY(0deg) translateZ(0px) rotateZ(0deg)';
+                } else {
+                    activeSheet.style.transform = 'rotateY(-180deg) translateZ(0px) rotateZ(0deg)';
+                }
+            }
+
+            const sheetToReset = activeSheet;
+            setTimeout(() => {
+                if (sheetToReset) {
+                    sheetToReset.style.transition = '';
+                    sheetToReset.style.transform = '';
+                    sheetToReset.style.zIndex = '';
+                }
+                updateBookSheetsVisuals();
+            }, 450);
+
+            updateBookSheetsVisuals();
+        } else if (Math.abs(deltaX) < 12) {
+            // Simple click: right half = next, left half = prev
+            const rect = bookContainer.getBoundingClientRect();
+            const clickOffset = startX - rect.left;
+            if (clickOffset > rect.width * 0.5) {
+                flipBookNext();
+            } else {
+                flipBookPrev();
+            }
+        }
+    }
+
+    // Mouse drag listeners
+    bookContainer.addEventListener('mousedown', (e) => {
+        handleDragStart(e.clientX, e.clientY, e.target);
+    });
+    window.addEventListener('mousemove', (e) => {
+        if (isDragging) {
+            handleDragMove(e.clientX, e.clientY);
+        }
+    });
+    window.addEventListener('mouseup', () => {
+        if (isDragging) {
+            handleDragEnd();
+        }
+    });
+
+    // Touch listeners for mobile & tablet
+    bookContainer.addEventListener('touchstart', (e) => {
+        if (e.touches && e.touches[0]) {
+            handleDragStart(e.touches[0].clientX, e.touches[0].clientY, e.target);
+        }
     }, { passive: true });
-    bookCol.addEventListener('touchend', (e) => {
-        const diff = e.changedTouches[0].clientX - touchStartX;
-        if (Math.abs(diff) > 35) {
-            if (diff < 0) flipBookNext();
-            else flipBookPrev();
+    window.addEventListener('touchmove', (e) => {
+        if (isDragging && e.touches && e.touches[0]) {
+            handleDragMove(e.touches[0].clientX, e.touches[0].clientY);
+        }
+    }, { passive: true });
+    window.addEventListener('touchend', () => {
+        if (isDragging) {
+            handleDragEnd();
         }
     }, { passive: true });
 }

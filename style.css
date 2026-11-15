@@ -248,10 +248,11 @@ html[data-theme="light"] .glow-orb {
 }
 
 .hero-book-col {
-    flex: 0 0 460px;
-    max-width: 480px;
+    flex: 0 0 470px;
+    max-width: 490px;
     position: relative;
     user-select: none;
+    -webkit-user-select: none;
 }
 
 .book-slider-wrapper {
@@ -262,32 +263,131 @@ html[data-theme="light"] .glow-orb {
 }
 
 .book-3d-scene {
-    perspective: 1400px;
+    perspective: 1500px;
+    perspective-origin: 50% 45%;
     width: 100%;
-    padding: 15px 0 10px 0;
+    padding: 20px 10px 24px 10px;
+    position: relative;
 }
 
+/* Ground shadow below the book */
+.book-ground-shadow {
+    position: absolute;
+    width: 92%;
+    height: 52px;
+    bottom: -8px;
+    left: 4%;
+    background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.35) 50%, transparent 75%);
+    filter: blur(14px);
+    transform: rotateX(80deg) translateZ(-35px);
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* Main 3D Book Container */
 .book-container-3d {
     width: 100%;
-    height: 270px;
+    height: 280px;
     position: relative;
     transform-style: preserve-3d;
-    transform: rotateX(12deg) rotateY(-4deg);
-    transition: transform 0.12s ease-out;
+    transform: rotateX(22deg) rotateY(-8deg) rotateZ(1deg);
+    transition: transform 0.1s cubic-bezier(0.2, 0, 0.2, 1);
+    cursor: grab;
+    touch-action: pan-y;
+}
+
+.book-container-3d.is-dragging {
+    cursor: grabbing !important;
+    transition: none !important;
 }
 
 /* Hardcover Underlayer */
 .book-hardcover-base {
     position: absolute;
-    inset: -8px -10px -10px -10px;
-    background: linear-gradient(135deg, #1e1b4b 0%, #2e2a72 50%, #17153b 100%);
-    border-radius: 8px 8px 12px 12px;
+    inset: -10px -12px -12px -12px;
+    background: linear-gradient(135deg, #1b1842 0%, #2b2766 50%, #161436 100%);
+    border-radius: 9px 9px 12px 12px;
     box-shadow: 
-        0 24px 48px rgba(0, 0, 0, 0.7),
-        0 10px 20px rgba(0, 0, 0, 0.45),
-        0 0 35px rgba(99, 102, 241, 0.28);
-    border: 1.5px solid rgba(165, 180, 252, 0.25);
+        0 30px 60px rgba(0, 0, 0, 0.85),
+        0 12px 24px rgba(0, 0, 0, 0.55),
+        0 0 35px rgba(99, 102, 241, 0.3);
+    border: 1.5px solid rgba(165, 180, 252, 0.35);
     z-index: 0;
+    transform: translateZ(-16px);
+}
+
+.hardcover-spine-edge {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: calc(50% - 10px);
+    width: 20px;
+    background: linear-gradient(to right, #151336, #2d2870, #151336);
+    border-radius: 4px;
+    box-shadow: inset 0 0 8px rgba(0,0,0,0.8);
+}
+
+/* 3D Stacked Page Edges (Thickness of 200 pages) */
+.page-stack-edge {
+    pointer-events: none;
+    position: absolute;
+    background: repeating-linear-gradient(
+        to bottom,
+        #cbd5e1 0px,
+        #f8fafc 1.5px,
+        #94a3b8 2.5px,
+        #e2e8f0 3.5px
+    );
+}
+
+.left-stack-edge {
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 14px;
+    transform-origin: left center;
+    transform: rotateY(-90deg) translateZ(0px);
+    box-shadow: inset -3px 0 6px rgba(0, 0, 0, 0.45);
+    border-top-left-radius: 2px;
+    border-bottom-left-radius: 2px;
+    z-index: 1;
+}
+
+.right-stack-edge {
+    top: 0;
+    bottom: 0;
+    right: 0;
+    width: 14px;
+    transform-origin: right center;
+    transform: rotateY(90deg) translateZ(0px);
+    box-shadow: inset 3px 0 6px rgba(0, 0, 0, 0.45);
+    border-top-right-radius: 2px;
+    border-bottom-right-radius: 2px;
+    z-index: 1;
+}
+
+.bottom-stack-edge-left {
+    bottom: 0;
+    left: 0;
+    width: 50%;
+    height: 14px;
+    transform-origin: center bottom;
+    transform: rotateX(-90deg) translateZ(0px);
+    box-shadow: inset 0 -3px 6px rgba(0, 0, 0, 0.5);
+    border-bottom-left-radius: 2px;
+    z-index: 1;
+}
+
+.bottom-stack-edge-right {
+    bottom: 0;
+    right: 0;
+    width: 50%;
+    height: 14px;
+    transform-origin: center bottom;
+    transform: rotateX(-90deg) translateZ(0px);
+    box-shadow: inset 0 -3px 6px rgba(0, 0, 0, 0.5);
+    border-bottom-right-radius: 2px;
+    z-index: 1;
 }
 
 /* Base sheets (left and right static backings) */
@@ -303,11 +403,13 @@ html[data-theme="light"] .glow-orb {
 .sheet-left-base {
     left: 0;
     border-radius: 6px 0 0 6px;
+    box-shadow: -2px 3px 8px rgba(0, 0, 0, 0.2);
 }
 
 .sheet-right-base {
     right: 0;
     border-radius: 0 6px 6px 0;
+    box-shadow: 2px 3px 8px rgba(0, 0, 0, 0.2);
 }
 
 .sheet-side {
@@ -318,13 +420,13 @@ html[data-theme="light"] .glow-orb {
 }
 
 .sheet-side-left {
-    background: linear-gradient(to right, #eceef3 0%, #f9fafb 25%, #ffffff 100%);
-    box-shadow: inset -6px 0 14px rgba(0, 0, 0, 0.08);
+    background: linear-gradient(to right, #e2e8f0 0%, #f8fafc 18%, #ffffff 86%, #d8dde6 100%);
+    box-shadow: inset -8px 0 16px rgba(0, 0, 0, 0.12);
 }
 
 .sheet-side-right {
-    background: linear-gradient(to left, #eceef3 0%, #f9fafb 25%, #ffffff 100%);
-    box-shadow: inset 6px 0 14px rgba(0, 0, 0, 0.08);
+    background: linear-gradient(to left, #e2e8f0 0%, #f8fafc 18%, #ffffff 86%, #d8dde6 100%);
+    box-shadow: inset 8px 0 16px rgba(0, 0, 0, 0.12);
 }
 
 /* Flippable Sheets in 3D */
@@ -336,8 +438,8 @@ html[data-theme="light"] .glow-orb {
     height: 100%;
     transform-origin: left center;
     transform-style: preserve-3d;
-    transition: transform 0.85s cubic-bezier(0.645, 0.045, 0.355, 1);
-    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+    transition: transform 0.65s cubic-bezier(0.25, 0.8, 0.25, 1);
+    box-shadow: 0 5px 18px rgba(0, 0, 0, 0.35);
 }
 
 .flippable-sheet.flipped {
@@ -351,21 +453,25 @@ html[data-theme="light"] .glow-orb {
     -webkit-backface-visibility: hidden;
     padding: 18px 20px 22px;
     box-sizing: border-box;
-    cursor: pointer;
+    cursor: grab;
     overflow: hidden;
+}
+
+.book-container-3d.is-dragging .sheet-face {
+    cursor: grabbing !important;
 }
 
 .sheet-face-front {
     border-radius: 0 6px 6px 0;
-    background: linear-gradient(to left, #eceef3 0%, #f9fafb 25%, #ffffff 100%);
-    box-shadow: inset 6px 0 14px rgba(0, 0, 0, 0.08);
+    background: linear-gradient(to left, #e2e8f0 0%, #f8fafc 18%, #ffffff 86%, #d8dde6 100%);
+    box-shadow: inset 8px 0 16px rgba(0, 0, 0, 0.12);
     transform: rotateY(0deg);
 }
 
 .sheet-face-back {
     border-radius: 6px 0 0 6px;
-    background: linear-gradient(to right, #eceef3 0%, #f9fafb 25%, #ffffff 100%);
-    box-shadow: inset -6px 0 14px rgba(0, 0, 0, 0.08);
+    background: linear-gradient(to right, #e2e8f0 0%, #f8fafc 18%, #ffffff 86%, #d8dde6 100%);
+    box-shadow: inset -8px 0 16px rgba(0, 0, 0, 0.12);
     transform: rotateY(180deg);
 }
 
@@ -539,39 +645,41 @@ html[data-theme="light"] .glow-orb {
     clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 50% 88%, 0% 100%);
 }
 
-/* Slider Controls */
+/* Slider Controls: Drag Hint & Dots (No Prev/Next buttons) */
 .book-slider-controls {
     display: flex;
+    flex-direction: column;
     align-items: center;
-    gap: 12px;
-    margin-top: 14px;
+    gap: 9px;
+    margin-top: 10px;
     z-index: 5;
 }
 
-.book-slider-btn {
-    background: rgba(255, 255, 255, 0.06);
-    border: 1px solid var(--border-glass);
-    color: var(--text-main);
-    font-size: 11.5px;
-    font-weight: 600;
-    padding: 5px 13px;
-    border-radius: 9999px;
-    cursor: pointer;
+.book-drag-hint {
     display: inline-flex;
     align-items: center;
-    gap: 4px;
-    transition: all 0.2s ease;
+    gap: 7px;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-muted);
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border-glass);
+    padding: 3px 13px;
+    border-radius: 9999px;
+    letter-spacing: 0.2px;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
 }
 
-.book-slider-btn:hover {
-    background: rgba(99, 102, 241, 0.2);
-    border-color: rgba(99, 102, 241, 0.4);
-    color: #ffffff;
+.book-drag-hint .drag-arrow {
+    font-size: 13px;
+    color: #818cf8;
+    font-weight: 700;
 }
 
 .book-slider-dots {
     display: flex;
-    gap: 6px;
+    gap: 7px;
     align-items: center;
 }
 
@@ -579,16 +687,21 @@ html[data-theme="light"] .glow-orb {
     width: 7px;
     height: 7px;
     border-radius: 50%;
-    background: rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.22);
     cursor: pointer;
     transition: all 0.25s ease;
 }
 
+.bs-dot:hover {
+    background: rgba(255, 255, 255, 0.55);
+    transform: scale(1.15);
+}
+
 .bs-dot.active {
-    width: 18px;
+    width: 20px;
     border-radius: 4px;
     background: #6366f1;
-    box-shadow: 0 0 8px rgba(99, 102, 241, 0.6);
+    box-shadow: 0 0 10px rgba(99, 102, 241, 0.65);
 }
 
 @media (max-width: 992px) {
