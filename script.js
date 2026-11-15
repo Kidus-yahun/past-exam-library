@@ -1360,8 +1360,8 @@ async function initApp() {
         setView('library');
     }
 
-    // Initialize 3D Floating Cursor-Tracking Book Companion
-    initFloatingCompanionBook();
+    // Initialize 3D Open Book Slider
+    initHeroOpenBook();
 
     // 5. Direct Fallback: Parse URL hash if access_token is present in Google OAuth redirect URL
     if (window.location.hash && window.location.hash.includes('access_token=')) {
@@ -5874,16 +5874,191 @@ function showLibraryHome(pushHistory = true) {
     `;
 
     app.innerHTML = `
-        <section class="hero" style="margin-bottom: 18px;">
-            <p class="label">A student-run archive</p>
-            <h1>
-                A good place to<br>
-                <span>start studying.</span>
-            </h1>
-            <p class="description">
-                Browse past papers by grade, semester and subject, and get straight to studying.
-            </p>
-            ${streakBadgeHtml}
+        <section class="hero-showcase-split">
+            <div class="hero-left-col">
+                <p class="label">A student-run archive</p>
+                <h1>
+                    A good place to<br>
+                    <span>start studying.</span>
+                </h1>
+                <p class="description">
+                    Browse past papers by grade, semester and subject, and get straight to studying.
+                </p>
+                ${streakBadgeHtml}
+            </div>
+
+            <!-- 3D Open Book Slider (Inspired by Wawa Sensei's 3D Book Slider) -->
+            <div class="hero-book-col" id="hero-book-col" aria-label="3D Interactive Study Book">
+                <div class="book-slider-wrapper">
+                    <div class="book-3d-scene" id="book-3d-scene">
+                        <div class="book-container-3d" id="book-container-3d">
+                            <!-- Hardcover Base Layer -->
+                            <div class="book-hardcover-base">
+                                <div class="hardcover-left"></div>
+                                <div class="hardcover-spine"></div>
+                                <div class="hardcover-right"></div>
+                            </div>
+
+                            <!-- Under Left Page (Static Left Backing) -->
+                            <div class="book-sheet sheet-left-base">
+                                <div class="sheet-side sheet-side-left">
+                                    <div class="sheet-inner-card">
+                                        <div class="book-watermark">✦</div>
+                                        <div class="sheet-kicker">CATHOLIC ARCHIVE</div>
+                                        <h4 class="sheet-head">Past Exam Library</h4>
+                                        <p class="sheet-p">Welcome student! Flip through this 3D companion book for high-yield formulas, exam strategies, and fast shortcuts.</p>
+                                        <div class="sheet-tags">
+                                            <span>Grade 9</span>
+                                            <span>Grade 10</span>
+                                            <span>Grade 11</span>
+                                            <span>Grade 12</span>
+                                        </div>
+                                        <div class="sheet-bottom-num">p. 1</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Sheet 1 (Flippable: Front = Formulas 1, Back = Formulas 2) -->
+                            <div class="flippable-sheet" id="sheet-1" style="z-index: 4;">
+                                <!-- Front Face (Right side when closed, turns left) -->
+                                <div class="sheet-face sheet-face-front" onclick="flipBookNext()">
+                                    <div class="sheet-inner-card">
+                                        <div class="sheet-kicker">📐 CORE MATHEMATICS</div>
+                                        <div class="book-formula-row">
+                                            <span class="bf-title">Quadratic Formula</span>
+                                            <code class="bf-code">x = (-b ± √(b² - 4ac)) / 2a</code>
+                                        </div>
+                                        <div class="book-formula-row">
+                                            <span class="bf-title">Slope-Intercept</span>
+                                            <code class="bf-code">y = mx + b</code>
+                                        </div>
+                                        <div class="book-formula-row">
+                                            <span class="bf-title">Pythagorean Theorem</span>
+                                            <code class="bf-code">a² + b² = c²</code>
+                                        </div>
+                                        <div class="sheet-flip-hint">Click page to flip ➔</div>
+                                        <div class="sheet-bottom-num right-num">p. 2</div>
+                                    </div>
+                                </div>
+                                <!-- Back Face (Left side once turned) -->
+                                <div class="sheet-face sheet-face-back" onclick="flipBookPrev()">
+                                    <div class="sheet-inner-card">
+                                        <div class="sheet-kicker">⚡ PHYSICS CONSTANTS</div>
+                                        <div class="book-formula-row">
+                                            <span class="bf-title">Newton's 2nd Law</span>
+                                            <code class="bf-code">F = m · a</code>
+                                        </div>
+                                        <div class="book-formula-row">
+                                            <span class="bf-title">Ohm's Law</span>
+                                            <code class="bf-code">V = I · R &nbsp;|&nbsp; P = V · I</code>
+                                        </div>
+                                        <div class="book-formula-row">
+                                            <span class="bf-title">Kinetic Energy</span>
+                                            <code class="bf-code">KE = ½ m · v²</code>
+                                        </div>
+                                        <div class="sheet-bottom-num">p. 3</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Sheet 2 (Flippable: Front = Strategy & Tips, Back = Chemistry) -->
+                            <div class="flippable-sheet" id="sheet-2" style="z-index: 3;">
+                                <div class="sheet-face sheet-face-front" onclick="flipBookNext()">
+                                    <div class="sheet-inner-card">
+                                        <div class="sheet-kicker">🎯 EXAM SUCCESS TIPS</div>
+                                        <ul class="book-bullet-list">
+                                            <li><strong>Eliminate Distractors:</strong> Cross out 2 unlikely MCQ options first.</li>
+                                            <li><strong>Watch Absolutes:</strong> Words like <em>"never"</em> or <em>"always"</em> are usually false.</li>
+                                            <li><strong>Pacing Rule:</strong> Keep ~1 min per 1-point question.</li>
+                                        </ul>
+                                        <div class="sheet-tip-badge">💡 Practice 2 past papers every week!</div>
+                                        <div class="sheet-flip-hint">Click page to flip ➔</div>
+                                        <div class="sheet-bottom-num right-num">p. 4</div>
+                                    </div>
+                                </div>
+                                <div class="sheet-face sheet-face-back" onclick="flipBookPrev()">
+                                    <div class="sheet-inner-card">
+                                        <div class="sheet-kicker">🧪 CHEMISTRY & BIOLOGY</div>
+                                        <div class="book-formula-row">
+                                            <span class="bf-title">Avogadro's Number</span>
+                                            <code class="bf-code">N_A = 6.022 × 10²³ mol⁻¹</code>
+                                        </div>
+                                        <div class="book-formula-row">
+                                            <span class="bf-title">Photosynthesis</span>
+                                            <code class="bf-code">6CO₂ + 6H₂O → C₆H₁₂O₆ + 6O₂</code>
+                                        </div>
+                                        <div class="book-formula-row">
+                                            <span class="bf-title">Density Formula</span>
+                                            <code class="bf-code">ρ = mass / volume</code>
+                                        </div>
+                                        <div class="sheet-bottom-num">p. 5</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Sheet 3 (Flippable: Front = Telegram Duel, Back = Study Desk) -->
+                            <div class="flippable-sheet" id="sheet-3" style="z-index: 2;">
+                                <div class="sheet-face sheet-face-front" onclick="flipBookNext()">
+                                    <div class="sheet-inner-card">
+                                        <div class="sheet-kicker">⚔️ 1V1 STUDY DUELS</div>
+                                        <p class="sheet-p">Challenge your classmates on Telegram to beat your assessment score on authentic past papers!</p>
+                                        <div class="sheet-duel-cta">
+                                            <button class="sheet-cta-btn" onclick="openStartDuelModal()">
+                                                ⚔️ Launch 1v1 Duel →
+                                            </button>
+                                        </div>
+                                        <div class="sheet-flip-hint">Click page to flip ➔</div>
+                                        <div class="sheet-bottom-num right-num">p. 6</div>
+                                    </div>
+                                </div>
+                                <div class="sheet-face sheet-face-back" onclick="flipBookPrev()">
+                                    <div class="sheet-inner-card">
+                                        <div class="sheet-kicker">🔥 DAILY HABITS</div>
+                                        <p class="sheet-p">Consistency always beats last-minute cramming. Practicing even 5 questions a day locks in long-term memory.</p>
+                                        <div class="sheet-tip-badge">🏆 Join 1,600+ students on Telegram!</div>
+                                        <div class="sheet-bottom-num">p. 7</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Under Right Page (Static Right Backing - Final Back Cover) -->
+                            <div class="book-sheet sheet-right-base" style="z-index: 1;">
+                                <div class="sheet-side sheet-side-right">
+                                    <div class="sheet-inner-card">
+                                        <div class="sheet-kicker">READY TO BEGIN?</div>
+                                        <h4 class="sheet-head">Select Your Grade</h4>
+                                        <p class="sheet-p">Browse real Catholic school examinations, midterm trials, and full answer keys.</p>
+                                        <button class="sheet-cta-btn" onclick="document.getElementById('library-content-container')?.scrollIntoView({ behavior: 'smooth' })">
+                                            Browse Grade Papers ↓
+                                        </button>
+                                        <div class="sheet-bottom-num right-num">p. 8</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Spine 3D Crease & Bookmark Ribbon -->
+                            <div class="open-book-center-spine"></div>
+                            <div class="open-book-ribbon-marker"></div>
+                        </div>
+                    </div>
+
+                    <!-- Book Slider Controls: Prev / Next / Dots Indicator -->
+                    <div class="book-slider-controls">
+                        <button type="button" class="book-slider-btn" onclick="flipBookPrev()" title="Previous Page Spread">
+                            ◀ Prev
+                        </button>
+                        <div class="book-slider-dots" id="book-slider-dots">
+                            <span class="bs-dot active" onclick="gotoBookPage(0)"></span>
+                            <span class="bs-dot" onclick="gotoBookPage(1)"></span>
+                            <span class="bs-dot" onclick="gotoBookPage(2)"></span>
+                            <span class="bs-dot" onclick="gotoBookPage(3)"></span>
+                        </div>
+                        <button type="button" class="book-slider-btn" onclick="flipBookNext()" title="Next Page Spread">
+                            Next ▶
+                        </button>
+                    </div>
+                </div>
+            </div>
         </section>
 
         <!-- Mode-Based Selector Tabs: Option 2 -->
@@ -5910,6 +6085,8 @@ function showLibraryHome(pushHistory = true) {
             </div>
         </div>
     `;
+
+    initHeroOpenBook();
 }
 
 /* ========================================================
@@ -12224,80 +12401,104 @@ function copyDeskNotes() {
 }
 
 // ========================================================
-// INTERACTIVE FLOATING 3D CURSOR-TRACKING BOOK
+// INTERACTIVE 3D OPEN BOOK SLIDER (WAWA SENSEI INSPIRED)
 // ========================================================
-function initFloatingCompanionBook() {
-    const bookWidget = document.getElementById('side-floating-book');
-    const book3D = document.getElementById('interactive-book-3d');
-    const bubble = document.getElementById('book-speech-bubble');
-    if (!bookWidget || !book3D) return;
+let currentBookPageIndex = 0;
+const TOTAL_BOOK_SHEETS = 3;
 
-    let currentRotX = 0;
-    let currentRotY = 0;
-    let currentTransX = 0;
-    let currentTransY = 0;
-    let targetRotX = 0;
-    let targetRotY = 0;
-    let targetTransX = 0;
-    let targetTransY = 0;
-    let isMouseActive = false;
+function flipBookNext() {
+    if (currentBookPageIndex < TOTAL_BOOK_SHEETS) {
+        currentBookPageIndex++;
+    } else {
+        currentBookPageIndex = 0; // Loop back around
+    }
+    updateBookSheetsVisuals();
+}
 
+function flipBookPrev() {
+    if (currentBookPageIndex > 0) {
+        currentBookPageIndex--;
+    } else {
+        currentBookPageIndex = TOTAL_BOOK_SHEETS;
+    }
+    updateBookSheetsVisuals();
+}
+
+function gotoBookPage(index) {
+    currentBookPageIndex = Math.max(0, Math.min(TOTAL_BOOK_SHEETS, index));
+    updateBookSheetsVisuals();
+}
+
+function updateBookSheetsVisuals() {
+    for (let i = 1; i <= TOTAL_BOOK_SHEETS; i++) {
+        const sheet = document.getElementById(`sheet-${i}`);
+        if (!sheet) continue;
+        if (i <= currentBookPageIndex) {
+            sheet.classList.add('flipped');
+            sheet.style.zIndex = 10 + i;
+        } else {
+            sheet.classList.remove('flipped');
+            sheet.style.zIndex = TOTAL_BOOK_SHEETS - i + 2;
+        }
+    }
+
+    const dots = document.querySelectorAll('.bs-dot');
+    dots.forEach((dot, idx) => {
+        dot.classList.toggle('active', idx === currentBookPageIndex);
+    });
+}
+
+function initHeroOpenBook() {
+    currentBookPageIndex = 0;
+    updateBookSheetsVisuals();
+
+    const bookCol = document.getElementById('hero-book-col');
+    const bookContainer = document.getElementById('book-container-3d');
+    if (!bookCol || !bookContainer) return;
+
+    let targetRotX = 12;
+    let targetRotY = -4;
+    let currentRotX = 12;
+    let currentRotY = -4;
+    let isTracking = false;
+
+    // Follow mouse cursor smoothly in 3D
     window.addEventListener('mousemove', (e) => {
-        isMouseActive = true;
-        const rect = bookWidget.getBoundingClientRect();
-        const bookCenterX = rect.left + rect.width / 2;
-        const bookCenterY = rect.top + rect.height / 2;
+        isTracking = true;
+        const rect = bookContainer.getBoundingClientRect();
+        const cx = rect.left + rect.width / 2;
+        const cy = rect.top + rect.height / 2;
 
-        const dx = e.clientX - bookCenterX;
-        const dy = e.clientY - bookCenterY;
-        const dist = Math.hypot(dx, dy) || 1;
+        const dx = e.clientX - cx;
+        const dy = e.clientY - cy;
 
-        // Calculate 3D tilt angles pointing towards cursor
-        const maxAngle = 35;
-        targetRotY = Math.max(-maxAngle, Math.min(maxAngle, (dx / window.innerWidth) * 60));
-        targetRotX = Math.max(-maxAngle, Math.min(maxAngle, -(dy / window.innerHeight) * 50));
-
-        // Subtle parallax movement towards cursor
-        const pull = Math.min(dist * 0.04, 16);
-        targetTransX = (dx / dist) * pull;
-        targetTransY = (dy / dist) * pull;
+        // Bounded 3D tilt facing cursor
+        targetRotY = Math.max(-20, Math.min(20, (dx / window.innerWidth) * 40));
+        targetRotX = Math.max(-14, Math.min(14, -(dy / window.innerHeight) * 32));
     }, { passive: true });
 
-    function renderBookLoop() {
-        if (isMouseActive) {
+    function renderBookTiltLoop() {
+        if (isTracking && document.getElementById('book-container-3d')) {
             currentRotX += (targetRotX - currentRotX) * 0.08;
             currentRotY += (targetRotY - currentRotY) * 0.08;
-            currentTransX += (targetTransX - currentTransX) * 0.08;
-            currentTransY += (targetTransY - currentTransY) * 0.08;
-
-            book3D.style.transform = `translate3d(${currentTransX.toFixed(2)}px, ${currentTransY.toFixed(2)}px, 0) rotateX(${currentRotX.toFixed(2)}deg) rotateY(${currentRotY.toFixed(2)}deg)`;
+            bookContainer.style.transform = `rotateX(${currentRotX.toFixed(2)}deg) rotateY(${currentRotY.toFixed(2)}deg)`;
         }
-        requestAnimationFrame(renderBookLoop);
+        requestAnimationFrame(renderBookTiltLoop);
     }
-    requestAnimationFrame(renderBookLoop);
+    requestAnimationFrame(renderBookTiltLoop);
 
-    // Study quotes / tips when clicked
-    const studyQuotes = [
-        "Ready to practice? 📖",
-        "Grade 9–12 Papers Ready! 🎯",
-        "Keep your study flame burning! 🔥",
-        "Past papers make perfect! 💯",
-        "You've got this! ✨",
-        "Try the Timed Exam Mode! ⏱️",
-        "Reviewing formulas today? 📐"
-    ];
-    let quoteIndex = 0;
-
-    bookWidget.addEventListener('click', () => {
-        quoteIndex = (quoteIndex + 1) % studyQuotes.length;
-        if (bubble) {
-            bubble.innerHTML = `<span>${studyQuotes[quoteIndex]}</span>`;
-            bookWidget.classList.add('show-bubble');
-            setTimeout(() => {
-                bookWidget.classList.remove('show-bubble');
-            }, 3200);
+    // Touch swipe support for mobile
+    let touchStartX = 0;
+    bookCol.addEventListener('touchstart', (e) => {
+        touchStartX = e.touches[0].clientX;
+    }, { passive: true });
+    bookCol.addEventListener('touchend', (e) => {
+        const diff = e.changedTouches[0].clientX - touchStartX;
+        if (Math.abs(diff) > 35) {
+            if (diff < 0) flipBookNext();
+            else flipBookPrev();
         }
-    });
+    }, { passive: true });
 }
 
 // Start the application
