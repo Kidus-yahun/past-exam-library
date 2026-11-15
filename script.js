@@ -5833,7 +5833,7 @@ function renderHomeModeTabs(activeMode = 'exams') {
                         title="Interactive Study Desk: Split-Screen Exam Papers, Formulas, Pomodoro Timer & Scratchpad">
                     ${uiIcon('zap', 15)} 
                     <span class="tab-label-full">Focus Study Desk</span>
-                    <span class="tab-label-short">Study Room</span>
+                    <span class="tab-label-short">Study</span>
                     <span class="pill-badge-new" style="margin-left: 4px; font-size: 9px; padding: 1px 5px;">New</span>
                 </button>
             </nav>
