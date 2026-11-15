@@ -1360,6 +1360,9 @@ async function initApp() {
         setView('library');
     }
 
+    // Initialize 3D Floating Cursor-Tracking Book Companion
+    initFloatingCompanionBook();
+
     // 5. Direct Fallback: Parse URL hash if access_token is present in Google OAuth redirect URL
     if (window.location.hash && window.location.hash.includes('access_token=')) {
         try {
@@ -12218,6 +12221,83 @@ function copyDeskNotes() {
             showToast('Notes copied to clipboard!', 'success');
         });
     }
+}
+
+// ========================================================
+// INTERACTIVE FLOATING 3D CURSOR-TRACKING BOOK
+// ========================================================
+function initFloatingCompanionBook() {
+    const bookWidget = document.getElementById('side-floating-book');
+    const book3D = document.getElementById('interactive-book-3d');
+    const bubble = document.getElementById('book-speech-bubble');
+    if (!bookWidget || !book3D) return;
+
+    let currentRotX = 0;
+    let currentRotY = 0;
+    let currentTransX = 0;
+    let currentTransY = 0;
+    let targetRotX = 0;
+    let targetRotY = 0;
+    let targetTransX = 0;
+    let targetTransY = 0;
+    let isMouseActive = false;
+
+    window.addEventListener('mousemove', (e) => {
+        isMouseActive = true;
+        const rect = bookWidget.getBoundingClientRect();
+        const bookCenterX = rect.left + rect.width / 2;
+        const bookCenterY = rect.top + rect.height / 2;
+
+        const dx = e.clientX - bookCenterX;
+        const dy = e.clientY - bookCenterY;
+        const dist = Math.hypot(dx, dy) || 1;
+
+        // Calculate 3D tilt angles pointing towards cursor
+        const maxAngle = 35;
+        targetRotY = Math.max(-maxAngle, Math.min(maxAngle, (dx / window.innerWidth) * 60));
+        targetRotX = Math.max(-maxAngle, Math.min(maxAngle, -(dy / window.innerHeight) * 50));
+
+        // Subtle parallax movement towards cursor
+        const pull = Math.min(dist * 0.04, 16);
+        targetTransX = (dx / dist) * pull;
+        targetTransY = (dy / dist) * pull;
+    }, { passive: true });
+
+    function renderBookLoop() {
+        if (isMouseActive) {
+            currentRotX += (targetRotX - currentRotX) * 0.08;
+            currentRotY += (targetRotY - currentRotY) * 0.08;
+            currentTransX += (targetTransX - currentTransX) * 0.08;
+            currentTransY += (targetTransY - currentTransY) * 0.08;
+
+            book3D.style.transform = `translate3d(${currentTransX.toFixed(2)}px, ${currentTransY.toFixed(2)}px, 0) rotateX(${currentRotX.toFixed(2)}deg) rotateY(${currentRotY.toFixed(2)}deg)`;
+        }
+        requestAnimationFrame(renderBookLoop);
+    }
+    requestAnimationFrame(renderBookLoop);
+
+    // Study quotes / tips when clicked
+    const studyQuotes = [
+        "Ready to practice? 📖",
+        "Grade 9–12 Papers Ready! 🎯",
+        "Keep your study flame burning! 🔥",
+        "Past papers make perfect! 💯",
+        "You've got this! ✨",
+        "Try the Timed Exam Mode! ⏱️",
+        "Reviewing formulas today? 📐"
+    ];
+    let quoteIndex = 0;
+
+    bookWidget.addEventListener('click', () => {
+        quoteIndex = (quoteIndex + 1) % studyQuotes.length;
+        if (bubble) {
+            bubble.innerHTML = `<span>${studyQuotes[quoteIndex]}</span>`;
+            bookWidget.classList.add('show-bubble');
+            setTimeout(() => {
+                bookWidget.classList.remove('show-bubble');
+            }, 3200);
+        }
+    });
 }
 
 // Start the application
