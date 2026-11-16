@@ -2199,8 +2199,88 @@ async function acceptDuelChallenge(duelDataJson) {
     await launchDuelSession(duelData.grade, duelData.subject, duelData.challenger, duelData.qIds, duelMeta);
 }
 
+function getSubjectDuelIcon(subject) {
+    const s = (subject || '').toLowerCase();
+    if (s.includes('math')) return '📐';
+    if (s.includes('physic')) return '⚡';
+    if (s.includes('chem')) return '🧪';
+    if (s.includes('bio')) return '🧬';
+    if (s.includes('eng')) return '📖';
+    if (s.includes('amh')) return '✍️';
+    if (s.includes('hist')) return '🏛️';
+    if (s.includes('geog')) return '🌍';
+    if (s.includes('econ')) return '📊';
+    if (s.includes('civic') || s.includes('citizen')) return '⚖️';
+    if (s.includes('it') || s.includes('info') || s.includes('comput')) return '💻';
+    if (s.includes('agri')) return '🌱';
+    if (s.includes('web')) return '🌐';
+    if (s.includes('apt') || s.includes('sat')) return '🧠';
+    if (s.includes('hp')) return '🏃';
+    return '📚';
+}
+
+function selectDuelGrade(gradeId) {
+    const hiddenGrade = document.getElementById('duel-select-grade');
+    if (hiddenGrade) hiddenGrade.value = gradeId;
+
+    document.querySelectorAll('.duel-grade-card-btn').forEach(btn => {
+        if (btn.getAttribute('data-grade-id') === gradeId) {
+            btn.classList.add('active');
+        } else {
+            btn.classList.remove('active');
+        }
+    });
+
+    updateDuelSubjectChips(gradeId);
+}
+
+function selectDuelSubject(subjectName) {
+    const hiddenSubject = document.getElementById('duel-select-subject');
+    if (hiddenSubject) hiddenSubject.value = subjectName;
+
+    document.querySelectorAll('.duel-subject-chip').forEach(chip => {
+        if (chip.getAttribute('data-subject') === subjectName) {
+            chip.classList.add('active');
+        } else {
+            chip.classList.remove('active');
+        }
+    });
+}
+
+function updateDuelSubjectChips(gradeId) {
+    const chipContainer = document.getElementById('duel-subject-chips-container');
+    const hiddenSubject = document.getElementById('duel-select-subject');
+    if (!chipContainer || !hiddenSubject) return;
+
+    const subjects = (state.categories.subjects && state.categories.subjects[gradeId]) || ['Mathematics', 'Physics', 'Chemistry', 'Biology', 'English'];
+    let currentSelected = hiddenSubject.value;
+    if (!subjects.includes(currentSelected)) {
+        currentSelected = subjects[0] || 'Mathematics';
+        hiddenSubject.value = currentSelected;
+    }
+
+    chipContainer.innerHTML = subjects.map(s => {
+        const isSelected = s === currentSelected;
+        const icon = getSubjectDuelIcon(s);
+        return `
+            <button type="button" 
+                    class="duel-subject-chip ${isSelected ? 'active' : ''}" 
+                    data-subject="${escapeQuotes(s)}" 
+                    onclick="selectDuelSubject('${escapeQuotes(s)}')">
+                <span class="duel-subject-icon">${icon}</span>
+                <span class="duel-subject-name">${s}</span>
+            </button>
+        `;
+    }).join('');
+}
+
 function openStartDuelModal(presetGrade, presetSubject) {
-    const grades = state.categories.grades || [];
+    const grades = (state.categories.grades && state.categories.grades.length > 0) ? state.categories.grades : [
+        { id: 'Grade9', name: 'Grade 9', number: '09' },
+        { id: 'Grade10', name: 'Grade 10', number: '10' },
+        { id: 'Grade11', name: 'Grade 11', number: '11' },
+        { id: 'Grade12', name: 'Grade 12', number: '12' }
+    ];
     const defaultGrade = presetGrade || 'Grade12';
     const subjectsForGrade = (state.categories.subjects && state.categories.subjects[defaultGrade]) || ['Mathematics', 'Physics', 'Chemistry', 'Biology', 'English'];
     const defaultSubject = presetSubject || subjectsForGrade[0] || 'Mathematics';
@@ -2208,7 +2288,7 @@ function openStartDuelModal(presetGrade, presetSubject) {
 
     const bodyHtml = `
         <div style="padding: 4px 0 10px 0; text-align: left;">
-            <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 16px; background: linear-gradient(135deg, rgba(239, 68, 68, 0.12), rgba(168, 85, 247, 0.15)); padding: 14px 16px; border-radius: 14px; border: 1px solid rgba(239, 68, 68, 0.3);">
+            <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 18px; background: linear-gradient(135deg, rgba(239, 68, 68, 0.12), rgba(168, 85, 247, 0.15)); padding: 14px 16px; border-radius: 14px; border: 1px solid rgba(239, 68, 68, 0.3);">
                 <div style="font-size: 30px; flex-shrink: 0;">⚔️</div>
                 <div>
                     <h4 style="margin: 0; font-size: 16px; color: var(--text-main); font-weight: 700;">1v1 Telegram Study Duel</h4>
@@ -2218,28 +2298,72 @@ function openStartDuelModal(presetGrade, presetSubject) {
                 </div>
             </div>
 
-            <div class="auth-form-group">
-                <label>Your Nickname or Name *</label>
-                <input type="text" id="duel-input-name" placeholder="e.g. Nahom, Soliyana, Kidus..." value="${escapeQuotes(savedName)}" required>
+            <!-- Hidden Inputs to preserve full API compatibility with confirmStartDuel -->
+            <input type="hidden" id="duel-select-grade" value="${defaultGrade}">
+            <input type="hidden" id="duel-select-subject" value="${escapeQuotes(defaultSubject)}">
+
+            <!-- Aesthetic Nickname Input -->
+            <div class="duel-field-wrap">
+                <label class="duel-section-label">
+                    <span class="duel-label-icon">👤</span> Your Nickname or Name
+                    <span class="duel-req-star">*</span>
+                </label>
+                <div class="duel-input-container">
+                    <div class="duel-input-prefix">🎮</div>
+                    <input type="text" id="duel-input-name" class="duel-stylish-input" placeholder="e.g. Nahom, Soliyana, Kidus..." value="${escapeQuotes(savedName)}" required maxlength="25">
+                </div>
             </div>
 
-            <div class="auth-form-group">
-                <label>Select Grade *</label>
-                <select id="duel-select-grade" onchange="updateDuelSubjectDropdown(this.value)">
-                    ${grades.map(g => `<option value="${g.id}" ${g.id === defaultGrade ? 'selected' : ''}>${g.name}</option>`).join('')}
-                </select>
+            <!-- Aesthetic Grade Selector Cards -->
+            <div class="duel-field-wrap" style="margin-top: 18px;">
+                <label class="duel-section-label">
+                    <span class="duel-label-icon">🎓</span> Select Grade
+                    <span class="duel-req-star">*</span>
+                </label>
+                <div class="duel-grade-card-grid">
+                    ${grades.map(g => {
+                        const isSelected = g.id === defaultGrade;
+                        const num = g.number || g.name.replace(/\D/g, '') || '12';
+                        return `
+                            <button type="button" 
+                                    class="duel-grade-card-btn ${isSelected ? 'active' : ''}" 
+                                    data-grade-id="${g.id}" 
+                                    onclick="selectDuelGrade('${g.id}')">
+                                <span class="duel-grade-num">${num}</span>
+                                <span class="duel-grade-label">${g.name}</span>
+                                <span class="duel-grade-check">✓</span>
+                            </button>
+                        `;
+                    }).join('')}
+                </div>
             </div>
 
-            <div class="auth-form-group">
-                <label>Select Subject *</label>
-                <select id="duel-select-subject">
-                    ${subjectsForGrade.map(s => `<option value="${escapeQuotes(s)}" ${s === defaultSubject ? 'selected' : ''}>${s}</option>`).join('')}
-                </select>
+            <!-- Aesthetic Subject Chips Grid -->
+            <div class="duel-field-wrap" style="margin-top: 18px;">
+                <label class="duel-section-label">
+                    <span class="duel-label-icon">📚</span> Select Subject
+                    <span class="duel-req-star">*</span>
+                </label>
+                <div id="duel-subject-chips-container" class="duel-subject-chips-grid">
+                    ${subjectsForGrade.map(s => {
+                        const isSelected = s === defaultSubject;
+                        const icon = getSubjectDuelIcon(s);
+                        return `
+                            <button type="button" 
+                                    class="duel-subject-chip ${isSelected ? 'active' : ''}" 
+                                    data-subject="${escapeQuotes(s)}" 
+                                    onclick="selectDuelSubject('${escapeQuotes(s)}')">
+                                <span class="duel-subject-icon">${icon}</span>
+                                <span class="duel-subject-name">${s}</span>
+                            </button>
+                        `;
+                    }).join('')}
+                </div>
             </div>
 
-            <div style="margin-top: 22px; display: flex; flex-direction: column; gap: 10px;">
+            <div style="margin-top: 24px; display: flex; flex-direction: column; gap: 10px;">
                 <button type="button" class="duel-launch-btn" style="width: 100%;" onclick="confirmStartDuel()">
-                    ⚔️ Start 5-Question Duel →
+                    ⚔️ START 5-QUESTION DUEL →
                 </button>
             </div>
         </div>
@@ -2249,10 +2373,7 @@ function openStartDuelModal(presetGrade, presetSubject) {
 }
 
 function updateDuelSubjectDropdown(gradeId) {
-    const select = document.getElementById('duel-select-subject');
-    if (!select) return;
-    const subjects = (state.categories.subjects && state.categories.subjects[gradeId]) || ['Mathematics', 'Physics', 'Chemistry', 'Biology', 'English'];
-    select.innerHTML = subjects.map(s => `<option value="${escapeQuotes(s)}">${s}</option>`).join('');
+    updateDuelSubjectChips(gradeId);
 }
 
 async function confirmStartDuel() {
