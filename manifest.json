@@ -62,6 +62,30 @@
           "sizes": "192x192"
         }
       ]
+    },
+    {
+      "name": "Focus Study Desk",
+      "short_name": "Study Desk",
+      "description": "Split-screen exam study with formulas and timer",
+      "url": "/#studydesk",
+      "icons": [
+        {
+          "src": "/icons/icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "Formula Reference Guides",
+      "short_name": "Formulas",
+      "description": "Curated academic formula sheets and constants",
+      "url": "/#formulas",
+      "icons": [
+        {
+          "src": "/icons/icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
     }
   ]
 }
