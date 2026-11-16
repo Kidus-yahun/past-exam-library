@@ -3353,24 +3353,106 @@ header {
     line-height: 1.5;
 }
 
+/* ========================================================
+   AESTHETIC 1V1 STUDY DUEL BUTTONS (MODERN GLASSMORPHISM & VIBRANT GLOW)
+======================================================== */
 .duel-launch-btn {
-    background: linear-gradient(135deg, #ef4444, #9333ea) !important;
-    border: none !important;
-    padding: 12px 24px !important;
-    font-size: 14px !important;
+    background: linear-gradient(135deg, #ef4444 0%, #a855f7 50%, #6366f1 100%) !important;
+    background-size: 200% auto !important;
+    border: 1px solid rgba(255, 255, 255, 0.24) !important;
+    color: #ffffff !important;
+    box-shadow: 0 8px 24px -2px rgba(168, 85, 247, 0.45), 0 3px 10px rgba(239, 68, 68, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.4) !important;
+    border-radius: 14px !important;
+    font-size: 14.5px !important;
     font-weight: 700 !important;
-    border-radius: 10px !important;
+    text-transform: none !important;
+    letter-spacing: -0.2px !important;
+    padding: 13px 24px !important;
     display: inline-flex !important;
     align-items: center !important;
+    justify-content: center !important;
     gap: 8px !important;
-    box-shadow: 0 4px 18px rgba(239, 68, 68, 0.35) !important;
-    cursor: pointer;
-    transition: transform 0.2s, box-shadow 0.2s;
+    cursor: pointer !important;
+    position: relative !important;
+    overflow: hidden !important;
+    text-decoration: none !important;
+    backdrop-filter: blur(12px) !important;
+    -webkit-backdrop-filter: blur(12px) !important;
+    transition: transform 160ms cubic-bezier(0.2, 0.7, 0.2, 1), box-shadow 160ms ease, background-position 300ms ease, border-color 160ms ease !important;
+}
+
+.duel-launch-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -120%;
+    width: 60%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.28), transparent);
+    transform: skewX(-20deg);
+    transition: left 0.65s ease;
+    pointer-events: none;
 }
 
 .duel-launch-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 24px rgba(239, 68, 68, 0.45) !important;
+    background-position: right center !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 12px 32px -2px rgba(168, 85, 247, 0.6), 0 6px 16px rgba(239, 68, 68, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.55) !important;
+    border-color: rgba(255, 255, 255, 0.45) !important;
+}
+
+.duel-launch-btn:hover::before {
+    left: 150%;
+}
+
+.duel-launch-btn:active {
+    transform: translateY(1px) scale(0.98) !important;
+    box-shadow: 0 4px 14px rgba(168, 85, 247, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
+    transition-duration: 60ms !important;
+}
+
+.duel-telegram-share-btn {
+    width: 100% !important;
+    box-sizing: border-box !important;
+    padding: 13px 22px !important;
+    background: linear-gradient(135deg, #0ea5e9 0%, #2563eb 50%, #4f46e5 100%) !important;
+    background-size: 200% auto !important;
+    color: #ffffff !important;
+    border: 1px solid rgba(255, 255, 255, 0.25) !important;
+    border-radius: 14px !important;
+    font-size: 14.5px !important;
+    font-weight: 700 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 8px !important;
+    text-decoration: none !important;
+    box-shadow: 0 8px 24px -2px rgba(14, 165, 233, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.4) !important;
+    cursor: pointer !important;
+    transition: transform 160ms cubic-bezier(0.2, 0.7, 0.2, 1), box-shadow 160ms ease, background-position 300ms ease !important;
+}
+
+.duel-telegram-share-btn:hover {
+    background-position: right center !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 12px 30px -2px rgba(14, 165, 233, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.55) !important;
+    border-color: rgba(255, 255, 255, 0.45) !important;
+}
+
+.duel-telegram-share-btn:active {
+    transform: translateY(1px) scale(0.98) !important;
+    box-shadow: 0 4px 14px rgba(14, 165, 233, 0.3) !important;
+    transition-duration: 60ms !important;
+}
+
+[data-theme="light"] .duel-launch-btn {
+    background: linear-gradient(135deg, #e11d48 0%, #9333ea 50%, #4f46e5 100%) !important;
+    box-shadow: 0 6px 20px rgba(147, 51, 234, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.4) !important;
+}
+
+[data-theme="light"] .duel-telegram-share-btn {
+    background: linear-gradient(135deg, #0284c7 0%, #1d4ed8 100%) !important;
+    box-shadow: 0 6px 20px rgba(2, 132, 199, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.4) !important;
 }
 
 /* Duel Lobby & Results Arena */
@@ -3494,29 +3576,6 @@ header {
     letter-spacing: 0.5px;
 }
 
-.duel-launch-btn {
-    background: #58cc02 !important;
-    border-color: transparent !important;
-    color: #ffffff !important;
-    box-shadow: 0 4px 0 #46a302 !important;
-    border-radius: 16px !important;
-    font-weight: 800 !important;
-    text-transform: uppercase !important;
-    letter-spacing: 0.8px !important;
-    padding: 14px 22px !important;
-    transition: all 0.15s ease-out !important;
-}
-
-.duel-launch-btn:hover {
-    background: #61e002 !important;
-    box-shadow: 0 4px 0 #58cc02 !important;
-    transform: translateY(-1px) !important;
-}
-
-.duel-launch-btn:active {
-    transform: translateY(3px) !important;
-    box-shadow: 0 1px 0 #46a302 !important;
-}
 
 @media (max-width: 600px) {
     .duel-versus-container {
