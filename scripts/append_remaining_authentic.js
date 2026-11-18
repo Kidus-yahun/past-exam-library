@@ -797,7 +797,7 @@ const newQuestionsCode = `
     q('q_g9_geog_real_17', 'exam_130', 'Grade9', 'Geography', 'Semester1', 'Mid1',
         'Series trapping lava and extensive volcanic eruptions were common in Ethiopia during the:',
         ['Mesozoic era', 'Precambrian era', 'Cenozoic era', 'Paleozoic era'],
-        0,
+        2,
         'During the Cenozoic era, massive flood basalt volcanism poured out the Trappean series forming the highland plateaus.'
     ),
     q('q_g9_geog_real_18', 'exam_130', 'Grade9', 'Geography', 'Semester1', 'Mid1',
