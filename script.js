@@ -7159,10 +7159,12 @@ async function openExamAnswerKeyModal(grade, semester, examType, subject, examTi
 
     const letters = ['A', 'B', 'C', 'D', 'E'];
     const titleText = examTitle || `${grade} ${subject} ${semester} ${examType}`;
+    window._lastAnswerKeyQuestions = questions;
+    window._lastAnswerKeyTitle = titleText;
 
     const bodyHtml = `
         <div style="padding: 4px 0 10px 0; text-align: left; max-height: 72vh; overflow-y: auto; padding-right: 4px;">
-            <div style="display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 16px; background: linear-gradient(135deg, rgba(34, 197, 94, 0.12), rgba(59, 130, 246, 0.12)); padding: 12px 16px; border-radius: 12px; border: 1px solid rgba(34, 197, 94, 0.3);">
+            <div style="display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 12px; background: linear-gradient(135deg, rgba(34, 197, 94, 0.12), rgba(59, 130, 246, 0.12)); padding: 12px 16px; border-radius: 12px; border: 1px solid rgba(34, 197, 94, 0.3);">
                 <div>
                     <h4 style="margin: 0; font-size: 15px; color: var(--text-main); font-weight: 700;">
                         📋 Verified Exam Paper Answer Key
@@ -7176,13 +7178,24 @@ async function openExamAnswerKeyModal(grade, semester, examType, subject, examTi
                 </span>
             </div>
 
-            <div style="display: flex; flex-direction: column; gap: 12px;">
+            <!-- Instant Question Search & Copy Controls -->
+            <div style="display: flex; gap: 8px; margin-bottom: 14px;">
+                <input type="text" id="answer-key-search" placeholder="🔍 Search question or number (e.g. 17 or lava)..." 
+                       oninput="filterAnswerKeyCards(this.value)"
+                       style="flex: 1; padding: 10px 14px; border-radius: 10px; background: rgba(15, 23, 42, 0.6); border: 1px solid var(--border-glass); color: var(--text-main); font-size: 13.5px; outline: none;">
+                <button type="button" class="btn-secondary" style="padding: 9px 14px; font-size: 13px; display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; cursor: pointer;" 
+                        onclick="copyAllAnswerKeys()">
+                    📋 Copy All Keys
+                </button>
+            </div>
+
+            <div id="answer-key-list" style="display: flex; flex-direction: column; gap: 12px;">
                 ${questions.map((q, idx) => {
                     const ansIdx = q.correctAnswer;
                     const ansLetter = letters[ansIdx] || '?';
                     const ansText = (q.options && q.options[ansIdx]) || '';
                     return `
-                        <div style="background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-glass); border-radius: 12px; padding: 12px 14px; position: relative;">
+                        <div class="answer-key-card" data-q-num="${idx + 1}" style="background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-glass); border-radius: 12px; padding: 12px 14px; position: relative; transition: all 0.2s ease;">
                             <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; margin-bottom: 8px;">
                                 <div style="font-weight: 700; font-size: 13.5px; color: var(--text-main); line-height: 1.4;">
                                     <span style="color: #818cf8; margin-right: 6px;">Q${idx + 1}.</span>
@@ -7212,6 +7225,56 @@ async function openExamAnswerKeyModal(grade, semester, examType, subject, examTi
     `;
 
     showModal(`Answer Key: ${titleText}`, bodyHtml);
+}
+
+function filterAnswerKeyCards(query) {
+    const q = (query || '').toLowerCase().trim();
+    document.querySelectorAll('.answer-key-card').forEach(card => {
+        if (!q) {
+            card.style.display = 'block';
+            return;
+        }
+        const text = card.textContent.toLowerCase();
+        const num = card.getAttribute('data-q-num') || '';
+        if (text.includes(q) || num === q || ('q' + num) === q) {
+            card.style.display = 'block';
+        } else {
+            card.style.display = 'none';
+        }
+    });
+}
+
+function copyAllAnswerKeys() {
+    const questions = window._lastAnswerKeyQuestions || [];
+    const title = window._lastAnswerKeyTitle || 'Exam Answer Key';
+    const letters = ['A', 'B', 'C', 'D', 'E'];
+
+    if (questions.length === 0) {
+        showToast('No answer keys available to copy', 'warning');
+        return;
+    }
+
+    const lines = [
+        `📋 ${title} — Official Answer Key`,
+        `Verified by Catholic Past Exam Library`,
+        `----------------------------------------`
+    ];
+
+    questions.forEach((q, idx) => {
+        const letter = letters[q.correctAnswer] || '?';
+        const ans = (q.options && q.options[q.correctAnswer]) || '';
+        lines.push(`Q${idx + 1}: ${letter} (${ans})`);
+    });
+
+    lines.push(`----------------------------------------`);
+    lines.push(`https://past-exam-library.vercel.app`);
+
+    const textToCopy = lines.join('\n');
+    navigator.clipboard.writeText(textToCopy).then(() => {
+        showToast(`Copied ${questions.length} answer keys to clipboard!`, 'success');
+    }).catch(() => {
+        showToast('Failed to copy to clipboard', 'error');
+    });
 }
 
 async function showExamHub(grade, semester, examType, subject, filePath, examTitle, backFn, pushHistory = true) {
