@@ -842,9 +842,13 @@ window.addEventListener('popstate', (e) => {
         showExamType(s.gradeId, s.semester, s.examType, false);
     } else if (s.view === 'national') {
         showNationalExamCategory(s.category, false);
+    } else if (s.view === 'pretestParts') {
+        showPretestParts(s.grade, s.subject, false);
     } else if (s.view === 'hub') {
         showExamHub(s.grade, s.semester, s.examType, s.subject, s.filePath, s.examTitle, () => {
-            if (s.semester === 'Pretest' || s.semester === 'Model') {
+            if (s.isPretestPart || s.examType === 'Pretest1' || s.examType === 'Pretest2') {
+                showPretestParts(s.grade, s.subject, false);
+            } else if (s.semester === 'Pretest' || s.semester === 'Model') {
                 showNationalExamCategory(s.semester, false);
             } else {
                 showExamType(s.grade, s.semester, s.examType, false);
@@ -7076,17 +7080,129 @@ function showNationalExamCategory(category, pushHistory = true) {
 
         <div class="card-grid">
             ${subjects.map(subject => `
-                <div class="card subject-card" onclick="openSubjectExam('Grade12', '${category}', '${category}', '${escapeQuotes(subject)}')">
+                <div class="card subject-card" onclick="${category === 'Pretest' ? `showPretestParts('Grade12', '${escapeQuotes(subject)}')` : `openSubjectExam('Grade12', '${category}', '${category}', '${escapeQuotes(subject)}')`}">
                     <div class="subject-icon" style="color: #818cf8;">${uiIcon('fileText', 20)}</div>
                     <div class="card-info">
                         <h3>${subject}</h3>
-                        <p>View exam paper</p>
+                        <p>${category === 'Pretest' ? '⚡ Pre-test 1, 2 & Archive →' : 'View exam paper'}</p>
                     </div>
                     <div class="arrow">→</div>
                 </div>
             `).join('')}
         </div>
     `;
+}
+
+function showPretestParts(grade, subject, pushHistory = true) {
+    if (pushHistory) {
+        pushNavState({ view: 'pretestParts', grade, subject }, `${subject} Pre-test Editions`);
+    }
+
+    const parts = [
+        {
+            id: 'part1',
+            number: '01',
+            title: `${subject} Pre-test 1`,
+            tag: 'Part 1 • Fast Mobile Loading',
+            desc: 'Optimized for quick downloads and low data (Questions 1–35 / Section A)',
+            badge: '⚡ Fast Load',
+            badgeBg: 'rgba(16, 185, 129, 0.15)',
+            badgeColor: '#34d399',
+            examType: 'Pretest1',
+            partName: 'Pre-test 1 (Part 1)'
+        },
+        {
+            id: 'part2',
+            number: '02',
+            title: `${subject} Pre-test 2`,
+            tag: 'Part 2 • Fast Mobile Loading',
+            desc: 'Optimized for quick downloads and low data (Questions 36–70 / Section B)',
+            badge: '⚡ Fast Load',
+            badgeBg: 'rgba(16, 185, 129, 0.15)',
+            badgeColor: '#34d399',
+            examType: 'Pretest2',
+            partName: 'Pre-test 2 (Part 2)'
+        },
+        {
+            id: 'full',
+            number: 'ALL',
+            title: `${subject} Pre-test (Complete Paper)`,
+            tag: 'Full Document • Original Archive',
+            desc: 'Complete examination paper containing all sections in one document',
+            badge: 'Full Archive',
+            badgeBg: 'rgba(129, 140, 248, 0.15)',
+            badgeColor: '#818cf8',
+            examType: 'Pretest',
+            partName: 'Complete Archive'
+        }
+    ];
+
+    app.innerHTML = `
+        <div class="nav-breadcrumbs-bar">
+            <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+                <button class="back-button back-button-home" onclick="showLibraryHome()" style="margin: 0; display: inline-flex; align-items: center; gap: 6px;" title="Go back to Grades">
+                    ${uiIcon('home', 14)} Back to Grades
+                </button>
+                <button class="back-button" onclick="showNationalExamCategory('Pretest')" style="margin: 0;">
+                    ← Back to Subjects
+                </button>
+            </div>
+            <div class="breadcrumb-trail">
+                <span class="clickable" onclick="showLibraryHome()">Grades</span>
+                <span>/</span>
+                <span class="clickable" onclick="showGrade('Grade12')">Grade 12</span>
+                <span>/</span>
+                <span class="clickable" onclick="showNationalExamCategory('Pretest')">Pre-test</span>
+                <span>/</span>
+                <span class="current">${subject}</span>
+            </div>
+        </div>
+
+        <div class="page-title">
+            <h2>${subject} Pre-test Editions</h2>
+            <p>Select a fast-loading pre-test (Pretest 1 or Pretest 2) to save mobile data, or open the full paper</p>
+        </div>
+
+        <div class="card-grid">
+            ${parts.map(p => `
+                <div class="card" onclick="openPretestPartExam('${grade}', '${escapeQuotes(subject)}', '${p.examType}', '${escapeQuotes(p.partName)}')">
+                    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px;">
+                        <span style="font-weight: 800; font-size: 16px; color: #a5b4fc; background: rgba(99, 102, 241, 0.15); width: 36px; height: 36px; border-radius: 10px; display: inline-flex; align-items: center; justify-content: center; border: 1px solid rgba(99, 102, 241, 0.25);">
+                            ${p.number}
+                        </span>
+                        <span style="font-size: 11.5px; font-weight: 700; color: ${p.badgeColor}; background: ${p.badgeBg}; padding: 3px 8px; border-radius: 9999px;">
+                            ${p.badge}
+                        </span>
+                    </div>
+                    <div class="card-info">
+                        <h3 style="font-size: 16.5px; margin-bottom: 4px;">${p.title}</h3>
+                        <div style="font-size: 12.5px; color: #38bdf8; font-weight: 600; margin-bottom: 4px;">${p.tag}</div>
+                        <p style="font-size: 12.5px; color: var(--text-muted); line-height: 1.4;">${p.desc}</p>
+                    </div>
+                    <div class="arrow" style="margin-top: 10px;">Open Paper →</div>
+                </div>
+            `).join('')}
+        </div>
+    `;
+}
+
+function openPretestPartExam(grade, subject, examType, partName) {
+    let filePath = '';
+    let examTitle = `${grade} ${subject} ${partName}`;
+
+    if (examType === 'Pretest1') {
+        filePath = `/exams/${grade}/pretest/${subject}_Part1.pdf`;
+    } else if (examType === 'Pretest2') {
+        filePath = `/exams/${grade}/pretest/${subject}_Part2.pdf`;
+    } else {
+        filePath = `/exams/${grade}/pretest/${subject}.pdf`;
+    }
+
+    const backFn = () => {
+        showPretestParts(grade, subject);
+    };
+
+    showExamHub(grade, 'Pretest', examType, subject, filePath, examTitle, backFn);
 }
 
 let selectedHubMode = 'practice';
@@ -7279,7 +7395,16 @@ function copyAllAnswerKeys() {
 
 async function showExamHub(grade, semester, examType, subject, filePath, examTitle, backFn, pushHistory = true) {
     if (pushHistory) {
-        pushNavState({ view: 'hub', grade, semester, examType, subject, filePath, examTitle }, examTitle || `${grade} ${subject}`);
+        pushNavState({ 
+            view: 'hub', 
+            grade, 
+            semester, 
+            examType, 
+            subject, 
+            filePath, 
+            examTitle, 
+            isPretestPart: (examType === 'Pretest1' || examType === 'Pretest2') 
+        }, examTitle || `${grade} ${subject}`);
     }
     window._lastBackFn = backFn;
     ensurePdfJsLoaded();
@@ -8389,7 +8514,10 @@ async function loadPdfDocument(fileUrl) {
             const loadingTask = pdfjsLib.getDocument({
                 url: testUrl,
                 cMapUrl: 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/cmaps/',
-                cMapPacked: true
+                cMapPacked: true,
+                rangeChunkSize: 262144,
+                disableAutoFetch: true,
+                disableStream: false
             });
 
             loadingTask.onProgress = function(progress) {

@@ -219,6 +219,11 @@ app.use('/exams', (req, res, next) => {
         candidateUrls.push(jsDelivrUrl.replace('HP.pdf', 'Hp.pdf'));
         candidateUrls.push(rawGithubUrl.replace('HP.pdf', 'Hp.pdf'));
     }
+    if (encodedSegments.includes('_Part1.pdf') || encodedSegments.includes('_Part2.pdf')) {
+        const baseSeg = encodedSegments.replace(/_Part[12]\.pdf/i, '.pdf');
+        candidateUrls.push(jsDelivrUrl.replace(encodedSegments, baseSeg));
+        candidateUrls.push(rawGithubUrl.replace(encodedSegments, baseSeg));
+    }
     if (encodedSegments.includes('Hp.pdf')) {
         candidateUrls.push(jsDelivrUrl.replace('Hp.pdf', 'HP.pdf'));
         candidateUrls.push(rawGithubUrl.replace('Hp.pdf', 'HP.pdf'));
