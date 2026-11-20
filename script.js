@@ -3829,17 +3829,71 @@ function logout(notify = true) {
    1. LOGIN & REGISTER VIEW (FIRST PAGE)
 ======================================================== */
 
+/* ========================================================
+   FROSTED LIQUID-GLASS LOADING TRANSITION (ANIMATION SYSTEM)
+======================================================== */
+function showLiquidLoadingTransition(title = 'Powering up...', subtitle = 'Preparing your study session', durationMs = 850) {
+    let overlay = document.getElementById('liquid-glass-overlay');
+    if (!overlay) {
+        overlay = document.createElement('div');
+        overlay.id = 'liquid-glass-overlay';
+        overlay.className = 'liquid-glass-overlay';
+        overlay.innerHTML = `
+            <div class="liquid-orb-stage">
+                <div class="liquid-orb-aura"></div>
+                <div class="liquid-orb-core">
+                    <div class="liquid-orb-specular"></div>
+                    <div class="liquid-orb-glyph">⚡</div>
+                </div>
+            </div>
+            <h3 class="liquid-loading-title" id="liquid-loading-title">${title}</h3>
+            <p class="liquid-loading-sub" id="liquid-loading-sub">${subtitle}<span class="liquid-loading-dots"></span></p>
+        `;
+        document.body.appendChild(overlay);
+    } else {
+        const titleEl = document.getElementById('liquid-loading-title');
+        const subEl = document.getElementById('liquid-loading-sub');
+        if (titleEl) titleEl.textContent = title;
+        if (subEl) subEl.innerHTML = `${subtitle}<span class="liquid-loading-dots"></span>`;
+    }
+
+    requestAnimationFrame(() => {
+        overlay.classList.add('active');
+    });
+
+    return new Promise(resolve => {
+        setTimeout(() => {
+            overlay.classList.remove('active');
+            setTimeout(resolve, 320);
+        }, durationMs);
+    });
+}
+
 function showLoginView(activeTab = 'signin') {
     app.innerHTML = `
-        <div class="auth-wrapper">
-            <div class="auth-card">
-                <div class="auth-header">
-                    <div class="auth-icon" aria-hidden="true">${uiIcon('bookOpen', 26)}</div>
-                    <h2>Past Exam Library</h2>
-                    <p>A student-run collection of past examination papers.</p>
+        <div class="auth-wrapper" style="max-width: 460px; margin: 0 auto;">
+            <!-- Anime/High-Energy Hero Banner (Inspired by Reel) -->
+            <div class="auth-hero-banner">
+                <div class="auth-hero-glow"></div>
+                <div class="auth-hero-icon">
+                    <span style="font-size: 28px;">⚡</span>
+                </div>
+                <h2 class="auth-hero-title">Catholic Past Exam Library</h2>
+                <p class="auth-hero-subtitle">BLESSED G/MICHAEL · STUDY WITH FIGHTING SPIRIT</p>
+            </div>
+
+            <!-- Bottom Sheet / Card with Inputs -->
+            <div class="auth-sheet-card">
+                <div style="text-align: center; margin-bottom: 20px;">
+                    <h3 style="font-size: 22px; font-weight: 800; color: var(--text-main); margin: 0 0 6px 0;">
+                        ${activeTab === 'signin' ? 'Welcome Back!' : 'Create Student Account'}
+                    </h3>
+                    <p style="font-size: 13px; color: var(--text-muted); margin: 0;">
+                        ${activeTab === 'signin' ? 'Your exams, streak, and revision notes are waiting' : 'Join Grades 9–12 secondary school exam archive'}
+                    </p>
                 </div>
 
-                <div class="auth-tabs">
+                <div class="auth-tabs" style="margin-bottom: 20px;">
                     <button class="auth-tab-btn ${activeTab === 'signin' ? 'active' : ''}" 
                             onclick="showLoginView('signin')">
                         Sign In
@@ -3854,37 +3908,37 @@ function showLoginView(activeTab = 'signin') {
                     <form id="signin-form" onsubmit="handleSignIn(event)">
                         <div class="auth-form-group">
                             <label>Email Address or Username</label>
-                            <input type="text" id="login-username" autocomplete="username" required placeholder="student@example.com or username" autofocus>
+                            <input type="text" id="login-username" class="desk-select" style="width: 100%; padding: 12px 14px; border-radius: 12px;" autocomplete="username" required placeholder="student@example.com or username" autofocus>
                         </div>
 
                         <div class="auth-form-group">
                             <label>Password</label>
-                            <input type="password" id="login-password" autocomplete="current-password" required placeholder="Your password">
+                            <input type="password" id="login-password" class="desk-select" style="width: 100%; padding: 12px 14px; border-radius: 12px;" autocomplete="current-password" required placeholder="Your password">
                         </div>
 
-                        <button type="submit" class="btn-primary" id="btn-login-submit">
-                            Sign In to Portal →
+                        <button type="submit" class="btn-primary" id="btn-login-submit" style="width: 100%; padding: 13px; border-radius: 14px; font-size: 15px; font-weight: 800; margin-top: 10px; background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%); border-bottom: 3px solid #075985;">
+                            ⚡ Sign In & Power Up →
                         </button>
                     </form>
                 ` : `
                     <form id="register-form" onsubmit="handleRegister(event)">
                         <div class="auth-form-group">
                             <label>Email Address or Username *</label>
-                            <input type="text" id="reg-identifier" required placeholder="student@example.com or pick a username" autofocus>
+                            <input type="text" id="reg-identifier" class="desk-select" style="width: 100%; padding: 12px 14px; border-radius: 12px;" required placeholder="student@example.com or pick username" autofocus>
                         </div>
 
                         <div class="auth-form-group">
                             <label>Password *</label>
-                            <input type="password" id="reg-password" autocomplete="new-password" required placeholder="At least 4 characters">
+                            <input type="password" id="reg-password" class="desk-select" style="width: 100%; padding: 12px 14px; border-radius: 12px;" autocomplete="new-password" required placeholder="At least 4 characters">
                         </div>
 
                         <div class="auth-form-group">
                             <label>Full Name <span style="font-size: 11px; opacity: 0.7;">(Optional)</span></label>
-                            <input type="text" id="reg-fullname" placeholder="e.g. Kidist Solomon">
+                            <input type="text" id="reg-fullname" class="desk-select" style="width: 100%; padding: 12px 14px; border-radius: 12px;" placeholder="e.g. Kidist Solomon">
                         </div>
 
-                        <button type="submit" class="btn-primary" id="btn-reg-submit">
-                            Create Account & Continue →
+                        <button type="submit" class="btn-primary" id="btn-reg-submit" style="width: 100%; padding: 13px; border-radius: 14px; font-size: 15px; font-weight: 800; margin-top: 10px; background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%); border-bottom: 3px solid #075985;">
+                            🚀 Create Account & Continue →
                         </button>
                     </form>
                 `}
@@ -3893,7 +3947,7 @@ function showLoginView(activeTab = 'signin') {
                     <span>OR CONTINUE WITH</span>
                 </div>
 
-                <button type="button" class="btn-google-auth" onclick="signInWithGoogle()" title="Sign in or register with your Google account">
+                <button type="button" class="btn-google-auth" onclick="signInWithGoogle()" style="border-radius: 14px;" title="Sign in or register with your Google account">
                     <svg width="18" height="18" viewBox="0 0 24 24" style="flex-shrink: 0;" aria-hidden="true">
                         <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
                         <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
@@ -3902,12 +3956,6 @@ function showLoginView(activeTab = 'signin') {
                     </svg>
                     <span>Continue with Google</span>
                 </button>
-
-                <div style="margin-top: 24px; padding-top: 18px; border-top: 1px solid var(--border-color); text-align: center;">
-                    <p style="font-size: 13px; color: var(--text-muted); font-weight: 500;">
-                        Past Exam Library · Shared by students, for students
-                    </p>
-                </div>
             </div>
         </div>
     `;
@@ -3934,6 +3982,9 @@ async function handleSignIn(e) {
             state.token = data.token;
             state.user = data.user;
             setPersistentSession(data.token, data.user);
+
+            // Frosted Liquid Glass Loading Transition (Inspired by Flutter Reel)
+            await showLiquidLoadingTransition('Authenticating Student...', `Welcome back, ${data.user.fullName || data.user.username}! Powering up study streak`, 800);
 
             showToast(`Welcome back, ${data.user.fullName || data.user.username}!`, 'success');
             broadcastStatsUpdate('activity_updated');
@@ -10198,6 +10249,9 @@ async function showStudyDesk(initialGrade = null, initialSubject = null, pushHis
     state.currentView = 'studydesk';
     renderHeader();
 
+    // High-energy liquid glass transition into study room (from Flutter reel)
+    showLiquidLoadingTransition('Entering Focus Study Desk...', 'Loading Ethiopian Curriculum units, notes & formulas', 650);
+
     if (initialGrade) deskState.grade = initialGrade;
     if (initialSubject) deskState.subject = initialSubject;
 
@@ -11912,8 +11966,15 @@ function renderDeskUnitNotesView(container) {
                 </div>
                 <div style="display: flex; gap: 8px; align-items: center;">
                     ${currentUnit.examWeight ? `
+                        <div class="circular-progress-wrap" title="National Exam Weight: ${currentUnit.examWeight}">
+                            <svg class="circular-progress-svg" viewBox="0 0 36 36" style="width: 32px; height: 32px;">
+                                <path class="circular-progress-bg" style="stroke-width: 3.5;" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
+                                <path class="circular-progress-fill" style="stroke: #38bdf8; stroke-width: 3.5;" stroke-dasharray="${parseInt(currentUnit.examWeight) || 20}, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
+                            </svg>
+                            <span class="circular-progress-text" style="font-size: 9.5px;">${parseInt(currentUnit.examWeight) || 20}%</span>
+                        </div>
                         <span class="role-pill" style="font-size: 11px; background: rgba(56, 189, 248, 0.15); color: #38bdf8;">
-                            🎯 ${currentUnit.examWeight}
+                            🎯 National Exam
                         </span>
                     ` : ''}
                     ${currentUnit.readTime ? `
