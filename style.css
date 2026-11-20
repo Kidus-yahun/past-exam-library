@@ -1416,11 +1416,14 @@ main {
 ======================================================== */
 .auth-wrapper {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     min-height: calc(80vh - 120px);
-    padding: 30px 0;
+    padding: 30px 16px;
     animation: zoomIn 0.5s var(--ease-out);
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .auth-card {
@@ -4415,7 +4418,7 @@ main {
 .arrow { font-weight: 400; font-size: 18px; }
 .card:hover .arrow { transform: translateX(3px); color: #c1a8f2; }
 
-.auth-wrapper { min-height: 66vh; padding: 32px 0; animation: fadeIn .25s ease both; }
+.auth-wrapper { min-height: 66vh; padding: 32px 16px; flex-direction: column; animation: fadeIn .25s ease both; }
 .auth-card {
     max-width: 440px;
     padding: 34px;
@@ -7133,6 +7136,67 @@ footer {
     }
 }
 
+@media (max-width: 640px) {
+    .study-desk-wrapper {
+        padding: 8px 8px 84px 8px !important;
+        max-width: 100vw !important;
+        overflow-x: hidden !important;
+        box-sizing: border-box !important;
+    }
+    .desk-topbar {
+        padding: 10px 12px !important;
+        flex-direction: column !important;
+        align-items: stretch !important;
+        border-radius: 16px !important;
+        gap: 10px !important;
+    }
+    .desk-topbar > div {
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        align-items: center;
+        justify-content: flex-start;
+    }
+    .desk-pomodoro-pill {
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+        justify-content: space-between;
+        padding: 6px 10px !important;
+        border-radius: 14px !important;
+        gap: 6px !important;
+    }
+    .desk-timer-display {
+        font-size: 15px !important;
+    }
+    .desk-timer-unit {
+        font-size: 10px !important;
+    }
+    .desk-timer-toggle-btn {
+        padding: 4px 10px !important;
+        font-size: 11px !important;
+    }
+    .desk-timer-reset-btn {
+        padding: 3px 6px !important;
+        font-size: 10.5px !important;
+    }
+    .desk-workspace {
+        gap: 14px;
+        max-width: 100%;
+    }
+    .desk-panel {
+        border-radius: 16px;
+        max-width: 100%;
+    }
+    .desk-panel-header {
+        padding: 10px 12px;
+    }
+    .desk-panel-body {
+        padding: 14px 12px;
+    }
+}
+
 .desk-panel {
     background: var(--bg-card);
     border: 1px solid var(--border-glass);
@@ -8945,7 +9009,9 @@ footer {
 .auth-hero-banner {
     position: relative;
     width: 100%;
+    max-width: 440px;
     height: 175px;
+    box-sizing: border-box;
     background: radial-gradient(circle at 50% 20%, rgba(56, 189, 248, 0.35) 0%, rgba(14, 165, 233, 0.15) 50%, rgba(15, 23, 42, 0.9) 100%), #0b1120;
     border-radius: 24px 24px 0 0;
     overflow: hidden;
@@ -9007,6 +9073,9 @@ footer {
     border-radius: 0 0 24px 24px;
     padding: 28px 24px 24px 24px;
     box-shadow: 0 20px 45px rgba(0, 0, 0, 0.6);
+    width: 100%;
+    max-width: 440px;
+    box-sizing: border-box;
 }
 
 /* Animated Circular Mastery Progress Ring */

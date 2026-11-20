@@ -3871,7 +3871,7 @@ function showLiquidLoadingTransition(title = 'Powering up...', subtitle = 'Prepa
 
 function showLoginView(activeTab = 'signin') {
     app.innerHTML = `
-        <div class="auth-wrapper" style="max-width: 460px; margin: 0 auto;">
+        <div class="auth-wrapper" style="max-width: 440px; margin: 0 auto; display: flex; flex-direction: column; width: 100%; box-sizing: border-box;">
             <!-- Anime/High-Energy Hero Banner (Inspired by Reel) -->
             <div class="auth-hero-banner">
                 <div class="auth-hero-glow"></div>
@@ -4372,6 +4372,16 @@ function escapeQuotes(str) {
         .replace(/>/g, '&gt;')
         .replace(/\r/g, '')
         .replace(/\n/g, ' ');
+}
+
+function escapeHtml(str) {
+    if (str == null) return '';
+    return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
 }
 
 /* Modal: Upload New Exam Paper */
