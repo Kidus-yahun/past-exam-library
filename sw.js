@@ -1,7 +1,7 @@
 // sw.js - Service Worker for Past Exam Library (Blessed G/Michael Catholic Secondary School)
 // Provides 100% offline practice, low-data caching, and fast PDF study access
 
-const CACHE_VERSION = 'v4.1.0';
+const CACHE_VERSION = 'v4.2.0';
 const STATIC_CACHE = `past-exam-static-${CACHE_VERSION}`;
 const API_CACHE = `past-exam-api-${CACHE_VERSION}`;
 const PDF_CACHE = `past-exam-pdf-${CACHE_VERSION}`;
@@ -10,9 +10,9 @@ const CORE_ASSETS = [
     '/',
     '/index.html',
     '/style.css',
-    '/style.css?v=3.9.13',
+    '/style.css?v=4.2.0',
     '/script.js',
-    '/script.js?v=3.9.13',
+    '/script.js?v=4.2.0',
     '/manifest.json',
     '/icons/icon-192.png',
     '/icons/icon-512.png',
@@ -129,8 +129,28 @@ self.addEventListener('fetch', (event) => {
         return;
     }
 
-    // C. Static Assets & App Shell
-    // Strategy: Stale-While-Revalidate for JS/CSS, Cache-first for images/fonts
+    // C. Scripts & Stylesheets: Network-First to guarantee immediate bugfix rollouts, fallback to offline cache
+    if (url.pathname.endsWith('.js') || url.pathname.endsWith('.css') || req.mode === 'navigate') {
+        event.respondWith(
+            fetch(req).then((networkResponse) => {
+                if (networkResponse && networkResponse.status === 200) {
+                    const resClone = networkResponse.clone();
+                    caches.open(STATIC_CACHE).then((cache) => cache.put(req, resClone));
+                }
+                return networkResponse;
+            }).catch(() => {
+                return caches.match(req).then((cached) => {
+                    if (cached) return cached;
+                    if (req.mode === 'navigate') {
+                        return caches.match('/index.html') || caches.match('/');
+                    }
+                });
+            })
+        );
+        return;
+    }
+
+    // D. Static Media & Assets: Stale-While-Revalidate
     event.respondWith(
         caches.match(req).then((cachedResponse) => {
             const fetchPromise = fetch(req).then((networkResponse) => {
@@ -140,7 +160,6 @@ self.addEventListener('fetch', (event) => {
                 }
                 return networkResponse;
             }).catch(() => {
-                // If navigation request fails offline, fallback to root index.html
                 if (req.mode === 'navigate') {
                     return caches.match('/index.html') || caches.match('/');
                 }

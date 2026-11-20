@@ -18,6 +18,28 @@ if (document.readyState === 'loading') {
 window.addEventListener('load', disableAndroidSwipeRefresh);
 setInterval(disableAndroidSwipeRefresh, 1500);
 
+// Global Escaping and Sanitization Helpers
+function escapeHtml(str) {
+    if (str == null) return '';
+    return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+}
+window.escapeHtml = escapeHtml;
+
+function escapeQuotes(str) {
+    if (str == null) return '';
+    return String(str)
+        .replace(/\\/g, '\\\\')
+        .replace(/'/g, "\\'")
+        .replace(/"/g, '&quot;')
+        .replace(/\n/g, ' ');
+}
+window.escapeQuotes = escapeQuotes;
+
 // Static Category Fallback for Instant First-Paint (Zero Network Delay)
 const STATIC_FALLBACK_CATEGORIES = {
     grades: [

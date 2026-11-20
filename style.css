@@ -4783,7 +4783,17 @@ footer {
     .hero { margin-bottom: 24px; }
     .hero h1 { font-size: clamp(32px, 9vw, 42px); letter-spacing: -1px; }
     .search-container { margin-bottom: 24px; }
-    .auth-wrapper { min-height: auto; align-items: flex-start; }
+    .auth-wrapper {
+        min-height: auto;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        width: 100% !important;
+        max-width: 440px !important;
+        margin: 0 auto !important;
+        padding: 20px 12px !important;
+        box-sizing: border-box !important;
+    }
     .auth-card { padding: 24px 20px; }
     .footer-content > div:first-child span { display: block; margin: 4px 0 0; }
 }
@@ -7159,27 +7169,43 @@ footer {
         justify-content: flex-start;
     }
     .desk-pomodoro-pill {
-        width: 100%;
-        max-width: 100%;
-        box-sizing: border-box;
-        justify-content: space-between;
-        padding: 6px 10px !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        box-sizing: border-box !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        padding: 5px 8px !important;
         border-radius: 14px !important;
-        gap: 6px !important;
+        gap: 4px !important;
+        overflow: hidden !important;
     }
-    .desk-timer-display {
+    .desk-pomodoro-pill .desk-timer-icon {
         font-size: 15px !important;
     }
+    .desk-pomodoro-pill .desk-timer-mode-tag {
+        font-size: 8.5px !important;
+        letter-spacing: 0.2px !important;
+    }
+    .desk-timer-display {
+        font-size: 14px !important;
+    }
     .desk-timer-unit {
-        font-size: 10px !important;
+        font-size: 9.5px !important;
     }
     .desk-timer-toggle-btn {
-        padding: 4px 10px !important;
-        font-size: 11px !important;
+        padding: 4px 8px !important;
+        font-size: 10.5px !important;
+        letter-spacing: 0.2px !important;
+    }
+    #desk-timer-mode-btn {
+        padding: 4px 6px !important;
+        font-size: 10px !important;
     }
     .desk-timer-reset-btn {
         padding: 3px 6px !important;
-        font-size: 10.5px !important;
+        font-size: 10px !important;
+        white-space: nowrap !important;
     }
     .desk-workspace {
         gap: 14px;
@@ -9008,15 +9034,15 @@ footer {
 /* High-Energy Hero Card Layout (Matching Reel Structure) */
 .auth-hero-banner {
     position: relative;
-    width: 100%;
-    max-width: 440px;
+    width: 100% !important;
+    max-width: 440px !important;
     height: 175px;
-    box-sizing: border-box;
+    box-sizing: border-box !important;
     background: radial-gradient(circle at 50% 20%, rgba(56, 189, 248, 0.35) 0%, rgba(14, 165, 233, 0.15) 50%, rgba(15, 23, 42, 0.9) 100%), #0b1120;
     border-radius: 24px 24px 0 0;
     overflow: hidden;
-    display: flex;
-    flex-direction: column;
+    display: flex !important;
+    flex-direction: column !important;
     align-items: center;
     justify-content: center;
     text-align: center;
@@ -9073,9 +9099,9 @@ footer {
     border-radius: 0 0 24px 24px;
     padding: 28px 24px 24px 24px;
     box-shadow: 0 20px 45px rgba(0, 0, 0, 0.6);
-    width: 100%;
-    max-width: 440px;
-    box-sizing: border-box;
+    width: 100% !important;
+    max-width: 440px !important;
+    box-sizing: border-box !important;
 }
 
 /* Animated Circular Mastery Progress Ring */
