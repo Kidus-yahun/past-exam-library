@@ -1470,16 +1470,27 @@ async function initApp() {
         await fetchCategories();
     }, 150);
 
-    // 8. Service worker registration
+    // 8. Service worker registration & dynamic update detection
     if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
-            setTimeout(() => {
-                navigator.serviceWorker.register('/sw.js').then((reg) => {
-                    console.log('[PWA] Service Worker active');
-                }).catch((err) => {
-                    console.warn('[PWA] Service Worker registration failed:', err);
+            navigator.serviceWorker.register('/sw.js').then((reg) => {
+                console.log('[PWA] Service Worker registered');
+                // Check for new updates on launch
+                try { reg.update(); } catch(e) {}
+
+                reg.addEventListener('updatefound', () => {
+                    const newWorker = reg.installing;
+                    if (newWorker) {
+                        newWorker.addEventListener('statechange', () => {
+                            if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                                showPwaUpdatePrompt();
+                            }
+                        });
+                    }
                 });
-            }, 2500);
+            }).catch((err) => {
+                console.warn('[PWA] Service Worker registration failed:', err);
+            });
         });
     }
 
@@ -1630,6 +1641,21 @@ function showToast(message, type = 'info') {
         toast.style.transition = 'all 0.3s ease';
         setTimeout(() => toast.remove(), 300);
     }, 3500);
+}
+
+function showPwaUpdatePrompt() {
+    if (document.getElementById('pwa-update-toast')) return;
+    const toast = document.createElement('div');
+    toast.id = 'pwa-update-toast';
+    toast.style.cssText = 'position: fixed; bottom: 82px; left: 50%; transform: translateX(-50%); z-index: 9999; display: flex; align-items: center; gap: 10px; background: rgba(15, 23, 42, 0.95); border: 1.5px solid #38bdf8; box-shadow: 0 10px 30px rgba(0,0,0,0.6); padding: 8px 14px; border-radius: 9999px; max-width: 92vw; backdrop-filter: blur(12px); animation: toastSlide 0.3s ease;';
+    toast.innerHTML = `
+        <span style="font-size: 13px; font-weight: 700; color: #ffffff; white-space: nowrap;">✨ New update available!</span>
+        <button type="button" onclick="window.location.reload(true)" style="background: linear-gradient(135deg, #38bdf8, #0284c7); border: none; color: #ffffff; font-weight: 800; font-size: 11.5px; padding: 5px 12px; border-radius: 9999px; cursor: pointer; white-space: nowrap; box-shadow: 0 2px 8px rgba(2, 132, 199, 0.4);">
+            Update Now
+        </button>
+        <button type="button" onclick="this.parentElement.remove()" style="background: none; border: none; color: #94a3b8; font-size: 13px; cursor: pointer; padding: 0 4px; line-height: 1;" aria-label="Dismiss">✕</button>
+    `;
+    document.body.appendChild(toast);
 }
 
 function showModal(title, bodyHtml, footerHtml = '') {
