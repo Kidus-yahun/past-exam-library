@@ -20,6 +20,33 @@ function formatExamTitle(e) {
     return `${sem} ${e.subject} ${type} for ${e.grade}`;
 }
 
+function getAnswerInfo(q) {
+    const opts = (q.options || []).map(o => String(o).trim());
+    const optLabels = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
+    const ansIdx = typeof q.correctAnswer === 'number' ? q.correctAnswer : 0;
+    const isTf = opts.length === 2 && opts.some(o => /true/i.test(o)) && opts.some(o => /false/i.test(o));
+    
+    if (isTf) {
+        const text = opts[ansIdx] || (ansIdx === 0 ? 'True' : 'False');
+        const isTrue = /true/i.test(text);
+        return {
+            key: isTrue ? 'True' : 'False',
+            shortKey: isTrue ? 'True' : 'False',
+            fullAnswer: isTrue ? 'True' : 'False',
+            explanation: q.explanation || ''
+        };
+    }
+
+    const keyLetter = optLabels[ansIdx] || `Opt ${ansIdx + 1}`;
+    const ansText = opts[ansIdx] || '';
+    return {
+        key: keyLetter,
+        shortKey: keyLetter,
+        fullAnswer: ansText ? `(${keyLetter}) ${ansText}` : keyLetter,
+        explanation: q.explanation || ''
+    };
+}
+
 function generateCleanPdfForExam(exam, questions) {
     const relPath = exam.fileUrl.replace(/^\//, '');
     const fullOutPath = path.join(__dirname, '..', relPath);
@@ -287,6 +314,91 @@ function generateCleanPdfForExam(exam, questions) {
                 doc.x = LEFT_MARGIN;
             });
         }
+
+        // ==========================================
+        // FINAL SECTION: OFFICIAL ANSWER SHEET & TEACHER'S KEY
+        // ==========================================
+        doc.addPage();
+        doc.x = LEFT_MARGIN;
+        doc.y = 34;
+
+        // Answer Sheet Header
+        doc.fontSize(13.5).font('Bold').fillColor('#000000').text('Blessed G/Michael Catholic Secondary School', LEFT_MARGIN, doc.y, { align: 'center', width: CONTENT_WIDTH });
+        doc.moveDown(0.18);
+        doc.fontSize(11).font('Bold').fillColor('#1e3a8a').text('OFFICIAL EXAM ANSWER SHEET & TEACHER SOLUTIONS', LEFT_MARGIN, doc.y, { align: 'center', width: CONTENT_WIDTH });
+        doc.moveDown(0.18);
+        doc.fontSize(9.5).font('Bold').fillColor('#334155').text(formatExamTitle(exam), LEFT_MARGIN, doc.y, { align: 'center', width: CONTENT_WIDTH });
+        doc.fillColor('#000000');
+        doc.moveDown(0.3);
+
+        // Guide / Disclaimer Banner
+        const infoBoxY = doc.y;
+        doc.rect(LEFT_MARGIN, infoBoxY, CONTENT_WIDTH, 22).fillAndStroke('#f1f5f9', '#cbd5e1');
+        doc.fontSize(8.5).font('Regular').fillColor('#475569').text('Official Answer Key & Teacher Guide — Prepared from previous authentic school examinations.', LEFT_MARGIN + 6, infoBoxY + 6, { width: CONTENT_WIDTH - 12, align: 'center' });
+        doc.fillColor('#000000');
+        doc.y = infoBoxY + 30;
+
+        // Part I: Quick Reference Answer Key Matrix
+        doc.fontSize(10).font('Bold').text('Part I: Quick Reference Answer Key', LEFT_MARGIN, doc.y, { underline: true });
+        doc.moveDown(0.3);
+
+        const allQuestions = questions.map((q, idx) => ({ ...q, origIdx: idx + 1 }));
+        const sortedQuestions = [...allQuestions].sort((a, b) => a.origIdx - b.origIdx);
+
+        const numCols = sortedQuestions.length > 25 ? 5 : 4;
+        const colW = CONTENT_WIDTH / numCols;
+        const numRows = Math.ceil(sortedQuestions.length / numCols);
+        const gridStartY = doc.y;
+        const rowHeight = 16;
+
+        for (let r = 0; r < numRows; r++) {
+            const isEven = r % 2 === 0;
+            const yRow = gridStartY + (r * rowHeight);
+
+            if (isEven) {
+                doc.rect(LEFT_MARGIN, yRow - 1, CONTENT_WIDTH, rowHeight).fill('#f8fafc');
+            }
+
+            for (let c = 0; c < numCols; c++) {
+                const itemIdx = c * numRows + r;
+                if (itemIdx < sortedQuestions.length) {
+                    const item = sortedQuestions[itemIdx];
+                    const ans = getAnswerInfo(item);
+                    const cellX = LEFT_MARGIN + (c * colW);
+
+                    doc.fontSize(8.5).font('Bold').fillColor('#1e293b').text(`Q${item.origIdx}:`, cellX + 4, yRow + 3, { continued: true });
+                    doc.font('Bold').fillColor('#15803d').text(`  ${ans.shortKey}`);
+                }
+            }
+        }
+        doc.fillColor('#000000');
+        doc.y = gridStartY + (numRows * rowHeight) + 12;
+
+        // Part II: Teacher Solutions & Detailed Explanations
+        ensureSpace(45);
+        doc.x = LEFT_MARGIN;
+        doc.fontSize(10).font('Bold').text('Part II: Teacher Solutions & Step-by-Step Explanations', LEFT_MARGIN, doc.y, { underline: true });
+        doc.moveDown(0.35);
+
+        sortedQuestions.forEach(q => {
+            const ans = getAnswerInfo(q);
+            doc.fontSize(8.5).font('Regular');
+            const explHeight = q.explanation ? doc.heightOfString(q.explanation, { width: CONTENT_WIDTH - 16 }) : 0;
+            ensureSpace(explHeight + 28);
+
+            doc.x = LEFT_MARGIN;
+            doc.fontSize(9).font('Bold').fillColor('#1e293b').text(`Q${q.origIdx}. `, LEFT_MARGIN, doc.y, { continued: true });
+            doc.font('Bold').fillColor('#15803d').text(`Answer: ${ans.fullAnswer}`);
+            doc.fillColor('#000000');
+
+            if (q.explanation) {
+                doc.moveDown(0.12);
+                doc.fontSize(8.5).font('Regular').fillColor('#334155').text(`Teacher Guide: ${q.explanation}`, LEFT_MARGIN + 12, doc.y, { width: CONTENT_WIDTH - 16 });
+                doc.fillColor('#000000');
+            }
+            doc.moveDown(0.25);
+            doc.x = LEFT_MARGIN;
+        });
 
         // Add page numbers without causing accidental page breaks
         const totalPages = doc.bufferedPageRange().count;

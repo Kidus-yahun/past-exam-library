@@ -7672,13 +7672,13 @@ async function showExamHub(grade, semester, examType, subject, filePath, examTit
                 </span>
                 <h3 style="font-size: 22px; color: #ffffff; margin-bottom: 8px;">Exam Document (PDF)</h3>
                 <p style="color: var(--text-muted); font-size: 14px; line-height: 1.6; margin-bottom: 24px;">
-                    Download the official past paper for offline study, or preview the complete document online.
+                    Download the official past paper for offline study, or preview the complete document online. Includes the verified teacher answer sheet and solutions on the final page.
                 </p>
 
                 <div style="display: flex; flex-direction: column; gap: 12px; margin-top: auto;">
                     <button class="btn-primary" style="justify-content: center; padding: 14px 20px; display: inline-flex; align-items: center; gap: 8px; cursor: pointer; border: none; font-size: 14.5px;" 
                             onclick="downloadExamPaper('${filePath}', '${escapeQuotes(examTitle)}.pdf', { grade: '${grade}', subject: '${escapeQuotes(subject)}', semester: '${semester}', examType: '${examType}', examTitle: '${escapeQuotes(examTitle)}' })">
-                        ${uiIcon('download', 16)} Download Official PDF Paper
+                        ${uiIcon('download', 16)} Download PDF Paper (with Answer Sheet)
                     </button>
                     <button class="btn-secondary" style="justify-content: center; padding: 12px; display: inline-flex; align-items: center; gap: 8px;" 
                             onclick="logActivity('preview', { grade: '${grade}', subject: '${escapeQuotes(subject)}', semester: '${semester}', examType: '${examType}', examTitle: '${escapeQuotes(examTitle)}', filePath: '${filePath}', details: 'Previewed exam PDF online' }); renderExamViewer('${escapeQuotes(examTitle)}', '${grade} • ${semester} • ${examType}', '${filePath}', () => showExamHub('${grade}', '${semester}', '${examType}', '${escapeQuotes(subject)}', '${filePath}', '${escapeQuotes(examTitle)}', window._lastBackFn))">
@@ -8480,7 +8480,7 @@ function renderExamViewer(title, subtitle, fileUrl, onBackFn, pushHistory = true
                         ${uiIcon('target', 14)} Practice Questions & Answers
                     </button>
                     <button class="btn-secondary" style="display: inline-flex; align-items: center; gap: 6px; cursor: pointer;" title="Download for offline study" onclick="downloadExamPaper('${fileUrl}', '${escapeQuotes(title)}.pdf')">
-                        ${uiIcon('download', 14)} Download PDF
+                        ${uiIcon('download', 14)} Download PDF (with Answer Sheet)
                     </button>
                     <button class="btn-secondary" style="display: inline-flex; align-items: center; gap: 6px; cursor: pointer;" title="Save to My Study Hub" onclick="toggleBookmarkExam('exam_${escapeQuotes(title)}', '${escapeQuotes(title)}', '', '', '', '', '${fileUrl}')">
                         ${uiIcon('bookmark', 14)} Bookmark
@@ -8499,6 +8499,9 @@ function renderExamViewer(title, subtitle, fileUrl, onBackFn, pushHistory = true
                     </span>
                     <button class="pdf-btn-ctrl" id="pdf-next-btn" onclick="changePdfPage(1)">
                         Next ▶
+                    </button>
+                    <button class="pdf-btn-ctrl" id="pdf-answer-sheet-btn" onclick="jumpToPdfAnswerSheet()" title="Jump to official Answer Sheet on the last page" style="display: inline-flex; align-items: center; gap: 4px; color: #4ade80; font-weight: 600;">
+                        ${uiIcon('checkCircle', 12)} Answer Sheet
                     </button>
                 </div>
 
@@ -8737,6 +8740,19 @@ function changePdfPage(delta) {
         const canvasArea = document.getElementById('pdf-canvas-area');
         if (canvasArea) canvasArea.scrollTop = 0;
     }
+}
+
+function jumpToPdfAnswerSheet() {
+    if (!pdfViewerState.doc || !pdfViewerState.pageCount) return;
+    if (pdfViewerState.pageNum === pdfViewerState.pageCount) {
+        showToast('You are already viewing the Answer Sheet page', 'info');
+        return;
+    }
+    pdfViewerState.pageNum = pdfViewerState.pageCount;
+    renderCurrentPdfPage();
+    const canvasArea = document.getElementById('pdf-canvas-area');
+    if (canvasArea) canvasArea.scrollTop = 0;
+    showToast(`Jumped to Official Answer Sheet (Page ${pdfViewerState.pageCount})`, 'success');
 }
 
 function zoomPdf(delta) {
