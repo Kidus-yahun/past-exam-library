@@ -150,6 +150,8 @@ app.use('/exams', (req, res, next) => {
 
     // High-speed CDN proxy with jsDelivr edge CDN + raw fallback
     const encodedSegments = safeRelPath.split(/[\/\\]/).filter(s => s && s !== '..' && s !== '.').map(seg => encodeURIComponent(seg)).join('/');
+    const kidusRawUrl = `https://raw.githubusercontent.com/Kidus-yahun/past-exam-library/main/exams/${encodedSegments}`;
+    const kidusCdnUrl = `https://cdn.jsdelivr.net/gh/Kidus-yahun/past-exam-library@main/exams/${encodedSegments}`;
     const jsDelivrUrl = `https://cdn.jsdelivr.net/gh/soliyana-dev/past-exam-library@main/exams/${encodedSegments}`;
     const rawGithubUrl = `https://raw.githubusercontent.com/soliyana-dev/past-exam-library/main/exams/${encodedSegments}`;
 
@@ -198,7 +200,7 @@ app.use('/exams', (req, res, next) => {
         }).on('error', () => fetchAndPipe(urls, idx + 1));
     }
 
-    const candidateUrls = [jsDelivrUrl, rawGithubUrl];
+    const candidateUrls = [kidusRawUrl, kidusCdnUrl, jsDelivrUrl, rawGithubUrl];
     if (encodedSegments.includes('/Pretest/')) {
         candidateUrls.push(jsDelivrUrl.replace('/Pretest/', '/pretest/'));
         candidateUrls.push(rawGithubUrl.replace('/Pretest/', '/pretest/'));

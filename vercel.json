@@ -1,5 +1,10 @@
 {
   "version": 2,
+  "functions": {
+    "api/index.js": {
+      "includeFiles": "exams/**"
+    }
+  },
   "rewrites": [
     { "source": "/data(.*)", "destination": "/api/index.js" },
     { "source": "/server(.*)", "destination": "/api/index.js" },
