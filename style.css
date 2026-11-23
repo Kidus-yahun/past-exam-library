@@ -2451,6 +2451,7 @@ footer {
     .brand-mark {
         width: 26px !important;
         height: 26px !important;
+        border-radius: 50% !important;
         flex-shrink: 0 !important;
     }
 
@@ -2886,7 +2887,7 @@ header {
     justify-content: center;
     width: 32px;
     height: 32px;
-    border-radius: 9px;
+    border-radius: 50%;
     background: linear-gradient(135deg, rgba(99, 102, 241, 0.16), rgba(168, 85, 247, 0.22));
     border: 1px solid rgba(168, 85, 247, 0.35);
     color: #c4b5fd;
