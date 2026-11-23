@@ -1,7 +1,8 @@
 import os
 import json
+import cv2
 import numpy as np
-from PIL import Image, ImageEnhance
+from PIL import Image
 
 # 1. Rotated files list (need 90 deg clockwise rotation)
 rotated_files = {
@@ -14,49 +15,75 @@ rotated_files = {
     '5771561943129854537_119.jpg'
 }
 
-def find_paper_box(im):
-    w, h = im.size
-    gray = im.convert('L')
-    arr = np.array(gray)
+def process_scanned_page(img_bgr, is_rotated=False):
+    if is_rotated:
+        img_bgr = cv2.rotate(img_bgr, cv2.ROTATE_90_CLOCKWISE)
+        
+    h, w = img_bgr.shape[:2]
+    gray = cv2.cvtColor(img_bgr, cv2.COLOR_BGR2GRAY) if len(img_bgr.shape) == 3 else img_bgr
     
-    # Core central brightness
-    core = arr[int(h*0.35):int(h*0.65), int(w*0.25):int(w*0.75)]
+    # 1. Page crop estimation
+    core = gray[int(h*0.35):int(h*0.65), int(w*0.25):int(w*0.75)]
     paper_median = float(np.median(core))
-    thresh = max(130.0, paper_median - 35.0)
+    thresh = max(115.0, paper_median - 40.0)
     
-    # Vertical profile in central band
-    center_band = arr[:, int(w*0.25):int(w*0.75)]
+    center_band = gray[:, int(w*0.25):int(w*0.75)]
     v_means = np.mean(center_band, axis=1)
     v_smooth = np.convolve(v_means, np.ones(50)/50, mode='same')
+    top_cands = np.where(v_smooth[:int(h*0.5)] > thresh)[0]
+    top = top_cands[0] if len(top_cands) > 0 else int(h * 0.08)
+    bot_cands = np.where(v_smooth[int(h*0.5):] < thresh)[0]
+    bottom = int(h*0.5) + bot_cands[0] if len(bot_cands) > 0 else int(h * 0.92)
     
-    # Top
-    top_candidates = np.where(v_smooth[:int(h*0.5)] > thresh)[0]
-    top = top_candidates[0] if len(top_candidates) > 0 else int(h * 0.15)
-        
-    # Bottom
-    bottom_candidates = np.where(v_smooth[int(h*0.5):] < thresh)[0]
-    bottom = int(h*0.5) + bottom_candidates[0] if len(bottom_candidates) > 0 else int(h * 0.88)
-        
-    # Horizontal profile
     safe_top = min(top + 80, int(h*0.4))
-    safe_bottom = max(bottom - 80, int(h*0.6))
-    h_band = arr[safe_top:safe_bottom, :]
+    safe_bot = max(bottom - 80, int(h*0.6))
+    h_band = gray[safe_top:safe_bot, :]
     h_means = np.mean(h_band, axis=0)
     h_smooth = np.convolve(h_means, np.ones(30)/30, mode='same')
     
-    left_candidates = np.where(h_smooth[:int(w*0.3)] > thresh)[0]
-    left = left_candidates[0] if len(left_candidates) > 0 else int(w * 0.05)
-        
-    right_candidates = np.where(h_smooth[int(w*0.7):] < thresh)[0]
-    right = int(w*0.7) + right_candidates[0] if len(right_candidates) > 0 else int(w * 0.96)
-        
-    # Clamp inside image with neat margins
+    left_cands = np.where(h_smooth[:int(w*0.3)] > thresh)[0]
+    left = left_cands[0] if len(left_cands) > 0 else int(w * 0.04)
+    right_cands = np.where(h_smooth[int(w*0.7):] < thresh)[0]
+    right = int(w*0.7) + right_cands[0] if len(right_cands) > 0 else int(w * 0.96)
+    
+    # Safe margins so no question text or numbers are ever cut off
     top = max(0, int(top - 15))
     bottom = min(h, int(bottom + 20))
     left = max(0, int(left - 10))
     right = min(w, int(right + 10))
     
-    return left, top, right, bottom
+    cropped = gray[top:bottom, left:right]
+    ch, cw = cropped.shape
+    
+    # 2. Illumination background estimation
+    k_dim = max(31, (cw // 28) | 1)
+    kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (k_dim, k_dim))
+    bg = cv2.morphologyEx(cropped, cv2.MORPH_CLOSE, kernel)
+    
+    # Background division to eliminate all shadows and non-uniform lighting
+    division = np.float32(cropped) / (np.float32(bg) + 1e-5) * 255.0
+    division = np.clip(division, 0.0, 255.0)
+    
+    # 3. Dynamic contrast stretching (clean white background, deep dark text)
+    p_dark = np.percentile(division, 1.8)
+    p_bright = np.percentile(division, 95.0)
+    black_pt = max(20.0, p_dark - 12.0)
+    white_pt = min(252.0, max(215.0, p_bright - 4.0))
+    
+    scanned = np.clip((division - black_pt) * (255.0 / (white_pt - black_pt)), 0.0, 255.0).astype(np.uint8)
+    
+    # Clean outer boundary slivers
+    scanned[0:5, :] = 255
+    scanned[-5:, :] = 255
+    scanned[:, 0:5] = 255
+    scanned[:, -5:] = 255
+    
+    # 4. Crisp edge sharpening (Unsharp Mask)
+    blur = cv2.GaussianBlur(scanned, (0, 0), 1.2)
+    sharpened = cv2.addWeighted(scanned, 1.35, blur, -0.35, 0)
+    final = np.clip(sharpened, 0, 255).astype(np.uint8)
+    
+    return final
 
 src_folder = r'D:\past ppr'
 cache_dir = 'scanned_cropped_pages'
@@ -65,29 +92,23 @@ os.makedirs(cache_dir, exist_ok=True)
 all_files = sorted(os.listdir(src_folder))
 print(f"Total source images: {len(all_files)}")
 
-# Crop and enhance each page
+# Crop, shadow-remove, and enhance each page into clean scanned document
 for fname in all_files:
     if not fname.lower().endswith(('.jpg', '.jpeg', '.png')):
         continue
     out_path = os.path.join(cache_dir, fname)
-    if os.path.exists(out_path):
+    
+    img_bgr = cv2.imread(os.path.join(src_folder, fname))
+    if img_bgr is None:
         continue
     
-    im = Image.open(os.path.join(src_folder, fname))
-    if fname in rotated_files:
-        im = im.rotate(270, expand=True)
-        
-    left, top, right, bottom = find_paper_box(im)
-    cropped = im.crop((left, top, right, bottom))
+    is_rot = fname in rotated_files
+    scanned = process_scanned_page(img_bgr, is_rot)
     
-    # Contrast and brightness enhancement
-    enh = ImageEnhance.Contrast(cropped).enhance(1.22)
-    enh = ImageEnhance.Brightness(enh).enhance(1.04)
-    enh.save(out_path, quality=92, optimize=True)
+    # Save as high-quality scanned page
+    cv2.imwrite(out_path, scanned, [cv2.IMWRITE_JPEG_QUALITY, 93])
 
-print("Cropped pages ready.")
-
-# Define strictly 2nd Mid, Final, and 2nd Semester exams
+print("All cropped and enhanced clean scanned pages ready.\n")
 exams_config = [
     # =========================================================================
     # 1. SEMESTER 1 FINALS (All 10 Subjects)
@@ -331,67 +352,34 @@ exams_config = [
         "pdf_rel": "exams/Grade9/Semester2/Final/Biology.pdf"
     }
 ]
-
 # Verify total files count
 total_pages = sum(len(c["files"]) for c in exams_config)
 print(f"Total files in configuration: {total_pages} (Expected 69)")
 
-# Generate PDFs
+# Generate clean scanned PDFs
 for cfg in exams_config:
     pdf_path = cfg["pdf_rel"]
     os.makedirs(os.path.dirname(pdf_path), exist_ok=True)
     page_imgs = [Image.open(os.path.join(cache_dir, f)).convert('RGB') for f in cfg["files"]]
-    page_imgs[0].save(pdf_path, save_all=True, append_images=page_imgs[1:], resolution=150.0, quality=88)
+    page_imgs[0].save(pdf_path, save_all=True, append_images=page_imgs[1:], resolution=150.0, quality=90)
     file_size = os.path.getsize(pdf_path)
     cfg["fileSize"] = file_size
-    print(f"Generated {pdf_path} ({len(page_imgs)} pages, {file_size / 1024:.1f} KB)")
+    print(f"✔ Generated clean scan PDF: {pdf_path} ({len(page_imgs)} pages, {file_size / 1024:.1f} KB)")
 
-# Clean up db.json: retain non-Grade 9 and standard Grade 9 Mid1, and add our 23 new scanned exams
+# Update file sizes in db.json for these 23 scanned exams
 with open('data/db.json', 'r', encoding='utf-8') as f:
     db = json.load(f)
 
-# Keep all non-Grade 9 exams, and keep original Grade 9 Mid1 exams (exam_124 through exam_135)
-retained_exams = []
-for e in db.get('exams', []):
-    if e.get('grade') != 'Grade9':
-        retained_exams.append(e)
-    elif e.get('grade') == 'Grade9' and e.get('semester') == 'Semester1' and e.get('examType') == 'Mid1':
-        retained_exams.append(e)
-
-max_id = 0
-for e in retained_exams:
-    eid = e.get('id', '')
-    if eid.startswith('exam_'):
-        try:
-            num = int(eid.replace('exam_', ''))
-            if num > max_id:
-                max_id = num
-        except:
-            pass
-
-print(f"Base max exam id: exam_{max_id}")
-
+updated_count = 0
 for cfg in exams_config:
-    max_id += 1
-    new_exam = {
-        "id": f"exam_{max_id}",
-        "title": cfg['title'],
-        "grade": cfg['grade'],
-        "semester": cfg['semester'],
-        "examType": cfg['examType'],
-        "subject": cfg['subject'],
-        "year": cfg['year'],
-        "fileUrl": f"/{cfg['pdf_rel'].replace(os.sep, '/')}",
-        "fileName": os.path.basename(cfg['pdf_rel']),
-        "fileSize": cfg['fileSize'],
-        "uploadedBy": "academic-portal",
-        "createdAt": "2026-11-22T19:45:00.000Z"
-    }
-    retained_exams.append(new_exam)
-
-db['exams'] = retained_exams
+    rel_url = f"/{cfg['pdf_rel'].replace(os.sep, '/')}"
+    for e in db.get('exams', []):
+        if e.get('fileUrl') == rel_url:
+            e['fileSize'] = cfg['fileSize']
+            updated_count += 1
+            break
 
 with open('data/db.json', 'w', encoding='utf-8') as f:
     json.dump(db, f, indent=2, ensure_ascii=False)
 
-print(f"Database successfully updated. Total exams in db: {len(retained_exams)}")
+print(f"Database successfully updated. {updated_count} exam file sizes refreshed.")
