@@ -176,7 +176,7 @@
       "year": "2024",
       "fileUrl": "/exams/Grade10/Semester1/Final/Biology.pdf",
       "fileName": "Biology.pdf",
-      "fileSize": 50348,
+      "fileSize": 1689324,
       "uploadedBy": "academic-portal",
       "createdAt": "2026-10-23T15:15:16.762Z"
     },
@@ -190,7 +190,7 @@
       "year": "2024",
       "fileUrl": "/exams/Grade10/Semester1/Final/Chemistry.pdf",
       "fileName": "Chemistry.pdf",
-      "fileSize": 45386,
+      "fileSize": 1555862,
       "uploadedBy": "academic-portal",
       "createdAt": "2026-10-23T15:15:16.762Z"
     },
@@ -204,7 +204,7 @@
       "year": "2024",
       "fileUrl": "/exams/Grade10/Semester1/Final/Citizen ship.pdf",
       "fileName": "Citizen ship.pdf",
-      "fileSize": 34760,
+      "fileSize": 1823330,
       "uploadedBy": "academic-portal",
       "createdAt": "2026-10-23T15:15:16.762Z"
     },
@@ -232,7 +232,7 @@
       "year": "2024",
       "fileUrl": "/exams/Grade10/Semester1/Final/English.pdf",
       "fileName": "English.pdf",
-      "fileSize": 32391,
+      "fileSize": 2572859,
       "uploadedBy": "academic-portal",
       "createdAt": "2026-10-23T15:15:16.762Z"
     },
@@ -288,7 +288,7 @@
       "year": "2024",
       "fileUrl": "/exams/Grade10/Semester1/Final/IT.pdf",
       "fileName": "IT.pdf",
-      "fileSize": 33266,
+      "fileSize": 779895,
       "uploadedBy": "academic-portal",
       "createdAt": "2026-10-23T15:15:16.762Z"
     },
@@ -316,9 +316,10 @@
       "year": "2024",
       "fileUrl": "/exams/Grade10/Semester1/Final/Physics.pdf",
       "fileName": "Physics.pdf",
-      "fileSize": 46347,
+      "fileSize": 1695592,
       "uploadedBy": "academic-portal",
-      "createdAt": "2026-10-23T15:15:16.762Z"
+      "createdAt": "2026-10-23T15:15:16.762Z",
+      "pages": 4
     },
     {
       "id": "exam_13",
@@ -332,7 +333,8 @@
       "fileName": "Amharic.pdf",
       "fileSize": 934605,
       "uploadedBy": "academic-portal",
-      "createdAt": "2026-10-23T15:15:16.762Z"
+      "createdAt": "2026-10-23T15:15:16.762Z",
+      "pages": 3
     },
     {
       "id": "exam_14",
@@ -344,9 +346,10 @@
       "year": "2024",
       "fileUrl": "/exams/Grade10/Semester1/Mid1/Biology.pdf",
       "fileName": "Biology.pdf",
-      "fileSize": 42282,
+      "fileSize": 887687,
       "uploadedBy": "academic-portal",
-      "createdAt": "2026-10-23T15:15:16.762Z"
+      "createdAt": "2026-10-23T15:15:16.762Z",
+      "pages": 2
     },
     {
       "id": "exam_15",
@@ -358,9 +361,10 @@
       "year": "2024",
       "fileUrl": "/exams/Grade10/Semester1/Mid1/Chemistry.pdf",
       "fileName": "Chemistry.pdf",
-      "fileSize": 41513,
+      "fileSize": 900517,
       "uploadedBy": "academic-portal",
-      "createdAt": "2026-10-23T15:15:16.762Z"
+      "createdAt": "2026-10-23T15:15:16.762Z",
+      "pages": 2
     },
     {
       "id": "exam_16",
@@ -372,9 +376,10 @@
       "year": "2024",
       "fileUrl": "/exams/Grade10/Semester1/Mid1/Citizen ship.pdf",
       "fileName": "Citizen ship.pdf",
-      "fileSize": 41805,
+      "fileSize": 798914,
       "uploadedBy": "academic-portal",
-      "createdAt": "2026-10-23T15:15:16.762Z"
+      "createdAt": "2026-10-23T15:15:16.762Z",
+      "pages": 2
     },
     {
       "id": "exam_17",
@@ -386,9 +391,10 @@
       "year": "2024",
       "fileUrl": "/exams/Grade10/Semester1/Mid1/Economics.pdf",
       "fileName": "Economics.pdf",
-      "fileSize": 41167,
+      "fileSize": 944678,
       "uploadedBy": "academic-portal",
-      "createdAt": "2026-10-23T15:15:16.762Z"
+      "createdAt": "2026-10-23T15:15:16.762Z",
+      "pages": 2
     },
     {
       "id": "exam_18",
@@ -400,9 +406,10 @@
       "year": "2024",
       "fileUrl": "/exams/Grade10/Semester1/Mid1/English.pdf",
       "fileName": "English.pdf",
-      "fileSize": 38517,
+      "fileSize": 1353925,
       "uploadedBy": "academic-portal",
-      "createdAt": "2026-10-23T15:15:16.762Z"
+      "createdAt": "2026-10-23T15:15:16.762Z",
+      "pages": 3
     },
     {
       "id": "exam_19",
@@ -414,9 +421,10 @@
       "year": "2024",
       "fileUrl": "/exams/Grade10/Semester1/Mid1/Geography.pdf",
       "fileName": "Geography.pdf",
-      "fileSize": 40858,
+      "fileSize": 1174234,
       "uploadedBy": "academic-portal",
-      "createdAt": "2026-10-23T15:15:16.762Z"
+      "createdAt": "2026-10-23T15:15:16.762Z",
+      "pages": 2
     },
     {
       "id": "exam_20",
@@ -428,9 +436,10 @@
       "year": "2024",
       "fileUrl": "/exams/Grade10/Semester1/Mid1/History.pdf",
       "fileName": "History.pdf",
-      "fileSize": 42183,
+      "fileSize": 1090755,
       "uploadedBy": "academic-portal",
-      "createdAt": "2026-10-23T15:15:16.762Z"
+      "createdAt": "2026-10-23T15:15:16.762Z",
+      "pages": 2
     },
     {
       "id": "exam_21",
@@ -442,23 +451,25 @@
       "year": "2024",
       "fileUrl": "/exams/Grade10/Semester1/Mid1/IT.pdf",
       "fileName": "IT.pdf",
-      "fileSize": 40741,
+      "fileSize": 880440,
       "uploadedBy": "academic-portal",
-      "createdAt": "2026-10-23T15:15:16.762Z"
+      "createdAt": "2026-10-23T15:15:16.762Z",
+      "pages": 2
     },
     {
       "id": "exam_22",
-      "title": "Grade10 Mathematics Semester1 Mid1",
+      "title": "Grade 10 Mathematics Semester 1 Mid 1 (Test 1)",
       "grade": "Grade10",
       "semester": "Semester1",
       "examType": "Mid1",
       "subject": "Mathematics",
-      "year": "2024",
+      "year": "2018 E.C. (2024)",
       "fileUrl": "/exams/Grade10/Semester1/Mid1/Mathematics.pdf",
       "fileName": "Mathematics.pdf",
-      "fileSize": 39849,
+      "fileSize": 387427,
       "uploadedBy": "academic-portal",
-      "createdAt": "2026-10-23T15:15:16.762Z"
+      "createdAt": "2026-10-23T15:15:16.762Z",
+      "pages": 2
     },
     {
       "id": "exam_23",
@@ -470,9 +481,10 @@
       "year": "2024",
       "fileUrl": "/exams/Grade10/Semester1/Mid1/Physics.pdf",
       "fileName": "Physics.pdf",
-      "fileSize": 41379,
+      "fileSize": 1431035,
       "uploadedBy": "academic-portal",
-      "createdAt": "2026-10-23T15:15:16.762Z"
+      "createdAt": "2026-10-23T15:15:16.762Z",
+      "pages": 2
     },
     {
       "id": "exam_24",
@@ -486,7 +498,8 @@
       "fileName": "Amharic.pdf",
       "fileSize": 783054,
       "uploadedBy": "academic-portal",
-      "createdAt": "2026-10-23T15:15:16.762Z"
+      "createdAt": "2026-10-23T15:15:16.762Z",
+      "pages": 3
     },
     {
       "id": "exam_25",
@@ -500,7 +513,8 @@
       "fileName": "Biology.pdf",
       "fileSize": 1095326,
       "uploadedBy": "academic-portal",
-      "createdAt": "2026-10-23T15:15:16.762Z"
+      "createdAt": "2026-10-23T15:15:16.762Z",
+      "pages": 2
     },
     {
       "id": "exam_26",
@@ -514,7 +528,8 @@
       "fileName": "Chemistry.pdf",
       "fileSize": 1684437,
       "uploadedBy": "academic-portal",
-      "createdAt": "2026-10-23T15:15:16.762Z"
+      "createdAt": "2026-10-23T15:15:16.762Z",
+      "pages": 4
     },
     {
       "id": "exam_27",
@@ -528,7 +543,8 @@
       "fileName": "Citizen ship.pdf",
       "fileSize": 1087296,
       "uploadedBy": "academic-portal",
-      "createdAt": "2026-10-23T15:15:16.762Z"
+      "createdAt": "2026-10-23T15:15:16.762Z",
+      "pages": 2
     },
     {
       "id": "exam_28",
@@ -542,7 +558,8 @@
       "fileName": "Economics.pdf",
       "fileSize": 1314993,
       "uploadedBy": "academic-portal",
-      "createdAt": "2026-10-23T15:15:16.762Z"
+      "createdAt": "2026-10-23T15:15:16.762Z",
+      "pages": 3
     },
     {
       "id": "exam_29",
@@ -556,7 +573,8 @@
       "fileName": "English.pdf",
       "fileSize": 1849954,
       "uploadedBy": "academic-portal",
-      "createdAt": "2026-10-23T15:15:16.762Z"
+      "createdAt": "2026-10-23T15:15:16.762Z",
+      "pages": 5
     },
     {
       "id": "exam_30",
@@ -570,7 +588,8 @@
       "fileName": "Geography.pdf",
       "fileSize": 815149,
       "uploadedBy": "academic-portal",
-      "createdAt": "2026-10-23T15:15:16.762Z"
+      "createdAt": "2026-10-23T15:15:16.762Z",
+      "pages": 2
     },
     {
       "id": "exam_31",
@@ -584,7 +603,8 @@
       "fileName": "History.pdf",
       "fileSize": 1475043,
       "uploadedBy": "academic-portal",
-      "createdAt": "2026-10-23T15:15:16.762Z"
+      "createdAt": "2026-10-23T15:15:16.762Z",
+      "pages": 3
     },
     {
       "id": "exam_32",
@@ -598,7 +618,8 @@
       "fileName": "IT.pdf",
       "fileSize": 720987,
       "uploadedBy": "academic-portal",
-      "createdAt": "2026-10-23T15:15:16.762Z"
+      "createdAt": "2026-10-23T15:15:16.762Z",
+      "pages": 2
     },
     {
       "id": "exam_33",
@@ -610,9 +631,10 @@
       "year": "2024",
       "fileUrl": "/exams/Grade10/Semester1/Mid2/Mathematics.pdf",
       "fileName": "Mathematics.pdf",
-      "fileSize": 38658,
+      "fileSize": 561854,
       "uploadedBy": "academic-portal",
-      "createdAt": "2026-10-23T15:15:16.762Z"
+      "createdAt": "2026-10-23T15:15:16.762Z",
+      "pages": 2
     },
     {
       "id": "exam_34",
@@ -626,7 +648,8 @@
       "fileName": "Physics.pdf",
       "fileSize": 868366,
       "uploadedBy": "academic-portal",
-      "createdAt": "2026-10-23T15:15:16.762Z"
+      "createdAt": "2026-10-23T15:15:16.762Z",
+      "pages": 2
     },
     {
       "id": "exam_35",
@@ -640,7 +663,8 @@
       "fileName": "Amharic.pdf",
       "fileSize": 860225,
       "uploadedBy": "academic-portal",
-      "createdAt": "2026-10-23T15:15:16.762Z"
+      "createdAt": "2026-10-23T15:15:16.762Z",
+      "pages": 2
     },
     {
       "id": "exam_36",
@@ -654,7 +678,8 @@
       "fileName": "Biology.pdf",
       "fileSize": 1385716,
       "uploadedBy": "academic-portal",
-      "createdAt": "2026-10-23T15:15:16.762Z"
+      "createdAt": "2026-10-23T15:15:16.762Z",
+      "pages": 3
     },
     {
       "id": "exam_37",
@@ -668,7 +693,8 @@
       "fileName": "Chemistry.pdf",
       "fileSize": 1286285,
       "uploadedBy": "academic-portal",
-      "createdAt": "2026-10-23T15:15:16.762Z"
+      "createdAt": "2026-10-23T15:15:16.762Z",
+      "pages": 3
     },
     {
       "id": "exam_38",
@@ -682,7 +708,8 @@
       "fileName": "Citizen ship.pdf",
       "fileSize": 1446611,
       "uploadedBy": "academic-portal",
-      "createdAt": "2026-10-23T15:15:16.762Z"
+      "createdAt": "2026-10-23T15:15:16.762Z",
+      "pages": 3
     },
     {
       "id": "exam_39",
@@ -696,7 +723,8 @@
       "fileName": "Economics.pdf",
       "fileSize": 1045302,
       "uploadedBy": "academic-portal",
-      "createdAt": "2026-10-23T15:15:16.762Z"
+      "createdAt": "2026-10-23T15:15:16.762Z",
+      "pages": 2
     },
     {
       "id": "exam_40",
@@ -710,7 +738,8 @@
       "fileName": "English.pdf",
       "fileSize": 1899531,
       "uploadedBy": "academic-portal",
-      "createdAt": "2026-10-23T15:15:16.762Z"
+      "createdAt": "2026-10-23T15:15:16.762Z",
+      "pages": 4
     },
     {
       "id": "exam_41",
@@ -724,7 +753,8 @@
       "fileName": "Geography.pdf",
       "fileSize": 1478157,
       "uploadedBy": "academic-portal",
-      "createdAt": "2026-10-23T15:15:16.762Z"
+      "createdAt": "2026-10-23T15:15:16.762Z",
+      "pages": 3
     },
     {
       "id": "exam_42",
@@ -738,7 +768,8 @@
       "fileName": "History.pdf",
       "fileSize": 1259843,
       "uploadedBy": "academic-portal",
-      "createdAt": "2026-10-23T15:15:16.762Z"
+      "createdAt": "2026-10-23T15:15:16.762Z",
+      "pages": 2
     },
     {
       "id": "exam_43",
@@ -752,7 +783,8 @@
       "fileName": "IT.pdf",
       "fileSize": 899346,
       "uploadedBy": "academic-portal",
-      "createdAt": "2026-10-23T15:15:16.762Z"
+      "createdAt": "2026-10-23T15:15:16.762Z",
+      "pages": 2
     },
     {
       "id": "exam_44",
@@ -766,7 +798,8 @@
       "fileName": "Mathematics.pdf",
       "fileSize": 861636,
       "uploadedBy": "academic-portal",
-      "createdAt": "2026-10-23T15:15:16.762Z"
+      "createdAt": "2026-10-23T15:15:16.762Z",
+      "pages": 2
     },
     {
       "id": "exam_45",
@@ -780,7 +813,8 @@
       "fileName": "Physics.pdf",
       "fileSize": 1078582,
       "uploadedBy": "academic-portal",
-      "createdAt": "2026-10-23T15:15:16.762Z"
+      "createdAt": "2026-10-23T15:15:16.762Z",
+      "pages": 2
     },
     {
       "id": "exam_46",
@@ -794,7 +828,8 @@
       "fileName": "Amharic.pdf",
       "fileSize": 714268,
       "uploadedBy": "academic-portal",
-      "createdAt": "2026-10-23T15:15:16.762Z"
+      "createdAt": "2026-10-23T15:15:16.762Z",
+      "pages": 2
     },
     {
       "id": "exam_47",
@@ -808,7 +843,8 @@
       "fileName": "Biology.pdf",
       "fileSize": 991186,
       "uploadedBy": "academic-portal",
-      "createdAt": "2026-10-23T15:15:16.762Z"
+      "createdAt": "2026-10-23T15:15:16.762Z",
+      "pages": 2
     },
     {
       "id": "exam_48",
@@ -822,7 +858,8 @@
       "fileName": "Chemistry.pdf",
       "fileSize": 1193780,
       "uploadedBy": "academic-portal",
-      "createdAt": "2026-10-23T15:15:16.762Z"
+      "createdAt": "2026-10-23T15:15:16.762Z",
+      "pages": 2
     },
     {
       "id": "exam_49",
@@ -836,7 +873,8 @@
       "fileName": "Citizen ship.pdf",
       "fileSize": 1415039,
       "uploadedBy": "academic-portal",
-      "createdAt": "2026-10-23T15:15:16.762Z"
+      "createdAt": "2026-10-23T15:15:16.762Z",
+      "pages": 3
     },
     {
       "id": "exam_50",
@@ -850,7 +888,8 @@
       "fileName": "Economics.pdf",
       "fileSize": 908878,
       "uploadedBy": "academic-portal",
-      "createdAt": "2026-10-23T15:15:16.762Z"
+      "createdAt": "2026-10-23T15:15:16.762Z",
+      "pages": 2
     },
     {
       "id": "exam_51",
@@ -864,7 +903,8 @@
       "fileName": "English.pdf",
       "fileSize": 2055414,
       "uploadedBy": "academic-portal",
-      "createdAt": "2026-10-23T15:15:16.762Z"
+      "createdAt": "2026-10-23T15:15:16.762Z",
+      "pages": 4
     },
     {
       "id": "exam_52",
@@ -878,7 +918,8 @@
       "fileName": "Geography.pdf",
       "fileSize": 926846,
       "uploadedBy": "academic-portal",
-      "createdAt": "2026-10-23T15:15:16.762Z"
+      "createdAt": "2026-10-23T15:15:16.762Z",
+      "pages": 2
     },
     {
       "id": "exam_53",
@@ -892,7 +933,8 @@
       "fileName": "History.pdf",
       "fileSize": 1095686,
       "uploadedBy": "academic-portal",
-      "createdAt": "2026-10-23T15:15:16.762Z"
+      "createdAt": "2026-10-23T15:15:16.762Z",
+      "pages": 3
     },
     {
       "id": "exam_54",
@@ -906,7 +948,8 @@
       "fileName": "Mathematics.pdf",
       "fileSize": 719092,
       "uploadedBy": "academic-portal",
-      "createdAt": "2026-10-23T15:15:16.762Z"
+      "createdAt": "2026-10-23T15:15:16.762Z",
+      "pages": 2
     },
     {
       "id": "exam_55",
@@ -920,7 +963,8 @@
       "fileName": "Physics.pdf",
       "fileSize": 1581607,
       "uploadedBy": "academic-portal",
-      "createdAt": "2026-10-23T15:15:16.762Z"
+      "createdAt": "2026-10-23T15:15:16.762Z",
+      "pages": 4
     },
     {
       "id": "exam_56",
@@ -932,9 +976,10 @@
       "year": "2024",
       "fileUrl": "/exams/Grade11/Semester1/Final/Agriculture.pdf",
       "fileName": "Agriculture.pdf",
-      "fileSize": 34448,
+      "fileSize": 4403359,
       "uploadedBy": "academic-portal",
-      "createdAt": "2026-10-23T15:15:16.762Z"
+      "createdAt": "2026-10-23T15:15:16.762Z",
+      "pages": 6
     },
     {
       "id": "exam_57",
@@ -948,7 +993,8 @@
       "fileName": "Amharic.pdf",
       "fileSize": 1246853,
       "uploadedBy": "academic-portal",
-      "createdAt": "2026-10-23T15:15:16.762Z"
+      "createdAt": "2026-10-23T15:15:16.762Z",
+      "pages": 8
     },
     {
       "id": "exam_58",
@@ -960,9 +1006,10 @@
       "year": "2024",
       "fileUrl": "/exams/Grade11/Semester1/Final/Biology.pdf",
       "fileName": "Biology.pdf",
-      "fileSize": 50295,
+      "fileSize": 714339,
       "uploadedBy": "academic-portal",
-      "createdAt": "2026-10-23T15:15:16.762Z"
+      "createdAt": "2026-10-23T15:15:16.762Z",
+      "pages": 4
     },
     {
       "id": "exam_59",
@@ -974,9 +1021,10 @@
       "year": "2024",
       "fileUrl": "/exams/Grade11/Semester1/Final/Chemistry.pdf",
       "fileName": "Chemistry.pdf",
-      "fileSize": 53637,
+      "fileSize": 894122,
       "uploadedBy": "academic-portal",
-      "createdAt": "2026-10-23T15:15:16.762Z"
+      "createdAt": "2026-10-23T15:15:16.762Z",
+      "pages": 5
     },
     {
       "id": "exam_60",
@@ -988,9 +1036,10 @@
       "year": "2024",
       "fileUrl": "/exams/Grade11/Semester1/Final/English.pdf",
       "fileName": "English.pdf",
-      "fileSize": 57457,
+      "fileSize": 1249624,
       "uploadedBy": "academic-portal",
-      "createdAt": "2026-10-23T15:15:16.762Z"
+      "createdAt": "2026-10-23T15:15:16.762Z",
+      "pages": 6
     },
     {
       "id": "exam_61",
@@ -1002,9 +1051,10 @@
       "year": "2024",
       "fileUrl": "/exams/Grade11/Semester1/Final/IT.pdf",
       "fileName": "IT.pdf",
-      "fileSize": 34651,
+      "fileSize": 741108,
       "uploadedBy": "academic-portal",
-      "createdAt": "2026-10-23T15:15:16.762Z"
+      "createdAt": "2026-10-23T15:15:16.762Z",
+      "pages": 4
     },
     {
       "id": "exam_62",
@@ -1016,9 +1066,10 @@
       "year": "2024",
       "fileUrl": "/exams/Grade11/Semester1/Final/Physics.pdf",
       "fileName": "Physics.pdf",
-      "fileSize": 39762,
+      "fileSize": 1128305,
       "uploadedBy": "academic-portal",
-      "createdAt": "2026-10-23T15:15:16.762Z"
+      "createdAt": "2026-10-23T15:15:16.762Z",
+      "pages": 6
     },
     {
       "id": "exam_63",
@@ -1030,9 +1081,10 @@
       "year": "2024",
       "fileUrl": "/exams/Grade11/Semester1/Mid1/Agriculture.pdf",
       "fileName": "Agriculture.pdf",
-      "fileSize": 40992,
+      "fileSize": 2361156,
       "uploadedBy": "academic-portal",
-      "createdAt": "2026-10-23T15:15:16.763Z"
+      "createdAt": "2026-10-23T15:15:16.763Z",
+      "pages": 3
     },
     {
       "id": "exam_64",
@@ -1046,7 +1098,8 @@
       "fileName": "Amharic.pdf",
       "fileSize": 2483434,
       "uploadedBy": "academic-portal",
-      "createdAt": "2026-10-23T15:15:16.763Z"
+      "createdAt": "2026-10-23T15:15:16.763Z",
+      "pages": 3
     },
     {
       "id": "exam_65",
@@ -1058,9 +1111,10 @@
       "year": "2024",
       "fileUrl": "/exams/Grade11/Semester1/Mid1/Biology.pdf",
       "fileName": "Biology.pdf",
-      "fileSize": 42198,
+      "fileSize": 3590002,
       "uploadedBy": "academic-portal",
-      "createdAt": "2026-10-23T15:15:16.763Z"
+      "createdAt": "2026-10-23T15:15:16.763Z",
+      "pages": 4
     },
     {
       "id": "exam_66",
@@ -1072,9 +1126,10 @@
       "year": "2024",
       "fileUrl": "/exams/Grade11/Semester1/Mid1/English.pdf",
       "fileName": "English.pdf",
-      "fileSize": 46336,
+      "fileSize": 5318671,
       "uploadedBy": "academic-portal",
-      "createdAt": "2026-10-23T15:15:16.763Z"
+      "createdAt": "2026-10-23T15:15:16.763Z",
+      "pages": 6
     },
     {
       "id": "exam_67",
@@ -1100,9 +1155,10 @@
       "year": "2024",
       "fileUrl": "/exams/Grade11/Semester1/Mid1/Mathematics.pdf",
       "fileName": "Mathematics.pdf",
-      "fileSize": 50173,
+      "fileSize": 2658916,
       "uploadedBy": "academic-portal",
-      "createdAt": "2026-10-23T15:15:16.763Z"
+      "createdAt": "2026-10-23T15:15:16.763Z",
+      "pages": 4
     },
     {
       "id": "exam_69",
@@ -1114,9 +1170,10 @@
       "year": "2024",
       "fileUrl": "/exams/Grade11/Semester1/Mid1/Physics.pdf",
       "fileName": "Physics.pdf",
-      "fileSize": 41441,
+      "fileSize": 1792699,
       "uploadedBy": "academic-portal",
-      "createdAt": "2026-10-23T15:15:16.763Z"
+      "createdAt": "2026-10-23T15:15:16.763Z",
+      "pages": 2
     },
     {
       "id": "exam_70",
@@ -1128,9 +1185,10 @@
       "year": "2024",
       "fileUrl": "/exams/Grade11/Semester1/Mid1/WEB.pdf",
       "fileName": "WEB.pdf",
-      "fileSize": 39771,
+      "fileSize": 5519485,
       "uploadedBy": "academic-portal",
-      "createdAt": "2026-10-23T15:15:16.763Z"
+      "createdAt": "2026-10-23T15:15:16.763Z",
+      "pages": 6
     },
     {
       "id": "exam_71",
@@ -1144,7 +1202,8 @@
       "fileName": "Agriculture.pdf",
       "fileSize": 593766,
       "uploadedBy": "academic-portal",
-      "createdAt": "2026-10-23T15:15:16.763Z"
+      "createdAt": "2026-10-23T15:15:16.763Z",
+      "pages": 3
     },
     {
       "id": "exam_72",
@@ -1158,7 +1217,8 @@
       "fileName": "Amharic.pdf",
       "fileSize": 434380,
       "uploadedBy": "academic-portal",
-      "createdAt": "2026-10-23T15:15:16.763Z"
+      "createdAt": "2026-10-23T15:15:16.763Z",
+      "pages": 3
     },
     {
       "id": "exam_73",
@@ -1172,7 +1232,8 @@
       "fileName": "Biology.pdf",
       "fileSize": 472639,
       "uploadedBy": "academic-portal",
-      "createdAt": "2026-10-23T15:15:16.763Z"
+      "createdAt": "2026-10-23T15:15:16.763Z",
+      "pages": 2
     },
     {
       "id": "exam_74",
@@ -1186,7 +1247,8 @@
       "fileName": "Chemistry.pdf",
       "fileSize": 860406,
       "uploadedBy": "academic-portal",
-      "createdAt": "2026-10-23T15:15:16.763Z"
+      "createdAt": "2026-10-23T15:15:16.763Z",
+      "pages": 4
     },
     {
       "id": "exam_75",
@@ -1200,7 +1262,8 @@
       "fileName": "English.pdf",
       "fileSize": 1309422,
       "uploadedBy": "academic-portal",
-      "createdAt": "2026-10-23T15:15:16.763Z"
+      "createdAt": "2026-10-23T15:15:16.763Z",
+      "pages": 7
     },
     {
       "id": "exam_76",
@@ -1214,7 +1277,8 @@
       "fileName": "Mathematics.pdf",
       "fileSize": 436857,
       "uploadedBy": "academic-portal",
-      "createdAt": "2026-10-23T15:15:16.763Z"
+      "createdAt": "2026-10-23T15:15:16.763Z",
+      "pages": 2
     },
     {
       "id": "exam_77",
@@ -1228,7 +1292,8 @@
       "fileName": "Physics.pdf",
       "fileSize": 1362699,
       "uploadedBy": "academic-portal",
-      "createdAt": "2026-10-23T15:15:16.763Z"
+      "createdAt": "2026-10-23T15:15:16.763Z",
+      "pages": 7
     },
     {
       "id": "exam_78",
@@ -1242,7 +1307,8 @@
       "fileName": "Aptitude.pdf",
       "fileSize": 4818220,
       "uploadedBy": "academic-portal",
-      "createdAt": "2026-10-23T15:15:16.763Z"
+      "createdAt": "2026-10-23T15:15:16.763Z",
+      "pages": 6
     },
     {
       "id": "exam_79",
@@ -1256,7 +1322,8 @@
       "fileName": "Biology.pdf",
       "fileSize": 19830361,
       "uploadedBy": "academic-portal",
-      "createdAt": "2026-10-23T15:15:16.763Z"
+      "createdAt": "2026-10-23T15:15:16.763Z",
+      "pages": 25
     },
     {
       "id": "exam_80",
@@ -1270,7 +1337,8 @@
       "fileName": "Chemistry.pdf",
       "fileSize": 16458803,
       "uploadedBy": "academic-portal",
-      "createdAt": "2026-10-23T15:15:16.763Z"
+      "createdAt": "2026-10-23T15:15:16.763Z",
+      "pages": 19
     },
     {
       "id": "exam_81",
@@ -1312,7 +1380,8 @@
       "fileName": "Physics.pdf",
       "fileSize": 11805366,
       "uploadedBy": "academic-portal",
-      "createdAt": "2026-10-23T15:15:16.763Z"
+      "createdAt": "2026-10-23T15:15:16.763Z",
+      "pages": 24
     },
     {
       "id": "exam_84",
@@ -1324,9 +1393,10 @@
       "year": "2024",
       "fileUrl": "/exams/Grade12/Semester1/Final/Agriculture.pdf",
       "fileName": "Agriculture.pdf",
-      "fileSize": 47766,
+      "fileSize": 441201,
       "uploadedBy": "academic-portal",
-      "createdAt": "2026-10-23T15:15:16.763Z"
+      "createdAt": "2026-10-23T15:15:16.763Z",
+      "pages": 3
     },
     {
       "id": "exam_85",
@@ -1340,7 +1410,8 @@
       "fileName": "Amharic.pdf",
       "fileSize": 1380226,
       "uploadedBy": "academic-portal",
-      "createdAt": "2026-10-23T15:15:16.763Z"
+      "createdAt": "2026-10-23T15:15:16.763Z",
+      "pages": 7
     },
     {
       "id": "exam_86",
@@ -1352,9 +1423,10 @@
       "year": "2024",
       "fileUrl": "/exams/Grade12/Semester1/Final/Aptitude.pdf",
       "fileName": "Aptitude.pdf",
-      "fileSize": 43846,
+      "fileSize": 2760968,
       "uploadedBy": "academic-portal",
-      "createdAt": "2026-10-23T15:15:16.763Z"
+      "createdAt": "2026-10-23T15:15:16.763Z",
+      "pages": 4
     },
     {
       "id": "exam_87",
@@ -1366,9 +1438,10 @@
       "year": "2024",
       "fileUrl": "/exams/Grade12/Semester1/Final/Biology.pdf",
       "fileName": "Biology.pdf",
-      "fileSize": 53296,
+      "fileSize": 1137362,
       "uploadedBy": "academic-portal",
-      "createdAt": "2026-10-23T15:15:16.763Z"
+      "createdAt": "2026-10-23T15:15:16.763Z",
+      "pages": 5
     },
     {
       "id": "exam_88",
@@ -1380,9 +1453,10 @@
       "year": "2024",
       "fileUrl": "/exams/Grade12/Semester1/Final/Chemistry.pdf",
       "fileName": "Chemistry.pdf",
-      "fileSize": 53226,
+      "fileSize": 691621,
       "uploadedBy": "academic-portal",
-      "createdAt": "2026-10-23T15:15:16.763Z"
+      "createdAt": "2026-10-23T15:15:16.763Z",
+      "pages": 4
     },
     {
       "id": "exam_89",
@@ -1394,9 +1468,10 @@
       "year": "2024",
       "fileUrl": "/exams/Grade12/Semester1/Final/English.pdf",
       "fileName": "English.pdf",
-      "fileSize": 40484,
+      "fileSize": 1177434,
       "uploadedBy": "academic-portal",
-      "createdAt": "2026-10-23T15:15:16.763Z"
+      "createdAt": "2026-10-23T15:15:16.763Z",
+      "pages": 8
     },
     {
       "id": "exam_90",
@@ -1408,9 +1483,10 @@
       "year": "2024",
       "fileUrl": "/exams/Grade12/Semester1/Final/IT.pdf",
       "fileName": "IT.pdf",
-      "fileSize": 46252,
+      "fileSize": 760972,
       "uploadedBy": "academic-portal",
-      "createdAt": "2026-10-23T15:15:16.763Z"
+      "createdAt": "2026-10-23T15:15:16.763Z",
+      "pages": 5
     },
     {
       "id": "exam_91",
@@ -1436,9 +1512,10 @@
       "year": "2024",
       "fileUrl": "/exams/Grade12/Semester1/Final/Physics.pdf",
       "fileName": "Physics.pdf",
-      "fileSize": 51887,
+      "fileSize": 792538,
       "uploadedBy": "academic-portal",
-      "createdAt": "2026-10-23T15:15:16.763Z"
+      "createdAt": "2026-10-23T15:15:16.763Z",
+      "pages": 5
     },
     {
       "id": "exam_93",
@@ -1450,9 +1527,10 @@
       "year": "2024",
       "fileUrl": "/exams/Grade12/Semester1/Mid1/Agriculture.pdf",
       "fileName": "Agriculture.pdf",
-      "fileSize": 41367,
+      "fileSize": 399103,
       "uploadedBy": "academic-portal",
-      "createdAt": "2026-10-23T15:15:16.763Z"
+      "createdAt": "2026-10-23T15:15:16.763Z",
+      "pages": 2
     },
     {
       "id": "exam_94",
@@ -1466,7 +1544,8 @@
       "fileName": "Amharic.pdf",
       "fileSize": 826302,
       "uploadedBy": "academic-portal",
-      "createdAt": "2026-10-23T15:15:16.763Z"
+      "createdAt": "2026-10-23T15:15:16.763Z",
+      "pages": 4
     },
     {
       "id": "exam_95",
@@ -1478,9 +1557,10 @@
       "year": "2024",
       "fileUrl": "/exams/Grade12/Semester1/Mid1/Aptitude.pdf",
       "fileName": "Aptitude.pdf",
-      "fileSize": 40392,
+      "fileSize": 1600107,
       "uploadedBy": "academic-portal",
-      "createdAt": "2026-10-23T15:15:16.763Z"
+      "createdAt": "2026-10-23T15:15:16.763Z",
+      "pages": 2
     },
     {
       "id": "exam_96",
@@ -1492,9 +1572,10 @@
       "year": "2024",
       "fileUrl": "/exams/Grade12/Semester1/Mid1/Biology.pdf",
       "fileName": "Biology.pdf",
-      "fileSize": 42959,
+      "fileSize": 1039145,
       "uploadedBy": "academic-portal",
-      "createdAt": "2026-10-23T15:15:16.763Z"
+      "createdAt": "2026-10-23T15:15:16.763Z",
+      "pages": 4
     },
     {
       "id": "exam_97",
@@ -1506,9 +1587,10 @@
       "year": "2024",
       "fileUrl": "/exams/Grade12/Semester1/Mid1/Chemistry.pdf",
       "fileName": "Chemistry.pdf",
-      "fileSize": 42687,
+      "fileSize": 728726,
       "uploadedBy": "academic-portal",
-      "createdAt": "2026-10-23T15:15:16.763Z"
+      "createdAt": "2026-10-23T15:15:16.763Z",
+      "pages": 4
     },
     {
       "id": "exam_98",
@@ -1520,9 +1602,10 @@
       "year": "2024",
       "fileUrl": "/exams/Grade12/Semester1/Mid1/English.pdf",
       "fileName": "English.pdf",
-      "fileSize": 38518,
+      "fileSize": 922802,
       "uploadedBy": "academic-portal",
-      "createdAt": "2026-10-23T15:15:16.763Z"
+      "createdAt": "2026-10-23T15:15:16.763Z",
+      "pages": 5
     },
     {
       "id": "exam_99",
@@ -1534,9 +1617,10 @@
       "year": "2024",
       "fileUrl": "/exams/Grade12/Semester1/Mid1/IT.pdf",
       "fileName": "IT.pdf",
-      "fileSize": 41215,
+      "fileSize": 362687,
       "uploadedBy": "academic-portal",
-      "createdAt": "2026-10-23T15:15:16.763Z"
+      "createdAt": "2026-10-23T15:15:16.763Z",
+      "pages": 2
     },
     {
       "id": "exam_100",
@@ -1548,9 +1632,10 @@
       "year": "2024",
       "fileUrl": "/exams/Grade12/Semester1/Mid1/Mathematics.pdf",
       "fileName": "Mathematics.pdf",
-      "fileSize": 40520,
+      "fileSize": 452498,
       "uploadedBy": "academic-portal",
-      "createdAt": "2026-10-23T15:15:16.763Z"
+      "createdAt": "2026-10-23T15:15:16.763Z",
+      "pages": 2
     },
     {
       "id": "exam_101",
@@ -1562,9 +1647,10 @@
       "year": "2024",
       "fileUrl": "/exams/Grade12/Semester1/Mid1/Physics.pdf",
       "fileName": "Physics.pdf",
-      "fileSize": 43346,
+      "fileSize": 1366252,
       "uploadedBy": "academic-portal",
-      "createdAt": "2026-10-23T15:15:16.763Z"
+      "createdAt": "2026-10-23T15:15:16.763Z",
+      "pages": 6
     },
     {
       "id": "exam_102",
@@ -1578,7 +1664,8 @@
       "fileName": "Agriculture.pdf",
       "fileSize": 267162,
       "uploadedBy": "academic-portal",
-      "createdAt": "2026-10-23T15:15:16.763Z"
+      "createdAt": "2026-10-23T15:15:16.763Z",
+      "pages": 2
     },
     {
       "id": "exam_103",
@@ -1592,7 +1679,8 @@
       "fileName": "Amharic.pdf",
       "fileSize": 717007,
       "uploadedBy": "academic-portal",
-      "createdAt": "2026-10-23T15:15:16.763Z"
+      "createdAt": "2026-10-23T15:15:16.763Z",
+      "pages": 4
     },
     {
       "id": "exam_104",
@@ -1606,7 +1694,8 @@
       "fileName": "Aptitude.pdf",
       "fileSize": 4158870,
       "uploadedBy": "academic-portal",
-      "createdAt": "2026-10-23T15:15:16.763Z"
+      "createdAt": "2026-10-23T15:15:16.763Z",
+      "pages": 5
     },
     {
       "id": "exam_105",
@@ -1620,7 +1709,8 @@
       "fileName": "Biology.pdf",
       "fileSize": 1278266,
       "uploadedBy": "academic-portal",
-      "createdAt": "2026-10-23T15:15:16.763Z"
+      "createdAt": "2026-10-23T15:15:16.763Z",
+      "pages": 4
     },
     {
       "id": "exam_106",
@@ -1634,7 +1724,8 @@
       "fileName": "Chemistry.pdf",
       "fileSize": 441606,
       "uploadedBy": "academic-portal",
-      "createdAt": "2026-10-23T15:15:16.763Z"
+      "createdAt": "2026-10-23T15:15:16.763Z",
+      "pages": 2
     },
     {
       "id": "exam_107",
@@ -1648,7 +1739,8 @@
       "fileName": "English.pdf",
       "fileSize": 1000503,
       "uploadedBy": "academic-portal",
-      "createdAt": "2026-10-23T15:15:16.763Z"
+      "createdAt": "2026-10-23T15:15:16.763Z",
+      "pages": 4
     },
     {
       "id": "exam_108",
@@ -1662,7 +1754,8 @@
       "fileName": "Mathematics.pdf",
       "fileSize": 250274,
       "uploadedBy": "academic-portal",
-      "createdAt": "2026-10-23T15:15:16.763Z"
+      "createdAt": "2026-10-23T15:15:16.763Z",
+      "pages": 2
     },
     {
       "id": "exam_109",
@@ -1690,7 +1783,8 @@
       "fileName": "Agriculture.pdf",
       "fileSize": 1002080,
       "uploadedBy": "academic-portal",
-      "createdAt": "2026-10-23T15:15:16.763Z"
+      "createdAt": "2026-10-23T15:15:16.763Z",
+      "pages": 5
     },
     {
       "id": "exam_111",
@@ -1704,7 +1798,8 @@
       "fileName": "Biology.pdf",
       "fileSize": 325592,
       "uploadedBy": "academic-portal",
-      "createdAt": "2026-10-23T15:15:16.763Z"
+      "createdAt": "2026-10-23T15:15:16.763Z",
+      "pages": 2
     },
     {
       "id": "exam_112",
@@ -1718,7 +1813,8 @@
       "fileName": "Chemistry.pdf",
       "fileSize": 464425,
       "uploadedBy": "academic-portal",
-      "createdAt": "2026-10-23T15:15:16.763Z"
+      "createdAt": "2026-10-23T15:15:16.763Z",
+      "pages": 2
     },
     {
       "id": "exam_113",
@@ -1732,7 +1828,8 @@
       "fileName": "English.pdf",
       "fileSize": 992488,
       "uploadedBy": "academic-portal",
-      "createdAt": "2026-10-23T15:15:16.763Z"
+      "createdAt": "2026-10-23T15:15:16.763Z",
+      "pages": 5
     },
     {
       "id": "exam_114",
@@ -1746,7 +1843,8 @@
       "fileName": "IT.pdf",
       "fileSize": 522748,
       "uploadedBy": "academic-portal",
-      "createdAt": "2026-10-23T15:15:16.763Z"
+      "createdAt": "2026-10-23T15:15:16.763Z",
+      "pages": 2
     },
     {
       "id": "exam_115",
@@ -1760,7 +1858,8 @@
       "fileName": "Mathematics.pdf",
       "fileSize": 773030,
       "uploadedBy": "academic-portal",
-      "createdAt": "2026-10-23T15:15:16.763Z"
+      "createdAt": "2026-10-23T15:15:16.763Z",
+      "pages": 4
     },
     {
       "id": "exam_116",
@@ -1774,7 +1873,8 @@
       "fileName": "Physics.pdf",
       "fileSize": 1182634,
       "uploadedBy": "academic-portal",
-      "createdAt": "2026-10-23T15:15:16.763Z"
+      "createdAt": "2026-10-23T15:15:16.763Z",
+      "pages": 6
     },
     {
       "id": "exam_117",
@@ -1788,7 +1888,8 @@
       "fileName": "Agriculture.pdf",
       "fileSize": 2105267,
       "uploadedBy": "academic-portal",
-      "createdAt": "2026-10-23T15:15:16.763Z"
+      "createdAt": "2026-10-23T15:15:16.763Z",
+      "pages": 2
     },
     {
       "id": "exam_118",
@@ -1816,7 +1917,8 @@
       "fileName": "Biology.pdf",
       "fileSize": 23144171,
       "uploadedBy": "academic-portal",
-      "createdAt": "2026-10-23T15:15:16.763Z"
+      "createdAt": "2026-10-23T15:15:16.763Z",
+      "pages": 25
     },
     {
       "id": "exam_120",
@@ -1830,7 +1932,8 @@
       "fileName": "Chemistry.pdf",
       "fileSize": 22370640,
       "uploadedBy": "academic-portal",
-      "createdAt": "2026-10-23T15:15:16.763Z"
+      "createdAt": "2026-10-23T15:15:16.763Z",
+      "pages": 26
     },
     {
       "id": "exam_121",
@@ -1844,7 +1947,8 @@
       "fileName": "English.pdf",
       "fileSize": 21862956,
       "uploadedBy": "academic-portal",
-      "createdAt": "2026-10-23T15:15:16.763Z"
+      "createdAt": "2026-10-23T15:15:16.763Z",
+      "pages": 29
     },
     {
       "id": "exam_122",
@@ -1858,7 +1962,8 @@
       "fileName": "Mathematics.pdf",
       "fileSize": 6655733,
       "uploadedBy": "academic-portal",
-      "createdAt": "2026-10-23T15:15:16.763Z"
+      "createdAt": "2026-10-23T15:15:16.763Z",
+      "pages": 12
     },
     {
       "id": "exam_123",
@@ -1872,7 +1977,8 @@
       "fileName": "Physics.pdf",
       "fileSize": 31330400,
       "uploadedBy": "academic-portal",
-      "createdAt": "2026-10-23T15:15:16.763Z"
+      "createdAt": "2026-10-23T15:15:16.763Z",
+      "pages": 40
     },
     {
       "id": "exam_124",
@@ -1886,7 +1992,8 @@
       "fileName": "Amharic.pdf",
       "fileSize": 2321276,
       "uploadedBy": "academic-portal",
-      "createdAt": "2026-10-23T15:15:16.763Z"
+      "createdAt": "2026-10-23T15:15:16.763Z",
+      "pages": 4
     },
     {
       "id": "exam_125",
@@ -1898,9 +2005,10 @@
       "year": "2024",
       "fileUrl": "/exams/Grade9/Semester1/Mid1/Biology.pdf",
       "fileName": "Biology.pdf",
-      "fileSize": 33909,
+      "fileSize": 2542168,
       "uploadedBy": "academic-portal",
-      "createdAt": "2026-10-23T15:15:16.763Z"
+      "createdAt": "2026-10-23T15:15:16.763Z",
+      "pages": 2
     },
     {
       "id": "exam_126",
@@ -1912,9 +2020,10 @@
       "year": "2024",
       "fileUrl": "/exams/Grade9/Semester1/Mid1/Chemistry.pdf",
       "fileName": "Chemistry.pdf",
-      "fileSize": 31832,
+      "fileSize": 2417633,
       "uploadedBy": "academic-portal",
-      "createdAt": "2026-10-23T15:15:16.763Z"
+      "createdAt": "2026-10-23T15:15:16.763Z",
+      "pages": 4
     },
     {
       "id": "exam_127",
@@ -1926,9 +2035,10 @@
       "year": "2024",
       "fileUrl": "/exams/Grade9/Semester1/Mid1/Citizen ship.pdf",
       "fileName": "Citizen ship.pdf",
-      "fileSize": 32683,
+      "fileSize": 2163308,
       "uploadedBy": "academic-portal",
-      "createdAt": "2026-10-23T15:15:16.763Z"
+      "createdAt": "2026-10-23T15:15:16.763Z",
+      "pages": 2
     },
     {
       "id": "exam_128",
@@ -1940,9 +2050,10 @@
       "year": "2024",
       "fileUrl": "/exams/Grade9/Semester1/Mid1/Economics.pdf",
       "fileName": "Economics.pdf",
-      "fileSize": 28801,
+      "fileSize": 1562065,
       "uploadedBy": "academic-portal",
-      "createdAt": "2026-10-23T15:15:16.763Z"
+      "createdAt": "2026-10-23T15:15:16.763Z",
+      "pages": 2
     },
     {
       "id": "exam_129",
@@ -1954,9 +2065,10 @@
       "year": "2024",
       "fileUrl": "/exams/Grade9/Semester1/Mid1/English.pdf",
       "fileName": "English.pdf",
-      "fileSize": 33597,
+      "fileSize": 3856034,
       "uploadedBy": "academic-portal",
-      "createdAt": "2026-10-23T15:15:16.763Z"
+      "createdAt": "2026-10-23T15:15:16.763Z",
+      "pages": 5
     },
     {
       "id": "exam_130",
@@ -1968,9 +2080,10 @@
       "year": "2024",
       "fileUrl": "/exams/Grade9/Semester1/Mid1/Geography.pdf",
       "fileName": "Geography.pdf",
-      "fileSize": 32831,
+      "fileSize": 1929811,
       "uploadedBy": "academic-portal",
-      "createdAt": "2026-10-23T15:15:16.763Z"
+      "createdAt": "2026-10-23T15:15:16.763Z",
+      "pages": 2
     },
     {
       "id": "exam_131",
@@ -1982,9 +2095,10 @@
       "year": "2024",
       "fileUrl": "/exams/Grade9/Semester1/Mid1/HP.pdf",
       "fileName": "HP.pdf",
-      "fileSize": 31386,
+      "fileSize": 1555574,
       "uploadedBy": "academic-portal",
-      "createdAt": "2026-10-23T15:15:16.763Z"
+      "createdAt": "2026-10-23T15:15:16.763Z",
+      "pages": 2
     },
     {
       "id": "exam_132",
@@ -1996,9 +2110,10 @@
       "year": "2024",
       "fileUrl": "/exams/Grade9/Semester1/Mid1/History.pdf",
       "fileName": "History.pdf",
-      "fileSize": 31248,
+      "fileSize": 1791292,
       "uploadedBy": "academic-portal",
-      "createdAt": "2026-10-23T15:15:16.763Z"
+      "createdAt": "2026-10-23T15:15:16.763Z",
+      "pages": 2
     },
     {
       "id": "exam_133",
@@ -2010,9 +2125,10 @@
       "year": "2024",
       "fileUrl": "/exams/Grade9/Semester1/Mid1/IT.pdf",
       "fileName": "IT.pdf",
-      "fileSize": 30335,
+      "fileSize": 1899571,
       "uploadedBy": "academic-portal",
-      "createdAt": "2026-10-23T15:15:16.763Z"
+      "createdAt": "2026-10-23T15:15:16.763Z",
+      "pages": 2
     },
     {
       "id": "exam_134",
@@ -2024,9 +2140,10 @@
       "year": "2024",
       "fileUrl": "/exams/Grade9/Semester1/Mid1/Mathematics.pdf",
       "fileName": "Mathematics.pdf",
-      "fileSize": 32265,
+      "fileSize": 3110355,
       "uploadedBy": "academic-portal",
-      "createdAt": "2026-10-23T15:15:16.763Z"
+      "createdAt": "2026-10-23T15:15:16.763Z",
+      "pages": 4
     },
     {
       "id": "exam_135",
@@ -2038,9 +2155,10 @@
       "year": "2024",
       "fileUrl": "/exams/Grade9/Semester1/Mid1/Physics.pdf",
       "fileName": "Physics.pdf",
-      "fileSize": 31005,
+      "fileSize": 1431035,
       "uploadedBy": "academic-portal",
-      "createdAt": "2026-10-23T15:15:16.763Z"
+      "createdAt": "2026-10-23T15:15:16.763Z",
+      "pages": 2
     },
     {
       "id": "exam_g11_chem_s1_m1",
@@ -2052,149 +2170,10 @@
       "year": "2024",
       "fileUrl": "/exams/Grade11/Semester1/Mid1/Chemistry.pdf",
       "fileName": "Chemistry.pdf",
-      "fileSize": 46374,
+      "fileSize": 921925,
       "uploadedBy": "academic-portal",
-      "createdAt": "2026-11-06T07:33:44.684Z"
-    },
-    {
-      "id": "exam_119_p1",
-      "title": "Grade12 Biology Pre-test 1 (Part 1)",
-      "grade": "Grade12",
-      "semester": "Pretest",
-      "examType": "Pretest1",
-      "subject": "Biology",
-      "year": "2024",
-      "fileUrl": "/exams/Grade12/pretest/Biology_Part1.pdf",
-      "fileName": "Biology_Part1.pdf",
-      "fileSize": 4500000,
-      "uploadedBy": "academic-portal",
-      "createdAt": "2026-11-19T20:50:00.000Z"
-    },
-    {
-      "id": "exam_119_p2",
-      "title": "Grade12 Biology Pre-test 2 (Part 2)",
-      "grade": "Grade12",
-      "semester": "Pretest",
-      "examType": "Pretest2",
-      "subject": "Biology",
-      "year": "2024",
-      "fileUrl": "/exams/Grade12/pretest/Biology_Part2.pdf",
-      "fileName": "Biology_Part2.pdf",
-      "fileSize": 4500000,
-      "uploadedBy": "academic-portal",
-      "createdAt": "2026-11-19T20:50:00.000Z"
-    },
-    {
-      "id": "exam_120_p1",
-      "title": "Grade12 Chemistry Pre-test 1 (Part 1)",
-      "grade": "Grade12",
-      "semester": "Pretest",
-      "examType": "Pretest1",
-      "subject": "Chemistry",
-      "year": "2024",
-      "fileUrl": "/exams/Grade12/pretest/Chemistry_Part1.pdf",
-      "fileName": "Chemistry_Part1.pdf",
-      "fileSize": 4500000,
-      "uploadedBy": "academic-portal",
-      "createdAt": "2026-11-19T20:50:00.000Z"
-    },
-    {
-      "id": "exam_120_p2",
-      "title": "Grade12 Chemistry Pre-test 2 (Part 2)",
-      "grade": "Grade12",
-      "semester": "Pretest",
-      "examType": "Pretest2",
-      "subject": "Chemistry",
-      "year": "2024",
-      "fileUrl": "/exams/Grade12/pretest/Chemistry_Part2.pdf",
-      "fileName": "Chemistry_Part2.pdf",
-      "fileSize": 4500000,
-      "uploadedBy": "academic-portal",
-      "createdAt": "2026-11-19T20:50:00.000Z"
-    },
-    {
-      "id": "exam_121_p1",
-      "title": "Grade12 English Pre-test 1 (Part 1)",
-      "grade": "Grade12",
-      "semester": "Pretest",
-      "examType": "Pretest1",
-      "subject": "English",
-      "year": "2024",
-      "fileUrl": "/exams/Grade12/pretest/English_Part1.pdf",
-      "fileName": "English_Part1.pdf",
-      "fileSize": 4500000,
-      "uploadedBy": "academic-portal",
-      "createdAt": "2026-11-19T20:50:00.000Z"
-    },
-    {
-      "id": "exam_121_p2",
-      "title": "Grade12 English Pre-test 2 (Part 2)",
-      "grade": "Grade12",
-      "semester": "Pretest",
-      "examType": "Pretest2",
-      "subject": "English",
-      "year": "2024",
-      "fileUrl": "/exams/Grade12/pretest/English_Part2.pdf",
-      "fileName": "English_Part2.pdf",
-      "fileSize": 4500000,
-      "uploadedBy": "academic-portal",
-      "createdAt": "2026-11-19T20:50:00.000Z"
-    },
-    {
-      "id": "exam_122_p1",
-      "title": "Grade12 Mathematics Pre-test 1 (Part 1)",
-      "grade": "Grade12",
-      "semester": "Pretest",
-      "examType": "Pretest1",
-      "subject": "Mathematics",
-      "year": "2024",
-      "fileUrl": "/exams/Grade12/pretest/Mathematics_Part1.pdf",
-      "fileName": "Mathematics_Part1.pdf",
-      "fileSize": 4500000,
-      "uploadedBy": "academic-portal",
-      "createdAt": "2026-11-19T20:50:00.000Z"
-    },
-    {
-      "id": "exam_122_p2",
-      "title": "Grade12 Mathematics Pre-test 2 (Part 2)",
-      "grade": "Grade12",
-      "semester": "Pretest",
-      "examType": "Pretest2",
-      "subject": "Mathematics",
-      "year": "2024",
-      "fileUrl": "/exams/Grade12/pretest/Mathematics_Part2.pdf",
-      "fileName": "Mathematics_Part2.pdf",
-      "fileSize": 4500000,
-      "uploadedBy": "academic-portal",
-      "createdAt": "2026-11-19T20:50:00.000Z"
-    },
-    {
-      "id": "exam_123_p1",
-      "title": "Grade12 Physics Pre-test 1 (Part 1)",
-      "grade": "Grade12",
-      "semester": "Pretest",
-      "examType": "Pretest1",
-      "subject": "Physics",
-      "year": "2024",
-      "fileUrl": "/exams/Grade12/pretest/Physics_Part1.pdf",
-      "fileName": "Physics_Part1.pdf",
-      "fileSize": 4500000,
-      "uploadedBy": "academic-portal",
-      "createdAt": "2026-11-19T20:50:00.000Z"
-    },
-    {
-      "id": "exam_123_p2",
-      "title": "Grade12 Physics Pre-test 2 (Part 2)",
-      "grade": "Grade12",
-      "semester": "Pretest",
-      "examType": "Pretest2",
-      "subject": "Physics",
-      "year": "2024",
-      "fileUrl": "/exams/Grade12/pretest/Physics_Part2.pdf",
-      "fileName": "Physics_Part2.pdf",
-      "fileSize": 4500000,
-      "uploadedBy": "academic-portal",
-      "createdAt": "2026-11-19T20:50:00.000Z"
+      "createdAt": "2026-11-06T07:33:44.684Z",
+      "pages": 4
     },
     {
       "id": "exam_136",
@@ -2206,7 +2185,7 @@
       "year": "2024",
       "fileUrl": "/exams/Grade9/Semester1/Final/Economics.pdf",
       "fileName": "Economics.pdf",
-      "fileSize": 915139,
+      "fileSize": 809086,
       "uploadedBy": "academic-portal",
       "createdAt": "2026-11-22T19:45:00.000Z"
     },
@@ -2220,7 +2199,7 @@
       "year": "2024",
       "fileUrl": "/exams/Grade9/Semester1/Final/Mathematics.pdf",
       "fileName": "Mathematics.pdf",
-      "fileSize": 1851661,
+      "fileSize": 1531539,
       "uploadedBy": "academic-portal",
       "createdAt": "2026-11-22T19:45:00.000Z"
     },
@@ -2234,7 +2213,7 @@
       "year": "2024",
       "fileUrl": "/exams/Grade9/Semester1/Final/IT.pdf",
       "fileName": "IT.pdf",
-      "fileSize": 797822,
+      "fileSize": 714747,
       "uploadedBy": "academic-portal",
       "createdAt": "2026-11-22T19:45:00.000Z"
     },
@@ -2248,7 +2227,7 @@
       "year": "2024",
       "fileUrl": "/exams/Grade9/Semester1/Final/HP.pdf",
       "fileName": "HP.pdf",
-      "fileSize": 882017,
+      "fileSize": 702133,
       "uploadedBy": "academic-portal",
       "createdAt": "2026-11-22T19:45:00.000Z"
     },
@@ -2262,7 +2241,7 @@
       "year": "2024",
       "fileUrl": "/exams/Grade9/Semester1/Final/Physics.pdf",
       "fileName": "Physics.pdf",
-      "fileSize": 1638297,
+      "fileSize": 1480659,
       "uploadedBy": "academic-portal",
       "createdAt": "2026-11-22T19:45:00.000Z"
     },
@@ -2276,7 +2255,7 @@
       "year": "2024",
       "fileUrl": "/exams/Grade9/Semester1/Final/Biology.pdf",
       "fileName": "Biology.pdf",
-      "fileSize": 1680559,
+      "fileSize": 1347476,
       "uploadedBy": "academic-portal",
       "createdAt": "2026-11-22T19:45:00.000Z"
     },
@@ -2290,7 +2269,7 @@
       "year": "2024",
       "fileUrl": "/exams/Grade9/Semester1/Final/Citizen ship.pdf",
       "fileName": "Citizen ship.pdf",
-      "fileSize": 1744747,
+      "fileSize": 1308181,
       "uploadedBy": "academic-portal",
       "createdAt": "2026-11-22T19:45:00.000Z"
     },
@@ -2304,7 +2283,7 @@
       "year": "2024",
       "fileUrl": "/exams/Grade9/Semester1/Final/History.pdf",
       "fileName": "History.pdf",
-      "fileSize": 1436436,
+      "fileSize": 1235992,
       "uploadedBy": "academic-portal",
       "createdAt": "2026-11-22T19:45:00.000Z"
     },
@@ -2318,7 +2297,7 @@
       "year": "2024",
       "fileUrl": "/exams/Grade9/Semester1/Final/Chemistry.pdf",
       "fileName": "Chemistry.pdf",
-      "fileSize": 2666269,
+      "fileSize": 1976125,
       "uploadedBy": "academic-portal",
       "createdAt": "2026-11-22T19:45:00.000Z"
     },
@@ -2332,7 +2311,7 @@
       "year": "2024",
       "fileUrl": "/exams/Grade9/Semester1/Final/Geography.pdf",
       "fileName": "Geography.pdf",
-      "fileSize": 1494363,
+      "fileSize": 1456358,
       "uploadedBy": "academic-portal",
       "createdAt": "2026-11-22T19:45:00.000Z"
     },
@@ -2346,7 +2325,7 @@
       "year": "2024",
       "fileUrl": "/exams/Grade9/Semester1/Mid2/Economics.pdf",
       "fileName": "Economics.pdf",
-      "fileSize": 956024,
+      "fileSize": 796323,
       "uploadedBy": "academic-portal",
       "createdAt": "2026-11-22T19:45:00.000Z"
     },
@@ -2360,7 +2339,7 @@
       "year": "2024",
       "fileUrl": "/exams/Grade9/Semester1/Mid2/Biology.pdf",
       "fileName": "Biology.pdf",
-      "fileSize": 1149986,
+      "fileSize": 986464,
       "uploadedBy": "academic-portal",
       "createdAt": "2026-11-22T19:45:00.000Z"
     },
@@ -2374,7 +2353,7 @@
       "year": "2024",
       "fileUrl": "/exams/Grade9/Semester1/Mid2/Chemistry.pdf",
       "fileName": "Chemistry.pdf",
-      "fileSize": 1870638,
+      "fileSize": 1567113,
       "uploadedBy": "academic-portal",
       "createdAt": "2026-11-22T19:45:00.000Z"
     },
@@ -2388,7 +2367,7 @@
       "year": "2024",
       "fileUrl": "/exams/Grade9/Semester1/Mid2/Physics.pdf",
       "fileName": "Physics.pdf",
-      "fileSize": 1549231,
+      "fileSize": 1423893,
       "uploadedBy": "academic-portal",
       "createdAt": "2026-11-22T19:45:00.000Z"
     },
@@ -2402,7 +2381,7 @@
       "year": "2024",
       "fileUrl": "/exams/Grade9/Semester1/Mid2/IT.pdf",
       "fileName": "IT.pdf",
-      "fileSize": 781145,
+      "fileSize": 665806,
       "uploadedBy": "academic-portal",
       "createdAt": "2026-11-22T19:45:00.000Z"
     },
@@ -2416,7 +2395,7 @@
       "year": "2024",
       "fileUrl": "/exams/Grade9/Semester1/Mid2/Citizen ship.pdf",
       "fileName": "Citizen ship.pdf",
-      "fileSize": 1128344,
+      "fileSize": 1001351,
       "uploadedBy": "academic-portal",
       "createdAt": "2026-11-22T19:45:00.000Z"
     },
@@ -2430,7 +2409,7 @@
       "year": "2024",
       "fileUrl": "/exams/Grade9/Semester1/Mid2/History.pdf",
       "fileName": "History.pdf",
-      "fileSize": 1209362,
+      "fileSize": 961763,
       "uploadedBy": "academic-portal",
       "createdAt": "2026-11-22T19:45:00.000Z"
     },
@@ -2444,7 +2423,7 @@
       "year": "2024",
       "fileUrl": "/exams/Grade9/Semester1/Mid2/Geography.pdf",
       "fileName": "Geography.pdf",
-      "fileSize": 2275570,
+      "fileSize": 1806794,
       "uploadedBy": "academic-portal",
       "createdAt": "2026-11-22T19:45:00.000Z"
     },
@@ -2458,7 +2437,7 @@
       "year": "2024",
       "fileUrl": "/exams/Grade9/Semester1/Mid2/Mathematics.pdf",
       "fileName": "Mathematics.pdf",
-      "fileSize": 2263909,
+      "fileSize": 2214986,
       "uploadedBy": "academic-portal",
       "createdAt": "2026-11-22T19:45:00.000Z"
     },
@@ -2472,7 +2451,7 @@
       "year": "2024",
       "fileUrl": "/exams/Grade9/Semester1/Mid2/English.pdf",
       "fileName": "English.pdf",
-      "fileSize": 2423474,
+      "fileSize": 2191838,
       "uploadedBy": "academic-portal",
       "createdAt": "2026-11-22T19:45:00.000Z"
     },
@@ -2486,7 +2465,7 @@
       "year": "2024",
       "fileUrl": "/exams/Grade9/Semester2/Mid2/English.pdf",
       "fileName": "English.pdf",
-      "fileSize": 3522066,
+      "fileSize": 3065995,
       "uploadedBy": "academic-portal",
       "createdAt": "2026-11-22T19:45:00.000Z"
     },
@@ -2500,7 +2479,7 @@
       "year": "2024",
       "fileUrl": "/exams/Grade9/Semester2/Final/Geography.pdf",
       "fileName": "Geography.pdf",
-      "fileSize": 713564,
+      "fileSize": 557363,
       "uploadedBy": "academic-portal",
       "createdAt": "2026-11-22T19:45:00.000Z"
     },
@@ -2514,9 +2493,149 @@
       "year": "2024",
       "fileUrl": "/exams/Grade9/Semester2/Final/Biology.pdf",
       "fileName": "Biology.pdf",
-      "fileSize": 722338,
+      "fileSize": 527753,
       "uploadedBy": "academic-portal",
       "createdAt": "2026-11-22T19:45:00.000Z"
+    },
+    {
+      "id": "exam_119_p1",
+      "title": "Grade12 Biology Pre-test 1 (Part 1)",
+      "grade": "Grade12",
+      "semester": "Pretest",
+      "examType": "Pretest1",
+      "subject": "Biology",
+      "year": "2024",
+      "fileUrl": "/exams/Grade12/pretest/Biology_Part1.pdf",
+      "fileName": "Biology_Part1.pdf",
+      "fileSize": 4353562,
+      "uploadedBy": "academic-portal",
+      "createdAt": "2026-11-25T20:47:00.000Z"
+    },
+    {
+      "id": "exam_119_p2",
+      "title": "Grade12 Biology Pre-test 2 (With Answer Sheet)",
+      "grade": "Grade12",
+      "semester": "Pretest",
+      "examType": "Pretest2",
+      "subject": "Biology",
+      "year": "2024",
+      "fileUrl": "/exams/Grade12/pretest/Biology_Part2.pdf",
+      "fileName": "Biology_Part2.pdf",
+      "fileSize": 1346199,
+      "uploadedBy": "academic-portal",
+      "createdAt": "2026-11-25T20:47:00.000Z"
+    },
+    {
+      "id": "exam_120_p1",
+      "title": "Grade12 Chemistry Pre-test 1 (Part 1)",
+      "grade": "Grade12",
+      "semester": "Pretest",
+      "examType": "Pretest1",
+      "subject": "Chemistry",
+      "year": "2024",
+      "fileUrl": "/exams/Grade12/pretest/Chemistry_Part1.pdf",
+      "fileName": "Chemistry_Part1.pdf",
+      "fileSize": 4165706,
+      "uploadedBy": "academic-portal",
+      "createdAt": "2026-11-25T20:47:00.000Z"
+    },
+    {
+      "id": "exam_120_p2",
+      "title": "Grade12 Chemistry Pre-test 2 (Part 2)",
+      "grade": "Grade12",
+      "semester": "Pretest",
+      "examType": "Pretest2",
+      "subject": "Chemistry",
+      "year": "2024",
+      "fileUrl": "/exams/Grade12/pretest/Chemistry_Part2.pdf",
+      "fileName": "Chemistry_Part2.pdf",
+      "fileSize": 4156940,
+      "uploadedBy": "academic-portal",
+      "createdAt": "2026-11-25T20:47:00.000Z"
+    },
+    {
+      "id": "exam_121_p1",
+      "title": "Grade12 English Pre-test 1 (Part 1)",
+      "grade": "Grade12",
+      "semester": "Pretest",
+      "examType": "Pretest1",
+      "subject": "English",
+      "year": "2024",
+      "fileUrl": "/exams/Grade12/pretest/English_Part1.pdf",
+      "fileName": "English_Part1.pdf",
+      "fileSize": 4905034,
+      "uploadedBy": "academic-portal",
+      "createdAt": "2026-11-25T20:47:00.000Z"
+    },
+    {
+      "id": "exam_121_p2",
+      "title": "Grade12 English Pre-test 2 (Part 2)",
+      "grade": "Grade12",
+      "semester": "Pretest",
+      "examType": "Pretest2",
+      "subject": "English",
+      "year": "2024",
+      "fileUrl": "/exams/Grade12/pretest/English_Part2.pdf",
+      "fileName": "English_Part2.pdf",
+      "fileSize": 4025403,
+      "uploadedBy": "academic-portal",
+      "createdAt": "2026-11-25T20:47:00.000Z"
+    },
+    {
+      "id": "exam_122_p1",
+      "title": "Grade12 Mathematics Pre-test 1 (Part 1)",
+      "grade": "Grade12",
+      "semester": "Pretest",
+      "examType": "Pretest1",
+      "subject": "Mathematics",
+      "year": "2024",
+      "fileUrl": "/exams/Grade12/pretest/Mathematics_Part1.pdf",
+      "fileName": "Mathematics_Part1.pdf",
+      "fileSize": 1405694,
+      "uploadedBy": "academic-portal",
+      "createdAt": "2026-11-25T20:47:00.000Z"
+    },
+    {
+      "id": "exam_122_p2",
+      "title": "Grade12 Mathematics Pre-test 2 (Part 2)",
+      "grade": "Grade12",
+      "semester": "Pretest",
+      "examType": "Pretest2",
+      "subject": "Mathematics",
+      "year": "2024",
+      "fileUrl": "/exams/Grade12/pretest/Mathematics_Part2.pdf",
+      "fileName": "Mathematics_Part2.pdf",
+      "fileSize": 1212507,
+      "uploadedBy": "academic-portal",
+      "createdAt": "2026-11-25T20:47:00.000Z"
+    },
+    {
+      "id": "exam_123_p1",
+      "title": "Grade12 Physics Pre-test 1 (Part 1)",
+      "grade": "Grade12",
+      "semester": "Pretest",
+      "examType": "Pretest1",
+      "subject": "Physics",
+      "year": "2024",
+      "fileUrl": "/exams/Grade12/pretest/Physics_Part1.pdf",
+      "fileName": "Physics_Part1.pdf",
+      "fileSize": 6138034,
+      "uploadedBy": "academic-portal",
+      "createdAt": "2026-11-25T20:47:00.000Z"
+    },
+    {
+      "id": "exam_123_p2",
+      "title": "Grade12 Physics Pre-test 2 (Part 2)",
+      "grade": "Grade12",
+      "semester": "Pretest",
+      "examType": "Pretest2",
+      "subject": "Physics",
+      "year": "2024",
+      "fileUrl": "/exams/Grade12/pretest/Physics_Part2.pdf",
+      "fileName": "Physics_Part2.pdf",
+      "fileSize": 6169871,
+      "uploadedBy": "academic-portal",
+      "createdAt": "2026-11-25T20:47:00.000Z"
     }
   ],
   "questions": [
@@ -14751,222 +14870,6 @@
       "points": 1
     },
     {
-      "id": "q_g10_math_m1_03",
-      "examId": "exam_22",
-      "grade": "Grade10",
-      "subject": "Mathematics",
-      "semester": "Semester1",
-      "examType": "Mid1",
-      "question": "Which of the following relations is a function?",
-      "options": [
-        "{(1, 2), (1, 3), (2, 4)}",
-        "{(2, 5), (3, 7), (4, 9), (5, 11)}",
-        "{(3, 1), (3, 2), (3, 3)}",
-        "{(0, 1), (0, -1), (2, 3)}"
-      ],
-      "correctAnswer": 1,
-      "explanation": "A relation is a function if and only if each element of the domain is paired with exactly one element in the range. In {(2, 5), (3, 7), (4, 9), (5, 11)}, all first coordinates are distinct.",
-      "points": 1
-    },
-    {
-      "id": "q_g10_math_m1_04",
-      "examId": "exam_22",
-      "grade": "Grade10",
-      "subject": "Mathematics",
-      "semester": "Semester1",
-      "examType": "Mid1",
-      "question": "What is the domain of the function f(x) = sqrt(2x - 6)?",
-      "options": [
-        "{x in R | x >= 3}",
-        "{x in R | x > 3}",
-        "{x in R | x <= 3}",
-        "{x in R | x != 3}"
-      ],
-      "correctAnswer": 0,
-      "explanation": "For a real square root function, the radicand must be non-negative: 2x - 6 >= 0 => 2x >= 6 => x >= 3.",
-      "points": 1
-    },
-    {
-      "id": "q_g10_math_m1_05",
-      "examId": "exam_22",
-      "grade": "Grade10",
-      "subject": "Mathematics",
-      "semester": "Semester1",
-      "examType": "Mid1",
-      "question": "What is the remainder when P(x) = 2x^3 - 4x^2 + 5x - 3 is divided by (x - 2)?",
-      "options": [
-        "3",
-        "5",
-        "7",
-        "11"
-      ],
-      "correctAnswer": 2,
-      "explanation": "By the Remainder Theorem, the remainder is P(2) = 2(2)^3 - 4(2)^2 + 5(2) - 3 = 16 - 16 + 10 - 3 = 7.",
-      "points": 1
-    },
-    {
-      "id": "q_g10_math_m1_06",
-      "examId": "exam_22",
-      "grade": "Grade10",
-      "subject": "Mathematics",
-      "semester": "Semester1",
-      "examType": "Mid1",
-      "question": "If (x - 1) is a factor of P(x) = x^3 - 3x^2 + kx + 2, what is the value of k?",
-      "options": [
-        "-2",
-        "0",
-        "1",
-        "2"
-      ],
-      "correctAnswer": 1,
-      "explanation": "By the Factor Theorem, P(1) = 0 => (1)^3 - 3(1)^2 + k(1) + 2 = 0 => 1 - 3 + k + 2 = 0 => k = 0.",
-      "points": 1
-    },
-    {
-      "id": "q_g10_math_m1_07",
-      "examId": "exam_22",
-      "grade": "Grade10",
-      "subject": "Mathematics",
-      "semester": "Semester1",
-      "examType": "Mid1",
-      "question": "What is the vertex of the parabola f(x) = 2(x - 3)^2 + 5?",
-      "options": [
-        "(-3, 5)",
-        "(3, 5)",
-        "(3, -5)",
-        "(-3, -5)"
-      ],
-      "correctAnswer": 1,
-      "explanation": "In vertex form f(x) = a(x - h)^2 + k, the vertex is (h, k). Here h = 3 and k = 5, so the vertex is (3, 5).",
-      "points": 1
-    },
-    {
-      "id": "q_g10_math_m1_09",
-      "examId": "exam_22",
-      "grade": "Grade10",
-      "subject": "Mathematics",
-      "semester": "Semester1",
-      "examType": "Mid1",
-      "question": "What are the zeros of the polynomial f(x) = x^2 - 7x + 12?",
-      "options": [
-        "x = -3 and x = -4",
-        "x = 3 and x = 4",
-        "x = 2 and x = 6",
-        "x = -2 and x = -6"
-      ],
-      "correctAnswer": 1,
-      "explanation": "Factoring: (x - 3)(x - 4) = 0 gives x = 3 and x = 4.",
-      "points": 1
-    },
-    {
-      "id": "q_g10_math_m1_10",
-      "examId": "exam_22",
-      "grade": "Grade10",
-      "subject": "Mathematics",
-      "semester": "Semester1",
-      "examType": "Mid1",
-      "question": "The axis of symmetry of the quadratic function y = -x^2 + 6x - 8 is:",
-      "options": [
-        "x = -3",
-        "x = 3",
-        "x = 6",
-        "x = 1"
-      ],
-      "correctAnswer": 1,
-      "explanation": "The axis of symmetry is given by x = -b / (2a) = -6 / (2 * -1) = 3.",
-      "points": 1
-    },
-    {
-      "id": "q_g10_math_m1_11",
-      "examId": "exam_22",
-      "grade": "Grade10",
-      "subject": "Mathematics",
-      "semester": "Semester1",
-      "examType": "Mid1",
-      "question": "What is the solution of 3^(2x - 1) = 27?",
-      "options": [
-        "x = 1",
-        "x = 2",
-        "x = 3",
-        "x = 4"
-      ],
-      "correctAnswer": 1,
-      "explanation": "27 = 3^3. Therefore, 2x - 1 = 3 => 2x = 4 => x = 2.",
-      "points": 1
-    },
-    {
-      "id": "q_g10_math_m1_12",
-      "examId": "exam_22",
-      "grade": "Grade10",
-      "subject": "Mathematics",
-      "semester": "Semester1",
-      "examType": "Mid1",
-      "question": "Evaluate log_2(32) - log_3(81):",
-      "options": [
-        "-1",
-        "0",
-        "1",
-        "2"
-      ],
-      "correctAnswer": 2,
-      "explanation": "log_2(32) = 5 because 2^5 = 32. log_3(81) = 4 because 3^4 = 81. Thus, 5 - 4 = 1.",
-      "points": 1
-    },
-    {
-      "id": "q_g10_math_m1_13",
-      "examId": "exam_22",
-      "grade": "Grade10",
-      "subject": "Mathematics",
-      "semester": "Semester1",
-      "examType": "Mid1",
-      "question": "If f(x) = 3x - 2 and g(x) = x^2 + 1, find (f o g)(2):",
-      "options": [
-        "13",
-        "15",
-        "17",
-        "21"
-      ],
-      "correctAnswer": 0,
-      "explanation": "g(2) = (2)^2 + 1 = 5. Then f(g(2)) = f(5) = 3(5) - 2 = 13.",
-      "points": 1
-    },
-    {
-      "id": "q_g10_math_m1_14",
-      "examId": "exam_22",
-      "grade": "Grade10",
-      "subject": "Mathematics",
-      "semester": "Semester1",
-      "examType": "Mid1",
-      "question": "What is the inverse of the function f(x) = (2x + 3) / 5?",
-      "options": [
-        "f^(-1)(x) = (5x - 3) / 2",
-        "f^(-1)(x) = (5x + 3) / 2",
-        "f^(-1)(x) = (2x - 5) / 3",
-        "f^(-1)(x) = 5 / (2x + 3)"
-      ],
-      "correctAnswer": 0,
-      "explanation": "Let y = (2x + 3)/5 => 5y = 2x + 3 => 2x = 5y - 3 => x = (5y - 3)/2. Swapping variables gives f^(-1)(x) = (5x - 3)/2.",
-      "points": 1
-    },
-    {
-      "id": "q_g10_math_m1_15",
-      "examId": "exam_22",
-      "grade": "Grade10",
-      "subject": "Mathematics",
-      "semester": "Semester1",
-      "examType": "Mid1",
-      "question": "Which of the following is the discriminant of the equation 2x^2 - 4x + 3 = 0?",
-      "options": [
-        "-8",
-        "8",
-        "-40",
-        "40"
-      ],
-      "correctAnswer": 0,
-      "explanation": "Discriminant Delta = b^2 - 4ac = (-4)^2 - 4(2)(3) = 16 - 24 = -8. Since Delta < 0, there are no real roots.",
-      "points": 1
-    },
-    {
       "id": "q_g10_phys_m1_01",
       "examId": "exam_23",
       "grade": "Grade10",
@@ -26877,186 +26780,6 @@
       "points": 1
     },
     {
-      "id": "q_g10_math_m1_16",
-      "examId": "exam_22",
-      "grade": "Grade10",
-      "subject": "Mathematics",
-      "semester": "Semester1",
-      "examType": "Mid1",
-      "question": "What is the degree and leading coefficient of the polynomial P(x) = -4x^5 + 7x^3 - 2x + 9?",
-      "options": [
-        "Degree 5, leading coefficient -4",
-        "Degree 5, leading coefficient 9",
-        "Degree 3, leading coefficient 7",
-        "Degree 9, leading coefficient -4"
-      ],
-      "correctAnswer": 0,
-      "explanation": "The degree is the highest exponent of x (5), and the leading coefficient is the coefficient of that term (-4).",
-      "points": 1
-    },
-    {
-      "id": "q_g10_math_m1_17",
-      "examId": "exam_22",
-      "grade": "Grade10",
-      "subject": "Mathematics",
-      "semester": "Semester1",
-      "examType": "Mid1",
-      "question": "If f(x) = x^2 - 4 and g(x) = x + 2, what is (f / g)(x) for x != -2?",
-      "options": [
-        "x - 2",
-        "x + 2",
-        "x^2 - 2",
-        "1"
-      ],
-      "correctAnswer": 0,
-      "explanation": "(f / g)(x) = (x^2 - 4) / (x + 2) = (x - 2)(x + 2) / (x + 2) = x - 2.",
-      "points": 1
-    },
-    {
-      "id": "q_g10_math_m1_18",
-      "examId": "exam_22",
-      "grade": "Grade10",
-      "subject": "Mathematics",
-      "semester": "Semester1",
-      "examType": "Mid1",
-      "question": "What is the minimum value of the quadratic function f(x) = x^2 - 6x + 13?",
-      "options": [
-        "4",
-        "13",
-        "3",
-        "-4"
-      ],
-      "correctAnswer": 0,
-      "explanation": "Vertex x = -b/(2a) = 6/2 = 3. Minimum value f(3) = 3^2 - 6(3) + 13 = 9 - 18 + 13 = 4.",
-      "points": 1
-    },
-    {
-      "id": "q_g10_math_m1_19",
-      "examId": "exam_22",
-      "grade": "Grade10",
-      "subject": "Mathematics",
-      "semester": "Semester1",
-      "examType": "Mid1",
-      "question": "Solve the exponential equation: 2^(3x + 1) = 128",
-      "options": [
-        "x = 2",
-        "x = 3",
-        "x = 7",
-        "x = 1"
-      ],
-      "correctAnswer": 0,
-      "explanation": "128 = 2^7. Therefore, 3x + 1 = 7 => 3x = 6 => x = 2.",
-      "points": 1
-    },
-    {
-      "id": "q_g10_math_m1_20",
-      "examId": "exam_22",
-      "grade": "Grade10",
-      "subject": "Mathematics",
-      "semester": "Semester1",
-      "examType": "Mid1",
-      "question": "What is the value of log_5(1/125)?",
-      "options": [
-        "-3",
-        "3",
-        "1/3",
-        "-1/3"
-      ],
-      "correctAnswer": 0,
-      "explanation": "1/125 = 5^(-3). Therefore log_5(5^(-3)) = -3.",
-      "points": 1
-    },
-    {
-      "id": "q_g10_math_m1_21",
-      "examId": "exam_22",
-      "grade": "Grade10",
-      "subject": "Mathematics",
-      "semester": "Semester1",
-      "examType": "Mid1",
-      "question": "Which of the following functions is strictly increasing on R?",
-      "options": [
-        "f(x) = 2^x",
-        "f(x) = (1/2)^x",
-        "f(x) = -3x + 4",
-        "f(x) = -x^2"
-      ],
-      "correctAnswer": 0,
-      "explanation": "An exponential function with base b > 1 (like 2^x) is strictly increasing across its entire domain R.",
-      "points": 1
-    },
-    {
-      "id": "q_g10_math_m1_22",
-      "examId": "exam_22",
-      "grade": "Grade10",
-      "subject": "Mathematics",
-      "semester": "Semester1",
-      "examType": "Mid1",
-      "question": "The solution set of the inequality x^2 - 5x + 6 < 0 is:",
-      "options": [
-        "(2, 3)",
-        "[2, 3]",
-        "(-infinity, 2) U (3, infinity)",
-        "(-3, -2)"
-      ],
-      "correctAnswer": 0,
-      "explanation": "(x - 2)(x - 3) < 0. Testing the three intervals demonstrates negative products strictly between 2 and 3: (2, 3).",
-      "points": 1
-    },
-    {
-      "id": "q_g10_math_m1_23",
-      "examId": "exam_22",
-      "grade": "Grade10",
-      "subject": "Mathematics",
-      "semester": "Semester1",
-      "examType": "Mid1",
-      "question": "If log(x) + log(x - 3) = 1 (base 10), what is the value of x?",
-      "options": [
-        "5",
-        "-2",
-        "2",
-        "10"
-      ],
-      "correctAnswer": 0,
-      "explanation": "log[x(x - 3)] = 1 => x^2 - 3x = 10 => x^2 - 3x - 10 = 0 => (x - 5)(x + 2) = 0. Since log requires positive arguments, x = 5.",
-      "points": 1
-    },
-    {
-      "id": "q_g10_math_m1_24",
-      "examId": "exam_22",
-      "grade": "Grade10",
-      "subject": "Mathematics",
-      "semester": "Semester1",
-      "examType": "Mid1",
-      "question": "What is the sum of the roots of the quadratic equation 3x^2 - 12x + 5 = 0?",
-      "options": [
-        "4",
-        "-4",
-        "5/3",
-        "-5/3"
-      ],
-      "correctAnswer": 0,
-      "explanation": "By Vieta's formulas, sum of roots = -b / a = -(-12) / 3 = 12 / 3 = 4.",
-      "points": 1
-    },
-    {
-      "id": "q_g10_math_m1_25",
-      "examId": "exam_22",
-      "grade": "Grade10",
-      "subject": "Mathematics",
-      "semester": "Semester1",
-      "examType": "Mid1",
-      "question": "What is the range of the exponential function f(x) = 3^x - 2?",
-      "options": [
-        "(-2, infinity)",
-        "[-2, infinity)",
-        "(0, infinity)",
-        "(-infinity, -2)"
-      ],
-      "correctAnswer": 0,
-      "explanation": "Since 3^x > 0 for all real x, 3^x - 2 > -2. Thus the range is (-2, infinity).",
-      "points": 1
-    },
-    {
       "id": "q_g10_phys_m1_13",
       "examId": "exam_23",
       "grade": "Grade10",
@@ -29466,6 +29189,1122 @@
       ],
       "correctAnswer": 0,
       "explanation": "Democratic tolerance upholds human dignity and peaceful coexistence across cultural and ideological diversity.",
+      "points": 1
+    },
+    {
+      "id": "q_g10_math_m1_01",
+      "examId": "exam_22",
+      "grade": "Grade10",
+      "subject": "Mathematics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Which one of the following is not true?",
+      "options": [
+        "The product of two polynomial function is always a polynomial",
+        "The difference of two polynomial function is always a polynomial",
+        "The sum of two polynomial function is always a polynomial",
+        "The quotient of two polynomial function is always a polynomial"
+      ],
+      "correctAnswer": 3,
+      "explanation": "Polynomials are closed under addition, subtraction, and multiplication. The quotient of two polynomials is generally a rational function, which is not a polynomial unless the denominator divides the numerator evenly (e.g. x / x^2 = 1/x is not a polynomial). Therefore, statement D is not true.",
+      "points": 2
+    },
+    {
+      "id": "q_g10_math_m1_02",
+      "examId": "exam_22",
+      "grade": "Grade10",
+      "subject": "Mathematics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "Which of the following is true about f(x) = 6x^2 - x - 1?",
+      "options": [
+        "The function f(x) = 6x^2 - x - 1 has no x-intercepts",
+        "f has y-intercept of (0, 1)",
+        "The graph of f is an upward parabola",
+        "The vertex of is (12, -24)"
+      ],
+      "correctAnswer": 2,
+      "explanation": "For a quadratic function f(x) = ax^2 + bx + c, when the leading coefficient a > 0, the graph is an upward parabola. Here a = 6 > 0, so the graph of f is an upward parabola. Furthermore, its discriminant Δ = (-1)^2 - 4(6)(-1) = 25 > 0, meaning it has two distinct real x-intercepts.",
+      "points": 2
+    },
+    {
+      "id": "q_g10_math_m1_03",
+      "examId": "exam_22",
+      "grade": "Grade10",
+      "subject": "Mathematics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "When the function f(x) = 2x^3 + 4x^2 - 5x + 2 is divided by x + 1, the remainder is ----",
+      "options": [
+        "5",
+        "9",
+        "12",
+        "16"
+      ],
+      "correctAnswer": 1,
+      "explanation": "By the Remainder Theorem, dividing f(x) by (x - c) yields remainder R = f(c). With c = -1: f(-1) = 2(-1)^3 + 4(-1)^2 - 5(-1) + 2 = -2 + 4 + 5 + 2 = 9.",
+      "points": 2
+    },
+    {
+      "id": "q_g10_math_m1_04",
+      "examId": "exam_22",
+      "grade": "Grade10",
+      "subject": "Mathematics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "When kx^2 - 5x + 6 is divided by (x - 1), the remainder is 4 what is the value of k?",
+      "options": [
+        "3",
+        "5",
+        "8",
+        "11"
+      ],
+      "correctAnswer": 0,
+      "explanation": "By the Remainder Theorem, dividing by (x - 1) gives remainder f(1) = k(1)^2 - 5(1) + 6 = k + 1. Since the given remainder is 4, k + 1 = 4 => k = 3.",
+      "points": 2
+    },
+    {
+      "id": "q_g10_math_m1_05",
+      "examId": "exam_22",
+      "grade": "Grade10",
+      "subject": "Mathematics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "If (x + 2) and (x - 2) are the factors of the polynomial 3x^3 + mx^2 - Nx + 20 then find the value of M",
+      "options": [
+        "-5",
+        "12",
+        "4",
+        "3"
+      ],
+      "correctAnswer": 0,
+      "explanation": "Let P(x) = 3x^3 + mx^2 - Nx + 20. Since (x - 2) is a factor: P(2) = 3(8) + 4m - 2N + 20 = 4m - 2N + 44 = 0 => 2m - N = -22. Since (x + 2) is a factor: P(-2) = 3(-8) + 4m + 2N + 20 = 4m + 2N - 4 = 0 => 2m + N = 2. Adding the two equations: 4m = -20 => m = -5.",
+      "points": 2
+    },
+    {
+      "id": "q_g10_math_m1_06",
+      "examId": "exam_22",
+      "grade": "Grade10",
+      "subject": "Mathematics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "In the above question number 5 what is the value of N",
+      "options": [
+        "3",
+        "12",
+        "16",
+        "24"
+      ],
+      "correctAnswer": 1,
+      "explanation": "From 2m + N = 2 and m = -5: 2(-5) + N = 2 => -10 + N = 2 => N = 12.",
+      "points": 2
+    },
+    {
+      "id": "q_g10_math_m1_07",
+      "examId": "exam_22",
+      "grade": "Grade10",
+      "subject": "Mathematics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "The polynomial x^3 + Ax^2 + Bx - 12 is divisible by x + 3 and gives remainder (-6) when divided by x + 1 what is the value of A?",
+      "options": [
+        "2",
+        "3",
+        "4",
+        "5"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Let P(x) = x^3 + Ax^2 + Bx - 12. Divisible by (x + 3) implies P(-3) = 0: (-27) + 9A - 3B - 12 = 0 => 9A - 3B = 39 => 3A - B = 13. Remainder -6 when divided by (x + 1) implies P(-1) = -6: (-1) + A - B - 12 = -6 => A - B - 13 = -6 => A - B = 7. Subtracting (A - B = 7) from (3A - B = 13) yields 2A = 6 => A = 3.",
+      "points": 2
+    },
+    {
+      "id": "q_g10_math_m1_08",
+      "examId": "exam_22",
+      "grade": "Grade10",
+      "subject": "Mathematics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "What is the value of B in the above question?",
+      "options": [
+        "3",
+        "4",
+        "-4",
+        "5"
+      ],
+      "correctAnswer": 2,
+      "explanation": "From A - B = 7 and A = 3: 3 - B = 7 => B = 3 - 7 = -4.",
+      "points": 2
+    },
+    {
+      "id": "q_g10_math_m1_09",
+      "examId": "exam_22",
+      "grade": "Grade10",
+      "subject": "Mathematics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "If 2x + 1 is the factor of 2x^2 + 7x + 3 then what is the other factor",
+      "options": [
+        "x + 2",
+        "x - 2",
+        "x - 3",
+        "x + 3"
+      ],
+      "correctAnswer": 3,
+      "explanation": "Factoring 2x^2 + 7x + 3: 2x^2 + 6x + x + 3 = 2x(x + 3) + 1(x + 3) = (2x + 1)(x + 3). Since (2x + 1) is already a factor, the other factor is (x + 3).",
+      "points": 2
+    },
+    {
+      "id": "q_g10_math_m1_10",
+      "examId": "exam_22",
+      "grade": "Grade10",
+      "subject": "Mathematics",
+      "semester": "Semester1",
+      "examType": "Mid1",
+      "question": "What is the minimum values of f(x) = 2x^2 + 7x + 3",
+      "options": [
+        "(-7/4, -25/8)",
+        "(-7, -25/4)",
+        "(-1.75)",
+        "-3.125"
+      ],
+      "correctAnswer": 3,
+      "explanation": "For the quadratic function f(x) = 2x^2 + 7x + 3, the vertex x-coordinate is x = -b/(2a) = -7/(2*2) = -7/4 = -1.75. The minimum value of f(x) is its y-value at the vertex: f(-7/4) = 2(-7/4)^2 + 7(-7/4) + 3 = 49/8 - 98/8 + 24/8 = -25/8 = -3.125 (Option D). Option A gives the coordinates of the vertex (-7/4, -25/8).",
+      "points": 2
+    },
+    {
+      "id": "q_g12_bio_pretest2_01",
+      "examId": "exam_119_p2",
+      "grade": "Grade12",
+      "subject": "Biology",
+      "semester": "Pretest",
+      "examType": "Pretest2",
+      "question": "Which of the following structures involved in cell division present in animal cells but not in higher plant cells ?",
+      "options": [
+        "Centriole",
+        "chromatid",
+        "Chromosome",
+        "microtubules"
+      ],
+      "correctAnswer": 0,
+      "explanation": "Centrioles are absent in higher plant cells but present in animal cells to help organize mitotic spindle fibers.",
+      "points": 1
+    },
+    {
+      "id": "q_g12_bio_pretest2_02",
+      "examId": "exam_119_p2",
+      "grade": "Grade12",
+      "subject": "Biology",
+      "semester": "Pretest",
+      "examType": "Pretest2",
+      "question": "Which biological molecule spindle fibres contains ?",
+      "options": [
+        "Polysaccharide",
+        "protein",
+        "nucleic acid",
+        "lipid"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Spindle fibers are composed of microtubules, which are polymers of the protein tubulin.",
+      "points": 1
+    },
+    {
+      "id": "q_g12_bio_pretest2_03",
+      "examId": "exam_119_p2",
+      "grade": "Grade12",
+      "subject": "Biology",
+      "semester": "Pretest",
+      "examType": "Pretest2",
+      "question": "Which of these stages of cell division do chromatids separate and moves to its poles of the spindle ?",
+      "options": [
+        "anaphase of mitosis and anaphase I of meiosis",
+        "anaphase of mitosis and anaphase II of meiosis",
+        "metaphase of mitosis and metaphase I of meiosis",
+        "metaphase of mitosis and metaphase II of meiosis"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Sister chromatids separate during anaphase of mitosis and anaphase II of meiosis (homologous chromosomes separate in anaphase I).",
+      "points": 1
+    },
+    {
+      "id": "q_g12_bio_pretest2_04",
+      "examId": "exam_119_p2",
+      "grade": "Grade12",
+      "subject": "Biology",
+      "semester": "Pretest",
+      "examType": "Pretest2",
+      "question": "The longest phase of interphase is ?",
+      "options": [
+        "G1 phase",
+        "G2 phase",
+        "S phase",
+        "G 0 phase"
+      ],
+      "correctAnswer": 0,
+      "explanation": "G1 (Gap 1) phase is typically the longest and most variable phase of the cell cycle.",
+      "points": 1
+    },
+    {
+      "id": "q_g12_bio_pretest2_05",
+      "examId": "exam_119_p2",
+      "grade": "Grade12",
+      "subject": "Biology",
+      "semester": "Pretest",
+      "examType": "Pretest2",
+      "question": "At which stage of mitosis do chromosomes uncoil and new nuclear envelope form ?",
+      "options": [
+        "prophase",
+        "metaphase",
+        "telophase",
+        "anaphase"
+      ],
+      "correctAnswer": 2,
+      "explanation": "During telophase, chromosomes decondense/uncoil and a new nuclear envelope reforms around each set of daughter chromosomes.",
+      "points": 1
+    },
+    {
+      "id": "q_g12_bio_pretest2_06",
+      "examId": "exam_119_p2",
+      "grade": "Grade12",
+      "subject": "Biology",
+      "semester": "Pretest",
+      "examType": "Pretest2",
+      "question": "How many mitotic divisions of a meristematic cell in a root tip are needed to produce 256 daughter cells ?",
+      "options": [
+        "8",
+        "7",
+        "128",
+        "64"
+      ],
+      "correctAnswer": 0,
+      "explanation": "Since each mitotic division doubles cell count (2^n), 2^8 = 256, requiring 8 rounds of division.",
+      "points": 1
+    },
+    {
+      "id": "q_g12_bio_pretest2_07",
+      "examId": "exam_119_p2",
+      "grade": "Grade12",
+      "subject": "Biology",
+      "semester": "Pretest",
+      "examType": "Pretest2",
+      "question": "What is the benefit to living organisms that water has a high specific heat capacity ?",
+      "options": [
+        "Heat can be lost from the skin when water evaporates",
+        "aquatic environments do not have a great fluctuation in their temperature",
+        "It allows water to be a solvent for chemical reactions at body temperature",
+        "none"
+      ],
+      "correctAnswer": 1,
+      "explanation": "High specific heat capacity buffers temperature changes, providing a thermally stable habitat for aquatic life.",
+      "points": 1
+    },
+    {
+      "id": "q_g12_bio_pretest2_08",
+      "examId": "exam_119_p2",
+      "grade": "Grade12",
+      "subject": "Biology",
+      "semester": "Pretest",
+      "examType": "Pretest2",
+      "question": "What is the term for the attraction of water molecules to other water molecules ?",
+      "options": [
+        "Surface tension",
+        "Cohesion",
+        "Adhesion",
+        "Capillarity"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Cohesion refers to intermolecular hydrogen bonding attraction between like water molecules.",
+      "points": 1
+    },
+    {
+      "id": "q_g12_bio_pretest2_09",
+      "examId": "exam_119_p2",
+      "grade": "Grade12",
+      "subject": "Biology",
+      "semester": "Pretest",
+      "examType": "Pretest2",
+      "question": "Which of the following lipids is the most abundant type found in the body ?",
+      "options": [
+        "Cholesterol",
+        "Triglycerides",
+        "Phospholipids",
+        "steroids"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Triglycerides are the main constituent of body fat and the most abundant lipid stored in adipose tissue.",
+      "points": 1
+    },
+    {
+      "id": "q_g12_bio_pretest2_10",
+      "examId": "exam_119_p2",
+      "grade": "Grade12",
+      "subject": "Biology",
+      "semester": "Pretest",
+      "examType": "Pretest2",
+      "question": "The primary structure of protein represents ?",
+      "options": [
+        "three- dimensional structure of protein",
+        "Linear sequence of amino acids joined by peptide bonds",
+        "Sub –unit structure of protein",
+        "Helical structure of protein"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Primary structure is the unique linear sequence of amino acids linked by covalent peptide bonds.",
+      "points": 1
+    },
+    {
+      "id": "q_g12_bio_pretest2_11",
+      "examId": "exam_119_p2",
+      "grade": "Grade12",
+      "subject": "Biology",
+      "semester": "Pretest",
+      "examType": "Pretest2",
+      "question": "Haemoglobin has ?",
+      "options": [
+        "quaternary structure",
+        "tertiary structure",
+        "Primary structure",
+        "Secondary structure"
+      ],
+      "correctAnswer": 0,
+      "explanation": "Haemoglobin consists of four polypeptide subunits (two alpha and two beta chains), exhibiting quaternary structure.",
+      "points": 1
+    },
+    {
+      "id": "q_g12_bio_pretest2_12",
+      "examId": "exam_119_p2",
+      "grade": "Grade12",
+      "subject": "Biology",
+      "semester": "Pretest",
+      "examType": "Pretest2",
+      "question": "A tri peptide has ?",
+      "options": [
+        "three amino acids and two peptide bonds",
+        "three amino acids and three peptide bonds",
+        "two amino acids and two peptide bonds",
+        "two amino acids and one peptide bonds"
+      ],
+      "correctAnswer": 0,
+      "explanation": "A tripeptide contains 3 amino acid residues linked by 2 peptide bonds.",
+      "points": 1
+    },
+    {
+      "id": "q_g12_bio_pretest2_13",
+      "examId": "exam_119_p2",
+      "grade": "Grade12",
+      "subject": "Biology",
+      "semester": "Pretest",
+      "examType": "Pretest2",
+      "question": "Which of the following is not a polysaccharide ?",
+      "options": [
+        "lactose",
+        "Starch",
+        "cellulose",
+        "glycogen"
+      ],
+      "correctAnswer": 0,
+      "explanation": "Lactose is a disaccharide made of glucose and galactose, not a polysaccharide.",
+      "points": 1
+    },
+    {
+      "id": "q_g12_bio_pretest2_14",
+      "examId": "exam_119_p2",
+      "grade": "Grade12",
+      "subject": "Biology",
+      "semester": "Pretest",
+      "examType": "Pretest2",
+      "question": "Which of the following is the most abundant biomolecule on earth ?",
+      "options": [
+        "Lipids",
+        "Carbohydrates",
+        "Proteins",
+        "Nucleic acids"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Carbohydrates (specifically cellulose in plant cell walls) are the most abundant organic biomolecules on Earth.",
+      "points": 1
+    },
+    {
+      "id": "q_g12_bio_pretest2_15",
+      "examId": "exam_119_p2",
+      "grade": "Grade12",
+      "subject": "Biology",
+      "semester": "Pretest",
+      "examType": "Pretest2",
+      "question": "Which of the following lipids is commonly known as good cholesterol ?",
+      "options": [
+        "Low density lipoprotein (LDL)",
+        "High density lipoprotein (HDL)",
+        "Triglycerides",
+        "Phospholipids"
+      ],
+      "correctAnswer": 1,
+      "explanation": "High-density lipoprotein (HDL) removes excess cholesterol from arterial tissues to the liver and is known as 'good cholesterol'.",
+      "points": 1
+    },
+    {
+      "id": "q_g12_bio_pretest2_16",
+      "examId": "exam_119_p2",
+      "grade": "Grade12",
+      "subject": "Biology",
+      "semester": "Pretest",
+      "examType": "Pretest2",
+      "question": "Omega3 and omega 6 fatty acids are good examples of ?",
+      "options": [
+        "polyunsaturated fatty acids",
+        "Monounsaturated fatty acids",
+        "Saturated fatty acids",
+        "none"
+      ],
+      "correctAnswer": 0,
+      "explanation": "Omega-3 and omega-6 fatty acids contain two or more carbon-carbon double bonds and are polyunsaturated fatty acids (PUFAs).",
+      "points": 1
+    },
+    {
+      "id": "q_g12_bio_pretest2_17",
+      "examId": "exam_119_p2",
+      "grade": "Grade12",
+      "subject": "Biology",
+      "semester": "Pretest",
+      "examType": "Pretest2",
+      "question": "If your BMI is less than 18.5 it falls with in ---- the range ?",
+      "options": [
+        "Under weight",
+        "Overweight",
+        "Healthy weight",
+        "Obesity"
+      ],
+      "correctAnswer": 0,
+      "explanation": "A Body Mass Index (BMI) below 18.5 is categorized as underweight.",
+      "points": 1
+    },
+    {
+      "id": "q_g12_bio_pretest2_18",
+      "examId": "exam_119_p2",
+      "grade": "Grade12",
+      "subject": "Biology",
+      "semester": "Pretest",
+      "examType": "Pretest2",
+      "question": "Which of the following is the source of saturated fatty acids ?",
+      "options": [
+        "olive oil",
+        "butter",
+        "corn oil",
+        "linoleic acid"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Butter is an animal fat rich in saturated fatty acids, whereas olive oil and corn oil are rich in unsaturated fatty acids.",
+      "points": 1
+    },
+    {
+      "id": "q_g12_bio_pretest2_19",
+      "examId": "exam_119_p2",
+      "grade": "Grade12",
+      "subject": "Biology",
+      "semester": "Pretest",
+      "examType": "Pretest2",
+      "question": "all of the following are parts of a prokaryotic cell except ?",
+      "options": [
+        "Cell wall",
+        "Endoplasmic reticulum",
+        "DNA",
+        "Cell membrane"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Prokaryotes lack membrane-bound organelles such as the endoplasmic reticulum.",
+      "points": 1
+    },
+    {
+      "id": "q_g12_bio_pretest2_20",
+      "examId": "exam_119_p2",
+      "grade": "Grade12",
+      "subject": "Biology",
+      "semester": "Pretest",
+      "examType": "Pretest2",
+      "question": "If a cell is immersed in a hypertonic solution then which of the following is true ?",
+      "options": [
+        "Water potential of the solution is less than water potential of the cell",
+        "Water moves from the cell into the solution",
+        "the solution has more solute than the cell",
+        "all"
+      ],
+      "correctAnswer": 3,
+      "explanation": "In a hypertonic solution, solute concentration is higher outside, lowering water potential, causing water to exit the cell down its water potential gradient.",
+      "points": 1
+    },
+    {
+      "id": "q_g12_bio_pretest2_21",
+      "examId": "exam_119_p2",
+      "grade": "Grade12",
+      "subject": "Biology",
+      "semester": "Pretest",
+      "examType": "Pretest2",
+      "question": "Which of the following minerals functions by building strong bones and teeth ?",
+      "options": [
+        "Iodine",
+        "Calcium",
+        "Iron",
+        "Sodium"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Calcium (along with phosphate) is the primary structural mineral in hydroxyapatite crystals in bones and teeth.",
+      "points": 1
+    },
+    {
+      "id": "q_g12_bio_pretest2_22",
+      "examId": "exam_119_p2",
+      "grade": "Grade12",
+      "subject": "Biology",
+      "semester": "Pretest",
+      "examType": "Pretest2",
+      "question": "If the body weight of an athlete is 90kg and his body mass index (BMI) is 30kg/m2 then what will be the height of the athlete ?",
+      "options": [
+        "1.532m",
+        "1.723m",
+        "1.732m",
+        "1.632m"
+      ],
+      "correctAnswer": 2,
+      "explanation": "BMI = weight / height^2 => 30 = 90 / h^2 => h^2 = 3 => h = sqrt(3) ≈ 1.732 m.",
+      "points": 1
+    },
+    {
+      "id": "q_g12_bio_pretest2_23",
+      "examId": "exam_119_p2",
+      "grade": "Grade12",
+      "subject": "Biology",
+      "semester": "Pretest",
+      "examType": "Pretest2",
+      "question": "In which direction does the transport of water occurs when a cell containing 1 % sodium chloride is placed in sea water that contains 10 % sodium chloride ?",
+      "options": [
+        "from sea water to the cell",
+        "from the cell to sea water",
+        "No net movement of water",
+        "none"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Sea water (10% NaCl) is hypertonic relative to the cell cytoplasm (1% NaCl), driving osmotic movement of water out of the cell.",
+      "points": 1
+    },
+    {
+      "id": "q_g12_bio_pretest2_24",
+      "examId": "exam_119_p2",
+      "grade": "Grade12",
+      "subject": "Biology",
+      "semester": "Pretest",
+      "examType": "Pretest2",
+      "question": "What would happen to a person 's red blood cells if the person is given an injection of pure water (0% saline) ?",
+      "options": [
+        "Plasmolysis",
+        "Haemolysis",
+        "Shrivel up",
+        "turgid"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Pure water is hypotonic to erythrocytes; rapid osmotic water influx causes RBCs to swell and burst (haemolysis).",
+      "points": 1
+    },
+    {
+      "id": "q_g12_bio_pretest2_25",
+      "examId": "exam_119_p2",
+      "grade": "Grade12",
+      "subject": "Biology",
+      "semester": "Pretest",
+      "examType": "Pretest2",
+      "question": "Which of the following organelles is found both in plant and animal cells ?",
+      "options": [
+        "Centrioles",
+        "Lysosomes",
+        "Golgi bodies",
+        "Chloroplasts"
+      ],
+      "correctAnswer": 2,
+      "explanation": "Golgi apparatus/bodies are essential eukaryotic organelles present in both plant and animal cells.",
+      "points": 1
+    },
+    {
+      "id": "q_g12_bio_pretest2_26",
+      "examId": "exam_119_p2",
+      "grade": "Grade12",
+      "subject": "Biology",
+      "semester": "Pretest",
+      "examType": "Pretest2",
+      "question": "Which of the following organelles is abundant in phagocytic macrophages ?",
+      "options": [
+        "Centriole",
+        "Lysosomes",
+        "Golgi bodies",
+        "RER"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Macrophages engulf and digest cellular debris and pathogens using hydrolytic enzymes packed in lysosomes.",
+      "points": 1
+    },
+    {
+      "id": "q_g12_bio_pretest2_27",
+      "examId": "exam_119_p2",
+      "grade": "Grade12",
+      "subject": "Biology",
+      "semester": "Pretest",
+      "examType": "Pretest2",
+      "question": "What are the coding segments of eukaryotic DNA called ?",
+      "options": [
+        "Introns",
+        "Exons",
+        "Transposons",
+        "all"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Exons are expressed coding sequences retained in mature mRNA, while introns are non-coding intervening sequences spliced out.",
+      "points": 1
+    },
+    {
+      "id": "q_g12_bio_pretest2_28",
+      "examId": "exam_119_p2",
+      "grade": "Grade12",
+      "subject": "Biology",
+      "semester": "Pretest",
+      "examType": "Pretest2",
+      "question": "A particular triplet of bases in the antisense strand of DNA is AAG .The anticodon on the t-RNA that binds the m-RNA codon is ?",
+      "options": [
+        "TTC",
+        "AAG",
+        "UUC",
+        "none"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Antisense DNA (3'-AAG-5') transcribes to mRNA codon (5'-UUC-3'), which base-pairs with tRNA anticodon (3'-AAG-5').",
+      "points": 1
+    },
+    {
+      "id": "q_g12_bio_pretest2_29",
+      "examId": "exam_119_p2",
+      "grade": "Grade12",
+      "subject": "Biology",
+      "semester": "Pretest",
+      "examType": "Pretest2",
+      "question": "Choose the answer that has these events of protein synthesis in the proper sequence:\n1. An aminoacyl t-RNA binds to the A-site\n2. A peptide bond forms between the new amino acid and a polypeptide chain\n3. t-RNA leaves the p-site and the p-site remains vacant\n4. A small ribosomal subunit binds with m-RNA\n5. t-RNA translocates to the p-site",
+      "options": [
+        "1,3,2,4,5",
+        "4,1,2,5,3",
+        "5,4,3,2,1",
+        "4,1,3,2,5"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Translation initiation begins with ribosome binding to mRNA (4), followed by elongation aminoacyl-tRNA entry at A site (1), peptide bond formation (2), translocation to P site (5), and exit (3).",
+      "points": 1
+    },
+    {
+      "id": "q_g12_bio_pretest2_30",
+      "examId": "exam_119_p2",
+      "grade": "Grade12",
+      "subject": "Biology",
+      "semester": "Pretest",
+      "examType": "Pretest2",
+      "question": "Which of the following enzymes remove super coiling in replicating DNA a head of the replication fork ?",
+      "options": [
+        "Helicase",
+        "Topoisomerase",
+        "Primases",
+        "DNA polymerase"
+      ],
+      "correctAnswer": 1,
+      "explanation": "DNA topoisomerase (gyrase) relieves torsional strain and supercoiling ahead of the replication fork.",
+      "points": 1
+    },
+    {
+      "id": "q_g12_bio_pretest2_31",
+      "examId": "exam_119_p2",
+      "grade": "Grade12",
+      "subject": "Biology",
+      "semester": "Pretest",
+      "examType": "Pretest2",
+      "question": "DNA replication is bidirectional and anti parallel ,which of the statements is true regarding to the DNA replication ?",
+      "options": [
+        "addition of nucleotide occurs from the 5'-3' position",
+        "The DNA replication is semi conservative with continuous leading strand and discontinuous lagging strand",
+        "The synthesis of leading and lagging strand occurs simultaneously",
+        "all"
+      ],
+      "correctAnswer": 3,
+      "explanation": "All listed statements correctly describe DNA replication: 5' to 3' synthesis, semiconservative leading/lagging mechanism, and simultaneous synthesis.",
+      "points": 1
+    },
+    {
+      "id": "q_g12_bio_pretest2_32",
+      "examId": "exam_119_p2",
+      "grade": "Grade12",
+      "subject": "Biology",
+      "semester": "Pretest",
+      "examType": "Pretest2",
+      "question": "Which defines a codon ?",
+      "options": [
+        "a free floating base that attaches to an open strand",
+        "The genetic code word of three bases on m-RNA that specifies one amino acid",
+        "The genetic code of three bases on t-RNA that specify one amino acid",
+        "none"
+      ],
+      "correctAnswer": 1,
+      "explanation": "A codon is a specific triplet sequence of ribonucleotides on mRNA encoding a particular amino acid or stop signal.",
+      "points": 1
+    },
+    {
+      "id": "q_g12_bio_pretest2_33",
+      "examId": "exam_119_p2",
+      "grade": "Grade12",
+      "subject": "Biology",
+      "semester": "Pretest",
+      "examType": "Pretest2",
+      "question": "A man who is a carrier for cystic fibrosis marries a woman who is a carrier for cystic fibrosis. What is the percentage probability that this couple will have a child with cystic fibrosis ?",
+      "options": [
+        "50 %",
+        "100 %",
+        "75 %",
+        "25%"
+      ],
+      "correctAnswer": 3,
+      "explanation": "Cross of two heterozygous carriers (Cc x Cc) yields 25% homozygous recessive (cc), who express cystic fibrosis.",
+      "points": 1
+    },
+    {
+      "id": "q_g12_bio_pretest2_34",
+      "examId": "exam_119_p2",
+      "grade": "Grade12",
+      "subject": "Biology",
+      "semester": "Pretest",
+      "examType": "Pretest2",
+      "question": "A man who is a carrier for cystic fibrosis marries a woman who is a carrier for cystic fibrosis. What is the percentage probability that they will have a child who is a carrier ?",
+      "options": [
+        "50 %",
+        "100 %",
+        "75%",
+        "25%"
+      ],
+      "correctAnswer": 0,
+      "explanation": "Cc x Cc cross produces 50% heterozygous carriers (Cc).",
+      "points": 1
+    },
+    {
+      "id": "q_g12_bio_pretest2_35",
+      "examId": "exam_119_p2",
+      "grade": "Grade12",
+      "subject": "Biology",
+      "semester": "Pretest",
+      "examType": "Pretest2",
+      "question": "Which of the following is accurate about an x –linked trait ?",
+      "options": [
+        "There is a 50 % chance that a son inherits an x –linked trait from his father",
+        "There is a 0% chance that a son inherits an x –linked trait from his father",
+        "There is a 0 % chance that a son inherits x- linked trait from his mother",
+        "none"
+      ],
+      "correctAnswer": 1,
+      "explanation": "A father passes his Y chromosome to sons, so sons have a 0% chance of inheriting an X-linked allele from their father.",
+      "points": 1
+    },
+    {
+      "id": "q_g12_bio_pretest2_36",
+      "examId": "exam_119_p2",
+      "grade": "Grade12",
+      "subject": "Biology",
+      "semester": "Pretest",
+      "examType": "Pretest2",
+      "question": "The haemophilic mother under goes amniocentesis during her pregnancy ,and is told that the child she is carrying is a boy .what are the chances that her son will have haemophilia ?",
+      "options": [
+        "50%",
+        "0%",
+        "100 %",
+        "25 %"
+      ],
+      "correctAnswer": 2,
+      "explanation": "A hemophilic mother (X^h X^h) always passes an affected X^h chromosome to her sons, resulting in a 100% chance of hemophilia in male offspring.",
+      "points": 1
+    },
+    {
+      "id": "q_g12_bio_pretest2_37",
+      "examId": "exam_119_p2",
+      "grade": "Grade12",
+      "subject": "Biology",
+      "semester": "Pretest",
+      "examType": "Pretest2",
+      "question": "In a di hybrid cross ,if the genes are being selected independently ( assorting ). What is the phenotypic ratio of the offspring in the F2 generation ?",
+      "options": [
+        "3:1",
+        "1:1",
+        "9:3:3:1",
+        "1:2:1"
+      ],
+      "correctAnswer": 2,
+      "explanation": "A standard Mendelian dihybrid cross with independent assortment produces a classic 9:3:3:1 phenotypic ratio in the F2 generation.",
+      "points": 1
+    },
+    {
+      "id": "q_g12_bio_pretest2_38",
+      "examId": "exam_119_p2",
+      "grade": "Grade12",
+      "subject": "Biology",
+      "semester": "Pretest",
+      "examType": "Pretest2",
+      "question": "A form of vitamin D resistant rickets known as hypophosphatemia is inherited as an x-linked dominant trait ,if a man with hypophosphatemia marries a normal female ?",
+      "options": [
+        "All of their sons would inherit the disease",
+        "All of their daughters would inherit the disease",
+        "About 50 % of their sons would inherit the disease",
+        "about 50 % of their daughters would inherit the disease"
+      ],
+      "correctAnswer": 1,
+      "explanation": "An affected father (X^D Y) passes his affected X^D chromosome to 100% of his daughters and his Y chromosome to all sons.",
+      "points": 1
+    },
+    {
+      "id": "q_g12_bio_pretest2_39",
+      "examId": "exam_119_p2",
+      "grade": "Grade12",
+      "subject": "Biology",
+      "semester": "Pretest",
+      "examType": "Pretest2",
+      "question": "Which type of bonding is responsible for stabilizing the secondary structure of proteins ?",
+      "options": [
+        "Peptide bonds between amino acids",
+        "Hydrogen bonding between the C=O and N=H groups of peptide bonds",
+        "Disulphide bridges between cysteine residues",
+        "Salt bridges between charged side chain amino acids"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Secondary structures (alpha-helices and beta-sheets) are stabilized by hydrogen bonds between the peptide backbone C=O and N-H groups.",
+      "points": 1
+    },
+    {
+      "id": "q_g12_bio_pretest2_40",
+      "examId": "exam_119_p2",
+      "grade": "Grade12",
+      "subject": "Biology",
+      "semester": "Pretest",
+      "examType": "Pretest2",
+      "question": "DNA polymerase synthesizes ?",
+      "options": [
+        "DNA in 3'-5'direction",
+        "DNA in 5'-3' direction",
+        "m –RNA in 5'-3' direction",
+        "none"
+      ],
+      "correctAnswer": 1,
+      "explanation": "DNA polymerase adds deoxynucleotides exclusively to the 3'-OH end of a growing strand, synthesizing in the 5' to 3' direction.",
+      "points": 1
+    },
+    {
+      "id": "q_g12_bio_pretest2_41",
+      "examId": "exam_119_p2",
+      "grade": "Grade12",
+      "subject": "Biology",
+      "semester": "Pretest",
+      "examType": "Pretest2",
+      "question": "The 3'-5' phosphor diester linkage joins ?",
+      "options": [
+        "two DNA strands",
+        "two nucleotides",
+        "a nitrogenous base with pentose sugar",
+        "none"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Phosphodiester bonds link adjacent nucleotides along a nucleic acid strand by connecting 3' carbon of one sugar to 5' carbon of the next.",
+      "points": 1
+    },
+    {
+      "id": "q_g12_bio_pretest2_42",
+      "examId": "exam_119_p2",
+      "grade": "Grade12",
+      "subject": "Biology",
+      "semester": "Pretest",
+      "examType": "Pretest2",
+      "question": "If a plant with genotype RrYy is self fertilized the probability of getting RRYy genotype will be ( assume R and Y are not linked ) ?",
+      "options": [
+        "1/16",
+        "1/8",
+        "1/4",
+        "1/2"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Probability of RR from Rr x Rr is 1/4. Probability of Yy from Yy x Yy is 2/4 = 1/2. Combined probability = 1/4 * 1/2 = 1/8.",
+      "points": 1
+    },
+    {
+      "id": "q_g12_bio_pretest2_43",
+      "examId": "exam_119_p2",
+      "grade": "Grade12",
+      "subject": "Biology",
+      "semester": "Pretest",
+      "examType": "Pretest2",
+      "question": "Which of the following is incorrect with respect to aneuploidy ?",
+      "options": [
+        "arises due to the non –disjunction of homologous pair of chromosomes",
+        "arises due to the non disjunction of non homologous chromosomes",
+        "one gamete comes to have an extra chromosome",
+        "another gamete becomes deficient in one chromosome"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Aneuploidy arises from nondisjunction of homologous chromosome pairs during meiosis I or sister chromatids in meiosis II, not non-homologous chromosomes.",
+      "points": 1
+    },
+    {
+      "id": "q_g12_bio_pretest2_44",
+      "examId": "exam_119_p2",
+      "grade": "Grade12",
+      "subject": "Biology",
+      "semester": "Pretest",
+      "examType": "Pretest2",
+      "question": "Which of the following statements is true about enzymes ?",
+      "options": [
+        "Enzymes can be used repeatedly to catalyse the reaction",
+        "Enzymes increase the over all change in free energy for a reaction",
+        "Enzymes provide the activation energy for a reaction",
+        "Enzymes are consumed in the reaction"
+      ],
+      "correctAnswer": 0,
+      "explanation": "Enzymes act as biological catalysts; they are unchanged at the end of the reaction and can be reused repeatedly.",
+      "points": 1
+    },
+    {
+      "id": "q_g12_bio_pretest2_45",
+      "examId": "exam_119_p2",
+      "grade": "Grade12",
+      "subject": "Biology",
+      "semester": "Pretest",
+      "examType": "Pretest2",
+      "question": "The Enzyme complex that catalyses alcoholic fermentation is ?",
+      "options": [
+        "Zymase",
+        "Lipase",
+        "Invertase",
+        "Amylase"
+      ],
+      "correctAnswer": 0,
+      "explanation": "Zymase is an enzyme complex naturally found in yeasts that catalyzes the fermentation of sugar into ethanol and carbon dioxide.",
+      "points": 1
+    },
+    {
+      "id": "q_g12_bio_pretest2_46",
+      "examId": "exam_119_p2",
+      "grade": "Grade12",
+      "subject": "Biology",
+      "semester": "Pretest",
+      "examType": "Pretest2",
+      "question": "The lock and key model of enzyme action illustrates that a particular enzyme molecule ?",
+      "options": [
+        "forms a permanent enzyme substrate complex",
+        "Interacts with a specific type of substrate",
+        "reacts at identical rate under all conditions",
+        "may be destroyed and resynthesized several times"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Emil Fischer's lock and key hypothesis proposes that the enzyme active site possesses a complementary rigid shape specific to its substrate.",
+      "points": 1
+    },
+    {
+      "id": "q_g12_bio_pretest2_47",
+      "examId": "exam_119_p2",
+      "grade": "Grade12",
+      "subject": "Biology",
+      "semester": "Pretest",
+      "examType": "Pretest2",
+      "question": "Glycosidases ,lipases and proteases belong to which class of enzymes ?",
+      "options": [
+        "Ligases",
+        "Hydrolases",
+        "Isomerases",
+        "Transferases"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Hydrolases catalyze hydrolysis reactions by breaking chemical bonds with the addition of water.",
+      "points": 1
+    },
+    {
+      "id": "q_g12_bio_pretest2_48",
+      "examId": "exam_119_p2",
+      "grade": "Grade12",
+      "subject": "Biology",
+      "semester": "Pretest",
+      "examType": "Pretest2",
+      "question": "----- is defined as the enzyme's binding efficiency with its appropriate substrate with optimised multiple non –covalent interactions ?",
+      "options": [
+        "Kcat",
+        "Km",
+        "catalytic efficiency",
+        "Vmax"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Km (Michaelis constant) reflects enzyme-substrate affinity; a lower Km indicates higher binding efficiency and affinity.",
+      "points": 1
+    },
+    {
+      "id": "q_g12_bio_pretest2_49",
+      "examId": "exam_119_p2",
+      "grade": "Grade12",
+      "subject": "Biology",
+      "semester": "Pretest",
+      "examType": "Pretest2",
+      "question": "What is the role of the enzyme catalase in cells ?",
+      "options": [
+        "Synthesizes DNA",
+        "breaks down hydrogen peroxide",
+        "catalyses protein synthesis",
+        "Converts glucose to ATP"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Catalase protects cellular components by decomposing toxic hydrogen peroxide (H2O2) into water and oxygen.",
+      "points": 1
+    },
+    {
+      "id": "q_g12_bio_pretest2_50",
+      "examId": "exam_119_p2",
+      "grade": "Grade12",
+      "subject": "Biology",
+      "semester": "Pretest",
+      "examType": "Pretest2",
+      "question": "Which of the following reaction is catalysed by lyase ?",
+      "options": [
+        "non hydrolytic cleavage of bonds",
+        "formation of bonds",
+        "intracellular rearrangement of bonds",
+        "transfer of group from one molecule to another"
+      ],
+      "correctAnswer": 0,
+      "explanation": "Lyases catalyze the cleavage of C-C, C-O, C-N and other bonds by means other than hydrolysis or oxidation.",
+      "points": 1
+    },
+    {
+      "id": "q_g12_bio_pretest2_51",
+      "examId": "exam_119_p2",
+      "grade": "Grade12",
+      "subject": "Biology",
+      "semester": "Pretest",
+      "examType": "Pretest2",
+      "question": "Koshland's theory of enzyme action is known as ?",
+      "options": [
+        "Induced fit theory",
+        "Reduced fit theory",
+        "Lock and key theory",
+        "Enzyme coenzyme theory"
+      ],
+      "correctAnswer": 0,
+      "explanation": "Daniel Koshland introduced the Induced Fit Model in 1958, where enzyme active site conforms around the substrate upon binding.",
+      "points": 1
+    },
+    {
+      "id": "q_g12_bio_pretest2_52",
+      "examId": "exam_119_p2",
+      "grade": "Grade12",
+      "subject": "Biology",
+      "semester": "Pretest",
+      "examType": "Pretest2",
+      "question": "Enzymes that transfers phosphate group from one substrate to another is ?",
+      "options": [
+        "Phosphatase",
+        "Kinase",
+        "transaminase",
+        "phosphorylase"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Kinases are phosphotransferase enzymes that transfer phosphate groups from high-energy molecules like ATP to specific substrates.",
       "points": 1
     }
   ],

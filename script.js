@@ -16,7 +16,6 @@ if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', disableAndroidSwipeRefresh);
 }
 window.addEventListener('load', disableAndroidSwipeRefresh);
-setInterval(disableAndroidSwipeRefresh, 1500);
 
 // Global Escaping and Sanitization Helpers
 function escapeHtml(str) {
@@ -157,7 +156,8 @@ const UI_ICONS = {
     moon: '<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>',
     heart: '<path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>',
     flame: '<path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/>',
-    share2: '<circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>'
+    share2: '<circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>',
+    swords: '<polyline points="14.5 17.5 3 6 3 3 6 3 17.5 14.5"/><line x1="13" y1="19" x2="19" y2="13"/><line x1="16" y1="16" x2="20" y2="20"/><line x1="19" y1="21" x2="21" y2="19"/><polyline points="14.5 6.5 18 3 21 3 21 6 17.5 9.5"/><line x1="5" y1="19" x2="11" y2="13"/>'
 };
 
 function uiIcon(name, size = 18, extraClass = '', strokeWidth = 2) {
@@ -6068,7 +6068,6 @@ function renderHomeModeTabs(activeMode = 'exams') {
                     ${uiIcon('zap', 15)} 
                     <span class="tab-label-full">Focus Study Desk</span>
                     <span class="tab-label-short">Study</span>
-                    <span class="pill-badge-new" style="margin-left: 4px; font-size: 9px; padding: 1px 5px;">New</span>
                 </button>
             </nav>
         </div>
@@ -6088,21 +6087,20 @@ function showLibraryHome(pushHistory = true) {
     const grades = state.categories.grades;
     const streak = getStudyStreakData();
     const streakBadgeHtml = `
-        <div class="hero-growth-bar">
-            <button type="button" class="hero-growth-pill hero-streak-pill" onclick="openStreakModal()" data-tooltip="Daily Study Streak">
-                <span class="streak-flame">🔥</span>
-                <span class="pill-title">${streak.count}-Day Streak</span>
-                <span class="pill-dot">•</span>
-                <span class="pill-sub">Keep studying!</span>
+        <div class="hero-growth-bar" role="group" aria-label="Student metrics and tools">
+            <button type="button" class="hero-growth-item hero-streak-item" onclick="openStreakModal()" title="Daily study streak">
+                ${uiIcon('flame', 15, 'hero-metric-icon')}
+                <span class="metric-value">${streak.count}</span>
+                <span class="metric-label">day streak</span>
             </button>
-            <button type="button" class="hero-growth-pill hero-duel-pill" onclick="openStartDuelModal()" data-tooltip="1v1 Study Duel — Challenge your classmates on Telegram">
-                <span>⚔️</span>
-                <span class="pill-title">1v1 Study Duel</span>
-                <span class="pill-badge-new">New</span>
+            <button type="button" class="hero-growth-item hero-duel-item" onclick="openStartDuelModal()" title="1v1 Peer study duel">
+                ${uiIcon('swords', 15, 'hero-metric-icon')}
+                <span class="metric-label">1v1 peer duel</span>
             </button>
-            <a href="https://t.me/BGMCS1236" target="_blank" rel="noopener noreferrer" class="hero-growth-pill hero-tg-pill" data-tooltip="Join 1,600+ students on Telegram">
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink:0;"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/></svg>
-                <span class="pill-title">1.6k+ Students</span>
+            <a href="https://t.me/BGMCS1236" target="_blank" rel="noopener noreferrer" class="hero-growth-item hero-tg-item" title="Telegram archive community">
+                ${uiIcon('users', 15, 'hero-metric-icon')}
+                <span class="metric-value">1,600+</span>
+                <span class="metric-label">students</span>
             </a>
         </div>
     `;
@@ -6110,7 +6108,7 @@ function showLibraryHome(pushHistory = true) {
     app.innerHTML = `
         <section class="hero-showcase-split">
             <div class="hero-left-col">
-                <p class="label">A student-run archive</p>
+                <p class="label">Catholic Secondary School · Student-Run Archive</p>
                 <h1>
                     A good place to<br>
                     <span>start studying.</span>
@@ -6144,10 +6142,9 @@ function showLibraryHome(pushHistory = true) {
                             <div class="book-sheet sheet-left-base">
                                 <div class="sheet-side sheet-side-left">
                                     <div class="sheet-inner-card">
-                                        <div class="book-watermark">✦</div>
-                                        <div class="sheet-kicker">CATHOLIC ARCHIVE</div>
+                                        <div class="sheet-kicker">Catholic Archive</div>
                                         <h4 class="sheet-head">Past Exam Library</h4>
-                                        <p class="sheet-p">Welcome student! Flip through this 3D companion book for high-yield formulas, exam strategies, and fast shortcuts.</p>
+                                        <p class="sheet-p">Curated companion book for high-yield formulas, exam strategies, and curriculum references.</p>
                                         <div class="sheet-tags">
                                             <span>Grade 9</span>
                                             <span>Grade 10</span>
@@ -6164,7 +6161,7 @@ function showLibraryHome(pushHistory = true) {
                                 <!-- Front Face (Right side when closed, turns left) -->
                                 <div class="sheet-face sheet-face-front">
                                     <div class="sheet-inner-card">
-                                        <div class="sheet-kicker">📐 CORE MATHEMATICS</div>
+                                        <div class="sheet-kicker">Core Mathematics</div>
                                         <div class="book-formula-row">
                                             <span class="bf-title">Quadratic Formula</span>
                                             <code class="bf-code">x = (-b ± √(b² - 4ac)) / 2a</code>
@@ -6177,14 +6174,14 @@ function showLibraryHome(pushHistory = true) {
                                             <span class="bf-title">Pythagorean Theorem</span>
                                             <code class="bf-code">a² + b² = c²</code>
                                         </div>
-                                        <div class="sheet-flip-hint">Drag or click to slide ➔</div>
+                                        <div class="sheet-flip-hint">Slide pages ➔</div>
                                         <div class="sheet-bottom-num right-num">p. 2</div>
                                     </div>
                                 </div>
                                 <!-- Back Face (Left side once turned) -->
                                 <div class="sheet-face sheet-face-back">
                                     <div class="sheet-inner-card">
-                                        <div class="sheet-kicker">⚡ PHYSICS CONSTANTS</div>
+                                        <div class="sheet-kicker">Physics Constants</div>
                                         <div class="book-formula-row">
                                             <span class="bf-title">Newton's 2nd Law</span>
                                             <code class="bf-code">F = m · a</code>
@@ -6206,20 +6203,20 @@ function showLibraryHome(pushHistory = true) {
                             <div class="flippable-sheet" id="sheet-2" style="z-index: 3;">
                                 <div class="sheet-face sheet-face-front">
                                     <div class="sheet-inner-card">
-                                        <div class="sheet-kicker">🎯 EXAM SUCCESS TIPS</div>
+                                        <div class="sheet-kicker">Exam Strategies</div>
                                         <ul class="book-bullet-list">
-                                            <li><strong>Eliminate Distractors:</strong> Cross out 2 unlikely MCQ options first.</li>
-                                            <li><strong>Watch Absolutes:</strong> Words like <em>"never"</em> or <em>"always"</em> are usually false.</li>
-                                            <li><strong>Pacing Rule:</strong> Keep ~1 min per 1-point question.</li>
+                                            <li><strong>Eliminate distractors:</strong> Cross out two unlikely MCQ options first.</li>
+                                            <li><strong>Watch absolutes:</strong> Words like "never" or "always" are usually false.</li>
+                                            <li><strong>Pacing:</strong> Target approximately one minute per standard question.</li>
                                         </ul>
-                                        <div class="sheet-tip-badge">💡 Practice 2 past papers every week!</div>
-                                        <div class="sheet-flip-hint">Drag or click to slide ➔</div>
+                                        <div class="sheet-tip-badge">Practice two past papers weekly for retention</div>
+                                        <div class="sheet-flip-hint">Slide pages ➔</div>
                                         <div class="sheet-bottom-num right-num">p. 4</div>
                                     </div>
                                 </div>
                                 <div class="sheet-face sheet-face-back">
                                     <div class="sheet-inner-card">
-                                        <div class="sheet-kicker">🧪 CHEMISTRY & BIOLOGY</div>
+                                        <div class="sheet-kicker">Chemistry and Biology</div>
                                         <div class="book-formula-row">
                                             <span class="bf-title">Avogadro's Number</span>
                                             <code class="bf-code">N_A = 6.022 × 10²³ mol⁻¹</code>
@@ -6241,22 +6238,22 @@ function showLibraryHome(pushHistory = true) {
                             <div class="flippable-sheet" id="sheet-3" style="z-index: 2;">
                                 <div class="sheet-face sheet-face-front">
                                     <div class="sheet-inner-card">
-                                        <div class="sheet-kicker">⚔️ 1V1 STUDY DUELS</div>
-                                        <p class="sheet-p">Challenge your classmates on Telegram to beat your assessment score on authentic past papers!</p>
+                                        <div class="sheet-kicker">Peer Challenges</div>
+                                        <p class="sheet-p">Challenge classmates to compare scores on official school past papers.</p>
                                         <div class="sheet-duel-cta">
                                             <button class="sheet-cta-btn" onclick="openStartDuelModal()">
-                                                ⚔️ Launch 1v1 Duel →
+                                                Start 1v1 duel →
                                             </button>
                                         </div>
-                                        <div class="sheet-flip-hint">Drag or click to slide ➔</div>
+                                        <div class="sheet-flip-hint">Slide pages ➔</div>
                                         <div class="sheet-bottom-num right-num">p. 6</div>
                                     </div>
                                 </div>
                                 <div class="sheet-face sheet-face-back">
                                     <div class="sheet-inner-card">
-                                        <div class="sheet-kicker">🔥 DAILY HABITS</div>
-                                        <p class="sheet-p">Consistency always beats last-minute cramming. Practicing even 5 questions a day locks in long-term memory.</p>
-                                        <div class="sheet-tip-badge">🏆 Join 1,600+ students on Telegram!</div>
+                                        <div class="sheet-kicker">Study Habits</div>
+                                        <p class="sheet-p">Consistency builds confidence. Practicing five questions daily reinforces long-term recall.</p>
+                                        <div class="sheet-tip-badge">Telegram community: 1,600+ students</div>
                                         <div class="sheet-bottom-num">p. 7</div>
                                     </div>
                                 </div>
@@ -6266,11 +6263,11 @@ function showLibraryHome(pushHistory = true) {
                             <div class="book-sheet sheet-right-base" style="z-index: 1;">
                                 <div class="sheet-side sheet-side-right">
                                     <div class="sheet-inner-card">
-                                        <div class="sheet-kicker">READY TO BEGIN?</div>
-                                        <h4 class="sheet-head">Select Your Grade</h4>
-                                        <p class="sheet-p">Browse real Catholic school examinations, midterm trials, and full answer keys.</p>
+                                        <div class="sheet-kicker">Catholic Archive</div>
+                                        <h4 class="sheet-head">Select your grade</h4>
+                                        <p class="sheet-p">Official examinations, midterm papers, and complete verified answer keys.</p>
                                         <button class="sheet-cta-btn" onclick="document.getElementById('library-content-container')?.scrollIntoView({ behavior: 'smooth' })">
-                                            Browse Grade Papers ↓
+                                            Browse past papers ↓
                                         </button>
                                         <div class="sheet-bottom-num right-num">p. 8</div>
                                     </div>
@@ -7269,7 +7266,7 @@ function showPretestParts(grade, subject, pushHistory = true) {
 
         <div class="page-title">
             <h2>${subject} Pre-test Editions</h2>
-            <p>Select a fast-loading pre-test (Pretest 1 or Pretest 2) to save mobile data, or open the full paper</p>
+            <p>Select a fast-loading pre-test (Pre-test 1 or Pre-test 2) to open instantly, or access the full paper</p>
         </div>
 
         <div class="card-grid">
@@ -7339,7 +7336,7 @@ async function openSubjectExam(grade, semester, examType, subject) {
 
     if (!filePath) {
         if (examType === "Pretest" || examType === "Model") {
-            filePath = `/exams/${grade}/${examType}/${subject}.pdf`;
+            filePath = `/exams/${grade}/${examType === 'Pretest' ? 'pretest' : examType}/${subject}.pdf`;
         } else {
             filePath = `/exams/${grade}/${semester}/${examType}/${subject}.pdf`;
         }
@@ -7511,7 +7508,7 @@ async function showExamHub(grade, semester, examType, subject, filePath, examTit
             examType, 
             subject, 
             filePath, 
-            examTitle, 
+            examTitle,
             isPretestPart: (examType === 'Pretest1' || examType === 'Pretest2') 
         }, examTitle || `${grade} ${subject}`);
     }
@@ -13008,34 +13005,59 @@ function initHeroOpenBook() {
     let currentRotX = 22;
     let currentRotY = -7;
     let isTracking = true;
+    let tiltAnimFrame = null;
+    let isTiltLoopRunning = false;
 
-    // Follow mouse cursor smoothly in 3D across viewport
-    window.addEventListener('mousemove', (e) => {
-        if (isDragging) return;
-        const rect = bookContainer.getBoundingClientRect();
-        const cx = rect.left + rect.width / 2;
-        const cy = rect.top + rect.height / 2;
-
-        const dx = e.clientX - cx;
-        const dy = e.clientY - cy;
-
-        // Realistic 3D desk tilt facing cursor
-        targetRotY = -7 + Math.max(-18, Math.min(18, (dx / window.innerWidth) * 36));
-        targetRotX = 22 + Math.max(-12, Math.min(12, -(dy / window.innerHeight) * 26));
-    }, { passive: true });
-
-    function renderBookTiltLoop() {
+    function renderBookTilt() {
         const container = document.getElementById('book-container-3d');
-        if (container) {
-            if (!isDragging) {
-                currentRotX += (targetRotX - currentRotX) * 0.08;
-                currentRotY += (targetRotY - currentRotY) * 0.08;
-                container.style.transform = `rotateX(${currentRotX.toFixed(2)}deg) rotateY(${currentRotY.toFixed(2)}deg) rotateZ(1deg)`;
-            }
-            requestAnimationFrame(renderBookTiltLoop);
+        if (!container || isDragging) {
+            isTiltLoopRunning = false;
+            return;
+        }
+
+        const diffX = targetRotX - currentRotX;
+        const diffY = targetRotY - currentRotY;
+
+        currentRotX += diffX * 0.1;
+        currentRotY += diffY * 0.1;
+        container.style.transform = `rotateX(${currentRotX.toFixed(2)}deg) rotateY(${currentRotY.toFixed(2)}deg) rotateZ(1deg)`;
+
+        // Stop loop when close enough to target (saving 100% idle CPU)
+        if (Math.abs(diffX) > 0.05 || Math.abs(diffY) > 0.05) {
+            tiltAnimFrame = requestAnimationFrame(renderBookTilt);
+        } else {
+            isTiltLoopRunning = false;
         }
     }
-    requestAnimationFrame(renderBookTiltLoop);
+
+    function scheduleTilt() {
+        if (!isTiltLoopRunning) {
+            isTiltLoopRunning = true;
+            tiltAnimFrame = requestAnimationFrame(renderBookTilt);
+        }
+    }
+
+    // Only follow cursor on desktop screens (not phones/tablets)
+    if (window.innerWidth > 768) {
+        window.addEventListener('mousemove', (e) => {
+            if (isDragging) return;
+            const rect = bookContainer.getBoundingClientRect();
+            // Don't track if offscreen
+            if (rect.bottom < 0 || rect.top > window.innerHeight) return;
+
+            const cx = rect.left + rect.width / 2;
+            const cy = rect.top + rect.height / 2;
+            const dx = e.clientX - cx;
+            const dy = e.clientY - cy;
+
+            targetRotY = -7 + Math.max(-14, Math.min(14, (dx / window.innerWidth) * 28));
+            targetRotX = 22 + Math.max(-10, Math.min(10, -(dy / window.innerHeight) * 20));
+            scheduleTilt();
+        }, { passive: true });
+    } else {
+        // Mobile static 3D perspective - zero loop, zero lag
+        bookContainer.style.transform = 'rotateX(22deg) rotateY(-7deg) rotateZ(1deg)';
+    }
 
     // ========================================================
     // CURSOR / TOUCH DRAG-TO-SLIDE SYSTEM (NO BUTTONS NEEDED)

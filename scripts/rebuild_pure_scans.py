@@ -85,6 +85,59 @@ def process_scanned_page(img_bgr, is_rotated=False):
     
     return final
 
+def smart_crop_unnecessary_top(img):
+    h, w = img.shape
+    center = img[:, int(w*0.2):int(w*0.8)]
+    row_means = np.mean(center, axis=1)
+    dark_frac = np.mean(center < 200, axis=1)
+    is_white = (row_means > 238) & (dark_frac < 0.015)
+    
+    # If top 50px is already clean white paper (> 85% white), no crop needed
+    if np.mean(is_white[:50]) > 0.85:
+        return img
+        
+    search_limit = int(h * 0.45)
+    # Check if image starts with dark desk / cords / shadows
+    starts_dark = np.min(row_means[:100]) < 180 or np.max(dark_frac[:100]) > 0.35
+    if starts_dark:
+        for y in range(40, search_limit):
+            if np.all(is_white[y:y+35]):
+                cut_y = y + 8
+                cropped = img[cut_y:, :]
+                cropped[0:5, :] = 255
+                return cropped
+                
+    # Check for notebook / scrap paper followed by exam paper margin
+    runs = []
+    in_w = False
+    start = 0
+    for y in range(30, search_limit):
+        if is_white[y]:
+            if not in_w:
+                in_w = True
+                start = y
+        else:
+            if in_w:
+                in_w = False
+                if y - start >= 40:
+                    runs.append((start, y, y - start))
+    if in_w and search_limit - start >= 40:
+        runs.append((start, search_limit, search_limit - start))
+        
+    for r in runs:
+        start_y, end_y, length = r
+        above = center[:start_y]
+        has_above = np.mean(above < 200) > 0.020 or np.mean(above) < 235 or np.max(np.mean(above < 150, axis=1)) > 0.05
+        below = center[end_y:min(h, end_y+100)]
+        has_below = np.max(np.mean(below < 150, axis=1)) > 0.10
+        if has_above and has_below:
+            cut_y = start_y + 8
+            cropped = img[cut_y:, :]
+            cropped[0:5, :] = 255
+            return cropped
+            
+    return img
+
 src_folder = r'D:\past ppr'
 cache_dir = 'scanned_cropped_pages'
 os.makedirs(cache_dir, exist_ok=True)
@@ -104,6 +157,7 @@ for fname in all_files:
     
     is_rot = fname in rotated_files
     scanned = process_scanned_page(img_bgr, is_rot)
+    scanned = smart_crop_unnecessary_top(scanned)
     
     # Save as high-quality scanned page
     cv2.imwrite(out_path, scanned, [cv2.IMWRITE_JPEG_QUALITY, 93])
