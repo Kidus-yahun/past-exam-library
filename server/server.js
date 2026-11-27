@@ -98,7 +98,7 @@ app.use((req, res, next) => {
     }
     rawPath = path.posix.normalize(rawPath.replace(/\\/g, '/')).toLowerCase();
     const blockedPrefixes = ['/data', '/server', '/.git', '/exam_cache', '/node_modules', '/scripts', '/.env'];
-    const blockedFiles = ['/package.json', '/package-lock.json', '/vercel.json', '/.gitignore', '/readme.md', '/.env'];
+    const blockedFiles = ['/package.json', '/package-lock.json', '/vercel.json', '/render.yaml', '/.gitignore', '/readme.md', '/.env'];
 
     if (blockedPrefixes.some(p => rawPath === p || rawPath.startsWith(p + '/')) || blockedFiles.includes(rawPath)) {
         return res.status(404).send('Not Found');
@@ -232,6 +232,11 @@ app.use('/exams', (req, res, next) => {
     }
 
     fetchAndPipe(candidateUrls, 0);
+});
+
+// Lightweight health check for Render / uptime monitors
+app.get('/api/health', (req, res) => {
+    res.status(200).json({ ok: true, status: 'healthy' });
 });
 
 // Service Worker route with root scope & no-cache header
