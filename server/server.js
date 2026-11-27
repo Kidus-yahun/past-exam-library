@@ -570,6 +570,7 @@ app.put('/api/auth/profile', authenticateToken, (req, res) => {
 app.get('/api/categories', (req, res) => {
     try {
         const categories = db.getCategories();
+        res.setHeader('Cache-Control', 'public, max-age=60, s-maxage=300, stale-while-revalidate=600');
         res.json({ success: true, categories });
     } catch (err) {
         res.status(500).json({ success: false, message: err.message });
@@ -642,6 +643,7 @@ app.get('/api/exams', (req, res) => {
     try {
         const { grade, semester, examType, subject, search } = req.query;
         const exams = db.getExams({ grade, semester, examType, subject, search });
+        res.setHeader('Cache-Control', 'public, max-age=60, s-maxage=300, stale-while-revalidate=600');
         res.json({ success: true, count: exams.length, exams });
     } catch (err) {
         res.status(500).json({ success: false, message: err.message });
@@ -748,6 +750,7 @@ app.get('/api/practice', (req, res) => {
             examId, 
             exactOnly: exactOnly === 'true' || exactOnly === '1' 
         });
+        res.setHeader('Cache-Control', 'public, max-age=60, s-maxage=300, stale-while-revalidate=600');
         res.json({ success: true, count: questions.length, questions });
     } catch (err) {
         res.status(500).json({ success: false, message: err.message });

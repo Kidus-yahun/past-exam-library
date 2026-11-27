@@ -2,20 +2,32 @@
   "version": 2,
   "functions": {
     "api/index.js": {
-      "includeFiles": "exams/**"
+      "includeFiles": "data/**"
     }
   },
   "rewrites": [
     { "source": "/data(.*)", "destination": "/api/index.js" },
     { "source": "/server(.*)", "destination": "/api/index.js" },
     { "source": "/api/(.*)", "destination": "/api/index.js" },
-    { "source": "/exams/(.*)", "destination": "/api/index.js" },
     { "source": "/package.json", "destination": "/api/index.js" },
     { "source": "/package-lock.json", "destination": "/api/index.js" },
     { "source": "/vercel.json", "destination": "/api/index.js" },
     { "source": "/.env(.*)", "destination": "/api/index.js" }
   ],
   "headers": [
+    {
+      "source": "/exams/(.*)",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=2592000, stale-while-revalidate=86400" },
+        { "key": "Accept-Ranges", "value": "bytes" }
+      ]
+    },
+    {
+      "source": "/(icons|fonts)/(.*)",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=2592000, immutable" }
+      ]
+    },
     {
       "source": "/(.*)",
       "headers": [

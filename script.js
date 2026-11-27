@@ -755,6 +755,68 @@ async function handleDownloadAuthRegister(e) {
     }
 }
 
+function encodeExamRelativePath(relPath) {
+    return relPath
+        .split(/[\/\\]/)
+        .filter(s => s && s !== '..' && s !== '.')
+        .map(seg => {
+            try {
+                return encodeURIComponent(decodeURIComponent(seg));
+            } catch (e) {
+                return encodeURIComponent(seg);
+            }
+        })
+        .join('/');
+}
+
+function getExamPdfCandidates(fileUrl) {
+    if (!fileUrl) return [];
+    if (/^https?:\/\//i.test(fileUrl)) return [fileUrl];
+
+    const cleanExamPath = fileUrl.startsWith('/') ? fileUrl : `/${fileUrl}`;
+    if (!cleanExamPath.startsWith('/exams/')) {
+        return [cleanExamPath];
+    }
+
+    const relExamPath = cleanExamPath.replace(/^\/exams\//, '');
+    const variants = [relExamPath];
+
+    if (relExamPath.includes('/Pretest/')) variants.push(relExamPath.replace('/Pretest/', '/pretest/'));
+    if (relExamPath.includes('/pretest/')) variants.push(relExamPath.replace('/pretest/', '/Pretest/'));
+    if (relExamPath.includes('Citizen ship')) variants.push(relExamPath.replace('Citizen ship', 'Citizenship'));
+    if (relExamPath.includes('Citizenship')) variants.push(relExamPath.replace('Citizenship', 'Citizen ship'));
+    if (relExamPath.includes('HP.pdf')) variants.push(relExamPath.replace('HP.pdf', 'Hp.pdf'));
+    if (relExamPath.includes('Hp.pdf')) variants.push(relExamPath.replace('Hp.pdf', 'HP.pdf'));
+    if (/_Part[12]\.pdf/i.test(relExamPath)) {
+        variants.push(relExamPath.replace(/_Part[12]\.pdf/i, '.pdf'));
+    }
+
+    const isLocalHost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+    const candidates = [];
+
+    variants.forEach((rel, idx) => {
+        const encodedRel = encodeExamRelativePath(rel);
+        const localOrEdgeUrl = `/exams/${encodedRel}`;
+        const kidusCdn = `https://cdn.jsdelivr.net/gh/Kidus-yahun/past-exam-library@main/exams/${encodedRel}`;
+        const kidusRaw = `https://raw.githubusercontent.com/Kidus-yahun/past-exam-library/main/exams/${encodedRel}`;
+        const upstreamCdn = `https://cdn.jsdelivr.net/gh/soliyana-dev/past-exam-library@main/exams/${encodedRel}`;
+
+        if (idx === 0) {
+            if (isLocalHost) {
+                // Local dev: hit disk first, CDN fallbacks second
+                candidates.push(localOrEdgeUrl, kidusCdn, kidusRaw, upstreamCdn);
+            } else {
+                // Production: jsDelivr CDN first (0 Vercel transfer), then Vercel static Edge CDN (handles >20MB PDFs), then raw GitHub
+                candidates.push(kidusCdn, localOrEdgeUrl, kidusRaw, upstreamCdn);
+            }
+        } else {
+            candidates.push(kidusCdn, localOrEdgeUrl, kidusRaw, upstreamCdn);
+        }
+    });
+
+    return Array.from(new Set(candidates));
+}
+
 async function downloadExamPaper(fileUrl, suggestedFileName = 'exam_paper.pdf', activityData = null) {
     if (!fileUrl) {
         showToast('Document file path not available', 'error');
@@ -776,38 +838,44 @@ async function downloadExamPaper(fileUrl, suggestedFileName = 'exam_paper.pdf', 
 
     showToast('Starting exam download in background...', 'info');
 
-    // 1. Try downloading as blob (keeps student on current tab, saves directly to device)
-    try {
-        const response = await fetch(fileUrl);
-        if (response.ok) {
-            const blob = await response.blob();
-            const blobUrl = window.URL.createObjectURL(blob);
-            const anchor = document.createElement('a');
-            anchor.style.display = 'none';
-            anchor.href = blobUrl;
-            anchor.download = suggestedFileName || fileUrl.split('/').pop() || 'exam_paper.pdf';
-            document.body.appendChild(anchor);
-            anchor.click();
+    const candidateUrls = getExamPdfCandidates(fileUrl);
 
-            setTimeout(() => {
-                if (document.body.contains(anchor)) {
-                    document.body.removeChild(anchor);
-                }
-                window.URL.revokeObjectURL(blobUrl);
-            }, 3000);
+    // 1. Try downloading as blob from CDN / static edge (keeps student on current tab, saves directly to device)
+    for (const candidateUrl of candidateUrls) {
+        try {
+            const response = await fetch(candidateUrl);
+            if (response.ok) {
+                const blob = await response.blob();
+                const blobUrl = window.URL.createObjectURL(blob);
+                const anchor = document.createElement('a');
+                anchor.style.display = 'none';
+                anchor.href = blobUrl;
+                anchor.download = suggestedFileName || fileUrl.split('/').pop() || 'exam_paper.pdf';
+                document.body.appendChild(anchor);
+                anchor.click();
 
-            showToast('Exam paper saved to Downloads folder!', 'success');
-            return;
+                setTimeout(() => {
+                    if (document.body.contains(anchor)) {
+                        document.body.removeChild(anchor);
+                    }
+                    window.URL.revokeObjectURL(blobUrl);
+                }, 3000);
+
+                showToast('Exam paper saved to Downloads folder!', 'success');
+                return;
+            }
+        } catch (err) {
+            console.warn(`In-tab blob download failed for ${candidateUrl}:`, err);
         }
-    } catch (err) {
-        console.warn('In-tab blob download failed, falling back to hidden frame', err);
     }
+
+    const fallbackUrl = candidateUrls[0] || fileUrl;
 
     // 2. Fallback: Use invisible iframe (keeps user 100% on current tab without opening new tabs)
     try {
         const iframe = document.createElement('iframe');
         iframe.style.display = 'none';
-        iframe.src = fileUrl;
+        iframe.src = fallbackUrl;
         document.body.appendChild(iframe);
         setTimeout(() => {
             if (document.body.contains(iframe)) {
@@ -819,7 +887,7 @@ async function downloadExamPaper(fileUrl, suggestedFileName = 'exam_paper.pdf', 
         // 3. Fallback: same-tab anchor without target="_blank"
         const anchor = document.createElement('a');
         anchor.style.display = 'none';
-        anchor.href = fileUrl;
+        anchor.href = fallbackUrl;
         anchor.download = suggestedFileName;
         document.body.appendChild(anchor);
         anchor.click();
@@ -8580,7 +8648,9 @@ function renderExamViewer(title, subtitle, fileUrl, onBackFn, pushHistory = true
 
                 <div id="pdf-native-area" style="${pdfViewerState.viewMode === 'canvas' ? 'display: none;' : ''}">
                     <iframe 
-                        src="${fileUrl}" 
+                        id="pdf-native-iframe"
+                        data-src="${fileUrl}"
+                        ${pdfViewerState.viewMode === 'native' ? `src="${getExamPdfCandidates(fileUrl)[0] || fileUrl}"` : ''}
                         class="exam-iframe" 
                         title="${title}">
                     </iframe>
@@ -8610,12 +8680,7 @@ async function loadPdfDocument(fileUrl) {
 
     const progressBar = document.getElementById('pdf-progress-bar');
 
-    const urlsToTry = [fileUrl];
-    const cleanExamPath = fileUrl.startsWith('/') ? fileUrl : `/${fileUrl}`;
-    if (cleanExamPath.startsWith('/exams/')) {
-        urlsToTry.push(`https://cdn.jsdelivr.net/gh/Kidus-yahun/past-exam-library@main${cleanExamPath}`);
-        urlsToTry.push(`https://cdn.jsdelivr.net/gh/soliyana-dev/past-exam-library@main${cleanExamPath}`);
-    }
+    const urlsToTry = getExamPdfCandidates(fileUrl);
 
     let pdfDoc = null;
     for (const testUrl of urlsToTry) {
@@ -8783,6 +8848,12 @@ function switchPdfViewMode(mode) {
         if (nativeArea) nativeArea.style.display = 'block';
         if (btnCanvas) btnCanvas.classList.remove('active');
         if (btnNative) btnNative.classList.add('active');
+        const nativeIframe = document.getElementById('pdf-native-iframe');
+        if (nativeIframe && !nativeIframe.getAttribute('src')) {
+            const rawUrl = nativeIframe.getAttribute('data-src') || pdfViewerState.fileUrl;
+            const candidates = getExamPdfCandidates(rawUrl);
+            nativeIframe.src = candidates.find(u => u.startsWith('/exams/')) || candidates[0] || rawUrl;
+        }
     }
 }
 
