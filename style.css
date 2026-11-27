@@ -2474,9 +2474,9 @@ footer {
         display: none !important;
     }
 
-    /* Prevent mobile content from being covered by sticky header & bottom nav */
+    /* Prevent mobile content from being covered by sticky header */
     body {
-        padding-bottom: 74px !important;
+        padding-bottom: 24px !important;
         overflow-x: hidden !important;
         overflow-x: clip !important;
     }
@@ -2484,7 +2484,7 @@ footer {
     main {
         width: 100% !important;
         max-width: 100% !important;
-        padding: 12px 14px 84px !important;
+        padding: 12px 14px 36px !important;
         margin: 0 auto !important;
         box-sizing: border-box !important;
     }
@@ -2752,14 +2752,24 @@ footer {
     filter: drop-shadow(0 0 4px rgba(165, 180, 252, 0.4));
 }
 
-@media (max-width: 768px) {
+/* Show floating Liquid Glass dock on phones; keep hidden on PC / desktop browsers */
+@media (max-width: 540px), (max-width: 768px) and (hover: none) and (pointer: coarse) {
     .mobile-bottom-nav {
         display: flex;
     }
+
+    body {
+        padding-bottom: 92px !important;
+    }
+
+    main {
+        padding-bottom: 96px !important;
+    }
 }
 
-@media (min-width: 769px) {
-    .mobile-bottom-nav {
+@media (min-width: 769px), (min-width: 541px) and (pointer: fine) {
+    .mobile-bottom-nav,
+    #mobile-bottom-nav.mobile-bottom-nav {
         display: none !important;
     }
 }
@@ -9333,7 +9343,11 @@ footer {
    - Prevents touch delay and UI freezing
 ======================================================== */
 @media (max-width: 768px) {
-    *, *::before, *::after {
+    /* Disable heavy blur on scrolling list cards for 60 FPS mobile scrolling,
+       while preserving Liquid Glass refraction on fixed nav dock & buttons */
+    .card, .card::before, .card::after,
+    .hub-card, .modal-card, .auth-card,
+    .exam-viewer-toolbar, .pdf-reader-subbar {
         backdrop-filter: none !important;
         -webkit-backdrop-filter: none !important;
     }
@@ -9378,4 +9392,494 @@ footer {
         display: none !important;
     }
 }
+
+/* ========================================================
+   LIQUID GLASS BUTTONS & FLOATING REFRACTIVE DOCK
+   Optical curved-edge lens refraction, specular bevel rim,
+   glossy upper dome sheen, and crisp bottom caustic light.
+   Works smoothly across Dark & Light modes and 375px mobile.
+======================================================== */
+
+/* 1. Floating Liquid Glass Mobile Dock (#mobile-bottom-nav) */
+#mobile-bottom-nav.mobile-bottom-nav {
+    position: fixed !important;
+    bottom: max(12px, env(safe-area-inset-bottom, 12px)) !important;
+    left: 12px !important;
+    right: 12px !important;
+    width: auto !important;
+    height: 64px !important;
+    padding: 5px 6px !important;
+    gap: 4px !important;
+    border-radius: 9999px !important;
+    border: 1px solid rgba(255, 255, 255, 0.22) !important;
+    /* Clear crystal lens — avoids grey blur mush so colors & grid shine through */
+    background: linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.14) 0%,
+        rgba(199, 210, 254, 0.06) 45%,
+        rgba(17, 20, 40, 0.28) 100%
+    ) !important;
+    backdrop-filter: blur(10px) saturate(1.9) contrast(1.06) brightness(1.08) !important;
+    -webkit-backdrop-filter: blur(10px) saturate(1.9) contrast(1.06) brightness(1.08) !important;
+    box-shadow:
+        0 14px 36px rgba(0, 0, 0, 0.45),
+        0 4px 12px rgba(99, 102, 241, 0.16),
+        inset 0 1.5px 1px rgba(255, 255, 255, 0.52),
+        inset 0 -1.5px 2px rgba(196, 181, 253, 0.24) !important;
+    isolation: isolate;
+    overflow: hidden;
+}
+
+/* Chromium optical edge refraction via inline SVG displacement filter */
+html.has-svg-liquid-glass #mobile-bottom-nav.mobile-bottom-nav {
+    backdrop-filter: url(#liquid-glass-refract) saturate(1.85) contrast(1.06) brightness(1.08) !important;
+    -webkit-backdrop-filter: url(#liquid-glass-refract) saturate(1.85) contrast(1.06) brightness(1.08) !important;
+}
+
+/* Specular bevel rim (1.5px diagonal glass catchlight) */
+#mobile-bottom-nav.mobile-bottom-nav::before {
+    content: "" !important;
+    position: absolute;
+    inset: 0;
+    padding: 1.5px;
+    border-radius: 9999px;
+    background: linear-gradient(
+        135deg,
+        rgba(255, 255, 255, 0.72) 0%,
+        rgba(255, 255, 255, 0.14) 36%,
+        rgba(255, 255, 255, 0.04) 64%,
+        rgba(196, 181, 253, 0.55) 100%
+    );
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+    z-index: 2;
+}
+
+/* Individual mobile nav buttons inside floating dock */
+#mobile-bottom-nav .mob-nav-item {
+    position: relative;
+    flex: 1;
+    height: 52px;
+    margin: 0 !important;
+    padding: 4px 2px !important;
+    border-radius: 9999px !important;
+    border: 1px solid transparent !important;
+    background: transparent !important;
+    color: rgba(241, 245, 249, 0.68) !important;
+    gap: 3px !important;
+    font-size: 10.5px !important;
+    font-weight: 600 !important;
+    z-index: 1;
+    overflow: hidden;
+    transition: transform 0.18s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.2s ease, color 0.2s ease, box-shadow 0.2s ease !important;
+}
+
+#mobile-bottom-nav .mob-nav-item:hover {
+    color: #ffffff !important;
+    background: rgba(255, 255, 255, 0.09) !important;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25) !important;
+}
+
+#mobile-bottom-nav .mob-nav-item:active {
+    transform: scale(0.94) !important;
+}
+
+/* Active button inside dock: Raised 3D Liquid Glass Pill Lens */
+#mobile-bottom-nav .mob-nav-item.active {
+    color: #ffffff !important;
+    background: linear-gradient(
+        180deg,
+        rgba(167, 139, 250, 0.52) 0%,
+        rgba(99, 102, 241, 0.34) 48%,
+        rgba(124, 58, 237, 0.44) 100%
+    ) !important;
+    border: 1px solid rgba(255, 255, 255, 0.38) !important;
+    box-shadow:
+        0 6px 18px rgba(99, 102, 241, 0.38),
+        0 2px 6px rgba(0, 0, 0, 0.28),
+        inset 0 1.5px 1px rgba(255, 255, 255, 0.78),
+        inset 0 -1.5px 2px rgba(221, 214, 254, 0.45) !important;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+}
+
+/* Glossy curved upper liquid dome reflection on active pill */
+#mobile-bottom-nav .mob-nav-item.active::after {
+    content: "";
+    position: absolute;
+    top: 2px;
+    left: 8%;
+    right: 8%;
+    height: 44%;
+    border-radius: 9999px;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.38) 0%, rgba(255, 255, 255, 0) 100%);
+    pointer-events: none;
+}
+
+#mobile-bottom-nav .mob-nav-item.active svg {
+    stroke: #ffffff !important;
+    transform: scale(1.08);
+    filter: drop-shadow(0 1px 4px rgba(255, 255, 255, 0.45)) !important;
+}
+
+/* Light mode Liquid Glass Mobile Dock & Pill */
+[data-theme="light"] #mobile-bottom-nav.mobile-bottom-nav {
+    border-color: rgba(255, 255, 255, 0.92) !important;
+    background: linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.72) 0%,
+        rgba(244, 242, 255, 0.56) 52%,
+        rgba(255, 255, 255, 0.68) 100%
+    ) !important;
+    box-shadow:
+        0 12px 34px rgba(79, 70, 229, 0.16),
+        0 3px 10px rgba(15, 23, 42, 0.08),
+        inset 0 1.5px 1px rgba(255, 255, 255, 0.98),
+        inset 0 -1.5px 2px rgba(99, 102, 241, 0.16) !important;
+}
+
+html.has-svg-liquid-glass[data-theme="light"] #mobile-bottom-nav.mobile-bottom-nav {
+    backdrop-filter: url(#liquid-glass-refract) saturate(1.5) brightness(1.01) !important;
+    -webkit-backdrop-filter: url(#liquid-glass-refract) saturate(1.5) brightness(1.01) !important;
+}
+
+[data-theme="light"] #mobile-bottom-nav.mobile-bottom-nav::before {
+    background: linear-gradient(
+        135deg,
+        rgba(255, 255, 255, 0.98) 0%,
+        rgba(129, 140, 248, 0.25) 45%,
+        rgba(255, 255, 255, 0.4) 70%,
+        rgba(167, 139, 250, 0.48) 100%
+    );
+}
+
+[data-theme="light"] #mobile-bottom-nav .mob-nav-item {
+    color: rgba(30, 27, 75, 0.84) !important;
+}
+
+[data-theme="light"] #mobile-bottom-nav .mob-nav-item svg {
+    stroke: rgba(30, 27, 75, 0.84) !important;
+}
+
+[data-theme="light"] #mobile-bottom-nav .mob-nav-item:hover {
+    color: #312e81 !important;
+    background: rgba(99, 102, 241, 0.08) !important;
+}
+
+[data-theme="light"] #mobile-bottom-nav .mob-nav-item.active {
+    color: #ffffff !important;
+    background: linear-gradient(
+        180deg,
+        rgba(109, 92, 246, 0.92) 0%,
+        rgba(79, 70, 229, 0.86) 52%,
+        rgba(124, 58, 237, 0.92) 100%
+    ) !important;
+    border-color: rgba(255, 255, 255, 0.55) !important;
+    box-shadow:
+        0 6px 16px rgba(79, 70, 229, 0.34),
+        inset 0 1.5px 1px rgba(255, 255, 255, 0.72),
+        inset 0 -1.5px 2px rgba(224, 231, 255, 0.42) !important;
+}
+
+[data-theme="light"] #mobile-bottom-nav .mob-nav-item.active svg {
+    stroke: #ffffff !important;
+}
+
+/* 2. Mode Switcher Bar (.home-mode-tabs & .home-mode-tab) */
+.home-mode-tabs {
+    position: relative;
+    border-radius: 9999px !important;
+    padding: 5px !important;
+    gap: 5px !important;
+    border: 1px solid rgba(255, 255, 255, 0.18) !important;
+    background: linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.1) 0%,
+        rgba(167, 139, 250, 0.04) 50%,
+        rgba(15, 18, 38, 0.28) 100%
+    ) !important;
+    backdrop-filter: blur(10px) saturate(1.85) brightness(1.06) !important;
+    -webkit-backdrop-filter: blur(10px) saturate(1.85) brightness(1.06) !important;
+    box-shadow:
+        0 10px 28px rgba(0, 0, 0, 0.34),
+        inset 0 1.5px 1px rgba(255, 255, 255, 0.42),
+        inset 0 -1px 2px rgba(196, 181, 253, 0.18) !important;
+}
+
+html.has-svg-liquid-glass .home-mode-tabs {
+    backdrop-filter: url(#liquid-glass-refract) saturate(1.8) brightness(1.06) !important;
+    -webkit-backdrop-filter: url(#liquid-glass-refract) saturate(1.8) brightness(1.06) !important;
+}
+
+.home-mode-tab {
+    position: relative;
+    overflow: hidden;
+    border-radius: 9999px !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    background: rgba(255, 255, 255, 0.03) !important;
+    color: rgba(241, 245, 249, 0.72) !important;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
+}
+
+.home-mode-tab:hover {
+    color: #ffffff !important;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.16) 0%, rgba(255, 255, 255, 0.06) 100%) !important;
+    border-color: rgba(255, 255, 255, 0.25) !important;
+    box-shadow: inset 0 1.5px 0 rgba(255, 255, 255, 0.38), 0 4px 12px rgba(0, 0, 0, 0.2) !important;
+}
+
+.home-mode-tab.active {
+    color: #ffffff !important;
+    background: linear-gradient(
+        180deg,
+        rgba(167, 139, 250, 0.78) 0%,
+        rgba(99, 102, 241, 0.72) 50%,
+        rgba(124, 58, 237, 0.84) 100%
+    ) !important;
+    border-color: rgba(255, 255, 255, 0.45) !important;
+    box-shadow:
+        0 6px 18px rgba(124, 58, 237, 0.42),
+        inset 0 1.5px 1px rgba(255, 255, 255, 0.75),
+        inset 0 -1.5px 2px rgba(221, 214, 254, 0.42) !important;
+}
+
+.home-mode-tab.active::after {
+    content: "";
+    position: absolute;
+    top: 2px;
+    left: 6%;
+    right: 6%;
+    height: 44%;
+    border-radius: 9999px;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.36) 0%, rgba(255, 255, 255, 0) 100%);
+    pointer-events: none;
+}
+
+[data-theme="light"] .home-mode-tabs {
+    border-color: rgba(255, 255, 255, 0.9) !important;
+    background: linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.65) 0%,
+        rgba(244, 242, 255, 0.4) 50%,
+        rgba(255, 255, 255, 0.55) 100%
+    ) !important;
+    box-shadow:
+        0 10px 28px rgba(79, 70, 229, 0.14),
+        inset 0 1.5px 1px rgba(255, 255, 255, 0.95),
+        inset 0 -1px 2px rgba(99, 102, 241, 0.12) !important;
+}
+
+[data-theme="light"] .home-mode-tab {
+    color: rgba(30, 27, 75, 0.68) !important;
+    background: rgba(255, 255, 255, 0.35) !important;
+    border-color: rgba(99, 102, 241, 0.12) !important;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8) !important;
+}
+
+[data-theme="light"] .home-mode-tab:hover {
+    color: #312e81 !important;
+    background: rgba(255, 255, 255, 0.72) !important;
+    border-color: rgba(99, 102, 241, 0.28) !important;
+}
+
+[data-theme="light"] .home-mode-tab.active {
+    color: #ffffff !important;
+    background: linear-gradient(
+        180deg,
+        rgba(109, 92, 246, 0.94) 0%,
+        rgba(79, 70, 229, 0.88) 52%,
+        rgba(124, 58, 237, 0.94) 100%
+    ) !important;
+    border-color: rgba(255, 255, 255, 0.6) !important;
+    box-shadow:
+        0 6px 16px rgba(79, 70, 229, 0.32),
+        inset 0 1.5px 1px rgba(255, 255, 255, 0.72),
+        inset 0 -1.5px 2px rgba(224, 231, 255, 0.4) !important;
+}
+
+/* 3. Liquid Glass Action, Back & Header Pill Buttons */
+.btn-primary,
+.back-button,
+.btn-secondary,
+.tg-banner-btn {
+    position: relative;
+    overflow: hidden;
+    backdrop-filter: blur(10px) saturate(1.75) brightness(1.05) !important;
+    -webkit-backdrop-filter: blur(10px) saturate(1.75) brightness(1.05) !important;
+}
+
+.back-button,
+.btn-secondary,
+.tg-banner-btn {
+    border-radius: 9999px !important;
+}
+
+.btn-primary {
+    border-radius: 9999px !important;
+    background: linear-gradient(
+        180deg,
+        rgba(139, 92, 246, 0.92) 0%,
+        rgba(99, 102, 241, 0.84) 50%,
+        rgba(109, 40, 217, 0.94) 100%
+    ) !important;
+    border: 1px solid rgba(255, 255, 255, 0.42) !important;
+    box-shadow:
+        0 8px 24px rgba(109, 40, 217, 0.42),
+        inset 0 1.5px 1px rgba(255, 255, 255, 0.72),
+        inset 0 -1.5px 2px rgba(221, 214, 254, 0.35) !important;
+}
+
+.btn-primary::after {
+    content: "";
+    position: absolute;
+    top: 2px;
+    left: 4%;
+    right: 4%;
+    height: 44%;
+    border-radius: 9999px;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.34) 0%, rgba(255, 255, 255, 0) 100%);
+    pointer-events: none;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px) !important;
+    box-shadow:
+        0 12px 28px rgba(124, 58, 237, 0.52),
+        inset 0 1.5px 1px rgba(255, 255, 255, 0.85),
+        inset 0 -1.5px 2px rgba(221, 214, 254, 0.45) !important;
+}
+
+.back-button,
+.btn-secondary {
+    background: linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.14) 0%,
+        rgba(167, 139, 250, 0.06) 50%,
+        rgba(255, 255, 255, 0.04) 100%
+    ) !important;
+    border: 1px solid rgba(255, 255, 255, 0.24) !important;
+    box-shadow:
+        0 4px 14px rgba(0, 0, 0, 0.22),
+        inset 0 1.5px 1px rgba(255, 255, 255, 0.42),
+        inset 0 -1px 1.5px rgba(196, 181, 253, 0.18) !important;
+}
+
+.back-button:hover,
+.btn-secondary:hover {
+    background: linear-gradient(
+        180deg,
+        rgba(167, 139, 250, 0.28) 0%,
+        rgba(99, 102, 241, 0.16) 55%,
+        rgba(255, 255, 255, 0.12) 100%
+    ) !important;
+    border-color: rgba(255, 255, 255, 0.44) !important;
+    box-shadow:
+        0 8px 22px rgba(99, 102, 241, 0.3),
+        inset 0 1.5px 1px rgba(255, 255, 255, 0.62) !important;
+}
+
+[data-theme="light"] .back-button,
+[data-theme="light"] .back-button-home,
+[data-theme="light"] .btn-secondary {
+    background: linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.82) 0%,
+        rgba(244, 242, 255, 0.62) 55%,
+        rgba(255, 255, 255, 0.74) 100%
+    ) !important;
+    border: 1px solid rgba(99, 102, 241, 0.24) !important;
+    color: #312e81 !important;
+    box-shadow:
+        0 4px 14px rgba(79, 70, 229, 0.1),
+        inset 0 1.5px 1px rgba(255, 255, 255, 0.96),
+        inset 0 -1px 1.5px rgba(99, 102, 241, 0.1) !important;
+}
+
+[data-theme="light"] .back-button:hover,
+[data-theme="light"] .back-button-home:hover,
+[data-theme="light"] .btn-secondary:hover {
+    background: linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.96) 0%,
+        rgba(238, 242, 255, 0.82) 100%
+    ) !important;
+    border-color: rgba(79, 70, 229, 0.42) !important;
+    color: #4338ca !important;
+    box-shadow:
+        0 6px 18px rgba(79, 70, 229, 0.18),
+        inset 0 1.5px 1px rgba(255, 255, 255, 1) !important;
+}
+
+@media (max-width: 600px) {
+    .home-mode-tabs {
+        padding: 4px !important;
+        gap: 3px !important;
+        max-width: 100% !important;
+    }
+
+    .home-mode-tab {
+        padding: 6px 8px !important;
+        font-size: 11px !important;
+        gap: 4px !important;
+    }
+}
+
+/* Header .nav-btn: keep ::after free for [data-tooltip] */
+.nav-btn {
+    background: linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.13) 0%,
+        rgba(255, 255, 255, 0.04) 55%,
+        rgba(255, 255, 255, 0.08) 100%
+    ) !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    backdrop-filter: blur(10px) saturate(1.75) !important;
+    -webkit-backdrop-filter: blur(10px) saturate(1.75) !important;
+    box-shadow:
+        0 3px 10px rgba(0, 0, 0, 0.2),
+        inset 0 1.5px 1px rgba(255, 255, 255, 0.42),
+        inset 0 -1px 1px rgba(196, 181, 253, 0.16) !important;
+}
+
+.nav-btn:hover,
+.nav-btn.active {
+    background: linear-gradient(
+        180deg,
+        rgba(167, 139, 250, 0.34) 0%,
+        rgba(99, 102, 241, 0.2) 55%,
+        rgba(124, 58, 237, 0.28) 100%
+    ) !important;
+    border-color: rgba(255, 255, 255, 0.42) !important;
+    box-shadow:
+        0 6px 16px rgba(99, 102, 241, 0.28),
+        inset 0 1.5px 1px rgba(255, 255, 255, 0.64) !important;
+}
+
+[data-theme="light"] .nav-btn {
+    background: linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.78) 0%,
+        rgba(244, 242, 255, 0.5) 55%,
+        rgba(255, 255, 255, 0.65) 100%
+    ) !important;
+    border-color: rgba(99, 102, 241, 0.22) !important;
+    color: #312e81 !important;
+    box-shadow:
+        0 3px 10px rgba(79, 70, 229, 0.1),
+        inset 0 1.5px 1px rgba(255, 255, 255, 0.95) !important;
+}
+
+[data-theme="light"] .nav-btn:hover,
+[data-theme="light"] .nav-btn.active {
+    background: linear-gradient(
+        180deg,
+        rgba(124, 58, 237, 0.16) 0%,
+        rgba(99, 102, 241, 0.1) 100%
+    ) !important;
+    border-color: rgba(79, 70, 229, 0.42) !important;
+    color: #4338ca !important;
+}
+
 

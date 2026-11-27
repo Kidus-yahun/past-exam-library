@@ -72,11 +72,14 @@
             try {
                 var theme = localStorage.getItem('pel_theme') || 'dark';
                 document.documentElement.setAttribute('data-theme', theme);
+                if (typeof window.chrome !== 'undefined' && /Chrome|Chromium|Edg/.test(navigator.userAgent)) {
+                    document.documentElement.classList.add('has-svg-liquid-glass');
+                }
             } catch(e) {}
         })();
     </script>
 
-    <link rel="stylesheet" href="style.css?v=5.0.9">
+    <link rel="stylesheet" href="style.css?v=5.1.2">
 
     <!-- Google Tag (gtag.js) / Google Analytics 4 -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-MDPL4KFZKQ"></script>
@@ -104,6 +107,20 @@
 </head>
 
 <body>
+    <!-- Optical Liquid Glass Edge-Refraction SVG Filter (static, GPU-composited) -->
+    <svg width="0" height="0" style="position:absolute;width:0;height:0;overflow:hidden;pointer-events:none;" aria-hidden="true">
+        <defs>
+            <filter id="liquid-glass-refract" x="0%" y="0%" width="100%" height="100%" color-interpolation-filters="sRGB">
+                <!-- X-axis lens bezel displacement map (Red channel, neutral 128 center) -->
+                <feImage href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' preserveAspectRatio='none'%3E%3Cdefs%3E%3ClinearGradient id='x' x1='0' y1='0' x2='1' y2='0'%3E%3Cstop offset='0%25' stop-color='rgb(255,0,0)'/%3E%3Cstop offset='12%25' stop-color='rgb(128,0,0)'/%3E%3Cstop offset='88%25' stop-color='rgb(128,0,0)'/%3E%3Cstop offset='100%25' stop-color='rgb(0,0,0)'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='100' height='100' fill='url(%23x)'/%3E%3C/svg%3E" result="dispX" preserveAspectRatio="none" />
+                <!-- Y-axis lens bezel displacement map (Green channel, neutral 128 center) -->
+                <feImage href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' preserveAspectRatio='none'%3E%3Cdefs%3E%3ClinearGradient id='y' x1='0' y1='0' x2='0' y2='1'%3E%3Cstop offset='0%25' stop-color='rgb(0,255,0)'/%3E%3Cstop offset='20%25' stop-color='rgb(0,128,0)'/%3E%3Cstop offset='80%25' stop-color='rgb(0,128,0)'/%3E%3Cstop offset='100%25' stop-color='rgb(0,0,0)'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='100' height='100' fill='url(%23y)'/%3E%3C/svg%3E" result="dispY" preserveAspectRatio="none" />
+                <feComposite in="dispX" in2="dispY" operator="arithmetic" k1="0" k2="1" k3="1" k4="0" result="dispMap" />
+                <feGaussianBlur in="SourceGraphic" stdDeviation="2.2" result="softGlass" />
+                <feDisplacementMap in="softGlass" in2="dispMap" scale="16" xChannelSelector="R" yChannelSelector="G" />
+            </filter>
+        </defs>
+    </svg>
     <!-- Ambient Animated Mesh Glow Orbs (Disabled in Unslop mode for clean, distraction-free reading) -->
     <div class="ambient-glow-wrapper" aria-hidden="true" style="display: none !important;">
         <div class="glow-orb orb-1"></div>
@@ -243,6 +260,6 @@
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="script.js?v=5.0.9" defer></script>
+    <script src="script.js?v=5.1.2" defer></script>
 </body>
 </html>
